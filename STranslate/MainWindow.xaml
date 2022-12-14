@@ -1,0 +1,117 @@
+﻿<Window x:Class="STranslate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:STranslate"
+        xmlns:vm="clr-namespace:STranslate.ViewModel"
+        mc:Ignorable="d"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        KeyDown="Window_KeyDown"
+        Topmost="True"
+        WindowStyle="None"
+        Height="450"
+        Width="400">
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
+    <Border BorderThickness="0"
+            Background="BlanchedAlmond"
+            CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+
+            <!--input-->
+            <Grid Margin="10">
+                <!--输入框-->
+                <Border BorderBrush="#000"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Margin="5"
+                        MaxHeight="200">
+                    <TextBox Background="Transparent"
+                             BorderBrush="{x:Null}"
+                             Margin="5"
+                             BorderThickness="0"
+                             FontSize="18"
+                             MinHeight="35"
+                             TextWrapping="Wrap"
+                             Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding TranslateCmd}" Key="Enter"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </Border>
+            </Grid>
+            <!--output-->
+            <Grid Margin="10"
+                  Grid.Row="1">
+                <Label Content="翻译结果: "/>
+
+                <!--输出框-->
+                <Border BorderBrush="#000"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Margin="5"
+                        MaxHeight="200">
+                    <TextBox Background="Transparent"
+                             BorderBrush="{x:Null}"
+                             BorderThickness="0"
+                             IsReadOnly="True"
+                               Margin="5"
+                               FontSize="18"
+                               MinHeight="35"
+                               TextWrapping="Wrap"
+                               Text="{Binding OutputTxt}"/>
+                </Border>
+
+                <!--<Button Content="复制"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        Height="20"
+                        Width="30">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                        <GradientStop Color="#C0C0C0" Offset="0"/>
+                                        <GradientStop Color="#787878" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <<Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                                <GradientStop Color="LightGray" Offset="0"/>
+                                                <GradientStop Color="Gray" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border BorderThickness="1" CornerRadius="4" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>-->
+            </Grid>
+        </Grid>
+
+    </Border>
+</Window>
