@@ -10,6 +10,7 @@
         WindowStartupLocation="CenterScreen"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
+        ShowInTaskbar="False"
         ResizeMode="NoResize"
         KeyDown="Window_KeyDown"
         Topmost="True"

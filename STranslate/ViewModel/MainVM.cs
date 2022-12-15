@@ -11,35 +11,46 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM
     {
+        private static readonly string ConfigPath = @"D:\STranslate.yml";
+        public static ConfigModel config = new ConfigModel();
+
         private string Text;
         public MainVM()
         {
-            TranslateCmd = new RelayCommand((_) =>
+            try
             {
-                return string.IsNullOrEmpty(InputTxt) ? false : true;
-            }, async (_) =>
-            {
-                Text = InputTxt;
+                config = ConfigUtil.ReadConfig(ConfigPath);
 
-                //清空输入框
-                InputTxt = "";
 
-                OutputTxt = "翻译中...";
-
-                //获取结果
-                //var translateResp = await TranslateUtil.TranslateDeepLAsync(InputTxt, LanguageEnum.EN, LanguageEnum.auto);
-
-                var appId = "";
-                var secretKey = "";
-                var translateResp = await TranslateUtil.TranslateBaiduAsync(appId, secretKey, Text, LanguageEnum.EN, LanguageEnum.auto);
-
-                if (translateResp == string.Empty)
+                TranslateCmd = new RelayCommand((_) =>
                 {
-                    OutputTxt = "翻译出错，请稍候再试...";
-                    return;
-                }
-                OutputTxt = translateResp;
-            });
+                    return string.IsNullOrEmpty(InputTxt) ? false : true;
+                }, async (_) =>
+                {
+                    Text = InputTxt;
+
+                    //清空输入框
+                    InputTxt = "";
+
+                    OutputTxt = "翻译中...";
+
+                    //获取结果
+                    //var translateResp = await TranslateUtil.TranslateDeepLAsync(InputTxt, LanguageEnum.EN, LanguageEnum.auto);
+
+                    var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, Text, LanguageEnum.EN, LanguageEnum.auto);
+
+                    if (translateResp == string.Empty)
+                    {
+                        OutputTxt = "翻译出错，请稍候再试...";
+                        return;
+                    }
+                    OutputTxt = translateResp;
+                });
+            }
+            catch (Exception ex)
+            {
+                OutputTxt = ex.Message;
+            }
         }
 
         public ICommand TranslateCmd { get; private set; }
