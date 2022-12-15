@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STranslate"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
@@ -30,6 +31,12 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
+            <hc:NotifyIcon Text="STranslate"
+                           Click="NotifyIcon_Click"
+                           IsBlink="False"
+                           Visibility="Visible"
+                           Icon="/Images/translate.ico"/>
+            
             <!--input-->
             <Grid Margin="10">
                 <!--输入框-->
@@ -45,6 +52,8 @@
                              FontSize="18"
                              MinHeight="35"
                              TextWrapping="Wrap"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Left"
                              Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding TranslateCmd}" Key="Enter"/>
@@ -55,7 +64,9 @@
             <!--output-->
             <Grid Margin="10"
                   Grid.Row="1">
-                <Label Content="翻译结果: "/>
+                <Label Content="翻译结果: "
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"/>
 
                 <!--输出框-->
                 <Border BorderBrush="#000"
@@ -67,13 +78,14 @@
                              BorderBrush="{x:Null}"
                              BorderThickness="0"
                              IsReadOnly="True"
-                               Margin="5"
-                               FontSize="18"
-                               MinHeight="35"
-                               TextWrapping="Wrap"
-                               Text="{Binding OutputTxt}"/>
+                             Margin="5"
+                             FontSize="18"
+                             MinHeight="35"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Left"
+                             TextWrapping="Wrap"
+                             Text="{Binding OutputTxt}"/>
                 </Border>
-
                 <!--<Button Content="复制"
                         Margin="0,0,10,0"
                         VerticalAlignment="Top"

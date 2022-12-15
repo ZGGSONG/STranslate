@@ -48,10 +48,10 @@ namespace STranslate
                 Topmost = Topmost != true;
                 Opacity = Topmost ? 1 : 0.9;
             }
-            //最小化 Ctrl+M
+            //最小化 Esc
             if (e.Key == Key.Escape)
             {
-                WindowState = WindowState.Minimized;
+                this.Hide();
             }
             //退出 Ctrl+Q
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Q)
@@ -84,6 +84,11 @@ namespace STranslate
                 Width = 400;
                 Height = 450;
             }
+        }
+
+        private void NotifyIcon_Click(object sender, RoutedEventArgs e)
+        {
+            this.Show();
         }
     }
 }

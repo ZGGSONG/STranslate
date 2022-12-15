@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.4.4" />
     <PackageReference Include="YamlDotNet" Version="12.2.1" />
   </ItemGroup>
 
