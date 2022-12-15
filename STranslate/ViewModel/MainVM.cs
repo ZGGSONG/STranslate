@@ -11,17 +11,34 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM
     {
+        private string Text;
         public MainVM()
         {
             TranslateCmd = new RelayCommand((_) =>
             {
                 return string.IsNullOrEmpty(InputTxt) ? false : true;
-            }, (_) =>
+            }, async (_) =>
             {
-                OutputTxt = TranslateUtil.Translate(InputTxt, LanguageEnum.ZH, LanguageEnum.EN);
+                Text = InputTxt;
+
                 //清空输入框
                 InputTxt = "";
 
+                OutputTxt = "翻译中...";
+
+                //获取结果
+                //var translateResp = await TranslateUtil.TranslateDeepLAsync(InputTxt, LanguageEnum.EN, LanguageEnum.auto);
+
+                var appId = "";
+                var secretKey = "";
+                var translateResp = await TranslateUtil.TranslateBaiduAsync(appId, secretKey, Text, LanguageEnum.EN, LanguageEnum.auto);
+
+                if (translateResp == string.Empty)
+                {
+                    OutputTxt = "翻译出错，请稍候再试...";
+                    return;
+                }
+                OutputTxt = translateResp;
             });
         }
 

@@ -31,5 +31,42 @@ namespace STranslate.Utils
             var resp = JsonConvert.DeserializeObject<DeeplResp>(responseString);
             return resp;
         }
+
+        /// <summary>
+        /// 异步Post请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, string req)
+        {
+
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(req, Encoding.UTF8, "application/json");
+
+                var respContent = await client.PostAsync(url, content);
+
+                string respStr = await respContent.Content.ReadAsStringAsync();
+;
+                return respStr;
+            }
+        }
+        /// <summary>
+        /// 异步Get请求
+        /// </summary>
+        /// <param name="urlpath"></param>
+        /// <returns></returns>
+        public static async Task<string> GetAsync(string urlpath)
+        {
+            using (var client = new HttpClient())
+            {
+                var respContent = await client.GetAsync(urlpath);
+
+                string respStr = await respContent.Content.ReadAsStringAsync();
+
+                return respStr;
+            }
+        }
     }
 }

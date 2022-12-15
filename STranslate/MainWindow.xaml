@@ -15,7 +15,8 @@
         Topmost="True"
         WindowStyle="None"
         Height="450"
-        Width="400">
+        Width="400"
+        Icon="/Images/translate.ico">
     <Window.DataContext>
         <vm:MainVM/>
     </Window.DataContext>

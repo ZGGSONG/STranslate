@@ -8,6 +8,7 @@ namespace STranslate.Model
 {
     public enum LanguageEnum
     {
+        auto,   //自动
         DE,    //德语
         EN,    //英语
         ES,    //西班牙语
