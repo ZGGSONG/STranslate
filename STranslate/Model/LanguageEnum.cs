@@ -60,7 +60,9 @@ namespace STranslate.Model
         [Description("瑞典语")]
         SV,    //瑞典语
     }
-    //主要这个GetDescription()方法，看不懂没关系，如何调用
+    /// <summary>
+    /// 获取Description
+    /// </summary>
     static class EnumExtensions
     {
         public static string GetDescription(this Enum val)
