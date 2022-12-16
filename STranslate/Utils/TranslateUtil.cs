@@ -61,16 +61,18 @@ namespace STranslate.Utils
         /// <returns></returns>
         public static async Task<string> TranslateBaiduAsync(string appID, string secretKey, string text, LanguageEnum target, LanguageEnum source = LanguageEnum.AUTO)
         {
-            Random rd = new Random();
-            string salt = rd.Next(100000).ToString();
-            string sign = EncryptString(appID + text + salt + secretKey);
-            string url = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
-            url += "q=" + HttpUtility.UrlEncode(text);
-            url += "&from=" + source.ToString().ToLower();
-            url += "&to=" + target.ToString().ToLower();
-            url += "&appid=" + appID;
-            url += "&salt=" + salt;
-            url += "&sign=" + sign;
+            try
+            {
+                Random rd = new Random();
+                string salt = rd.Next(100000).ToString();
+                string sign = EncryptString(appID + text + salt + secretKey);
+                string url = "http://api.fanyi.baidu.com/api/trans/vip/translate?";
+                url += "q=" + HttpUtility.UrlEncode(text);
+                url += "&from=" + source.ToString().ToLower();
+                url += "&to=" + target.ToString().ToLower();
+                url += "&appid=" + appID;
+                url += "&salt=" + salt;
+                url += "&sign=" + sign;
 #if false
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
@@ -84,14 +86,19 @@ namespace STranslate.Utils
             myStreamReader.Close();
             myResponseStream.Close();
 #endif
-            
-            var retString = await HttpUtil.GetAsync(url);
-            var resp = JsonConvert.DeserializeObject<BaiduResp>(retString);
-            if (resp.From != null)
-            {
-                return resp.TransResult[0]?.Dst;
+
+                var retString = await HttpUtil.GetAsync(url);
+                var resp = JsonConvert.DeserializeObject<BaiduResp>(retString);
+                if (resp.From != null)
+                {
+                    return resp.TransResult[0]?.Dst;
+                }
+                return string.Empty;
             }
-            return string.Empty;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         // 计算MD5值
         public static string EncryptString(string str)

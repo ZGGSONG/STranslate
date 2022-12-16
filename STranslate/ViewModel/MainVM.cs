@@ -19,31 +19,31 @@ namespace STranslate.ViewModel
         private string Text;
         public MainVM()
         {
-            try
+            //初始化界面参数
+            InputCombo = LanguageEnumDict.Keys.ToList();
+            InputComboSelected = LanguageEnum.AUTO.GetDescription();
+            OutputCombo = LanguageEnumDict.Keys.ToList();
+            OutputComboSelected = LanguageEnum.EN.GetDescription();
+
+            config = ConfigUtil.ReadConfig(ConfigPath);
+
+            //手动复制翻译结果
+            CopyTranslateResultCmd = new RelayCommand((_) =>
             {
-                //初始化界面参数
-                InputCombo = LanguageEnumDict.Keys.ToList();
-                InputComboSelected = LanguageEnum.AUTO.GetDescription();
-                OutputCombo = LanguageEnumDict.Keys.ToList();
-                OutputComboSelected = LanguageEnum.EN.GetDescription();
-
-                config = ConfigUtil.ReadConfig(ConfigPath);
-
-                //手动复制翻译结果
-                CopyTranslateResultCmd = new RelayCommand((_) =>
-                {
-                    return string.IsNullOrEmpty(OutputTxt) ? false : true;
-                }, (_) =>
-                {
-                    System.Diagnostics.Debug.Print("手动复制翻译结果: " + OutputTxt);
-                    Clipboard.SetText(OutputTxt);
-                });
+                return string.IsNullOrEmpty(OutputTxt) ? false : true;
+            }, (_) =>
+            {
+                System.Diagnostics.Debug.Print("手动复制翻译结果: " + OutputTxt);
+                Clipboard.SetText(OutputTxt);
+            });
 
 
-                TranslateCmd = new RelayCommand((_) =>
-                {
-                    return string.IsNullOrEmpty(InputTxt) ? false : true;
-                }, async (_) =>
+            TranslateCmd = new RelayCommand((_) =>
+            {
+                return string.IsNullOrEmpty(InputTxt) ? false : true;
+            }, async (_) =>
+            {
+                try
                 {
                     Text = InputTxt;
 
@@ -63,14 +63,12 @@ namespace STranslate.ViewModel
                         return;
                     }
                     OutputTxt = translateResp;
-                    Clipboard.SetText(OutputTxt);
-                });
-
-            }
-            catch (Exception ex)
-            {
-                OutputTxt = ex.Message;
-            }
+                }
+                catch (Exception ex)
+                {
+                    OutputTxt = ex.Message;
+                }
+            });
         }
 
         public ICommand TranslateCmd { get; private set; }

@@ -61,11 +61,18 @@ namespace STranslate.Utils
         {
             using (var client = new HttpClient())
             {
-                var respContent = await client.GetAsync(urlpath);
+                try
+                {
+                    var respContent = await client.GetAsync(urlpath);
 
-                string respStr = await respContent.Content.ReadAsStringAsync();
+                    string respStr = await respContent.Content.ReadAsStringAsync();
 
-                return respStr;
+                    return respStr;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
     }
