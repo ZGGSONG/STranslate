@@ -19,7 +19,7 @@
         WindowStyle="None"
         Height="450"
         Width="400"
-        Icon="/Images/translate.ico">
+        Icon="/Images/translate2.ico">
     <Border BorderThickness="0"
             Background="#fff"
             CornerRadius="10">
@@ -34,7 +34,21 @@
                            Click="NotifyIcon_Click"
                            IsBlink="False"
                            Visibility="Visible"
-                           Icon="/Images/translate.ico"/>
+                           Icon="/Images/translate2.ico">
+                <hc:NotifyIcon.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Style>
+                            <Style>
+                                <Setter Property="ContextMenu.Width" Value="100"/>
+                            </Style>
+                        </ContextMenu.Style>
+                        <MenuItem Command="hc:ControlCommands.PushMainWindow2Top"
+                                  Header="主界面"/>
+                        <MenuItem Command="hc:ControlCommands.ShutdownApp"
+                                  Header="退出"/>
+                    </ContextMenu>
+                </hc:NotifyIcon.ContextMenu>
+            </hc:NotifyIcon>
             
             <!--input-->
             <Grid x:Name="Input"

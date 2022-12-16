@@ -127,6 +127,9 @@
   <data name="translate1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\translate.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="translate2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\translate2.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="translate_x128" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\translate_x128.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

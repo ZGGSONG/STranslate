@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Images\translate.ico</ApplicationIcon>
+    <ApplicationIcon>Images\translate2.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,7 @@
     <None Remove="Images\copy.png" />
     <None Remove="Images\translate.ico" />
     <None Remove="Images\translate.svg" />
+    <None Remove="Images\translate2.ico" />
     <None Remove="Images\translate_x128.png" />
     <None Remove="Images\translate_x256.png" />
     <None Remove="Images\translate_x64.png" />
@@ -36,6 +37,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\translate.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\translate2.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\translate_x128.png">
