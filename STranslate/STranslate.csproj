@@ -16,6 +16,13 @@
     <None Remove="Images\translate_x128.png" />
     <None Remove="Images\translate_x256.png" />
     <None Remove="Images\translate_x64.png" />
+    <None Remove="Model\STranslate.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="STranslate.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,6 @@
+﻿service: baidu
+baidu:
+    appid: 
+    secretKey: 
+deepl:
+    url:

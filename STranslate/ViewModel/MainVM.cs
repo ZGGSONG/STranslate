@@ -12,7 +12,7 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM
     {
-        private static readonly string ConfigPath = @"D:\STranslate.yml";
+        private static string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
         public static ConfigModel config = new ConfigModel();
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
@@ -25,6 +25,7 @@ namespace STranslate.ViewModel
             OutputCombo = LanguageEnumDict.Keys.ToList();
             OutputComboSelected = LanguageEnum.EN.GetDescription();
 
+            //TODO: fix no config
             config = ConfigUtil.ReadConfig(ConfigPath);
 
             //手动复制翻译结果

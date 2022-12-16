@@ -4,8 +4,9 @@ WPF 开发的一款即用即走的翻译工具
 ## 功能
 
 - [x] 添加 DeepL API
-- [x] 添加百度翻译 API [申请教程（Bob）](https://bobtranslate.com/service/translate/baidu.html)
+- [x] 添加百度翻译 API
 - [x] 实现基本翻译功能
+- [x] 多开
 - [ ] 自动生成配置文件
 - [ ] 优化 DeepL 服务并打包成库引入进项目
 - [ ] 添加缓存功能
@@ -19,17 +20,8 @@ WPF 开发的一款即用即走的翻译工具
 
 ## 使用
 
+首先在软件运行目录的 `STranslate.yml` 中添加自己的配置，这里推荐百度通用翻译 API 免费版 [申请教程（参照Bob WIKI）](https://bobtranslate.com/service/translate/baidu.html)
+
 打开软件后会静默在后台，等待调用，全局监听快捷键（日后升级成自定义）`Alt` + `A` 即可打开软件主界面，输入需要翻译的内容，选择目标语言，如果识别语种不正确则手动指定即可，翻译结束后选择复制或点击一键复制即可
 
 点击软件外部界面任意处或点击ESC，软件则会自动隐藏到后台，即用即走。
-
-> 当前不能生成配置文件，需要手动再 D 盘根目录创建一个名为 `STranslate.yml` 的配置文件，内容格式如下
-
-```yml
-service: baidu
-baidu:
-    appid: 
-    secretKey: 
-deepl:
-    url:
-```
