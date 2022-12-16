@@ -1,4 +1,5 @@
-﻿using System;
+﻿using STranslate.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,44 @@ namespace STranslate
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 监听全局快捷键
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            HotkeysUtil.InitialHook(this);
+#if true
+            HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.A, () =>
+            {
+                this.Show();
+                this.Activate();
+                this.TextBoxInput.Focus();
+                System.Diagnostics.Debug.Print("alt + a");
+            });
+            HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.D, () =>
+            {
+                this.Show();
+                this.Activate();
+                this.TextBoxInput.Text = "123";
+                System.Diagnostics.Debug.Print("alt + d");
+                //复制内容
+                //KeyboardUtil.Press(Key.LeftCtrl);
+                //KeyboardUtil.Type(Key.C);
+                //KeyboardUtil.Release(Key.LeftCtrl);
+
+                //this.Show();
+                //this.Activate();
+
+
+                //this.TextBoxInput.Text = Clipboard.GetText();
+                //this.TextBoxInput.Focus();
+
+                //KeyboardUtil.Type(Key.Enter);
+            });
+#endif
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,21 +81,23 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            //置顶/取消置顶 Ctrl+T
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.T)
-            {
-                Topmost = Topmost != true;
-                Opacity = Topmost ? 1 : 0.9;
-            }
             //最小化 Esc
             if (e.Key == Key.Escape)
             {
                 this.Hide();
+                this.TextBoxOutput.Text = string.Empty;
             }
             //退出 Ctrl+Q
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Q)
             {
                 Application.Current.Shutdown();
+            }
+#if false
+            //置顶/取消置顶 Ctrl+T
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.T)
+            {
+                Topmost = Topmost != true;
+                Opacity = Topmost ? 1 : 0.9;
             }
             //缩小 Ctrl+[
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.OemOpenBrackets)
@@ -84,11 +125,24 @@ namespace STranslate
                 Width = 400;
                 Height = 450;
             }
+#endif
         }
 
         private void NotifyIcon_Click(object sender, RoutedEventArgs e)
         {
             this.Show();
+            this.Activate();
+        }
+
+        /// <summary>
+        /// 非激活窗口则隐藏起来
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.TextBoxOutput.Text = string.Empty;
         }
     }
 }
