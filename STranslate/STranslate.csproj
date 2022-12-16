@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Images\copy.png" />
     <None Remove="Images\translate.ico" />
     <None Remove="Images\translate.svg" />
     <None Remove="Images\translate_x128.png" />
@@ -17,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HandyControls" Version="3.4.4" />
+    <PackageReference Include="HandyControl" Version="3.4.0" />
     <PackageReference Include="YamlDotNet" Version="12.2.1" />
   </ItemGroup>
 
@@ -28,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\translate.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

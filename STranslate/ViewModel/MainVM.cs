@@ -29,6 +29,16 @@ namespace STranslate.ViewModel
 
                 config = ConfigUtil.ReadConfig(ConfigPath);
 
+                //手动复制翻译结果
+                CopyTranslateResultCmd = new RelayCommand((_) =>
+                {
+                    return string.IsNullOrEmpty(OutputTxt) ? false : true;
+                }, (_) =>
+                {
+                    System.Diagnostics.Debug.Print("手动复制翻译结果: " + OutputTxt);
+                    Clipboard.SetText(OutputTxt);
+                });
+
 
                 TranslateCmd = new RelayCommand((_) =>
                 {
@@ -64,6 +74,7 @@ namespace STranslate.ViewModel
         }
 
         public ICommand TranslateCmd { get; private set; }
+        public ICommand CopyTranslateResultCmd { get; private set; }
 
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }

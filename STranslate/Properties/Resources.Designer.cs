@@ -63,6 +63,16 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] copy {
+            get {
+                object obj = ResourceManager.GetObject("copy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] translate {
             get {
                 object obj = ResourceManager.GetObject("translate", resourceCulture);

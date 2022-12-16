@@ -28,13 +28,13 @@ namespace STranslate
         protected override void OnSourceInitialized(EventArgs e)
         {
             HotkeysUtil.InitialHook(this);
-#if true
             HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.A, () =>
             {
                 this.Show();
                 this.Activate();
                 this.TextBoxInput.Focus();
             });
+#if false
             HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.D, () =>
             {
                 //复制内容

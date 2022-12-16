@@ -24,7 +24,7 @@
         <vm:MainVM/>
     </Window.DataContext>
     <Border BorderThickness="0"
-            Background="BlanchedAlmond"
+            Background="#fff"
             CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -43,7 +43,9 @@
             <Grid x:Name="Input"
                   Margin="10,10,10,0">
                 <!--输入框-->
-                <Border x:Name="BorderInput" BorderBrush="#000"
+                <Border x:Name="BorderInput"
+                        Background="#f6f6f6"
+                        BorderBrush="#000"
                         BorderThickness="1"
                         CornerRadius="4"
                         Margin="5"
@@ -68,22 +70,35 @@
             </Grid>
             <!--mid-->
             <StackPanel Grid.Row="1"
-                        Margin="10,0,10,0"
+                        HorizontalAlignment="Center"
                         Orientation="Horizontal">
-                <Label Content="翻译结果: "
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"/>
                 <Label Content="当前语言:"
-                       Margin="10,0,0,0"/>
+                       Background="Transparent"
+                       BorderThickness="0"/>
                 <ComboBox x:Name="InCombo"
-                          Style="{StaticResource ComboBoxBaseStyle}"
+                          Background="#f6f6f6"
+                          Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding InputCombo}"
                           SelectedItem="{Binding InputComboSelected}"/>
-                <Label Content="目标语言:"/>
+                <Label Content="目标语言:"
+                       Margin="10,0"
+                       Background="Transparent"
+                       BorderThickness="0"/>
                 <ComboBox x:Name="OutCombo"
-                          Style="{StaticResource ComboBoxBaseStyle}"
+                          Background="#f6f6f6"
+                          Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding OutputCombo}"
                           SelectedItem="{Binding OutputComboSelected}"/>
+                <Button Margin="10,0,0,0"
+                        Cursor="Hand"
+                        Command="{Binding CopyTranslateResultCmd}">
+                    <Image Source="/Images/copy.png"/>
+                    <hc:FloatingBlock.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="复制成功"/>
+                        </DataTemplate>
+                    </hc:FloatingBlock.ContentTemplate>
+                </Button>
             </StackPanel>
             <!--output-->
             <Grid Margin="10,0,10,10"
@@ -91,24 +106,26 @@
                   Grid.Row="2">
                 <!--输出框-->
                 <Border x:Name="BorderOutput"
+                        Background="#f6f6f6"
                         BorderBrush="#000"
                         BorderThickness="1"
                         CornerRadius="4"
                         Margin="5"
                         Height="{Binding ElementName=Output, Path=Height}">
-                    <TextBox x:Name="TextBoxOutput"
-                             Background="Transparent"
-                             BorderBrush="{x:Null}"
-                             BorderThickness="0"
-                             IsReadOnly="True"
-                             Margin="5"
-                             FontSize="18"
-                             Width="{Binding ElementName=BorderOutput, Path=ActualWidth}"
-                             Height="{Binding ElementName=BorderOutput, Path=Height}"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Left"
-                             TextWrapping="Wrap"
-                             Text="{Binding OutputTxt}"/>
+                    <hc:TextBox x:Name="TextBoxOutput"
+                                hc:InfoElement.Placeholder="翻译"
+                                Background="Transparent"
+                                BorderBrush="{x:Null}"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                Margin="5"
+                                FontSize="18"
+                                Width="{Binding ElementName=BorderOutput, Path=ActualWidth}"
+                                Height="{Binding ElementName=BorderOutput, Path=Height}"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"
+                                Text="{Binding OutputTxt}"/>
                 </Border>
                 <!--<Button Content="复制"
                         Margin="0,0,10,0"
