@@ -31,7 +31,7 @@ namespace STranslate.Utils
             return string.Empty;
         }
 
-        public static async Task<string> TranslateDeepLAsync(string text, LanguageEnum target, LanguageEnum source = LanguageEnum.auto)
+        public static async Task<string> TranslateDeepLAsync(string text, LanguageEnum target, LanguageEnum source = LanguageEnum.AUTO)
         {
             var req = new DeeplReq()
             {
@@ -50,7 +50,16 @@ namespace STranslate.Utils
             return string.Empty;
         }
 
-        public static async Task<string> TranslateBaiduAsync(string appID, string secretKey, string text, LanguageEnum target, LanguageEnum source = LanguageEnum.auto)
+        /// <summary>
+        /// 百度翻译异步接口
+        /// </summary>
+        /// <param name="appID">应用ID</param>
+        /// <param name="secretKey">应用Secret</param>
+        /// <param name="text">需要翻译的文本</param>
+        /// <param name="target">目标语言</param>
+        /// <param name="source">当前语言</param>
+        /// <returns></returns>
+        public static async Task<string> TranslateBaiduAsync(string appID, string secretKey, string text, LanguageEnum target, LanguageEnum source = LanguageEnum.AUTO)
         {
             Random rd = new Random();
             string salt = rd.Next(100000).ToString();
@@ -101,6 +110,21 @@ namespace STranslate.Utils
             }
             // 返回加密的字符串
             return sb.ToString();
+        }
+        /// <summary>
+        /// 枚举信息
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Dictionary<string, T> GetEnumList<T>() where T : Enum
+        {
+            var dict = new Dictionary<string, T>();
+            List<T> list = Enum.GetValues(typeof(T)).OfType<T>().ToList();
+            list.ForEach(x =>
+            {
+                dict.Add(x.GetDescription(), x);
+            });
+            return dict;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace STranslate.Utils
 
 
     #region Operate Mouse Keyboard
-
+    //引用自: https://www.cnblogs.com/sixty/archive/2009/08/09/1542210.html
     /// <summary>
     /// Native methods
     /// </summary>

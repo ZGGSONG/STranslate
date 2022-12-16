@@ -7,8 +7,9 @@ using System.Windows.Interop;
 
 namespace STranslate.Utils
 {
+    //TODO: 另一个方案: https://www.cnblogs.com/leolion/p/4693514.html
     /// <summary>
-    /// 引用自 https://zhuanlan.zhihu.com/p/445050708
+    /// 引用自 https://blog.csdn.net/weixin_44879611/article/details/103275347
     /// </summary>
     static class HotkeysUtil
     {

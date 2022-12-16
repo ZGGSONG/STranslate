@@ -34,22 +34,18 @@ namespace STranslate
                 this.Show();
                 this.Activate();
                 this.TextBoxInput.Focus();
-                System.Diagnostics.Debug.Print("alt + a");
             });
             HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.D, () =>
             {
-                this.Show();
-                this.Activate();
-                this.TextBoxInput.Text = "123";
-                System.Diagnostics.Debug.Print("alt + d");
                 //复制内容
-                //KeyboardUtil.Press(Key.LeftCtrl);
-                //KeyboardUtil.Type(Key.C);
-                //KeyboardUtil.Release(Key.LeftCtrl);
+                KeyboardUtil.Press(Key.LeftCtrl);
+                KeyboardUtil.Type(Key.C);
+                KeyboardUtil.Release(Key.LeftCtrl);
+                System.Diagnostics.Debug.Print(Clipboard.GetText());
 
                 //this.Show();
                 //this.Activate();
-
+                //this.TextBoxInput.Text = "123";
 
                 //this.TextBoxInput.Text = Clipboard.GetText();
                 //this.TextBoxInput.Focus();
@@ -85,6 +81,7 @@ namespace STranslate
             if (e.Key == Key.Escape)
             {
                 this.Hide();
+                this.TextBoxInput.Text = string.Empty;
                 this.TextBoxOutput.Text = string.Empty;
             }
             //退出 Ctrl+Q
@@ -141,8 +138,9 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            this.Hide();
-            this.TextBoxOutput.Text = string.Empty;
+            //this.Hide();
+            //this.TextBoxInput.Text = string.Empty;
+            //this.TextBoxOutput.Text = string.Empty;
         }
     }
 }

@@ -28,8 +28,9 @@
             CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
                 <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
 
             <hc:NotifyIcon Text="STranslate"
@@ -39,20 +40,21 @@
                            Icon="/Images/translate.ico"/>
             
             <!--input-->
-            <Grid Margin="10">
+            <Grid x:Name="Input"
+                  Margin="10,10,10,0">
                 <!--输入框-->
-                <Border BorderBrush="#000"
+                <Border x:Name="BorderInput" BorderBrush="#000"
                         BorderThickness="1"
                         CornerRadius="4"
                         Margin="5"
-                        MaxHeight="200">
+                        Height="{Binding ElementName=Input, Path=Height}">
                     <TextBox x:Name="TextBoxInput"
                              Background="Transparent"
                              BorderBrush="{x:Null}"
                              Margin="5"
                              BorderThickness="0"
                              FontSize="18"
-                             MinHeight="35"
+                             Width="{Binding ElementName=BorderInput, Path=ActualWidth}"
                              TextWrapping="Wrap"
                              VerticalAlignment="Top"
                              HorizontalAlignment="Left"
@@ -64,19 +66,36 @@
                     </TextBox>
                 </Border>
             </Grid>
-            <!--output-->
-            <Grid Margin="10"
-                  Grid.Row="1">
+            <!--mid-->
+            <StackPanel Grid.Row="1"
+                        Margin="10,0,10,0"
+                        Orientation="Horizontal">
                 <Label Content="翻译结果: "
-                       VerticalAlignment="Top"
+                       VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
-
+                <Label Content="当前语言:"
+                       Margin="10,0,0,0"/>
+                <ComboBox x:Name="InCombo"
+                          Style="{StaticResource ComboBoxBaseStyle}"
+                          ItemsSource="{Binding InputCombo}"
+                          SelectedItem="{Binding InputComboSelected}"/>
+                <Label Content="目标语言:"/>
+                <ComboBox x:Name="OutCombo"
+                          Style="{StaticResource ComboBoxBaseStyle}"
+                          ItemsSource="{Binding OutputCombo}"
+                          SelectedItem="{Binding OutputComboSelected}"/>
+            </StackPanel>
+            <!--output-->
+            <Grid Margin="10,0,10,10"
+                  x:Name="Output"
+                  Grid.Row="2">
                 <!--输出框-->
-                <Border BorderBrush="#000"
+                <Border x:Name="BorderOutput"
+                        BorderBrush="#000"
                         BorderThickness="1"
                         CornerRadius="4"
                         Margin="5"
-                        MaxHeight="200">
+                        Height="{Binding ElementName=Output, Path=Height}">
                     <TextBox x:Name="TextBoxOutput"
                              Background="Transparent"
                              BorderBrush="{x:Null}"
@@ -84,7 +103,8 @@
                              IsReadOnly="True"
                              Margin="5"
                              FontSize="18"
-                             MinHeight="35"
+                             Width="{Binding ElementName=BorderOutput, Path=ActualWidth}"
+                             Height="{Binding ElementName=BorderOutput, Path=Height}"
                              VerticalAlignment="Top"
                              HorizontalAlignment="Left"
                              TextWrapping="Wrap"

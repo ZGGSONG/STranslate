@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace STranslate.ViewModel
@@ -13,12 +14,19 @@ namespace STranslate.ViewModel
     {
         private static readonly string ConfigPath = @"D:\STranslate.yml";
         public static ConfigModel config = new ConfigModel();
+        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         private string Text;
         public MainVM()
         {
             try
             {
+                //初始化界面参数
+                InputCombo = LanguageEnumDict.Keys.ToList();
+                InputComboSelected = LanguageEnum.AUTO.GetDescription();
+                OutputCombo = LanguageEnumDict.Keys.ToList();
+                OutputComboSelected = LanguageEnum.EN.GetDescription();
+
                 config = ConfigUtil.ReadConfig(ConfigPath);
 
 
@@ -37,7 +45,7 @@ namespace STranslate.ViewModel
                     //获取结果
                     //var translateResp = await TranslateUtil.TranslateDeepLAsync(InputTxt, LanguageEnum.EN, LanguageEnum.auto);
 
-                    var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, Text, LanguageEnum.EN, LanguageEnum.auto);
+                    var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, Text, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
 
                     if (translateResp == string.Empty)
                     {
@@ -45,7 +53,9 @@ namespace STranslate.ViewModel
                         return;
                     }
                     OutputTxt = translateResp;
+                    Clipboard.SetText(OutputTxt);
                 });
+
             }
             catch (Exception ex)
             {
@@ -57,8 +67,21 @@ namespace STranslate.ViewModel
 
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }
+
         private string _OutputTxt;
         public string OutputTxt { get => _OutputTxt; set => UpdateProperty(ref _OutputTxt, value); }
+
+        private List<string> _InputCombo;
+        public List<string> InputCombo { get => _InputCombo; set => UpdateProperty(ref _InputCombo, value); }
+
+        private string _InputComboSelected;
+        public string InputComboSelected { get => _InputComboSelected; set => UpdateProperty(ref _InputComboSelected, value); }
+
+        private List<string> _OutputCombo;
+        public List<string> OutputCombo { get => _OutputCombo; set => UpdateProperty(ref _OutputCombo, value); }
+
+        private string _OutputComboSelected;
+        public string OutputComboSelected { get => _OutputComboSelected; set => UpdateProperty(ref _OutputComboSelected, value); }
 
     }
 }
