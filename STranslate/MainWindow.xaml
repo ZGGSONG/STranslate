@@ -20,9 +20,6 @@
         Height="450"
         Width="400"
         Icon="/Images/translate.ico">
-    <Window.DataContext>
-        <vm:MainVM/>
-    </Window.DataContext>
     <Border BorderThickness="0"
             Background="#fff"
             CornerRadius="10">

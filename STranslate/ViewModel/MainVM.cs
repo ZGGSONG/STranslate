@@ -94,5 +94,8 @@ namespace STranslate.ViewModel
         private string _OutputComboSelected;
         public string OutputComboSelected { get => _OutputComboSelected; set => UpdateProperty(ref _OutputComboSelected, value); }
 
+        private static readonly MainVM _Instance = new MainVM();
+        public static MainVM Instance { get => _Instance; }
+
     }
 }

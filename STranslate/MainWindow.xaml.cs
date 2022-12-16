@@ -1,4 +1,5 @@
 ﻿using STranslate.Utils;
+using STranslate.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,7 @@ namespace STranslate
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = MainVM.Instance;
         }
 
         /// <summary>
@@ -81,8 +83,8 @@ namespace STranslate
             if (e.Key == Key.Escape)
             {
                 this.Hide();
-                this.TextBoxInput.Text = string.Empty;
-                this.TextBoxOutput.Text = string.Empty;
+                MainVM.Instance.InputTxt = string.Empty;
+                MainVM.Instance.OutputTxt = string.Empty;
             }
             //退出 Ctrl+Q
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Q)
@@ -138,9 +140,9 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            //this.Hide();
-            //this.TextBoxInput.Text = string.Empty;
-            //this.TextBoxOutput.Text = string.Empty;
+            this.Hide();
+            MainVM.Instance.InputTxt = string.Empty;
+            MainVM.Instance.OutputTxt = string.Empty;
         }
     }
 }
