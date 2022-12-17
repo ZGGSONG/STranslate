@@ -19,7 +19,7 @@ namespace STranslate
         // 每次启动应用程序，都会验证名称为OnlyRun的互斥是否存在 
         protected override void OnStartup(StartupEventArgs e)
         {
-            mutex = new System.Threading.Mutex(true, "STranslate");
+            mutex = new System.Threading.Mutex(true, "CE252DD8-179F-4544-9989-453F5DEA378D");
             if (mutex.WaitOne(0, false))
             {
                 base.OnStartup(e);
