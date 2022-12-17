@@ -49,7 +49,7 @@
                     </ContextMenu>
                 </hc:NotifyIcon.ContextMenu>
             </hc:NotifyIcon>
-            
+
             <!--input-->
             <Grid x:Name="Input"
                   Margin="10,10,10,0">
