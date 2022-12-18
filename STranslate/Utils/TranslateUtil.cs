@@ -14,7 +14,7 @@ namespace STranslate.Utils
 {
     public class TranslateUtil
     {
-        private static readonly string _url = "http://172.17.209.47:8080/translate";
+        private static readonly string _url = "http://127.0.0.1:8000/translate";
         public static string Translate(string input, LanguageEnum source, LanguageEnum target)
         {
             var req = new DeeplReq()
@@ -31,7 +31,7 @@ namespace STranslate.Utils
             return string.Empty;
         }
 
-        public static async Task<string> TranslateDeepLAsync(string text, LanguageEnum target, LanguageEnum source = LanguageEnum.AUTO)
+        public static async Task<string> TranslateDeepLAsync(string url, string text, LanguageEnum target, LanguageEnum source = LanguageEnum.AUTO)
         {
             var req = new DeeplReq()
             {
@@ -39,8 +39,17 @@ namespace STranslate.Utils
                 SourceLang = source.ToString(),
                 TargetLang = target.ToString(),
             };
+
+            if (source == LanguageEnum.AUTO)
+            {
+                req.SourceLang = LanguageEnum.AUTO.ToString().ToLower();
+            }
+            if (target == LanguageEnum.AUTO)
+            {
+                req.TargetLang = LanguageEnum.AUTO.ToString().ToLower();
+            }
             var reqStr = JsonConvert.SerializeObject(req);
-            var respStr = await HttpUtil.PostAsync(_url, reqStr);
+            var respStr = await HttpUtil.PostAsync(url, reqStr);
             var resp = JsonConvert.DeserializeObject<DeeplResp>(respStr);
 
             if (resp.Code == 200)

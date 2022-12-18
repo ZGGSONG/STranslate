@@ -91,11 +91,4 @@ namespace STranslate.Utils
         MOD_SHIFT = 0x4,
         MOD_WIN = 0x8
     }
-    enum MyHotkeys
-    {
-        KEY_A = Key.A,
-        KEY_S = Key.S,
-        KEY_D = Key.D,
-    }
-
 }

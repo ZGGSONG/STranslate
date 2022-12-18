@@ -42,6 +42,7 @@ namespace STranslate
                 KeyboardUtil.Press(Key.LeftCtrl);
                 KeyboardUtil.Type(Key.C);
                 KeyboardUtil.Release(Key.LeftCtrl);
+                System.Threading.Thread.Sleep(200);
                 System.Diagnostics.Debug.Print(Clipboard.GetText());
 
                 //this.Show();
@@ -59,6 +60,7 @@ namespace STranslate
         public MainWindow()
         {
             InitializeComponent();
+            this.TextBoxInput.Focus();
             this.DataContext = MainVM.Instance;
         }
 
@@ -87,7 +89,9 @@ namespace STranslate
                 MainVM.Instance.OutputTxt = string.Empty;
             }
             //退出 Ctrl+Q
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Q)
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
+                && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift)
+                && e.Key == Key.Q)
             {
                 Application.Current.Shutdown();
             }

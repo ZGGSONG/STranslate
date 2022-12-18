@@ -54,7 +54,7 @@ namespace STranslate.ViewModel
                     OutputTxt = "翻译中...";
 
                     //获取结果
-                    //var translateResp = await TranslateUtil.TranslateDeepLAsync(InputTxt, LanguageEnum.EN, LanguageEnum.auto);
+                    //var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl.url, Text, LanguageEnum.EN, LanguageEnum.AUTO);
 
                     var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, Text, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
 
