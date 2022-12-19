@@ -3,6 +3,7 @@ using STranslate.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -13,8 +14,6 @@ namespace STranslate.ViewModel
         private static string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
         public static ConfigModel config = new ConfigModel();
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
-
-        private string Text;
 
         public MainVM()
         {
@@ -27,7 +26,7 @@ namespace STranslate.ViewModel
             //TODO: fix no config
             config = ConfigUtil.ReadConfig(ConfigPath);
 
-            //手动复制翻译结果
+            //复制翻译结果
             CopyTranslateResultCmd = new RelayCommand((_) =>
             {
                 return string.IsNullOrEmpty(OutputTxt) ? false : true;
@@ -42,32 +41,32 @@ namespace STranslate.ViewModel
                 return string.IsNullOrEmpty(InputTxt) ? false : true;
             }, async (_) =>
             {
-                try
-                {
-                    Text = InputTxt;
-
-                    //清空输入框
-                    InputTxt = "";
-
-                    OutputTxt = "翻译中...";
-
-                    //获取结果
-                    //var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl.url, Text, LanguageEnum.EN, LanguageEnum.AUTO);
-
-                    var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, Text, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
-
-                    if (translateResp == string.Empty)
-                    {
-                        OutputTxt = "翻译出错，请稍候再试...";
-                        return;
-                    }
-                    OutputTxt = translateResp;
-                }
-                catch (Exception ex)
-                {
-                    OutputTxt = ex.Message;
-                }
+                await Translate();
             });
+        }
+        public async Task Translate()
+        {
+            try
+            {
+                //清空输入框
+                OutputTxt = "翻译中...";
+
+                //获取结果
+                //var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl.url, InputTxt, LanguageEnum.EN, LanguageEnum.AUTO);
+
+                var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+
+                if (translateResp == string.Empty)
+                {
+                    OutputTxt = "翻译出错，请稍候再试...";
+                    return;
+                }
+                OutputTxt = translateResp;
+            }
+            catch (Exception ex)
+            {
+                OutputTxt = ex.Message;
+            }
         }
 
         public ICommand TranslateCmd { get; private set; }

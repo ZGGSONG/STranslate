@@ -30,7 +30,7 @@
                 <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
 
-            <hc:NotifyIcon Text="STranslate"
+            <!--<hc:NotifyIcon Text="STranslate"
                            Click="NotifyIcon_Click"
                            IsBlink="False"
                            Visibility="Visible"
@@ -48,7 +48,7 @@
                                   Header="退出" />
                     </ContextMenu>
                 </hc:NotifyIcon.ContextMenu>
-            </hc:NotifyIcon>
+            </hc:NotifyIcon>-->
 
             <!--input-->
             <Grid x:Name="Input"
