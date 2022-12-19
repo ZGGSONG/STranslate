@@ -13,6 +13,7 @@ namespace STranslate
     public partial class MainWindow : Window
     {
         private MainVM vm;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -110,6 +111,7 @@ namespace STranslate
             HwndSource source = HwndSource.FromHwnd(handle);
             source.AddHook(WndProc);
         }
+
         /// <summary>
         /// 热键的功能
         /// </summary>
@@ -154,7 +156,6 @@ namespace STranslate
         {
             vm.InputTxt = string.Empty;
             vm.OutputTxt = string.Empty;
-
         }
 
         /// <summary>

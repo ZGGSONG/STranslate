@@ -1,11 +1,10 @@
 ﻿<Window x:Class="STranslate.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:STranslate"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
@@ -21,7 +20,7 @@
         Width="400"
         Icon="/Images/translate2.ico">
     <Window.DataContext>
-        <vm:MainVM/>
+        <vm:MainVM />
     </Window.DataContext>
     <Border BorderThickness="0"
             Background="#fff"
@@ -49,10 +48,10 @@
                         <MenuItem x:Name="InputTranslateMenuItem"
                                   Click="InputTranslateMenuItem_Click"
                                   Header="输入翻译" />
-                        <Separator/>
+                        <Separator />
                         <MenuItem Command="hc:ControlCommands.PushMainWindow2Top"
                                   Header="显示主界面" />
-                        <Separator/>
+                        <Separator />
                         <MenuItem Command="hc:ControlCommands.ShutdownApp"
                                   Header="退出" />
                     </ContextMenu>

@@ -1,5 +1,4 @@
-﻿using STranslate.Model;
-using System;
+﻿using System;
 using static STranslate.Utils.NativeMethod;
 
 namespace STranslate.Utils
@@ -13,6 +12,7 @@ namespace STranslate.Utils
             public static String Text = "A";
             public static bool Conflict = false;
         }
+
         public static class CrosswordTranslate
         {
             public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
@@ -20,6 +20,7 @@ namespace STranslate.Utils
             public static String Text = "D";
             public static bool Conflict = false;
         }
+
         public static class ScreenShotTranslate
         {
             public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
@@ -28,7 +29,6 @@ namespace STranslate.Utils
             public static bool Conflict = false;
         }
     }
-
 
     internal class HotKeysUtil
     {
