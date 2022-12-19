@@ -17,7 +17,7 @@ namespace STranslate
         {
             InitializeComponent();
 
-            vm = (MainVM)this.DataContext;
+            vm = (MainVM)DataContext;
         }
 
         /// <summary>

@@ -38,12 +38,8 @@
                            Visibility="Visible"
                            Icon="/Images/translate2.ico">
                 <hc:NotifyIcon.ContextMenu>
-                    <ContextMenu>
-                        <ContextMenu.Style>
-                            <Style>
-                                <Setter Property="ContextMenu.Width" Value="100" />
-                            </Style>
-                        </ContextMenu.Style>
+                    <ContextMenu Style="{StaticResource InputElementBaseStyle}"
+                                 Width="120">
                         <MenuItem x:Name="CrossWordTranslateMenuItem"
                                   Click="CrossWordTranslateMenuItem_Click"
                                   Header="划词翻译" />
@@ -55,7 +51,7 @@
                                   Header="输入翻译" />
                         <Separator/>
                         <MenuItem Command="hc:ControlCommands.PushMainWindow2Top"
-                                  Header="主界面" />
+                                  Header="显示主界面" />
                         <Separator/>
                         <MenuItem Command="hc:ControlCommands.ShutdownApp"
                                   Header="退出" />

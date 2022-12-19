@@ -1,8 +1,35 @@
 ﻿using STranslate.Model;
 using System;
+using static STranslate.Utils.NativeMethod;
 
 namespace STranslate.Utils
 {
+    public static class HotKeys
+    {
+        public static class InputTranslate
+        {
+            public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
+            public static int Key = 65;
+            public static String Text = "A";
+            public static bool Conflict = false;
+        }
+        public static class CrosswordTranslate
+        {
+            public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
+            public static int Key = 68;
+            public static String Text = "D";
+            public static bool Conflict = false;
+        }
+        public static class ScreenShotTranslate
+        {
+            public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
+            public static int Key = 83;
+            public static String Text = "S";
+            public static bool Conflict = false;
+        }
+    }
+
+
     internal class HotKeysUtil
     {
         public static IntPtr mainFormHandle;
@@ -16,6 +43,11 @@ namespace STranslate.Utils
         public static int ScreenShotTranslateId = 856;
         public static byte ScreenShotTranslateModifiers;
         public static int ScreenShotTranslateKey;
+
+        /// <summary>
+        /// 注册快捷键
+        /// </summary>
+        /// <param name="mainFormHandle"></param>
         public static void RegisterHotKey(IntPtr mainFormHandle)
         {
             HotKeysUtil.mainFormHandle = mainFormHandle;
@@ -41,23 +73,29 @@ namespace STranslate.Utils
             }
         }
 
+        /// <summary>
+        /// 注销快捷键
+        /// </summary>
         public static void UnRegisterHotKey()
         {
-            NativeMethod.UnregisterHotKey(mainFormHandle, InputTranslateId);
-            NativeMethod.UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
-            NativeMethod.UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+            UnregisterHotKey(mainFormHandle, InputTranslateId);
+            UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
+            UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
         }
 
+        /// <summary>
+        /// 重新注册快捷键
+        /// </summary>
         public static void ReRegisterHotKey()
         {
             if (HotKeys.InputTranslate.Key == 0)
             {
-                NativeMethod.UnregisterHotKey(mainFormHandle, InputTranslateId);
+                UnregisterHotKey(mainFormHandle, InputTranslateId);
             }
             else if (InputTranslateModifiers != HotKeys.InputTranslate.Modifiers || InputTranslateKey != HotKeys.InputTranslate.Key)
             {
                 {
-                    NativeMethod.UnregisterHotKey(mainFormHandle, InputTranslateId);
+                    UnregisterHotKey(mainFormHandle, InputTranslateId);
                     HotKeys.InputTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, InputTranslateId, HotKeys.InputTranslate.Modifiers, HotKeys.InputTranslate.Key);
                 }
             }
@@ -66,12 +104,12 @@ namespace STranslate.Utils
 
             if (HotKeys.CrosswordTranslate.Key == 0)
             {
-                NativeMethod.UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
+                UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
             }
             else if (CrosswordTranslateModifiers != HotKeys.CrosswordTranslate.Modifiers || CrosswordTranslateKey != HotKeys.CrosswordTranslate.Key)
             {
                 {
-                    NativeMethod.UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
+                    UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
                     HotKeys.CrosswordTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, CrosswordTranslateId, HotKeys.CrosswordTranslate.Modifiers, HotKeys.CrosswordTranslate.Key);
                 }
             }
@@ -80,11 +118,11 @@ namespace STranslate.Utils
 
             if (HotKeys.ScreenShotTranslate.Key == 0)
             {
-                NativeMethod.UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+                UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
             }
             else if (ScreenShotTranslateModifiers != HotKeys.ScreenShotTranslate.Modifiers || ScreenShotTranslateKey != HotKeys.ScreenShotTranslate.Key)
             {
-                NativeMethod.UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+                UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
                 HotKeys.ScreenShotTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, HotKeys.ScreenShotTranslate.Modifiers, HotKeys.ScreenShotTranslate.Key);
             }
             ScreenShotTranslateModifiers = HotKeys.ScreenShotTranslate.Modifiers;

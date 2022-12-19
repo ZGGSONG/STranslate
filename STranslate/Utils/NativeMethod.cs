@@ -206,17 +206,13 @@ namespace STranslate.Utils
         [DllImport("user32.dll")]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hPos, int x, int y, int cx, int cy, uint nflags);
 
-        /// <summary>
-        /// 定义了辅助键的名称（将数字转变为字符以便于记忆，也可去除此枚举而直接使用数值）
-        /// </summary>
-        [Flags()]
-        public enum KeyModifiers
+        internal enum KeyModifiers
         {
-            None = 0,
-            Alt = 1,
-            Ctrl = 2,
-            Shift = 4,
-            WindowsKey = 8
+            MOD_NONE = 0x0,
+            MOD_ALT = 0x1,
+            MOD_CTRL = 0x2,
+            MOD_SHIFT = 0x4,
+            MOD_WIN = 0x8
         }
 
         #region Clipboard
