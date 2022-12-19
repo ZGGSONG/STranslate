@@ -141,22 +141,24 @@ namespace STranslate.Utils
         [DllImport("User32", CharSet = CharSet.Unicode)]
         internal static extern IntPtr SetClipboardData(int uFormat, IntPtr hMem);
 
-        const int HORZRES = 8;
-        const int VERTRES = 10;
-        const int LOGPIXELSX = 88;
-        const int LOGPIXELSY = 90;
-        const int DESKTOPVERTRES = 117;
-        const int DESKTOPHORZRES = 118;
+        private const int HORZRES = 8;
+        private const int VERTRES = 10;
+        private const int LOGPIXELSX = 88;
+        private const int LOGPIXELSY = 90;
+        private const int DESKTOPVERTRES = 117;
+        private const int DESKTOPHORZRES = 118;
 
         [DllImport("user32.dll")]
-        static extern IntPtr GetDC(IntPtr ptr);
+        private static extern IntPtr GetDC(IntPtr ptr);
+
         [DllImport("gdi32.dll")]
-        static extern int GetDeviceCaps(
+        private static extern int GetDeviceCaps(
         IntPtr hdc, // handle to DC
         int nIndex // index of capability
         );
+
         [DllImport("user32.dll", EntryPoint = "ReleaseDC")]
-        static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDc);
+        private static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDc);
 
         /// <summary>
         /// 获取系统dpi
@@ -216,6 +218,7 @@ namespace STranslate.Utils
         }
 
         #region Clipboard
+
         internal static void SetText(string text)
         {
             if (!OpenClipboard(IntPtr.Zero))
@@ -243,6 +246,7 @@ namespace STranslate.Utils
             CloseClipboard();
             return value;
         }
-        #endregion
+
+        #endregion Clipboard
     }
 }

@@ -46,6 +46,7 @@ namespace STranslate.ViewModel
         }
 
         #region handle
+
         public async Task Translate()
         {
             try
@@ -70,9 +71,11 @@ namespace STranslate.ViewModel
                 OutputTxt = ex.Message;
             }
         }
-        #endregion
+
+        #endregion handle
 
         #region Params
+
         public ICommand TranslateCmd { get; private set; }
         public ICommand CopyResultCmd { get; private set; }
 
@@ -93,6 +96,7 @@ namespace STranslate.ViewModel
 
         private string _OutputComboSelected;
         public string OutputComboSelected { get => _OutputComboSelected; set => UpdateProperty(ref _OutputComboSelected, value); }
-        #endregion
+
+        #endregion Params
     }
 }
