@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace STranslate
 {
@@ -14,9 +8,10 @@ namespace STranslate
     public partial class App : Application
     {
         private static System.Threading.Mutex mutex;
-        //系统能够识别有名称的互斥，因此可以使用它禁止应用程序启动两次 
-        //第二个参数可以设置为产品的名称:Application.ProductName 
-        // 每次启动应用程序，都会验证名称为OnlyRun的互斥是否存在 
+
+        //系统能够识别有名称的互斥，因此可以使用它禁止应用程序启动两次
+        //第二个参数可以设置为产品的名称:Application.ProductName
+        // 每次启动应用程序，都会验证名称为OnlyRun的互斥是否存在
         protected override void OnStartup(StartupEventArgs e)
         {
             mutex = new System.Threading.Mutex(true, "CE252DD8-179F-4544-9989-453F5DEA378D");

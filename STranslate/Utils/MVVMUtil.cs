@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace STranslate.Utils
@@ -15,6 +11,7 @@ namespace STranslate.Utils
     public class BaseVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string properName = "")
         {
             if (object.Equals(properValue, newValue))
@@ -28,6 +25,7 @@ namespace STranslate.Utils
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
     /// <summary>
     /// Command
     /// </summary>
@@ -65,6 +63,7 @@ namespace STranslate.Utils
     public abstract class SingletonMode<T> where T : class
     {
         public static T _Instance;
+
         public static T Instance()
         {
             Type type = typeof(T);

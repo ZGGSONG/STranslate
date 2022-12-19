@@ -3,8 +3,6 @@ using STranslate.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,6 +15,7 @@ namespace STranslate.ViewModel
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         private string Text;
+
         public MainVM()
         {
             //初始化界面参数
@@ -37,7 +36,6 @@ namespace STranslate.ViewModel
                 System.Diagnostics.Debug.Print("手动复制翻译结果: " + OutputTxt);
                 Clipboard.SetText(OutputTxt);
             });
-
 
             TranslateCmd = new RelayCommand((_) =>
             {
@@ -95,6 +93,5 @@ namespace STranslate.ViewModel
 
         private static readonly MainVM _Instance = new MainVM();
         public static MainVM Instance { get => _Instance; }
-
     }
 }

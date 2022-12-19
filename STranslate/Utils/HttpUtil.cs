@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using STranslate.Model;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -40,7 +38,6 @@ namespace STranslate.Utils
         /// <returns></returns>
         public static async Task<string> PostAsync(string url, string req)
         {
-
             using (var client = new HttpClient())
             {
                 var content = new StringContent(req, Encoding.UTF8, "application/json");
@@ -48,10 +45,11 @@ namespace STranslate.Utils
                 var respContent = await client.PostAsync(url, content);
 
                 string respStr = await respContent.Content.ReadAsStringAsync();
-;
+                ;
                 return respStr;
             }
         }
+
         /// <summary>
         /// 异步Get请求
         /// </summary>

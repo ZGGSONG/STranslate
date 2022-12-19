@@ -25,9 +25,9 @@
             CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="8*"/>
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
 
             <hc:NotifyIcon Text="STranslate"
@@ -39,13 +39,13 @@
                     <ContextMenu>
                         <ContextMenu.Style>
                             <Style>
-                                <Setter Property="ContextMenu.Width" Value="100"/>
+                                <Setter Property="ContextMenu.Width" Value="100" />
                             </Style>
                         </ContextMenu.Style>
                         <MenuItem Command="hc:ControlCommands.PushMainWindow2Top"
-                                  Header="主界面"/>
+                                  Header="主界面" />
                         <MenuItem Command="hc:ControlCommands.ShutdownApp"
-                                  Header="退出"/>
+                                  Header="退出" />
                     </ContextMenu>
                 </hc:NotifyIcon.ContextMenu>
             </hc:NotifyIcon>
@@ -74,7 +74,7 @@
                              AcceptsReturn="True"
                              Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding TranslateCmd}" Key="Enter"/>
+                            <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
                         </TextBox.InputBindings>
                     </TextBox>
                 </Border>
@@ -85,28 +85,28 @@
                         Orientation="Horizontal">
                 <Label Content="当前语言:"
                        Background="Transparent"
-                       BorderThickness="0"/>
+                       BorderThickness="0" />
                 <ComboBox x:Name="InCombo"
                           Background="#f6f6f6"
                           Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding InputCombo}"
-                          SelectedItem="{Binding InputComboSelected}"/>
+                          SelectedItem="{Binding InputComboSelected}" />
                 <Label Content="目标语言:"
                        Margin="10,0"
                        Background="Transparent"
-                       BorderThickness="0"/>
+                       BorderThickness="0" />
                 <ComboBox x:Name="OutCombo"
                           Background="#f6f6f6"
                           Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding OutputCombo}"
-                          SelectedItem="{Binding OutputComboSelected}"/>
+                          SelectedItem="{Binding OutputComboSelected}" />
                 <Button Margin="10,0,0,0"
                         Cursor="Hand"
                         Command="{Binding CopyTranslateResultCmd}">
-                    <Image Source="/Images/copy.png"/>
+                    <Image Source="/Images/copy.png" />
                     <hc:FloatingBlock.ContentTemplate>
                         <DataTemplate>
-                            <TextBlock Text="复制成功"/>
+                            <TextBlock Text="复制成功" />
                         </DataTemplate>
                     </hc:FloatingBlock.ContentTemplate>
                 </Button>
@@ -136,7 +136,7 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
                                 TextWrapping="Wrap"
-                                Text="{Binding OutputTxt}"/>
+                                Text="{Binding OutputTxt}" />
                 </Border>
                 <!--<Button Content="复制"
                         Margin="0,0,10,0"
@@ -149,8 +149,8 @@
                             <Setter Property="Background">
                                 <Setter.Value>
                                     <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                        <GradientStop Color="#C0C0C0" Offset="0"/>
-                                        <GradientStop Color="#787878" Offset="1"/>
+                                        <GradientStop Color="#C0C0C0" Offset="0" />
+                                        <GradientStop Color="#787878" Offset="1" />
                                     </LinearGradientBrush>
                                 </Setter.Value>
                             </Setter>
@@ -159,8 +159,8 @@
                                     <Setter Property="Background">
                                         <Setter.Value>
                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                <GradientStop Color="LightGray" Offset="0"/>
-                                                <GradientStop Color="Gray" Offset="1"/>
+                                                <GradientStop Color="LightGray" Offset="0" />
+                                                <GradientStop Color="Gray" Offset="1" />
                                             </LinearGradientBrush>
                                         </Setter.Value>
                                     </Setter>
@@ -171,13 +171,12 @@
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border BorderThickness="1" CornerRadius="4" Background="{TemplateBinding Background}">
-                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>-->
             </Grid>
         </Grid>
-
     </Border>
 </Window>

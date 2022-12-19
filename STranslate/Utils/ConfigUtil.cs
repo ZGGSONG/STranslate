@@ -1,10 +1,6 @@
 ﻿using STranslate.Model;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
 namespace STranslate.Utils
@@ -27,7 +23,6 @@ namespace STranslate.Utils
                     throw ex;
                 }
             }
-
         }
 
         public static void WriteConfig(string path, ConfigModel configs)
@@ -42,8 +37,6 @@ namespace STranslate.Utils
             {
                 writer.Write(strWriter.ToString());
             }
-
-
         }
     }
 }

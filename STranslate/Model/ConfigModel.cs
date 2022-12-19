@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace STranslate.Model
+﻿namespace STranslate.Model
 {
     public class ConfigModel
     {
@@ -18,6 +12,7 @@ namespace STranslate.Model
         public string appid { get; set; }
         public string secretKey { get; set; }
     }
+
     public class DeepL
     {
         public string url { get; set; }

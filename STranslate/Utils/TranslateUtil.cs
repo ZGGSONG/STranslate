@@ -2,9 +2,7 @@
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +13,7 @@ namespace STranslate.Utils
     public class TranslateUtil
     {
         private static readonly string _url = "http://127.0.0.1:8000/translate";
+
         public static string Translate(string input, LanguageEnum source, LanguageEnum target)
         {
             var req = new DeeplReq()
@@ -109,6 +108,7 @@ namespace STranslate.Utils
                 throw ex;
             }
         }
+
         // 计算MD5值
         public static string EncryptString(string str)
         {
@@ -127,6 +127,7 @@ namespace STranslate.Utils
             // 返回加密的字符串
             return sb.ToString();
         }
+
         /// <summary>
         /// 枚举信息
         /// </summary>

@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace STranslate.Utils
 {
-
-
     #region Operate Mouse Keyboard
+
     //引用自: https://www.cnblogs.com/sixty/archive/2009/08/09/1542210.html
     /// <summary>
     /// Native methods
@@ -21,14 +17,18 @@ namespace STranslate.Utils
     internal static class NativeMethods
     {
         //User32 wrappers cover API's used for Mouse input
+
         #region User32
+
         // Two special bitmasks we define to be able to grab
         // shift and character information out of a VKey.
         internal const int VKeyShiftMask = 0x0100;
+
         internal const int VKeyCharMask = 0x00FF;
 
         // Various Win32 constants
         internal const int KeyeventfExtendedkey = 0x0001;
+
         internal const int KeyeventfKeyup = 0x0002;
         internal const int KeyeventfScancode = 0x0008;
 
@@ -59,6 +59,7 @@ namespace STranslate.Utils
         {
             [FieldOffset(0)]
             internal MOUSEINPUT mouseInput;
+
             [FieldOffset(0)]
             internal KEYBDINPUT keyboardInput;
         };
@@ -113,9 +114,8 @@ namespace STranslate.Utils
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern short VkKeyScan(char ch);
 
-        #endregion
+        #endregion User32
     }
-
 
     /// <summary>
     /// Exposes a simple interface to common mouse operations, allowing the user to simulate mouse input.
@@ -126,6 +126,7 @@ namespace STranslate.Utils
         Mouse.MoveTo(new Point(100, 100));
         Mouse.Click(MouseButton.Left);
     */
+
     /// </code>
     /// </example>
     public static class Mouse
@@ -161,18 +162,23 @@ namespace STranslate.Utils
                 case MouseButton.Left:
                     SendMouseInput(0, 0, 0, NativeMethods.SendMouseInputFlags.LeftDown);
                     break;
+
                 case MouseButton.Right:
                     SendMouseInput(0, 0, 0, NativeMethods.SendMouseInputFlags.RightDown);
                     break;
+
                 case MouseButton.Middle:
                     SendMouseInput(0, 0, 0, NativeMethods.SendMouseInputFlags.MiddleDown);
                     break;
+
                 case MouseButton.XButton1:
                     SendMouseInput(0, 0, NativeMethods.XButton1, NativeMethods.SendMouseInputFlags.XDown);
                     break;
+
                 case MouseButton.XButton2:
                     SendMouseInput(0, 0, NativeMethods.XButton2, NativeMethods.SendMouseInputFlags.XDown);
                     break;
+
                 default:
                     throw new InvalidOperationException("Unsupported MouseButton input.");
             }
@@ -242,18 +248,23 @@ namespace STranslate.Utils
                 case MouseButton.Left:
                     SendMouseInput(0, 0, 0, NativeMethods.SendMouseInputFlags.LeftUp);
                     break;
+
                 case MouseButton.Right:
                     SendMouseInput(0, 0, 0, NativeMethods.SendMouseInputFlags.RightUp);
                     break;
+
                 case MouseButton.Middle:
                     SendMouseInput(0, 0, 0, NativeMethods.SendMouseInputFlags.MiddleUp);
                     break;
+
                 case MouseButton.XButton1:
                     SendMouseInput(0, 0, NativeMethods.XButton1, NativeMethods.SendMouseInputFlags.XUp);
                     break;
+
                 case MouseButton.XButton2:
                     SendMouseInput(0, 0, NativeMethods.XButton2, NativeMethods.SendMouseInputFlags.XUp);
                     break;
+
                 default:
                     throw new InvalidOperationException("Unsupported MouseButton input.");
             }
@@ -342,6 +353,7 @@ namespace STranslate.Utils
             Keyboard.Type("hello, capitalized world");
             Keyboard.Release(Key.LeftShift);
     */
+
     /// </code>
     /// </example>
     public static class KeyboardUtil
@@ -418,7 +430,7 @@ namespace STranslate.Utils
             }
         }
 
-        #endregion
+        #endregion Public Members
 
         #region Private Members
 
@@ -493,7 +505,7 @@ namespace STranslate.Utils
         // CTRL keys on the right-hand side of the keyboard; the INS, DEL, HOME, END, PAGE UP,
         // PAGE DOWN, and arrow keys in the clusters to the left of the numeric keypad; the NUM LOCK
         // key; the BREAK (CTRL+PAUSE) key; the PRINT SCRN key; and the divide (/) and ENTER keys in
-        // the numeric keypad. The extended-key flag is set if the key is an extended key. 
+        // the numeric keypad. The extended-key flag is set if the key is an extended key.
         //
         // - docs appear to be incorrect. Use of Spy++ indicates that break is not an extended key.
         // Also, menu key and windows keys also appear to be extended.
@@ -514,11 +526,13 @@ namespace STranslate.Utils
                                                                    Key.Apps,
                                                                    Key.RWin,
                                                                    Key.LWin };
+
         // Note that there are no distinct values for the following keys:
         // numpad divide
         // numpad enter
 
-        #endregion
+        #endregion Private Members
     }
-    #endregion
+
+    #endregion Operate Mouse Keyboard
 }

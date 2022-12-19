@@ -11,24 +11,28 @@ namespace STranslate.Utils
     /// <summary>
     /// 引用自 https://blog.csdn.net/weixin_44879611/article/details/103275347
     /// </summary>
-    static class HotkeysUtil
+    internal static class HotkeysUtil
     {
         #region 系统api
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool RegisterHotKey(IntPtr hWnd, int id, HotkeyModifiers fsModifiers, uint vk);
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, HotkeyModifiers fsModifiers, uint vk);
 
         [DllImport("user32.dll")]
-        static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-        #endregion
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        #endregion 系统api
 
         public static IntPtr hwnd;
+
         public static void InitialHook(Window window)
         {
             hwnd = new WindowInteropHelper(window).Handle;
             var _hwndSource = HwndSource.FromHwnd(hwnd);
             _hwndSource.AddHook(WndProc);
         }
+
         /// <summary>
         /// 注册快捷键
         /// </summary>
@@ -49,7 +53,7 @@ namespace STranslate.Utils
         /// <summary>
         /// 快捷键消息处理
         /// </summary>
-        static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == WM_HOTKEY)
             {
@@ -76,15 +80,14 @@ namespace STranslate.Utils
             }
         }
 
-
-        const int WM_HOTKEY = 0x312;
-        static int keyid = 10;
-        static Dictionary<int, HotKeyCallBackHanlder> keymap = new Dictionary<int, HotKeyCallBackHanlder>();
+        private const int WM_HOTKEY = 0x312;
+        private static int keyid = 10;
+        private static Dictionary<int, HotKeyCallBackHanlder> keymap = new Dictionary<int, HotKeyCallBackHanlder>();
 
         public delegate void HotKeyCallBackHanlder();
     }
 
-    enum HotkeyModifiers
+    internal enum HotkeyModifiers
     {
         MOD_ALT = 0x1,
         MOD_CONTROL = 0x2,
