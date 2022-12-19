@@ -12,57 +12,14 @@ namespace STranslate
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainVM vm;
         public MainWindow()
         {
             InitializeComponent();
 
-            InitHwnd();
-            InitTray();
-
-            this.DataContext = MainVM.Instance;
+            vm = (MainVM)this.DataContext;
         }
 
-        private void InitHwnd()
-        {
-            var helper = new WindowInteropHelper(this);
-            helper.EnsureHandle();
-        }
-
-        /// <summary>
-        /// 初始化托盘
-        /// </summary>
-        private void InitTray()
-        {
-            //notifyIcon.BalloonTipText = "程序开始运行";
-            //notifyIcon.ShowBalloonTip(1000);
-            notifyIcon.Text = "STranslate";
-            notifyIcon.Icon = new System.Drawing.Icon(@"D:\CodePepo\STranslate\STranslate\Images\translate2.ico");
-            notifyIcon.Visible = true;
-
-            System.Windows.Forms.MenuItem inputTranslateButton = new System.Windows.Forms.MenuItem("输入翻译");
-            inputTranslateButton.Click += new EventHandler(InputTranslate_Click);
-
-            System.Windows.Forms.MenuItem crosswordTranslateButton = new System.Windows.Forms.MenuItem("划词翻译");
-            crosswordTranslateButton.Click += new EventHandler(CrosswordTranslate_Click);
-
-            System.Windows.Forms.MenuItem screenshotTranslationButton = new System.Windows.Forms.MenuItem("截图翻译");
-            screenshotTranslationButton.Click += new EventHandler(ScreenshotTranslation_Click);
-
-            System.Windows.Forms.MenuItem openMainWinButton = new System.Windows.Forms.MenuItem("显示主窗口");
-            openMainWinButton.Click += new EventHandler(OpenMainWin_Click);
-
-            System.Windows.Forms.MenuItem exitButton = new System.Windows.Forms.MenuItem("退出");
-            exitButton.Click += new EventHandler(Exit_Click);
-
-            System.Windows.Forms.MenuItem[] childen = new System.Windows.Forms.MenuItem[] {
-                inputTranslateButton,
-                crosswordTranslateButton,
-                screenshotTranslationButton,
-                openMainWinButton,
-                exitButton
-            };
-            notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
-        }
         /// <summary>
         /// 显示主窗口
         /// </summary>
@@ -83,6 +40,7 @@ namespace STranslate
         {
             DragMove();
         }
+
         /// <summary>
         /// 软件运行时快捷键
         /// </summary>
@@ -94,15 +52,15 @@ namespace STranslate
             if (e.Key == Key.Escape)
             {
                 this.Hide();
-                MainVM.Instance.InputTxt = string.Empty;
-                MainVM.Instance.OutputTxt = string.Empty;
+                vm.InputTxt = string.Empty;
+                vm.OutputTxt = string.Empty;
             }
             //退出 Ctrl+Shift+Q
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
                 && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift)
                 && e.Key == Key.Q)
             {
-                Exit_Click(null, null);
+                Environment.Exit(0);
             }
 #if false
             //置顶/取消置顶 Ctrl+T
@@ -139,6 +97,7 @@ namespace STranslate
             }
 #endif
         }
+
         /// <summary>
         /// 监听全局快捷键
         /// </summary>
@@ -146,38 +105,10 @@ namespace STranslate
         protected override void OnSourceInitialized(EventArgs e)
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
-            HotKeysUtil2.RegisterHotKey(handle);
+            HotKeysUtil.RegisterHotKey(handle);
 
             HwndSource source = HwndSource.FromHwnd(handle);
             source.AddHook(WndProc);
-
-#if false
-            HotkeysUtil.InitialHook(this);
-            HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.A, () =>
-            {
-                this.Show();
-                this.Activate();
-                this.TextBoxInput.Focus();
-            });
-            HotkeysUtil.Regist(HotkeyModifiers.MOD_ALT, Key.D, () =>
-            {
-                //复制内容
-                KeyboardUtil.Press(Key.LeftCtrl);
-                KeyboardUtil.Type(Key.C);
-                KeyboardUtil.Release(Key.LeftCtrl);
-                System.Threading.Thread.Sleep(200);
-                System.Diagnostics.Debug.Print(Clipboard.GetText());
-
-                //this.Show();
-                //this.Activate();
-                //this.TextBoxInput.Text = "123";
-
-                //this.TextBoxInput.Text = Clipboard.GetText();
-                //this.TextBoxInput.Focus();
-
-                //KeyboardUtil.Type(Key.Enter);
-            });
-#endif
         }
         /// <summary>
         /// 热键的功能
@@ -189,17 +120,17 @@ namespace STranslate
             {
                 case 0x0312: //这个是window消息定义的 注册的热键消息
                     //Console.WriteLine(wParam.ToString());
-                    if (wParam.ToString().Equals(HotKeysUtil2.InputTranslateId + ""))
+                    if (wParam.ToString().Equals(HotKeysUtil.InputTranslateId + ""))
                     {
-                        this.InputTranslate_Click(null, null);
+                        this.InputTranslateMenuItem_Click(null, null);
                     }
-                    else if (wParam.ToString().Equals(HotKeysUtil2.CrosswordTranslateId + ""))
+                    else if (wParam.ToString().Equals(HotKeysUtil.CrosswordTranslateId + ""))
                     {
-                        this.CrosswordTranslate_Click(null, null);
+                        this.CrossWordTranslateMenuItem_Click(null, null);
                     }
-                    else if (wParam.ToString().Equals(HotKeysUtil2.ScreenShotTranslateId + ""))
+                    else if (wParam.ToString().Equals(HotKeysUtil.ScreenShotTranslateId + ""))
                     {
-                        this.ScreenshotTranslation_Click(null, null);
+                        this.ScreenshotTranslateMenuItem_Click(null, null);
                     }
                     break;
             }
@@ -217,28 +148,13 @@ namespace STranslate
         }
 
         /// <summary>
-        /// 截图翻译
+        /// 清空输入输出框
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ScreenshotTranslation_Click(object sender, EventArgs e)
+        private void ClearTextBox()
         {
-            MessageBox.Show("开发中");
-        }
+            vm.InputTxt = string.Empty;
+            vm.OutputTxt = string.Empty;
 
-        /// <summary>
-        /// 划词翻译
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CrosswordTranslate_Click(object sender, EventArgs e)
-        {
-            ClearTextBox();
-            var sentence = GetWords.Get();
-            this.Show();
-            this.Activate();
-            this.TextBoxInput.Text = sentence.Trim();
-            _ = MainVM.Instance.Translate();
         }
 
         /// <summary>
@@ -246,37 +162,36 @@ namespace STranslate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void InputTranslate_Click(object sender, EventArgs e)
+        private void InputTranslateMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ClearTextBox();
-            Show();
-            Activate();
+            OpenMainWin_Click(null, null);
             TextBoxInput.Focus();
         }
 
         /// <summary>
-        /// 退出程序
+        /// 划词翻译
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Exit_Click(object sender, EventArgs e)
+        private void CrossWordTranslateMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            notifyIcon.Dispose();
-            Environment.Exit(0);
+            ClearTextBox();
+            var sentence = GetWords.Get();
+            this.Show();
+            this.Activate();
+            this.TextBoxInput.Text = sentence.Trim();
+            _ = vm.Translate();
         }
 
         /// <summary>
-        /// 清空输入输出框
+        /// 截图翻译
         /// </summary>
-        private void ClearTextBox()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScreenshotTranslateMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MainVM.Instance.InputTxt = string.Empty;
-            MainVM.Instance.OutputTxt = string.Empty;
-
+            MessageBox.Show("开发中");
         }
-        /// <summary>
-        /// 托盘图标
-        /// </summary>
-        private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
     }
 }

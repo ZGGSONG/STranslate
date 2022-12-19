@@ -89,9 +89,7 @@
     <Compile Include="Utils\ConfigUtil.cs" />
     <Compile Include="Utils\GetWordsUtil.cs" />
     <Compile Include="Utils\HotKeysUtil.cs" />
-    <Compile Include="Utils\HotKeysUtil2.cs" />
     <Compile Include="Utils\HttpUtil.cs" />
-    <Compile Include="Utils\KeyboardUtil.cs" />
     <Compile Include="Utils\MvvmUtil.cs" />
     <Compile Include="Utils\NativeMethod.cs" />
     <Compile Include="Utils\TranslateUtil.cs" />

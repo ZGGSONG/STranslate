@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STranslate"
-        xmlns:vm="clr-namespace:STranslate.ViewModel"
         xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:vm="clr-namespace:STranslate.ViewModel"
         mc:Ignorable="d"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
@@ -20,6 +20,9 @@
         Height="450"
         Width="400"
         Icon="/Images/translate2.ico">
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
     <Border BorderThickness="0"
             Background="#fff"
             CornerRadius="10">
@@ -30,8 +33,7 @@
                 <RowDefinition Height="8*" />
             </Grid.RowDefinitions>
 
-            <!--<hc:NotifyIcon Text="STranslate"
-                           Click="NotifyIcon_Click"
+            <hc:NotifyIcon Text="STranslate"
                            IsBlink="False"
                            Visibility="Visible"
                            Icon="/Images/translate2.ico">
@@ -42,13 +44,24 @@
                                 <Setter Property="ContextMenu.Width" Value="100" />
                             </Style>
                         </ContextMenu.Style>
+                        <MenuItem x:Name="CrossWordTranslateMenuItem"
+                                  Click="CrossWordTranslateMenuItem_Click"
+                                  Header="划词翻译" />
+                        <MenuItem x:Name="ScreenshotTranslateMenuItem"
+                                  Click="ScreenshotTranslateMenuItem_Click"
+                                  Header="截图翻译" />
+                        <MenuItem x:Name="InputTranslateMenuItem"
+                                  Click="InputTranslateMenuItem_Click"
+                                  Header="输入翻译" />
+                        <Separator/>
                         <MenuItem Command="hc:ControlCommands.PushMainWindow2Top"
                                   Header="主界面" />
+                        <Separator/>
                         <MenuItem Command="hc:ControlCommands.ShutdownApp"
                                   Header="退出" />
                     </ContextMenu>
                 </hc:NotifyIcon.ContextMenu>
-            </hc:NotifyIcon>-->
+            </hc:NotifyIcon>
 
             <!--input-->
             <Grid x:Name="Input"
@@ -102,11 +115,11 @@
                           SelectedItem="{Binding OutputComboSelected}" />
                 <Button Margin="10,0,0,0"
                         Cursor="Hand"
-                        Command="{Binding CopyTranslateResultCmd}">
+                        Command="{Binding CopyResultCmd}">
                     <Image Source="/Images/copy.png" />
                     <hc:FloatingBlock.ContentTemplate>
                         <DataTemplate>
-                            <TextBlock Text="复制成功" />
+                            <TextBlock Text="已复制" />
                         </DataTemplate>
                     </hc:FloatingBlock.ContentTemplate>
                 </Button>

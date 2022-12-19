@@ -27,7 +27,7 @@ namespace STranslate.ViewModel
             config = ConfigUtil.ReadConfig(ConfigPath);
 
             //复制翻译结果
-            CopyTranslateResultCmd = new RelayCommand((_) =>
+            CopyResultCmd = new RelayCommand((_) =>
             {
                 return string.IsNullOrEmpty(OutputTxt) ? false : true;
             }, (_) =>
@@ -44,6 +44,8 @@ namespace STranslate.ViewModel
                 await Translate();
             });
         }
+
+        #region handle
         public async Task Translate()
         {
             try
@@ -68,9 +70,11 @@ namespace STranslate.ViewModel
                 OutputTxt = ex.Message;
             }
         }
+        #endregion
 
+        #region Params
         public ICommand TranslateCmd { get; private set; }
-        public ICommand CopyTranslateResultCmd { get; private set; }
+        public ICommand CopyResultCmd { get; private set; }
 
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }
@@ -89,8 +93,6 @@ namespace STranslate.ViewModel
 
         private string _OutputComboSelected;
         public string OutputComboSelected { get => _OutputComboSelected; set => UpdateProperty(ref _OutputComboSelected, value); }
-
-        private static readonly MainVM _Instance = new MainVM();
-        public static MainVM Instance { get => _Instance; }
+        #endregion
     }
 }

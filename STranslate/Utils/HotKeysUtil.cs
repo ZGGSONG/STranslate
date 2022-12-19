@@ -1,97 +1,94 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Interop;
+﻿using STranslate.Model;
+using System;
 
 namespace STranslate.Utils
 {
-    //TODO: 另一个方案: https://www.cnblogs.com/leolion/p/4693514.html
-    /// <summary>
-    /// 引用自 https://blog.csdn.net/weixin_44879611/article/details/103275347
-    /// </summary>
-    internal static class HotkeysUtil
+    internal class HotKeysUtil
     {
-        #region 系统api
+        public static IntPtr mainFormHandle;
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, HotkeyModifiers fsModifiers, uint vk);
-
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        #endregion 系统api
-
-        public static IntPtr hwnd;
-
-        public static void InitialHook(Window window)
+        public static int InputTranslateId = 854;
+        public static byte InputTranslateModifiers;
+        public static int InputTranslateKey;
+        public static int CrosswordTranslateId = 855;
+        public static byte CrosswordTranslateModifiers;
+        public static int CrosswordTranslateKey;
+        public static int ScreenShotTranslateId = 856;
+        public static byte ScreenShotTranslateModifiers;
+        public static int ScreenShotTranslateKey;
+        public static void RegisterHotKey(IntPtr mainFormHandle)
         {
-            hwnd = new WindowInteropHelper(window).Handle;
-            var _hwndSource = HwndSource.FromHwnd(hwnd);
-            _hwndSource.AddHook(WndProc);
-        }
+            HotKeysUtil.mainFormHandle = mainFormHandle;
 
-        /// <summary>
-        /// 注册快捷键
-        /// </summary>
-        /// <param name="window">持有快捷键窗口</param>
-        /// <param name="fsModifiers">组合键</param>
-        /// <param name="key">快捷键</param>
-        /// <param name="callBack">回调函数</param>
-        public static void Regist(HotkeyModifiers fsModifiers, Key key, HotKeyCallBackHanlder callBack)
-        {
-            int id = keyid++;
+            InputTranslateModifiers = HotKeys.InputTranslate.Modifiers;
+            InputTranslateKey = HotKeys.InputTranslate.Key;
+            CrosswordTranslateModifiers = HotKeys.CrosswordTranslate.Modifiers;
+            CrosswordTranslateKey = HotKeys.CrosswordTranslate.Key;
+            ScreenShotTranslateModifiers = HotKeys.ScreenShotTranslate.Modifiers;
+            ScreenShotTranslateKey = HotKeys.ScreenShotTranslate.Key;
 
-            var vk = KeyInterop.VirtualKeyFromKey(key);
-            if (!RegisterHotKey(hwnd, id, fsModifiers, (uint)vk))
-                throw new Exception("regist hotkey fail.");
-            keymap[id] = callBack;
-        }
-
-        /// <summary>
-        /// 快捷键消息处理
-        /// </summary>
-        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (msg == WM_HOTKEY)
+            if (HotKeys.InputTranslate.Key != 0)
             {
-                int id = wParam.ToInt32();
-                if (keymap.TryGetValue(id, out var callback))
+                HotKeys.InputTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, InputTranslateId, HotKeys.InputTranslate.Modifiers, HotKeys.InputTranslate.Key);
+            }
+            if (HotKeys.CrosswordTranslate.Key != 0)
+            {
+                HotKeys.CrosswordTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, CrosswordTranslateId, HotKeys.CrosswordTranslate.Modifiers, HotKeys.CrosswordTranslate.Key);
+            }
+            if (HotKeys.ScreenShotTranslate.Key != 0)
+            {
+                HotKeys.ScreenShotTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, HotKeys.ScreenShotTranslate.Modifiers, HotKeys.ScreenShotTranslate.Key);
+            }
+        }
+
+        public static void UnRegisterHotKey()
+        {
+            NativeMethod.UnregisterHotKey(mainFormHandle, InputTranslateId);
+            NativeMethod.UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
+            NativeMethod.UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+        }
+
+        public static void ReRegisterHotKey()
+        {
+            if (HotKeys.InputTranslate.Key == 0)
+            {
+                NativeMethod.UnregisterHotKey(mainFormHandle, InputTranslateId);
+            }
+            else if (InputTranslateModifiers != HotKeys.InputTranslate.Modifiers || InputTranslateKey != HotKeys.InputTranslate.Key)
+            {
                 {
-                    callback();
+                    NativeMethod.UnregisterHotKey(mainFormHandle, InputTranslateId);
+                    HotKeys.InputTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, InputTranslateId, HotKeys.InputTranslate.Modifiers, HotKeys.InputTranslate.Key);
                 }
             }
-            return IntPtr.Zero;
-        }
+            InputTranslateModifiers = HotKeys.InputTranslate.Modifiers;
+            InputTranslateKey = HotKeys.InputTranslate.Key;
 
-        /// <summary>
-        /// 注销快捷键
-        /// </summary>
-        /// <param name="hWnd">持有快捷键窗口的句柄</param>
-        /// <param name="callBack">回调函数</param>
-        public static void UnRegist(IntPtr hWnd, HotKeyCallBackHanlder callBack)
-        {
-            foreach (KeyValuePair<int, HotKeyCallBackHanlder> var in keymap)
+            if (HotKeys.CrosswordTranslate.Key == 0)
             {
-                if (var.Value == callBack)
-                    UnregisterHotKey(hWnd, var.Key);
+                NativeMethod.UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
             }
+            else if (CrosswordTranslateModifiers != HotKeys.CrosswordTranslate.Modifiers || CrosswordTranslateKey != HotKeys.CrosswordTranslate.Key)
+            {
+                {
+                    NativeMethod.UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
+                    HotKeys.CrosswordTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, CrosswordTranslateId, HotKeys.CrosswordTranslate.Modifiers, HotKeys.CrosswordTranslate.Key);
+                }
+            }
+            CrosswordTranslateModifiers = HotKeys.CrosswordTranslate.Modifiers;
+            CrosswordTranslateKey = HotKeys.CrosswordTranslate.Key;
+
+            if (HotKeys.ScreenShotTranslate.Key == 0)
+            {
+                NativeMethod.UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+            }
+            else if (ScreenShotTranslateModifiers != HotKeys.ScreenShotTranslate.Modifiers || ScreenShotTranslateKey != HotKeys.ScreenShotTranslate.Key)
+            {
+                NativeMethod.UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+                HotKeys.ScreenShotTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, HotKeys.ScreenShotTranslate.Modifiers, HotKeys.ScreenShotTranslate.Key);
+            }
+            ScreenShotTranslateModifiers = HotKeys.ScreenShotTranslate.Modifiers;
+            ScreenShotTranslateKey = HotKeys.ScreenShotTranslate.Key;
         }
-
-        private const int WM_HOTKEY = 0x312;
-        private static int keyid = 10;
-        private static Dictionary<int, HotKeyCallBackHanlder> keymap = new Dictionary<int, HotKeyCallBackHanlder>();
-
-        public delegate void HotKeyCallBackHanlder();
-    }
-
-    internal enum HotkeyModifiers
-    {
-        MOD_ALT = 0x1,
-        MOD_CONTROL = 0x2,
-        MOD_SHIFT = 0x4,
-        MOD_WIN = 0x8
     }
 }
