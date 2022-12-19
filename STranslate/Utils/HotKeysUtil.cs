@@ -7,7 +7,7 @@ namespace STranslate.Utils
     {
         public static class InputTranslate
         {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
+            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
             public static int Key = 65;
             public static String Text = "A";
             public static bool Conflict = false;
@@ -23,7 +23,7 @@ namespace STranslate.Utils
 
         public static class ScreenShotTranslate
         {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
+            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
             public static int Key = 83;
             public static String Text = "S";
             public static bool Conflict = false;
