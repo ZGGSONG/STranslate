@@ -60,8 +60,6 @@ namespace STranslate
             if (e.Key == Key.Escape)
             {
                 this.Hide();
-                vm.InputTxt = string.Empty;
-                vm.OutputTxt = string.Empty;
 
                 //取消置顶
                 this.TopImg.Source = UnLockImgPath;
@@ -144,6 +142,8 @@ namespace STranslate
         {
             vm.InputTxt = string.Empty;
             vm.OutputTxt = string.Empty;
+            vm.HumpRet = string.Empty;
+            vm.SnakeRet = string.Empty;
         }
 
         /// <summary>

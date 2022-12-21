@@ -32,10 +32,26 @@ namespace STranslate.ViewModel
                 return string.IsNullOrEmpty(OutputTxt) ? false : true;
             }, (_) =>
             {
-                System.Diagnostics.Debug.Print("手动复制翻译结果: " + OutputTxt);
                 Clipboard.SetText(OutputTxt);
             });
+            //复制蛇形结果
+            CopySnakeResultCmd = new RelayCommand((_) =>
+            {
+                return string.IsNullOrEmpty(SnakeRet) ? false : true;
+            }, (_) =>
+            {
+                Clipboard.SetText(SnakeRet);
+            });
+            //复制驼峰结果
+            CopyHumpResultCmd = new RelayCommand((_) =>
+            {
+                return string.IsNullOrEmpty(HumpRet) ? false : true;
+            }, (_) =>
+            {
+                Clipboard.SetText(HumpRet);
+            });
 
+            //翻译
             TranslateCmd = new RelayCommand((_) =>
             {
                 return string.IsNullOrEmpty(InputTxt) ? false : true;
@@ -65,11 +81,54 @@ namespace STranslate.ViewModel
                     return;
                 }
                 OutputTxt = translateResp;
+
+                var splitList = translateResp.Split(' ').ToList();
+                if (splitList.Count > 1)
+                {
+                    SnakeRet = GenSnakeString(splitList);
+                    HumpRet = GenHumpString(splitList);
+                }
+
+                System.Diagnostics.Debug.Print(SnakeRet);
+                System.Diagnostics.Debug.Print(HumpRet);
             }
             catch (Exception ex)
             {
                 OutputTxt = ex.Message;
             }
+        }
+        /// <summary>
+        /// 构造蛇形结果
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        private string GenSnakeString(List<string> req)
+        {
+            //Alarm statistics
+            var ret = string.Empty;
+            
+            req.ForEach(x =>
+            {
+                ret += "_" + x.ToLower();
+            });
+            return ret.Substring(1);
+        }
+        /// <summary>
+        /// 构造驼峰结果
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        private string GenHumpString(List<string> req)
+        {
+            //TODO: I'm your father 出错情况
+            var ret = string.Empty;
+            var arr = req.ToArray();
+            ret += arr[0].Substring(0, 1).ToLower() + arr[0].Substring(1);
+            for (int i = 1; i < arr.Length; i++)
+            {
+                ret += arr[i].Substring(0, 1).ToUpper() + arr[0].Substring(1);
+            }
+            return ret;
         }
 
         #endregion handle
@@ -78,6 +137,11 @@ namespace STranslate.ViewModel
 
         public ICommand TranslateCmd { get; private set; }
         public ICommand CopyResultCmd { get; private set; }
+        public ICommand CopySnakeResultCmd { get; private set; }
+        public ICommand CopyHumpResultCmd { get; private set; }
+
+        public string SnakeRet { get; set; }
+        public string HumpRet { get; set; }
 
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }
