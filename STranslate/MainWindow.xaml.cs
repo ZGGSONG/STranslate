@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace STranslate
 {
@@ -17,8 +18,9 @@ namespace STranslate
         public MainWindow()
         {
             InitializeComponent();
-            this.Activate();
-            this.TextBoxInput.Focus();
+            
+            InitView();
+
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{
             //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
@@ -152,7 +154,10 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            this.Hide();
+            if (this.TopImg.Source == UnLockImgPath)
+            {
+                this.Hide();
+            }
         }
 
         /// <summary>
@@ -200,5 +205,24 @@ namespace STranslate
         {
             HandyControl.Controls.MessageBox.Show("开发中");
         }
+
+        /// <summary>
+        /// 是否置顶
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.TopImg.Source = TopImg.Source == LockImgPath ? UnLockImgPath : LockImgPath;
+        }
+        private void InitView()
+        {
+            this.TopImg.Source = UnLockImgPath;
+
+            this.Activate();
+            this.TextBoxInput.Focus();
+        }
+        private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/lock2.png"));
+        private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/unlock2.png"));
     }
 }

@@ -27,11 +27,13 @@
             CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
                 <RowDefinition Height="5*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="8*" />
+                <RowDefinition Height="7*" />
             </Grid.RowDefinitions>
 
+            <!--托盘相关-->
             <hc:NotifyIcon Text="STranslate"
                            IsBlink="False"
                            Visibility="Visible"
@@ -58,9 +60,23 @@
                 </hc:NotifyIcon.ContextMenu>
             </hc:NotifyIcon>
 
+            <!--header-->
+            <Grid x:Name="Header">
+                <Button Margin="10,0"
+                        Cursor="Hand"
+                        BorderBrush="Transparent"
+                        VerticalAlignment="Top"
+                        Click="Button_Click"
+                        HorizontalAlignment="Left">
+                    <Image x:Name="TopImg"
+                           Height="20"/>
+                </Button>
+            </Grid>
+            
             <!--input-->
             <Grid x:Name="Input"
-                  Margin="10,10,10,0">
+                  Grid.Row="1"
+                  Margin="10,0,10,0">
                 <!--输入框-->
                 <Border x:Name="BorderInput"
                         Background="#f6f6f6"
@@ -86,8 +102,10 @@
                     </TextBox>
                 </Border>
             </Grid>
+            
             <!--mid-->
-            <StackPanel Grid.Row="1"
+            <StackPanel x:Name="MidArea"
+                        Grid.Row="2"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <Label Content="当前语言:"
@@ -118,10 +136,11 @@
                     </hc:FloatingBlock.ContentTemplate>
                 </Button>
             </StackPanel>
+            
             <!--output-->
-            <Grid Margin="10,0,10,10"
-                  x:Name="Output"
-                  Grid.Row="2">
+            <Grid x:Name="Output"
+                  Margin="10,0,10,10"
+                  Grid.Row="3">
                 <!--输出框-->
                 <Border x:Name="BorderOutput"
                         Background="#f6f6f6"
