@@ -16,7 +16,7 @@
         Topmost="True"
         Deactivated="Window_Deactivated"
         WindowStyle="None"
-        Height="450"
+        SizeToContent="Height"
         Width="400"
         Icon="/Images/translate.ico">
     <Window.DataContext>
@@ -84,22 +84,38 @@
                         BorderThickness="1"
                         CornerRadius="4"
                         Margin="5">
-                    <TextBox x:Name="TextBoxInput"
-                             Background="Transparent"
-                             BorderBrush="{x:Null}"
-                             Margin="5"
-                             BorderThickness="0"
-                             FontSize="18"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             VerticalContentAlignment="Top"
-                             HorizontalScrollBarVisibility="Disabled"
-                             VerticalScrollBarVisibility="Auto"
-                             Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                        <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
-                        </TextBox.InputBindings>
-                    </TextBox>
+                    <Grid>
+                        <TextBox x:Name="TextBoxInput"
+                                 Background="Transparent"
+                                 BorderBrush="{x:Null}"
+                                 Margin="5,5,5,35"
+                                 BorderThickness="0"
+                                 FontSize="16"
+                                 MinHeight="80"
+                                 MaxHeight="200"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalContentAlignment="Top"
+                                 HorizontalScrollBarVisibility="Disabled"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Cursor="Hand"
+                                Margin="5,0,0,5"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Command="{Binding CopyInputCmd}">
+                                <Image Source="/Images/copy2.png"/>
+                            <hc:FloatingBlock.ContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="已复制" />
+                                </DataTemplate>
+                            </hc:FloatingBlock.ContentTemplate>
+                        </Button>
+                    </Grid>
                 </Border>
             </Grid>
             
@@ -116,8 +132,8 @@
                           Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding InputCombo}"
                           SelectedItem="{Binding InputComboSelected}" />
+                <Separator Margin="20,0"/>
                 <Label Content="目标语言:"
-                       Margin="10,0"
                        Background="Transparent"
                        BorderThickness="0" />
                 <ComboBox x:Name="OutCombo"
@@ -125,7 +141,7 @@
                           Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding OutputCombo}"
                           SelectedItem="{Binding OutputComboSelected}" />
-                <Button Margin="10,0,0,0"
+                <!--<Button Margin="10,0,0,0"
                         Cursor="Hand"
                         Command="{Binding CopyResultCmd}">
                     <Image Source="/Images/copy.png" />
@@ -134,7 +150,7 @@
                             <TextBlock Text="已复制" />
                         </DataTemplate>
                     </hc:FloatingBlock.ContentTemplate>
-                </Button>
+                </Button>-->
             </StackPanel>
             
             <!--output-->
@@ -149,19 +165,65 @@
                         CornerRadius="4"
                         Margin="5"
                         Height="{Binding ElementName=Output, Path=Height}">
-                    <hc:TextBox x:Name="TextBoxOutput"
-                                hc:InfoElement.Placeholder="翻译"
-                                Background="Transparent"
-                                BorderBrush="{x:Null}"
-                                BorderThickness="0"
-                                IsReadOnly="True"
-                                Margin="5"
-                                FontSize="18"
-                                TextWrapping="Wrap"
-                                VerticalContentAlignment="Top"
-                                HorizontalScrollBarVisibility="Disabled"
-                                VerticalScrollBarVisibility="Auto"
-                                Text="{Binding OutputTxt}"/>
+                    <Grid>
+                        <hc:TextBox x:Name="TextBoxOutput"
+                                    hc:InfoElement.Placeholder="翻译结果"
+                                    Background="Transparent"
+                                    BorderBrush="{x:Null}"
+                                    BorderThickness="0"
+                                    IsReadOnly="True"
+                                    Margin="5,5,5,35"
+                                    MaxHeight="400"
+                                    FontSize="16"
+                                    TextWrapping="Wrap"
+                                    VerticalContentAlignment="Top"
+                                    HorizontalScrollBarVisibility="Disabled"
+                                    VerticalScrollBarVisibility="Auto"
+                                    Text="{Binding OutputTxt}"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="5,0,0,5">
+                            <!--普通复制-->
+                            <Button Cursor="Hand"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    ToolTip="普通"
+                                    Command="{Binding CopyResultCmd}">
+                                <Image Source="/Images/copy2.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="已复制" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
+                            </Button>
+                            <!--蛇形复制-->
+                            <Button Cursor="Hand"
+                                    Margin="5,0,5,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    ToolTip="蛇形"
+                                    Command="{Binding CopySnakeResultCmd}">
+                                <Image Source="/Images/copy2.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="已复制" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
+                            </Button>
+                            <!--驼峰复制-->
+                            <Button Cursor="Hand"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    ToolTip="驼峰"
+                                    Command="{Binding CopyHumpResultCmd}">
+                                <Image Source="/Images/copy2.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="已复制" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>

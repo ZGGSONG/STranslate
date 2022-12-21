@@ -26,6 +26,14 @@ namespace STranslate.ViewModel
             //TODO: fix no config
             config = ConfigUtil.ReadConfig(ConfigPath);
 
+            //复制输入
+            CopyInputCmd = new RelayCommand((_) =>
+            {
+                return string.IsNullOrEmpty(InputTxt) ? false : true;
+            }, (_) =>
+            {
+                Clipboard.SetText(InputTxt);
+            });
             //复制翻译结果
             CopyResultCmd = new RelayCommand((_) =>
             {
@@ -82,15 +90,12 @@ namespace STranslate.ViewModel
                 }
                 OutputTxt = translateResp;
 
-                var splitList = translateResp.Split(' ').ToList();
+                var splitList = OutputTxt.Split(' ').ToList();
                 if (splitList.Count > 1)
                 {
-                    SnakeRet = GenSnakeString(splitList);
-                    HumpRet = GenHumpString(splitList);
+                    //SnakeRet = GenSnakeString(splitList);
+                    //HumpRet = GenHumpString(splitList);
                 }
-
-                System.Diagnostics.Debug.Print(SnakeRet);
-                System.Diagnostics.Debug.Print(HumpRet);
             }
             catch (Exception ex)
             {
@@ -104,7 +109,7 @@ namespace STranslate.ViewModel
         /// <returns></returns>
         private string GenSnakeString(List<string> req)
         {
-            //Alarm statistics
+            //TODO: 构造时间过长
             var ret = string.Empty;
             
             req.ForEach(x =>
@@ -121,6 +126,7 @@ namespace STranslate.ViewModel
         private string GenHumpString(List<string> req)
         {
             //TODO: I'm your father 出错情况
+            //TODO: 构造出错
             var ret = string.Empty;
             var arr = req.ToArray();
             ret += arr[0].Substring(0, 1).ToLower() + arr[0].Substring(1);
@@ -136,12 +142,15 @@ namespace STranslate.ViewModel
         #region Params
 
         public ICommand TranslateCmd { get; private set; }
+        public ICommand CopyInputCmd { get; private set; }
         public ICommand CopyResultCmd { get; private set; }
         public ICommand CopySnakeResultCmd { get; private set; }
         public ICommand CopyHumpResultCmd { get; private set; }
 
-        public string SnakeRet { get; set; }
-        public string HumpRet { get; set; }
+        private string _SnakeRet;
+        public string SnakeRet { get => _SnakeRet; set => UpdateProperty(ref _SnakeRet, value); }
+        private string _HumpRet;
+        public string HumpRet { get => _HumpRet; set => UpdateProperty(ref _HumpRet, value); }
 
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }
