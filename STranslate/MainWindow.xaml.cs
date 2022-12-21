@@ -222,7 +222,7 @@ namespace STranslate
             this.Activate();
             this.TextBoxInput.Focus();
         }
-        private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/lock2.png"));
-        private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/unlock2.png"));
+        private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/lock3.png"));
+        private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/unlock3.png"));
     }
 }

@@ -93,9 +93,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap lock2 {
+        internal static System.Drawing.Bitmap lock3 {
             get {
-                object obj = ResourceManager.GetObject("lock2", resourceCulture);
+                object obj = ResourceManager.GetObject("lock3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon translate2 {
+        internal static System.Drawing.Icon translate {
             get {
-                object obj = ResourceManager.GetObject("translate2", resourceCulture);
+                object obj = ResourceManager.GetObject("translate", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap unlock2 {
+        internal static System.Drawing.Bitmap unlock3 {
             get {
-                object obj = ResourceManager.GetObject("unlock2", resourceCulture);
+                object obj = ResourceManager.GetObject("unlock3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

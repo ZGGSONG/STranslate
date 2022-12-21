@@ -18,7 +18,7 @@
         WindowStyle="None"
         Height="450"
         Width="400"
-        Icon="/Images/translate2.ico">
+        Icon="/Images/translate.ico">
     <Window.DataContext>
         <vm:MainVM />
     </Window.DataContext>
@@ -37,7 +37,7 @@
             <hc:NotifyIcon Text="STranslate"
                            IsBlink="False"
                            Visibility="Visible"
-                           Icon="/Images/translate2.ico">
+                           Icon="/Images/translate.ico">
                 <hc:NotifyIcon.ContextMenu>
                     <ContextMenu Style="{StaticResource InputElementBaseStyle}"
                                  Width="120">
@@ -62,7 +62,7 @@
 
             <!--header-->
             <Grid x:Name="Header">
-                <Button Margin="10,0"
+                <Button Margin="5,0"
                         Cursor="Hand"
                         BorderBrush="Transparent"
                         VerticalAlignment="Top"
