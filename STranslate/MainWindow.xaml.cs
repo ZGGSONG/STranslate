@@ -17,7 +17,12 @@ namespace STranslate
         public MainWindow()
         {
             InitializeComponent();
-
+            this.Activate();
+            this.TextBoxInput.Focus();
+            //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
+            //{
+            //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
+            //}
             vm = (MainVM)DataContext;
         }
 
@@ -105,6 +110,7 @@ namespace STranslate
         /// <param name="e"></param>
         protected override void OnSourceInitialized(EventArgs e)
         {
+            base.OnSourceInitialized(e);
             IntPtr handle = new WindowInteropHelper(this).Handle;
             HotKeysUtil.RegisterHotKey(handle);
 
@@ -192,7 +198,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void ScreenshotTranslateMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("开发中");
+            HandyControl.Controls.MessageBox.Show("开发中");
         }
     }
 }

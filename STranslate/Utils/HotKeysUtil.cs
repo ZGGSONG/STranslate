@@ -15,7 +15,7 @@ namespace STranslate.Utils
 
         public static class CrosswordTranslate
         {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_CTRL;
+            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
             public static int Key = 68;
             public static String Text = "D";
             public static bool Conflict = false;

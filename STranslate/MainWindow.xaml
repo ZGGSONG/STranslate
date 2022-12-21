@@ -67,19 +67,18 @@
                         BorderBrush="#000"
                         BorderThickness="1"
                         CornerRadius="4"
-                        Margin="5"
-                        Height="{Binding ElementName=Input, Path=Height}">
+                        Margin="5">
                     <TextBox x:Name="TextBoxInput"
                              Background="Transparent"
                              BorderBrush="{x:Null}"
                              Margin="5"
                              BorderThickness="0"
                              FontSize="18"
-                             Width="{Binding ElementName=BorderInput, Path=ActualWidth}"
                              TextWrapping="Wrap"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Left"
                              AcceptsReturn="True"
+                             VerticalContentAlignment="Top"
+                             HorizontalScrollBarVisibility="Disabled"
+                             VerticalScrollBarVisibility="Auto"
                              Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
@@ -139,51 +138,12 @@
                                 IsReadOnly="True"
                                 Margin="5"
                                 FontSize="18"
-                                Width="{Binding ElementName=BorderOutput, Path=ActualWidth}"
-                                Height="{Binding ElementName=BorderOutput, Path=Height}"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Left"
                                 TextWrapping="Wrap"
-                                Text="{Binding OutputTxt}" />
+                                VerticalContentAlignment="Top"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                Text="{Binding OutputTxt}"/>
                 </Border>
-                <!--<Button Content="复制"
-                        Margin="0,0,10,0"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Right"
-                        Height="20"
-                        Width="30">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                        <GradientStop Color="#C0C0C0" Offset="0" />
-                                        <GradientStop Color="#787878" Offset="1" />
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                            <<Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                <GradientStop Color="LightGray" Offset="0" />
-                                                <GradientStop Color="Gray" Offset="1" />
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border BorderThickness="1" CornerRadius="4" Background="{TemplateBinding Background}">
-                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>-->
             </Grid>
         </Grid>
     </Border>
