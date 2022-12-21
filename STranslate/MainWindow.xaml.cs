@@ -62,6 +62,16 @@ namespace STranslate
                 this.Hide();
                 vm.InputTxt = string.Empty;
                 vm.OutputTxt = string.Empty;
+
+                //取消置顶
+                this.TopImg.Source = UnLockImgPath;
+            }
+            //置顶 Ctrl+Shift+T
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
+                && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift)
+                && e.Key == Key.T)
+            {
+                Top_Click(null, null);
             }
             //退出 Ctrl+Shift+Q
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
@@ -70,40 +80,7 @@ namespace STranslate
             {
                 Environment.Exit(0);
             }
-#if false
-            //置顶/取消置顶 Ctrl+T
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.T)
-            {
-                Topmost = Topmost != true;
-                Opacity = Topmost ? 1 : 0.9;
-            }
-            //缩小 Ctrl+[
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.OemOpenBrackets)
-            {
-                if (Width < 245)
-                {
-                    return;
-                }
-                Width /= 1.2;
-                Height /= 1.2;
-            }
-            //放大 Ctrl+]
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.OemCloseBrackets)
-            {
-                if (Width > 600)
-                {
-                    return;
-                }
-                Width *= 1.2;
-                Height *= 1.2;
-            }
-            //恢复界面大小 Ctrl+P
-            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.P)
-            {
-                Width = 400;
-                Height = 450;
-            }
-#endif
+
         }
 
         /// <summary>
@@ -211,7 +188,7 @@ namespace STranslate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Top_Click(object sender, RoutedEventArgs e)
         {
             this.TopImg.Source = TopImg.Source == LockImgPath ? UnLockImgPath : LockImgPath;
         }
