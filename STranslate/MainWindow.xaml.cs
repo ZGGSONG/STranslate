@@ -21,12 +21,47 @@ namespace STranslate
             
             InitView();
 
+            InitialTray();
+
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{
             //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
             //}
             vm = (MainVM)DataContext;
         }
+        private void InitialTray()
+        {
+            //notifyIcon.BalloonTipText = "STranslate已运行";
+            //notifyIcon.ShowBalloonTip(1000);
+            notifyIcon.Text = "STranslate";
+            notifyIcon.Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
+            notifyIcon.Visible = true;
+
+            System.Windows.Forms.MenuItem CrossWordTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("划词翻译");
+            CrossWordTranslateMenuItemBTN.Click += new EventHandler(CrossWordTranslateMenuItem_Click);
+
+            System.Windows.Forms.MenuItem ScreenshotTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("截图翻译");
+            ScreenshotTranslateMenuItemBTN.Click += new EventHandler(ScreenshotTranslateMenuItem_Click);
+
+            System.Windows.Forms.MenuItem InputTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("输入翻译");
+            InputTranslateMenuItemBTN.Click += new EventHandler(InputTranslateMenuItem_Click);
+
+            System.Windows.Forms.MenuItem OpenMainWinBTN = new System.Windows.Forms.MenuItem("显示主界面");
+            OpenMainWinBTN.Click += new EventHandler(OpenMainWin_Click);
+
+            System.Windows.Forms.MenuItem exitButton = new System.Windows.Forms.MenuItem("退出");
+            exitButton.Click += new EventHandler(Exit_Click);
+
+            System.Windows.Forms.MenuItem[] childen = new System.Windows.Forms.MenuItem[] {
+                CrossWordTranslateMenuItemBTN,
+                ScreenshotTranslateMenuItemBTN,
+                InputTranslateMenuItemBTN,
+                OpenMainWinBTN,
+                exitButton,
+            };
+            notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
+        }
+
 
         /// <summary>
         /// 显示主窗口
@@ -76,7 +111,7 @@ namespace STranslate
                 && e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift)
                 && e.Key == Key.Q)
             {
-                Environment.Exit(0);
+                Exit_Click(null, null);
             }
 
         }
@@ -87,7 +122,7 @@ namespace STranslate
         /// <param name="e"></param>
         protected override void OnSourceInitialized(EventArgs e)
         {
-            base.OnSourceInitialized(e);
+            //base.OnSourceInitialized(e);
             IntPtr handle = new WindowInteropHelper(this).Handle;
             HotKeysUtil.RegisterHotKey(handle);
 
@@ -151,7 +186,7 @@ namespace STranslate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void InputTranslateMenuItem_Click(object sender, RoutedEventArgs e)
+        private void InputTranslateMenuItem_Click(object sender, EventArgs e)
         {
             ClearTextBox();
             OpenMainWin_Click(null, null);
@@ -163,7 +198,7 @@ namespace STranslate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CrossWordTranslateMenuItem_Click(object sender, RoutedEventArgs e)
+        private void CrossWordTranslateMenuItem_Click(object sender, EventArgs e)
         {
             ClearTextBox();
             var sentence = GetWords.Get();
@@ -178,7 +213,7 @@ namespace STranslate
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ScreenshotTranslateMenuItem_Click(object sender, RoutedEventArgs e)
+        private void ScreenshotTranslateMenuItem_Click(object sender, EventArgs e)
         {
             HandyControl.Controls.MessageBox.Show("开发中");
         }
@@ -192,6 +227,16 @@ namespace STranslate
         {
             this.TopImg.Source = TopImg.Source == LockImgPath ? UnLockImgPath : LockImgPath;
         }
+        /// <summary>
+        /// 退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            notifyIcon.Dispose();
+            Environment.Exit(0);
+        }
         private void InitView()
         {
             this.TopImg.Source = UnLockImgPath;
@@ -201,5 +246,6 @@ namespace STranslate
         }
         private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/lock3.png"));
         private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/unlock3.png"));
+        private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
     }
 }

@@ -34,7 +34,7 @@
             </Grid.RowDefinitions>
 
             <!--托盘相关-->
-            <hc:NotifyIcon Text="STranslate"
+            <!--<hc:NotifyIcon Text="STranslate"
                            IsBlink="False"
                            Visibility="Visible"
                            Icon="/Images/translate.ico">
@@ -58,7 +58,7 @@
                                   Header="退出" />
                     </ContextMenu>
                 </hc:NotifyIcon.ContextMenu>
-            </hc:NotifyIcon>
+            </hc:NotifyIcon>-->
 
             <!--header-->
             <Grid x:Name="Header">
