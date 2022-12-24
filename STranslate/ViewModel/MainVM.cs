@@ -18,7 +18,7 @@ namespace STranslate.ViewModel
         //[System.Runtime.InteropServices.DllImport("deepl.dll", EntryPoint = "run")]
         //extern static void run();
 
-        public string defaultApi = "http://127.0.0.1:8000/translate";
+        public string defaultApi = "http://127.0.0.1:8000/translate"; //https://deepl.deno.dev/translate
         private string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
         public ConfigModel config = new ConfigModel();
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }

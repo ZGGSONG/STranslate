@@ -28,6 +28,14 @@ namespace STranslate.Utils
             public static String Text = "S";
             public static bool Conflict = false;
         }
+
+        public static class OpenMainWindow
+        {
+            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
+            public static int Key = 71;
+            public static String Text = "G";
+            public static bool Conflict = false;
+        }
     }
 
     internal class HotKeysUtil
@@ -43,6 +51,9 @@ namespace STranslate.Utils
         public static int ScreenShotTranslateId = 856;
         public static byte ScreenShotTranslateModifiers;
         public static int ScreenShotTranslateKey;
+        public static int OpenMainWindowId = 857;
+        public static byte OpenMainWindowModifiers;
+        public static int OpenMainWindowKey;
 
         /// <summary>
         /// 注册快捷键
@@ -71,6 +82,10 @@ namespace STranslate.Utils
             {
                 HotKeys.ScreenShotTranslate.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, HotKeys.ScreenShotTranslate.Modifiers, HotKeys.ScreenShotTranslate.Key);
             }
+            if (HotKeys.OpenMainWindow.Key != 0)
+            {
+                HotKeys.OpenMainWindow.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, OpenMainWindowId, HotKeys.OpenMainWindow.Modifiers, HotKeys.OpenMainWindow.Key);
+            }
         }
 
         /// <summary>
@@ -81,6 +96,7 @@ namespace STranslate.Utils
             UnregisterHotKey(mainFormHandle, InputTranslateId);
             UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
             UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
+            UnregisterHotKey(mainFormHandle, OpenMainWindowId);
         }
 
         /// <summary>
@@ -127,6 +143,18 @@ namespace STranslate.Utils
             }
             ScreenShotTranslateModifiers = HotKeys.ScreenShotTranslate.Modifiers;
             ScreenShotTranslateKey = HotKeys.ScreenShotTranslate.Key;
+
+            if (HotKeys.OpenMainWindow.Key == 0)
+            {
+                UnregisterHotKey(mainFormHandle, OpenMainWindowId);
+            }
+            else if (OpenMainWindowModifiers != HotKeys.OpenMainWindow.Modifiers || OpenMainWindowKey != HotKeys.OpenMainWindow.Key)
+            {
+                UnregisterHotKey(mainFormHandle, OpenMainWindowId);
+                HotKeys.OpenMainWindow.Conflict = !NativeMethod.RegisterHotKey(mainFormHandle, OpenMainWindowId, HotKeys.OpenMainWindow.Modifiers, HotKeys.OpenMainWindow.Key);
+            }
+            OpenMainWindowModifiers = HotKeys.OpenMainWindow.Modifiers;
+            OpenMainWindowKey = HotKeys.OpenMainWindow.Key;
         }
     }
 }

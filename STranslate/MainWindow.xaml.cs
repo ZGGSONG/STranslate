@@ -149,6 +149,10 @@ namespace STranslate
                     {
                         this.ScreenshotTranslateMenuItem_Click(null, null);
                     }
+                    else if (wParam.ToString().Equals(HotKeysUtil.OpenMainWindowId + ""))
+                    {
+                        this.OpenMainWin_Click(null, null);
+                    }
                     break;
             }
             return IntPtr.Zero;
