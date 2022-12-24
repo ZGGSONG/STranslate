@@ -51,11 +51,12 @@ namespace STranslate.Utils
             var respStr = await HttpUtil.PostAsync(url, reqStr);
             var resp = JsonConvert.DeserializeObject<DeeplResp>(respStr);
 
-            if (resp.Code == 200)
+            if (resp == null || resp.Code != 200)
             {
-                return resp.Data;
+                return string.Empty;
             }
-            return string.Empty;
+
+            return resp?.Data ?? string.Empty;
         }
 
         /// <summary>

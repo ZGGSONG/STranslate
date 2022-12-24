@@ -11,12 +11,23 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM
     {
+        /// <summary>
+        /// 引入Go项目库
+        /// </summary>
+        /// <returns></returns>
+        //[System.Runtime.InteropServices.DllImport("deepl.dll", EntryPoint = "run")]
+        //extern static void run();
+
+
         private static string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
         public static ConfigModel config = new ConfigModel();
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         public MainVM()
         {
+            //启动deepl
+            //Task.Run(() => RunCmdUtil.RunCmd(AppDomain.CurrentDomain.BaseDirectory + "\\deepl-x86_64-pc-windows-gnu.exe"));
+
             //初始化界面参数
             InputCombo = LanguageEnumDict.Keys.ToList();
             InputComboSelected = LanguageEnum.AUTO.GetDescription();
@@ -79,9 +90,9 @@ namespace STranslate.ViewModel
                 OutputTxt = "翻译中...";
 
                 //获取结果
-                //var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl.url, InputTxt, LanguageEnum.EN, LanguageEnum.AUTO);
+                var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl.url, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
 
-                var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                //var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
 
                 if (translateResp == string.Empty)
                 {
