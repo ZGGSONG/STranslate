@@ -22,6 +22,9 @@
     <Window.DataContext>
         <vm:MainVM />
     </Window.DataContext>
+    <Window.Resources>
+        <hc:String2VisibilityConverter x:Key="String2VisibilityConverter"/>
+    </Window.Resources>
     <Border BorderThickness="0"
             Background="#fff"
             CornerRadius="10">
@@ -107,6 +110,7 @@
                                 Margin="5,0,0,5"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
+                                    Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                 Command="{Binding CopyInputCmd}">
                             <Image Source="/Images/copy2.png"/>
                         </Button>
@@ -182,6 +186,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     ToolTip="直接复制"
+                                    Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyResultCmd}">
                                 <Image Source="/Images/copy2.png"/>
                             </Button>
@@ -191,6 +196,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     ToolTip="蛇形"
+                                    Visibility="{Binding SnakeRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySnakeResultCmd}">
                                 <Image Source="/Images/copy_s.png"/>
                             </Button>
@@ -199,6 +205,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     ToolTip="小驼峰"
+                                    Visibility="{Binding SmallHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySmallHumpResultCmd}">
                                 <Image Source="/Images/copy_h.png"/>
                             </Button>
@@ -207,6 +214,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     ToolTip="大驼峰"
+                                    Visibility="{Binding LargeHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyLargeHumpResultCmd}">
                                 <Image Source="/Images/copy_h2.png"/>
                             </Button>

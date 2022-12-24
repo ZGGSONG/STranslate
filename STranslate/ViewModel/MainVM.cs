@@ -37,42 +37,27 @@ namespace STranslate.ViewModel
             config = ConfigUtil.ReadConfig(ConfigPath);
 
             //复制输入
-            CopyInputCmd = new RelayCommand((_) =>
-            {
-                return string.IsNullOrEmpty(InputTxt) ? false : true;
-            }, (_) =>
+            CopyInputCmd = new RelayCommand((_) => true, (_) =>
             {
                 Clipboard.SetText(InputTxt);
             });
             //复制翻译结果
-            CopyResultCmd = new RelayCommand((_) =>
-            {
-                return string.IsNullOrEmpty(OutputTxt) ? false : true;
-            }, (_) =>
+            CopyResultCmd = new RelayCommand((_) => true, (_) =>
             {
                 Clipboard.SetText(OutputTxt);
             });
             //复制蛇形结果
-            CopySnakeResultCmd = new RelayCommand((_) =>
-            {
-                return string.IsNullOrEmpty(SnakeRet) ? false : true;
-            }, (_) =>
+            CopySnakeResultCmd = new RelayCommand((_) => true, (_) =>
             {
                 Clipboard.SetText(SnakeRet);
             });
             //复制小驼峰结果
-            CopySmallHumpResultCmd = new RelayCommand((_) =>
-            {
-                return string.IsNullOrEmpty(SmallHumpRet) ? false : true;
-            }, (_) =>
+            CopySmallHumpResultCmd = new RelayCommand((_) => true, (_) =>
             {
                 Clipboard.SetText(SmallHumpRet);
             });
             //复制大驼峰结果
-            CopyLargeHumpResultCmd = new RelayCommand((_) =>
-            {
-                return string.IsNullOrEmpty(LargeHumpRet) ? false : true;
-            }, (_) =>
+            CopyLargeHumpResultCmd = new RelayCommand((_) => true, (_) =>
             {
                 Clipboard.SetText(LargeHumpRet);
             });
