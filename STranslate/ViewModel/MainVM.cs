@@ -109,6 +109,9 @@ namespace STranslate.ViewModel
                 }
                 OutputTxt = translateResp;
 
+                //如果不是英文则不进行转换
+                if (LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN) return;
+
                 var splitList = OutputTxt.Split(' ').ToList();
                 if (splitList.Count > 1)
                 {
@@ -116,6 +119,7 @@ namespace STranslate.ViewModel
                     SmallHumpRet = GenHumpString(splitList, true);  //小驼峰
                     LargeHumpRet = GenHumpString(splitList, false); //大驼峰
                 }
+                //System.Diagnostics.Debug.Print(SnakeRet + "\n" + SmallHumpRet + "\n" + LargeHumpRet);
             }
             catch (Exception ex)
             {
@@ -153,7 +157,7 @@ namespace STranslate.ViewModel
             {
                 char[] chars = array[j].ToCharArray();
                 if (j == 0 && isSmallHump) chars[0] = char.ToLower(chars[0]);
-                chars[0] = char.ToUpper(chars[0]);
+                else chars[0] = char.ToUpper(chars[0]);
                 for (int i = 1; i < chars.Length; i++)
                 {
                     chars[i] = char.ToLower(chars[i]);
