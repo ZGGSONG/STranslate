@@ -18,9 +18,9 @@ namespace STranslate.ViewModel
         //[System.Runtime.InteropServices.DllImport("deepl.dll", EntryPoint = "run")]
         //extern static void run();
 
-
-        private static string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
-        public static ConfigModel config = new ConfigModel();
+        public string defaultApi = "http://127.0.0.1:8000/translate";
+        private string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
+        public ConfigModel config = new ConfigModel();
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         public MainVM()
@@ -34,7 +34,6 @@ namespace STranslate.ViewModel
             OutputCombo = LanguageEnumDict.Keys.ToList();
             OutputComboSelected = LanguageEnum.EN.GetDescription();
 
-            //TODO: fix no config
             config = ConfigUtil.ReadConfig(ConfigPath);
 
             //复制输入
@@ -94,12 +93,14 @@ namespace STranslate.ViewModel
         {
             try
             {
-                //清空输入框
                 OutputTxt = "翻译中...";
 
                 //获取结果
-                var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl.url, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
 
+                //DeepL Api
+                var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl?.url ?? defaultApi, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+
+                //百度 Api
                 //var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
 
                 if (translateResp == string.Empty)

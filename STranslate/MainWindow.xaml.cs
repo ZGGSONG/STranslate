@@ -20,6 +20,8 @@ namespace STranslate
         public MainWindow()
         {
             InitializeComponent();
+
+            vm = (MainVM)DataContext;
             
             InitView();
 
@@ -31,7 +33,6 @@ namespace STranslate
             //{
             //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
             //}
-            vm = (MainVM)DataContext;
         }
 
         private void InitialTray()
@@ -272,6 +273,7 @@ namespace STranslate
         /// </summary>
         private void DeepLStart()
         {
+            if (!string.IsNullOrEmpty(vm.config.deepl?.url) && vm.config.deepl?.url != vm.defaultApi) return;
             string strPathExe = AppDomain.CurrentDomain.BaseDirectory + "\\Static\\deepl-x86_64-pc-windows-gnu.exe";
             process.StartInfo.FileName = strPathExe;
             process.StartInfo.Arguments = null;//-s -t 可以用来关机、开机或重启
@@ -288,6 +290,7 @@ namespace STranslate
         /// </summary>
         private void DeepLStop()
         {
+            if (!string.IsNullOrEmpty(vm.config.deepl?.url) && vm.config.deepl?.url != vm.defaultApi) return;
             process.Kill();//等待退出。
         }
     }
