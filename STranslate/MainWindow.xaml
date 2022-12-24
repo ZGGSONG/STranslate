@@ -207,7 +207,7 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     ToolTip="大驼峰"
-                                    Command="{Binding CopySmallHumpResultCmd}">
+                                    Command="{Binding CopyLargeHumpResultCmd}">
                                 <Image Source="/Images/copy_h2.png"/>
                             </Button>
                         </StackPanel>
