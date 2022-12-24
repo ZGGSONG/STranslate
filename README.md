@@ -38,6 +38,7 @@ WPF 开发的一款即开即用、即用即走的翻译工具
 ## 参考项目
 
 监听全局快捷键功能参考如下项目，在此表示感谢
-- [https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)
+- [https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)  
+
 翻译接口使用项目 [ZU1K](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2)
 - [https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2)
