@@ -113,6 +113,11 @@
                                     Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                 Command="{Binding CopyInputCmd}">
                             <Image Source="/Images/copy2.png"/>
+                            <hc:FloatingBlock.ContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="copied" />
+                                </DataTemplate>
+                            </hc:FloatingBlock.ContentTemplate>
                         </Button>
                     </Grid>
                 </Border>
@@ -140,16 +145,6 @@
                           Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding OutputCombo}"
                           SelectedItem="{Binding OutputComboSelected}" />
-                <!--<Button Margin="10,0,0,0"
-                        Cursor="Hand"
-                        Command="{Binding CopyResultCmd}">
-                    <Image Source="/Images/copy.png" />
-                    <hc:FloatingBlock.ContentTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="已复制" />
-                        </DataTemplate>
-                    </hc:FloatingBlock.ContentTemplate>
-                </Button>-->
             </StackPanel>
             
             <!--output-->
@@ -180,43 +175,60 @@
                                     VerticalScrollBarVisibility="Auto"
                                     Text="{Binding OutputTxt}"/>
                         <StackPanel Orientation="Horizontal"
-                                    Margin="5,0,0,5">
+                                    Margin="5">
                             <!--普通复制-->
                             <Button Cursor="Hand"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    ToolTip="直接复制"
                                     Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyResultCmd}">
                                 <Image Source="/Images/copy2.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="copied" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--蛇形复制-->
                             <Button Cursor="Hand"
-                                    Margin="5,0,5,0"
+                                    Margin="5,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    ToolTip="蛇形"
                                     Visibility="{Binding SnakeRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySnakeResultCmd}">
                                 <Image Source="/Images/copy_s.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="copied" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    ToolTip="小驼峰"
                                     Visibility="{Binding SmallHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySmallHumpResultCmd}">
                                 <Image Source="/Images/copy_h.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="copied" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
+                                    Margin="5,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    ToolTip="大驼峰"
                                     Visibility="{Binding LargeHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyLargeHumpResultCmd}">
                                 <Image Source="/Images/copy_h2.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="copied" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                         </StackPanel>
                     </Grid>
