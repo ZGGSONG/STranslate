@@ -42,6 +42,8 @@ namespace STranslate
             notifyIcon.Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             notifyIcon.Visible = true;
 
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+
             System.Windows.Forms.MenuItem CrossWordTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("划词翻译");
             CrossWordTranslateMenuItemBTN.Click += new EventHandler(CrossWordTranslateMenuItem_Click);
 
@@ -67,17 +69,6 @@ namespace STranslate
             notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
         }
 
-
-        /// <summary>
-        /// 显示主窗口
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OpenMainWin_Click(object sender, EventArgs e)
-        {
-            this.Show();
-            this.Activate();
-        }
 
         /// <summary>
         /// 移动
@@ -182,8 +173,30 @@ namespace STranslate
         {
             vm.InputTxt = string.Empty;
             vm.OutputTxt = string.Empty;
-            vm.HumpRet = string.Empty;
+            vm.SmallHumpRet = string.Empty;
             vm.SnakeRet = string.Empty;
+        }
+
+        /// <summary>
+        /// 显示主窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenMainWin_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.Activate();
+        }
+
+
+        /// <summary>
+        /// 左键双击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            OpenMainWin_Click(null, null);
         }
 
         /// <summary>

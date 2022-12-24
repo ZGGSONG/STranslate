@@ -61,13 +61,21 @@ namespace STranslate.ViewModel
             {
                 Clipboard.SetText(SnakeRet);
             });
-            //复制驼峰结果
-            CopyHumpResultCmd = new RelayCommand((_) =>
+            //复制小驼峰结果
+            CopySmallHumpResultCmd = new RelayCommand((_) =>
             {
-                return string.IsNullOrEmpty(HumpRet) ? false : true;
+                return string.IsNullOrEmpty(SmallHumpRet) ? false : true;
             }, (_) =>
             {
-                Clipboard.SetText(HumpRet);
+                Clipboard.SetText(SmallHumpRet);
+            });
+            //复制大驼峰结果
+            CopyLargeHumpResultCmd = new RelayCommand((_) =>
+            {
+                return string.IsNullOrEmpty(LargeHumpRet) ? false : true;
+            }, (_) =>
+            {
+                Clipboard.SetText(LargeHumpRet);
             });
 
             //翻译
@@ -104,8 +112,9 @@ namespace STranslate.ViewModel
                 var splitList = OutputTxt.Split(' ').ToList();
                 if (splitList.Count > 1)
                 {
-                    //SnakeRet = GenSnakeString(splitList);
-                    //HumpRet = GenHumpString(splitList);
+                    SnakeRet = GenSnakeString(splitList);
+                    SmallHumpRet = GenHumpString(splitList, true);  //小驼峰
+                    LargeHumpRet = GenHumpString(splitList, false); //大驼峰
                 }
             }
             catch (Exception ex)
@@ -129,23 +138,30 @@ namespace STranslate.ViewModel
             });
             return ret.Substring(1);
         }
+
         /// <summary>
         /// 构造驼峰结果
         /// </summary>
         /// <param name="req"></param>
+        /// <param name="isSmallHump">是否为小驼峰</param>
         /// <returns></returns>
-        private string GenHumpString(List<string> req)
+        private string GenHumpString(List<string> req, bool isSmallHump)
         {
-            //TODO: I'm your father 出错情况
-            //TODO: 构造出错
-            var ret = string.Empty;
-            var arr = req.ToArray();
-            ret += arr[0].Substring(0, 1).ToLower() + arr[0].Substring(1);
-            for (int i = 1; i < arr.Length; i++)
+            string ret = string.Empty;
+            var array = req.ToArray();
+            for (var j = 0; j < array.Length; j++)
             {
-                ret += arr[i].Substring(0, 1).ToUpper() + arr[0].Substring(1);
+                char[] chars = array[j].ToCharArray();
+                if (j == 0 && isSmallHump) chars[0] = char.ToLower(chars[0]);
+                chars[0] = char.ToUpper(chars[0]);
+                for (int i = 1; i < chars.Length; i++)
+                {
+                    chars[i] = char.ToLower(chars[i]);
+                }
+                ret += new string(chars);
             }
             return ret;
+
         }
 
         #endregion handle
@@ -156,12 +172,24 @@ namespace STranslate.ViewModel
         public ICommand CopyInputCmd { get; private set; }
         public ICommand CopyResultCmd { get; private set; }
         public ICommand CopySnakeResultCmd { get; private set; }
-        public ICommand CopyHumpResultCmd { get; private set; }
+        public ICommand CopySmallHumpResultCmd { get; private set; }
+        public ICommand CopyLargeHumpResultCmd { get; private set; }
 
+        /// <summary>
+        /// 构造蛇形结果
+        /// </summary>
         private string _SnakeRet;
         public string SnakeRet { get => _SnakeRet; set => UpdateProperty(ref _SnakeRet, value); }
-        private string _HumpRet;
-        public string HumpRet { get => _HumpRet; set => UpdateProperty(ref _HumpRet, value); }
+        /// <summary>
+        /// 构造驼峰结果
+        /// </summary>
+        private string _SmallHumpRet;
+        public string SmallHumpRet { get => _SmallHumpRet; set => UpdateProperty(ref _SmallHumpRet, value); }
+        /// <summary>
+        /// 构造驼峰结果
+        /// </summary>
+        private string _LargeHumpRet;
+        public string LargeHumpRet { get => _LargeHumpRet; set => UpdateProperty(ref _LargeHumpRet, value); }
 
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }

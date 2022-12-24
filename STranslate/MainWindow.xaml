@@ -108,12 +108,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 Command="{Binding CopyInputCmd}">
-                                <Image Source="/Images/copy2.png"/>
-                            <hc:FloatingBlock.ContentTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="已复制" />
-                                </DataTemplate>
-                            </hc:FloatingBlock.ContentTemplate>
+                            <Image Source="/Images/copy2.png"/>
                         </Button>
                     </Grid>
                 </Border>
@@ -186,14 +181,9 @@
                             <Button Cursor="Hand"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    ToolTip="普通"
+                                    ToolTip="直接复制"
                                     Command="{Binding CopyResultCmd}">
                                 <Image Source="/Images/copy2.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="已复制" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--蛇形复制-->
                             <Button Cursor="Hand"
@@ -202,25 +192,23 @@
                                     VerticalAlignment="Bottom"
                                     ToolTip="蛇形"
                                     Command="{Binding CopySnakeResultCmd}">
-                                <Image Source="/Images/copy2.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="已复制" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
+                                <Image Source="/Images/copy_s.png"/>
                             </Button>
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
-                                    ToolTip="驼峰"
-                                    Command="{Binding CopyHumpResultCmd}">
-                                <Image Source="/Images/copy2.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="已复制" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
+                                    ToolTip="小驼峰"
+                                    Command="{Binding CopySmallHumpResultCmd}">
+                                <Image Source="/Images/copy_h.png"/>
+                            </Button>
+                            <!--驼峰复制-->
+                            <Button Cursor="Hand"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    ToolTip="大驼峰"
+                                    Command="{Binding CopySmallHumpResultCmd}">
+                                <Image Source="/Images/copy_h2.png"/>
                             </Button>
                         </StackPanel>
                     </Grid>

@@ -1,6 +1,6 @@
-﻿service: baidu
+﻿service: deepl
 baidu:
-    appid: 20220608001242348
-    secretKey: nN2CGpQCbTodUnKDW04k
+    appid:
+    secretKey:
 deepl:
     url: http://127.0.0.1:8000/translate
