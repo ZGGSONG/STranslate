@@ -101,6 +101,7 @@ namespace STranslate.ViewModel
         {
             try
             {
+                IdentifyLanguage = string.Empty;
                 OutputTxt = "翻译中...";
 
                 //自动选择目标语言
