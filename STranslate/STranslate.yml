@@ -1,6 +1,0 @@
-﻿service: deepl
-baidu:
-    appid:
-    secretKey:
-deepl:
-    url: https://zggsong.cn/tt

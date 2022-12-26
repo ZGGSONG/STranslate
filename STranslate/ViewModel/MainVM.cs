@@ -18,23 +18,16 @@ namespace STranslate.ViewModel
         //[System.Runtime.InteropServices.DllImport("deepl.dll", EntryPoint = "run")]
         //extern static void run();
 
-        public string defaultApi = "http://127.0.0.1:8000/translate"; //https://deepl.deno.dev/translate
-        private string ConfigPath => $"{AppDomain.CurrentDomain.BaseDirectory}STranslate.yml";
-        public ConfigModel config = new ConfigModel();
+        public string defaultApi = "https://zggsong.cn/tt"; //https://deepl.deno.dev/translate、https://zggsong.cn/tt、http://127.0.0.1:8000/translate
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         public MainVM()
         {
-            //启动deepl
-            //Task.Run(() => RunCmdUtil.RunCmd(AppDomain.CurrentDomain.BaseDirectory + "\\deepl-x86_64-pc-windows-gnu.exe"));
-
             //初始化界面参数
             InputCombo = LanguageEnumDict.Keys.ToList();
             InputComboSelected = LanguageEnum.AUTO.GetDescription();
             OutputCombo = LanguageEnumDict.Keys.ToList();
             OutputComboSelected = LanguageEnum.AUTO.GetDescription();
-
-            config = ConfigUtil.ReadConfig(ConfigPath);
 
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -109,11 +102,11 @@ namespace STranslate.ViewModel
                 {
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
-                    translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl?.url ?? defaultApi, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
+                    translateResp = await TranslateUtil.TranslateDeepLAsync(defaultApi, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
                 {
-                    translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl?.url ?? defaultApi, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                    translateResp = await TranslateUtil.TranslateDeepLAsync(defaultApi, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
                 }
 
                 //百度 Api

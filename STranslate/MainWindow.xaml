@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
         xmlns:model="clr-namespace:STranslate.Model"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
@@ -91,11 +90,6 @@
                                     BorderThickness="0"
                                     Command="{Binding CopyInputCmd}">
                                 <Image Source="/Images/copy2.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="copied" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <Border Margin="10,0,0,0"
                                     Background="#eaeaea"
@@ -125,7 +119,6 @@
                        BorderThickness="0" />
                 <ComboBox x:Name="InCombo"
                           Background="#f6f6f6"
-                          Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding InputCombo}"
                           SelectedItem="{Binding InputComboSelected}" />
                 <Separator Margin="20,0"/>
@@ -134,7 +127,6 @@
                        BorderThickness="0" />
                 <ComboBox x:Name="OutCombo"
                           Background="#f6f6f6"
-                          Style="{StaticResource ComboBox.Small}"
                           ItemsSource="{Binding OutputCombo}"
                           SelectedItem="{Binding OutputComboSelected}" />
             </StackPanel>
@@ -152,20 +144,19 @@
                         Margin="5"
                         Height="{Binding ElementName=Output, Path=Height}">
                     <Grid>
-                        <hc:TextBox x:Name="TextBoxOutput"
-                                    hc:InfoElement.Placeholder="翻译结果"
-                                    Background="Transparent"
-                                    BorderBrush="{x:Null}"
-                                    BorderThickness="0"
-                                    IsReadOnly="True"
-                                    Margin="5,5,5,30"
-                                    MaxHeight="400"
-                                    FontSize="16"
-                                    TextWrapping="Wrap"
-                                    VerticalContentAlignment="Top"
-                                    HorizontalScrollBarVisibility="Disabled"
-                                    VerticalScrollBarVisibility="Auto"
-                                    Text="{Binding OutputTxt}"/>
+                        <TextBox x:Name="TextBoxOutput"
+                                Background="Transparent"
+                                BorderBrush="{x:Null}"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                Margin="5,5,5,30"
+                                MaxHeight="400"
+                                FontSize="16"
+                                TextWrapping="Wrap"
+                                VerticalContentAlignment="Top"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                Text="{Binding OutputTxt}"/>
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
@@ -180,11 +171,6 @@
                                     Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyResultCmd}">
                                 <Image Source="/Images/copy2.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="copied" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--蛇形复制-->
                             <Button Cursor="Hand"
@@ -198,11 +184,6 @@
                                     Visibility="{Binding SnakeRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySnakeResultCmd}">
                                 <Image Source="/Images/copy_s.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="copied" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
@@ -215,11 +196,6 @@
                                     Visibility="{Binding SmallHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySmallHumpResultCmd}">
                                 <Image Source="/Images/copy_h.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="copied" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
@@ -233,11 +209,6 @@
                                     Visibility="{Binding LargeHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyLargeHumpResultCmd}">
                                 <Image Source="/Images/copy_h2.png"/>
-                                <hc:FloatingBlock.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="copied" />
-                                    </DataTemplate>
-                                </hc:FloatingBlock.ContentTemplate>
                             </Button>
                         </StackPanel>
                     </Grid>

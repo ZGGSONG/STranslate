@@ -15,8 +15,6 @@ namespace STranslate
     public partial class MainWindow : Window
     {
         private MainVM vm;
-
-        private Process process = new Process();
         public MainWindow()
         {
             InitializeComponent();
@@ -27,8 +25,6 @@ namespace STranslate
 
             InitialTray();
 
-            DeepLStart();
-
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{
             //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
@@ -37,8 +33,6 @@ namespace STranslate
 
         private void InitialTray()
         {
-            //notifyIcon.BalloonTipText = "STranslate已运行";
-            //notifyIcon.ShowBalloonTip(1000);
             notifyIcon.Text = "STranslate";
             notifyIcon.Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             notifyIcon.Visible = true;
@@ -240,7 +234,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void ScreenshotTranslateMenuItem_Click(object sender, EventArgs e)
         {
-            HandyControl.Controls.MessageBox.Show("开发中");
+            MessageBox.Show("开发中");
         }
 
         /// <summary>
@@ -261,7 +255,6 @@ namespace STranslate
         {
 
             notifyIcon.Dispose();
-            DeepLStop();
             Environment.Exit(0);
         }
         private void InitView()
@@ -274,30 +267,5 @@ namespace STranslate
         private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/lock3.png"));
         private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/unlock3.png"));
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
-        /// <summary>
-        /// 新进程开启DeepL
-        /// </summary>
-        private void DeepLStart()
-        {
-            if (!string.IsNullOrEmpty(vm.config.deepl?.url) && vm.config.deepl?.url != vm.defaultApi) return;
-            string strPathExe = AppDomain.CurrentDomain.BaseDirectory + "\\Static\\deepl-x86_64-pc-windows-gnu.exe";
-            process.StartInfo.FileName = strPathExe;
-            process.StartInfo.Arguments = null;//-s -t 可以用来关机、开机或重启
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardInput = false;  //true
-            process.StartInfo.RedirectStandardOutput = false;  //true
-            process.StartInfo.RedirectStandardError = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();//启动
-        }
-
-        /// <summary>
-        /// 关闭DeepL进程
-        /// </summary>
-        private void DeepLStop()
-        {
-            if (!string.IsNullOrEmpty(vm.config.deepl?.url) && vm.config.deepl?.url != vm.defaultApi) return;
-            process.Kill();//等待退出。
-        }
     }
 }
