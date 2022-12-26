@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
+        xmlns:model="clr-namespace:STranslate.Model"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
         Background="Transparent"
@@ -23,7 +24,7 @@
         <vm:MainVM />
     </Window.DataContext>
     <Window.Resources>
-        <hc:String2VisibilityConverter x:Key="String2VisibilityConverter"/>
+        <model:VisibilityConverter x:Key="String2VisibilityConverter"/>
     </Window.Resources>
     <Border BorderThickness="0"
             Background="#fff"
@@ -35,33 +36,6 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="7*" />
             </Grid.RowDefinitions>
-
-            <!--托盘相关-->
-            <!--<hc:NotifyIcon Text="STranslate"
-                           IsBlink="False"
-                           Visibility="Visible"
-                           Icon="/Images/translate.ico">
-                <hc:NotifyIcon.ContextMenu>
-                    <ContextMenu Style="{StaticResource InputElementBaseStyle}"
-                                 Width="120">
-                        <MenuItem x:Name="CrossWordTranslateMenuItem"
-                                  Click="CrossWordTranslateMenuItem_Click"
-                                  Header="划词翻译" />
-                        <MenuItem x:Name="ScreenshotTranslateMenuItem"
-                                  Click="ScreenshotTranslateMenuItem_Click"
-                                  Header="截图翻译" />
-                        <MenuItem x:Name="InputTranslateMenuItem"
-                                  Click="InputTranslateMenuItem_Click"
-                                  Header="输入翻译" />
-                        <Separator />
-                        <MenuItem Command="hc:ControlCommands.PushMainWindow2Top"
-                                  Header="显示主界面" />
-                        <Separator />
-                        <MenuItem Command="hc:ControlCommands.ShutdownApp"
-                                  Header="退出" />
-                    </ContextMenu>
-                </hc:NotifyIcon.ContextMenu>
-            </hc:NotifyIcon>-->
 
             <!--header-->
             <Grid x:Name="Header">
@@ -94,7 +68,7 @@
                                  Margin="5,5,5,35"
                                  BorderThickness="0"
                                  FontSize="16"
-                                 MinHeight="80"
+                                 MinHeight="70"
                                  MaxHeight="200"
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
@@ -107,12 +81,14 @@
                             </TextBox.InputBindings>
                         </TextBox>
                         <StackPanel Orientation="Horizontal"
-                                    Margin="5">
+                                    Margin="10"
+                                    VerticalAlignment="Bottom">
                             <Button Cursor="Hand"
-                                    Margin="5,0,0,5"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
                                     Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
+                                    MaxHeight="22"
+                                    Padding="2"
+                                    Background="Transparent"
+                                    BorderThickness="0"
                                     Command="{Binding CopyInputCmd}">
                                 <Image Source="/Images/copy2.png"/>
                                 <hc:FloatingBlock.ContentTemplate>
@@ -121,11 +97,10 @@
                                     </DataTemplate>
                                 </hc:FloatingBlock.ContentTemplate>
                             </Button>
-                            <Border Margin="10,0,0,8"
+                            <Border Margin="10,0,0,0"
                                     Background="#eaeaea"
                                     CornerRadius="10"
                                     Visibility="{Binding IdentifyLanguage,Converter={StaticResource String2VisibilityConverter}}"
-                                    HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom">
                                 <StackPanel Margin="5,2"
                                             Orientation="Horizontal">
@@ -183,7 +158,7 @@
                                     BorderBrush="{x:Null}"
                                     BorderThickness="0"
                                     IsReadOnly="True"
-                                    Margin="5,5,5,35"
+                                    Margin="5,5,5,30"
                                     MaxHeight="400"
                                     FontSize="16"
                                     TextWrapping="Wrap"
@@ -192,9 +167,14 @@
                                     VerticalScrollBarVisibility="Auto"
                                     Text="{Binding OutputTxt}"/>
                         <StackPanel Orientation="Horizontal"
-                                    Margin="5">
+                                    Margin="10,5"
+                                    VerticalAlignment="Bottom">
                             <!--普通复制-->
                             <Button Cursor="Hand"
+                                    MaxHeight="22"
+                                    Padding="2"
+                                    Background="Transparent"
+                                    BorderThickness="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
@@ -209,6 +189,10 @@
                             <!--蛇形复制-->
                             <Button Cursor="Hand"
                                     Margin="5,0"
+                                    MaxHeight="22"
+                                    Padding="2"
+                                    Background="Transparent"
+                                    BorderThickness="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Visibility="{Binding SnakeRet,Converter={StaticResource String2VisibilityConverter}}"
@@ -222,6 +206,10 @@
                             </Button>
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
+                                    MaxHeight="22"
+                                    Padding="2"
+                                    Background="Transparent"
+                                    BorderThickness="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Visibility="{Binding SmallHumpRet,Converter={StaticResource String2VisibilityConverter}}"
@@ -236,6 +224,10 @@
                             <!--驼峰复制-->
                             <Button Cursor="Hand"
                                     Margin="5,0"
+                                    MaxHeight="22"
+                                    Padding="2"
+                                    Background="Transparent"
+                                    BorderThickness="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Visibility="{Binding LargeHumpRet,Converter={StaticResource String2VisibilityConverter}}"

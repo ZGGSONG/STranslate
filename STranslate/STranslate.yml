@@ -3,4 +3,4 @@ baidu:
     appid:
     secretKey:
 deepl:
-    url: http://127.0.0.1:8000/translate
+    url: https://zggsong.cn/tt
