@@ -178,8 +178,10 @@ namespace STranslate
         {
             vm.InputTxt = string.Empty;
             vm.OutputTxt = string.Empty;
-            vm.SmallHumpRet = string.Empty;
             vm.SnakeRet = string.Empty;
+            vm.SmallHumpRet = string.Empty;
+            vm.LargeHumpRet = string.Empty;
+            vm.IdentifyLanguage = string.Empty;
         }
 
         /// <summary>

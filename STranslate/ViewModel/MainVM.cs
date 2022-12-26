@@ -32,7 +32,7 @@ namespace STranslate.ViewModel
             InputCombo = LanguageEnumDict.Keys.ToList();
             InputComboSelected = LanguageEnum.AUTO.GetDescription();
             OutputCombo = LanguageEnumDict.Keys.ToList();
-            OutputComboSelected = LanguageEnum.EN.GetDescription();
+            OutputComboSelected = LanguageEnum.AUTO.GetDescription();
 
             config = ConfigUtil.ReadConfig(ConfigPath);
 
@@ -73,17 +73,47 @@ namespace STranslate.ViewModel
         }
 
         #region handle
-
+        /// <summary>
+        /// 自动识别语种
+        /// </summary>
+        /// <param name="text">输入语言</param>
+        /// <returns>
+        ///     Item1: SourceLang
+        ///     Item2: TargetLang
+        /// </returns>
+        private Tuple<string, string> AutomaticLanguageRecognition(string text)
+        {
+            //如果输入是中文
+            if (System.Text.RegularExpressions.Regex.IsMatch(text, @"^[\u4e00-\u9fa5]+$"))
+            {
+                return new Tuple<string, string>(LanguageEnum.ZH.GetDescription(), LanguageEnum.EN.GetDescription());
+            }
+            else
+            {
+                return new Tuple<string, string>(LanguageEnum.EN.GetDescription(), LanguageEnum.ZH.GetDescription());
+            }
+        }
+        /// <summary>
+        /// 翻译
+        /// </summary>
+        /// <returns></returns>
         public async Task Translate()
         {
             try
             {
                 OutputTxt = "翻译中...";
 
-                //获取结果
-
-                //DeepL Api
-                var translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl?.url ?? defaultApi, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                //自动选择目标语言
+                if (OutputComboSelected == LanguageEnum.AUTO.GetDescription())
+                {
+                    var autoRet = AutomaticLanguageRecognition(InputTxt);
+                    IdentifyLanguage = autoRet.Item1;
+                    translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl?.url ?? defaultApi, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
+                }
+                else
+                {
+                    translateResp = await TranslateUtil.TranslateDeepLAsync(config.deepl?.url ?? defaultApi, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                }
 
                 //百度 Api
                 //var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
@@ -96,7 +126,10 @@ namespace STranslate.ViewModel
                 OutputTxt = translateResp;
 
                 //如果不是英文则不进行转换
-                if (LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN) return;
+                if (AutomaticLanguageRecognition(InputTxt).Item2 != LanguageEnum.EN.GetDescription() && LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN)
+                {
+                    return;
+                }
 
                 var splitList = OutputTxt.Split(' ').ToList();
                 if (splitList.Count > 1)
@@ -157,7 +190,7 @@ namespace STranslate.ViewModel
         #endregion handle
 
         #region Params
-
+        private string translateResp;
         public ICommand TranslateCmd { get; private set; }
         public ICommand CopyInputCmd { get; private set; }
         public ICommand CopyResultCmd { get; private set; }
@@ -165,6 +198,11 @@ namespace STranslate.ViewModel
         public ICommand CopySmallHumpResultCmd { get; private set; }
         public ICommand CopyLargeHumpResultCmd { get; private set; }
 
+        /// <summary>
+        /// 识别语种
+        /// </summary>
+        private string _IdentifyLanguage;
+        public string IdentifyLanguage { get => _IdentifyLanguage; set => UpdateProperty(ref _IdentifyLanguage, value); }
         /// <summary>
         /// 构造蛇形结果
         /// </summary>

@@ -106,19 +106,36 @@
                                 <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
                             </TextBox.InputBindings>
                         </TextBox>
-                        <Button Cursor="Hand"
-                                Margin="5,0,0,5"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="5">
+                            <Button Cursor="Hand"
+                                    Margin="5,0,0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
                                     Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
-                                Command="{Binding CopyInputCmd}">
-                            <Image Source="/Images/copy2.png"/>
-                            <hc:FloatingBlock.ContentTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="copied" />
-                                </DataTemplate>
-                            </hc:FloatingBlock.ContentTemplate>
-                        </Button>
+                                    Command="{Binding CopyInputCmd}">
+                                <Image Source="/Images/copy2.png"/>
+                                <hc:FloatingBlock.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="copied" />
+                                    </DataTemplate>
+                                </hc:FloatingBlock.ContentTemplate>
+                            </Button>
+                            <Border Margin="10,0,0,8"
+                                    Background="#eaeaea"
+                                    CornerRadius="10"
+                                    Visibility="{Binding IdentifyLanguage,Converter={StaticResource String2VisibilityConverter}}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom">
+                                <StackPanel Margin="5,2"
+                                            Orientation="Horizontal">
+                                    <TextBlock Text="识别为 "
+                                                Foreground="#999999"/>
+                                    <TextBlock Text="{Binding IdentifyLanguage}"
+                                                Foreground="#3478f6"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
                     </Grid>
                 </Border>
             </Grid>
