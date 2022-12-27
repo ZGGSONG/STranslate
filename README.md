@@ -41,7 +41,7 @@ WPF 开发的一款即开即用、即用即走的翻译工具
 
 ## 接口失效
 
-若远端接口均失效，需要自己本地运行翻译服务(感谢[zu1k](//github.com/zu1k))，根据自己的系统 [下载](https://github.com/zu1k/removed-2022-07-12) 自己的版本，软件右上角选择 `local` 接口即可
+若远端接口均失效，需要自己本地运行翻译服务(感谢[zu1k](https://github.com/zu1k))，根据自己的系统 [下载](https://github.com/zu1k/removed-2022-07-12) 自己的版本，软件右上角选择 `local` 接口即可
 
 ## 参考项目
 
