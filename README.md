@@ -1,5 +1,17 @@
+<p align="center">
+<a href="https://github.com/zggsong/STranslate" target="_blank">
+<img align="center" alt="STranslate" src="./translate.png" />
+</a>
+</p>
+<p align="center">
+<a href="https://github.com/ZGGSONG/STranslate/releases/latest" target="_blank">
+ <img alt="Latest GitHub release" src="https://img.shields.io/github/release/ZGGSONG/STranslate.svg" />
+</a>
+</p>
+<h1 align="center">STranslate</h1>
 
-WPF 开发的一款即开即用、即用即走的翻译工具
+<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译工具</p>
+
 
 ## 功能
 
