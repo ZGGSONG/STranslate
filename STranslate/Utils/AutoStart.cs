@@ -8,10 +8,7 @@ namespace STranslate.Utils
 {
     public class AutoStart
     {
-        private static readonly string StartUpPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-        private static readonly string appPath = Assembly.GetEntryAssembly().Location;
-        private static readonly string appShortcutPath = Path.Combine(StartUpPath, Path.GetFileNameWithoutExtension(appPath) + ".lnk");
-
+        #region public method
         /// <summary>
         /// 设置开机自启
         /// </summary>
@@ -34,13 +31,54 @@ namespace STranslate.Utils
         {
             ShortCutDelete(appPath, StartUpPath);
         }
+        #endregion
+
+        #region params
+        /// <summary>
+        /// 开机启动目录
+        /// </summary>
+        private static readonly string StartUpPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+
+        /// <summary>
+        /// 当前程序二进制文件路径
+        /// </summary>
+        private static readonly string appPath = Assembly.GetEntryAssembly().Location;
+
+        /// <summary>
+        /// 组合的开机启动目录中的快捷方式路径
+        /// </summary>
+        private static readonly string appShortcutPath = Path.Combine(StartUpPath, Path.GetFileNameWithoutExtension(appPath) + ".lnk");
+        #endregion
+
+        #region native method
+        /// <summary>
+        /// 获取快捷方式中的目标（可执行文件的绝对路径）
+        /// </summary>
+        /// <param name="shortCutPath">快捷方式的绝对路径</param>
+        /// <returns></returns>
+        /// <remarks>需引入 COM 组件 Windows Script Host Object Model</remarks>
+        private static string GetAppPathViaShortCut(string shortCutPath)
+        {
+            try
+            {
+                WshShell shell = new WshShell();
+                IWshShortcut shortct = (IWshShortcut)shell.CreateShortcut(shortCutPath);
+                //快捷方式文件指向的路径.Text = 当前快捷方式文件IWshShortcut类.TargetPath;
+                //快捷方式文件指向的目标目录.Text = 当前快捷方式文件IWshShortcut类.WorkingDirectory;
+                return shortct.TargetPath;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// 获取指定文件夹下的所有快捷方式（不包括子文件夹）
         /// </summary>
         /// <param target="">目标文件夹（绝对路径）</param>
         /// <returns></returns>
-        public static List<string> GetDirectoryFileList(string target)
+        private static List<string> GetDirectoryFileList(string target)
         {
             List<string> list = new List<string>();
             list.Clear();
@@ -62,7 +100,7 @@ namespace STranslate.Utils
         /// <param name="path">快捷方式目标（可执行文件的绝对路径）</param>
         /// <param target="">目标文件夹（绝对路径）</param>
         /// <returns></returns>
-        public static bool ShortCutExist(string path, string target)
+        private static bool ShortCutExist(string path, string target)
         {
             bool Result = false;
             List<string> list = GetDirectoryFileList(target);
@@ -82,7 +120,7 @@ namespace STranslate.Utils
         /// <param name="path">快捷方式目标（可执行文件的绝对路径）</param>
         /// <param target="">目标文件夹（绝对路径）</param>
         /// <returns></returns>
-        public static bool ShortCutDelete(string path, string target)
+        private static bool ShortCutDelete(string path, string target)
         {
             bool Result = false;
             List<string> list = GetDirectoryFileList(target);
@@ -97,9 +135,9 @@ namespace STranslate.Utils
             return Result;
         }
         /// <summary>
-        /// 为本程序创建一个快捷方式。
+        /// 为本程序创建一个开机启动快捷方式
         /// </summary>
-        public static bool ShortCutCreate()
+        private static bool ShortCutCreate()
         {
             bool Result = false;
             try
@@ -121,27 +159,6 @@ namespace STranslate.Utils
             }
             return Result;
         }
-
-        /// <summary>
-        /// 获取快捷方式中的目标（可执行文件的绝对路径）
-        /// </summary>
-        /// <param name="shortCutPath">快捷方式的绝对路径</param>
-        /// <returns></returns>
-        /// <remarks>需引入 COM 组件 Windows Script Host Object Model</remarks>
-        public static string GetAppPathViaShortCut(string shortCutPath)
-        {
-            try
-            {
-                WshShell shell = new WshShell();
-                IWshShortcut shortct = (IWshShortcut)shell.CreateShortcut(shortCutPath);
-                //快捷方式文件指向的路径.Text = 当前快捷方式文件IWshShortcut类.TargetPath;
-                //快捷方式文件指向的目标目录.Text = 当前快捷方式文件IWshShortcut类.WorkingDirectory;
-                return shortct.TargetPath;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        #endregion
     }
 }
