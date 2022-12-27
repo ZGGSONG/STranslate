@@ -20,7 +20,7 @@ WPF 开发的一款即开即用、即用即走的翻译工具
 
 ## 使用
 
-![previews](./image.png)
+![previews](./example.png)
 
 打开软件后会静默在后台，等待调用
 1. 全局监听快捷键
