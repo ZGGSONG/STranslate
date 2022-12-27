@@ -50,18 +50,31 @@ namespace STranslate
 
             System.Windows.Forms.MenuItem OpenMainWinBTN = new System.Windows.Forms.MenuItem("显示主界面");
             OpenMainWinBTN.Click += new EventHandler(OpenMainWin_Click);
+            
+            System.Windows.Forms.MenuItem AutoStartBTN = new System.Windows.Forms.MenuItem("开机自启");
+            AutoStartBTN.Click += new EventHandler(AutoStart_Click);
 
-            System.Windows.Forms.MenuItem exitButton = new System.Windows.Forms.MenuItem("退出");
-            exitButton.Click += new EventHandler(Exit_Click);
+            AutoStartBTN.Checked = AutoStart.IsAutoStart();
+
+            System.Windows.Forms.MenuItem ExitBTN = new System.Windows.Forms.MenuItem("退出");
+            ExitBTN.Click += new EventHandler(Exit_Click);
 
             System.Windows.Forms.MenuItem[] childen = new System.Windows.Forms.MenuItem[] {
                 CrossWordTranslateMenuItemBTN,
                 ScreenshotTranslateMenuItemBTN,
                 InputTranslateMenuItemBTN,
                 OpenMainWinBTN,
-                exitButton,
+                AutoStartBTN,
+                ExitBTN,
             };
             notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
+        }
+
+        private void AutoStart_Click(object sender, EventArgs e)
+        {
+            if (AutoStart.IsAutoStart()) AutoStart.UnSetAutoStart();
+            else AutoStart.SetAutoStart();
+            (sender as System.Windows.Forms.MenuItem).Checked = AutoStart.IsAutoStart();
         }
 
 

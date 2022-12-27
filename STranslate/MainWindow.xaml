@@ -368,17 +368,15 @@
                         Grid.Row="2"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
-                <Label Content="当前语言:"
-                       Background="Transparent"
-                       BorderThickness="0" />
+                <TextBlock Text="当前语言:  "
+                           VerticalAlignment="Center"/>
                 <ComboBox x:Name="InCombo"
                           Style="{StaticResource cmbstyle}"
                           ItemsSource="{Binding InputCombo}"
                           SelectedItem="{Binding InputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <Separator Margin="20,0"/>
-                <Label Content="目标语言:"
-                       Background="Transparent"
-                       BorderThickness="0" />
+                <TextBlock Text="当前语言:  "
+                           VerticalAlignment="Center"/>
                 <ComboBox x:Name="OutCombo"
                           Style="{StaticResource cmbstyle}"
                           ItemsSource="{Binding OutputCombo}"

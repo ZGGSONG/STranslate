@@ -12,14 +12,6 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM
     {
-        /// <summary>
-        /// 引入Go项目库
-        /// </summary>
-        /// <returns></returns>
-        //[System.Runtime.InteropServices.DllImport("deepl.dll", EntryPoint = "run")]
-        //extern static void run();
-
-        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         public MainVM()
         {
@@ -264,14 +256,8 @@ namespace STranslate.ViewModel
         public List<TranslationInterface> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
         private TranslationInterface _SelectedTranslationInterface;
         public TranslationInterface SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
-
+        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         #endregion Params
-    }
-
-    public class TranslationInterface
-    {
-        public string Name { get; set; }
-        public string Api { get; set; }
     }
 }
