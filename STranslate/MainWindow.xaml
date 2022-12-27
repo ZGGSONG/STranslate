@@ -106,7 +106,7 @@
                     <!--ComBoxItem-->
                     <Style TargetType="ComboBoxItem">
                         <Setter Property="MinHeight" Value="22"></Setter>
-                        <Setter Property="MinWidth" Value="80"></Setter>
+                        <Setter Property="MinWidth" Value="40"></Setter>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ComboBoxItem">
@@ -133,7 +133,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
-                        <Border BorderThickness="0" CornerRadius="5" Width="100" Height="30" Background="{TemplateBinding Background}" >
+                        <Border BorderThickness="0" CornerRadius="5" Width="80" Height="30" Background="{TemplateBinding Background}" >
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*"/>
@@ -302,6 +302,12 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+                <ComboBox Style="{StaticResource cmbstyle}"
+                          Margin="0,5,10,0"
+                          ItemsSource="{Binding TranslationInterface}"
+                          DisplayMemberPath="Name"
+                          SelectedItem="{Binding SelectedTranslationInterface}"
+                          HorizontalAlignment="Right"/>
             </Grid>
             
             <!--input-->

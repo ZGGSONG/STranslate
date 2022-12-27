@@ -19,7 +19,6 @@ namespace STranslate.ViewModel
         //[System.Runtime.InteropServices.DllImport("deepl.dll", EntryPoint = "run")]
         //extern static void run();
 
-        public string defaultApi = "https://zggsong.cn/tt"; //https://deepl.deno.dev/translate、https://zggsong.cn/tt、http://127.0.0.1:8000/translate
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
 
         public MainVM()
@@ -29,6 +28,9 @@ namespace STranslate.ViewModel
             InputComboSelected = LanguageEnum.AUTO.GetDescription();
             OutputCombo = LanguageEnumDict.Keys.ToList();
             OutputComboSelected = LanguageEnum.AUTO.GetDescription();
+
+            //初始化接口
+            SelectedTranslationInterface = TranslationInterface[0];
 
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -103,11 +105,11 @@ namespace STranslate.ViewModel
                 {
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
-                    translateResp = await TranslateUtil.TranslateDeepLAsync(defaultApi, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
+                    translateResp = await TranslateUtil.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
                 {
-                    translateResp = await TranslateUtil.TranslateDeepLAsync(defaultApi, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                    translateResp = await TranslateUtil.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
                 }
 
                 //百度 Api
@@ -238,6 +240,38 @@ namespace STranslate.ViewModel
         private string _OutputComboSelected;
         public string OutputComboSelected { get => _OutputComboSelected; set => UpdateProperty(ref _OutputComboSelected, value); }
 
+        /// <summary>
+        /// 目标接口
+        /// </summary>
+        private List<TranslationInterface> _TranslationInterface = new List<TranslationInterface>
+        {
+            new TranslationInterface
+            {
+                Name = "zu1k",
+                Api = "https://deepl.deno.dev/translate"
+            },
+            new TranslationInterface
+            {
+                Name = "zggsong",
+                Api = "https://zggsong.cn/tt"
+            },
+            new TranslationInterface
+            {
+                Name = "local",
+                Api = "http://127.0.0.1:8000/translate"
+            }
+        };
+        public List<TranslationInterface> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
+        private TranslationInterface _SelectedTranslationInterface;
+        public TranslationInterface SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
+
+
         #endregion Params
+    }
+
+    public class TranslationInterface
+    {
+        public string Name { get; set; }
+        public string Api { get; set; }
     }
 }
