@@ -375,7 +375,7 @@
                           ItemsSource="{Binding InputCombo}"
                           SelectedItem="{Binding InputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <Separator Margin="20,0"/>
-                <TextBlock Text="当前语言:  "
+                <TextBlock Text="目标语言:  "
                            VerticalAlignment="Center"/>
                 <ComboBox x:Name="OutCombo"
                           Style="{StaticResource cmbstyle}"
