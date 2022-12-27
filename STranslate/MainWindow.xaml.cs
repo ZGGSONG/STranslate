@@ -88,7 +88,7 @@ namespace STranslate
                 this.Hide();
 
                 //取消置顶
-                this.TopImg.Source = UnLockImgPath;
+                vm.TopImgSource = UnLockImgPath;
             }
             //置顶 Ctrl+Shift+T
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
@@ -159,7 +159,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (this.TopImg.Source == UnLockImgPath)
+            if (vm.TopImgSource == UnLockImgPath)
             {
                 this.Hide();
             }
@@ -244,7 +244,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void Top_Click(object sender, RoutedEventArgs e)
         {
-            this.TopImg.Source = TopImg.Source == LockImgPath ? UnLockImgPath : LockImgPath;
+            vm.TopImgSource = vm.TopImgSource == LockImgPath ? UnLockImgPath : LockImgPath;
         }
         /// <summary>
         /// 退出
@@ -259,7 +259,7 @@ namespace STranslate
         }
         private void InitView()
         {
-            this.TopImg.Source = UnLockImgPath;
+            vm.TopImgSource = UnLockImgPath;
 
             this.Activate();
             this.TextBoxInput.Focus();
