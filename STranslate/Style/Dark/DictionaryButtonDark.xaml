@@ -112,7 +112,7 @@
             <TextBlock Style="{StaticResource IconStyle}"
                        FontSize="18"
                        VerticalAlignment="Center"
-                       Text="&#xe602;"
+                       Text="&#xe600;"
                        Foreground="WhiteSmoke"/>
         </Border>
         <ControlTemplate.Triggers>
@@ -134,7 +134,7 @@
             <TextBlock Style="{StaticResource IconStyle}"
                        FontSize="18"
                        VerticalAlignment="Center"
-                       Text="&#xe603;"
+                       Text="&#xe602;"
                        Foreground="WhiteSmoke"/>
         </Border>
         <ControlTemplate.Triggers>

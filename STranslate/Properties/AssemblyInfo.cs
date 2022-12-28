@@ -48,5 +48,5 @@ using System.Windows;
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.0.8.0")]
-[assembly: AssemblyFileVersion("0.0.8.0")]
+[assembly: AssemblyFileVersion("0.1.0.0")]
 [assembly: Guid("CE252DD8-179F-4544-9989-453F5DEA378D")]
