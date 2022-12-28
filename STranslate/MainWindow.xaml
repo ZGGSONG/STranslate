@@ -79,7 +79,7 @@
                                     <TextBlock Text="识别为 "
                                                Style="{DynamicResource LanguageMarkTextBlockStyle}"/>
                                     <TextBlock Text="{Binding IdentifyLanguage}"
-                                               Foreground="#3478f6"/>
+                                               Foreground="#af67c1"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>

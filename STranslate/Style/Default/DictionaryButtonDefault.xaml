@@ -44,7 +44,7 @@
                        FontSize="21"
                        VerticalAlignment="Center"
                        Text="&#xe637;"
-                       Foreground="#3478f6"/>
+                       Foreground="#af67c1"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
