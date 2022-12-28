@@ -33,8 +33,10 @@ namespace STranslate
         private void InitialTray()
         {
             notifyIcon.Text = "STranslate";
+            notifyIcon.BalloonTipText = "STranslate 已启动";
             notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             notifyIcon.Visible = true;
+            notifyIcon.ShowBalloonTip(1000);
 
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
@@ -282,8 +284,7 @@ namespace STranslate
         }
         private void InitView()
         {
-            this.Activate();
-            this.TextBoxInput.Focus();
+            this.Hide();
         }
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
         private bool _IsTopmost { get; set; }
