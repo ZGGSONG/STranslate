@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
+using System.Security.Cryptography;
 
 namespace STranslate.ViewModel
 {
@@ -79,16 +81,29 @@ namespace STranslate.ViewModel
         /// </returns>
         private Tuple<string, string> AutomaticLanguageRecognition(string text)
         {
+            //1. 首先去除所有数字、标点及特殊符号
             //https://www.techiedelight.com/zh/strip-punctuations-from-a-string-in-csharp/
-            //预处理
-            text = System.Text.RegularExpressions.Regex.Replace(text,
+            text = Regex.Replace(text,
                 "[1234567890!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~，。、《》？；‘’：“”【】、{}|·！@#￥%……&*（）——+~\\\\]",
                 string.Empty);
 
-            System.Diagnostics.Debug.Print($"经过转换后: {text}");
+            //2. 取出上一步中所有英文字符
+            var engStr = GetSubString(text);
 
+            var ratio = (double)engStr.Length / text.Length;
+            
+            //3. 判断英文字符个数占第一步所有字符个数比例，若超过一半则判定原字符串为英文字符串，否则为中文字符串
+            if (ratio > 0.5)
+            {
+                return new Tuple<string, string>(LanguageEnum.EN.GetDescription(), LanguageEnum.ZH.GetDescription());
+            }
+            else
+            {
+                return new Tuple<string, string>(LanguageEnum.ZH.GetDescription(), LanguageEnum.EN.GetDescription());
+            }
+#if false
             //如果输入是中文
-            if (System.Text.RegularExpressions.Regex.IsMatch(text, @"^[\u4e00-\u9fa5]+$"))
+            if (Regex.IsMatch(text, @"^[\u4e00-\u9fa5]+$"))
             {
                 return new Tuple<string, string>(LanguageEnum.ZH.GetDescription(), LanguageEnum.EN.GetDescription());
             }
@@ -96,6 +111,7 @@ namespace STranslate.ViewModel
             {
                 return new Tuple<string, string>(LanguageEnum.EN.GetDescription(), LanguageEnum.ZH.GetDescription());
             }
+#endif
         }
         /// <summary>
         /// 翻译
@@ -115,9 +131,6 @@ namespace STranslate.ViewModel
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
                     isEng = autoRet.Item2;
-#if DEBUG
-                    return;
-#endif
                     translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
@@ -199,8 +212,24 @@ namespace STranslate.ViewModel
             return ret;
 
         }
+        /// <summary>
+        /// 提取英文
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public string GetSubString(string str)
+        {
+            Regex regex = new Regex("[a-zA-Z]+");
 
-        #endregion handle
+            MatchCollection mMactchCol = regex.Matches(str);
+            string strA_Z = string.Empty;
+            foreach (Match mMatch in mMactchCol)
+            {
+                strA_Z += mMatch.Value;
+            }
+            return strA_Z;
+        }
+#endregion handle
 
         #region Params
         private string translateResp;
