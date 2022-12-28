@@ -115,7 +115,9 @@ namespace STranslate.ViewModel
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
                     isEng = autoRet.Item2;
+#if DEBUG
                     return;
+#endif
                     translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
