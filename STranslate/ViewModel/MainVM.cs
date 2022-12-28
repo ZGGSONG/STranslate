@@ -1,5 +1,5 @@
 ﻿using STranslate.Model;
-using STranslate.Utils;
+using STranslate.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace STranslate.ViewModel
             OutputComboSelected = LanguageEnum.AUTO.GetDescription();
 
             //初始化接口
-            SelectedTranslationInterface = TranslationInterface[0];
+            SelectedTranslationInterface = TranslationInterface[1];
 
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -97,11 +97,11 @@ namespace STranslate.ViewModel
                 {
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
-                    translateResp = await TranslateUtil.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
+                    translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
                 {
-                    translateResp = await TranslateUtil.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                    translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
                 }
 
                 //百度 Api
@@ -256,7 +256,7 @@ namespace STranslate.ViewModel
         public List<TranslationInterface> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
         private TranslationInterface _SelectedTranslationInterface;
         public TranslationInterface SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
-        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => TranslateUtil.GetEnumList<LanguageEnum>(); }
+        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }
 
         #endregion Params
     }

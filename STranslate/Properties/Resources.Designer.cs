@@ -19,7 +19,7 @@ namespace STranslate.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -63,9 +63,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap copy_h {
+        internal static System.Drawing.Bitmap _lock {
             get {
-                object obj = ResourceManager.GetObject("copy_h", resourceCulture);
+                object obj = ResourceManager.GetObject("_lock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap copy_h2 {
+        internal static System.Drawing.Bitmap copy_default {
             get {
-                object obj = ResourceManager.GetObject("copy_h2", resourceCulture);
+                object obj = ResourceManager.GetObject("copy_default", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap copy_s {
+        internal static System.Drawing.Bitmap copy_large_hump {
             get {
-                object obj = ResourceManager.GetObject("copy_s", resourceCulture);
+                object obj = ResourceManager.GetObject("copy_large_hump", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,19 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap copy2 {
+        internal static System.Drawing.Bitmap copy_small_hump {
             get {
-                object obj = ResourceManager.GetObject("copy2", resourceCulture);
+                object obj = ResourceManager.GetObject("copy_small_hump", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap copy_snake {
+            get {
+                object obj = ResourceManager.GetObject("copy_snake", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -117,16 +127,6 @@ namespace STranslate.Properties {
             get {
                 object obj = ResourceManager.GetObject("input", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap lock3 {
-            get {
-                object obj = ResourceManager.GetObject("lock3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -153,9 +153,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap unlock3 {
+        internal static System.Drawing.Bitmap unlock {
             get {
-                object obj = ResourceManager.GetObject("unlock3", resourceCulture);
+                object obj = ResourceManager.GetObject("unlock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

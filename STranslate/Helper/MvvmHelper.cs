@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
-namespace STranslate.Utils
+namespace STranslate.Helper
 {
     /// <summary>
     /// 通知

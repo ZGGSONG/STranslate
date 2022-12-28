@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/DictionaryButtonDefault.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/DictionaryComboBoxDefault.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

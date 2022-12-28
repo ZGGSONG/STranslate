@@ -4,15 +4,16 @@ using System.IO;
 using System.Reflection;
 using IWshRuntimeLibrary;
 
-namespace STranslate.Utils
+namespace STranslate.Helper
 {
-    public class AutoStart
+    public class StartupHelper
     {
+
         #region public method
         /// <summary>
         /// 设置开机自启
         /// </summary>
-        public static void SetAutoStart()
+        public static void SetStartup()
         {
             ShortCutCreate();
         }
@@ -20,14 +21,14 @@ namespace STranslate.Utils
         /// 检查是否已经设置开机自启
         /// </summary>
         /// <returns>true: 开机自启 false: 非开机自启</returns>
-        public static bool IsAutoStart()
+        public static bool IsStartup()
         {
             return ShortCutExist(appPath, StartUpPath);
         }
         /// <summary>
         /// 取消开机自启
         /// </summary>
-        public static void UnSetAutoStart()
+        public static void UnSetStartup()
         {
             ShortCutDelete(appPath, StartUpPath);
         }

@@ -3,33 +3,17 @@ using STranslate.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace STranslate.Utils
+namespace STranslate.Util
 {
-    public class TranslateUtil
+    public class Util
     {
-        private static readonly string _url = "http://127.0.0.1:8000/translate";
-
-        public static string Translate(string input, LanguageEnum source, LanguageEnum target)
-        {
-            var req = new DeeplReq()
-            {
-                Text = input,
-                SourceLang = source.ToString(),
-                TargetLang = target.ToString(),
-            };
-            var resp = HttpUtil.Post(_url, req);
-            if (resp.Code == 200)
-            {
-                return resp.Data;
-            }
-            return string.Empty;
-        }
-
+        #region 翻译接口
         public static async Task<string> TranslateDeepLAsync(string url, string text, LanguageEnum target, LanguageEnum source = LanguageEnum.AUTO)
         {
             var req = new DeeplReq()
@@ -48,7 +32,7 @@ namespace STranslate.Utils
                 req.TargetLang = LanguageEnum.AUTO.ToString().ToLower();
             }
             var reqStr = JsonConvert.SerializeObject(req);
-            var respStr = await HttpUtil.PostAsync(url, reqStr);
+            var respStr = await PostAsync(url, reqStr);
             var resp = JsonConvert.DeserializeObject<DeeplResp>(respStr);
 
             if (resp == null || resp.Code != 200)
@@ -96,7 +80,7 @@ namespace STranslate.Utils
             myResponseStream.Close();
 #endif
 
-                var retString = await HttpUtil.GetAsync(url);
+                var retString = await GetAsync(url);
                 var resp = JsonConvert.DeserializeObject<BaiduResp>(retString);
                 if (resp.From != null)
                 {
@@ -144,5 +128,52 @@ namespace STranslate.Utils
             });
             return dict;
         }
+        #endregion
+
+        #region Http
+        /// <summary>
+        /// 异步Post请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, string req)
+        {
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(req, Encoding.UTF8, "application/json");
+
+                var respContent = await client.PostAsync(url, content);
+
+                string respStr = await respContent.Content.ReadAsStringAsync();
+                ;
+                return respStr;
+            }
+        }
+
+        /// <summary>
+        /// 异步Get请求
+        /// </summary>
+        /// <param name="urlpath"></param>
+        /// <returns></returns>
+        public static async Task<string> GetAsync(string urlpath)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var respContent = await client.GetAsync(urlpath);
+
+                    string respStr = await respContent.Content.ReadAsStringAsync();
+
+                    return respStr;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -1,7 +1,6 @@
-﻿using STranslate.Utils;
+﻿using STranslate.Helper;
 using STranslate.ViewModel;
 using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -34,7 +33,7 @@ namespace STranslate
         private void InitialTray()
         {
             notifyIcon.Text = "STranslate";
-            notifyIcon.Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
+            notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             notifyIcon.Visible = true;
 
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
@@ -44,6 +43,7 @@ namespace STranslate
 
             System.Windows.Forms.MenuItem ScreenshotTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("截图翻译");
             ScreenshotTranslateMenuItemBTN.Click += new EventHandler(ScreenshotTranslateMenuItem_Click);
+            ScreenshotTranslateMenuItemBTN.Enabled = false;
 
             System.Windows.Forms.MenuItem InputTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("输入翻译");
             InputTranslateMenuItemBTN.Click += new EventHandler(InputTranslateMenuItem_Click);
@@ -54,7 +54,7 @@ namespace STranslate
             System.Windows.Forms.MenuItem AutoStartBTN = new System.Windows.Forms.MenuItem("开机自启");
             AutoStartBTN.Click += new EventHandler(AutoStart_Click);
 
-            AutoStartBTN.Checked = AutoStart.IsAutoStart();
+            AutoStartBTN.Checked = StartupHelper.IsStartup();
 
             System.Windows.Forms.MenuItem ExitBTN = new System.Windows.Forms.MenuItem("退出");
             ExitBTN.Click += new EventHandler(Exit_Click);
@@ -72,9 +72,9 @@ namespace STranslate
 
         private void AutoStart_Click(object sender, EventArgs e)
         {
-            if (AutoStart.IsAutoStart()) AutoStart.UnSetAutoStart();
-            else AutoStart.SetAutoStart();
-            (sender as System.Windows.Forms.MenuItem).Checked = AutoStart.IsAutoStart();
+            if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
+            else StartupHelper.SetStartup();
+            (sender as System.Windows.Forms.MenuItem).Checked = StartupHelper.IsStartup();
         }
 
 
@@ -128,7 +128,7 @@ namespace STranslate
         {
             //base.OnSourceInitialized(e);
             IntPtr handle = new WindowInteropHelper(this).Handle;
-            HotKeysUtil.RegisterHotKey(handle);
+            HotkeysHelper.RegisterHotKey(handle);
 
             HwndSource source = HwndSource.FromHwnd(handle);
             source.AddHook(WndProc);
@@ -144,19 +144,21 @@ namespace STranslate
             {
                 case 0x0312: //这个是window消息定义的 注册的热键消息
                     //Console.WriteLine(wParam.ToString());
-                    if (wParam.ToString().Equals(HotKeysUtil.InputTranslateId + ""))
+                    if (wParam.ToString().Equals(HotkeysHelper.InputTranslateId + ""))
                     {
                         this.InputTranslateMenuItem_Click(null, null);
                     }
-                    else if (wParam.ToString().Equals(HotKeysUtil.CrosswordTranslateId + ""))
+                    else if (wParam.ToString().Equals(HotkeysHelper.CrosswordTranslateId + ""))
                     {
                         this.CrossWordTranslateMenuItem_Click(null, null);
                     }
-                    else if (wParam.ToString().Equals(HotKeysUtil.ScreenShotTranslateId + ""))
+#if false
+                    else if (wParam.ToString().Equals(HotkeysHelper.ScreenShotTranslateId + ""))
                     {
                         this.ScreenshotTranslateMenuItem_Click(null, null);
                     }
-                    else if (wParam.ToString().Equals(HotKeysUtil.OpenMainWindowId + ""))
+#endif
+                    else if (wParam.ToString().Equals(HotkeysHelper.OpenMainWindowId + ""))
                     {
                         this.OpenMainWin_Click(null, null);
                     }
@@ -233,7 +235,7 @@ namespace STranslate
         private void CrossWordTranslateMenuItem_Click(object sender, EventArgs e)
         {
             ClearTextBox();
-            var sentence = GetWords.Get();
+            var sentence = GetWordsHelper.Get();
             this.Show();
             this.Activate();
             this.TextBoxInput.Text = sentence.Trim();
@@ -277,8 +279,8 @@ namespace STranslate
             this.Activate();
             this.TextBoxInput.Focus();
         }
-        private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/lock3.png"));
-        private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/Images/unlock3.png"));
+        private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/lock.png"));
+        private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/unlock.png"));
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
     }
 }

@@ -82,6 +82,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\GetWordsHelper.cs" />
+    <Compile Include="Helper\HotkeysHelper.cs" />
+    <Compile Include="Helper\MvvmHelper.cs" />
+    <Compile Include="Helper\NativeMethodHelper.cs" />
+    <Compile Include="Helper\StartupHelper.cs" />
     <Compile Include="Model\TranslateInterface.cs" />
     <Compile Include="Model\VisibilityConverter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -89,13 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\AutoStart.cs" />
-    <Compile Include="Utils\GetWordsUtil.cs" />
-    <Compile Include="Utils\HotKeysUtil.cs" />
-    <Compile Include="Utils\HttpUtil.cs" />
-    <Compile Include="Utils\MvvmUtil.cs" />
-    <Compile Include="Utils\NativeMethod.cs" />
-    <Compile Include="Utils\TranslateUtil.cs" />
+    <Compile Include="Util\Util.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -109,10 +108,17 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Style\DictionaryButtonDefault.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\DictionaryComboBoxDefault.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\BaiduModel.cs" />
-    <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\DeeplModel.cs" />
     <Compile Include="Model\LanguageEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -135,37 +141,37 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Images\crossword.ico">
+    <Resource Include="Images\Tray\crossword.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\input.ico">
+    <Resource Include="Images\Tray\input.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\screenshot.ico">
+    <Resource Include="Images\Tray\screenshot.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\window.ico">
+    <Resource Include="Images\Tray\window.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\unlock3.png">
+    <Resource Include="Images\Button_Default\unlock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\lock3.png">
+    <Resource Include="Images\Button_Default\lock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\translate.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\copy2.png">
+    <Resource Include="Images\Button_Default\copy_default.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\copy_h.png">
+    <Resource Include="Images\Button_Default\copy_small_hump.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\copy_h2.png">
+    <Resource Include="Images\Button_Default\copy_large_hump.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\copy_s.png">
+    <Resource Include="Images\Button_Default\copy_snake.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -195,5 +201,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

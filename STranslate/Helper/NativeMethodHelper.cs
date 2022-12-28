@@ -2,9 +2,9 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace STranslate.Utils
+namespace STranslate.Helper
 {
-    internal class NativeMethod
+    internal class NativeMethodHelper
     {
         /// <summary>
         /// 获取进程句柄
