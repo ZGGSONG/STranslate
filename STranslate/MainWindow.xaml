@@ -34,29 +34,9 @@
 
             <!--header-->
             <Grid x:Name="Header">
-                <Button Click="Top_Click">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border x:Name="border"
-                                    CornerRadius="5"
-                                    Padding="5"
-                                    HorizontalAlignment="Left"
-                                    Margin="8,5,0,0"
-                                    MaxHeight="30">
-                                <Image Height="20"
-                                       Source="{Binding TopImgSource}"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="true">
-                                    <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <Button x:Name="TopmostBtn"
+                        Template="{DynamicResource ButtonTemplateUnTopmost}"
+                        Click="Top_Click"/>
                 <Button Template="{DynamicResource ButtonTemplate}"
                         Width="30"
                         HorizontalAlignment="Right"

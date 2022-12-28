@@ -214,12 +214,6 @@ namespace STranslate.ViewModel
         private string _LargeHumpRet;
         public string LargeHumpRet { get => _LargeHumpRet; set => UpdateProperty(ref _LargeHumpRet, value); }
 
-        /// <summary>
-        /// 置顶图标
-        /// </summary>
-        private BitmapImage _TopImgSource;
-        public BitmapImage TopImgSource { get => _TopImgSource; set => UpdateProperty(ref _TopImgSource, value); }
-
         private string _InputTxt;
         public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }
 

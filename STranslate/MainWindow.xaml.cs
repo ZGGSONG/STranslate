@@ -101,7 +101,7 @@ namespace STranslate
                 this.Hide();
 
                 //取消置顶
-                vm.TopImgSource = _UnTopmost;
+                TopmostBtn.SetResourceReference(TemplateProperty, _UnTopmostTemplateName);
             }
             //置顶 Ctrl+Shift+T
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
@@ -174,7 +174,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (vm.TopImgSource == _UnTopmost)
+            if (!_IsTopmost)
             {
                 this.Hide();
             }
@@ -259,7 +259,15 @@ namespace STranslate
         /// <param name="e"></param>
         private void Top_Click(object sender, RoutedEventArgs e)
         {
-            vm.TopImgSource = vm.TopImgSource == _Topmost ? _UnTopmost : _Topmost;
+            if (_IsTopmost)
+            {
+                TopmostBtn.SetResourceReference(TemplateProperty, _UnTopmostTemplateName);
+            }
+            else
+            {
+                TopmostBtn.SetResourceReference(TemplateProperty, _TopmostTemplateName);
+            }
+            _IsTopmost = !_IsTopmost;
         }
         /// <summary>
         /// 退出
@@ -274,13 +282,12 @@ namespace STranslate
         }
         private void InitView()
         {
-            vm.TopImgSource = _UnTopmost;
-
             this.Activate();
             this.TextBoxInput.Focus();
         }
-        private static readonly BitmapImage _Topmost = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/topmost.png"));
-        private static readonly BitmapImage _UnTopmost = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/untopmost.png"));
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
+        private bool _IsTopmost { get; set; }
+        private readonly string _TopmostTemplateName = "ButtonTemplateTopmost";
+        private readonly string _UnTopmostTemplateName = "ButtonTemplateUnTopmost";
     }
 }
