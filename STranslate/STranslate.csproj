@@ -153,10 +153,10 @@
     <Resource Include="Images\Tray\window.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Button_Default\unlock.png">
+    <Resource Include="Images\Button_Default\untopmost.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Button_Default\lock.png">
+    <Resource Include="Images\Button_Default\topmost.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\translate.ico">

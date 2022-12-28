@@ -63,16 +63,6 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap _lock {
-            get {
-                object obj = ResourceManager.GetObject("_lock", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap copy_default {
             get {
                 object obj = ResourceManager.GetObject("copy_default", resourceCulture);
@@ -141,6 +131,16 @@ namespace STranslate.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap topmost {
+            get {
+                object obj = ResourceManager.GetObject("topmost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon translate {
@@ -153,9 +153,9 @@ namespace STranslate.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap unlock {
+        internal static System.Drawing.Bitmap untopmost {
             get {
-                object obj = ResourceManager.GetObject("unlock", resourceCulture);
+                object obj = ResourceManager.GetObject("untopmost", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -101,7 +101,7 @@ namespace STranslate
                 this.Hide();
 
                 //取消置顶
-                vm.TopImgSource = UnLockImgPath;
+                vm.TopImgSource = _UnTopmost;
             }
             //置顶 Ctrl+Shift+T
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
@@ -174,7 +174,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (vm.TopImgSource == UnLockImgPath)
+            if (vm.TopImgSource == _UnTopmost)
             {
                 this.Hide();
             }
@@ -259,7 +259,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void Top_Click(object sender, RoutedEventArgs e)
         {
-            vm.TopImgSource = vm.TopImgSource == LockImgPath ? UnLockImgPath : LockImgPath;
+            vm.TopImgSource = vm.TopImgSource == _Topmost ? _UnTopmost : _Topmost;
         }
         /// <summary>
         /// 退出
@@ -274,13 +274,13 @@ namespace STranslate
         }
         private void InitView()
         {
-            vm.TopImgSource = UnLockImgPath;
+            vm.TopImgSource = _UnTopmost;
 
             this.Activate();
             this.TextBoxInput.Focus();
         }
-        private BitmapImage LockImgPath = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/lock.png"));
-        private BitmapImage UnLockImgPath = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/unlock.png"));
+        private static readonly BitmapImage _Topmost = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/topmost.png"));
+        private static readonly BitmapImage _UnTopmost = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/untopmost.png"));
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
     }
 }
