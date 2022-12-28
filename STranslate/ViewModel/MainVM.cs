@@ -79,6 +79,11 @@ namespace STranslate.ViewModel
         /// </returns>
         private Tuple<string, string> AutomaticLanguageRecognition(string text)
         {
+            //https://www.techiedelight.com/zh/strip-punctuations-from-a-string-in-csharp/
+            //预处理
+            text = System.Text.RegularExpressions.Regex.Replace(text,
+                "[1234567890!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~，。、《》？；‘’：“”【】、{}|·！@#￥%……&*（）——+~\\\\]",
+                string.Empty);
             //如果输入是中文
             if (System.Text.RegularExpressions.Regex.IsMatch(text, @"^[\u4e00-\u9fa5]+$"))
             {
