@@ -282,5 +282,17 @@ namespace STranslate
         private static readonly BitmapImage _Topmost = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/topmost.png"));
         private static readonly BitmapImage _UnTopmost = new BitmapImage(new Uri("pack://application:,,,/STranslate;component/Images/Button_Default/untopmost.png"));
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.Resources.MergedDictionaries[0].Source.ToString() == "pack://application:,,,/STranslate;component/Style/Dark.xaml")
+            {
+                Application.Current.Resources.MergedDictionaries[0].Source = new Uri("pack://application:,,,/STranslate;component/Style/Default.xaml");
+            }
+            else
+            {
+                Application.Current.Resources.MergedDictionaries[0].Source = new Uri("pack://application:,,,/STranslate;component/Style/Dark.xaml");
+            }
+        }
     }
 }

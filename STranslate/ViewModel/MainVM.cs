@@ -15,7 +15,6 @@ namespace STranslate.ViewModel
 
         public MainVM()
         {
-            //初始化界面参数
             InputCombo = LanguageEnumDict.Keys.ToList();
             InputComboSelected = LanguageEnum.AUTO.GetDescription();
             OutputCombo = LanguageEnumDict.Keys.ToList();
@@ -48,6 +47,10 @@ namespace STranslate.ViewModel
             CopyLargeHumpResultCmd = new RelayCommand((_) => true, (_) =>
             {
                 Clipboard.SetText(LargeHumpRet);
+            });
+            ThemeConvertCmd = new RelayCommand((_) => true, (_) =>
+            {
+
             });
 
             //翻译
@@ -186,6 +189,7 @@ namespace STranslate.ViewModel
         public ICommand CopySnakeResultCmd { get; private set; }
         public ICommand CopySmallHumpResultCmd { get; private set; }
         public ICommand CopyLargeHumpResultCmd { get; private set; }
+        public ICommand ThemeConvertCmd { get; private set; }
 
         /// <summary>
         /// 识别语种

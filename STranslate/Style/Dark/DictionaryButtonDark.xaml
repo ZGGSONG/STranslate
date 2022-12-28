@@ -1,0 +1,71 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+        <Border x:Name="border"
+                    CornerRadius="5"
+                    Padding="4"
+                    MaxHeight="25">
+            <Image Source="pack://application:,,,/STranslate;component/Images/Button_Default/copy_default.png"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#47484c"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#35333c"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ButtonTemplateSnakeCopy" TargetType="Button">
+        <Border x:Name="border"
+                    CornerRadius="5"
+                    Padding="4"
+                    MaxHeight="25">
+            <Image Source="pack://application:,,,/STranslate;component/Images/Button_Default/copy_snake.png"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#47484c"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#35333c"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ButtonTemplateSmallHumpCopy" TargetType="Button">
+        <Border x:Name="border"
+                    CornerRadius="5"
+                    Padding="4"
+                    MaxHeight="25">
+            <Image Source="pack://application:,,,/STranslate;component/Images/Button_Default/copy_small_hump.png"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#47484c"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#35333c"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ButtonTemplateLargeHumpCopy" TargetType="Button">
+        <Border x:Name="border"
+                    CornerRadius="5"
+                    Padding="4"
+                    MaxHeight="25">
+            <Image Source="pack://application:,,,/STranslate;component/Images/Button_Default/copy_large_hump.png"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#47484c"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#35333c"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>

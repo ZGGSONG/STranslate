@@ -5,8 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/DictionaryButtonDefault.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/DictionaryComboBoxDefault.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -4,7 +4,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
-        xmlns:model="clr-namespace:STranslate.Model"
         mc:Ignorable="d"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
@@ -19,19 +18,12 @@
         SizeToContent="Height"
         Width="400"
         Icon="/Images/translate.ico">
-    
+
     <Window.DataContext>
         <vm:MainVM />
     </Window.DataContext>
-    
-    <Window.Resources>
-        <model:VisibilityConverter x:Key="String2VisibilityConverter"/>
-    </Window.Resources>
-    
-    <Border Background="#fff"
-            BorderBrush="#acacac"
-            BorderThickness="1"
-            CornerRadius="10">
+
+    <Border Style="{DynamicResource  BorderMainStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -65,7 +57,13 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <ComboBox Style="{StaticResource cmbstyle}"
+                <Button Template="{DynamicResource ButtonTemplate}"
+                        Width="30"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,100,0"
+                        Click="Button_Click"/>
+                <ComboBox Style="{DynamicResource cmbstyle}"
                           Margin="0,5,10,0"
                           ItemsSource="{Binding TranslationInterface}"
                           DisplayMemberPath="Name"
@@ -79,24 +77,10 @@
                   Margin="10,0,10,0">
                 <!--输入框-->
                 <Border x:Name="BorderInput"
-                        Background="#f6f6f6"
-                        BorderThickness="0"
-                        CornerRadius="4"
-                        Margin="5">
+                        Style="{DynamicResource BorderInOutputStyle}">
                     <Grid>
                         <TextBox x:Name="TextBoxInput"
-                                 Background="Transparent"
-                                 BorderBrush="{x:Null}"
-                                 Margin="10,10,5,35"
-                                 BorderThickness="0"
-                                 FontSize="16"
-                                 MinHeight="70"
-                                 MaxHeight="200"
-                                 TextWrapping="Wrap"
-                                 AcceptsReturn="True"
-                                 VerticalContentAlignment="Top"
-                                 HorizontalScrollBarVisibility="Disabled"
-                                 VerticalScrollBarVisibility="Hidden"
+                                 Style="{DynamicResource TextBoxInputStyle}"
                                  Text="{Binding InputTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <TextBox.InputBindings>
                                 <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
@@ -105,18 +89,15 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
-                            <Button Template="{StaticResource ButtonTemplate}"
+                            <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyInputCmd}"/>
-                            <Border Margin="10,0,0,2"
-                                    Background="#eaeaea"
-                                    CornerRadius="8"
-                                    Visibility="{Binding IdentifyLanguage,Converter={StaticResource String2VisibilityConverter}}"
-                                    VerticalAlignment="Bottom">
+                            <Border Style="{DynamicResource LanguageMarkBorderStyle}"
+                                    Visibility="{Binding IdentifyLanguage,Converter={StaticResource String2VisibilityConverter}}">
                                 <StackPanel Margin="5,2"
                                             Orientation="Horizontal">
                                     <TextBlock Text="识别为 "
-                                                Foreground="#999999"/>
+                                               Style="{DynamicResource LanguageMarkTextBlockStyle}"/>
                                     <TextBlock Text="{Binding IdentifyLanguage}"
                                                 Foreground="#3478f6"/>
                                 </StackPanel>
@@ -132,16 +113,16 @@
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <TextBlock Text="当前语言:  "
-                           VerticalAlignment="Center"/>
+                           Style="{DynamicResource MidStyle}"/>
                 <ComboBox x:Name="InCombo"
-                          Style="{StaticResource cmbstyle}"
+                          Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding InputCombo}"
                           SelectedItem="{Binding InputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <Separator Margin="20,0"/>
                 <TextBlock Text="目标语言:  "
-                           VerticalAlignment="Center"/>
+                           Style="{DynamicResource MidStyle}"/>
                 <ComboBox x:Name="OutCombo"
-                          Style="{StaticResource cmbstyle}"
+                          Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding OutputCombo}"
                           SelectedItem="{Binding OutputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
@@ -152,44 +133,31 @@
                   Grid.Row="3">
                 <!--输出框-->
                 <Border x:Name="BorderOutput"
-                        Background="#f6f6f6"
-                        BorderThickness="0"
-                        CornerRadius="4"
-                        Margin="5"
+                        Style="{DynamicResource BorderInOutputStyle}"
                         Height="{Binding ElementName=Output, Path=Height}">
                     <Grid>
                         <TextBox x:Name="TextBoxOutput"
-                                Background="Transparent"
-                                BorderBrush="{x:Null}"
-                                BorderThickness="0"
-                                IsReadOnly="True"
-                                Margin="10,10,5,35"
-                                MaxHeight="400"
-                                FontSize="16"
-                                TextWrapping="Wrap"
-                                VerticalContentAlignment="Top"
-                                HorizontalScrollBarVisibility="Disabled"
-                                VerticalScrollBarVisibility="Hidden"
-                                Text="{Binding OutputTxt}"/>
+                                 Style="{DynamicResource TextBoxOutputStyle}"
+                                 Text="{Binding OutputTxt}"/>
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
                             <!--普通复制-->
-                            <Button Template="{StaticResource ButtonTemplate}"
+                            <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyResultCmd}"/>
                             <!--蛇形复制-->
                             <Button Margin="5,0"
-                                    Template="{StaticResource ButtonTemplateSnakeCopy}"
+                                    Template="{DynamicResource ButtonTemplateSnakeCopy}"
                                     Visibility="{Binding SnakeRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySnakeResultCmd}"/>
                             <!--小驼峰复制-->
-                            <Button Template="{StaticResource ButtonTemplateSmallHumpCopy}"
+                            <Button Template="{DynamicResource ButtonTemplateSmallHumpCopy}"
                                     Visibility="{Binding SmallHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySmallHumpResultCmd}"/>
                             <!--大驼峰复制-->
                             <Button Margin="5,0"
-                                    Template="{StaticResource ButtonTemplateLargeHumpCopy}"
+                                    Template="{DynamicResource ButtonTemplateLargeHumpCopy}"
                                     Visibility="{Binding LargeHumpRet,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyLargeHumpResultCmd}"/>
                         </StackPanel>
