@@ -20,15 +20,17 @@
 - [x] 优化防止多开
 - [x] 添加划词翻译
 - [x] 添加复制结果蛇形、大小驼峰
-- [x] 软件层面识别语种（目前只支持中英文）
+- [x] 软件层面识别语种（目前支持中英文）
 - [x] 添加开机自启
+- [x] 添加亮/暗主题
 - [ ] 添加 OCR 翻译
 - [ ] 添加翻译记录缓存功能
-- [ ] 优化软件发布方式(自动升级)
 
 ## 使用
 
 ![previews](./example.png)
+
+![previews_dark](./example_dark.png)
 
 打开软件后会静默在后台，等待调用
 1. 全局监听快捷键
@@ -45,7 +47,7 @@
 
 3. 0.08 版本添加开机启动
 
-![previews](./example2.png)
+![previews](./example_tray.png)
 
 ## 接口失效
 
@@ -53,6 +55,6 @@
 
 ## 参考项目
 
-监听全局快捷键功能参考如下项目，在此表示感谢 [https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)  
+[https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)  
 
-翻译接口使用项目 [https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2)
+[https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2)
