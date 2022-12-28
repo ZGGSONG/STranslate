@@ -84,6 +84,9 @@ namespace STranslate.ViewModel
             text = System.Text.RegularExpressions.Regex.Replace(text,
                 "[1234567890!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~，。、《》？；‘’：“”【】、{}|·！@#￥%……&*（）——+~\\\\]",
                 string.Empty);
+
+            System.Diagnostics.Debug.Print($"经过转换后: {text}");
+
             //如果输入是中文
             if (System.Text.RegularExpressions.Regex.IsMatch(text, @"^[\u4e00-\u9fa5]+$"))
             {
@@ -102,6 +105,7 @@ namespace STranslate.ViewModel
         {
             try
             {
+                var isEng = string.Empty;
                 IdentifyLanguage = string.Empty;
                 OutputTxt = "翻译中...";
 
@@ -110,6 +114,8 @@ namespace STranslate.ViewModel
                 {
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
+                    isEng = autoRet.Item2;
+                    return;
                     translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
@@ -127,8 +133,11 @@ namespace STranslate.ViewModel
                 }
                 OutputTxt = translateResp;
 
-                //如果不是英文则不进行转换
-                if (AutomaticLanguageRecognition(InputTxt).Item2 != LanguageEnum.EN.GetDescription() && LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN)
+                //如果目标语言不是英文则不进行转换
+                //1. 自动判断语种：Tuple item2 不为 EN
+                //2. 非自动判断语种，目标语种不为 EN
+                if ((!string.IsNullOrEmpty(isEng) && isEng != LanguageEnum.EN.GetDescription())
+                    || LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN)
                 {
                     return;
                 }

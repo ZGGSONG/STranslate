@@ -33,15 +33,17 @@ namespace STranslate
         private void InitialTray()
         {
             notifyIcon.Text = "STranslate";
-            notifyIcon.BalloonTipText = "STranslate 已启动";
+            //notifyIcon.BalloonTipText = "STranslate 已启动";
             notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             notifyIcon.Visible = true;
-            notifyIcon.ShowBalloonTip(1000);
+            //notifyIcon.ShowBalloonTip(1000);
 
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
             System.Windows.Forms.MenuItem CrossWordTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("划词翻译");
             CrossWordTranslateMenuItemBTN.Click += new EventHandler(CrossWordTranslateMenuItem_Click);
+            //当失去焦点后无法从托盘处获取选中文本
+            CrossWordTranslateMenuItemBTN.Visible = false;
 
             System.Windows.Forms.MenuItem ScreenshotTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("截图翻译");
             ScreenshotTranslateMenuItemBTN.Click += new EventHandler(ScreenshotTranslateMenuItem_Click);
@@ -278,13 +280,13 @@ namespace STranslate
         /// <param name="e"></param>
         private void Exit_Click(object sender, EventArgs e)
         {
-
             notifyIcon.Dispose();
             Environment.Exit(0);
         }
         private void InitView()
         {
-            this.Hide();
+            this.Activate();
+            this.TextBoxInput.Focus();
         }
         private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
         private bool _IsTopmost { get; set; }
