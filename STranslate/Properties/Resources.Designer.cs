@@ -61,82 +61,12 @@ namespace STranslate.Properties {
         }
         
         /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap copy_default {
+        internal static byte[] iconfont {
             get {
-                object obj = ResourceManager.GetObject("copy_default", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap copy_large_hump {
-            get {
-                object obj = ResourceManager.GetObject("copy_large_hump", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap copy_small_hump {
-            get {
-                object obj = ResourceManager.GetObject("copy_small_hump", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap copy_snake {
-            get {
-                object obj = ResourceManager.GetObject("copy_snake", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Icon crossword {
-            get {
-                object obj = ResourceManager.GetObject("crossword", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Icon input {
-            get {
-                object obj = ResourceManager.GetObject("input", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Icon screenshot {
-            get {
-                object obj = ResourceManager.GetObject("screenshot", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap topmost {
-            get {
-                object obj = ResourceManager.GetObject("topmost", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("iconfont", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -146,26 +76,6 @@ namespace STranslate.Properties {
         internal static System.Drawing.Icon translate {
             get {
                 object obj = ResourceManager.GetObject("translate", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap untopmost {
-            get {
-                object obj = ResourceManager.GetObject("untopmost", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Icon window {
-            get {
-                object obj = ResourceManager.GetObject("window", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

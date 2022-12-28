@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace STranslate.ViewModel
 {
@@ -48,7 +49,9 @@ namespace STranslate.ViewModel
             {
                 Clipboard.SetText(LargeHumpRet);
             });
-            ThemeConvertCmd = new RelayCommand((_) => true, (_) =>
+
+            //主题切换
+            ThemeConvertCmd = new RelayCommand((_) => true, (o) =>
             {
                 Application.Current.Resources.MergedDictionaries[0].Source =
                 Application.Current.Resources.MergedDictionaries[0].Source

@@ -37,8 +37,8 @@
                 <Button x:Name="TopmostBtn"
                         Template="{DynamicResource ButtonTemplateUnTopmost}"
                         Click="Top_Click"/>
-                <Button Template="{DynamicResource ButtonTemplate}"
-                        Width="30"
+                <Button Width="auto"
+                        Template="{DynamicResource ButtonTemplateTheme}"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Margin="0,0,100,0"
