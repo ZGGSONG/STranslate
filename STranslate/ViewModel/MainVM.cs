@@ -124,6 +124,10 @@ namespace STranslate.ViewModel
                 var isEng = string.Empty;
                 IdentifyLanguage = string.Empty;
                 OutputTxt = "翻译中...";
+                //清空多种复制
+                SnakeRet = string.Empty;
+                SmallHumpRet = string.Empty;
+                LargeHumpRet = string.Empty;
 
                 //自动选择目标语言
                 if (OutputComboSelected == LanguageEnum.AUTO.GetDescription())
@@ -151,10 +155,13 @@ namespace STranslate.ViewModel
                 //如果目标语言不是英文则不进行转换
                 //1. 自动判断语种：Tuple item2 不为 EN
                 //2. 非自动判断语种，目标语种不为 EN
-                if ((!string.IsNullOrEmpty(isEng) && isEng != LanguageEnum.EN.GetDescription())
-                    || LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN)
+                if (!string.IsNullOrEmpty(isEng))
                 {
-                    return;
+                    if (isEng != LanguageEnum.EN.GetDescription()) return;
+                }
+                else
+                {
+                    if (LanguageEnumDict[OutputComboSelected] != LanguageEnum.EN) return;
                 }
 
                 var splitList = OutputTxt.Split(' ').ToList();
