@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://github.com/zggsong/STranslate" target="_blank">
-<img align="center" alt="STranslate" src="./translate.svg" />
+<img align="center" alt="STranslate" width="200" src="./translate.svg" />
 </a>
 </p>
 <p align="center">
