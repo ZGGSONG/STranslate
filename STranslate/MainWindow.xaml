@@ -62,7 +62,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Margin="0,0,100,0"
-                        Click="Button_Click"/>
+                        Command="{Binding ThemeConvertCmd}"/>
                 <ComboBox Style="{DynamicResource cmbstyle}"
                           Margin="0,5,10,0"
                           ItemsSource="{Binding TranslationInterface}"

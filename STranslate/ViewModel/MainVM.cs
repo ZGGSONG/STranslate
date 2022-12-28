@@ -50,7 +50,9 @@ namespace STranslate.ViewModel
             });
             ThemeConvertCmd = new RelayCommand((_) => true, (_) =>
             {
-
+                Application.Current.Resources.MergedDictionaries[0].Source =
+                Application.Current.Resources.MergedDictionaries[0].Source
+                .ToString() == _ThemeDark ? new Uri(_ThemeDefault) : new Uri(_ThemeDark);
             });
 
             //翻译
@@ -261,7 +263,8 @@ namespace STranslate.ViewModel
         private TranslationInterface _SelectedTranslationInterface;
         public TranslationInterface SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }
-
+        private static readonly string _ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
+        private static readonly string _ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";
         #endregion Params
     }
 }
