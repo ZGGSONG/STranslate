@@ -38,7 +38,7 @@
     </Style>
     <Style x:Key="LanguageMarkBorderStyle"
            TargetType="Border">
-        <Setter Property="Background" Value="#999999"/>
+        <Setter Property="Background" Value="#404856"/>
         <Setter Property="Margin" Value="10,0,0,2"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
