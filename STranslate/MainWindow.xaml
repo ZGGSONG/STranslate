@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
         mc:Ignorable="d"
+        Name="Mwin"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
@@ -42,7 +43,8 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Margin="0,0,100,0"
-                        Command="{Binding ThemeConvertCmd}"/>
+                        Command="{Binding ThemeConvertCmd}"
+                        CommandParameter="{Binding ElementName=Mwin}"/>
                 <ComboBox Style="{DynamicResource cmbstyle}"
                           Margin="0,5,10,0"
                           ItemsSource="{Binding TranslationInterface}"

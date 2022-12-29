@@ -216,7 +216,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void NotifyIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            OpenMainWin_Click(null, null);
+            InputTranslateMenuItem_Click(null, null);
         }
 
         /// <summary>
