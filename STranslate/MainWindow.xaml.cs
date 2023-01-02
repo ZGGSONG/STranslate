@@ -105,7 +105,11 @@ namespace STranslate
                 this.Hide();
 
                 //取消置顶
-                TopmostBtn.SetResourceReference(TemplateProperty, _UnTopmostTemplateName);
+                if (_IsTopmost)
+                {
+                    TopmostBtn.SetResourceReference(TemplateProperty, _UnTopmostTemplateName);
+                    _IsTopmost = !_IsTopmost;
+                }
             }
             //置顶 Ctrl+Shift+T
             if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control)
