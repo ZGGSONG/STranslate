@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using STranslate.Util;
 
 namespace STranslate.ViewModel
 {
@@ -88,7 +89,7 @@ namespace STranslate.ViewModel
                 string.Empty);
 
             //2. 取出上一步中所有英文字符
-            var engStr = GetSubString(text);
+            var engStr = Util.Util.ExtractEngString(text);
 
             var ratio = (double)engStr.Length / text.Length;
             
@@ -167,9 +168,9 @@ namespace STranslate.ViewModel
                 var splitList = OutputTxt.Split(' ').ToList();
                 if (splitList.Count > 1)
                 {
-                    SnakeRet = GenSnakeString(splitList);
-                    SmallHumpRet = GenHumpString(splitList, true);  //小驼峰
-                    LargeHumpRet = GenHumpString(splitList, false); //大驼峰
+                    SnakeRet = Util.Util.GenSnakeString(splitList);
+                    SmallHumpRet = Util.Util.GenHumpString(splitList, true);  //小驼峰
+                    LargeHumpRet = Util.Util.GenHumpString(splitList, false); //大驼峰
                 }
                 //System.Diagnostics.Debug.Print(SnakeRet + "\n" + SmallHumpRet + "\n" + LargeHumpRet);
             }
@@ -177,64 +178,6 @@ namespace STranslate.ViewModel
             {
                 OutputTxt = ex.Message;
             }
-        }
-        /// <summary>
-        /// 构造蛇形结果
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        private string GenSnakeString(List<string> req)
-        {
-            //TODO: 构造时间过长
-            var ret = string.Empty;
-            
-            req.ForEach(x =>
-            {
-                ret += "_" + x.ToLower();
-            });
-            return ret.Substring(1);
-        }
-
-        /// <summary>
-        /// 构造驼峰结果
-        /// </summary>
-        /// <param name="req"></param>
-        /// <param name="isSmallHump">是否为小驼峰</param>
-        /// <returns></returns>
-        private string GenHumpString(List<string> req, bool isSmallHump)
-        {
-            string ret = string.Empty;
-            var array = req.ToArray();
-            for (var j = 0; j < array.Length; j++)
-            {
-                char[] chars = array[j].ToCharArray();
-                if (j == 0 && isSmallHump) chars[0] = char.ToLower(chars[0]);
-                else chars[0] = char.ToUpper(chars[0]);
-                for (int i = 1; i < chars.Length; i++)
-                {
-                    chars[i] = char.ToLower(chars[i]);
-                }
-                ret += new string(chars);
-            }
-            return ret;
-
-        }
-        /// <summary>
-        /// 提取英文
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public string GetSubString(string str)
-        {
-            Regex regex = new Regex("[a-zA-Z]+");
-
-            MatchCollection mMactchCol = regex.Matches(str);
-            string strA_Z = string.Empty;
-            foreach (Match mMatch in mMactchCol)
-            {
-                strA_Z += mMatch.Value;
-            }
-            return strA_Z;
         }
 #endregion handle
 
