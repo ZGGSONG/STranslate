@@ -5,7 +5,7 @@
     <Style x:Key="BorderMainStyle"
            TargetType="Border">
         <Setter Property="Background" Value="#2e323a"/>
-        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderBrush" Value="#393c43"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="10"/>
     </Style>
