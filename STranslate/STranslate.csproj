@@ -82,12 +82,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\GetWordsHelper.cs" />
     <Compile Include="Helper\HotkeysHelper.cs" />
     <Compile Include="Helper\MvvmHelper.cs" />
     <Compile Include="Helper\NativeMethodHelper.cs" />
     <Compile Include="Helper\StartupHelper.cs" />
-    <Compile Include="Model\TranslateInterface.cs" />
+    <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\VisibilityConverter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

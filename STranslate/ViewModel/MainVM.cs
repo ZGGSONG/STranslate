@@ -19,13 +19,15 @@ namespace STranslate.ViewModel
 
         public MainVM()
         {
+            if (!InitialConfig())
+            {
+                Task.Delay(3000);
+                Environment.Exit(-1);
+            }
             InputCombo = LanguageEnumDict.Keys.ToList();
             InputComboSelected = LanguageEnum.AUTO.GetDescription();
             OutputCombo = LanguageEnumDict.Keys.ToList();
             OutputComboSelected = LanguageEnum.AUTO.GetDescription();
-
-            //初始化接口
-            SelectedTranslationInterface = TranslationInterface[1];
 
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -72,6 +74,32 @@ namespace STranslate.ViewModel
         }
 
         #region handle
+
+        /// <summary>
+        /// 初始化配置文件
+        /// </summary>
+        /// <returns></returns>
+        private bool InitialConfig()
+        {
+            try
+            {
+                GlobalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
+                //更新服务
+                TranslationInterface = GlobalConfig.Servers.ToList();
+
+                if (TranslationInterface.Count < 1) throw new Exception("尚未配置任何翻译接口服务");
+
+                //初始化接口
+                SelectedTranslationInterface = GlobalConfig.SelectServer;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
         /// <summary>
         /// 自动识别语种
         /// </summary>
@@ -179,7 +207,7 @@ namespace STranslate.ViewModel
                 OutputTxt = ex.Message;
             }
         }
-#endregion handle
+        #endregion handle
 
         #region Params
         private string translateResp;
@@ -190,6 +218,11 @@ namespace STranslate.ViewModel
         public ICommand CopySmallHumpResultCmd { get; private set; }
         public ICommand CopyLargeHumpResultCmd { get; private set; }
         public ICommand ThemeConvertCmd { get; private set; }
+
+        /// <summary>
+        /// 全局配置文件
+        /// </summary>
+        public ConfigModel GlobalConfig;
 
         /// <summary>
         /// 识别语种
@@ -233,27 +266,11 @@ namespace STranslate.ViewModel
         /// <summary>
         /// 目标接口
         /// </summary>
-        private List<TranslationInterface> _TranslationInterface = new List<TranslationInterface>
-        {
-            new TranslationInterface
-            {
-                Name = "zu1k",
-                Api = "https://deepl.deno.dev/translate"
-            },
-            new TranslationInterface
-            {
-                Name = "zggsong",
-                Api = "https://zggsong.cn/tt"
-            },
-            new TranslationInterface
-            {
-                Name = "local",
-                Api = "http://127.0.0.1:8000/translate"
-            }
-        };
-        public List<TranslationInterface> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
-        private TranslationInterface _SelectedTranslationInterface;
-        public TranslationInterface SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
+        private List<Server> _TranslationInterface;
+        public List<Server> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
+        
+        private Server _SelectedTranslationInterface;
+        public Server SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }
         private static readonly string _ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
         private static readonly string _ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";
