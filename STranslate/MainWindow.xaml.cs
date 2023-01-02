@@ -32,7 +32,10 @@ namespace STranslate
 
         private void InitialTray()
         {
-            notifyIcon.Text = "STranslate";
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            notifyIcon.Text = $"STranslate_{version}\n" +
+                $"划词翻译快捷键: ALT + D\n" +
+                $"输入翻译快捷键: ALT + A\n";
             //notifyIcon.BalloonTipText = "STranslate 已启动";
             notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             notifyIcon.Visible = true;
