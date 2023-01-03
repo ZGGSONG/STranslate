@@ -25,6 +25,9 @@ namespace STranslate.ViewModel
                 Environment.Exit(-1);
             }
 
+            InputCombo = LanguageEnumDict.Keys.ToList();
+            OutputCombo = LanguageEnumDict.Keys.ToList();
+
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -79,9 +82,11 @@ namespace STranslate.ViewModel
         {
             try
             {
-                InputCombo = LanguageEnumDict.Keys.ToList();
-                OutputCombo = LanguageEnumDict.Keys.ToList();
                 GlobalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
+
+                //配置读取主题
+                Application.Current.Resources.MergedDictionaries[0].Source = GlobalConfig.IsBright ? new Uri(_ThemeDefault) : new Uri(_ThemeDark);
+
                 //更新服务
                 TranslationInterface = GlobalConfig.Servers.ToList();
 
@@ -115,7 +120,7 @@ namespace STranslate.ViewModel
             {
                 ConfigHelper.Instance.WriteConfig(new ConfigModel
                 {
-                    IsBright = true,
+                    IsBright = Application.Current.Resources.MergedDictionaries[0].Source.ToString() == _ThemeDefault ? true : false,
                     SourceLanguage = InputComboSelected,
                     TargetLanguage = OutputComboSelected,
                     SelectServer = TranslationInterface.FindIndex(x => x == SelectedTranslationInterface),
