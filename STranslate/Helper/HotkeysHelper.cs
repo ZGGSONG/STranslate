@@ -71,6 +71,12 @@ namespace STranslate.Helper
             var _hwndSource = HwndSource.FromHwnd(hwnd);
             _hwndSource.AddHook(WndProc);
         }
+        /// <summary>
+        /// 注册快捷键
+        /// https://git2.nas.zggsong.cn:5001/zggsong/STranslate/src/commit/2fe17e7f6596b47b33a40d8733a0527ba5d9b2fb/STranslate/Utils/HotKeysUtil.cs
+        /// </summary>
+        /// <param name="id">InputTranslateId、ScreenShotTranslateId、CrosswordTranslateId、OpenMainWindowId</param>
+        /// <param name="callBack"></param>
         public static void Register(int id, HotKeyCallBackHanlder callBack)
         {
             keymap[id] = callBack;
@@ -97,7 +103,7 @@ namespace STranslate.Helper
         /// 注册快捷键
         /// </summary>
         /// <param name="mainFormHandle"></param>
-        public static void RegisterHotKey(IntPtr mainFormHandle)
+        private static void RegisterHotKey(IntPtr mainFormHandle)
         {
             HotkeysHelper.mainFormHandle = mainFormHandle;
 
