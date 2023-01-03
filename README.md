@@ -4,8 +4,14 @@
 </a>
 </p>
 <p align="center">
+<a href="https://github.com/ZGGSONG/STranslate/blob/main/LICENSE" target="_self">
+ <img alt="Latest GitHub release" src="https://img.shields.io/github/license/ZGGSONG/STranslate" />
+</a>
 <a href="https://github.com/ZGGSONG/STranslate/releases/latest" target="_blank">
  <img alt="Latest GitHub release" src="https://img.shields.io/github/release/ZGGSONG/STranslate.svg" />
+</a>
+<a href="https://github.com/ZGGSONG/STranslate" target="_self">
+ <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
 </a>
 </p>
 <h1 align="center">STranslate</h1>
