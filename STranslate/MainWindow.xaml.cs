@@ -138,44 +138,26 @@ namespace STranslate
         protected override void OnSourceInitialized(EventArgs e)
         {
             //base.OnSourceInitialized(e);
-            IntPtr handle = new WindowInteropHelper(this).Handle;
-            HotkeysHelper.RegisterHotKey(handle);
-
-            HwndSource source = HwndSource.FromHwnd(handle);
-            source.AddHook(WndProc);
-        }
-
-        /// <summary>
-        /// 热键的功能
-        /// </summary>
-        /// <param name="m"></param>
-        protected IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handle)
-        {
-            switch (msg)
+            HotkeysHelper.InitialHook(this);
+            HotkeysHelper.Register(HotkeysHelper.InputTranslateId, () =>
             {
-                case 0x0312: //这个是window消息定义的 注册的热键消息
-                    //Console.WriteLine(wParam.ToString());
-                    if (wParam.ToString().Equals(HotkeysHelper.InputTranslateId + ""))
-                    {
-                        this.InputTranslateMenuItem_Click(null, null);
-                    }
-                    else if (wParam.ToString().Equals(HotkeysHelper.CrosswordTranslateId + ""))
-                    {
-                        this.CrossWordTranslateMenuItem_Click(null, null);
-                    }
-#if false
-                    else if (wParam.ToString().Equals(HotkeysHelper.ScreenShotTranslateId + ""))
-                    {
-                        this.ScreenshotTranslateMenuItem_Click(null, null);
-                    }
-#endif
-                    else if (wParam.ToString().Equals(HotkeysHelper.OpenMainWindowId + ""))
-                    {
-                        this.OpenMainWin_Click(null, null);
-                    }
-                    break;
-            }
-            return IntPtr.Zero;
+                InputTranslateMenuItem_Click(null, null);
+            });
+
+            HotkeysHelper.Register(HotkeysHelper.CrosswordTranslateId, () =>
+            {
+                CrossWordTranslateMenuItem_Click(null, null);
+            });
+
+            //HotkeysHelper.Register(HotkeysHelper.ScreenShotTranslateId, () =>
+            //{
+            //    ScreenshotTranslateMenuItem_Click(null, null);
+            //});
+
+            HotkeysHelper.Register(HotkeysHelper.OpenMainWindowId, () =>
+            {
+                OpenMainWin_Click(null, null);
+            });
         }
 
         /// <summary>

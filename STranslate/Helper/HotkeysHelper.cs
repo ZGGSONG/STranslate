@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Interop;
 using static STranslate.Helper.NativeMethodHelper;
 
 namespace STranslate.Helper
@@ -57,6 +60,38 @@ namespace STranslate.Helper
         public static int OpenMainWindowId = 857;
         public static byte OpenMainWindowModifiers;
         public static int OpenMainWindowKey;
+
+        public delegate void HotKeyCallBackHanlder();
+        private static Dictionary<int, HotKeyCallBackHanlder> keymap = new Dictionary<int, HotKeyCallBackHanlder>();
+
+        public static void InitialHook(Window window)
+        {
+            var hwnd = new WindowInteropHelper(window).Handle;
+            RegisterHotKey(hwnd);
+            var _hwndSource = HwndSource.FromHwnd(hwnd);
+            _hwndSource.AddHook(WndProc);
+        }
+        public static void Register(int id, HotKeyCallBackHanlder callBack)
+        {
+            keymap[id] = callBack;
+        }
+        /// <summary>
+        /// 快捷键消息处理
+        /// </summary>
+        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case 0x0312: //这个是window消息定义的 注册的热键消息
+                    int id = wParam.ToInt32();
+                    if (keymap.TryGetValue(id, out var callback))
+                    {
+                        callback();
+                    }
+                    break;
+            }
+            return IntPtr.Zero;
+        }
 
         /// <summary>
         /// 注册快捷键
