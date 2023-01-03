@@ -14,12 +14,12 @@ using STranslate.Util;
 
 namespace STranslate.ViewModel
 {
-    public class MainVM : BaseVM
+    public class MainVM : BaseVM, IDisposable
     {
 
         public MainVM()
         {
-            if (!InitialConfig())
+            if (!ReadConfig())
             {
                 Task.Delay(3000);
                 Environment.Exit(-1);
@@ -75,7 +75,7 @@ namespace STranslate.ViewModel
         /// 初始化配置文件
         /// </summary>
         /// <returns></returns>
-        private bool InitialConfig()
+        private bool ReadConfig()
         {
             try
             {
@@ -98,8 +98,8 @@ namespace STranslate.ViewModel
                 }
 
                 //从配置读取source target
-                InputComboSelected = GlobalConfig.SourceLanguage.GetDescription();
-                OutputComboSelected = GlobalConfig.TargetLanguage.GetDescription();
+                InputComboSelected = GlobalConfig.SourceLanguage;
+                OutputComboSelected = GlobalConfig.TargetLanguage;
 
                 return true;
             }
@@ -109,6 +109,25 @@ namespace STranslate.ViewModel
                 return false;
             }
         }
+        private void WriteConfig()
+        {
+            try
+            {
+                ConfigHelper.Instance.WriteConfig(new ConfigModel
+                {
+                    IsBright = true,
+                    SourceLanguage = InputComboSelected,
+                    TargetLanguage = OutputComboSelected,
+                    SelectServer = TranslationInterface.FindIndex(x => x == SelectedTranslationInterface),
+                    Servers = GlobalConfig.Servers,
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         /// <summary>
         /// 自动识别语种
         /// </summary>
@@ -205,6 +224,11 @@ namespace STranslate.ViewModel
             {
                 OutputTxt = ex.Message;
             }
+        }
+
+        public void Dispose()
+        {
+            WriteConfig();
         }
         #endregion handle
 

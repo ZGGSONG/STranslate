@@ -287,6 +287,7 @@ namespace STranslate
         /// <param name="e"></param>
         private void Exit_Click(object sender, EventArgs e)
         {
+            vm.Dispose();
             notifyIcon.Dispose();
             Environment.Exit(0);
         }

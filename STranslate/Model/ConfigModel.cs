@@ -18,8 +18,8 @@ namespace STranslate.Model
             return new ConfigModel
             {
                 IsBright = true,
-                SourceLanguage = LanguageEnum.AUTO,
-                TargetLanguage = LanguageEnum.AUTO,
+                SourceLanguage = LanguageEnum.AUTO.GetDescription(),
+                TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 SelectServer = 0,
                 Servers = new Server[]
                 {
@@ -49,10 +49,10 @@ namespace STranslate.Model
         public bool IsBright { get; set; }
 
         [JsonProperty("sourceLanguage")]
-        public LanguageEnum SourceLanguage { get; set; }
+        public string SourceLanguage { get; set; }
 
         [JsonProperty("targetLanguage")]
-        public LanguageEnum TargetLanguage { get; set; }
+        public string TargetLanguage { get; set; }
 
         [JsonProperty("selectServer")]
         public int SelectServer { get; set; }
