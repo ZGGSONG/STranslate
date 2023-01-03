@@ -46,14 +46,13 @@ namespace STranslate.Helper
         /// <summary>
         /// 配置文件
         /// </summary>
-        private static string _CnfName { get => $"{_ApplicationData}\\stranslate.json"; }
+        private static string _CnfName => $"{_ApplicationData}\\{_AppName.ToLower()}.json";
 
         /// <summary>
         /// C:\Users\user\AppData\Local\STranslate
         /// </summary>
-        private static readonly string _ApplicationData
-            = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}"
-            + $"\\{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)}";
+        private static string _ApplicationData => $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{_AppName}";
+        private static readonly string _AppName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
         private static ConfigHelper _Instance;
         public static ConfigHelper Instance { get => _Instance ?? (_Instance = new ConfigHelper()); }
     }

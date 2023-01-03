@@ -15,18 +15,19 @@ namespace STranslate.Model
 
         public ConfigModel InitialConfig()
         {
-            var defaultServer = new Server
-            {
-                Name = "zggsong",
-                Api = "https://zggsong.cn/tt"
-            };
             return new ConfigModel
             {
                 IsBright = true,
-                SelectServer = defaultServer,
+                SourceLanguage = LanguageEnum.AUTO,
+                TargetLanguage = LanguageEnum.AUTO,
+                SelectServer = 0,
                 Servers = new Server[]
                 {
-                    defaultServer,
+                    new Server
+                    {
+                        Name = "zggsong",
+                        Api = "https://zggsong.cn/tt"
+                    },
                     new Server
                     {
                         Name = "zu1k",
@@ -47,8 +48,14 @@ namespace STranslate.Model
         [JsonProperty("isBright")]
         public bool IsBright { get; set; }
 
+        [JsonProperty("sourceLanguage")]
+        public LanguageEnum SourceLanguage { get; set; }
+
+        [JsonProperty("targetLanguage")]
+        public LanguageEnum TargetLanguage { get; set; }
+
         [JsonProperty("selectServer")]
-        public Server SelectServer { get; set; }
+        public int SelectServer { get; set; }
 
         /// <summary>
         /// 服务

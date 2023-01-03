@@ -24,10 +24,6 @@ namespace STranslate.ViewModel
                 Task.Delay(3000);
                 Environment.Exit(-1);
             }
-            InputCombo = LanguageEnumDict.Keys.ToList();
-            InputComboSelected = LanguageEnum.AUTO.GetDescription();
-            OutputCombo = LanguageEnumDict.Keys.ToList();
-            OutputComboSelected = LanguageEnum.AUTO.GetDescription();
 
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -83,14 +79,27 @@ namespace STranslate.ViewModel
         {
             try
             {
+                InputCombo = LanguageEnumDict.Keys.ToList();
+                OutputCombo = LanguageEnumDict.Keys.ToList();
                 GlobalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
                 //更新服务
                 TranslationInterface = GlobalConfig.Servers.ToList();
 
                 if (TranslationInterface.Count < 1) throw new Exception("尚未配置任何翻译接口服务");
 
-                //初始化接口
-                SelectedTranslationInterface = GlobalConfig.SelectServer;
+                try
+                {
+                    //配置读取接口
+                    SelectedTranslationInterface = TranslationInterface[GlobalConfig.SelectServer];
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"配置文件选择服务索引出错, 请修改配置文件后重试", ex);
+                }
+
+                //从配置读取source target
+                InputComboSelected = GlobalConfig.SourceLanguage.GetDescription();
+                OutputComboSelected = GlobalConfig.TargetLanguage.GetDescription();
 
                 return true;
             }
@@ -130,18 +139,8 @@ namespace STranslate.ViewModel
             {
                 return new Tuple<string, string>(LanguageEnum.ZH.GetDescription(), LanguageEnum.EN.GetDescription());
             }
-#if false
-            //如果输入是中文
-            if (Regex.IsMatch(text, @"^[\u4e00-\u9fa5]+$"))
-            {
-                return new Tuple<string, string>(LanguageEnum.ZH.GetDescription(), LanguageEnum.EN.GetDescription());
-            }
-            else
-            {
-                return new Tuple<string, string>(LanguageEnum.EN.GetDescription(), LanguageEnum.ZH.GetDescription());
-            }
-#endif
         }
+
         /// <summary>
         /// 翻译
         /// </summary>
@@ -268,7 +267,7 @@ namespace STranslate.ViewModel
         /// </summary>
         private List<Server> _TranslationInterface;
         public List<Server> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
-        
+
         private Server _SelectedTranslationInterface;
         public Server SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }

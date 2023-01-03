@@ -48,8 +48,8 @@
                 <ComboBox Style="{DynamicResource cmbstyle}"
                           Margin="0,5,10,0"
                           ItemsSource="{Binding TranslationInterface}"
+                          SelectedItem="{Binding SelectedTranslationInterface, Mode=TwoWay, NotifyOnSourceUpdated=True}"
                           DisplayMemberPath="Name"
-                          SelectedItem="{Binding SelectedTranslationInterface}"
                           HorizontalAlignment="Right"/>
             </Grid>
             
