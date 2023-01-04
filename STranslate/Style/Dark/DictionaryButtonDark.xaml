@@ -81,6 +81,29 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     
+    <!--speak-->
+    <ControlTemplate x:Key="ButtonTemplateSpeak" TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Margin="0,0,5,0"
+                Padding="4"
+                MaxHeight="25">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="17"
+                       VerticalAlignment="Center"
+                       Text="&#xe610;"
+                       Foreground="WhiteSmoke"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#47484c"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#35333c"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
     <!--普通复制-->
     <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
         <Border x:Name="border"

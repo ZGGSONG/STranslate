@@ -71,6 +71,9 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
+                            <Button Template="{DynamicResource ButtonTemplateSpeak}"
+                                    Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding SourceSpeakCmd}"/>
                             <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyInputCmd}"/>
@@ -124,6 +127,9 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
+                            <Button Template="{DynamicResource ButtonTemplateSpeak}"
+                                    Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding TargetSpeakCmd}"/>
                             <!--普通复制-->
                             <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"

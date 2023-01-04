@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using STranslate.Util;
+using System.Speech.Synthesis;
 
 namespace STranslate.ViewModel
 {
@@ -28,6 +29,16 @@ namespace STranslate.ViewModel
             InputCombo = LanguageEnumDict.Keys.ToList();
             OutputCombo = LanguageEnumDict.Keys.ToList();
 
+            //source speak
+            SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
+            {
+                _Speech.SpeakAsync(InputTxt);
+            });
+            //target speak
+            TargetSpeakCmd = new RelayCommand((_) => true, (_) =>
+            {
+                _Speech.SpeakAsync(OutputTxt);
+            });
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -233,12 +244,15 @@ namespace STranslate.ViewModel
 
         public void Dispose()
         {
+            _Speech.Dispose();
             WriteConfig();
         }
         #endregion handle
 
         #region Params
         private string translateResp;
+        public ICommand SourceSpeakCmd { get; private set; }
+        public ICommand TargetSpeakCmd { get; private set; }
         public ICommand TranslateCmd { get; private set; }
         public ICommand CopyInputCmd { get; private set; }
         public ICommand CopyResultCmd { get; private set; }
@@ -300,6 +314,12 @@ namespace STranslate.ViewModel
         private Server _SelectedTranslationInterface;
         public Server SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }
+
+        /// <summary>
+        /// 语音
+        /// </summary>
+        private static readonly SpeechSynthesizer _Speech = new SpeechSynthesizer();
+
         private static readonly string _ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
         private static readonly string _ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";
         #endregion Params
