@@ -32,12 +32,12 @@ namespace STranslate.ViewModel
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
-                _Speech.SpeakAsync(InputTxt);
+                Speech.SpeakAsync(InputTxt);
             });
             //target speak
             TargetSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
-                _Speech.SpeakAsync(OutputTxt);
+                Speech.SpeakAsync(OutputTxt);
             });
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -244,7 +244,7 @@ namespace STranslate.ViewModel
 
         public void Dispose()
         {
-            _Speech.Dispose();
+            Speech.Dispose();
             WriteConfig();
         }
         #endregion handle
@@ -318,7 +318,7 @@ namespace STranslate.ViewModel
         /// <summary>
         /// 语音
         /// </summary>
-        private static readonly SpeechSynthesizer _Speech = new SpeechSynthesizer();
+        public readonly SpeechSynthesizer Speech = new SpeechSynthesizer();
 
         private static readonly string _ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
         private static readonly string _ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";

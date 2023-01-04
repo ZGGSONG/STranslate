@@ -187,6 +187,7 @@ namespace STranslate
         {
             if (!_IsTopmost)
             {
+                vm.Speech.SpeakAsyncCancelAll();
                 this.Hide();
             }
         }
