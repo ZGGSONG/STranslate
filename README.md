@@ -11,10 +11,10 @@
  <img alt="Latest GitHub release" src="https://img.shields.io/github/release/ZGGSONG/STranslate.svg" />
 </a>
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
- <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
+ <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
 </a>
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
- <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
+ <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
 </a>
 </p>
 <h1 align="center">STranslate</h1>
