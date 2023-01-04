@@ -13,6 +13,9 @@
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
 </a>
+<a href="https://github.com/ZGGSONG/STranslate" target="_self">
+ <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
+</a>
 </p>
 <h1 align="center">STranslate</h1>
 
