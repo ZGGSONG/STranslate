@@ -11,10 +11,10 @@
  <img alt="Latest GitHub release" src="https://img.shields.io/github/release/ZGGSONG/STranslate.svg" />
 </a>
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
- <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
+ <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
 </a>
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
- <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
+ <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
 </a>
 </p>
 <h1 align="center">STranslate</h1>
@@ -33,7 +33,7 @@
 - [x] 添加开机自启
 - [x] 添加亮/暗主题
 - [x] 添加 UI 设置缓存(用户目录下 `AppData\Local\STranslate`)
-- [x] 添加文本转语音
+- [x] 添加语音合成
 - [ ] 添加 OCR 翻译
 - [ ] 添加翻译记录缓存功能
 
