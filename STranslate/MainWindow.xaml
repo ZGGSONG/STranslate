@@ -102,6 +102,7 @@
                 <ComboBox x:Name="InCombo"
                           Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding InputCombo}"
+                          SelectionChanged="SelectionChanged"
                           SelectedItem="{Binding InputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <Separator Margin="20,0"/>
                 <TextBlock Text="目标语言:  "
@@ -109,6 +110,7 @@
                 <ComboBox x:Name="OutCombo"
                           Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding OutputCombo}"
+                          SelectionChanged="SelectionChanged"
                           SelectedItem="{Binding OutputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             

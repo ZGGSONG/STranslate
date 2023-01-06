@@ -301,5 +301,14 @@ namespace STranslate
         private bool _IsTopmost { get; set; }
         private readonly string _TopmostTemplateName = "ButtonTemplateTopmost";
         private readonly string _UnTopmostTemplateName = "ButtonTemplateUnTopmost";
+
+        private void SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(vm?.InputTxt))
+            {
+                vm.IdentifyLanguage = string.Empty;
+                _ = vm?.Translate();
+            }
+        }
     }
 }
