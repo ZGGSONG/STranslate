@@ -71,6 +71,9 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
+                            <Button Template="{DynamicResource ButtonTemplateSpeak}"
+                                    Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding SourceSpeakCmd}"/>
                             <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding InputTxt,Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyInputCmd}"/>
@@ -99,6 +102,7 @@
                 <ComboBox x:Name="InCombo"
                           Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding InputCombo}"
+                          SelectionChanged="SelectionChanged"
                           SelectedItem="{Binding InputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <Separator Margin="20,0"/>
                 <TextBlock Text="目标语言:  "
@@ -106,6 +110,7 @@
                 <ComboBox x:Name="OutCombo"
                           Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding OutputCombo}"
+                          SelectionChanged="SelectionChanged"
                           SelectedItem="{Binding OutputComboSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             
@@ -124,6 +129,9 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,5"
                                     VerticalAlignment="Bottom">
+                            <Button Template="{DynamicResource ButtonTemplateSpeak}"
+                                    Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding TargetSpeakCmd}"/>
                             <!--普通复制-->
                             <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding OutputTxt,Converter={StaticResource String2VisibilityConverter}}"
