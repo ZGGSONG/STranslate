@@ -142,7 +142,7 @@ namespace STranslate
             HotkeysHelper.InitialHook(this);
             HotkeysHelper.Register(HotkeysHelper.InputTranslateId, () =>
             {
-                InputTranslateMenuItem_Click(null, null);
+                vm.InputTranslate();
             });
 
             HotkeysHelper.Register(HotkeysHelper.CrosswordTranslateId, () =>

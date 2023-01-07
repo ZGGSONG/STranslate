@@ -38,8 +38,7 @@ namespace STranslate.ViewModel
             //输入翻译
             InputTranslateCmd = new RelayCommand((_) => true, (_) =>
             {
-                ClearAll();
-                OpenMainWin();
+                InputTranslate();
             });
 
             //显示主界面
@@ -138,11 +137,20 @@ namespace STranslate.ViewModel
         /// <summary>
         /// 打开主窗口
         /// </summary>
-        private void OpenMainWin()
+        public void OpenMainWin()
         {
             mainwin.Show();
             mainwin.Activate();
             //TODO: add textbox focus
+        }
+        public void InputTranslate()
+        {
+            ClearAll();
+            OpenMainWin();
+        }
+        public void CrossWordTranslate()
+        {
+
         }
 
         /// <summary>
