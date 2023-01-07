@@ -18,6 +18,7 @@ namespace STranslate
         {
             InitializeComponent();
 
+            DataContext = new MainVM(this);
             vm = (MainVM)DataContext;
             
             InitView();
@@ -247,7 +248,7 @@ namespace STranslate
         }
 
         /// <summary>
-        /// 是否置顶
+        /// 是否置顶(不好拆)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

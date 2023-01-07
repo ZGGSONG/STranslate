@@ -17,9 +17,12 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM, IDisposable
     {
-
-        public MainVM()
+        private MainWindow mainwin;
+        public MainVM(Window win)
         {
+            mainwin = (MainWindow)win;
+            OpenMainWin();
+
             if (!ReadConfig())
             {
                 Task.Delay(3000);
@@ -35,20 +38,14 @@ namespace STranslate.ViewModel
             //输入翻译
             InputTranslateCmd = new RelayCommand((_) => true, (_) =>
             {
-                InputTxt = string.Empty;
-                OutputTxt = string.Empty;
-                SnakeRet = string.Empty;
-                SmallHumpRet = string.Empty;
-                LargeHumpRet = string.Empty;
-                IdentifyLanguage = string.Empty;
-                //view操作
-
+                ClearAll();
+                OpenMainWin();
             });
 
             //显示主界面
             ShowMainWinCmd = new RelayCommand((_) => true, (_) =>
             {
-                //view操作
+                OpenMainWin();
             });
             //开机自启
             StartupCmd = new RelayCommand((_) => true, (_) =>
@@ -68,6 +65,7 @@ namespace STranslate.ViewModel
 
             #endregion
 
+            #region Common
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -120,9 +118,32 @@ namespace STranslate.ViewModel
             {
                 await Translate();
             });
+            #endregion
         }
 
         #region handle
+        /// <summary>
+        /// 清空所有
+        /// </summary>
+        private void ClearAll()
+        {
+            InputTxt = string.Empty;
+            OutputTxt = string.Empty;
+            SnakeRet = string.Empty;
+            SmallHumpRet = string.Empty;
+            LargeHumpRet = string.Empty;
+            IdentifyLanguage = string.Empty;
+
+        }
+        /// <summary>
+        /// 打开主窗口
+        /// </summary>
+        private void OpenMainWin()
+        {
+            mainwin.Show();
+            mainwin.Activate();
+            //TODO: add textbox focus
+        }
 
         /// <summary>
         /// 初始化配置文件
