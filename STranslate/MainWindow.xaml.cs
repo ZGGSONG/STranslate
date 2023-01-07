@@ -22,7 +22,7 @@ namespace STranslate
             
             InitView();
 
-            InitialTray();
+            //InitialTray();
 
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{

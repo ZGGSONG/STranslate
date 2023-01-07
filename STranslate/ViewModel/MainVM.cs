@@ -29,6 +29,45 @@ namespace STranslate.ViewModel
             InputCombo = LanguageEnumDict.Keys.ToList();
             OutputCombo = LanguageEnumDict.Keys.ToList();
 
+            #region 托盘程序
+            //运行前检查是否开机自启
+            IsStartup = StartupHelper.IsStartup();
+            //输入翻译
+            InputTranslateCmd = new RelayCommand((_) => true, (_) =>
+            {
+                InputTxt = string.Empty;
+                OutputTxt = string.Empty;
+                SnakeRet = string.Empty;
+                SmallHumpRet = string.Empty;
+                LargeHumpRet = string.Empty;
+                IdentifyLanguage = string.Empty;
+                //view操作
+
+            });
+
+            //显示主界面
+            ShowMainWinCmd = new RelayCommand((_) => true, (_) =>
+            {
+                //view操作
+            });
+            //开机自启
+            StartupCmd = new RelayCommand((_) => true, (_) =>
+            {
+                if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
+                else StartupHelper.SetStartup();
+                IsStartup = StartupHelper.IsStartup();
+            });
+            
+            //退出App
+            ExitCmd = new RelayCommand((_) => true, (_) =>
+            {
+                IsVisibility = false;
+                Dispose();
+                Environment.Exit(0);
+            });
+
+            #endregion
+
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -260,6 +299,20 @@ namespace STranslate.ViewModel
         public ICommand CopySmallHumpResultCmd { get; private set; }
         public ICommand CopyLargeHumpResultCmd { get; private set; }
         public ICommand ThemeConvertCmd { get; private set; }
+        //托盘程序
+        public ICommand InputTranslateCmd { get; private set; }
+        public ICommand ShowMainWinCmd { get; private set; }
+        public ICommand StartupCmd { get; private set; }
+        public ICommand ExitCmd { get; private set; }
+
+        /// <summary>
+        /// 是否开机自启
+        /// </summary>
+        private bool _IsStartup;
+        public bool IsStartup { get => _IsStartup; set => UpdateProperty(ref _IsStartup, value); }
+        private bool _IsVisibility = true;
+        public bool IsVisibility { get => _IsVisibility; set => UpdateProperty(ref _IsVisibility, value); }
+
 
         /// <summary>
         /// 全局配置文件

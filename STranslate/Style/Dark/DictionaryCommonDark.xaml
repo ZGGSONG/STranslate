@@ -2,6 +2,8 @@
                     xmlns:model="clr-namespace:STranslate.Model"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <model:VisibilityConverter x:Key="String2VisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
     <Style x:Key="BorderMainStyle"
            TargetType="Border">
         <Setter Property="Background" Value="#2e323a"/>

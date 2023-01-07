@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         Name="Mwin"
         Background="Transparent"
@@ -23,6 +24,21 @@
     <Window.DataContext>
         <vm:MainVM />
     </Window.DataContext>
+    <Window.Resources>
+        <ContextMenu x:Key="TrayMenu">
+            <MenuItem Header="输入翻译"
+                      Command="{Binding InputTranslateCmd}"/>
+            <Separator />
+            <MenuItem Header="显示主界面"
+                      Command="{Binding ShowMainWinCmd}"/>
+            <MenuItem Header="开机自启"
+                      IsChecked="{Binding IsStartup}"
+                      Command="{Binding StartupCmd}"/>
+            <Separator />
+            <MenuItem Header="退出"
+                      Command="{Binding ExitCmd}"/>
+        </ContextMenu>
+    </Window.Resources>
 
     <Border Style="{DynamicResource  BorderMainStyle}">
         <Grid>
@@ -33,7 +49,17 @@
                 <RowDefinition Height="7*" />
             </Grid.RowDefinitions>
 
-            <!--header-->
+            <!--tray-->
+            <tb:TaskbarIcon x:Name="myNotifyIcon"
+                            Visibility="{Binding IsVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            ToolTipText="STranslate"
+                            ContextMenu="{StaticResource TrayMenu}"
+                            LeftClickCommand="{Binding ShowMainWinCmd}"
+                            IconSource="/Images/translate.ico">
+                
+            </tb:TaskbarIcon>
+
+                <!--header-->
             <Grid x:Name="Header">
                 <Button x:Name="TopmostBtn"
                         Template="{DynamicResource ButtonTemplateUnTopmost}"
