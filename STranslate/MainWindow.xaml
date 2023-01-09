@@ -51,7 +51,7 @@
                             Visibility="{Binding IsVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
                             ToolTipText="STranslate"
                             ContextMenu="{StaticResource TrayMenu}"
-                            LeftClickCommand="{Binding ShowMainWinCmd}"
+                            DoubleClickCommand="{Binding InputTranslateCmd}"
                             IconSource="/Images/translate.ico">
                 
             </tb:TaskbarIcon>

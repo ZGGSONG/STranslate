@@ -35,6 +35,7 @@ namespace STranslate.ViewModel
             #region 托盘程序
             //运行前检查是否开机自启
             IsStartup = StartupHelper.IsStartup();
+
             //输入翻译
             InputTranslateCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -46,6 +47,7 @@ namespace STranslate.ViewModel
             {
                 OpenMainWin();
             });
+
             //开机自启
             StartupCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -57,9 +59,7 @@ namespace STranslate.ViewModel
             //退出App
             ExitCmd = new RelayCommand((_) => true, (_) =>
             {
-                IsVisibility = false;
-                Dispose();
-                Environment.Exit(0);
+                ExitApp();
             });
 
             #endregion
@@ -150,7 +150,18 @@ namespace STranslate.ViewModel
         }
         public void CrossWordTranslate()
         {
-
+            ClearAll();
+            var sentence = GetWordsHelper.Get();
+            OpenMainWin();
+            //TODO: add textbox focus
+            //this.TextBoxInput.Text = sentence.Trim();
+            _ = Translate();
+        }
+        public void ExitApp()
+        {
+            IsVisibility = false;
+            Dispose();
+            Environment.Exit(0);
         }
 
         /// <summary>
