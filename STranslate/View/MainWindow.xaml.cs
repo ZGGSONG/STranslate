@@ -14,15 +14,14 @@ namespace STranslate.View
         private MainVM vm;
         public MainWindow()
         {
-            InitializeComponent();
+            //InitializeComponent();
 
             DataContext = new MainVM(this);
             vm = (MainVM)DataContext;
 
-
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{
-            //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
+            //    MessageBox.Show("全局快捷键有冲突...");
             //}
         }
 
@@ -32,7 +31,10 @@ namespace STranslate.View
         /// <param name="e"></param>
         protected override void OnSourceInitialized(EventArgs e)
         {
-            //base.OnSourceInitialized(e);
+            base.OnSourceInitialized(e);
+
+            this.Hide();
+
             HotkeysHelper.InitialHook(this);
             HotkeysHelper.Register(HotkeysHelper.InputTranslateId, () =>
             {
@@ -53,37 +55,6 @@ namespace STranslate.View
             {
                 vm.OpenMainWin();
             });
-        }
-
-
-        /// <summary>
-        /// 移动
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        /// <summary>
-        /// 非激活窗口则隐藏起来
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Deactivated(object sender, EventArgs e)
-        {
-            if (vm == null) return;
-            if (!vm.IsTopmost)
-            {
-                vm.Speech.SpeakAsyncCancelAll();
-                this.Hide();
-            }
-        }
-
-        private void Mwin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            HotkeysHelper.UnRegisterHotKey();
         }
     }
 }

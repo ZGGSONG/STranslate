@@ -11,13 +11,10 @@
         x:Name="Mwin"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
         Topmost="True"
-        Deactivated="Window_Deactivated"
-        Closing="Mwin_Closing"
         WindowStyle="None"
         SizeToContent="Height"
         Width="400"
@@ -51,6 +48,16 @@
         <KeyBinding Key="Esc"
                     Command="{Binding EscCmd}"/>
     </Window.InputBindings>
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseLeftDownCmd}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Deactivated">
+            <i:InvokeCommandAction Command="{Binding DeactivatedCmd}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Border Style="{DynamicResource BorderMainStyle}">
         <Grid>

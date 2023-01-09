@@ -18,7 +18,6 @@ namespace STranslate.ViewModel
         public MainVM(Window win)
         {
             _Mainwin = (MainWindow)win;
-            OpenMainWin();
 
             if (!ReadConfig())
             {
@@ -107,6 +106,20 @@ namespace STranslate.ViewModel
             #endregion
 
             #region Common
+            //移动
+            MouseLeftDownCmd = new RelayCommand((_) => true, (_) =>
+            {
+                _Mainwin.DragMove();
+            });
+            //失去焦点
+            DeactivatedCmd = new RelayCommand((_) => true, (_) =>
+            {
+                if (!IsTopmost)
+                {
+                    Speech.SpeakAsyncCancelAll();
+                    _Mainwin.Hide();
+                }
+            });
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -222,6 +235,8 @@ namespace STranslate.ViewModel
             IsVisibility = false;
             //语音合成销毁
             Speech.Dispose();
+            //注销快捷键
+            HotkeysHelper.UnRegisterHotKey();
             if (id == 0)
             {
                 //写入配置
@@ -389,6 +404,8 @@ namespace STranslate.ViewModel
 
         #region Params
         private string translateResp;
+        public ICommand MouseLeftDownCmd { get; private set; }
+        public ICommand DeactivatedCmd { get; private set; }
         public ICommand SourceSpeakCmd { get; private set; }
         public ICommand TargetSpeakCmd { get; private set; }
         public ICommand TranslateCmd { get; private set; }
