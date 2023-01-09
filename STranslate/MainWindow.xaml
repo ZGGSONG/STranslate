@@ -14,7 +14,6 @@
         AllowsTransparency="True"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        KeyDown="Window_KeyDown"
         Topmost="True"
         Deactivated="Window_Deactivated"
         WindowStyle="None"
@@ -38,6 +37,17 @@
         </ContextMenu>
     </Window.Resources>
 
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl+Shift"
+                    Key="Q"
+                    Command="{Binding ExitCmd}"/>
+        <KeyBinding Modifiers="Ctrl+Shift"
+                    Key="T"
+                    Command="{Binding TopmostCmd}"/>
+        <KeyBinding Key="Esc"
+                    Command="{Binding EscCmd}"/>
+    </Window.InputBindings>
+
     <Border Style="{DynamicResource BorderMainStyle}">
         <Grid>
             <Grid.RowDefinitions>
@@ -58,8 +68,8 @@
             <!--header-->
             <Grid x:Name="Header">
                 <Button x:Name="TopmostBtn"
-                        Template="{DynamicResource ButtonTemplateUnTopmost}"
-                        Click="Top_Click"/>
+                        Command="{Binding TopmostCmd}"
+                        Template="{DynamicResource ButtonTemplateUnTopmost}"/>
                 <Button Width="auto"
                         Template="{DynamicResource ButtonTemplateTheme}"
                         HorizontalAlignment="Right"
@@ -78,6 +88,7 @@
             <!--input-->
             <Grid x:Name="Input"
                   Grid.Row="1"
+                  FocusManager.FocusedElement="{Binding ElementName=TextBoxInput}"
                   Margin="10,0,10,0">
                 <!--输入框-->
                 <Border x:Name="BorderInput"

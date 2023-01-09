@@ -62,6 +62,36 @@ namespace STranslate.ViewModel
                 ExitApp();
             });
 
+            //置顶
+            TopmostCmd = new RelayCommand((_) => true, (_) =>
+            {
+                if (IsTopmost)
+                {
+                    (_Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
+                }
+                else
+                {
+                    (_Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _TopmostTemplateName);
+                }
+                IsTopmost = !IsTopmost;
+            });
+
+            //ESC
+            EscCmd = new RelayCommand((_) => true, (_) =>
+            {
+                _Mainwin.Hide();
+
+                //取消置顶
+                if (IsTopmost)
+                {
+                    (_Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
+                    IsTopmost = !IsTopmost;
+                }
+            });
+
             #endregion
 
             #region Common
@@ -141,7 +171,7 @@ namespace STranslate.ViewModel
         {
             _Mainwin.Show();
             _Mainwin.Activate();
-            //TODO: add textbox focus
+            (_Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Focus();
         }
         public void InputTranslate()
         {
@@ -153,8 +183,8 @@ namespace STranslate.ViewModel
             ClearAll();
             var sentence = GetWordsHelper.Get();
             OpenMainWin();
-            //TODO: add textbox focus
-            //this.TextBoxInput.Text = sentence.Trim();
+            (_Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox)
+                .Text = sentence.Trim();
             _ = Translate();
         }
         public void ExitApp()
@@ -344,6 +374,8 @@ namespace STranslate.ViewModel
         public ICommand ShowMainWinCmd { get; private set; }
         public ICommand StartupCmd { get; private set; }
         public ICommand ExitCmd { get; private set; }
+        public ICommand TopmostCmd { get; private set; }
+        public ICommand EscCmd { get; private set; }
 
         /// <summary>
         /// 是否开机自启
@@ -354,6 +386,9 @@ namespace STranslate.ViewModel
         public bool IsVisibility { get => _IsVisibility; set => UpdateProperty(ref _IsVisibility, value); }
 
         private MainWindow _Mainwin;
+        public bool IsTopmost { get; set; }
+        private readonly string _TopmostTemplateName = "ButtonTemplateTopmost";
+        private readonly string _UnTopmostTemplateName = "ButtonTemplateUnTopmost";
 
         /// <summary>
         /// 全局配置文件
