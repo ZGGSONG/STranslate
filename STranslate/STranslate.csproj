@@ -43,14 +43,19 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+　　<AllowedReferenceRelatedFileExtensions>
+　　　　<!-- 阻止默认的 XML 和 PDB 文件复制到 RELEASE 的输出目录. 只有*.allowedextension 扩展名的文件可以被包含, 当然这个扩展的文件并不存在.-->
+　　　　.allowedextension
+　　</AllowedReferenceRelatedFileExtensions>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\translate.ico</ApplicationIcon>
