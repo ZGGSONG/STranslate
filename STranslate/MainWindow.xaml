@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:STranslate.ViewModel"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:STranslate"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         x:Name="Mwin"
         Background="Transparent"
