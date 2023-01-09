@@ -182,7 +182,6 @@ namespace STranslate.ViewModel
         }
         public void InputTranslate()
         {
-            IsExpanded = false;
             ClearAll();
             OpenMainWin();
         }
@@ -301,11 +300,9 @@ namespace STranslate.ViewModel
         {
             try
             {
-                IsLoading = true;
-
                 var isEng = string.Empty;
                 IdentifyLanguage = string.Empty;
-                //OutputTxt = "翻译中...";
+                OutputTxt = "翻译中...";
                 //清空多种复制
                 SnakeRet = string.Empty;
                 SmallHumpRet = string.Empty;
@@ -326,13 +323,11 @@ namespace STranslate.ViewModel
 
                 //百度 Api
                 //var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
-                IsLoading = false;
                 if (translateResp == string.Empty)
                 {
                     OutputTxt = "翻译出错，请稍候再试...";
                     return;
                 }
-                IsExpanded = true;
                 OutputTxt = translateResp;
 
                 //如果目标语言不是英文则不进行转换
@@ -406,12 +401,6 @@ namespace STranslate.ViewModel
         /// 全局配置文件
         /// </summary>
         private ConfigModel _GlobalConfig;
-
-        private bool _IsExpanded;
-        public bool IsExpanded { get => _IsExpanded; set => UpdateProperty(ref _IsExpanded, value); }
-
-        private bool _IsLoading;
-        public bool IsLoading { get => _IsLoading; set => UpdateProperty(ref _IsLoading, value); }
 
         /// <summary>
         /// 识别语种

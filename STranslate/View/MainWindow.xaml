@@ -37,122 +37,6 @@
             <MenuItem Header="退出"
                       Command="{Binding ExitCmd}"/>
         </ContextMenu>
-        <Style x:Key="ExpanderStyle1" TargetType="{x:Type Expander}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="#918C8C"/>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Expander}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0" SnapsToDevicePixels="True">
-                            <DockPanel>
-                                <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                             Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}"
-                                             FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}"
-                                             FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}"
-                                             FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                             IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                             Margin="1" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding
-                                   VerticalContentAlignment}">
-                                    <ToggleButton.FocusVisualStyle>
-                                        <Style>
-                                            <Setter Property="Control.Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate>
-                                                        <Border>
-                                                            <Rectangle Margin="0"
-                                                                       SnapsToDevicePixels="True"
-                                                                       Stroke="Black"
-                                                                       StrokeThickness="1"
-                                                                       StrokeDashArray="1 2"/>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ToggleButton.FocusVisualStyle>
-                                    <ToggleButton.Style>
-                                        <Style TargetType="{x:Type ToggleButton}">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                        <Border Padding="{TemplateBinding Padding}">
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="19*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                
-                                                                <Path Grid.Column="0"
-                                                                      x:Name="arrow"
-                                                                      Data="M1,1.5L4.5,5 8,1.5"
-                                                                      HorizontalAlignment="Right"
-                                                                      SnapsToDevicePixels="False"
-                                                                      Stroke="#918C8C"
-                                                                      StrokeThickness="2"
-                                                                      VerticalAlignment="Center"
-                                                                      Height="10"
-                                                                      Margin="10,10" />
-                                                                
-                                                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                                  Content="{TemplateBinding Content}"
-                                                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                                                  HorizontalAlignment="Left"
-                                                                                  Margin="4,0,0,0"
-                                                                                  RecognizesAccessKey="True"
-                                                                                  SnapsToDevicePixels="True"
-                                                                                  VerticalAlignment="Center"  />
-                                                            </Grid>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                                <Setter Property="Data" TargetName="arrow" Value="M1,4.5L4.5,1 8,4.5"/>
-                                                            </Trigger>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Stroke" TargetName="arrow" Value="Black"/>
-                                                            </Trigger>
-                                                            <Trigger Property="IsPressed" Value="True">
-                                                                <Setter Property="Stroke" TargetName="arrow" Value="Black"/>
-                                                            </Trigger>
-                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                <Setter Property="Stroke" TargetName="arrow" Value="#FF707070"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ToggleButton.Style>
-                                </ToggleButton>
-                                <ContentPresenter x:Name="ExpandSite"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                                  DockPanel.Dock="Bottom"
-                                                  Focusable="False"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  Margin="{TemplateBinding Padding}"
-                                                  Visibility="Collapsed"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </DockPanel>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsExpanded"
-                                     Value="True">
-                                <Setter Property="Visibility"
-                                        TargetName="ExpandSite"
-                                        Value="Visible"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled"
-                                     Value="False">
-                                <Setter Property="Foreground"
-                                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
 
     <Window.InputBindings>
@@ -279,47 +163,41 @@
             <Grid x:Name="Output"
                   Margin="10,0,10,10"
                   Grid.Row="3">
-                <Expander IsExpanded="{Binding IsExpanded}"
-                          Style="{StaticResource ExpanderStyle1}">
-                    <Expander.Header>
-                        <local:Loading Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                    </Expander.Header>
-                    <!--输出框-->
-                    <Border x:Name="BorderOutput"
-                        Style="{DynamicResource BorderInOutputStyle}"
-                        Height="{Binding Height, ElementName=Output}">
-                        <Grid>
-                            <TextBox x:Name="TextBoxOutput"
-                                 Style="{DynamicResource TextBoxOutputStyle}"
-                                 Text="{Binding OutputTxt}"/>
-                            <StackPanel Orientation="Horizontal"
-                                    Margin="10,5"
-                                    VerticalAlignment="Bottom">
-                                <Button Template="{DynamicResource ButtonTemplateSpeak}"
-                                    Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
-                                    Command="{Binding TargetSpeakCmd}"/>
-                                <!--普通复制-->
-                                <Button Template="{DynamicResource ButtonTemplate}"
-                                    Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
-                                    Command="{Binding CopyResultCmd}"/>
-                                <!--蛇形复制-->
-                                <Button Margin="5,0"
-                                    Template="{DynamicResource ButtonTemplateSnakeCopy}"
-                                    Visibility="{Binding SnakeRet, Converter={StaticResource String2VisibilityConverter}}"
-                                    Command="{Binding CopySnakeResultCmd}"/>
-                                <!--小驼峰复制-->
-                                <Button Template="{DynamicResource ButtonTemplateSmallHumpCopy}"
-                                    Visibility="{Binding SmallHumpRet, Converter={StaticResource String2VisibilityConverter}}"
-                                    Command="{Binding CopySmallHumpResultCmd}"/>
-                                <!--大驼峰复制-->
-                                <Button Margin="5,0"
-                                    Template="{DynamicResource ButtonTemplateLargeHumpCopy}"
-                                    Visibility="{Binding LargeHumpRet, Converter={StaticResource String2VisibilityConverter}}"
-                                    Command="{Binding CopyLargeHumpResultCmd}"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </Expander>
+                <!--输出框-->
+                <Border x:Name="BorderOutput"
+                    Style="{DynamicResource BorderInOutputStyle}"
+                    Height="{Binding Height, ElementName=Output}">
+                    <Grid>
+                        <TextBox x:Name="TextBoxOutput"
+                                Style="{DynamicResource TextBoxOutputStyle}"
+                                Text="{Binding OutputTxt}"/>
+                        <StackPanel Orientation="Horizontal"
+                                Margin="10,5"
+                                VerticalAlignment="Bottom">
+                            <Button Template="{DynamicResource ButtonTemplateSpeak}"
+                                Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
+                                Command="{Binding TargetSpeakCmd}"/>
+                            <!--普通复制-->
+                            <Button Template="{DynamicResource ButtonTemplate}"
+                                Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
+                                Command="{Binding CopyResultCmd}"/>
+                            <!--蛇形复制-->
+                            <Button Margin="5,0"
+                                Template="{DynamicResource ButtonTemplateSnakeCopy}"
+                                Visibility="{Binding SnakeRet, Converter={StaticResource String2VisibilityConverter}}"
+                                Command="{Binding CopySnakeResultCmd}"/>
+                            <!--小驼峰复制-->
+                            <Button Template="{DynamicResource ButtonTemplateSmallHumpCopy}"
+                                Visibility="{Binding SmallHumpRet, Converter={StaticResource String2VisibilityConverter}}"
+                                Command="{Binding CopySmallHumpResultCmd}"/>
+                            <!--大驼峰复制-->
+                            <Button Margin="5,0"
+                                Template="{DynamicResource ButtonTemplateLargeHumpCopy}"
+                                Visibility="{Binding LargeHumpRet, Converter={StaticResource String2VisibilityConverter}}"
+                                Command="{Binding CopyLargeHumpResultCmd}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Grid>
         </Grid>
     </Border>
