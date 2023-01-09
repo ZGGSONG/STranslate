@@ -22,6 +22,7 @@ namespace STranslate.ViewModel
         {
             _Mainwin = (MainWindow)win;
             OpenMainWin();
+            Util.Util.Get_OSVersion();
 
             if (!ReadConfig())
             {

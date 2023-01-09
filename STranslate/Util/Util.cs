@@ -236,5 +236,20 @@ namespace STranslate.Util
             return strA_Z;
         }
         #endregion
+
+        public static bool Get_OSVersion()
+        {
+            try
+            {
+                OperatingSystem os = Environment.OSVersion;
+                Version ver = os.Version;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }
