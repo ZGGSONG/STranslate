@@ -410,7 +410,7 @@ namespace STranslate.ViewModel
         private bool _IsExpanded;
         public bool IsExpanded { get => _IsExpanded; set => UpdateProperty(ref _IsExpanded, value); }
 
-        private bool _IsLoading = true;
+        private bool _IsLoading;
         public bool IsLoading { get => _IsLoading; set => UpdateProperty(ref _IsLoading, value); }
 
         /// <summary>
