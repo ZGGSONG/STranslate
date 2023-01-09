@@ -3,8 +3,6 @@ using STranslate.ViewModel;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 
 namespace STranslate.View
 {
@@ -20,6 +18,7 @@ namespace STranslate.View
 
             DataContext = new MainVM(this);
             vm = (MainVM)DataContext;
+
 
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{
