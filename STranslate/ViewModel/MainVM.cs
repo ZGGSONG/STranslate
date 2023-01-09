@@ -17,10 +17,10 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM, IDisposable
     {
-        private MainWindow mainwin;
+
         public MainVM(Window win)
         {
-            mainwin = (MainWindow)win;
+            _Mainwin = (MainWindow)win;
             OpenMainWin();
 
             if (!ReadConfig())
@@ -139,8 +139,8 @@ namespace STranslate.ViewModel
         /// </summary>
         public void OpenMainWin()
         {
-            mainwin.Show();
-            mainwin.Activate();
+            _Mainwin.Show();
+            _Mainwin.Activate();
             //TODO: add textbox focus
         }
         public void InputTranslate()
@@ -353,6 +353,7 @@ namespace STranslate.ViewModel
         private bool _IsVisibility = true;
         public bool IsVisibility { get => _IsVisibility; set => UpdateProperty(ref _IsVisibility, value); }
 
+        private MainWindow _Mainwin;
 
         /// <summary>
         /// 全局配置文件

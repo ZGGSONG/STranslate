@@ -20,7 +20,7 @@ namespace STranslate
 
             DataContext = new MainVM(this);
             vm = (MainVM)DataContext;
-            
+
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{
             //    MessageBox.Show("全局快捷键有冲突，请您到设置中重新设置");
