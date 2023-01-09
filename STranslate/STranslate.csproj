@@ -46,17 +46,7 @@
 　　<AllowedReferenceRelatedFileExtensions>
 　　　　<!-- 阻止默认的 XML 和 PDB 文件复制到 RELEASE 的输出目录. 只有*.allowedextension 扩展名的文件可以被包含, 当然这个扩展的文件并不存在.-->
 　　　　.allowedextension
-　　</AllowedReferenceRelatedFileExtensions>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-  </PropertyGroup>
+　　</AllowedReferenceRelatedFileExtensions><PlatformTarget>AnyCPU</PlatformTarget><DebugType>none</DebugType><Optimize>true</Optimize><OutputPath>bin\Release\</OutputPath><DefineConstants>TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel><Prefer32Bit>false</Prefer32Bit><GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies></PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\translate.ico</ApplicationIcon>
   </PropertyGroup>
@@ -109,6 +99,10 @@
     </Compile>
     <Compile Include="Util\Util.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="ViewModel\ScreenShotVM.cs" />
+    <Compile Include="View\ScreenShotWindow.xaml.cs">
+      <DependentUpon>ScreenShotWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Style\Default\DictionaryCommonDefault.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ScreenShotWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="STranslate.View.ScreenShotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:STranslate.View"
+        mc:Ignorable="d"
+        Title="ScreenShotWindow"
+        Height="1" Width="1"
+        ShowInTaskbar="False"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        Topmost="True"
+        Cursor="Cross"
+        Background="Transparent"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        IsTabStop="False">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc"
+                    Command="{Binding EscCmd}"/>
+    </Window.InputBindings>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseRightButtonDown">
+            <i:InvokeCommandAction Command="{Binding EscCmd}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseMove">
+            <i:InvokeCommandAction Command="{Binding MouseMoveCmd}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseLeftDownCmd}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseLeftButtonUp">
+            <i:InvokeCommandAction Command="{Binding MouseLeftUpCmd}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Canvas x:Name="ScreenCanvas">
+        <Rectangle x:Name="LeftMask" Fill="#111410" Opacity="0.6" />
+        <Rectangle x:Name="RightMask" Fill="#111410" Opacity="0.6" />
+        <Rectangle x:Name="UpMask" Fill="#111410" Opacity="0.6" />
+        <Rectangle x:Name="DownMask" Fill="#111410" Opacity="0.6" />
+    </Canvas>
+</Window>

@@ -223,7 +223,10 @@ namespace STranslate.ViewModel
         /// </summary>
         public void ScreenShotTranslate()
         {
-            MessageBox.Show("aaa");
+            //MessageBox.Show("aaa");
+            var xx = new ScreenShotWindow();
+            xx.Show();
+            xx.Activate();
         }
 
         /// <summary>
