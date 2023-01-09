@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Media;
+using Tesseract;
 
 namespace STranslate.Util
 {
@@ -241,6 +242,33 @@ namespace STranslate.Util
         #endregion
 
         #region Screenshot
+        /// <summary>
+        /// Tesseract 库获取文本
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <returns></returns>
+        public static string TesseractGetText(Bitmap bmp)
+        {
+            try
+            {
+                using (var engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default))
+                //using (var engine = new TesseractEngine(@"./tessdata", "chi_sim", EngineMode.Default))
+                {
+                    using(var pix = PixConverter.ToPix(bmp))
+                    {
+                        using (var page = engine.Process(pix))
+                        {
+                            return page.GetText();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static ImageBrush BitmapToImageBrush(Bitmap bmp)
         {
             ImageBrush brush = new ImageBrush();

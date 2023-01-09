@@ -84,8 +84,11 @@ namespace STranslate.ViewModel
 
                   _ScreenShotWin.Close();
 
-                  
-                  TestSaveBmp(bmpOut);
+                  //TestSaveBmp(bmpOut);
+
+                  var xx = Util.Util.TesseractGetText(bmpOut).Trim();
+                  MessageBox.Show(xx);
+                  System.Diagnostics.Debug.Print(xx);
               });
 
             ClosedCmd = new RelayCommand((_) => true, (_) =>
@@ -94,6 +97,10 @@ namespace STranslate.ViewModel
               });
         }
 
+        /// <summary>
+        /// 测试保存
+        /// </summary>
+        /// <param name="bmp"></param>
         private void TestSaveBmp(Bitmap bmp)
         {
             bmp.Save("D:\\a.png", System.Drawing.Imaging.ImageFormat.Bmp);
