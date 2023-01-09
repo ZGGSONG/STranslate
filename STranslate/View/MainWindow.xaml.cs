@@ -79,5 +79,10 @@ namespace STranslate.View
                 this.Hide();
             }
         }
+
+        private void Mwin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            HotkeysHelper.UnRegisterHotKey();
+        }
     }
 }

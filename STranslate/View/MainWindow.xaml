@@ -17,6 +17,7 @@
         ResizeMode="NoResize"
         Topmost="True"
         Deactivated="Window_Deactivated"
+        Closing="Mwin_Closing"
         WindowStyle="None"
         SizeToContent="Height"
         Width="400"

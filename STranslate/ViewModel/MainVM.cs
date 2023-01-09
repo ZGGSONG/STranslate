@@ -209,20 +209,20 @@ namespace STranslate.ViewModel
         {
             try
             {
-                GlobalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
+                _GlobalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
 
                 //配置读取主题
-                Application.Current.Resources.MergedDictionaries[0].Source = GlobalConfig.IsBright ? new Uri(_ThemeDefault) : new Uri(_ThemeDark);
+                Application.Current.Resources.MergedDictionaries[0].Source = _GlobalConfig.IsBright ? new Uri(_ThemeDefault) : new Uri(_ThemeDark);
 
                 //更新服务
-                TranslationInterface = GlobalConfig.Servers.ToList();
+                TranslationInterface = _GlobalConfig.Servers.ToList();
 
                 if (TranslationInterface.Count < 1) throw new Exception("尚未配置任何翻译接口服务");
 
                 try
                 {
                     //配置读取接口
-                    SelectedTranslationInterface = TranslationInterface[GlobalConfig.SelectServer];
+                    SelectedTranslationInterface = TranslationInterface[_GlobalConfig.SelectServer];
                 }
                 catch (Exception ex)
                 {
@@ -230,8 +230,8 @@ namespace STranslate.ViewModel
                 }
 
                 //从配置读取source target
-                InputComboSelected = GlobalConfig.SourceLanguage;
-                OutputComboSelected = GlobalConfig.TargetLanguage;
+                InputComboSelected = _GlobalConfig.SourceLanguage;
+                OutputComboSelected = _GlobalConfig.TargetLanguage;
 
                 return true;
             }
@@ -251,7 +251,7 @@ namespace STranslate.ViewModel
                     SourceLanguage = InputComboSelected,
                     TargetLanguage = OutputComboSelected,
                     SelectServer = TranslationInterface.FindIndex(x => x == SelectedTranslationInterface),
-                    Servers = GlobalConfig.Servers,
+                    Servers = _GlobalConfig.Servers,
                 });
             }
             catch (Exception ex)
@@ -401,7 +401,7 @@ namespace STranslate.ViewModel
         /// <summary>
         /// 全局配置文件
         /// </summary>
-        public ConfigModel GlobalConfig;
+        private ConfigModel _GlobalConfig;
 
         /// <summary>
         /// 识别语种
