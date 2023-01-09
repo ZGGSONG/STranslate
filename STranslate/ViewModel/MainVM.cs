@@ -22,7 +22,7 @@ namespace STranslate.ViewModel
 
             if (!ReadConfig())
             {
-                Task.Delay(3000);
+                IsVisibility = false;
                 Environment.Exit(-1);
             }
 

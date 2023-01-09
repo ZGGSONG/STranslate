@@ -73,6 +73,7 @@ namespace STranslate.View
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
+            if (vm == null) return;
             if (!vm.IsTopmost)
             {
                 vm.Speech.SpeakAsyncCancelAll();
