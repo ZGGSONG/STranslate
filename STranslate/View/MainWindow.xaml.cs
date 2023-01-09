@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace STranslate
+namespace STranslate.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

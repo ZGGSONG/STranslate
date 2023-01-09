@@ -1,17 +1,14 @@
-﻿using STranslate.Model;
-using STranslate.Helper;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography;
-using STranslate.Util;
+using System.Threading.Tasks;
 using System.Speech.Synthesis;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using STranslate.View;
+using STranslate.Model;
+using STranslate.Helper;
 
 namespace STranslate.ViewModel
 {
