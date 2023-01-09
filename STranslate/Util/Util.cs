@@ -2,6 +2,7 @@
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -9,6 +10,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Windows;
+using System.Windows.Media;
 
 namespace STranslate.Util
 {
@@ -234,6 +237,34 @@ namespace STranslate.Util
                 strA_Z += mMatch.Value;
             }
             return strA_Z;
+        }
+        #endregion
+
+        #region Screenshot
+        public static ImageBrush BitmapToImageBrush(Bitmap bmp)
+        {
+            ImageBrush brush = new ImageBrush();
+            IntPtr hBitmap = bmp.GetHbitmap();
+            ImageSource wpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                hBitmap,
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+            brush.ImageSource = wpfBitmap;
+            //TODO: flush Memory
+            return brush;
+        }
+        /// <summary>
+        /// 清理内存
+        /// </summary>
+        public static void FlushMemory()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Helper.NativeMethodHelper.SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
+            }
         }
         #endregion
     }

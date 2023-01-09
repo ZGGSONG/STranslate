@@ -34,6 +34,9 @@
         <i:EventTrigger EventName="MouseLeftButtonUp">
             <i:InvokeCommandAction Command="{Binding MouseLeftUpCmd}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding ClosedCmd}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     
     <Canvas x:Name="ScreenCanvas">

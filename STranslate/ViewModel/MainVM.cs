@@ -329,7 +329,8 @@ namespace STranslate.ViewModel
             var ratio = (double)engStr.Length / text.Length;
             
             //3. 判断英文字符个数占第一步所有字符个数比例，若超过一半则判定原字符串为英文字符串，否则为中文字符串
-            if (ratio > 0.5)
+            //TODO: 配置项
+            if (ratio > 0.8)
             {
                 return new Tuple<string, string>(LanguageEnum.EN.GetDescription(), LanguageEnum.ZH.GetDescription());
             }

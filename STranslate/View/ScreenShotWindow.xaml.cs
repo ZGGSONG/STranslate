@@ -22,9 +22,13 @@ namespace STranslate.View
     {
         public ScreenShotWindow()
         {
+            DataContext = new ScreenShotVM(this);
+
+            var datas = (DataContext as ScreenShotVM).InitView1();
+            
             InitializeComponent();
 
-            DataContext = new ScreenShotVM(this);
+            (DataContext as ScreenShotVM).InitView2(datas);
         }
     }
 }
