@@ -27,6 +27,8 @@
         <ContextMenu x:Key="TrayMenu">
             <MenuItem Header="输入翻译"
                       Command="{Binding InputTranslateCmd}"/>
+            <MenuItem Header="截图翻译"
+                      Command="{Binding ScreenShotTranslateCmd}"/>
             <Separator />
             <MenuItem Header="显示主界面"
                       Command="{Binding ShowMainWinCmd}"/>

@@ -44,10 +44,10 @@ namespace STranslate.View
                 vm.CrossWordTranslate();
             });
 
-            //HotkeysHelper.Register(HotkeysHelper.ScreenShotTranslateId, () =>
-            //{
-            //    ScreenshotTranslateMenuItem_Click(null, null);
-            //});
+            HotkeysHelper.Register(HotkeysHelper.ScreenShotTranslateId, () =>
+            {
+                vm.ScreenShotTranslate();
+            });
 
             HotkeysHelper.Register(HotkeysHelper.OpenMainWindowId, () =>
             {

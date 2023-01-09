@@ -12,7 +12,7 @@ using STranslate.Helper;
 
 namespace STranslate.ViewModel
 {
-    public class MainVM : BaseVM, IDisposable
+    public class MainVM : BaseVM
     {
 
         public MainVM(Window win)
@@ -22,8 +22,7 @@ namespace STranslate.ViewModel
 
             if (!ReadConfig())
             {
-                IsVisibility = false;
-                Environment.Exit(-1);
+                ExitApp(-1);
             }
 
             InputCombo = LanguageEnumDict.Keys.ToList();
@@ -37,6 +36,12 @@ namespace STranslate.ViewModel
             InputTranslateCmd = new RelayCommand((_) => true, (_) =>
             {
                 InputTranslate();
+            });
+
+            //截图翻译
+            ScreenShotTranslateCmd = new RelayCommand((_) => true, (_) =>
+            {
+                ScreenShotTranslate();
             });
 
             //显示主界面
@@ -56,7 +61,7 @@ namespace STranslate.ViewModel
             //退出App
             ExitCmd = new RelayCommand((_) => true, (_) =>
             {
-                ExitApp();
+                ExitApp(0);
             });
 
             //置顶
@@ -180,11 +185,17 @@ namespace STranslate.ViewModel
             _Mainwin.Activate();
             (_Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Focus();
         }
+        /// <summary>
+        /// 输入翻译
+        /// </summary>
         public void InputTranslate()
         {
             ClearAll();
             OpenMainWin();
         }
+        /// <summary>
+        /// 划词翻译
+        /// </summary>
         public void CrossWordTranslate()
         {
             ClearAll();
@@ -194,11 +205,29 @@ namespace STranslate.ViewModel
                 .Text = sentence.Trim();
             _ = Translate();
         }
-        public void ExitApp()
+        /// <summary>
+        /// 截屏翻译
+        /// </summary>
+        public void ScreenShotTranslate()
         {
+            MessageBox.Show("aaa");
+        }
+
+        /// <summary>
+        /// 退出App
+        /// </summary>
+        public void ExitApp(int id)
+        {
+            //隐藏icon
             IsVisibility = false;
-            Dispose();
-            Environment.Exit(0);
+            //语音合成销毁
+            Speech.Dispose();
+            if (id == 0)
+            {
+                //写入配置
+                WriteConfig();
+            }
+            Environment.Exit(id);
         }
 
         /// <summary>
@@ -356,12 +385,6 @@ namespace STranslate.ViewModel
                 OutputTxt = ex.Message;
             }
         }
-
-        public void Dispose()
-        {
-            Speech.Dispose();
-            WriteConfig();
-        }
         #endregion handle
 
         #region Params
@@ -377,6 +400,7 @@ namespace STranslate.ViewModel
         public ICommand ThemeConvertCmd { get; private set; }
         //托盘程序
         public ICommand InputTranslateCmd { get; private set; }
+        public ICommand ScreenShotTranslateCmd { get; private set; }
         public ICommand ShowMainWinCmd { get; private set; }
         public ICommand StartupCmd { get; private set; }
         public ICommand ExitCmd { get; private set; }

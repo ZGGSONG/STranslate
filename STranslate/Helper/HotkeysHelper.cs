@@ -24,7 +24,7 @@ namespace STranslate.Helper
             public static bool Conflict = false;
         }
 
-#if false
+#if true
         public static class ScreenShotTranslate
         {
             public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
@@ -52,7 +52,7 @@ namespace STranslate.Helper
         public static int CrosswordTranslateId = 855;
         public static byte CrosswordTranslateModifiers;
         public static int CrosswordTranslateKey;
-#if false
+#if true
         public static int ScreenShotTranslateId = 856;
         public static byte ScreenShotTranslateModifiers;
         public static int ScreenShotTranslateKey;
@@ -112,7 +112,7 @@ namespace STranslate.Helper
             CrosswordTranslateModifiers = Hotkeys.CrosswordTranslate.Modifiers;
             CrosswordTranslateKey = Hotkeys.CrosswordTranslate.Key;
 
-#if false
+#if true
             ScreenShotTranslateModifiers = Hotkeys.ScreenShotTranslate.Modifiers;
             ScreenShotTranslateKey = Hotkeys.ScreenShotTranslate.Key;
             if (Hotkeys.ScreenShotTranslate.Key != 0)
@@ -142,7 +142,7 @@ namespace STranslate.Helper
         {
             UnregisterHotKey(mainFormHandle, InputTranslateId);
             UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
-#if false
+#if true
             UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
 #endif
             UnregisterHotKey(mainFormHandle, OpenMainWindowId);
@@ -181,7 +181,7 @@ namespace STranslate.Helper
             CrosswordTranslateModifiers = Hotkeys.CrosswordTranslate.Modifiers;
             CrosswordTranslateKey = Hotkeys.CrosswordTranslate.Key;
 
-#if false
+#if true
             if (Hotkeys.ScreenShotTranslate.Key == 0)
             {
                 UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
