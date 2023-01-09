@@ -92,6 +92,16 @@ namespace STranslate.ViewModel
                 }
             });
 
+            //切换语言
+            SelectLangChangedCmd = new RelayCommand((_) => true, (_) =>
+            {
+                if (!string.IsNullOrEmpty(InputTxt))
+                {
+                    IdentifyLanguage = string.Empty;
+                    _ = Translate();
+                }
+            });
+
             #endregion
 
             #region Common
@@ -376,6 +386,7 @@ namespace STranslate.ViewModel
         public ICommand ExitCmd { get; private set; }
         public ICommand TopmostCmd { get; private set; }
         public ICommand EscCmd { get; private set; }
+        public ICommand SelectLangChangedCmd { get; private set; }
 
         /// <summary>
         /// 是否开机自启

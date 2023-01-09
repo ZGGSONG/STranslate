@@ -80,14 +80,5 @@ namespace STranslate
                 this.Hide();
             }
         }
-
-        private void SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(vm?.InputTxt))
-            {
-                vm.IdentifyLanguage = string.Empty;
-                _ = vm?.Translate();
-            }
-        }
     }
 }

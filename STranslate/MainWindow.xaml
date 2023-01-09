@@ -1,11 +1,12 @@
-﻿<Window
+﻿<Window x:Class="STranslate.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModel"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        xmlns:local="clr-namespace:STranslate" x:Class="STranslate.MainWindow"
+        xmlns:local="clr-namespace:STranslate"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         x:Name="Mwin"
         Background="Transparent"
@@ -135,16 +136,26 @@
                 <ComboBox x:Name="InCombo"
                           Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding InputCombo}"
-                          SelectionChanged="SelectionChanged"
-                          SelectedItem="{Binding InputComboSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                          SelectedItem="{Binding InputComboSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectLangChangedCmd}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
                 <Separator Margin="20,0"/>
                 <TextBlock Text="目标语言:  "
                            Style="{DynamicResource MidStyle}"/>
                 <ComboBox x:Name="OutCombo"
                           Style="{DynamicResource cmbstyle}"
                           ItemsSource="{Binding OutputCombo}"
-                          SelectionChanged="SelectionChanged"
-                          SelectedItem="{Binding OutputComboSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                          SelectedItem="{Binding OutputComboSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectLangChangedCmd}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
             </StackPanel>
 
             <!--output-->
