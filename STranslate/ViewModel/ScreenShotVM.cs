@@ -86,9 +86,9 @@ namespace STranslate.ViewModel
 
                   //TestSaveBmp(bmpOut);
 
-                  var xx = Util.Util.TesseractGetText(bmpOut).Trim();
-                  MessageBox.Show(xx);
-                  System.Diagnostics.Debug.Print(xx);
+                  var getText = Util.Util.TesseractGetText(bmpOut).Trim();
+
+                  MainVM.Instance.ScreenShotTranslateEx(getText);
               });
 
             ClosedCmd = new RelayCommand((_) => true, (_) =>

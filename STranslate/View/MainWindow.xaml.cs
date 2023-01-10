@@ -11,13 +11,13 @@ namespace STranslate.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainVM vm;
+        private MainVM vm = MainVM.Instance;
         public MainWindow()
         {
             //InitializeComponent();
 
-            DataContext = new MainVM(this);
-            vm = (MainVM)DataContext;
+            DataContext = vm;
+            vm.Mainwin = this;
 
             //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
             //{

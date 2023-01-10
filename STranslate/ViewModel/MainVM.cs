@@ -14,11 +14,8 @@ namespace STranslate.ViewModel
 {
     public class MainVM : BaseVM
     {
-
-        public MainVM(Window win)
+        public MainVM()
         {
-            _Mainwin = (MainWindow)win;
-
             if (!ReadConfig())
             {
                 ExitApp(-1);
@@ -68,12 +65,12 @@ namespace STranslate.ViewModel
             {
                 if (IsTopmost)
                 {
-                    (_Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    (Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
                     .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
                 }
                 else
                 {
-                    (_Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    (Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
                     .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _TopmostTemplateName);
                 }
                 IsTopmost = !IsTopmost;
@@ -82,12 +79,12 @@ namespace STranslate.ViewModel
             //ESC
             EscCmd = new RelayCommand((_) => true, (_) =>
             {
-                _Mainwin.Hide();
+                Mainwin.Hide();
 
                 //取消置顶
                 if (IsTopmost)
                 {
-                    (_Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    (Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
                     .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
                     IsTopmost = !IsTopmost;
                 }
@@ -109,7 +106,7 @@ namespace STranslate.ViewModel
             //移动
             MouseLeftDownCmd = new RelayCommand((_) => true, (_) =>
             {
-                _Mainwin.DragMove();
+                Mainwin.DragMove();
             });
             //失去焦点
             DeactivatedCmd = new RelayCommand((_) => true, (_) =>
@@ -117,7 +114,7 @@ namespace STranslate.ViewModel
                 if (!IsTopmost)
                 {
                     Speech.SpeakAsyncCancelAll();
-                    _Mainwin.Hide();
+                    Mainwin.Hide();
                 }
             });
             //source speak
@@ -194,9 +191,9 @@ namespace STranslate.ViewModel
         /// </summary>
         public void OpenMainWin()
         {
-            _Mainwin.Show();
-            _Mainwin.Activate();
-            (_Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Focus();
+            Mainwin.Show();
+            Mainwin.Activate();
+            (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Focus();
         }
         /// <summary>
         /// 输入翻译
@@ -214,7 +211,7 @@ namespace STranslate.ViewModel
             ClearAll();
             var sentence = GetWordsHelper.Get();
             OpenMainWin();
-            (_Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox)
+            (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox)
                 .Text = sentence.Trim();
             _ = Translate();
         }
@@ -223,10 +220,18 @@ namespace STranslate.ViewModel
         /// </summary>
         public void ScreenShotTranslate()
         {
-            //MessageBox.Show("aaa");
-            var xx = new ScreenShotWindow();
-            xx.Show();
-            xx.Activate();
+            var screen = new ScreenShotWindow();
+            screen.Show();
+            screen.Activate();
+        }
+        /// <summary>
+        /// 截屏翻译Ex
+        /// </summary>
+        public void ScreenShotTranslateEx(string text)
+        {
+            InputTranslate();
+            (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Text = text;
+            _ = Translate();
         }
 
         /// <summary>
@@ -434,10 +439,20 @@ namespace STranslate.ViewModel
         /// </summary>
         private bool _IsStartup;
         public bool IsStartup { get => _IsStartup; set => UpdateProperty(ref _IsStartup, value); }
+        /// <summary>
+        /// 托盘图标可见
+        /// </summary>
         private bool _IsVisibility = true;
         public bool IsVisibility { get => _IsVisibility; set => UpdateProperty(ref _IsVisibility, value); }
 
-        private MainWindow _Mainwin;
+        /// <summary>
+        /// view传递至viewmodel
+        /// </summary>
+        public MainWindow Mainwin;
+
+        private static MainVM _Instance;
+        public static MainVM Instance => _Instance ?? (_Instance = new MainVM());
+
         public bool IsTopmost { get; set; }
         private readonly string _TopmostTemplateName = "ButtonTemplateTopmost";
         private readonly string _UnTopmostTemplateName = "ButtonTemplateUnTopmost";

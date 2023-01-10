@@ -279,7 +279,7 @@ namespace STranslate.Util
                 Int32Rect.Empty,
                 System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
             brush.ImageSource = wpfBitmap;
-            //TODO: flush Memory
+            FlushMemory();
             return brush;
         }
         /// <summary>

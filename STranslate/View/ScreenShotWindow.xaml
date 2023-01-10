@@ -40,9 +40,9 @@
     </i:Interaction.Triggers>
     
     <Canvas x:Name="ScreenCanvas">
-        <Rectangle x:Name="LeftMask" Fill="#111410" Opacity="0.6" />
-        <Rectangle x:Name="RightMask" Fill="#111410" Opacity="0.6" />
-        <Rectangle x:Name="UpMask" Fill="#111410" Opacity="0.6" />
-        <Rectangle x:Name="DownMask" Fill="#111410" Opacity="0.6" />
+        <Rectangle x:Name="LeftMask" Fill="#7f7f7f" Opacity="0.6" />
+        <Rectangle x:Name="RightMask" Fill="#7f7f7f" Opacity="0.6" />
+        <Rectangle x:Name="UpMask" Fill="#7f7f7f" Opacity="0.6" />
+        <Rectangle x:Name="DownMask" Fill="#7f7f7f" Opacity="0.6" />
     </Canvas>
 </Window>
