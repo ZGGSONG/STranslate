@@ -101,7 +101,6 @@
             <!--input-->
             <Grid x:Name="Input"
                   Grid.Row="1"
-                  FocusManager.FocusedElement="{Binding ElementName=TextBoxInput}"
                   Margin="10,0,10,0">
                 <!--输入框-->
                 <Border x:Name="BorderInput"

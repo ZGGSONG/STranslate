@@ -191,6 +191,8 @@ namespace STranslate.ViewModel
         {
             Mainwin.Show();
             Mainwin.Activate();
+            //TODO: need to deal with this
+            //TextBoxInput.Focus();
             (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Focus();
         }
         /// <summary>
@@ -209,8 +211,7 @@ namespace STranslate.ViewModel
             ClearAll();
             var sentence = GetWordsHelper.Get();
             OpenMainWin();
-            (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox)
-                .Text = sentence.Trim();
+            InputTxt = sentence.Trim();
             _ = Translate();
         }
         /// <summary>
@@ -228,7 +229,7 @@ namespace STranslate.ViewModel
         public void ScreenShotTranslateEx(string text)
         {
             InputTranslate();
-            (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Text = text;
+            InputTxt = text;
             _ = Translate();
         }
 
