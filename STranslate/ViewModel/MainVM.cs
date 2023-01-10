@@ -21,49 +21,14 @@ namespace STranslate.ViewModel
             {
                 ExitApp(-1);
             }
-            TrayToolTip = $"{System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)} " +
-                $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
 
             InputCombo = LanguageEnumDict.Keys.ToList();
             OutputCombo = LanguageEnumDict.Keys.ToList();
             #endregion
 
-            #region 托盘程序
-            //运行前检查是否开机自启
-            IsStartup = StartupHelper.IsStartup();
-
-            //输入翻译
-            InputTranslateCmd = new RelayCommand((_) => true, (_) =>
-            {
-                InputTranslate();
-            });
-
-            //截图翻译
-            ScreenShotTranslateCmd = new RelayCommand((_) => true, (_) =>
-            {
-                ScreenShotTranslate();
-            });
-
-            //显示主界面
-            ShowMainWinCmd = new RelayCommand((_) => true, (_) =>
-            {
-                OpenMainWin();
-            });
-
-            //开机自启
-            StartupCmd = new RelayCommand((_) => true, (_) =>
-            {
-                if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
-                else StartupHelper.SetStartup();
-                IsStartup = StartupHelper.IsStartup();
-            });
-            
-            //退出App
-            ExitCmd = new RelayCommand((_) => true, (_) =>
-            {
-                ExitApp(0);
-            });
-
+            #region Common
+            //退出
+            ExitCmd = new RelayCommand((_) => true, (_) => ExitApp(0));
             //置顶
             TopmostCmd = new RelayCommand((_) => true, (o) =>
             {
@@ -101,10 +66,6 @@ namespace STranslate.ViewModel
                     _ = Translate();
                 }
             });
-
-            #endregion
-
-            #region Common
             //移动
             MouseLeftDownCmd = new RelayCommand((_) => true, (_) =>
             {
@@ -242,8 +203,7 @@ namespace STranslate.ViewModel
         /// </summary>
         public void ExitApp(int id)
         {
-            //隐藏icon
-            IsVisibility = false;
+            Mainwin.NotifyIcon.Dispose();
             Mainwin.Close();
             //语音合成销毁
             Speech.Dispose();
@@ -429,32 +389,10 @@ namespace STranslate.ViewModel
         public ICommand CopySmallHumpResultCmd { get; private set; }
         public ICommand CopyLargeHumpResultCmd { get; private set; }
         public ICommand ThemeConvertCmd { get; private set; }
-        //托盘程序
-        public ICommand InputTranslateCmd { get; private set; }
-        public ICommand ScreenShotTranslateCmd { get; private set; }
-        public ICommand ShowMainWinCmd { get; private set; }
-        public ICommand StartupCmd { get; private set; }
-        public ICommand ExitCmd { get; private set; }
         public ICommand TopmostCmd { get; private set; }
         public ICommand EscCmd { get; private set; }
+        public ICommand ExitCmd { get; private set; }
         public ICommand SelectLangChangedCmd { get; private set; }
-
-        /// <summary>
-        /// 托盘程序ToolTip
-        /// </summary>
-        private string _TrayToolTip;
-        public string TrayToolTip { get => _TrayToolTip; set => UpdateProperty(ref _TrayToolTip, value); }
-
-        /// <summary>
-        /// 是否开机自启
-        /// </summary>
-        private bool _IsStartup;
-        public bool IsStartup { get => _IsStartup; set => UpdateProperty(ref _IsStartup, value); }
-        /// <summary>
-        /// 托盘图标可见
-        /// </summary>
-        private bool _IsVisibility = true;
-        public bool IsVisibility { get => _IsVisibility; set => UpdateProperty(ref _IsVisibility, value); }
 
         /// <summary>
         /// view传递至viewmodel
