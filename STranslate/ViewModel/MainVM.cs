@@ -61,33 +61,31 @@ namespace STranslate.ViewModel
             });
 
             //置顶
-            TopmostCmd = new RelayCommand((_) => true, (_) =>
+            TopmostCmd = new RelayCommand((_) => true, (o) =>
             {
+                var button = o as System.Windows.Controls.Button;
                 if (IsTopmost)
                 {
-                    (Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
-                    .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
+                    button.SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
                 }
                 else
                 {
-                    (Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
-                    .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _TopmostTemplateName);
+                    button.SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _TopmostTemplateName);
                 }
                 IsTopmost = !IsTopmost;
             });
 
             //ESC
-            EscCmd = new RelayCommand((_) => true, (_) =>
+            EscCmd = new RelayCommand((_) => true, (o) =>
             {
-                Mainwin.Hide();
-
                 //取消置顶
                 if (IsTopmost)
                 {
-                    (Mainwin.FindName("TopmostBtn") as System.Windows.Controls.Button)
+                    (o as System.Windows.Controls.Button)
                     .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
                     IsTopmost = !IsTopmost;
                 }
+                Mainwin.Hide();
             });
 
             //切换语言

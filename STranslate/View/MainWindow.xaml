@@ -46,7 +46,8 @@
                     Key="T"
                     Command="{Binding TopmostCmd}"/>
         <KeyBinding Key="Esc"
-                    Command="{Binding EscCmd}"/>
+                    Command="{Binding EscCmd}"
+                    CommandParameter="{Binding ElementName=TopmostBtn, Mode=OneWay}"/>
     </Window.InputBindings>
 
 
@@ -80,6 +81,7 @@
             <Grid x:Name="Header">
                 <Button x:Name="TopmostBtn"
                         Command="{Binding TopmostCmd}"
+                        CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Template="{DynamicResource ButtonTemplateUnTopmost}"/>
                 <Button Width="auto"
                         Template="{DynamicResource ButtonTemplateTheme}"
