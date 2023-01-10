@@ -16,13 +16,17 @@ namespace STranslate.ViewModel
     {
         public MainVM()
         {
+            #region Initial
             if (!ReadConfig())
             {
                 ExitApp(-1);
             }
+            TrayToolTip = $"{System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)} " +
+                $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
 
             InputCombo = LanguageEnumDict.Keys.ToList();
             OutputCombo = LanguageEnumDict.Keys.ToList();
+            #endregion
 
             #region 托盘程序
             //运行前检查是否开机自启
@@ -433,6 +437,12 @@ namespace STranslate.ViewModel
         public ICommand TopmostCmd { get; private set; }
         public ICommand EscCmd { get; private set; }
         public ICommand SelectLangChangedCmd { get; private set; }
+
+        /// <summary>
+        /// 托盘程序ToolTip
+        /// </summary>
+        private string _TrayToolTip;
+        public string TrayToolTip { get => _TrayToolTip; set => UpdateProperty(ref _TrayToolTip, value); }
 
         /// <summary>
         /// 是否开机自启
