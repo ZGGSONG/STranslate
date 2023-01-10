@@ -49,10 +49,10 @@
                     Command="{Binding ExitCmd}"/>
         <KeyBinding Modifiers="Ctrl+Shift"
                     Key="T"
-                    Command="{Binding TopmostCmd}"/>
-        <KeyBinding Key="Esc"
-                    Command="{Binding EscCmd}"
+                    Command="{Binding TopmostCmd}"
                     CommandParameter="{Binding ElementName=TopmostBtn, Mode=OneWay}"/>
+        <KeyBinding Key="Esc"
+                    Command="{Binding EscCmd}"/>
     </Window.InputBindings>
 
 
