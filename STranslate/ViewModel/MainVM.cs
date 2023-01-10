@@ -244,6 +244,7 @@ namespace STranslate.ViewModel
         {
             //隐藏icon
             IsVisibility = false;
+            Mainwin.Close();
             //语音合成销毁
             Speech.Dispose();
             //注销快捷键
