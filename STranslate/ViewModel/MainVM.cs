@@ -352,6 +352,7 @@ namespace STranslate.ViewModel
         {
             try
             {
+                if (string.IsNullOrEmpty(InputTxt.Trim())) throw new Exception("输入值为空!");
                 var isEng = string.Empty;
                 IdentifyLanguage = string.Empty;
                 OutputTxt = "翻译中...";
