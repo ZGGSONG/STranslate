@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using STranslate.View;
 using STranslate.Model;
 using STranslate.Helper;
+using System.Windows.Controls;
 
 namespace STranslate.ViewModel
 {
@@ -32,15 +33,8 @@ namespace STranslate.ViewModel
             //置顶
             TopmostCmd = new RelayCommand((_) => true, (o) =>
             {
-                var button = o as System.Windows.Controls.Button;
-                if (IsTopmost)
-                {
-                    button.SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
-                }
-                else
-                {
-                    button.SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _TopmostTemplateName);
-                }
+                ((Button)o).SetResourceReference(Control.TemplateProperty,
+                    IsTopmost ? UnTopmostTemplateName : TopmostTemplateName);
                 IsTopmost = !IsTopmost;
             });
 
@@ -50,8 +44,7 @@ namespace STranslate.ViewModel
                 //取消置顶
                 if (IsTopmost)
                 {
-                    (o as System.Windows.Controls.Button)
-                    .SetResourceReference(System.Windows.Controls.Control.TemplateProperty, _UnTopmostTemplateName);
+                    ((Button)o).SetResourceReference(Control.TemplateProperty, UnTopmostTemplateName);
                     IsTopmost = !IsTopmost;
                 }
                 Mainwin.Hide();
@@ -60,11 +53,9 @@ namespace STranslate.ViewModel
             //切换语言
             SelectLangChangedCmd = new RelayCommand((_) => true, (_) =>
             {
-                if (!string.IsNullOrEmpty(InputTxt))
-                {
-                    IdentifyLanguage = string.Empty;
-                    _ = Translate();
-                }
+                if (string.IsNullOrEmpty(InputTxt)) return;
+                IdentifyLanguage = string.Empty;
+                _ = Translate();
             });
             //移动
             MouseLeftDownCmd = new RelayCommand((_) => true, (_) =>
@@ -74,21 +65,19 @@ namespace STranslate.ViewModel
             //失去焦点
             DeactivatedCmd = new RelayCommand((_) => true, (_) =>
             {
-                if (!IsTopmost)
-                {
-                    Speech.SpeakAsyncCancelAll();
-                    Mainwin.Hide();
-                }
+                if (IsTopmost) return;
+                _speech.SpeakAsyncCancelAll();
+                Mainwin.Hide();
             });
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
-                Speech.SpeakAsync(InputTxt);
+                _speech.SpeakAsync(InputTxt);
             });
             //target speak
             TargetSpeakCmd = new RelayCommand((_) => true, (_) =>
             {
-                Speech.SpeakAsync(OutputTxt);
+                _speech.SpeakAsync(OutputTxt);
             });
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
@@ -121,14 +110,11 @@ namespace STranslate.ViewModel
             {
                 Application.Current.Resources.MergedDictionaries[0].Source =
                 Application.Current.Resources.MergedDictionaries[0].Source
-                .ToString() == _ThemeDark ? new Uri(_ThemeDefault) : new Uri(_ThemeDark);
+                .ToString() == ThemeDark ? new Uri(ThemeDefault) : new Uri(ThemeDark);
             });
 
             //翻译
-            TranslateCmd = new RelayCommand((_) =>
-            {
-                return string.IsNullOrEmpty(InputTxt) ? false : true;
-            }, async (_) =>
+            TranslateCmd = new RelayCommand((_) => !string.IsNullOrEmpty(InputTxt), async (_) =>
             {
                 await Translate();
             });
@@ -158,7 +144,7 @@ namespace STranslate.ViewModel
             Mainwin.Activate();
             //TODO: need to deal with this
             //TextBoxInput.Focus();
-            (Mainwin.FindName("TextBoxInput") as System.Windows.Controls.TextBox).Focus();
+            ((TextBox)Mainwin.FindName("TextBoxInput"))?.Focus();
         }
         /// <summary>
         /// 输入翻译
@@ -206,7 +192,7 @@ namespace STranslate.ViewModel
             Mainwin.NotifyIcon.Dispose();
             Mainwin.Close();
             //语音合成销毁
-            Speech.Dispose();
+            _speech.Dispose();
             //注销快捷键
             HotkeysHelper.UnRegisterHotKey();
             if (id == 0)
@@ -225,20 +211,20 @@ namespace STranslate.ViewModel
         {
             try
             {
-                _GlobalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
+                _globalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
 
                 //配置读取主题
-                Application.Current.Resources.MergedDictionaries[0].Source = _GlobalConfig.IsBright ? new Uri(_ThemeDefault) : new Uri(_ThemeDark);
+                Application.Current.Resources.MergedDictionaries[0].Source = _globalConfig.IsBright ? new Uri(ThemeDefault) : new Uri(ThemeDark);
 
                 //更新服务
-                TranslationInterface = _GlobalConfig.Servers.ToList();
+                TranslationInterface = _globalConfig.Servers.ToList();
 
                 if (TranslationInterface.Count < 1) throw new Exception("尚未配置任何翻译接口服务");
 
                 try
                 {
                     //配置读取接口
-                    SelectedTranslationInterface = TranslationInterface[_GlobalConfig.SelectServer];
+                    SelectedTranslationInterface = TranslationInterface[_globalConfig.SelectServer];
                 }
                 catch (Exception ex)
                 {
@@ -246,8 +232,8 @@ namespace STranslate.ViewModel
                 }
 
                 //从配置读取source target
-                InputComboSelected = _GlobalConfig.SourceLanguage;
-                OutputComboSelected = _GlobalConfig.TargetLanguage;
+                InputComboSelected = _globalConfig.SourceLanguage;
+                OutputComboSelected = _globalConfig.TargetLanguage;
 
                 return true;
             }
@@ -263,11 +249,11 @@ namespace STranslate.ViewModel
             {
                 ConfigHelper.Instance.WriteConfig(new ConfigModel
                 {
-                    IsBright = Application.Current.Resources.MergedDictionaries[0].Source.ToString() == _ThemeDefault ? true : false,
+                    IsBright = Application.Current.Resources.MergedDictionaries[0].Source.ToString() == ThemeDefault ? true : false,
                     SourceLanguage = InputComboSelected,
                     TargetLanguage = OutputComboSelected,
                     SelectServer = TranslationInterface.FindIndex(x => x == SelectedTranslationInterface),
-                    Servers = _GlobalConfig.Servers,
+                    Servers = _globalConfig.Servers,
                 });
             }
             catch (Exception ex)
@@ -313,7 +299,7 @@ namespace STranslate.ViewModel
         /// 翻译
         /// </summary>
         /// <returns></returns>
-        public async Task Translate()
+        private async Task Translate()
         {
             try
             {
@@ -332,21 +318,21 @@ namespace STranslate.ViewModel
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
                     isEng = autoRet.Item2;
-                    translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
+                    _translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
                 {
-                    translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                    _translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
                 }
 
                 //百度 Api
                 //var translateResp = await TranslateUtil.TranslateBaiduAsync(config.baidu.appid, config.baidu.secretKey, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
-                if (translateResp == string.Empty)
+                if (_translateResp == string.Empty)
                 {
                     OutputTxt = "翻译出错，请稍候再试...";
                     return;
                 }
-                OutputTxt = translateResp;
+                OutputTxt = _translateResp;
 
                 //如果目标语言不是英文则不进行转换
                 //1. 自动判断语种：Tuple item2 不为 EN
@@ -377,96 +363,97 @@ namespace STranslate.ViewModel
         #endregion handle
 
         #region Params
-        private string translateResp;
-        public ICommand MouseLeftDownCmd { get; private set; }
-        public ICommand DeactivatedCmd { get; private set; }
-        public ICommand SourceSpeakCmd { get; private set; }
-        public ICommand TargetSpeakCmd { get; private set; }
-        public ICommand TranslateCmd { get; private set; }
-        public ICommand CopyInputCmd { get; private set; }
-        public ICommand CopyResultCmd { get; private set; }
-        public ICommand CopySnakeResultCmd { get; private set; }
-        public ICommand CopySmallHumpResultCmd { get; private set; }
-        public ICommand CopyLargeHumpResultCmd { get; private set; }
-        public ICommand ThemeConvertCmd { get; private set; }
-        public ICommand TopmostCmd { get; private set; }
-        public ICommand EscCmd { get; private set; }
-        public ICommand ExitCmd { get; private set; }
-        public ICommand SelectLangChangedCmd { get; private set; }
+        private string _translateResp;
+        public ICommand MouseLeftDownCmd { get; set; }
+        public ICommand DeactivatedCmd { get; set; }
+        public ICommand SourceSpeakCmd { get; set; }
+        public ICommand TargetSpeakCmd { get; set; }
+        public ICommand TranslateCmd { get; set; }
+        public ICommand CopyInputCmd { get; set; }
+        public ICommand CopyResultCmd { get; set; }
+        public ICommand CopySnakeResultCmd { get; set; }
+        public ICommand CopySmallHumpResultCmd { get; set; }
+        public ICommand CopyLargeHumpResultCmd { get; set; }
+        public ICommand ThemeConvertCmd { get; set; }
+        public ICommand TopmostCmd { get; set; }
+        public ICommand EscCmd { get; set; }
+        public ICommand ExitCmd { get; set; }
+        public ICommand SelectLangChangedCmd { get; set; }
 
         /// <summary>
         /// view传递至viewmodel
         /// </summary>
         public MainWindow Mainwin;
 
-        private static MainVM _Instance;
-        public static MainVM Instance => _Instance ?? (_Instance = new MainVM());
+        private static MainVM _instance;
+        public static MainVM Instance => _instance ?? (_instance = new MainVM());
 
-        public bool IsTopmost { get; set; }
-        private readonly string _TopmostTemplateName = "ButtonTemplateTopmost";
-        private readonly string _UnTopmostTemplateName = "ButtonTemplateUnTopmost";
+        private bool IsTopmost { get; set; }
+        private const string TopmostTemplateName = "ButtonTemplateTopmost";
+        private const string UnTopmostTemplateName = "ButtonTemplateUnTopmost";
 
         /// <summary>
         /// 全局配置文件
         /// </summary>
-        private ConfigModel _GlobalConfig;
+        private ConfigModel _globalConfig;
 
         /// <summary>
         /// 识别语种
         /// </summary>
-        private string _IdentifyLanguage;
-        public string IdentifyLanguage { get => _IdentifyLanguage; set => UpdateProperty(ref _IdentifyLanguage, value); }
+        private string _identifyLanguage;
+        public string IdentifyLanguage { get => _identifyLanguage; set => UpdateProperty(ref _identifyLanguage, value); }
         /// <summary>
         /// 构造蛇形结果
         /// </summary>
-        private string _SnakeRet;
-        public string SnakeRet { get => _SnakeRet; set => UpdateProperty(ref _SnakeRet, value); }
+        private string _snakeRet;
+        public string SnakeRet { get => _snakeRet; set => UpdateProperty(ref _snakeRet, value); }
         /// <summary>
         /// 构造驼峰结果
         /// </summary>
-        private string _SmallHumpRet;
-        public string SmallHumpRet { get => _SmallHumpRet; set => UpdateProperty(ref _SmallHumpRet, value); }
+        private string _smallHumpRet;
+        public string SmallHumpRet { get => _smallHumpRet; set => UpdateProperty(ref _smallHumpRet, value); }
         /// <summary>
         /// 构造驼峰结果
         /// </summary>
-        private string _LargeHumpRet;
-        public string LargeHumpRet { get => _LargeHumpRet; set => UpdateProperty(ref _LargeHumpRet, value); }
+        private string _largeHumpRet;
+        public string LargeHumpRet { get => _largeHumpRet; set => UpdateProperty(ref _largeHumpRet, value); }
 
-        private string _InputTxt;
-        public string InputTxt { get => _InputTxt; set => UpdateProperty(ref _InputTxt, value); }
+        private string _inputTxt;
+        public string InputTxt { get => _inputTxt; set => UpdateProperty(ref _inputTxt, value); }
 
-        private string _OutputTxt;
-        public string OutputTxt { get => _OutputTxt; set => UpdateProperty(ref _OutputTxt, value); }
+        private string _outputTxt;
+        public string OutputTxt { get => _outputTxt; set => UpdateProperty(ref _outputTxt, value); }
 
-        private List<string> _InputCombo;
-        public List<string> InputCombo { get => _InputCombo; set => UpdateProperty(ref _InputCombo, value); }
+        private List<string> _inputCombo;
+        public List<string> InputCombo { get => _inputCombo; set => UpdateProperty(ref _inputCombo, value); }
 
-        private string _InputComboSelected;
-        public string InputComboSelected { get => _InputComboSelected; set => UpdateProperty(ref _InputComboSelected, value); }
+        private string _inputComboSelected;
+        public string InputComboSelected { get => _inputComboSelected; set => UpdateProperty(ref _inputComboSelected, value); }
 
-        private List<string> _OutputCombo;
-        public List<string> OutputCombo { get => _OutputCombo; set => UpdateProperty(ref _OutputCombo, value); }
+        private List<string> _outputCombo;
+        public List<string> OutputCombo { get => _outputCombo; set => UpdateProperty(ref _outputCombo, value); }
 
-        private string _OutputComboSelected;
-        public string OutputComboSelected { get => _OutputComboSelected; set => UpdateProperty(ref _OutputComboSelected, value); }
+        private string _outputComboSelected;
+        public string OutputComboSelected { get => _outputComboSelected; set => UpdateProperty(ref _outputComboSelected, value); }
 
         /// <summary>
         /// 目标接口
         /// </summary>
-        private List<Server> _TranslationInterface;
-        public List<Server> TranslationInterface { get => _TranslationInterface; set => UpdateProperty(ref _TranslationInterface, value); }
+        private List<Server> _translationInterface;
+        public List<Server> TranslationInterface { get => _translationInterface; set => UpdateProperty(ref _translationInterface, value); }
 
-        private Server _SelectedTranslationInterface;
-        public Server SelectedTranslationInterface { get => _SelectedTranslationInterface; set => UpdateProperty(ref _SelectedTranslationInterface, value); }
+        private Server _selectedTranslationInterface;
+        public Server SelectedTranslationInterface { get => _selectedTranslationInterface; set => UpdateProperty(ref _selectedTranslationInterface, value); }
         private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }
 
         /// <summary>
         /// 语音
         /// </summary>
-        public readonly SpeechSynthesizer Speech = new SpeechSynthesizer();
+        private readonly SpeechSynthesizer _speech = new SpeechSynthesizer();
 
-        private static readonly string _ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
-        private static readonly string _ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";
+        private const string ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
+        private const string ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";
+
         #endregion Params
     }
 }

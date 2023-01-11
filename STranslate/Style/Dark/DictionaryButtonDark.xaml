@@ -39,7 +39,7 @@
                 Padding="5"
                 HorizontalAlignment="Left"
                 Margin="8,5,0,0"
-                MaxHeight="30">
+                Height="30">
             <TextBlock Style="{StaticResource IconStyle}"
                        FontSize="21"
                        VerticalAlignment="Center"

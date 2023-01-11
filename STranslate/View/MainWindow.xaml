@@ -32,7 +32,8 @@
                     Key="R"
                     Command="{Binding ThemeConvertCmd}"/>
         <KeyBinding Key="Esc"
-                    Command="{Binding EscCmd}"/>
+                    Command="{Binding EscCmd}"
+                    CommandParameter="{Binding ElementName=TopmostBtn, Mode=OneWay}"/>
     </Window.InputBindings>
 
 
