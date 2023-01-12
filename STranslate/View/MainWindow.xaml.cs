@@ -1,6 +1,7 @@
 ﻿using STranslate.Helper;
 using STranslate.ViewModel;
 using System;
+using System.IO;
 using System.Windows;
 
 namespace STranslate.View
@@ -57,14 +58,17 @@ namespace STranslate.View
 
         private MainVM vm = MainVM.Instance;
 
+        private string _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+
         public System.Windows.Forms.NotifyIcon NotifyIcon = new System.Windows.Forms.NotifyIcon();
 
         #region TrayIcon
         private void InitialTray()
         {
-            var app = System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location);
-            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            NotifyIcon.Text = $"{app} {version.Substring(0, version.Length - 2)}";
+            _version = HandleVersion(_version);
+            var app = Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location);
+            NotifyIcon.Text = $"{app} {_version}";
             NotifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
             NotifyIcon.Visible = true;
             NotifyIcon.BalloonTipText = $"{app} already started...";
@@ -86,6 +90,9 @@ namespace STranslate.View
             System.Windows.Forms.MenuItem OpenMainWinBTN = new System.Windows.Forms.MenuItem("显示主界面");
             OpenMainWinBTN.Click += new EventHandler(OpenMainWin_Click);
 
+            System.Windows.Forms.MenuItem CheckUpdateBTN = new System.Windows.Forms.MenuItem("检查更新");
+            CheckUpdateBTN.Click += CheckUpdateBTN_Click;
+
             System.Windows.Forms.MenuItem AutoStartBTN = new System.Windows.Forms.MenuItem("开机自启");
             AutoStartBTN.Click += new EventHandler(AutoStart_Click);
 
@@ -99,10 +106,62 @@ namespace STranslate.View
                 ScreenshotTranslateMenuItemBTN,
                 CrossWordTranslateMenuItemBTN,
                 OpenMainWinBTN,
+                CheckUpdateBTN,
                 AutoStartBTN,
                 ExitBTN,
             };
             NotifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
+        }
+
+        private string HandleVersion(string version)
+        {
+            var ret = string.Empty;
+            ret = version.Substring(0, version.Length - 2);
+            var location = ret.LastIndexOf('.');
+            ret = ret.Remove(location, 1);
+            return ret;
+        }
+
+        /// <summary>
+        /// 检查更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckUpdateBTN_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string updaterExePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    "Updater.exe");
+                string updaterCacheExePath = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "Updater",
+                    "Updater.exe");
+                string updateDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Updater");
+                if (!Directory.Exists(updateDirPath))
+                {
+                    Directory.CreateDirectory(updateDirPath);
+                }
+
+                if (!File.Exists(updaterExePath))
+                {
+                    MessageBox.Show("升级程序似乎已被删除，请手动前往发布页查看新版本");
+                    return;
+                }
+                File.Copy(updaterExePath, updaterCacheExePath, true);
+
+                File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Newtonsoft.Json.dll"), Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "Updater",
+                    "Newtonsoft.Json.dll"), true);
+
+                ProcessHelper.Run(updaterCacheExePath, new string[] { _version });
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"无法正确启动检查更新程序\n{ex.Message}");
+            }
         }
 
         private void ScreenshotTranslateMenuItem_Click(object sender, EventArgs e)

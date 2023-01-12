@@ -94,6 +94,7 @@
     <Compile Include="Helper\HotkeysHelper.cs" />
     <Compile Include="Helper\MvvmHelper.cs" />
     <Compile Include="Helper\NativeMethodHelper.cs" />
+    <Compile Include="Helper\Processhelper.cs" />
     <Compile Include="Helper\StartupHelper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\VisibilityConverter.cs" />

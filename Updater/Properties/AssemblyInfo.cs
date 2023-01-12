@@ -1,16 +1,18 @@
 ﻿using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("STranslate")]
+[assembly: AssemblyTitle("Updater")]
 [assembly: AssemblyDescription("A ready to use and ready to go translation tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ZGGSONG")]
-[assembly: AssemblyProduct("STranslate")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyProduct("Updater")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("ZGGSONG")]
 [assembly: AssemblyCulture("")]
 
@@ -28,6 +30,7 @@ using System.Windows;
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
+
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //主题特定资源词典所处位置
                                      //(未在页面中找到资源时使用，
@@ -37,7 +40,8 @@ using System.Windows;
                                               //、应用程序或任何主题专用资源字典中找到时使用)
 )]
 
-// 程序集的版本信息由下列四个值组成:
+
+// 程序集的版本信息由下列四个值组成: 
 //
 //      主版本
 //      次版本
@@ -47,6 +51,6 @@ using System.Windows;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.7.0")]
-[assembly: AssemblyFileVersion("0.1.7.0")]
-[assembly: Guid("CE252DD8-179F-4544-9989-453F5DEA378D")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: Guid("54EA0FD9-3908-4A27-8AF7-B98EDCE7804E")]
