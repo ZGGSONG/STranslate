@@ -8,14 +8,14 @@
     <!--Combox-->
     <Style TargetType="{x:Type ComboBox}" x:Key="cmbstyle">
         <Setter Property="Background" Value="#282c34"/>
-        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="Foreground" Value="#abb2bf"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <!--ComBoxItem-->
                 <Style TargetType="ComboBoxItem">
                     <Setter Property="MinHeight" Value="22"/>
                     <Setter Property="MinWidth" Value="40"/>
-                    <Setter Property="Foreground" Value="WhiteSmoke"/>
+                    <Setter Property="Foreground" Value="#abb2bf"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ComboBoxItem">
@@ -72,10 +72,10 @@
                                             </Setter>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="White"/>
+                                                    <Setter Property="Background" Value="#abb2bf"/>
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver" Value="False">
-                                                    <Setter Property="Background" Value="White"/>
+                                                    <Setter Property="Background" Value="#abb2bf"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>

@@ -21,11 +21,11 @@
     <Style x:Key="TextBoxInputStyle"
            TargetType="TextBox">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="Foreground" Value="#abb2bf"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <!--光标颜色-->
-        <Setter Property="CaretBrush" Value="WhiteSmoke"/>
+        <Setter Property="CaretBrush" Value="#abb2bf"/>
         <!--选区颜色-->
         <Setter Property="SelectionBrush" Value="#404856"/>
         <Setter Property="Margin" Value="10,10,5,35"/>
@@ -47,13 +47,13 @@
     </Style>
     <Style x:Key="LanguageMarkTextBlockStyle"
            TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#eaeaea"/>
+        <Setter Property="Foreground" Value="#cecece"/>
     </Style>
     
     <Style x:Key="TextBoxOutputStyle"
            TargetType="TextBox">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="Foreground" Value="#abb2bf"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="IsReadOnly" Value="True"/>
@@ -71,6 +71,6 @@
     <Style x:Key="MidStyle"
            TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="WhiteSmoke"/>
+        <Setter Property="Foreground" Value="#abb2bf"/>
     </Style>
 </ResourceDictionary>

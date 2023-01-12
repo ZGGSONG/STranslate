@@ -19,7 +19,7 @@
                        FontSize="18"
                        VerticalAlignment="Center"
                        Text="&#xe994;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -69,7 +69,7 @@
                        FontSize="22"
                        VerticalAlignment="Center"
                        Text="&#xe9ba;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -92,7 +92,7 @@
                        FontSize="17"
                        VerticalAlignment="Center"
                        Text="&#xe610;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -114,7 +114,7 @@
                        FontSize="18"
                        VerticalAlignment="Center"
                        Text="&#xe692;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -136,7 +136,7 @@
                        FontSize="18"
                        VerticalAlignment="Center"
                        Text="&#xe600;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -158,7 +158,7 @@
                        FontSize="18"
                        VerticalAlignment="Center"
                        Text="&#xe602;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -180,7 +180,7 @@
                        FontSize="18"
                        VerticalAlignment="Center"
                        Text="&#xe601;"
-                       Foreground="WhiteSmoke"/>
+                       Foreground="#abb2bf"/>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
