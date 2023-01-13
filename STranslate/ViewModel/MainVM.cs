@@ -68,6 +68,8 @@ namespace STranslate.ViewModel
                 if (IsTopmost) return;
                 _speech.SpeakAsyncCancelAll();
                 Mainwin.Hide();
+                
+                Util.Util.FlushMemory();
             });
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
@@ -133,7 +135,8 @@ namespace STranslate.ViewModel
             SmallHumpRet = string.Empty;
             LargeHumpRet = string.Empty;
             IdentifyLanguage = string.Empty;
-
+            
+            Util.Util.FlushMemory();
         }
         /// <summary>
         /// 打开主窗口
@@ -189,6 +192,7 @@ namespace STranslate.ViewModel
         /// </summary>
         public void ExitApp(int id)
         {
+            Util.Util.FlushMemory();
             Mainwin.NotifyIcon.Dispose();
             Mainwin.Close();
             //语音合成销毁

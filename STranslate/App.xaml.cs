@@ -18,6 +18,8 @@ namespace STranslate
             if (mutex.WaitOne(0, false))
             {
                 base.OnStartup(e);
+                
+                Util.Util.FlushMemory();
             }
             else
             {
