@@ -31,10 +31,11 @@
 - [x] 添加复制结果蛇形、大小驼峰
 - [x] 软件层面识别语种(目前支持中英文)
 - [x] 添加开机自启
-- [x] 添加亮/暗主题
+- [x] 添加明/暗主题
 - [x] 添加 UI 设置缓存(用户目录下 `AppData\Local\STranslate`)
 - [x] 添加语音合成
 - [x] 添加离线截图翻译
+- [x] 添加检查更新
 - [ ] 添加翻译记录缓存功能
 
 ## 使用
@@ -58,11 +59,13 @@
 
 点击软件外部界面任意处或点击软件则会自动隐藏到后台，即用即走。
 
-3. 0.08 版本添加开机启动
+## 开发历史
 
-![previews](./example_tray.png)
+- 2023-01-12 0.18 优化 GC 后台静默运行内存占用保持 4MB 左右
 
-4. 0.15 添加离线 OCR 功能，其使用 [tesseract](https://github.com/tesseract-ocr/tesseract) 目前仅支持英文
+- 2023-01-12 0.17 添加检查更新功能
+
+- 2023-01-10 0.15 添加离线 OCR 功能，其使用 [tesseract](https://github.com/tesseract-ocr/tesseract) 目前仅支持英文
 
 <details>
   <summary>自修改提示</summary>
@@ -94,12 +97,21 @@ public static string TesseractGetText(Bitmap bmp)
 ```
 </details>
 
+- 2023-12-28 0.10 添加明暗主题切换功能
+
+- 2022-12-27 0.08 版本添加开机启动
+
+![previews](./example_tray.png)
+
 ## 接口失效
 
 若远端接口均失效，需要自己本地运行翻译服务(感谢[zu1k](https://github.com/zu1k))，根据自己的系统 [下载可执行文件](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2) 自己的版本，软件右上角选择 `local` 接口即可
+
 
 ## 参考项目
 
 [https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)  
 
 [https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2)
+
+[https://github.com/Planshit/Tai](https://github.com/Planshit/Tai)
