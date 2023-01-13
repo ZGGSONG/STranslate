@@ -3,6 +3,9 @@ using STranslate.ViewModel;
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace STranslate.View
 {
@@ -61,59 +64,66 @@ namespace STranslate.View
         private string _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
-        public System.Windows.Forms.NotifyIcon NotifyIcon = new System.Windows.Forms.NotifyIcon();
+        public readonly NotifyIcon NotifyIcon = new NotifyIcon();
 
-        #region TrayIcon
+        #region Initial TrayIcon
         private void InitialTray()
         {
             _version = HandleVersion(_version);
-            var app = Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location);
-            NotifyIcon.Text = $"{app} {_version}";
-            NotifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative)).Stream);
+            var app = Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()?.Location);
+            NotifyIcon.Text = $@"{app} {_version}";
+            var stream = Application
+                .GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative))?.Stream;
+            if (stream != null)
+                NotifyIcon.Icon = new System.Drawing.Icon(stream);
             NotifyIcon.Visible = true;
-            NotifyIcon.BalloonTipText = $"{app} already started...";
+            NotifyIcon.BalloonTipText = $@"{app} already started...";
             NotifyIcon.ShowBalloonTip(500);
 
             NotifyIcon.MouseDoubleClick += InputTranslateMenuItem_Click;
+            var inputTranslateMenuItemBtn = new MenuItem("输入翻译\tAlt+A");
+            inputTranslateMenuItemBtn.Click += InputTranslateMenuItem_Click;
 
-            System.Windows.Forms.MenuItem InputTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("输入翻译");
-            InputTranslateMenuItemBTN.Click += new EventHandler(InputTranslateMenuItem_Click);
+            var screenshotTranslateMenuItemBtn = new MenuItem("截图翻译\tAlt+S");
+            screenshotTranslateMenuItemBtn.Click += ScreenshotTranslateMenuItem_Click;
 
-            System.Windows.Forms.MenuItem ScreenshotTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("截图翻译");
-            ScreenshotTranslateMenuItemBTN.Click += new EventHandler(ScreenshotTranslateMenuItem_Click);
-
-            System.Windows.Forms.MenuItem CrossWordTranslateMenuItemBTN = new System.Windows.Forms.MenuItem("划词翻译");
-            //CrossWordTranslateMenuItemBTN.Click += new EventHandler(CrossWordTranslateMenuItem_Click);
+            var crossWordTranslateMenuItemBtn = new MenuItem("划词翻译\tAlt+D");
+            //CrossWordTranslateMenuItemBTN.Click += CrossWordTranslateMenuItem_Click;
             //当失去焦点后无法从托盘处获取选中文本
-            CrossWordTranslateMenuItemBTN.Enabled = false;
+            crossWordTranslateMenuItemBtn.Enabled = false;
 
-            System.Windows.Forms.MenuItem OpenMainWinBTN = new System.Windows.Forms.MenuItem("显示主界面");
-            OpenMainWinBTN.Click += new EventHandler(OpenMainWin_Click);
+            var openMainWinBtn = new MenuItem("显示主界面\tAlt+G");
+            openMainWinBtn.Click += OpenMainWin_Click;
 
-            System.Windows.Forms.MenuItem CheckUpdateBTN = new System.Windows.Forms.MenuItem("检查更新");
-            CheckUpdateBTN.Click += CheckUpdateBTN_Click;
+            var checkUpdateBtn = new MenuItem("检查更新");
+            checkUpdateBtn.Click += CheckUpdateBTN_Click;
 
-            System.Windows.Forms.MenuItem AutoStartBTN = new System.Windows.Forms.MenuItem("开机自启");
-            AutoStartBTN.Click += new EventHandler(AutoStart_Click);
+            var autoStartBtn = new MenuItem("开机自启");
+            autoStartBtn.Click += AutoStart_Click;
 
-            AutoStartBTN.Checked = StartupHelper.IsStartup();
+            autoStartBtn.Checked = StartupHelper.IsStartup();
 
-            System.Windows.Forms.MenuItem ExitBTN = new System.Windows.Forms.MenuItem("退出");
-            ExitBTN.Click += new EventHandler(Exit_Click);
+            var exitBtn = new MenuItem("退出");
+            exitBtn.Click += Exit_Click;
 
-            System.Windows.Forms.MenuItem[] childen = new System.Windows.Forms.MenuItem[] {
-                InputTranslateMenuItemBTN,
-                ScreenshotTranslateMenuItemBTN,
-                CrossWordTranslateMenuItemBTN,
-                OpenMainWinBTN,
-                CheckUpdateBTN,
-                AutoStartBTN,
-                ExitBTN,
+            var items = new MenuItem[] {
+                inputTranslateMenuItemBtn,
+                screenshotTranslateMenuItemBtn,
+                crossWordTranslateMenuItemBtn,
+                openMainWinBtn,
+                checkUpdateBtn,
+                autoStartBtn,
+                exitBtn,
             };
-            NotifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
+            NotifyIcon.ContextMenu = new ContextMenu(items);
         }
 
-        private string HandleVersion(string version)
+        /// <summary>
+        /// 同步Github版本命名
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        private static string HandleVersion(string version)
         {
             var ret = string.Empty;
             ret = version.Substring(0, version.Length - 2);
@@ -123,7 +133,7 @@ namespace STranslate.View
         }
 
         /// <summary>
-        /// 检查更新
+        /// 检查更新 by https://github.com/Planshit/Tai
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -131,13 +141,13 @@ namespace STranslate.View
         {
             try
             {
-                string updaterExePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                var updaterExePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                     "Updater.exe");
-                string updaterCacheExePath = Path.Combine(
+                var updaterCacheExePath = Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory,
                     "Updater",
                     "Updater.exe");
-                string updateDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Updater");
+                var updateDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Updater");
                 if (!Directory.Exists(updateDirPath))
                 {
                     Directory.CreateDirectory(updateDirPath);
@@ -178,7 +188,7 @@ namespace STranslate.View
         {
             if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
             else StartupHelper.SetStartup();
-            (sender as System.Windows.Forms.MenuItem).Checked = StartupHelper.IsStartup();
+            ((MenuItem)sender).Checked = StartupHelper.IsStartup();
         }
 
         private void Exit_Click(object sender, EventArgs e)
