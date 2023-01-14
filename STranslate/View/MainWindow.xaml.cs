@@ -101,6 +101,9 @@ namespace STranslate.View
             var autoStartBtn = new MenuItem("开机自启");
             autoStartBtn.Click += AutoStart_Click;
 
+            var preferenceBtn = new MenuItem("首选项");
+            preferenceBtn.Click += Preference_Click;
+
             autoStartBtn.Checked = StartupHelper.IsStartup();
 
             var exitBtn = new MenuItem("退出");
@@ -113,9 +116,22 @@ namespace STranslate.View
                 openMainWinBtn,
                 checkUpdateBtn,
                 autoStartBtn,
+                preferenceBtn,
                 exitBtn,
             };
             NotifyIcon.ContextMenu = new ContextMenu(items);
+        }
+
+        /// <summary>
+        /// 设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Preference_Click(object sender, EventArgs e)
+        {
+            var setting = new SettingsWindow();
+            setting.Show();
+            setting.Activate();
         }
 
         /// <summary>

@@ -1,0 +1,29 @@
+﻿<Window x:Class="STranslate.View.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:STranslate.ViewModel"
+        xmlns:local="clr-namespace:STranslate.View"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        Icon="/Images/translate.ico"
+        Title="设置" Height="450" Width="400">
+    <Window.DataContext>
+        <vm:SettingsVM/>
+    </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <TabControl>
+            
+        </TabControl>
+    </Grid>
+</Window>
