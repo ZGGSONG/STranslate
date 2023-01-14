@@ -45,19 +45,24 @@
 ![previews_dark](./example_dark.png)
 
 打开软件后会静默在后台，等待调用
+
 1. 全局监听快捷键
 - `Alt` + `A` 打开软件界面，输入内容按回车翻译
 - `Alt` + `D` 复制当前鼠标选中内容并翻译
 - `Alt` + `S` 截图选中区域内容并翻译
 - `Alt` + `G` 打开窗口(不清空内容)
 
-2. 软件内快捷键
+1. 软件内快捷键
 - `ESC` 隐藏界面
 - `Ctrl+Shift+Q` 退出程序
 - `Ctrl+Shift+R` 切换主题
 - `Ctrl+Shift+T` 置顶/取消置顶
 
 点击软件外部界面任意处或点击软件则会自动隐藏到后台，即用即走。
+
+
+> STranslate依赖于.NET Framework 4.8 运行环境，如果程序启动时提示“This application requires *** .NETFramework,Version=v4.8”，请点击以下链接下载并安装.NET Framework 4.8 运行环境。  
+> [适用于 Windows 的 Microsoft .NET Framework 4.8 脱机安装程序下载](https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe) | [Microsoft Support](https://support.microsoft.com/zh-cn/topic/%E9%80%82%E7%94%A8%E4%BA%8E-windows-%E7%9A%84-microsoft-net-framework-4-8-%E8%84%B1%E6%9C%BA%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F-9d23f658-3b97-68ab-d013-aa3c3e7495e0)
 
 ## 开发历史
 
