@@ -9,7 +9,7 @@ namespace STranslate.Helper
         public static String Get()
         {
             SendCtrlC();
-            Thread.Sleep(200);
+            Thread.Sleep((int)STranslate.ViewModel.SettingsVM.Instance.WordPickupInterval);
             return NativeMethodHelper.GetText();
         }
 

@@ -13,7 +13,7 @@ using System.Windows.Controls;
 
 namespace STranslate.ViewModel
 {
-    public class MainVM : BaseVM
+    public class MainVM : BaseMainVM
     {
         public MainVM()
         {

@@ -22,6 +22,8 @@ namespace STranslate.View
         public SettingsWindow()
         {
             InitializeComponent();
+
+            DataContext = ViewModel.SettingsVM.Instance;
         }
     }
 }

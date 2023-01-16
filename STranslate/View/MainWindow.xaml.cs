@@ -61,7 +61,6 @@ namespace STranslate.View
 
         private MainVM vm = MainVM.Instance;
 
-        private string _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
         public readonly NotifyIcon NotifyIcon = new NotifyIcon();
@@ -69,9 +68,8 @@ namespace STranslate.View
         #region Initial TrayIcon
         private void InitialTray()
         {
-            _version = HandleVersion(_version);
             var app = Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()?.Location);
-            NotifyIcon.Text = $@"{app} {_version}";
+            NotifyIcon.Text = $@"{app} {vm.Version}";
             var stream = Application
                 .GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative))?.Stream;
             if (stream != null)
@@ -134,19 +132,6 @@ namespace STranslate.View
             setting.Activate();
         }
 
-        /// <summary>
-        /// 同步Github版本命名
-        /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
-        private static string HandleVersion(string version)
-        {
-            var ret = string.Empty;
-            ret = version.Substring(0, version.Length - 2);
-            var location = ret.LastIndexOf('.');
-            ret = ret.Remove(location, 1);
-            return ret;
-        }
 
         /// <summary>
         /// 检查更新 by https://github.com/Planshit/Tai
@@ -181,7 +166,7 @@ namespace STranslate.View
                     "Updater",
                     "Newtonsoft.Json.dll"), true);
 
-                ProcessHelper.Run(updaterCacheExePath, new string[] { _version });
+                ProcessHelper.Run(updaterCacheExePath, new string[] { vm.Version });
             }
             catch (Exception ex)
             {
