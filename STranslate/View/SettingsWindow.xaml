@@ -211,8 +211,17 @@
 
             </TabItem>
             -->
-            
-            <TabItem Header="关于"
+
+            <TabItem Header="服务"
+                     Visibility="Collapsed"
+                     Padding="10,2">
+                
+                <GroupBox Header="DeepL API">
+                    
+                </GroupBox>
+            </TabItem>
+
+                <TabItem Header="关于"
                      Padding="10,2">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
 

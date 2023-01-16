@@ -70,7 +70,13 @@
                           ItemsSource="{Binding TranslationInterface}"
                           SelectedItem="{Binding SelectedTranslationInterface, Mode=TwoWay, NotifyOnSourceUpdated=True}"
                           DisplayMemberPath="Name"
-                          HorizontalAlignment="Right"/>
+                          HorizontalAlignment="Right">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectLangChangedCmd}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
             </Grid>
 
             <!--input-->
