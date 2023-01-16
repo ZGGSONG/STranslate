@@ -18,14 +18,9 @@ namespace STranslate.ViewModel
             
             Version = HandleVersion(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() ?? "1.0.0.0");
 
-            LoadedCmd = new RelayCommand((_) => true, (_) =>
-              {
-                  Console.WriteLine("123");
-              });
-
             ClosedCmd = new RelayCommand((_) => true, (_) =>
               {
-                  Console.WriteLine("123");
+                  Util.Util.FlushMemory();
               });
 
             //更新
@@ -76,6 +71,20 @@ namespace STranslate.ViewModel
               {
                   (o as Window)?.Close();
               });
+
+            OpenUrlCmd = new RelayCommand((_) => true, (o) =>
+              {
+                  try
+                  {
+                      System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                      proc.StartInfo.FileName = o.ToString();
+                      proc.Start();
+                  }
+                  catch (Exception ex)
+                  {
+                      MessageBox.Show($"未找到默认应用\n{ex.Message}");
+                  }
+              });
         }
 
 
@@ -94,8 +103,8 @@ namespace STranslate.ViewModel
         }
 
 
-        public ICommand LoadedCmd { get; private set; }
         public ICommand ClosedCmd { get; private set; }
+        public ICommand OpenUrlCmd { get; private set; }
         public ICommand UpdateCmd { get; private set; }
         public ICommand StartupCmd { get; private set; }
         public ICommand EscCmd { get; private set; }

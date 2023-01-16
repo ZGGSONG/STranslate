@@ -39,11 +39,8 @@
                     CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
     </Window.InputBindings>
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding}"/>
-        </i:EventTrigger>
         <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding}"/>
+            <i:InvokeCommandAction Command="{Binding ClosedCmd}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="20">
@@ -242,9 +239,17 @@
                         </WrapPanel>
                         <WrapPanel Margin="0,10,0,0">
                             <Label Content="版本"/>
-                            <Label DataContext="https://github.com/zggsong/stranslate/releases"
+                            <Label x:Name="Label_Version"
+                                   DataContext="https://github.com/zggsong/stranslate/releases"
                                    Cursor="Hand"
-                                   Content="{Binding DataContext.Version, ElementName=window}"/>
+                                   Content="{Binding DataContext.Version, ElementName=window}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Version, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
                             <Button Content="检查更新"
                                     Margin="40,0"
                                     Template="{StaticResource buttonstyle}"
@@ -253,33 +258,71 @@
                         </WrapPanel>
                         <WrapPanel>
                             <Label Content="开源"/>
-                            <Label Content="MIT License"
-                            DataContext="https://en.wikipedia.org/wiki/MIT_License"
-                            Cursor="Hand"/>
+                            <Label x:Name="Label_Lic"
+                                   Content="MIT License"
+                                   DataContext="https://github.com/ZGGSONG/STranslate/blob/main/LICENSE"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Lic, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Content="版权"/>
-                            <Label Content="@2022 ZGGSONG"
-                            DataContext="https://github.com/ZGGSONG"
-                            Cursor="Hand"/>
+                            <Label x:Name="Label_Ccopyright"
+                                   Content="@2022 ZGGSONG"
+                                   DataContext="https://github.com/ZGGSONG"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Ccopyright, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Content="联系"/>
-                            <Label Content="zggsong@foxmail.com"
-                            DataContext="zggsong@foxmail.com"
-                            Cursor="Hand"/>
+                            <Label x:Name="Label_Connect"
+                                   Content="zggsong@foxmail.com"
+                                   DataContext="zggsong@foxmail.com"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Connect, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Content="源码"/>
-                            <Label Content="https://github.com/zggsong/stranslate"
-                            DataContext="https://github.com/ZGGSONG/STranslate"
-                            Cursor="Hand"/>
+                            <Label x:Name="Label_Source" Content="https://github.com/zggsong/stranslate"
+                                   DataContext="https://github.com/ZGGSONG/STranslate"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Source, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Content="反馈"/>
-                            <Label Content="https://github.com/zggsong/stranslate/issues"
-                            DataContext="https://github.com/ZGGSONG/STranslate/issues"
-                            Cursor="Hand"/>
+                            <Label x:Name="Label_Feedback" Content="https://github.com/zggsong/stranslate/issues"
+                                   DataContext="https://github.com/ZGGSONG/STranslate/issues"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Feedback, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
                         </WrapPanel>
                     </StackPanel>
                 </ScrollViewer>
