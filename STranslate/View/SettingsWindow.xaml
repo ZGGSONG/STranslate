@@ -6,7 +6,6 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:STranslate.View"
         mc:Ignorable="d"
-        Topmost="True"
         SizeToContent="Height"
         WindowStartupLocation="CenterScreen"
         Icon="/Images/translate.ico"
@@ -33,7 +32,12 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
-    
+
+    <Window.InputBindings>
+        <KeyBinding Key="Esc"
+                    Command="{Binding EscCmd}"
+                    CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
+    </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding}"/>
@@ -51,24 +55,29 @@
                     <GroupBox Header="开机启动">
                         <WrapPanel Margin="0,5,0,5">
                             <CheckBox Content="开机启动"
-                                      FontWeight="Bold"/>
+                                      IsChecked="{Binding IsStartup}"
+                                      FontWeight="Bold">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding StartupCmd}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding StartupCmd}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
                         </WrapPanel>
                     </GroupBox>
                     <GroupBox Header="取词间隔"
                               ToolTip="划词翻译实现原理是：用户用鼠标划词后模拟Ctrl+C，间隔一定时间后，程序再从剪切板取词，如果电脑反应慢，可能会出现取不到词的问题，将间隔调大可以适配一些老旧的机器">
                         <WrapPanel Margin="0,5,0,5">
-                            <Slider Value="{Binding WordPickupInterval}"
+                            <Slider Value="{Binding DataContext.WordPickupInterval, ElementName=window}"
                                     Minimum="100"
                                     Maximum="1000"
                                     MinWidth="200"
                                     TickFrequency="100"
                                     TickPlacement="None"
                                     IsSnapToTickEnabled="True">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="ValueChanged">
-                                        <i:InvokeCommandAction Command="{Binding ResetWordPickupIntervalCmd}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
                             </Slider>
                             <TextBlock Text="{Binding WordPickupInterval, StringFormat={}{0}ms}" Margin="10,0,0,0" />
                         </WrapPanel>
@@ -77,6 +86,7 @@
 
             </TabItem>
             
+            <!--
             <TabItem Header="控制"
                      Padding="10,2">
 
@@ -203,9 +213,9 @@
                 </StackPanel>
 
             </TabItem>
+            -->
             
             <TabItem Header="关于"
-                     IsSelected="True"
                      Padding="10,2">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
 
@@ -216,7 +226,7 @@
                                        FontSize="18"
                                        Margin="5,0">
                                 <Run Text="STranslate"
-                                    FontWeight="Black"/>
+                                    FontWeight="Bold"/>
                             </TextBlock>
                             <!--<Border BorderBrush="Transparent"
                                     Background="Black"

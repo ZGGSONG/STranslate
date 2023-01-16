@@ -17,6 +17,7 @@ namespace STranslate.Model
         {
             return new ConfigModel
             {
+                WordPickupInterval = 200,
                 IsBright = true,
                 SourceLanguage = LanguageEnum.AUTO.GetDescription(),
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
@@ -42,6 +43,11 @@ namespace STranslate.Model
             };
         }
 
+        /// <summary>
+        /// 是否亮色模式
+        /// </summary>
+        [JsonProperty("wordPickupInterval")]
+        public double WordPickupInterval { get; set; }
         /// <summary>
         /// 是否亮色模式
         /// </summary>

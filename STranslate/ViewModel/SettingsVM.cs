@@ -10,10 +10,14 @@ using System.Windows.Input;
 
 namespace STranslate.ViewModel
 {
-    public class SettingsVM : BaseMainVM
+    public class SettingsVM : BaseVM
     {
         public SettingsVM()
         {
+            IsStartup = StartupHelper.IsStartup();
+            
+            Version = HandleVersion(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() ?? "1.0.0.0");
+
             LoadedCmd = new RelayCommand((_) => true, (_) =>
               {
                   Console.WriteLine("123");
@@ -22,18 +26,6 @@ namespace STranslate.ViewModel
             ClosedCmd = new RelayCommand((_) => true, (_) =>
               {
                   Console.WriteLine("123");
-              });
-
-            //重置快捷键
-            ResetHotKeysCmd = new RelayCommand((_) => true, (_) =>
-              {
-                  Console.WriteLine("123");
-              });
-
-            //重置取词间隔
-            ResetWordPickupIntervalCmd = new RelayCommand((_) => true, (_) =>
-              {
-                  System.Diagnostics.Debug.Print(WordPickupInterval.ToString());
               });
 
             //更新
@@ -73,18 +65,61 @@ namespace STranslate.ViewModel
                       MessageBox.Show($"无法正确启动检查更新程序\n{ex.Message}");
                   }
               });
+
+            StartupCmd = new RelayCommand((_) => true, (_) =>
+              {
+                  if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
+                  else StartupHelper.SetStartup();
+                  IsStartup = StartupHelper.IsStartup();
+              });
+            EscCmd = new RelayCommand((_) => true, (o) =>
+              {
+                  (o as Window)?.Close();
+              });
         }
+
+
+        /// <summary>
+        /// 同步Github版本命名
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        private static string HandleVersion(string version)
+        {
+            var ret = string.Empty;
+            ret = version.Substring(0, version.Length - 2);
+            var location = ret.LastIndexOf('.');
+            ret = ret.Remove(location, 1);
+            return ret;
+        }
+
+
         public ICommand LoadedCmd { get; private set; }
         public ICommand ClosedCmd { get; private set; }
         public ICommand UpdateCmd { get; private set; }
-
-        public ICommand ResetHotKeysCmd { get; private set; }
-        public ICommand ResetWordPickupIntervalCmd { get; private set; }
-
-        private double _wordPickupInterval = 200;
-        public double WordPickupInterval { get => _wordPickupInterval; set => UpdateProperty(ref _wordPickupInterval, value); }
+        public ICommand StartupCmd { get; private set; }
+        public ICommand EscCmd { get; private set; }
 
         private static SettingsVM _instance;
         public static SettingsVM Instance => _instance ?? (_instance = new SettingsVM());
+
+        /// <summary>
+        /// 是否开机自启
+        /// </summary>
+        private bool _isStartup;
+        public bool IsStartup { get => _isStartup; set => UpdateProperty(ref _isStartup, value); }
+
+        /// <summary>
+        /// 版本
+        /// </summary>
+        private string _version;
+        public string Version { get => _version; set => UpdateProperty(ref _version, value); }
+
+        /// <summary>
+        /// 取词间隔
+        /// </summary>
+        private double _wordPickupInterval;
+        public double WordPickupInterval { get => _wordPickupInterval; set => UpdateProperty(ref _wordPickupInterval, value); }
+
     }
 }

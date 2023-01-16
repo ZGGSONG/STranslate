@@ -104,7 +104,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Util\Util.cs" />
-    <Compile Include="ViewModel\BaseMainVM.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\ScreenShotVM.cs" />
     <Compile Include="ViewModel\SettingsVM.cs" />
