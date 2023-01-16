@@ -173,9 +173,23 @@ namespace STranslate.ViewModel
         /// </summary>
         public void ScreenShotTranslate()
         {
-            var screen = new ScreenShotWindow();
-            screen.Show();
-            screen.Activate();
+            ScreenShotWindow window = null;
+            foreach (Window item in Application.Current.Windows)
+            {
+                if (item is ScreenShotWindow)
+                {
+                    window = (ScreenShotWindow)item;
+                    window.WindowState = WindowState.Normal;
+                    window.Activate();
+                    break;
+                }
+            }
+            if (window == null)
+            {
+                window = new ScreenShotWindow();
+                window.Show();
+                window.Activate();
+            }
         }
         /// <summary>
         /// 截屏翻译Ex
@@ -217,6 +231,10 @@ namespace STranslate.ViewModel
             {
                 _globalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
 
+                //读取间隔
+                var tmp = _globalConfig.WordPickupInterval;
+                SettingsVM.Instance.WordPickupInterval = (tmp == 0 || tmp > 1000 || tmp < 100) ? 200 : tmp;
+
                 //配置读取主题
                 Application.Current.Resources.MergedDictionaries[0].Source = _globalConfig.IsBright ? new Uri(ThemeDefault) : new Uri(ThemeDark);
 
@@ -253,6 +271,7 @@ namespace STranslate.ViewModel
             {
                 ConfigHelper.Instance.WriteConfig(new ConfigModel
                 {
+                    WordPickupInterval = SettingsVM.Instance.WordPickupInterval,
                     IsBright = Application.Current.Resources.MergedDictionaries[0].Source.ToString() == ThemeDefault ? true : false,
                     SourceLanguage = InputComboSelected,
                     TargetLanguage = OutputComboSelected,

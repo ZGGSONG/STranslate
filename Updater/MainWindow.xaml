@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Updater"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="update.ico"
         Title="STranslate 升级程序" ResizeMode="NoResize" Height="300" Width="420">
     <Grid Margin="10">
         <Grid.RowDefinitions>

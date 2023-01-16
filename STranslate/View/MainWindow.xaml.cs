@@ -61,17 +61,13 @@ namespace STranslate.View
 
         private MainVM vm = MainVM.Instance;
 
-        private string _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-
         public readonly NotifyIcon NotifyIcon = new NotifyIcon();
 
         #region Initial TrayIcon
         private void InitialTray()
         {
-            _version = HandleVersion(_version);
             var app = Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()?.Location);
-            NotifyIcon.Text = $@"{app} {_version}";
+            NotifyIcon.Text = $@"{app} {SettingsVM.Instance.Version}";
             var stream = Application
                 .GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative))?.Stream;
             if (stream != null)
@@ -95,13 +91,8 @@ namespace STranslate.View
             var openMainWinBtn = new MenuItem("显示主界面\tAlt+G");
             openMainWinBtn.Click += OpenMainWin_Click;
 
-            var checkUpdateBtn = new MenuItem("检查更新");
-            checkUpdateBtn.Click += CheckUpdateBTN_Click;
-
-            var autoStartBtn = new MenuItem("开机自启");
-            autoStartBtn.Click += AutoStart_Click;
-
-            autoStartBtn.Checked = StartupHelper.IsStartup();
+            var preferenceBtn = new MenuItem("首选项");
+            preferenceBtn.Click += Preference_Click;
 
             var exitBtn = new MenuItem("退出");
             exitBtn.Click += Exit_Click;
@@ -111,66 +102,35 @@ namespace STranslate.View
                 screenshotTranslateMenuItemBtn,
                 crossWordTranslateMenuItemBtn,
                 openMainWinBtn,
-                checkUpdateBtn,
-                autoStartBtn,
+                preferenceBtn,
                 exitBtn,
             };
             NotifyIcon.ContextMenu = new ContextMenu(items);
         }
 
         /// <summary>
-        /// 同步Github版本命名
-        /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
-        private static string HandleVersion(string version)
-        {
-            var ret = string.Empty;
-            ret = version.Substring(0, version.Length - 2);
-            var location = ret.LastIndexOf('.');
-            ret = ret.Remove(location, 1);
-            return ret;
-        }
-
-        /// <summary>
-        /// 检查更新 by https://github.com/Planshit/Tai
+        /// 设置
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CheckUpdateBTN_Click(object sender, EventArgs e)
+        private void Preference_Click(object sender, EventArgs e)
         {
-            try
+            SettingsWindow window = null;
+            foreach (Window item in Application.Current.Windows)
             {
-                var updaterExePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                    "Updater.exe");
-                var updaterCacheExePath = Path.Combine(
-                    AppDomain.CurrentDomain.BaseDirectory,
-                    "Updater",
-                    "Updater.exe");
-                var updateDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Updater");
-                if (!Directory.Exists(updateDirPath))
+                if (item is SettingsWindow)
                 {
-                    Directory.CreateDirectory(updateDirPath);
+                    window = (SettingsWindow)item;
+                    window.WindowState = WindowState.Normal;
+                    window.Activate();
+                    break;
                 }
-
-                if (!File.Exists(updaterExePath))
-                {
-                    MessageBox.Show("升级程序似乎已被删除，请手动前往发布页查看新版本");
-                    return;
-                }
-                File.Copy(updaterExePath, updaterCacheExePath, true);
-
-                File.Copy(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Newtonsoft.Json.dll"), Path.Combine(
-                    AppDomain.CurrentDomain.BaseDirectory,
-                    "Updater",
-                    "Newtonsoft.Json.dll"), true);
-
-                ProcessHelper.Run(updaterCacheExePath, new string[] { _version });
             }
-            catch (Exception ex)
+            if (window == null)
             {
-
-                MessageBox.Show($"无法正确启动检查更新程序\n{ex.Message}");
+                window = new SettingsWindow();
+                window.Show();
+                window.Activate();
             }
         }
 
@@ -182,13 +142,6 @@ namespace STranslate.View
         private void OpenMainWin_Click(object sender, EventArgs e)
         {
             vm.OpenMainWin();
-        }
-
-        private void AutoStart_Click(object sender, EventArgs e)
-        {
-            if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
-            else StartupHelper.SetStartup();
-            ((MenuItem)sender).Checked = StartupHelper.IsStartup();
         }
 
         private void Exit_Click(object sender, EventArgs e)

@@ -3,10 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:vm="clr-namespace:STranslate.ViewModel"
-        xmlns:local="clr-namespace:STranslate.View"
         mc:Ignorable="d"
         x:Name="Mwin"
         Background="Transparent"
@@ -73,7 +70,13 @@
                           ItemsSource="{Binding TranslationInterface}"
                           SelectedItem="{Binding SelectedTranslationInterface, Mode=TwoWay, NotifyOnSourceUpdated=True}"
                           DisplayMemberPath="Name"
-                          HorizontalAlignment="Right"/>
+                          HorizontalAlignment="Right">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectLangChangedCmd}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
             </Grid>
 
             <!--input-->

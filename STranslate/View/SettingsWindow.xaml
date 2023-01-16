@@ -1,0 +1,341 @@
+﻿<Window x:Name="window" x:Class="STranslate.View.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:STranslate.View"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Images/translate.ico"
+        Title="STranslate 首选项" Height="450" Width="450">
+    <Window.Resources>
+        <ControlTemplate x:Key="buttonstyle"
+                         TargetType="Button">
+            <Border x:Name="border"
+                    CornerRadius="5"
+                    Padding="4"
+                    Background="#dedfde"
+                    MaxHeight="25">
+                <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Text="检查更新"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="border" Property="Background" Value="#c6e6fc"></Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter TargetName="border" Property="Background" Value="#cce6f6"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Esc"
+                    Command="{Binding EscCmd}"
+                    CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
+    </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding ClosedCmd}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="20">
+        <TabControl>
+            <TabItem Header="常规"
+                     Padding="10,2">
+
+                <StackPanel Margin="20">
+                    <GroupBox Header="开机启动">
+                        <WrapPanel Margin="0,5,0,5">
+                            <CheckBox Content="开机启动"
+                                      IsChecked="{Binding IsStartup}"
+                                      FontWeight="Bold">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding StartupCmd}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding StartupCmd}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="取词间隔"
+                              ToolTip="划词翻译实现原理是：用户用鼠标划词后模拟Ctrl+C，间隔一定时间后，程序再从剪切板取词，如果电脑反应慢，可能会出现取不到词的问题，将间隔调大可以适配一些老旧的机器">
+                        <WrapPanel Margin="0,5,0,5">
+                            <Slider Value="{Binding DataContext.WordPickupInterval, ElementName=window}"
+                                    Minimum="100"
+                                    Maximum="1000"
+                                    MinWidth="200"
+                                    TickFrequency="100"
+                                    TickPlacement="None"
+                                    IsSnapToTickEnabled="True">
+                            </Slider>
+                            <TextBlock Text="{Binding WordPickupInterval, StringFormat={}{0}ms}" Margin="10,0,0,0" />
+                        </WrapPanel>
+                    </GroupBox>
+                </StackPanel>
+
+            </TabItem>
+            
+            <!--
+            <TabItem Header="控制"
+                     Padding="10,2">
+
+                <StackPanel Margin="20">
+                    <GroupBox Header="快捷键">
+                        <Grid Margin="20,10,20,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="划词翻译"
+                               VerticalAlignment="Center"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               Margin="0,5,0,0" />
+                            <TextBox Cursor="Arrow"
+                                 Width="200"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 Margin="0,5,0,0"
+                                 CaretBrush="Transparent"
+                                 VerticalContentAlignment="Center"
+                                 InputMethod.IsInputMethodEnabled="False">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="">
+                                        <i:InvokeCommandAction Command="{Binding }"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        <Label Grid.Row="1"
+                               Grid.Column="2"
+                               Margin="0,5,0,0"
+                               Content="热键冲突"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"
+                               Foreground="Red" />
+
+                            
+                        <Label Content="截图翻译"
+                               VerticalAlignment="Center"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="0,5,0,0" />
+                        <TextBox Cursor="Arrow"
+                                 Width="200"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 Margin="0,5,0,0"
+                                 CaretBrush="Transparent"
+                                 VerticalContentAlignment="Center"
+                                 InputMethod.IsInputMethodEnabled="False"/>
+                        <Label Grid.Row="2"
+                               Grid.Column="2"
+                               Margin="0,5,0,0"
+                               Content="热键冲突"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"
+                               Foreground="Red" />
+
+                            
+                        <Label Content="输入翻译"
+                               VerticalAlignment="Center"
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               Margin="0,5,0,0" />
+                        <TextBox Cursor="Arrow"
+                                 Width="200"
+                                 Grid.Row="3"
+                                 Grid.Column="1"
+                                 Margin="0,5,0,0"
+                                 CaretBrush="Transparent"
+                                 VerticalContentAlignment="Center"
+                                 InputMethod.IsInputMethodEnabled="False"/>
+                        <Label Grid.Row="3"
+                               Grid.Column="2"
+                               Margin="0,5,0,0"
+                               Content="热键冲突"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"
+                               Foreground="Red" />
+                            
+                            
+                        <Label Content="显示界面"
+                               VerticalAlignment="Center"
+                               Grid.Row="4"
+                               Grid.Column="0"
+                               Margin="0,5,0,0" />
+                        <TextBox Cursor="Arrow"
+                                 Width="200"
+                                 Grid.Row="4"
+                                 Grid.Column="1"
+                                 Margin="0,5,0,0"
+                                 CaretBrush="Transparent"
+                                 VerticalContentAlignment="Center"
+                                 InputMethod.IsInputMethodEnabled="False"/>
+                        <Label Grid.Row="4"
+                               Grid.Column="2"
+                               Margin="0,5,0,0"
+                               Content="热键冲突"
+                               VerticalAlignment="Center"
+                               Visibility="Hidden"
+                               Foreground="Red" />
+
+                            
+                        <Button Content="恢复默认"
+                                Template="{StaticResource buttonstyle}"
+                                Width="80"
+                                Grid.Row="5"
+                                Margin="5" 
+                                Grid.Column="1"
+                                Command="{Binding ResetHotKeysCmd}"/>
+                    </Grid>
+                    </GroupBox>
+                </StackPanel>
+
+            </TabItem>
+            -->
+
+            <TabItem Header="服务"
+                     Visibility="Collapsed"
+                     Padding="10,2">
+                
+                <GroupBox Header="DeepL API">
+                    
+                </GroupBox>
+            </TabItem>
+
+                <TabItem Header="关于"
+                     Padding="10,2">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                    <StackPanel Margin="20">
+                        <WrapPanel Orientation="Horizontal">
+                            <Image Source="/Images/translate.ico" Width="30"/>
+                            <TextBlock VerticalAlignment="Bottom"
+                                       FontSize="18"
+                                       Margin="5,0">
+                                <Run Text="STranslate"
+                                    FontWeight="Bold"/>
+                            </TextBlock>
+                            <!--<Border BorderBrush="Transparent"
+                                    Background="Black"
+                                    Margin="20,0,0,0"
+                                    Height="20"
+                                    CornerRadius="4">
+                                <TextBlock VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Foreground="WhiteSmoke"
+                                    Padding="5,0"
+                                    Text="Built with WPF"/>
+                            </Border>-->
+                        </WrapPanel>
+                        <WrapPanel Margin="0,10,0,0">
+                            <Label Content="版本"/>
+                            <Label x:Name="Label_Version"
+                                   DataContext="https://github.com/zggsong/stranslate/releases"
+                                   Cursor="Hand"
+                                   Content="{Binding DataContext.Version, ElementName=window}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Version, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
+                            <Button Content="检查更新"
+                                    Margin="40,0"
+                                    Template="{StaticResource buttonstyle}"
+                                    Command="{Binding UpdateCmd}">
+                            </Button>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="开源"/>
+                            <Label x:Name="Label_Lic"
+                                   Content="MIT License"
+                                   DataContext="https://github.com/ZGGSONG/STranslate/blob/main/LICENSE"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Lic, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="版权"/>
+                            <Label x:Name="Label_Ccopyright"
+                                   Content="@2022 ZGGSONG"
+                                   DataContext="https://github.com/ZGGSONG"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Ccopyright, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="联系"/>
+                            <Label x:Name="Label_Connect"
+                                   Content="zggsong@foxmail.com"
+                                   DataContext="zggsong@foxmail.com"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Connect, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="源码"/>
+                            <Label x:Name="Label_Source" Content="https://github.com/zggsong/stranslate"
+                                   DataContext="https://github.com/ZGGSONG/STranslate"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Source, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <Label Content="反馈"/>
+                            <Label x:Name="Label_Feedback" Content="https://github.com/zggsong/stranslate/issues"
+                                   DataContext="https://github.com/ZGGSONG/STranslate/issues"
+                                   Cursor="Hand">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.OpenUrlCmd, ElementName=window}"
+                                                               CommandParameter="{Binding ElementName=Label_Feedback, Path=DataContext}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Label>
+                        </WrapPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
