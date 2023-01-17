@@ -125,6 +125,12 @@ namespace STranslate.ViewModel
         public string Version { get => _version; set => UpdateProperty(ref _version, value); }
 
         /// <summary>
+        /// 语种识别比例
+        /// </summary>
+        private double _autoScale;
+        public double AutoScale { get => _autoScale; set => UpdateProperty(ref _autoScale, value); }
+
+        /// <summary>
         /// 取词间隔
         /// </summary>
         private double _wordPickupInterval;

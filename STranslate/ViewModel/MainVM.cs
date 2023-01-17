@@ -231,6 +231,10 @@ namespace STranslate.ViewModel
             {
                 _globalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
 
+                //读取自动识别语种比例
+                var scale = _globalConfig.AutoScale;
+                SettingsVM.Instance.AutoScale = (scale <= 0 || scale >= 1) ? 0.8 : scale;
+
                 //读取间隔
                 var tmp = _globalConfig.WordPickupInterval;
                 SettingsVM.Instance.WordPickupInterval = (tmp == 0 || tmp > 1000 || tmp < 100) ? 200 : tmp;
@@ -271,6 +275,7 @@ namespace STranslate.ViewModel
             {
                 ConfigHelper.Instance.WriteConfig(new ConfigModel
                 {
+                    AutoScale = SettingsVM.Instance.AutoScale,
                     WordPickupInterval = SettingsVM.Instance.WordPickupInterval,
                     IsBright = Application.Current.Resources.MergedDictionaries[0].Source.ToString() == ThemeDefault ? true : false,
                     SourceLanguage = InputComboSelected,
@@ -306,9 +311,8 @@ namespace STranslate.ViewModel
 
             var ratio = (double)engStr.Length / text.Length;
             
-            //3. 判断英文字符个数占第一步所有字符个数比例，若超过一半则判定原字符串为英文字符串，否则为中文字符串
-            //TODO: 配置项
-            if (ratio > 0.8)
+            //3. 判断英文字符个数占第一步所有字符个数比例，若超过一定比例则判定原字符串为英文字符串，否则为中文字符串
+            if (ratio > SettingsVM.Instance.AutoScale)
             {
                 return new Tuple<string, string>(LanguageEnum.EN.GetDescription(), LanguageEnum.ZH.GetDescription());
             }

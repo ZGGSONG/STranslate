@@ -65,6 +65,21 @@
                             </CheckBox>
                         </WrapPanel>
                     </GroupBox>
+                    <GroupBox Header="语种识别(zh-en)"
+                              ToolTip="根据英文字符占所有字符比例判断中英文">
+                        <WrapPanel Margin="0,5,0,5">
+                            <Slider Value="{Binding DataContext.AutoScale, ElementName=window}"
+                                    Minimum="0.01"
+                                    Maximum="0.99"
+                                    MinWidth="200"
+                                    TickFrequency="0.01"
+                                    TickPlacement="None"
+                                    IsSnapToTickEnabled="True">
+                            </Slider>
+                            <TextBlock Text="{Binding AutoScale, StringFormat={}{0}}" Margin="10,0,0,0" />
+                        </WrapPanel>
+                    </GroupBox>
+                    
                     <GroupBox Header="取词间隔"
                               ToolTip="划词翻译实现原理是：用户用鼠标划词后模拟Ctrl+C，间隔一定时间后，程序再从剪切板取词，如果电脑反应慢，可能会出现取不到词的问题，将间隔调大可以适配一些老旧的机器">
                         <WrapPanel Margin="0,5,0,5">

@@ -23,6 +23,10 @@ namespace STranslate.View
         {
             InitializeComponent();
 
+#if DEBUG
+            this.window.Topmost = true;
+#endif
+
             DataContext = ViewModel.SettingsVM.Instance;
         }
     }
