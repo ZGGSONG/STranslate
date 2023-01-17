@@ -58,7 +58,7 @@
 - `Ctrl+Shift+R` 切换主题
 - `Ctrl+Shift+T` 置顶/取消置顶
 
-点击软件外部界面任意处或点击软件则会自动隐藏到后台，即用即走。
+点击软件外部任意处即自动隐藏到后台——即用即走。
 
 
 > STranslate依赖于.NET Framework 4.8 运行环境，如果程序启动时提示“This application requires *** .NETFramework,Version=v4.8”，请点击以下链接下载并安装.NET Framework 4.8 运行环境。  
