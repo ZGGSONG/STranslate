@@ -136,5 +136,11 @@ namespace STranslate.ViewModel
         private double _wordPickupInterval;
         public double WordPickupInterval { get => _wordPickupInterval; set => UpdateProperty(ref _wordPickupInterval, value); }
 
+        /// <summary>
+        /// 最大历史记录数量
+        /// </summary>
+        private int _maxHistoryCount;
+        public int MaxHistoryCount { get => _maxHistoryCount; set => UpdateProperty(ref _maxHistoryCount, value); }
+
     }
 }

@@ -25,6 +25,7 @@ namespace STranslate.ViewModel
 
             InputCombo = LanguageEnumDict.Keys.ToList();
             OutputCombo = LanguageEnumDict.Keys.ToList();
+            _sqlHelper = new SqliteHelper();
             #endregion
 
             #region Common
@@ -209,6 +210,8 @@ namespace STranslate.ViewModel
             Util.Util.FlushMemory();
             Mainwin.NotifyIcon.Dispose();
             Mainwin.Close();
+            //关闭数据库
+            _sqlHelper.Dispose();
             //语音合成销毁
             _speech.Dispose();
             //注销快捷键
@@ -230,6 +233,10 @@ namespace STranslate.ViewModel
             try
             {
                 _globalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
+
+                //读取历史记录数量
+                var count = _globalConfig.MaxHistoryCount;
+                SettingsVM.Instance.MaxHistoryCount = (count <= 0 || count >= 1000) ? 100 : count;
 
                 //读取自动识别语种比例
                 var scale = _globalConfig.AutoScale;
@@ -275,6 +282,7 @@ namespace STranslate.ViewModel
             {
                 ConfigHelper.Instance.WriteConfig(new ConfigModel
                 {
+                    MaxHistoryCount = SettingsVM.Instance.MaxHistoryCount,
                     AutoScale = SettingsVM.Instance.AutoScale,
                     WordPickupInterval = SettingsVM.Instance.WordPickupInterval,
                     IsBright = Application.Current.Resources.MergedDictionaries[0].Source.ToString() == ThemeDefault ? true : false,
@@ -330,7 +338,8 @@ namespace STranslate.ViewModel
         {
             try
             {
-                if (string.IsNullOrEmpty(InputTxt.Trim())) throw new Exception("输入值为空!");
+                if (string.IsNullOrEmpty(InputTxt.Trim()))
+                    throw new Exception("输入值为空!");
                 var isEng = string.Empty;
                 IdentifyLanguage = string.Empty;
                 OutputTxt = "翻译中...";
@@ -342,6 +351,13 @@ namespace STranslate.ViewModel
                 //自动选择目标语言
                 if (OutputComboSelected == LanguageEnum.AUTO.GetDescription())
                 {
+                    //只有在自动的模式下读取
+                    var resp = _sqlHelper.Query(InputTxt);
+                    if (!string.IsNullOrEmpty(resp))
+                    {
+                        OutputTxt = resp;
+                        return;
+                    }
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
                     isEng = autoRet.Item2;
@@ -360,6 +376,16 @@ namespace STranslate.ViewModel
                     return;
                 }
                 OutputTxt = _translateResp;
+
+                await Task.Run(() =>
+                {
+                    _sqlHelper.Insert(DateTime.Now,
+                       InputTxt,
+                       OutputTxt,
+                       LanguageEnumDict[string.IsNullOrEmpty(IdentifyLanguage) ? InputComboSelected : IdentifyLanguage],
+                       LanguageEnumDict[string.IsNullOrEmpty(isEng) ? OutputComboSelected : isEng],
+                       SelectedTranslationInterface.Api);
+                });
 
                 //如果目标语言不是英文则不进行转换
                 //1. 自动判断语种：Tuple item2 不为 EN
@@ -390,6 +416,7 @@ namespace STranslate.ViewModel
         #endregion handle
 
         #region Params
+        private readonly SqliteHelper _sqlHelper;
         private string _translateResp;
         public ICommand MouseLeftDownCmd { get; set; }
         public ICommand DeactivatedCmd { get; set; }

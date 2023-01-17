@@ -36,7 +36,7 @@
 - [x] 添加语音合成
 - [x] 添加离线截图翻译
 - [x] 添加检查更新
-- [ ] 添加翻译记录缓存功能
+- [x] 添加翻译记录缓存功能
 
 ## 使用
 
@@ -65,6 +65,8 @@
 > [适用于 Windows 的 Microsoft .NET Framework 4.8 脱机安装程序下载](https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe) | [Microsoft Support](https://support.microsoft.com/zh-cn/topic/%E9%80%82%E7%94%A8%E4%BA%8E-windows-%E7%9A%84-microsoft-net-framework-4-8-%E8%84%B1%E6%9C%BA%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F-9d23f658-3b97-68ab-d013-aa3c3e7495e0)
 
 ## 开发历史
+
+- 2023-01-17 0.20 添加翻译记录缓存功能，重复翻译从本地数据库获取，本地记录数量上限可调整
 
 - 2023-01-12 0.18 优化 GC 后台静默运行内存占用保持 4MB 左右
 

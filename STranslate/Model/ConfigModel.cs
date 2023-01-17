@@ -17,6 +17,7 @@ namespace STranslate.Model
         {
             return new ConfigModel
             {
+                MaxHistoryCount = 100,
                 AutoScale = 0.8,
                 WordPickupInterval = 200,
                 IsBright = true,
@@ -44,6 +45,11 @@ namespace STranslate.Model
             };
         }
 
+        /// <summary>
+        /// 最大历史记录数量
+        /// </summary>
+        [JsonProperty("maxHistoryCount")]
+        public int MaxHistoryCount { get; set; }
         /// <summary>
         /// 自动识别语种标度
         /// </summary>
