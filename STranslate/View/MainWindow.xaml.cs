@@ -20,11 +20,6 @@ namespace STranslate.View
             vm.Mainwin = this;
 
             InitialTray();
-
-            //if (HotKeys.InputTranslate.Conflict || HotKeys.CrosswordTranslate.Conflict || HotKeys.ScreenShotTranslate.Conflict)
-            //{
-            //    MessageBox.Show("全局快捷键有冲突...");
-            //}
         }
 
         /// <summary>
@@ -57,6 +52,11 @@ namespace STranslate.View
             {
                 vm.OpenMainWin();
             });
+
+            if (Hotkeys.InputTranslate.Conflict || Hotkeys.CrosswordTranslate.Conflict || Hotkeys.ScreenShotTranslate.Conflict || Hotkeys.OpenMainWindow.Conflict)
+            {
+                MessageBox.Show("全局快捷键有冲突，请前往软件首选项中修改...");
+            }
         }
 
         private MainVM vm = MainVM.Instance;
@@ -77,18 +77,18 @@ namespace STranslate.View
             NotifyIcon.ShowBalloonTip(500);
 
             NotifyIcon.MouseDoubleClick += InputTranslateMenuItem_Click;
-            var inputTranslateMenuItemBtn = new MenuItem("输入翻译\tAlt+A");
+            var inputTranslateMenuItemBtn = new MenuItem("输入翻译");
             inputTranslateMenuItemBtn.Click += InputTranslateMenuItem_Click;
 
-            var screenshotTranslateMenuItemBtn = new MenuItem("截图翻译\tAlt+S");
+            var screenshotTranslateMenuItemBtn = new MenuItem("截图翻译");
             screenshotTranslateMenuItemBtn.Click += ScreenshotTranslateMenuItem_Click;
 
-            var crossWordTranslateMenuItemBtn = new MenuItem("划词翻译\tAlt+D");
+            var crossWordTranslateMenuItemBtn = new MenuItem("划词翻译");
             //CrossWordTranslateMenuItemBTN.Click += CrossWordTranslateMenuItem_Click;
             //当失去焦点后无法从托盘处获取选中文本
             crossWordTranslateMenuItemBtn.Enabled = false;
 
-            var openMainWinBtn = new MenuItem("显示主界面\tAlt+G");
+            var openMainWinBtn = new MenuItem("显示主界面");
             openMainWinBtn.Click += OpenMainWin_Click;
 
             var preferenceBtn = new MenuItem("首选项");

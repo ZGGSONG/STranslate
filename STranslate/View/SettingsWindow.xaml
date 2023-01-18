@@ -15,12 +15,12 @@
                          TargetType="Button">
             <Border x:Name="border"
                     CornerRadius="5"
-                    Padding="4"
+                    Padding="5"
                     Background="#dedfde"
                     MaxHeight="25">
                 <TextBlock VerticalAlignment="Center"
                            HorizontalAlignment="Center"
-                           Text="检查更新"/>
+                           Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
@@ -113,7 +113,7 @@
 
             </TabItem>
             
-            <!--
+            
             <TabItem Header="控制"
                      Padding="10,2">
 
@@ -139,7 +139,8 @@
                                Grid.Row="1"
                                Grid.Column="0"
                                Margin="0,5,0,0" />
-                            <TextBox Cursor="Arrow"
+                        <TextBox x:Name="CrossWord_TextBox"
+                                 Cursor="Arrow"
                                  Width="200"
                                  Grid.Row="1"
                                  Grid.Column="1"
@@ -147,12 +148,16 @@
                                  CaretBrush="Transparent"
                                  VerticalContentAlignment="Center"
                                  InputMethod.IsInputMethodEnabled="False">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="">
-                                        <i:InvokeCommandAction Command="{Binding }"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </TextBox>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewKeyDown">
+                                    <i:InvokeCommandAction Command="{Binding PreviewKeyDownCmd}"
+                                                            CommandParameter="{Binding ElementName=CrossWord_TextBox}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="KeyUp">
+                                    <i:InvokeCommandAction Command="{Binding CrossWordKeyUpCmd}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
                         <Label Grid.Row="1"
                                Grid.Column="2"
                                Margin="0,5,0,0"
@@ -240,7 +245,7 @@
                 </StackPanel>
 
             </TabItem>
-            -->
+            
 
             <TabItem Header="服务"
                      Visibility="Collapsed"
@@ -251,7 +256,8 @@
                 </GroupBox>
             </TabItem>
 
-                <TabItem Header="关于"
+            
+            <TabItem Header="关于"
                      Padding="10,2">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
 
