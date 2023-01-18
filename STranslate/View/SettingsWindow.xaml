@@ -120,127 +120,118 @@
                 <StackPanel Margin="20">
                     <GroupBox Header="快捷键">
                         <Grid Margin="20,10,20,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                        <Label Content="划词翻译"
-                               VerticalAlignment="Center"
-                               Grid.Row="1"
-                               Grid.Column="0"
-                               Margin="0,5,0,0" />
-                        <TextBox x:Name="CrossWord_TextBox"
-                                 Cursor="Arrow"
-                                 Width="200"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
-                                 Margin="0,5,0,0"
-                                 CaretBrush="Transparent"
-                                 VerticalContentAlignment="Center"
-                                 InputMethod.IsInputMethodEnabled="False">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewKeyDown">
-                                    <i:InvokeCommandAction Command="{Binding PreviewKeyDownCmd}"
-                                                            CommandParameter="{Binding ElementName=CrossWord_TextBox}"/>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="KeyUp">
-                                    <i:InvokeCommandAction Command="{Binding CrossWordKeyUpCmd}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Label Grid.Row="1"
-                               Grid.Column="2"
-                               Margin="0,5,0,0"
-                               Content="热键冲突"
-                               VerticalAlignment="Center"
-                               Visibility="Hidden"
-                               Foreground="Red" />
+                            <Label Content="划词翻译"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="1"
+                                   Grid.Column="0"
+                                   Margin="0,5,0,0" />
+                            <TextBox Cursor="Arrow"
+                                     Width="200"
+                                     Grid.Row="1"
+                                     Grid.Column="1"
+                                     Margin="0,5,0,0"
+                                     CaretBrush="Transparent"
+                                     VerticalContentAlignment="Center"
+                                     InputMethod.IsInputMethodEnabled="False"
+                                     PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
+                                     KeyUp="CrossWord_KeyUp"/>
+                            <Label Grid.Row="1"
+                                   Grid.Column="2"
+                                   Margin="0,5,0,0"
+                                   Content="热键冲突"
+                                   VerticalAlignment="Center"
+                                   Visibility="Hidden"
+                                   Foreground="Red" />
 
-                            
-                        <Label Content="截图翻译"
-                               VerticalAlignment="Center"
-                               Grid.Row="2"
-                               Grid.Column="0"
-                               Margin="0,5,0,0" />
-                        <TextBox Cursor="Arrow"
-                                 Width="200"
-                                 Grid.Row="2"
-                                 Grid.Column="1"
-                                 Margin="0,5,0,0"
-                                 CaretBrush="Transparent"
-                                 VerticalContentAlignment="Center"
-                                 InputMethod.IsInputMethodEnabled="False"/>
-                        <Label Grid.Row="2"
-                               Grid.Column="2"
-                               Margin="0,5,0,0"
-                               Content="热键冲突"
-                               VerticalAlignment="Center"
-                               Visibility="Hidden"
-                               Foreground="Red" />
+
+                            <Label Content="截图翻译"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="2"
+                                   Grid.Column="0"
+                                   Margin="0,5,0,0" />
+                            <TextBox Cursor="Arrow"
+                                     Width="200"
+                                     Grid.Row="2"
+                                     Grid.Column="1"
+                                     Margin="0,5,0,0"
+                                     CaretBrush="Transparent"
+                                     VerticalContentAlignment="Center"
+                                     InputMethod.IsInputMethodEnabled="False"/>
+                            <Label Grid.Row="2"
+                                   Grid.Column="2"
+                                   Margin="0,5,0,0"
+                                   Content="热键冲突"
+                                   VerticalAlignment="Center"
+                                   Visibility="Hidden"
+                                   Foreground="Red" />
 
                             
-                        <Label Content="输入翻译"
-                               VerticalAlignment="Center"
-                               Grid.Row="3"
-                               Grid.Column="0"
-                               Margin="0,5,0,0" />
-                        <TextBox Cursor="Arrow"
-                                 Width="200"
-                                 Grid.Row="3"
-                                 Grid.Column="1"
-                                 Margin="0,5,0,0"
-                                 CaretBrush="Transparent"
-                                 VerticalContentAlignment="Center"
-                                 InputMethod.IsInputMethodEnabled="False"/>
-                        <Label Grid.Row="3"
-                               Grid.Column="2"
-                               Margin="0,5,0,0"
-                               Content="热键冲突"
-                               VerticalAlignment="Center"
-                               Visibility="Hidden"
-                               Foreground="Red" />
+                            <Label Content="输入翻译"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="3"
+                                   Grid.Column="0"
+                                   Margin="0,5,0,0" />
+                            <TextBox Cursor="Arrow"
+                                     Width="200"
+                                     Grid.Row="3"
+                                     Grid.Column="1"
+                                     Margin="0,5,0,0"
+                                     CaretBrush="Transparent"
+                                     VerticalContentAlignment="Center"
+                                     InputMethod.IsInputMethodEnabled="False"/>
+                            <Label Grid.Row="3"
+                                   Grid.Column="2"
+                                   Margin="0,5,0,0"
+                                   Content="热键冲突"
+                                   VerticalAlignment="Center"
+                                   Visibility="Hidden"
+                                   Foreground="Red" />
                             
                             
-                        <Label Content="显示界面"
-                               VerticalAlignment="Center"
-                               Grid.Row="4"
-                               Grid.Column="0"
-                               Margin="0,5,0,0" />
-                        <TextBox Cursor="Arrow"
-                                 Width="200"
-                                 Grid.Row="4"
-                                 Grid.Column="1"
-                                 Margin="0,5,0,0"
-                                 CaretBrush="Transparent"
-                                 VerticalContentAlignment="Center"
-                                 InputMethod.IsInputMethodEnabled="False"/>
-                        <Label Grid.Row="4"
-                               Grid.Column="2"
-                               Margin="0,5,0,0"
-                               Content="热键冲突"
-                               VerticalAlignment="Center"
-                               Visibility="Hidden"
-                               Foreground="Red" />
+                            <Label Content="显示界面"
+                                   VerticalAlignment="Center"
+                                   Grid.Row="4"
+                                   Grid.Column="0"
+                                   Margin="0,5,0,0" />
+                            <TextBox Cursor="Arrow"
+                                     Width="200"
+                                     Grid.Row="4"
+                                     Grid.Column="1"
+                                     Margin="0,5,0,0"
+                                     CaretBrush="Transparent"
+                                     VerticalContentAlignment="Center"
+                                     InputMethod.IsInputMethodEnabled="False"/>
+                            <Label Grid.Row="4"
+                                   Grid.Column="2"
+                                   Margin="0,5,0,0"
+                                   Content="热键冲突"
+                                   VerticalAlignment="Center"
+                                   Visibility="Hidden"
+                                   Foreground="Red" />
 
                             
-                        <Button Content="恢复默认"
-                                Template="{StaticResource buttonstyle}"
-                                Width="80"
-                                Grid.Row="5"
-                                Margin="5" 
-                                Grid.Column="1"
-                                Command="{Binding ResetHotKeysCmd}"/>
-                    </Grid>
+                            <Button Content="恢复默认"
+                                    Template="{StaticResource buttonstyle}"
+                                    Width="80"
+                                    Grid.Row="5"
+                                    Margin="5" 
+                                    Grid.Column="1"
+                                    Command="{Binding ResetHotKeysCmd}"/>
+                        </Grid>
                     </GroupBox>
                 </StackPanel>
 

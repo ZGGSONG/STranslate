@@ -91,16 +91,6 @@ namespace STranslate.ViewModel
                       MessageBox.Show($"未找到默认应用\n{ex.Message}");
                   }
               });
-
-            PreviewKeyDownCmd = new RelayCommand((_) => true, (o) =>
-            {
-                System.Diagnostics.Debug.Print($"Press key, control: {o}");
-            });
-
-            CrossWordKeyUpCmd = new RelayCommand((_) => true, (_) =>
-            {
-                System.Diagnostics.Debug.Print($"Key up");
-            });
         }
 
 
@@ -125,11 +115,6 @@ namespace STranslate.ViewModel
         public ICommand StartupCmd { get; private set; }
         public ICommand EscCmd { get; private set; }
         public ICommand ResetHotKeysCmd { get; private set; }
-        /// <summary>
-        /// 按键按下事件
-        /// </summary>
-        public ICommand PreviewKeyDownCmd { get; private set; }
-        public ICommand CrossWordKeyUpCmd { get; private set; }
 
 
         private static SettingsVM _instance;
