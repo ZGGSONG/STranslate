@@ -234,6 +234,40 @@ namespace STranslate.ViewModel
             {
                 _globalConfig = ConfigHelper.Instance.ReadConfig<ConfigModel>();
 
+                #region 读取热键
+                NHotkeys = _globalConfig.Hotkeys ?? new Hotkeys
+                {
+                    InputTranslate = new InputTranslate
+                    {
+                        Modifiers = 1,
+                        Key = 65,
+                        Text = "Alt + A",
+                        Conflict = false,
+                    },
+                    CrosswordTranslate = new CrosswordTranslate
+                    {
+                        Modifiers = 1,
+                        Key = 68,
+                        Text = "Alt + D",
+                        Conflict = false,
+                    },
+                    ScreenShotTranslate = new ScreenShotTranslate
+                    {
+                        Modifiers = 1,
+                        Key = 83,
+                        Text = "Alt + S",
+                        Conflict = false,
+                    },
+                    OpenMainWindow = new OpenMainWindow
+                    {
+                        Modifiers = 1,
+                        Key = 71,
+                        Text = "Alt + G",
+                        Conflict = false,
+                    },
+                };
+                #endregion
+
                 //读取历史记录数量
                 var count = _globalConfig.MaxHistoryCount;
                 SettingsVM.Instance.MaxHistoryCount = (count <= 0 || count >= 1000) ? 100 : count;
@@ -290,6 +324,7 @@ namespace STranslate.ViewModel
                     TargetLanguage = OutputComboSelected,
                     SelectServer = TranslationInterface.FindIndex(x => x == SelectedTranslationInterface),
                     Servers = _globalConfig.Servers,
+                    Hotkeys = NHotkeys,
                 });
             }
             catch (Exception ex)
@@ -442,6 +477,7 @@ namespace STranslate.ViewModel
         private static MainVM _instance;
         public static MainVM Instance => _instance ?? (_instance = new MainVM());
 
+        public Hotkeys NHotkeys;
         private bool IsTopmost { get; set; }
         private const string TopmostTemplateName = "ButtonTemplateTopmost";
         private const string UnTopmostTemplateName = "ButtonTemplateUnTopmost";

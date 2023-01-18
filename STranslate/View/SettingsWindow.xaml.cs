@@ -1,4 +1,5 @@
-﻿using System;
+﻿using STranslate.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,15 @@ namespace STranslate.View
 #endif
 
             DataContext = ViewModel.SettingsVM.Instance;
+        }
+
+        private void window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.InputTextBox.Text = ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Text;
+            this.CrossWordTextBox.Text = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Text;
+            this.ScreenshotTextBox.Text = ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Text;
+            this.ShowMainwinTextBox.Text = ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Text;
+            HotKeyConflictCheck();
         }
 
         private byte _hotkeysModifiers;
@@ -77,7 +87,74 @@ namespace STranslate.View
         }
         private void CrossWord_KeyUp(object sender, KeyEventArgs e)
         {
-
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (key == Key.LeftShift || key == Key.RightShift
+                || key == Key.LeftCtrl || key == Key.RightCtrl
+                || key == Key.LeftAlt || key == Key.RightAlt
+                || key == Key.LWin || key == Key.RWin)
+            {
+                return;
+            }
+            ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers = _hotkeysModifiers;
+            ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key = _hotkeysKey;
+            ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Text = _hotkeysText.ToString();
+            HotkeysHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+        }
+        private void Input_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (key == Key.LeftShift || key == Key.RightShift
+                || key == Key.LeftCtrl || key == Key.RightCtrl
+                || key == Key.LeftAlt || key == Key.RightAlt
+                || key == Key.LWin || key == Key.RWin)
+            {
+                return;
+            }
+            ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers = _hotkeysModifiers;
+            ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key = _hotkeysKey;
+            ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Text = _hotkeysText.ToString();
+            HotkeysHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+        }
+        private void Screenshot_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (key == Key.LeftShift || key == Key.RightShift
+                || key == Key.LeftCtrl || key == Key.RightCtrl
+                || key == Key.LeftAlt || key == Key.RightAlt
+                || key == Key.LWin || key == Key.RWin)
+            {
+                return;
+            }
+            ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers = _hotkeysModifiers;
+            ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key = _hotkeysKey;
+            ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Text = _hotkeysText.ToString();
+            HotkeysHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+        }
+        private void ShowMainwin_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (key == Key.LeftShift || key == Key.RightShift
+                || key == Key.LeftCtrl || key == Key.RightCtrl
+                || key == Key.LeftAlt || key == Key.RightAlt
+                || key == Key.LWin || key == Key.RWin)
+            {
+                return;
+            }
+            ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Modifiers = _hotkeysModifiers;
+            ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key = _hotkeysKey;
+            ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Text = _hotkeysText.ToString();
+            HotkeysHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+        }
+        private void HotKeyConflictCheck()
+        {
+            this.CrossWordHotKeyConflictLabel.Visibility = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
+            this.ScreenshotHotKeyConflictLabel.Visibility = ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
+            this.InputHotKeyConflictLabel.Visibility = ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;
+            this.ShowMainwinHotKeyConflictLabel.Visibility = ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Conflict ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

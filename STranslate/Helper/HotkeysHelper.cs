@@ -6,41 +6,6 @@ using static STranslate.Helper.NativeMethodHelper;
 
 namespace STranslate.Helper
 {
-    public static class Hotkeys
-    {
-        public static class InputTranslate
-        {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
-            public static int Key = 65;
-            public static String Text = "A";
-            public static bool Conflict = false;
-        }
-
-        public static class CrosswordTranslate
-        {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
-            public static int Key = 68;
-            public static String Text = "D";
-            public static bool Conflict = false;
-        }
-
-#if true
-        public static class ScreenShotTranslate
-        {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
-            public static int Key = 83;
-            public static String Text = "S";
-            public static bool Conflict = false;
-        }
-#endif
-        public static class OpenMainWindow
-        {
-            public static byte Modifiers = (byte)KeyModifiers.MOD_ALT;
-            public static int Key = 71;
-            public static String Text = "G";
-            public static bool Conflict = false;
-        }
-    }
 
     internal class HotkeysHelper
     {
@@ -107,31 +72,31 @@ namespace STranslate.Helper
         {
             HotkeysHelper.mainFormHandle = mainFormHandle;
 
-            InputTranslateModifiers = Hotkeys.InputTranslate.Modifiers;
-            InputTranslateKey = Hotkeys.InputTranslate.Key;
-            CrosswordTranslateModifiers = Hotkeys.CrosswordTranslate.Modifiers;
-            CrosswordTranslateKey = Hotkeys.CrosswordTranslate.Key;
+            InputTranslateModifiers = ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers;
+            InputTranslateKey = ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key;
+            CrosswordTranslateModifiers = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers;
+            CrosswordTranslateKey = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key;
 
 #if true
-            ScreenShotTranslateModifiers = Hotkeys.ScreenShotTranslate.Modifiers;
-            ScreenShotTranslateKey = Hotkeys.ScreenShotTranslate.Key;
-            if (Hotkeys.ScreenShotTranslate.Key != 0)
+            ScreenShotTranslateModifiers = ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers;
+            ScreenShotTranslateKey = ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key;
+            if (ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key != 0)
             {
-                Hotkeys.ScreenShotTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, Hotkeys.ScreenShotTranslate.Modifiers, Hotkeys.ScreenShotTranslate.Key);
+                ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers, ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key);
             }
 #endif
 
-            if (Hotkeys.InputTranslate.Key != 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key != 0)
             {
-                Hotkeys.InputTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, InputTranslateId, Hotkeys.InputTranslate.Modifiers, Hotkeys.InputTranslate.Key);
+                ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, InputTranslateId, ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers, ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key);
             }
-            if (Hotkeys.CrosswordTranslate.Key != 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key != 0)
             {
-                Hotkeys.CrosswordTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, CrosswordTranslateId, Hotkeys.CrosswordTranslate.Modifiers, Hotkeys.CrosswordTranslate.Key);
+                ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, CrosswordTranslateId, ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers, ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key);
             }
-            if (Hotkeys.OpenMainWindow.Key != 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key != 0)
             {
-                Hotkeys.OpenMainWindow.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, OpenMainWindowId, Hotkeys.OpenMainWindow.Modifiers, Hotkeys.OpenMainWindow.Key);
+                ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, OpenMainWindowId, ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Modifiers, ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key);
             }
         }
 
@@ -153,59 +118,59 @@ namespace STranslate.Helper
         /// </summary>
         public static void ReRegisterHotKey()
         {
-            if (Hotkeys.InputTranslate.Key == 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key == 0)
             {
                 UnregisterHotKey(mainFormHandle, InputTranslateId);
             }
-            else if (InputTranslateModifiers != Hotkeys.InputTranslate.Modifiers || InputTranslateKey != Hotkeys.InputTranslate.Key)
+            else if (InputTranslateModifiers != ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers || InputTranslateKey != ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key)
             {
                 {
                     UnregisterHotKey(mainFormHandle, InputTranslateId);
-                    Hotkeys.InputTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, InputTranslateId, Hotkeys.InputTranslate.Modifiers, Hotkeys.InputTranslate.Key);
+                    ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, InputTranslateId, ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers, ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key);
                 }
             }
-            InputTranslateModifiers = Hotkeys.InputTranslate.Modifiers;
-            InputTranslateKey = Hotkeys.InputTranslate.Key;
+            InputTranslateModifiers = ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers;
+            InputTranslateKey = ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key;
 
-            if (Hotkeys.CrosswordTranslate.Key == 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key == 0)
             {
                 UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
             }
-            else if (CrosswordTranslateModifiers != Hotkeys.CrosswordTranslate.Modifiers || CrosswordTranslateKey != Hotkeys.CrosswordTranslate.Key)
+            else if (CrosswordTranslateModifiers != ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers || CrosswordTranslateKey != ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key)
             {
                 {
                     UnregisterHotKey(mainFormHandle, CrosswordTranslateId);
-                    Hotkeys.CrosswordTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, CrosswordTranslateId, Hotkeys.CrosswordTranslate.Modifiers, Hotkeys.CrosswordTranslate.Key);
+                    ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, CrosswordTranslateId, ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers, ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key);
                 }
             }
-            CrosswordTranslateModifiers = Hotkeys.CrosswordTranslate.Modifiers;
-            CrosswordTranslateKey = Hotkeys.CrosswordTranslate.Key;
+            CrosswordTranslateModifiers = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers;
+            CrosswordTranslateKey = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key;
 
 #if true
-            if (Hotkeys.ScreenShotTranslate.Key == 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key == 0)
             {
                 UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
             }
-            else if (ScreenShotTranslateModifiers != Hotkeys.ScreenShotTranslate.Modifiers || ScreenShotTranslateKey != Hotkeys.ScreenShotTranslate.Key)
+            else if (ScreenShotTranslateModifiers != ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers || ScreenShotTranslateKey != ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key)
             {
                 UnregisterHotKey(mainFormHandle, ScreenShotTranslateId);
-                Hotkeys.ScreenShotTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, Hotkeys.ScreenShotTranslate.Modifiers, Hotkeys.ScreenShotTranslate.Key);
+                ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, ScreenShotTranslateId, ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers, ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key);
             }
-            ScreenShotTranslateModifiers = Hotkeys.ScreenShotTranslate.Modifiers;
-            ScreenShotTranslateKey = Hotkeys.ScreenShotTranslate.Key;
+            ScreenShotTranslateModifiers = ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers;
+            ScreenShotTranslateKey = ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key;
 #endif
 
-            if (Hotkeys.OpenMainWindow.Key == 0)
+            if (ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key == 0)
             {
                 UnregisterHotKey(mainFormHandle, OpenMainWindowId);
             }
-            else if (OpenMainWindowModifiers != Hotkeys.OpenMainWindow.Modifiers || OpenMainWindowKey != Hotkeys.OpenMainWindow.Key)
+            else if (OpenMainWindowModifiers != ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Modifiers || OpenMainWindowKey != ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key)
             {
                 UnregisterHotKey(mainFormHandle, OpenMainWindowId);
-                Hotkeys.OpenMainWindow.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, OpenMainWindowId, Hotkeys.OpenMainWindow.Modifiers, Hotkeys.OpenMainWindow.Key);
+                ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Conflict = !NativeMethodHelper.RegisterHotKey(mainFormHandle, OpenMainWindowId, ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Modifiers, ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key);
             }
-            OpenMainWindowModifiers = Hotkeys.OpenMainWindow.Modifiers;
-            OpenMainWindowKey = Hotkeys.OpenMainWindow.Key;
+            OpenMainWindowModifiers = ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Modifiers;
+            OpenMainWindowKey = ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key;
         }
     }
 }

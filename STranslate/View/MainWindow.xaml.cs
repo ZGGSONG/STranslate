@@ -53,7 +53,10 @@ namespace STranslate.View
                 vm.OpenMainWin();
             });
 
-            if (Hotkeys.InputTranslate.Conflict || Hotkeys.CrosswordTranslate.Conflict || Hotkeys.ScreenShotTranslate.Conflict || Hotkeys.OpenMainWindow.Conflict)
+            if (ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Conflict
+                || ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Conflict
+                || ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Conflict
+                || ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Conflict)
             {
                 MessageBox.Show("全局快捷键有冲突，请前往软件首选项中修改...");
             }
