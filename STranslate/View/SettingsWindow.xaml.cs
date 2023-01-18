@@ -149,6 +149,33 @@ namespace STranslate.View
             HotkeysHelper.ReRegisterHotKey();
             HotKeyConflictCheck();
         }
+
+        private void ResetHoskeys_Click(object sender, RoutedEventArgs e)
+        {
+            CrossWordTextBox.Text = "Alt + D";
+            InputTextBox.Text = "Alt + A";
+            ScreenshotTextBox.Text = "Alt + S";
+            ShowMainwinTextBox.Text = "Alt + G";
+
+            ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Modifiers = 1;
+            ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Key = 68;
+            ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Text = "Alt + D";
+
+            ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Modifiers = 1;
+            ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Key = 65;
+            ViewModel.MainVM.Instance.NHotkeys.InputTranslate.Text = "Alt + A";
+
+            ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Modifiers = 1;
+            ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Key = 83;
+            ViewModel.MainVM.Instance.NHotkeys.ScreenShotTranslate.Text = "Alt + S";
+
+            ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Modifiers = 1;
+            ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Key = 71;
+            ViewModel.MainVM.Instance.NHotkeys.OpenMainWindow.Text = "Alt + G";
+
+            HotkeysHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+        }
         private void HotKeyConflictCheck()
         {
             this.CrossWordHotKeyConflictLabel.Visibility = ViewModel.MainVM.Instance.NHotkeys.CrosswordTranslate.Conflict ? Visibility.Visible : Visibility.Hidden;

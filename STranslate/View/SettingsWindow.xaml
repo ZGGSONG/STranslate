@@ -238,14 +238,14 @@
                                    Visibility="Hidden"
                                    Foreground="Red" />
 
-                            
+
                             <Button Content="恢复默认"
                                     Template="{StaticResource buttonstyle}"
                                     Width="80"
                                     Grid.Row="5"
                                     Margin="5" 
                                     Grid.Column="1"
-                                    Command="{Binding ResetHotKeysCmd}"/>
+                                    Click="ResetHoskeys_Click"/>
                         </Grid>
                     </GroupBox>
                 </StackPanel>

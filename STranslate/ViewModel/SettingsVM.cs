@@ -72,12 +72,6 @@ namespace STranslate.ViewModel
                   (o as Window)?.Close();
               });
 
-            //重置热键
-            ResetHotKeysCmd = new RelayCommand((_) => true, (_) =>
-              {
-                  System.Diagnostics.Debug.Print("重置快捷键");
-              });
-
             OpenUrlCmd = new RelayCommand((_) => true, (o) =>
               {
                   try
@@ -114,7 +108,6 @@ namespace STranslate.ViewModel
         public ICommand UpdateCmd { get; private set; }
         public ICommand StartupCmd { get; private set; }
         public ICommand EscCmd { get; private set; }
-        public ICommand ResetHotKeysCmd { get; private set; }
 
 
         private static SettingsVM _instance;
