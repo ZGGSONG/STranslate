@@ -38,6 +38,10 @@
 - [x] 添加检查更新
 - [x] 添加翻译记录缓存功能
 
+## 安装
+
+下载最新 [Release](https://github.com/ZGGSONG/STranslate/releases) 版本后解压即可使用
+
 ## 使用
 
 ![previews](./example.png)
@@ -63,6 +67,11 @@
 
 > STranslate依赖于.NET Framework 4.8 运行环境，如果程序启动时提示“This application requires *** .NETFramework,Version=v4.8”，请点击以下链接下载并安装.NET Framework 4.8 运行环境。  
 > [适用于 Windows 的 Microsoft .NET Framework 4.8 脱机安装程序下载](https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe) | [Microsoft Support](https://support.microsoft.com/zh-cn/topic/%E9%80%82%E7%94%A8%E4%BA%8E-windows-%E7%9A%84-microsoft-net-framework-4-8-%E8%84%B1%E6%9C%BA%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F-9d23f658-3b97-68ab-d013-aa3c3e7495e0)
+
+## 卸载
+
+1. 删除软件运行目录
+2. 进入目录 `C:\Users\YourName\AppData\Local\` 后删除 `STranslate` 缓存目录即可
 
 ## 开发历史
 
@@ -108,9 +117,7 @@ public static string TesseractGetText(Bitmap bmp)
 
 - 2022-12-27 0.08 版本添加开机启动
 
-![previews](./example_tray.png)
-
-## 接口失效
+## 如果接口失效
 
 若远端接口均失效，需要自己本地运行翻译服务(感谢[zu1k](https://github.com/zu1k))，根据自己的系统 [下载可执行文件](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2) 自己的版本，软件右上角选择 `local` 接口即可
 
