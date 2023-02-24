@@ -5,3 +5,5 @@ obj/
 .idea/
 
 packages/
+
+.DS_Store
