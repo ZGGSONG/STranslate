@@ -144,14 +144,14 @@ namespace Updater
                 if (unresult)
                 {
                     SetStatus("更新完成！", false);
-                    Process tai = new Process();
-                    ProcessStartInfo startInfo = new ProcessStartInfo(System.IO.Path.Combine(unpath, "Tai.exe"));
-                    tai.StartInfo = startInfo;
-                    tai.Start();
+                    Process p = new Process();
+                    ProcessStartInfo startInfo = new ProcessStartInfo(System.IO.Path.Combine(unpath, "STranslate.exe"));
+                    p.StartInfo = startInfo;
+                    p.Start();
                 }
                 else
                 {
-                    SetStatus("解压文件时发生异常，请重试！通常情况可能是因为Tai主程序尚未退出。", false);
+                    SetStatus("解压文件时发生异常，请重试！通常情况可能是因为 STranslate 主程序尚未退出。", false);
                     UpdateBtn.Visibility = Visibility.Visible;
 
                 }

@@ -20,6 +20,13 @@ namespace STranslate.View
             vm.Mainwin = this;
 
             InitialTray();
+
+            Microsoft.Win32.SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+        }
+
+        private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
+        {
+            InitIcon();
         }
 
         /// <summary>
@@ -67,14 +74,24 @@ namespace STranslate.View
         public readonly NotifyIcon NotifyIcon = new NotifyIcon();
 
         #region Initial TrayIcon
+        private void InitIcon()
+        {
+            var stream = Application
+                .GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative))?.Stream;
+            if (NotifyIcon.Icon != null)
+            {
+                NotifyIcon.Icon.Dispose();
+            }
+            if (stream != null)
+            {
+                NotifyIcon.Icon = new System.Drawing.Icon(stream);
+            }
+        }
         private void InitialTray()
         {
             var app = Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()?.Location);
             NotifyIcon.Text = $@"{app} {SettingsVM.Instance.Version}";
-            var stream = Application
-                .GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative))?.Stream;
-            if (stream != null)
-                NotifyIcon.Icon = new System.Drawing.Icon(stream);
+            InitIcon();
             NotifyIcon.Visible = true;
             NotifyIcon.BalloonTipText = $@"{app} already started...";
             NotifyIcon.ShowBalloonTip(500);

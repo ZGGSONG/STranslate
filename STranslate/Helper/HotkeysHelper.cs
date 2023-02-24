@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
+using WpfScreenHelper;
 using static STranslate.Helper.NativeMethodHelper;
 
 namespace STranslate.Helper
@@ -46,6 +47,19 @@ namespace STranslate.Helper
         {
             keymap[id] = callBack;
         }
+
+        /// <summary>
+        /// 屏幕分辨率以及文本显示比例变更对应的消息标志
+        /// </summary>
+        private const int WmDisplayChange = 0x007e;
+        /// <summary>
+        /// 文本显示比例变更消息标志
+        /// </summary>
+        private const int WmTextChange = 0x02E0;
+        /// <summary>
+        /// window消息定义的 注册的热键消息标志
+        /// </summary>
+        private const int WmHotkeys = 0x0312;
         /// <summary>
         /// 快捷键消息处理
         /// </summary>
@@ -53,7 +67,7 @@ namespace STranslate.Helper
         {
             switch (msg)
             {
-                case 0x0312: //这个是window消息定义的 注册的热键消息
+                case WmHotkeys:
                     int id = wParam.ToInt32();
                     if (keymap.TryGetValue(id, out var callback))
                     {
