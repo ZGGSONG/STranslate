@@ -191,4 +191,17 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+
+    <!--ToolTip-->
+    <ControlTemplate x:Key="ToolTipTemplate"
+                     TargetType="ToolTip">
+        <Border CornerRadius="3"
+                BorderThickness="1"
+                BorderBrush="#393c43"
+                Background="#2e323a"
+                Padding="4">
+            <TextBlock Text="{TemplateBinding Name}"
+                       Foreground="#abb2bf"/>
+        </Border>
+    </ControlTemplate>
 </ResourceDictionary>

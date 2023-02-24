@@ -102,7 +102,11 @@
                                     Command="{Binding SourceSpeakCmd}"/>
                             <Button Template="{DynamicResource ButtonTemplate}"
                                     Visibility="{Binding InputTxt, Converter={StaticResource String2VisibilityConverter}}"
-                                    Command="{Binding CopyInputCmd}"/>
+                                    Command="{Binding CopyInputCmd}">
+                                <Button.ToolTip>
+                                    <ToolTip x:Name="复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                </Button.ToolTip>
+                            </Button>
                             <Border Style="{DynamicResource LanguageMarkBorderStyle}"
                                     Visibility="{Binding IdentifyLanguage, Converter={StaticResource String2VisibilityConverter}}">
                                 <StackPanel Margin="5,2"
@@ -165,27 +169,44 @@
                         <StackPanel Orientation="Horizontal"
                                 Margin="10,5"
                                 VerticalAlignment="Bottom">
+                            <!--语音-->
                             <Button Template="{DynamicResource ButtonTemplateSpeak}"
-                                Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
-                                Command="{Binding TargetSpeakCmd}"/>
+                                    Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding TargetSpeakCmd}"/>
                             <!--普通复制-->
                             <Button Template="{DynamicResource ButtonTemplate}"
-                                Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
-                                Command="{Binding CopyResultCmd}"/>
+                                    Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding CopyResultCmd}">
+                                <Button.ToolTip>
+                                    <ToolTip x:Name="直接复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                </Button.ToolTip>
+                            </Button>
                             <!--蛇形复制-->
                             <Button Margin="5,0"
-                                Template="{DynamicResource ButtonTemplateSnakeCopy}"
-                                Visibility="{Binding SnakeRet, Converter={StaticResource String2VisibilityConverter}}"
-                                Command="{Binding CopySnakeResultCmd}"/>
+                                    Template="{DynamicResource ButtonTemplateSnakeCopy}"
+                                    Visibility="{Binding SnakeRet, Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding CopySnakeResultCmd}">
+                                <Button.ToolTip>
+                                    <ToolTip x:Name="蛇形复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                </Button.ToolTip>
+                            </Button>
                             <!--小驼峰复制-->
                             <Button Template="{DynamicResource ButtonTemplateSmallHumpCopy}"
-                                Visibility="{Binding SmallHumpRet, Converter={StaticResource String2VisibilityConverter}}"
-                                Command="{Binding CopySmallHumpResultCmd}"/>
+                                    Visibility="{Binding SmallHumpRet, Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding CopySmallHumpResultCmd}">
+                                <Button.ToolTip>
+                                    <ToolTip x:Name="小驼峰复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                </Button.ToolTip>
+                            </Button>
                             <!--大驼峰复制-->
                             <Button Margin="5,0"
-                                Template="{DynamicResource ButtonTemplateLargeHumpCopy}"
-                                Visibility="{Binding LargeHumpRet, Converter={StaticResource String2VisibilityConverter}}"
-                                Command="{Binding CopyLargeHumpResultCmd}"/>
+                                    Template="{DynamicResource ButtonTemplateLargeHumpCopy}"
+                                    Visibility="{Binding LargeHumpRet, Converter={StaticResource String2VisibilityConverter}}"
+                                    Command="{Binding CopyLargeHumpResultCmd}">
+                                <Button.ToolTip>
+                                    <ToolTip x:Name="大驼峰复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                </Button.ToolTip>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </Border>
