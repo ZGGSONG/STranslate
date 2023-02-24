@@ -124,7 +124,7 @@
     <Compile Include="Helper\NativeMethodHelper.cs" />
     <Compile Include="Helper\Processhelper.cs" />
     <Compile Include="Helper\SqliteHelper.cs" />
-    <Compile Include="Helper\StartupHelper.cs" />
+    <Compile Include="Helper\ShortcutHelper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\SqliteModel.cs" />
     <Compile Include="Model\VisibilityConverter.cs" />

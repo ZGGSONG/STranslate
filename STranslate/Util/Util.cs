@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using IWshRuntimeLibrary;
+using Newtonsoft.Json;
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -293,6 +295,31 @@ namespace STranslate.Util
             {
                 Helper.NativeMethodHelper.SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
             }
+        }
+        #endregion
+
+        #region Shortcut
+        public static void CreateShortcut()
+        {
+            string deskTop = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
+            string dirPath = System.Environment.CurrentDirectory;
+            string exePath = Assembly.GetExecutingAssembly().Location;
+            System.Diagnostics.FileVersionInfo exeInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(exePath);
+            if (System.IO.File.Exists(string.Format(@"{0}\STranslate.lnk", deskTop)))
+            {
+                System.IO.File.Delete(string.Format(@"{0}\STranslate.lnk",deskTop));//删除原来的桌面快捷键方式
+                return;
+            }
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\" + "STranslate.lnk");
+            shortcut.TargetPath = @exePath;         //目标文件
+            shortcut.WorkingDirectory = dirPath;    //目标文件夹
+            shortcut.WindowStyle = 1;               //目标应用程序的窗口状态分为普通、最大化、最小化【1,3,7】
+            shortcut.Description = "自动更新程序";   //描述
+            shortcut.IconLocation = string.Format(@"{0}\64.ico", dirPath);  //快捷方式图标
+            shortcut.Arguments = "";
+            shortcut.Hotkey = "SHIFT+DELETE";              // 快捷键
+            shortcut.Save();
         }
         #endregion
     }

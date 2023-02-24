@@ -34,6 +34,7 @@ namespace STranslate.Helper
             if (!Directory.Exists(_ApplicationData))//判断是否存在
             {
                 Directory.CreateDirectory(_ApplicationData);//创建新路径
+                ShortcutHelper.SetDesktopShortcut();//创建桌面快捷方式
             }
             if (!File.Exists(_CnfName))//文件不存在
             {

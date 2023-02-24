@@ -6,7 +6,7 @@ using IWshRuntimeLibrary;
 
 namespace STranslate.Helper
 {
-    public class StartupHelper
+    public class ShortcutHelper
     {
 
         #region public method
@@ -32,6 +32,13 @@ namespace STranslate.Helper
         {
             ShortCutDelete(appPath, StartUpPath);
         }
+        /// <summary>
+        /// 设置桌面快捷方式
+        /// </summary>
+        public static void SetDesktopShortcut()
+        {
+            ShortCutCreate(true);
+        }
         #endregion
 
         #region params
@@ -39,6 +46,11 @@ namespace STranslate.Helper
         /// 开机启动目录
         /// </summary>
         private static readonly string StartUpPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+
+        /// <summary>
+        /// 用户桌面目录
+        /// </summary>
+        private static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         /// <summary>
         /// 当前程序二进制文件路径
@@ -49,6 +61,8 @@ namespace STranslate.Helper
         /// 组合的开机启动目录中的快捷方式路径
         /// </summary>
         private static readonly string appShortcutPath = Path.Combine(StartUpPath, Path.GetFileNameWithoutExtension(appPath) + ".lnk");
+
+        private static readonly string desktopShortcutPath = Path.Combine(DesktopPath, Path.GetFileNameWithoutExtension(appPath) + ".lnk");
         #endregion
 
         #region native method
@@ -136,18 +150,25 @@ namespace STranslate.Helper
             return Result;
         }
         /// <summary>
-        /// 为本程序创建一个开机启动快捷方式
+        /// 为本程序创建一个快捷方式
         /// </summary>
-        private static bool ShortCutCreate()
+        /// <param name="isDesktop">是否为桌面快捷方式</param>
+        /// <returns></returns>
+        private static bool ShortCutCreate(bool isDesktop = false)
         {
             bool Result = false;
             try
             {
-                ShortCutDelete(appPath, StartUpPath);
+                if (!isDesktop)
+                    ShortCutDelete(appPath, StartUpPath);
 
                 var shellType = Type.GetTypeFromProgID("WScript.Shell");
                 dynamic shell = Activator.CreateInstance(shellType);
-                var shortcut = shell.CreateShortcut(appShortcutPath);
+                IWshShortcut shortcut;
+                if (!isDesktop)
+                    shortcut = shell.CreateShortcut(appShortcutPath);
+                else
+                    shortcut = shell.CreateShortcut(desktopShortcutPath);
                 shortcut.TargetPath = Assembly.GetEntryAssembly().Location;
                 shortcut.Arguments = string.Empty;
                 shortcut.WorkingDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;

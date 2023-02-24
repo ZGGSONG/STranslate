@@ -14,7 +14,7 @@ namespace STranslate.ViewModel
     {
         public SettingsVM()
         {
-            IsStartup = StartupHelper.IsStartup();
+            IsStartup = ShortcutHelper.IsStartup();
             
             Version = HandleVersion(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() ?? "1.0.0.0");
 
@@ -63,9 +63,9 @@ namespace STranslate.ViewModel
 
             StartupCmd = new RelayCommand((_) => true, (_) =>
               {
-                  if (StartupHelper.IsStartup()) StartupHelper.UnSetStartup();
-                  else StartupHelper.SetStartup();
-                  IsStartup = StartupHelper.IsStartup();
+                  if (ShortcutHelper.IsStartup()) ShortcutHelper.UnSetStartup();
+                  else ShortcutHelper.SetStartup();
+                  IsStartup = ShortcutHelper.IsStartup();
               });
             EscCmd = new RelayCommand((_) => true, (o) =>
               {
