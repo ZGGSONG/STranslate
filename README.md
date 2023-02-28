@@ -75,7 +75,7 @@
 
 ## 开发历史
 
-- 2023-02-28 0.24 添加自建deepl接口(已经安装的删除 `C:\Users\YourName\AppData\Local\STranslate` 后打开即可更新接口)
+- 2023-02-28 0.24 添加自建 deepl([deno.dev](deno.dev)) 接口(已经安装的删除 `C:\Users\YourName\AppData\Local\STranslate` 后打开即可更新接口)
 
 - 2023-02-24 0.22 优化分辨率切换时托盘图标模糊问题
 
