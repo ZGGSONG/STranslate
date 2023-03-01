@@ -13,8 +13,8 @@
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
 </a>
-<a href="https://github.com/ZGGSONG/STranslate" target="_self">
- <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ZGGSONG/STranslate" />
+<a href="https://hub.docker.com/r/zggsong/translate">
+  <img alt="Docker pull" src="https://img.shields.io/docker/pulls/zggsong/translate>
 </a>
 </p>
 <h1 align="center">STranslate</h1>
@@ -75,7 +75,7 @@
 
 ## 开发历史
 
-- 2023-02-28 0.24 添加自建 deepl([deno.dev](deno.dev)) 接口(已经安装的删除 `C:\Users\YourName\AppData\Local\STranslate` 后打开即可更新接口)
+- 2023-02-28 0.24 添加 deepl([deno.dev](deno.dev)) 接口(已经安装的删除 `C:\Users\YourName\AppData\Local\STranslate` 后打开即可更新接口)
 
 - 2023-02-24 0.22 优化分辨率切换时托盘图标模糊问题
 
@@ -123,13 +123,12 @@ public static string TesseractGetText(Bitmap bmp)
 
 ## 如果接口失效
 
-若远端接口均失效，需要自己本地运行翻译服务(感谢[zu1k](https://github.com/zu1k))，根据自己的系统 [下载可执行文件](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2) 自己的版本，软件右上角选择 `local` 接口即可
-
+若远端接口均失效，则需要自行运行接口程序
+1. **[推荐]** 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
+2. [进阶] 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - 修改 `C:\Users\YourName\AppData\Local\STranslate\stranslate.json` 中接口地址 - 重启软件即可
 
 ## 参考项目
 
 [https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)  
-
-[https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2](https://github.com/zu1k/removed-2022-07-12/releases/tag/0.1.2)
 
 [https://github.com/Planshit/Tai](https://github.com/Planshit/Tai)
