@@ -15,6 +15,7 @@
         WindowStyle="None"
         SizeToContent="Height"
         Width="400"
+        FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}"
         Icon="/Images/translate.ico">
 
     <Window.InputBindings>
@@ -101,10 +102,11 @@
                                     Visibility="{Binding InputTxt, Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding SourceSpeakCmd}"/>
                             <Button Template="{DynamicResource ButtonTemplate}"
+                                    Click="Copy_Click"
                                     Visibility="{Binding InputTxt, Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyInputCmd}">
                                 <Button.ToolTip>
-                                    <ToolTip x:Name="复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                    <ToolTip x:Name="复制输入内容" Template="{DynamicResource ToolTipTemplate}"/>
                                 </Button.ToolTip>
                             </Button>
                             <Border Style="{DynamicResource LanguageMarkBorderStyle}"
@@ -121,6 +123,32 @@
                     </Grid>
                 </Border>
             </Grid>
+
+            <!--toast-->
+            <Border x:Name="Toast"
+                    CornerRadius="12"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Top"
+                    Visibility="Visible"
+                    Margin="0,-40"
+                    Width="{Binding ElementName=toastTxt, Path=ActualWidth}"
+                    BorderBrush="Transparent"
+                    Background="#65c248">
+                <WrapPanel Orientation="Horizontal">
+                    <!--<TextBlock Text="&#xe632;"
+                               Foreground="White"
+                               Padding="10,10"
+                               Style="{StaticResource IconStyle}"/>-->
+                    <TextBlock x:Name="toastTxt"
+                               Background="Transparent"
+                               Foreground="#fff"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Padding="10,5,10,5"
+                               FontSize="16"/>
+                </WrapPanel>
+            </Border>
 
             <!--mid-->
             <StackPanel x:Name="MidArea"
@@ -175,36 +203,40 @@
                                     Command="{Binding TargetSpeakCmd}"/>
                             <!--普通复制-->
                             <Button Template="{DynamicResource ButtonTemplate}"
+                                    Click="Copy_Click"
                                     Visibility="{Binding OutputTxt, Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyResultCmd}">
                                 <Button.ToolTip>
-                                    <ToolTip x:Name="直接复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                    <ToolTip x:Name="直接复制结果" Template="{DynamicResource ToolTipTemplate}"/>
                                 </Button.ToolTip>
                             </Button>
                             <!--蛇形复制-->
                             <Button Margin="5,0"
+                                    Click="Copy_Click"
                                     Template="{DynamicResource ButtonTemplateSnakeCopy}"
                                     Visibility="{Binding SnakeRet, Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySnakeResultCmd}">
                                 <Button.ToolTip>
-                                    <ToolTip x:Name="蛇形复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                    <ToolTip x:Name="复制为蛇形字符串" Template="{DynamicResource ToolTipTemplate}"/>
                                 </Button.ToolTip>
                             </Button>
                             <!--小驼峰复制-->
                             <Button Template="{DynamicResource ButtonTemplateSmallHumpCopy}"
+                                    Click="Copy_Click"
                                     Visibility="{Binding SmallHumpRet, Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopySmallHumpResultCmd}">
                                 <Button.ToolTip>
-                                    <ToolTip x:Name="小驼峰复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                    <ToolTip x:Name="复制为小驼峰字符串" Template="{DynamicResource ToolTipTemplate}"/>
                                 </Button.ToolTip>
                             </Button>
                             <!--大驼峰复制-->
                             <Button Margin="5,0"
+                                    Click="Copy_Click"
                                     Template="{DynamicResource ButtonTemplateLargeHumpCopy}"
                                     Visibility="{Binding LargeHumpRet, Converter={StaticResource String2VisibilityConverter}}"
                                     Command="{Binding CopyLargeHumpResultCmd}">
                                 <Button.ToolTip>
-                                    <ToolTip x:Name="大驼峰复制" Template="{DynamicResource ToolTipTemplate}"/>
+                                    <ToolTip x:Name="复制为大驼峰字符串" Template="{DynamicResource ToolTipTemplate}"/>
                                 </Button.ToolTip>
                             </Button>
                         </StackPanel>

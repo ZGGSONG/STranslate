@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 
@@ -67,6 +69,26 @@ namespace STranslate.View
             {
                 MessageBox.Show("全局快捷键有冲突，请前往软件首选项中修改...");
             }
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            var o = sender as System.Windows.Controls.Button;
+            toastTxt.Text = (o.ToolTip as System.Windows.Controls.ToolTip).Name;
+            //创建一个一个对象，对两个值在时间线上进行动画处理（移动距离，移动到的位置）
+            var da = new DoubleAnimation();
+            //设定动画时间线
+            da.Duration = new Duration(TimeSpan.FromSeconds(0.8));
+            //设定移动动画的结束值，控件向下移动60个像素，向上移动则是-60
+            da.To = 50;
+            da.From = 0;
+            da.AccelerationRatio = 0;
+            da.DecelerationRatio = 1;
+            da.AutoReverse = true;
+            //btnFlash要进行动画操作的控件名
+            Toast.RenderTransform = new TranslateTransform();
+            //开始进行动画处理
+            Toast.RenderTransform.BeginAnimation(TranslateTransform.YProperty, da);
         }
 
         private MainVM vm = MainVM.Instance;
@@ -175,5 +197,6 @@ namespace STranslate.View
         }
 
         #endregion
+
     }
 }
