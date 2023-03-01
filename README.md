@@ -10,11 +10,11 @@
 <a href="https://github.com/ZGGSONG/STranslate/releases/latest" target="_blank">
  <img alt="Latest GitHub release" src="https://img.shields.io/github/release/ZGGSONG/STranslate.svg" />
 </a>
+<a href="https://hub.docker.com/r/zggsong/translate">
+  <img alt="Docker pull" src="https://img.shields.io/docker/pulls/zggsong/translate">
+</a>
 <a href="https://github.com/ZGGSONG/STranslate" target="_self">
  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/ZGGSONG/STranslate" />
-</a>
-<a href="https://hub.docker.com/r/zggsong/translate">
-  <img alt="Docker pull" src="https://img.shields.io/docker/pulls/zggsong/translate>
 </a>
 </p>
 <h1 align="center">STranslate</h1>
