@@ -123,9 +123,9 @@ public static string TesseractGetText(Bitmap bmp)
 
 ## 如果接口失效
 
-若远端接口均失效，则需要自行运行接口程序
-1. **[推荐]** 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
-2. [进阶] 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - 修改 `C:\Users\YourName\AppData\Local\STranslate\stranslate.json` 中接口地址 - 重启软件即可
+当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
+1. **【推荐】** 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
+2. 【进阶】 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - 修改 `C:\Users\YourName\AppData\Local\STranslate\stranslate.json` 中接口地址 - 重启软件即可
 
 ## 参考项目
 
