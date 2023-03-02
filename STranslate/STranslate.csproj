@@ -128,6 +128,7 @@
     <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\SqliteModel.cs" />
     <Compile Include="Model\VisibilityConverter.cs" />
+    <Compile Include="Model\WidthConverter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

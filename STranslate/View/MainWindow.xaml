@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="clr-namespace:STranslate.Model"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         x:Name="Mwin"
@@ -17,6 +18,9 @@
         Width="400"
         FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}"
         Icon="/Images/translate.ico">
+    <Window.Resources>
+        <model:WidthConverter x:Key="WidthConverter"/>
+    </Window.Resources>
 
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl+Shift"
@@ -132,20 +136,22 @@
                     VerticalAlignment="Top"
                     Visibility="Visible"
                     Margin="0,-40"
-                    Width="{Binding ElementName=toastTxt, Path=ActualWidth}"
+                    Width="{Binding ElementName=toastTxt, Path=ActualWidth,Converter={StaticResource WidthConverter}}"
                     BorderBrush="Transparent"
                     Background="#65c248">
-                <WrapPanel Orientation="Horizontal">
-                    <!--<TextBlock Text="&#xe632;"
+                <WrapPanel Orientation="Horizontal"
+                           HorizontalAlignment="Center">
+                    <TextBlock Text="&#xe632;"
+                               FontSize="16"
                                Foreground="White"
-                               Padding="10,10"
-                               Style="{StaticResource IconStyle}"/>-->
+                               Padding="5,10"
+                               Style="{StaticResource IconStyle}"/>
                     <TextBlock x:Name="toastTxt"
                                Background="Transparent"
                                Foreground="#fff"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Padding="10,5,10,5"
+                               Padding="0,5,10,5"
                                FontSize="16"/>
                 </WrapPanel>
             </Border>
