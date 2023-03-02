@@ -82,8 +82,8 @@ namespace STranslate.View
             //设定移动动画的结束值，控件向下移动60个像素，向上移动则是-60
             da.To = 50;
             da.From = 0;
-            da.AccelerationRatio = 0;
-            da.DecelerationRatio = 1;
+            da.AccelerationRatio = 0.2;
+            da.DecelerationRatio = 0.8;
             da.AutoReverse = true;
             //btnFlash要进行动画操作的控件名
             Toast.RenderTransform = new TranslateTransform();
