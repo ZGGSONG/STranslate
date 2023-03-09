@@ -123,7 +123,7 @@ namespace STranslate.Model
                     new Server
                     {
                         Name = "zggsong",
-                        Api = "https://deeplx.deno.dev/translate"
+                        Api = "https://dfree.deno.dev/translate"
                     },
                     new Server
                     {
