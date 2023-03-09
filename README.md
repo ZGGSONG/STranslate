@@ -69,13 +69,17 @@
 ## 卸载
 
 1. 删除软件运行目录
-2. 进入目录 `C:\Users\YourName\AppData\Local\` 后删除 `STranslate` 缓存目录即可
+2. 打开 cmd 运行下面的命令即可
+
+```shell
+rd /s /q "%localappdata%\stranslate"
+```
 
 ## 开发历史
 
 - 2023-03-02 0.25 添加复制提醒动画
 
-- 2023-02-28 0.24 添加 deepl([deno.dev](deno.dev)) 接口(已经安装的删除 `C:\Users\YourName\AppData\Local\STranslate` 后打开即可更新接口)
+- 2023-02-28 0.24 添加 deepl([deno.dev](deno.dev)) 接口(已经安装的cmd运行 `del %localappdata%\stranslate\stranslate.json` 后打开即可更新接口)
 
 - 2023-02-24 0.22 优化分辨率切换时托盘图标模糊问题
 
@@ -125,7 +129,7 @@ public static string TesseractGetText(Bitmap bmp)
 
 当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
 1. **【推荐】** 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
-2. 【进阶】 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - 修改 `C:\Users\YourName\AppData\Local\STranslate\stranslate.json` 中接口地址 - 重启软件即可
+2. 【进阶】 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - cmd 运行 `start %localappdata%\stranslate\stranslate.json` - 修改接口地址 - 重启软件即可
 
 ## 参考项目
 
