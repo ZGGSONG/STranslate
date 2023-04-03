@@ -110,8 +110,8 @@ namespace STranslate.ViewModel
         public ICommand EscCmd { get; private set; }
 
 
-        private static SettingsVM _instance;
-        public static SettingsVM Instance => _instance ?? (_instance = new SettingsVM());
+        private static Lazy<SettingsVM> _instance = new Lazy<SettingsVM>(() => new SettingsVM());
+        public static SettingsVM Instance => _instance.Value;
 
         /// <summary>
         /// 是否开机自启

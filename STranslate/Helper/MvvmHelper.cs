@@ -6,6 +6,18 @@ using System.Runtime.CompilerServices;
 namespace STranslate.Helper
 {
     /// <summary>
+    /// Generate Singleton
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class Singleton<T> where T : class
+    {
+        private static readonly Lazy<T> _instance = new Lazy<T>(()
+            => Activator.CreateInstance(typeof(T), true) as T, true);
+
+        public static T Instance => _instance.Value;
+    }
+
+    /// <summary>
     /// 通知
     /// </summary>
     public class BaseVM : INotifyPropertyChanged

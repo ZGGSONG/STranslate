@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace STranslate.Helper
 {
+    //https://github.com/praeclarum/sqlite-net
     public class SqliteHelper : IDisposable
     {
         public SqliteHelper()

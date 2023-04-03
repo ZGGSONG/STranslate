@@ -474,8 +474,8 @@ namespace STranslate.ViewModel
         /// </summary>
         public MainWindow Mainwin;
 
-        private static MainVM _instance;
-        public static MainVM Instance => _instance ?? (_instance = new MainVM());
+        private static Lazy<MainVM> _instance = new Lazy<MainVM>(() => new MainVM());
+        public static MainVM Instance => _instance.Value;
 
         public Hotkeys NHotkeys;
         private bool IsTopmost { get; set; }

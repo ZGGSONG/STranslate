@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace STranslate.Helper
 {
-    public class ConfigHelper
+    public class ConfigHelper : Singleton<ConfigHelper>
     {
         public T ReadConfig<T>()
         {
@@ -54,7 +54,5 @@ namespace STranslate.Helper
         /// </summary>
         private static string _ApplicationData => $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{_AppName}";
         private static readonly string _AppName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
-        private static ConfigHelper _Instance;
-        public static ConfigHelper Instance { get => _Instance ?? (_Instance = new ConfigHelper()); }
     }
 }
