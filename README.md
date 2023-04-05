@@ -79,7 +79,7 @@ rd /s /q "%localappdata%\stranslate"
 
 - 2023-03-02 0.25 添加复制提醒动画
 
-- 2023-02-28 0.24 添加 deepl([deno.dev](deno.dev)) 接口(已经安装的cmd运行 `del %localappdata%\stranslate\stranslate.json` 后打开即可更新接口)
+- 2023-02-28 0.24 添加 deepl([deno.dev](https://deno.dev)) 接口(已经安装的cmd运行 `del %localappdata%\stranslate\stranslate.json` 后打开即可更新接口)
 
 - 2023-02-24 0.22 优化分辨率切换时托盘图标模糊问题
 
