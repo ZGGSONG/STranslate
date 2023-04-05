@@ -131,8 +131,9 @@ public static string TesseractGetText(Bitmap bmp)
 1. **【推荐】** 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
 2. 【进阶】 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - cmd 运行 `start %localappdata%\stranslate\stranslate.json` - 修改接口地址 - 重启软件即可
 
-## 参考项目
+## Author 作者
 
-[https://github.com/NPCDW/WpfTool](https://github.com/NPCDW/WpfTool)  
+**STranslate** © [zggsong](https://github.com/zggsong), Released under the [MIT](https://github.com/ZGGSONG/STranslate/blob/main/LICENSE) License.<br>
+Authored and maintained by zggsong with help from other open source projects [WpfTool](https://github.com/NPCDW/WpfTool) and [Tai](https://github.com/Planshit/Tai).
 
-[https://github.com/Planshit/Tai](https://github.com/Planshit/Tai)
+> Website [Blog](https://www.zggsong.com) · GitHub [@zggsong](https://github.com/zggsong)
