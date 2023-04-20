@@ -20,7 +20,7 @@
 <h1 align="center">STranslate</h1>
 
 <p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译工具
-<br> 中文 | <a href="README-EN.md">English</a>
+<br> 中文 | <a href="README_EN.md">English</a>
 </p>
 
 
