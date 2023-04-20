@@ -19,7 +19,10 @@
 </p>
 <h1 align="center">STranslate</h1>
 
-<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译工具</p>
+<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译工具
+<br> 中文 | <a href="README-EN.md">English</a>
+</p>
+
 
 
 ## 功能
@@ -54,7 +57,7 @@
 - `Alt` + `S` 截图选中区域内容并翻译
 - `Alt` + `G` 打开窗口(不清空内容)
 
-1. 软件内快捷键
+2. 软件内快捷键
 - `ESC` 隐藏界面
 - `Ctrl+Shift+Q` 退出程序
 - `Ctrl+Shift+R` 切换主题
