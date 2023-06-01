@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace STranslate
 {
@@ -24,7 +25,7 @@ namespace STranslate
             else
             {
                 MessageBox.Show("STranslate 已在运行...", "提示");
-                this.Shutdown();
+                Environment.Exit(0);
             }
         }
     }
