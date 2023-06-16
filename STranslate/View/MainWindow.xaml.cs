@@ -118,44 +118,26 @@ namespace STranslate.View
             NotifyIcon.BalloonTipText = $@"{app} already started...";
             NotifyIcon.ShowBalloonTip(500);
 
-            NotifyIcon.MouseDoubleClick += InputTranslateMenuItem_Click;
-            var inputTranslateMenuItemBtn = new MenuItem("输入翻译");
-            inputTranslateMenuItemBtn.Click += InputTranslateMenuItem_Click;
+            NotifyIcon.MouseDoubleClick += (o, e) => vm.InputTranslate();
 
-            var screenshotTranslateMenuItemBtn = new MenuItem("截图翻译");
-            screenshotTranslateMenuItemBtn.Click += ScreenshotTranslateMenuItem_Click;
-
-            var crossWordTranslateMenuItemBtn = new MenuItem("划词翻译");
-            //CrossWordTranslateMenuItemBTN.Click += CrossWordTranslateMenuItem_Click;
-            //当失去焦点后无法从托盘处获取选中文本
-            crossWordTranslateMenuItemBtn.Enabled = false;
-
-            var openMainWinBtn = new MenuItem("显示主界面");
-            openMainWinBtn.Click += OpenMainWin_Click;
-
-            var preferenceBtn = new MenuItem("首选项");
-            preferenceBtn.Click += Preference_Click;
-
-            var exitBtn = new MenuItem("退出");
-            exitBtn.Click += Exit_Click;
-
-            var items = new MenuItem[] {
-                inputTranslateMenuItemBtn,
-                screenshotTranslateMenuItemBtn,
-                crossWordTranslateMenuItemBtn,
-                openMainWinBtn,
-                preferenceBtn,
-                exitBtn,
+            var menuItems = new[]
+            {
+                new MenuItem("输入翻译", (o, e) => vm.InputTranslate()),
+                new MenuItem("截图翻译", (o, e) => vm.ScreenShotTranslate()),
+                new MenuItem("划词翻译") { Enabled = false },
+                new MenuItem("-"),
+                new MenuItem("显示主界面", (o, e) => vm.OpenMainWin()),
+                new MenuItem("首选项", (o, e) => Preference()),
+                new MenuItem("-"),
+                new MenuItem("退出", (o, e) => vm.ExitApp(0)),
             };
-            NotifyIcon.ContextMenu = new ContextMenu(items);
+            NotifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
 
         /// <summary>
         /// 设置
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Preference_Click(object sender, EventArgs e)
+        private void Preference()
         {
             SettingsWindow window = null;
             foreach (Window item in Application.Current.Windows)
