@@ -208,20 +208,29 @@ namespace STranslate.Util
         /// <returns></returns>
         public static string GenHumpString(List<string> req, bool isSmallHump)
         {
-            string ret = string.Empty;
-            var array = req.ToArray();
-            for (var j = 0; j < array.Length; j++)
+            try
             {
-                char[] chars = array[j].ToCharArray();
-                if (j == 0 && isSmallHump) chars[0] = char.ToLower(chars[0]);
-                else chars[0] = char.ToUpper(chars[0]);
-                for (int i = 1; i < chars.Length; i++)
+                string ret = string.Empty;
+                var array = req.ToArray();
+                for (var j = 0; j < array.Length; j++)
                 {
-                    chars[i] = char.ToLower(chars[i]);
+                    char[] chars = array[j].ToCharArray();
+                    //判断chars是否为空
+                    if (chars.Length == 0) continue;
+                    if (j == 0 && isSmallHump) chars[0] = char.ToLower(chars[0]);
+                    else chars[0] = char.ToUpper(chars[0]);
+                    for (int i = 1; i < chars.Length; i++)
+                    {
+                        chars[i] = char.ToLower(chars[i]);
+                    }
+                    ret += new string(chars);
                 }
-                ret += new string(chars);
+                return ret;
             }
-            return ret;
+            catch (Exception ex)
+            {
+                throw new Exception("构造驼峰出错, " + ex.Message);
+            }
 
         }
         /// <summary>

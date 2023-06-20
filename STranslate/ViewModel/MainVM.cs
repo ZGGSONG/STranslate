@@ -347,7 +347,7 @@ namespace STranslate.ViewModel
             //https://www.techiedelight.com/zh/strip-punctuations-from-a-string-in-csharp/
             text = Regex.Replace(text,
                 "[1234567890!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~，。、《》？；‘’：“”【】、{}|·！@#￥%……&*（）——+~\\\\]",
-                string.Empty);
+                string.Empty).Replace(Environment.NewLine, "").Replace(" ", "");
 
             //2. 取出上一步中所有英文字符
             var engStr = Util.Util.ExtractEngString(text);
