@@ -86,14 +86,14 @@ namespace STranslate.ViewModel
 
                   //TestSaveBmp(bmpOut);
 
-                  var getText = Util.Util.TesseractGetText(bmpOut).Trim();
+                  var getText = Util.TesseractGetText(bmpOut).Trim();
 
                   MainVM.Instance.ScreenShotTranslateEx(getText);
               });
 
             ClosedCmd = new RelayCommand((_) => true, (_) =>
               {
-                  Util.Util.FlushMemory();
+                  Util.FlushMemory();
               });
         }
 
@@ -147,7 +147,7 @@ namespace STranslate.ViewModel
             {
                 g.CopyFromScreen(tuple.Item2, tuple.Item3, 0, 0, new System.Drawing.Size(tuple.Item4, tuple.Item5), CopyPixelOperation.SourceCopy);
             }
-            _ScreenShotWin.Background = Util.Util.BitmapToImageBrush(bitmap);
+            _ScreenShotWin.Background = Util.BitmapToImageBrush(bitmap);
         }
 
         public ICommand EscCmd { get; private set; }

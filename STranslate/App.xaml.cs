@@ -20,7 +20,7 @@ namespace STranslate
             {
                 base.OnStartup(e);
                 
-                Util.Util.FlushMemory();
+                Util.FlushMemory();
             }
             else
             {

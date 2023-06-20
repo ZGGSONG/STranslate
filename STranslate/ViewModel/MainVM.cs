@@ -70,7 +70,7 @@ namespace STranslate.ViewModel
                 _speech.SpeakAsyncCancelAll();
                 Mainwin.Hide();
                 
-                Util.Util.FlushMemory();
+                Util.FlushMemory();
             });
             //source speak
             SourceSpeakCmd = new RelayCommand((_) => true, (_) =>
@@ -137,7 +137,7 @@ namespace STranslate.ViewModel
             LargeHumpRet = string.Empty;
             IdentifyLanguage = string.Empty;
             
-            Util.Util.FlushMemory();
+            Util.FlushMemory();
         }
         /// <summary>
         /// 打开主窗口
@@ -166,9 +166,11 @@ namespace STranslate.ViewModel
             ClearAll();
             var sentence = GetWordsHelper.Get();
             OpenMainWin();
-            InputTxt = sentence.Trim();
+            sentence = Util.PreProcessTexts(sentence);
+            InputTxt = sentence;
             _ = Translate();
         }
+
         /// <summary>
         /// 截屏翻译
         /// </summary>
@@ -207,7 +209,7 @@ namespace STranslate.ViewModel
         /// </summary>
         public void ExitApp(int id)
         {
-            Util.Util.FlushMemory();
+            Util.FlushMemory();
             Mainwin.NotifyIcon.Dispose();
             Mainwin.Close();
             //关闭数据库
@@ -350,7 +352,7 @@ namespace STranslate.ViewModel
                 string.Empty).Replace(Environment.NewLine, "").Replace(" ", "");
 
             //2. 取出上一步中所有英文字符
-            var engStr = Util.Util.ExtractEngString(text);
+            var engStr = Util.ExtractEngString(text);
 
             var ratio = (double)engStr.Length / text.Length;
             
@@ -396,11 +398,11 @@ namespace STranslate.ViewModel
                     var autoRet = AutomaticLanguageRecognition(InputTxt);
                     IdentifyLanguage = autoRet.Item1;
                     isEng = autoRet.Item2;
-                    _translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
+                    _translateResp = await Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[autoRet.Item2], LanguageEnumDict[InputComboSelected]);
                 }
                 else
                 {
-                    _translateResp = await Util.Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
+                    _translateResp = await Util.TranslateDeepLAsync(SelectedTranslationInterface.Api, InputTxt, LanguageEnumDict[OutputComboSelected], LanguageEnumDict[InputComboSelected]);
                 }
 
                 //百度 Api
@@ -437,9 +439,9 @@ namespace STranslate.ViewModel
                 var splitList = OutputTxt.Split(' ').ToList();
                 if (splitList.Count > 1)
                 {
-                    SnakeRet = Util.Util.GenSnakeString(splitList);
-                    SmallHumpRet = Util.Util.GenHumpString(splitList, true);  //小驼峰
-                    LargeHumpRet = Util.Util.GenHumpString(splitList, false); //大驼峰
+                    SnakeRet = Util.GenSnakeString(splitList);
+                    SmallHumpRet = Util.GenHumpString(splitList, true);  //小驼峰
+                    LargeHumpRet = Util.GenHumpString(splitList, false); //大驼峰
                 }
                 //System.Diagnostics.Debug.Print(SnakeRet + "\n" + SmallHumpRet + "\n" + LargeHumpRet);
             }
@@ -534,7 +536,7 @@ namespace STranslate.ViewModel
 
         private Server _selectedTranslationInterface;
         public Server SelectedTranslationInterface { get => _selectedTranslationInterface; set => UpdateProperty(ref _selectedTranslationInterface, value); }
-        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.Util.GetEnumList<LanguageEnum>(); }
+        private static Dictionary<string, LanguageEnum> LanguageEnumDict { get => Util.GetEnumList<LanguageEnum>(); }
 
         /// <summary>
         /// 语音

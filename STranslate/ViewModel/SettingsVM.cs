@@ -20,7 +20,7 @@ namespace STranslate.ViewModel
 
             ClosedCmd = new RelayCommand((_) => true, (_) =>
               {
-                  Util.Util.FlushMemory();
+                  Util.FlushMemory();
               });
 
             //更新

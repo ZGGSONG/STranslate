@@ -16,7 +16,7 @@ using System.Windows;
 using System.Windows.Media;
 using Tesseract;
 
-namespace STranslate.Util
+namespace STranslate
 {
     public class Util
     {
@@ -249,6 +249,24 @@ namespace STranslate.Util
                 strA_Z += mMatch.Value;
             }
             return strA_Z;
+        }
+
+        /// <summary>
+        /// 划词文本预处理，例如PDF文字复制出来总含有很多多余的空格
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string PreProcessTexts(string text)
+        {
+            try
+            {
+                text = new Regex("[\\s]+").Replace(text, " ");
+            }
+            catch (Exception)
+            {
+                text = string.Empty;
+            }
+            return text.Trim();
         }
         #endregion
 
