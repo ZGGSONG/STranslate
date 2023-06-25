@@ -16,7 +16,7 @@
         WindowStyle="None"
         SizeToContent="Height"
         Width="400"
-        FontFamily="{DynamicResource {x:Static SystemFonts.CaptionFontFamilyKey}}"
+        FontFamily="{DynamicResource FontFamily_Default}"
         Icon="/Images/translate.ico">
     <Window.Resources>
         <model:WidthConverter x:Key="WidthConverter"/>

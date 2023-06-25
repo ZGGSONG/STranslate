@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/Default.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/FontStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
