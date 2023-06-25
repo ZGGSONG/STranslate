@@ -1,0 +1,202 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--主题切换-->
+    <ControlTemplate x:Key="ButtonTemplateTheme"
+                     TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Padding="5"
+                HorizontalAlignment="Left"
+                Margin="8,5,0,0"
+                Width="30"
+                Height="30">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="&#xe994;"
+                       Foreground="#787a7f"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!--置顶-->
+    <ControlTemplate x:Key="ButtonTemplateTopmost"
+                     TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Padding="5"
+                HorizontalAlignment="Left"
+                Margin="8,5,0,0"
+                Height="30">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="21"
+                       VerticalAlignment="Center"
+                       Text="&#xe637;"
+                       Foreground="#af67c1"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!--取消置顶-->
+    <ControlTemplate x:Key="ButtonTemplateUnTopmost"
+                     TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Padding="5"
+                HorizontalAlignment="Left"
+                Margin="8,5,0,0"
+                MaxHeight="30">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="22"
+                       VerticalAlignment="Center"
+                       Text="&#xe9ba;"
+                       Foreground="#787a7f"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!--speak-->
+    <ControlTemplate x:Key="ButtonTemplateSpeak" TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Margin="0,0,5,0"
+                Padding="4"
+                MaxHeight="25">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="17"
+                       VerticalAlignment="Center"
+                       Text="&#xe610;"
+                       Foreground="#515151"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!--普通复制-->
+    <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+        <Border x:Name="border"
+                    CornerRadius="5"
+                    Padding="4"
+                    MaxHeight="25">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="&#xe692;"
+                       Foreground="#515151"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--蛇形复制-->
+    <ControlTemplate x:Key="ButtonTemplateSnakeCopy" TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Padding="4"
+                MaxHeight="25">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="&#xe600;"
+                       Foreground="#515151"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--小驼峰复制-->
+    <ControlTemplate x:Key="ButtonTemplateSmallHumpCopy" TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Padding="4"
+                MaxHeight="25">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="&#xe602;"
+                       Foreground="#515151"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--大驼峰复制-->
+    <ControlTemplate x:Key="ButtonTemplateLargeHumpCopy" TargetType="Button">
+        <Border x:Name="border"
+                CornerRadius="5"
+                Padding="4"
+                MaxHeight="25">
+            <TextBlock Style="{StaticResource IconStyle}"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="&#xe601;"
+                       Foreground="#515151"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#eaeaea"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="#dddddd"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--ToolTip-->
+    <ControlTemplate x:Key="ToolTipTemplate"
+                     TargetType="ToolTip">
+        <Border CornerRadius="3"
+                BorderThickness="1"
+                BorderBrush="#dfdfdf"
+                Background="#f6f6f6"
+                Padding="4">
+            <TextBlock Text="{TemplateBinding Name}"/>
+        </Border>
+    </ControlTemplate>
+</ResourceDictionary>

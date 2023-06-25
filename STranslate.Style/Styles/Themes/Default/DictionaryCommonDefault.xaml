@@ -1,0 +1,66 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:model="clr-namespace:STranslate.Model"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <model:VisibilityConverter x:Key="String2VisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    
+    <Style x:Key="BorderMainStyle"
+           TargetType="Border">
+        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="BorderBrush" Value="#dfdfdf"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+    <Style x:Key="BorderInOutputStyle"
+           TargetType="Border">
+        <Setter Property="Background" Value="#f6f6f6"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+    <Style x:Key="TextBoxInputStyle"
+           TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="10,10,5,35"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="MinHeight" Value="70"/>
+        <Setter Property="MaxHeight" Value="200"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+    </Style>
+    <Style x:Key="LanguageMarkBorderStyle"
+           TargetType="Border">
+        <Setter Property="Background" Value="#eaeaea"/>
+        <Setter Property="Margin" Value="10,0,0,2"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+    </Style>
+    <Style x:Key="LanguageMarkTextBlockStyle"
+           TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#999999"/>
+    </Style>
+    <Style x:Key="TextBoxOutputStyle"
+           TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="Margin" Value="10,10,5,35"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="MaxHeight" Value="400"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+    </Style>
+
+    <Style x:Key="MidStyle"
+           TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+</ResourceDictionary>

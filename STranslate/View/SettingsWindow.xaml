@@ -9,6 +9,7 @@
         SizeToContent="WidthAndHeight"
         Loaded="window_Loaded"
         WindowStartupLocation="CenterScreen"
+        FontFamily="{DynamicResource FontFamily_Default}"
         Icon="/Images/translate.ico"
         Title="STranslate 首选项" Height="450" Width="450">
     <Window.Resources>
