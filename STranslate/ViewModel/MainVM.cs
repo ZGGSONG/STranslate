@@ -56,7 +56,7 @@ namespace STranslate.ViewModel
             {
                 if (string.IsNullOrEmpty(InputTxt)) return;
                 IdentifyLanguage = string.Empty;
-                _ = Translate();
+                _ = Translate(true);
             });
             //移动
             MouseLeftDownCmd = new RelayCommand((_) => true, (_) =>
@@ -117,9 +117,10 @@ namespace STranslate.ViewModel
             });
 
             //翻译
-            TranslateCmd = new RelayCommand((_) => !string.IsNullOrEmpty(InputTxt), async (_) =>
+            TranslateCmd = new RelayCommand((_) => !string.IsNullOrEmpty(InputTxt), async (o) =>
             {
-                await Translate();
+                var forceTranslate = o is null ? false : true;
+                await Translate(forceTranslate);
             });
             #endregion
         }
@@ -371,7 +372,7 @@ namespace STranslate.ViewModel
         /// 翻译
         /// </summary>
         /// <returns></returns>
-        private async Task Translate()
+        private async Task Translate(bool forceTranslate = false)
         {
             try
             {
@@ -390,7 +391,7 @@ namespace STranslate.ViewModel
                 {
                     //只有在自动的模式下读取
                     var resp = _sqlHelper.Query(InputTxt);
-                    if (!string.IsNullOrEmpty(resp))
+                    if (!string.IsNullOrEmpty(resp) && !forceTranslate)
                     {
                         OutputTxt = resp;
                         return;

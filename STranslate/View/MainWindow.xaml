@@ -97,6 +97,7 @@
                                  Text="{Binding InputTxt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <TextBox.InputBindings>
                                 <KeyBinding Command="{Binding TranslateCmd}" Key="Enter" />
+                                <KeyBinding Command="{Binding TranslateCmd}" CommandParameter="{Binding ElementName=TextBoxInput, Mode=OneWay}" Modifiers="Ctrl" Key="Enter" />
                             </TextBox.InputBindings>
                         </TextBox>
                         <StackPanel Orientation="Horizontal"
