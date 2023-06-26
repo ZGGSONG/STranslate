@@ -270,7 +270,7 @@
 
                     <StackPanel Margin="20">
                         <WrapPanel Orientation="Horizontal">
-                            <Image Source="/Images/translate.ico" Width="30"/>
+                            <Image Source="pack://application:,,,/STranslate.Style;component/Resources/translate.ico" Width="30"/>
                             <TextBlock VerticalAlignment="Bottom"
                                        FontSize="18"
                                        Margin="5,0">
