@@ -10,7 +10,7 @@
         Loaded="window_Loaded"
         WindowStartupLocation="CenterScreen"
         FontFamily="{DynamicResource FontFamily_Default}"
-        Icon="/Images/translate.ico"
+        Icon="pack://application:,,,/STranslate.Style;component/Resources/translate.ico"
         Title="STranslate 首选项" Height="450" Width="450">
     <Window.Resources>
         <ControlTemplate x:Key="buttonstyle"

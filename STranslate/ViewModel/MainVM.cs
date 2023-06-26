@@ -543,8 +543,8 @@ namespace STranslate.ViewModel
         /// </summary>
         private readonly SpeechSynthesizer _speech = new SpeechSynthesizer();
 
-        private const string ThemeDark = "pack://application:,,,/STranslate;component/Style/Dark.xaml";
-        private const string ThemeDefault = "pack://application:,,,/STranslate;component/Style/Default.xaml";
+        private const string ThemeDark = "pack://application:,,,/STranslate.Style;component/Styles/Dark.xaml";
+        private const string ThemeDefault = "pack://application:,,,/STranslate.Style;component/Styles/Default.xaml";
 
         #endregion Params
     }
