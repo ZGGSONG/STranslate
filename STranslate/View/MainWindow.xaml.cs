@@ -99,7 +99,9 @@ namespace STranslate.View
         private void InitIcon()
         {
             var stream = Application
-                .GetResourceStream(new Uri("Images/translate.ico", UriKind.Relative))?.Stream;
+                .GetResourceStream(
+                new Uri("pack://application:,,,/STranslate.Style;component/Resources/translate.ico",
+                UriKind.RelativeOrAbsolute))?.Stream;
             if (NotifyIcon.Icon != null)
             {
                 NotifyIcon.Icon.Dispose();
