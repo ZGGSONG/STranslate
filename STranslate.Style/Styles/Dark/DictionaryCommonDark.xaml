@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:model="clr-namespace:STranslate.Model"
+                    xmlns:converter="clr-namespace:STranslate.Style"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <model:VisibilityConverter x:Key="String2VisibilityConverter"/>
+    <converter:VisibilityConverter x:Key="String2VisibilityConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <Style x:Key="BorderMainStyle"

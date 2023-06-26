@@ -84,7 +84,7 @@ namespace STranslate.Model
     /// <summary>
     /// 获取Description
     /// </summary>
-    internal static class EnumExtensions
+    public static class EnumExtensions
     {
         public static string GetDescription(this Enum val)
         {

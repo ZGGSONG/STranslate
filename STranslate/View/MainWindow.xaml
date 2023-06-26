@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:model="clr-namespace:STranslate.Model"
+        xmlns:converter="clr-namespace:STranslate.Style;assembly=STranslate.Style"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         x:Name="Mwin"
@@ -17,9 +17,9 @@
         SizeToContent="Height"
         Width="400"
         FontFamily="{DynamicResource FontFamily_Default}"
-        Icon="/Images/translate.ico">
+        Icon="pack://application:,,,/STranslate.Style;component/Resources/translate.ico">
     <Window.Resources>
-        <model:WidthConverter x:Key="WidthConverter"/>
+        <converter:WidthConverter x:Key="WidthConverter"/>
     </Window.Resources>
 
     <Window.InputBindings>

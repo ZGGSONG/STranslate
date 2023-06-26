@@ -87,6 +87,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Converters\WidthConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
