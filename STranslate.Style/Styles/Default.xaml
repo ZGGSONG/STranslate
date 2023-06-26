@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/Default/DictionaryButtonDefault.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/Default/DictionaryComboBoxDefault.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/STranslate;component/Style/Default/DictionaryCommonDefault.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
