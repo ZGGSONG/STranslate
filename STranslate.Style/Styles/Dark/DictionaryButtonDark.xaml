@@ -16,7 +16,7 @@
                 Width="30"
                 Height="30">
             <TextBlock Style="{StaticResource IconStyle}"
-                       FontSize="18"
+                       FontSize="20"
                        VerticalAlignment="Center"
                        Text="&#xe994;"
                        Foreground="#abb2bf"/>
@@ -41,7 +41,7 @@
                 Margin="8,5,0,0"
                 Height="30">
             <TextBlock Style="{StaticResource IconStyle}"
-                       FontSize="21"
+                       FontSize="22"
                        VerticalAlignment="Center"
                        Text="&#xe637;"
                        Foreground="#af67c1"/>

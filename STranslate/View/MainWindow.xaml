@@ -15,7 +15,8 @@
         Topmost="True"
         WindowStyle="None"
         SizeToContent="Height"
-        Width="400"
+        Width="480"
+        FontSize="18"
         FontFamily="{DynamicResource FontFamily_Default}"
         Icon="pack://application:,,,/STranslate.Style;component/Resources/translate.ico">
     <Window.Resources>
@@ -67,7 +68,7 @@
                         Template="{DynamicResource ButtonTemplateTheme}"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Margin="0,0,100,0"
+                        Margin="0,0,120,0"
                         Command="{Binding ThemeConvertCmd}"
                         CommandParameter="{Binding ElementName=Mwin}"/>
                 <ComboBox Style="{DynamicResource cmbstyle}"
@@ -174,7 +175,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
-                <Separator Margin="20,0"/>
+                <Separator Margin="15,0"/>
                 <TextBlock Text="目标语言:  "
                            Style="{DynamicResource MidStyle}"/>
                 <ComboBox x:Name="OutCombo"

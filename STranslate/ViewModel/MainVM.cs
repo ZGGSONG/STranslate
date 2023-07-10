@@ -56,7 +56,7 @@ namespace STranslate.ViewModel
             {
                 if (string.IsNullOrEmpty(InputTxt)) return;
                 IdentifyLanguage = string.Empty;
-                _ = Translate(true);
+                _ = Translate();
             });
             //移动
             MouseLeftDownCmd = new RelayCommand((_) => true, (_) =>

@@ -37,7 +37,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Border BorderThickness="0" CornerRadius="5" Width="80" Height="30"
+                    <Border BorderThickness="0" CornerRadius="5" Width="100" Height="30"
                             Background="#f6f6f6" >
                         <Grid>
                             <Grid.ColumnDefinitions>

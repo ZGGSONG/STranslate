@@ -29,7 +29,6 @@
         <!--选区颜色-->
         <Setter Property="SelectionBrush" Value="#404856"/>
         <Setter Property="Margin" Value="10,10,5,35"/>
-        <Setter Property="FontSize" Value="16"/>
         <Setter Property="MinHeight" Value="70"/>
         <Setter Property="MaxHeight" Value="200"/>
         <Setter Property="AcceptsReturn" Value="True"/>
@@ -60,7 +59,6 @@
         <!--选区颜色-->
         <Setter Property="SelectionBrush" Value="#404856"/>
         <Setter Property="Margin" Value="10,10,5,35"/>
-        <Setter Property="FontSize" Value="16"/>
         <Setter Property="MaxHeight" Value="400"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
