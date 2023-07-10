@@ -127,6 +127,11 @@ namespace STranslate.Model
                     },
                     new Server
                     {
+                        Name = "google",
+                        Api = "https://ggtranslate.deno.dev/translate"
+                    },
+                    new Server
+                    {
                         Name = "zu1k",
                         Api = "https://deepl.deno.dev/translate"
                     },
