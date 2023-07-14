@@ -127,6 +127,11 @@ namespace STranslate.Model
                     },
                     new Server
                     {
+                        Name = "iciba",
+                        Api = "https://iciba.deno.dev/translate"
+                    },
+                    new Server
+                    {
                         Name = "google",
                         Api = "https://ggtranslate.deno.dev/translate"
                     },
