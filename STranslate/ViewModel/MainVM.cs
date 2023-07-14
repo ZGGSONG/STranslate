@@ -201,6 +201,7 @@ namespace STranslate.ViewModel
         public void ScreenShotTranslateEx(string text)
         {
             InputTranslate();
+            text = Util.PreProcessTexts(text);
             InputTxt = text;
             _ = Translate();
         }

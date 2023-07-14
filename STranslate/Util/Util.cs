@@ -253,6 +253,7 @@ namespace STranslate
 
         /// <summary>
         /// 划词文本预处理，例如PDF文字复制出来总含有很多多余的空格
+        /// 使用正则表达式[\\s]+匹配连续的空白字符（包括空格、制表符、换行符等），并将其替换为单个空格字符
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
@@ -283,7 +284,7 @@ namespace STranslate
                 using (var engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default))
                 //using (var engine = new TesseractEngine(@"./tessdata", "chi_sim", EngineMode.Default))
                 {
-                    using(var pix = PixConverter.ToPix(bmp))
+                    using (var pix = PixConverter.ToPix(bmp))
                     {
                         using (var page = engine.Process(pix))
                         {
@@ -334,7 +335,7 @@ namespace STranslate
             System.Diagnostics.FileVersionInfo exeInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(exePath);
             if (System.IO.File.Exists(string.Format(@"{0}\STranslate.lnk", deskTop)))
             {
-                System.IO.File.Delete(string.Format(@"{0}\STranslate.lnk",deskTop));//删除原来的桌面快捷键方式
+                System.IO.File.Delete(string.Format(@"{0}\STranslate.lnk", deskTop));//删除原来的桌面快捷键方式
                 return;
             }
             WshShell shell = new WshShell();
