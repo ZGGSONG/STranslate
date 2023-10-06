@@ -79,6 +79,9 @@ namespace STranslate.Model
 
         [Description("瑞典语")]
         SV,    //瑞典语
+
+        [Description("土耳其语")]
+        TR,    //土耳其语
     }
 
     /// <summary>
