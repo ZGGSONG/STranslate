@@ -85,27 +85,27 @@ namespace STranslate.ViewModel
             //复制输入
             CopyInputCmd = new RelayCommand((_) => true, (_) =>
             {
-                Clipboard.SetText(InputTxt);
+                Clipboard.SetDataObject(InputTxt);
             });
             //复制翻译结果
             CopyResultCmd = new RelayCommand((_) => true, (_) =>
             {
-                Clipboard.SetText(OutputTxt);
+                Clipboard.SetDataObject(OutputTxt);
             });
             //复制蛇形结果
             CopySnakeResultCmd = new RelayCommand((_) => true, (_) =>
             {
-                Clipboard.SetText(SnakeRet);
+                Clipboard.SetDataObject(SnakeRet);
             });
             //复制小驼峰结果
             CopySmallHumpResultCmd = new RelayCommand((_) => true, (_) =>
             {
-                Clipboard.SetText(SmallHumpRet);
+                Clipboard.SetDataObject(SmallHumpRet);
             });
             //复制大驼峰结果
             CopyLargeHumpResultCmd = new RelayCommand((_) => true, (_) =>
             {
-                Clipboard.SetText(LargeHumpRet);
+                Clipboard.SetDataObject(LargeHumpRet);
             });
 
             //主题切换
