@@ -25,6 +25,9 @@
 
 
 
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FZGGSONG%2FSTranslate.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FZGGSONG%2FSTranslate?ref=badge_large)
+
 ## 功能
 
 - [x] 添加 DeepL API
@@ -46,6 +49,7 @@
 ## 使用
 
 ![previews](./example.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FZGGSONG%2FSTranslate.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FZGGSONG%2FSTranslate?ref=badge_shield)
 
 ![previews_dark](./example_dark.png)
 
