@@ -30,7 +30,9 @@
 - [x] 支持历史记录，方便回溯查找
 - [ ] 后期收尾，即将更新
 
-![](./preview_translate.png)
+<div align=center>
+<img src="./preview_translate.png" />
+</div>
 
 ![](./preview_ocr.png)
 
