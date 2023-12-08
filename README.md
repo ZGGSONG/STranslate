@@ -23,6 +23,18 @@
 <br> 中文 | <a href="README_EN.md">English</a>
 </p>
 
+## Preview 2.0
+
+- [x] 支持多服务同时翻译
+- [x] 支持完全离线OCR，实用效果ok
+- [x] 支持历史记录，方便回溯查找
+- [ ] 后期收尾，即将更新
+
+![](./preview_translate.png)
+
+![](./preview_ocr.png)
+
+![](./preview_preference.png)
 
 
 ## 功能
