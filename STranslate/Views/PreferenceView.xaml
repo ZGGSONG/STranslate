@@ -1,0 +1,155 @@
+﻿<Window x:Class="STranslate.Views.PreferenceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:menu="clr-namespace:STranslate.Style.Styles.Navigation;assembly=STranslate.Style"
+        xmlns:view="clr-namespace:STranslate.Views"
+        xmlns:vm="clr-namespace:STranslate.ViewModels"
+        Title="STranslate 首选项"
+        Width="800"
+        Height="650"
+        Background="{DynamicResource BorderBackground}"
+        BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        FontFamily="{DynamicResource FontFamily_LXGW}"
+        Icon="{DynamicResource Icon}"
+        WindowChrome.IsHitTestVisibleInChrome="True"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:PreferenceViewModel />
+    </Window.DataContext>
+    <WindowChrome.WindowChrome>
+        <WindowChrome />
+    </WindowChrome.WindowChrome>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+    </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="StateChanged">
+            <i:InvokeCommandAction Command="{Binding WindowStateChangeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- // Header // -->
+        <Border Name="Header"
+                Background="{DynamicResource BorderBackground}"
+                CornerRadius="5"
+                MouseDown="Header_MouseDown"
+                MouseLeftButtonDown="Header_MouseLeftButtonDown">
+
+            <Grid>
+                <!-- // Title // -->
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Image Height="30" Margin="20,0,0,0" Source="{DynamicResource STranslate}" />
+                    <TextBlock Margin="20,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource NavigationForeground}"
+                               Text="首选项" />
+                </StackPanel>
+
+                <!-- // Button // -->
+                <StackPanel Margin="15,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button Command="{Binding MinimizeCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Content="&#xe676;"
+                            FontSize="20"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                    <Button Command="{Binding MaximizeCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Content="{Binding MaximizeContent}"
+                            FontWeight="Bold"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                    <Button Command="{Binding CloseCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Content="&#xe64d;"
+                            FontSize="16"
+                            Style="{DynamicResource ButtonCloseStyle}" />
+                </StackPanel>
+            </Grid>
+
+        </Border>
+
+        <!-- // Content // -->
+        <Grid Grid.Row="1">
+            <!-- // Base Grid // -->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- // 侧边栏 // -->
+
+            <Grid HorizontalAlignment="Left">
+
+                <StackPanel Width="228" Height="640">
+                    <menu:Btn Command="{Binding CommonPageCommand}" IsChecked="True" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="常规设置" />
+                    </menu:Btn>
+
+                    <menu:Btn Command="{Binding HotkeyPageCommand}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
+                    </menu:Btn>
+
+                    <menu:Btn Command="{Binding ServicePageCommand}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="服务设置" />
+                    </menu:Btn>
+                    <!-- //  分隔符号  // -->
+                    <!--<Separator Background="DarkGray" Margin="10,20"/>-->
+
+                    <menu:Btn Command="{Binding FavoritePageCommand}" Style="{StaticResource BtnStyle}" Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="收藏夹" />
+                    </menu:Btn>
+
+                    <menu:Btn Command="{Binding HistoryPageCommand}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="历史记录" />
+                    </menu:Btn>
+
+                    <menu:Btn Command="{Binding AboutPageCommand}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="关于软件" />
+                    </menu:Btn>
+
+
+                    <!--<menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding BomXmlCommand}">
+                        <Grid>
+                            <Image Source="/Images/002_shoucang.png"
+                                   Style="{StaticResource Image_Style}" />
+                            <TextBlock Text="BOM XML" Style="{StaticResource Text_Style}" />
+                        </Grid>
+                    </menu:Btn>-->
+
+                </StackPanel>
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+
+                <ContentControl x:Name="Pages" Content="{Binding CurrentView}" />
+
+            </Grid>
+
+        </Grid>
+
+        <!-- // Notify // -->
+        <view:ToastView x:Name="notify"
+                       Grid.RowSpan="2"
+                       Margin="0,8,0,0"
+                       VerticalAlignment="Top"
+                       Visibility="Collapsed" />
+    </Grid>
+</Window>
+

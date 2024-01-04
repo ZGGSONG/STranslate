@@ -1,4 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <FontFamily x:Key="FontFamily_Default">pack://application:,,,/STranslate.Style;component/Resources/#LXGW WenKai</FontFamily>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <FontFamily x:Key="IconFont">/STranslate.Style;component/Fonts/#iconfont</FontFamily>
+    <FontFamily x:Key="FontFamily_LXGW">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
+
+    <sys:Double x:Key="FontSize_About">30</sys:Double>
+    <sys:Double x:Key="FontSize_Title">20</sys:Double>
+    <sys:Double x:Key="FontSize_Content">18</sys:Double>
+    <sys:Double x:Key="FontSize_Identify">14</sys:Double>
+    <sys:Double x:Key="FontSize_TextBox">18</sys:Double>
 </ResourceDictionary>

@@ -1,19 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
-namespace STranslate.Style
+namespace STranslate.Style.Converters
 {
     public class VisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.IsNullOrEmpty((string)value) ? Visibility.Collapsed : Visibility.Visible;
+            if (value is string str)
+            {
+                return string.IsNullOrEmpty(str) ? Visibility.Collapsed : Visibility.Visible;
+            }
+            else if (value is ImageSource)
+            {
+                return Visibility.Visible;
+            }
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

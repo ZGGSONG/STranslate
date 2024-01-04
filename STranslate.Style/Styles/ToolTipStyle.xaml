@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <!-- // ToolTip // -->
+    <Style TargetType="ToolTip">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Padding="5"
+                            Background="{DynamicResource ToolTipBackground}"
+                            BorderBrush="{DynamicResource ToolTipBorderBrush}"
+                            BorderThickness=".8"
+                            CornerRadius="3">
+                        <TextBlock Text="{TemplateBinding ContentControl.Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

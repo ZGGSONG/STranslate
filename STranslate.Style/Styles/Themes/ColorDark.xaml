@@ -1,0 +1,77 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- // Border // -->
+    <SolidColorBrush x:Key="BorderBackground">#2e323a</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderBrushColor">#393c43</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderContentBackground">#282c34</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderLangBackground">#404856</SolidColorBrush>
+
+    <!-- // Button // -->
+    <SolidColorBrush x:Key="ThemeAccentColor">#af67c1</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnForeground">#abb2bf</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnBackground">#282c34</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnMouseOverBackground">#47484c</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnPressedBackground">#35333c</SolidColorBrush>
+    <!--//TODO: 切换主题测试 //-->
+    <SolidColorBrush x:Key="BtnDisabledBackground">#292834</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnClosedMouseOverBackground">#E81123</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnClosedPressedBackground">#8B0A14</SolidColorBrush>
+
+    <!-- // ComboBox // -->
+    <SolidColorBrush x:Key="ComboBoxBackground">#2e323a</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemMouseOverBackground">#47484c</SolidColorBrush>
+
+    <!-- // ContextMenu // -->
+    <Color x:Key="ContextMenuDropShadowEffectColor">#FFB6B6B6</Color>
+    <SolidColorBrush x:Key="MenuItemDisabledForeground">#98989c</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemHighlighted">#383838</SolidColorBrush>
+
+    <!-- // Expander // -->
+    <SolidColorBrush x:Key="ExpanderStrokeColor">#918C8C</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderMouseOverBackground">#292f35</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderPressedBackground">#252b30</SolidColorBrush>
+
+    <!-- // ScrollViewer // -->
+    <SolidColorBrush x:Key="ThumbBackground">#363B46</SolidColorBrush>
+    <SolidColorBrush x:Key="ThumbMouseOverBackground">#414754</SolidColorBrush>
+    <SolidColorBrush x:Key="ThumbPressedBackground">#4E5563</SolidColorBrush>
+
+    <!-- // Separator // -->
+    <SolidColorBrush x:Key="SeparatorBackground">#ededef</SolidColorBrush>
+
+    <!-- // ToggleButton // -->
+    <SolidColorBrush x:Key="ToggleBtnForeground">#7dc172</SolidColorBrush>
+    <SolidColorBrush x:Key="ToggleBtnBackground">#2f2f32</SolidColorBrush>
+    <SolidColorBrush x:Key="ToggleBtnBrushColor">#2d2d2e</SolidColorBrush>
+    <SolidColorBrush x:Key="ToggleBtnThumbColor">#ffffff</SolidColorBrush>
+    <Color x:Key="ToggleBtnThumbDropShadowEffectColor">#88000000</Color>
+
+    <!-- // ToolTip // -->
+    <SolidColorBrush x:Key="ToolTipBorderBrush">#333333</SolidColorBrush>
+    <SolidColorBrush x:Key="ToolTipBackground">#302b2c</SolidColorBrush>
+
+    <!-- // Navigation // -->
+    <SolidColorBrush x:Key="NavigationSelected">#252a35</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationForeground">#dddddd</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationBackground">#2e323a</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationMouseOverBackground">#292e39</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationIndicatorMouseOverBackground">#d3d3d3</SolidColorBrush>
+
+    <!-- // TextBlock // -->
+    <SolidColorBrush x:Key="TextBlockLangForeground">#999999</SolidColorBrush>
+    <SolidColorBrush x:Key="TextBlockToastViewForeground">#ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="TextBlockDisabledForeground">#bababa</SolidColorBrush>
+
+    <!-- // TextBox // -->
+    <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
+    <SolidColorBrush x:Key="TextForeground">#dddddd</SolidColorBrush>
+    <SolidColorBrush x:Key="TextSelectionBrushColor">#404856</SolidColorBrush>
+
+    <!-- // Label // -->
+    <SolidColorBrush x:Key="LabelHotkeyCollisionForeground">#ff0000</SolidColorBrush>
+
+    <!-- // Popup // -->
+    <Color x:Key="PopupDropShadowEffectColor">#FFB6B6B6</Color>
+
+</ResourceDictionary>

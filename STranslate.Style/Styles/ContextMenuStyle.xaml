@@ -1,0 +1,155 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- // Outer menu items // -->
+    <Style TargetType="{x:Type MenuItem}">
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="False">
+                <Setter Property="Height" Value="30" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Height" Value="30" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource MenuItemDisabledForeground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- // Outer menu // -->
+    <Style TargetType="{x:Type ContextMenu}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    <!-- Here is where you change the border thickness to zero on the menu -->
+                    <Border Width="{TemplateBinding Width}" Padding="5">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5"
+                                              Direction="0"
+                                              Opacity="0.1"
+                                              ShadowDepth="0"
+                                              Color="{DynamicResource ContextMenuDropShadowEffectColor}" />
+                        </Border.Effect>
+                        <Border x:Name="Border" Padding="0,5" CornerRadius="5">
+                            <StackPanel ClipToBounds="True"
+                                        IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"
+                                        Orientation="Vertical" />
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource BorderBackground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- // SubmenuItem // -->
+    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
+        <Border Name="Border"
+                Background="Transparent"
+                ClipToBounds="True"
+                Margin="2,0"
+                CornerRadius="5">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,10,0"
+                               VerticalAlignment="Center"
+                               FontFamily="{DynamicResource IconFont}"
+                               FontSize="16"
+                               Foreground="{DynamicResource BtnForeground}"
+                               Text="{TemplateBinding Icon}" />
+                    <TextBlock MaxWidth="120"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               Text="{TemplateBinding Header}"
+                               Foreground="{DynamicResource TextForeground}"
+                               TextTrimming="CharacterEllipsis"
+                               ToolTip="{TemplateBinding Header}" />
+                </StackPanel>
+                <TextBlock x:Name="Checkabled"
+                           Margin="0,0,10,0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource IconFont}"
+                           FontSize="14"
+                           Text="&#xec9e;"
+                           Visibility="Collapsed" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItemHighlighted}" />
+            </Trigger>
+            <Trigger Property="IsCheckable" Value="true">
+                <Setter TargetName="Checkabled" Property="Visibility" Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- // SubmenuHeader // -->
+    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
+        <Border Name="Border">
+            <Grid Background="Transparent">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10,0,10,0"
+                               VerticalAlignment="Center"
+                               FontFamily="{DynamicResource IconFont}"
+                               FontSize="16"
+                               Foreground="{DynamicResource BtnForeground}"
+                               Text="{TemplateBinding Icon}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextForeground}"
+                               FontSize="14"
+                               Text="{TemplateBinding Header}" />
+                </StackPanel>
+                <TextBlock Margin="0,0,10,0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource IconFont}"
+                           FontSize="10"
+                           Text="&#xe629;" />
+                <Popup Name="Popup"
+                       Width="{TemplateBinding Width}"
+                       AllowsTransparency="True"
+                       Focusable="False"
+                       HorizontalOffset="-5"
+                       IsOpen="{TemplateBinding IsSubmenuOpen}"
+                       Placement="Right"
+                       PopupAnimation="Fade">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="5"
+                                Height="35"
+                                Background="{DynamicResource BorderBackground}"
+                                Opacity="0.01" />
+                        <Border Padding="5">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="5"
+                                                  Direction="0"
+                                                  Opacity="0.1"
+                                                  ShadowDepth="0"
+                                                  Color="{DynamicResource ContextMenuDropShadowEffectColor}" />
+                            </Border.Effect>
+                            <Border Name="SubmenuBorder" Width="{TemplateBinding Width}" Background="{DynamicResource BorderBackground}">
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            </Border>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuItemHighlighted}" />
+            </Trigger>
+            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+                <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4" />
+                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+</ResourceDictionary>

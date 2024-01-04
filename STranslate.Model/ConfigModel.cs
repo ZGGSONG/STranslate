@@ -1,183 +1,86 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
+using System.ComponentModel;
+using System.Windows;
 
 namespace STranslate.Model
 {
-
-    public class Hotkeys
-    {
-        [JsonProperty("inputTranslate")]
-        public InputTranslate InputTranslate { get; set; }
-
-        [JsonProperty("crosswordTranslate")]
-        public CrosswordTranslate CrosswordTranslate { get; set; }
-
-        [JsonProperty("screenShotTranslate")]
-        public ScreenShotTranslate ScreenShotTranslate { get; set; }
-
-        [JsonProperty("openMainWindow")]
-        public OpenMainWindow OpenMainWindow { get; set; }
-    }
-    public class InputTranslate
-    {
-        public byte Modifiers { get; set; }
-        public int Key { get; set; }
-        public String Text { get; set; }
-        public bool Conflict { get; set; }
-    }
-    public class CrosswordTranslate
-    {
-        public byte Modifiers { get; set; }
-        public int Key { get; set; }
-        public String Text { get; set; }
-        public bool Conflict { get; set; }
-    }
-    public class ScreenShotTranslate
-    {
-        public byte Modifiers { get; set; }
-        public int Key { get; set; }
-        public String Text { get; set; }
-        public bool Conflict { get; set; }
-    }
-    public class OpenMainWindow
-    {
-        public byte Modifiers { get; set; }
-        public int Key { get; set; }
-        public String Text { get; set; }
-        public bool Conflict { get; set; }
-    }
-    public class Server
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("api")]
-        public string Api { get; set; }
-    }
-    public class ConfigModel
+    public partial class ConfigModel : ObservableObject
     {
         /// <summary>
-        /// 最大历史记录数量
+        /// 开机自启动
         /// </summary>
-        [JsonProperty("maxHistoryCount")]
-        public int MaxHistoryCount { get; set; }
+        public bool IsStartup { get; set; }
+
+        /// <summary>
+        /// 是否管理员启动
+        /// </summary>
+        public bool NeedAdministrator { get; set; }
+
+        /// <summary>
+        /// 历史记录大小
+        /// </summary>
+        public long HistorySize { get; set; }
+
         /// <summary>
         /// 自动识别语种标度
         /// </summary>
-        [JsonProperty("autoScale")]
         public double AutoScale { get; set; }
-        /// <summary>
-        /// 取词间隔
-        /// </summary>
-        [JsonProperty("wordPickupInterval")]
-        public double WordPickupInterval { get; set; }
+
         /// <summary>
         /// 是否亮色模式
         /// </summary>
-        [JsonProperty("isBright")]
         public bool IsBright { get; set; }
 
-        [JsonProperty("sourceLanguage")]
-        public string SourceLanguage { get; set; }
+        /// <summary>
+        /// 是否跟随鼠标
+        /// </summary>
+        public bool IsFollowMouse { get; set; }
 
-        [JsonProperty("targetLanguage")]
-        public string TargetLanguage { get; set; }
+        /// <summary>
+        /// OCR结果翻译关闭OCR界面
+        /// </summary>
+        public bool CloseUIOcrRetTranslate { get; set; }
 
-        [JsonProperty("selectServer")]
-        public int SelectServer { get; set; }
+        /// <summary>
+        /// 截图出现问题尝试一下
+        /// </summary>
+        public bool UnconventionalScreen { get; set; }
+
+        /// <summary>
+        /// OCR时是否自动复制文本
+        /// </summary>
+        public bool IsOcrAutoCopyText { get; set; }
+
+        /// <summary>
+        /// 是否调整完语句后翻译
+        /// </summary>
+        public bool IsAdjustContentTranslate { get; set; }
+
+        /// <summary>
+        /// 取词时移除换行
+        /// </summary>
+        public bool IsRemoveLineBreakGettingWords { get; set; }
+
+        /// <summary>
+        /// 鼠标双击托盘程序功能
+        /// </summary>
+        public DoubleTapFuncEnum DoubleTapTrayFunc { get; set; } = DoubleTapFuncEnum.InputFunc;
+
+        public string SourceLanguage { get; set; } = string.Empty;
+
+        public string TargetLanguage { get; set; } = string.Empty;
 
         /// <summary>
         /// 服务
         /// </summary>
-        [JsonProperty("servers")]
-        public Server[] Servers { get; set; }
+        [JsonIgnore]
+        [ObservableProperty]
+        public BindingList<ITranslator>? _services;
 
         /// <summary>
         /// 热键
         /// </summary>
-        [JsonProperty("hotkeys")]
-        public Hotkeys Hotkeys { get; set; }
-
-
-        public ConfigModel()
-        {
-        }
-
-        public ConfigModel InitialConfig()
-        {
-            return new ConfigModel
-            {
-                MaxHistoryCount = 100,
-                AutoScale = 0.8,
-                WordPickupInterval = 200,
-                IsBright = true,
-                SourceLanguage = LanguageEnum.AUTO.GetDescription(),
-                TargetLanguage = LanguageEnum.AUTO.GetDescription(),
-                SelectServer = 0,
-                Servers = new Server[]
-                {
-                    new Server
-                    {
-                        Name = "zggsong",
-                        Api = "https://dfree.deno.dev/translate"
-                    },
-                    new Server
-                    {
-                        Name = "iciba",
-                        Api = "https://iciba.deno.dev/translate"
-                    },
-                    new Server
-                    {
-                        Name = "google",
-                        Api = "https://ggtranslate.deno.dev/translate"
-                    },
-                    new Server
-                    {
-                        Name = "zu1k",
-                        Api = "https://deepl.deno.dev/translate"
-                    },
-                    new Server
-                    {
-                        Name = "local",
-                        Api = "http://127.0.0.1:8000/translate"
-                    }
-                },
-                Hotkeys = new Hotkeys
-                {
-                    InputTranslate = new InputTranslate
-                    {
-                        Modifiers = 1,
-                        Key = 65,
-                        Text = "Alt + A",
-                        Conflict = false,
-                    },
-                    CrosswordTranslate = new CrosswordTranslate
-                    {
-                        Modifiers = 1,
-                        Key = 68,
-                        Text = "Alt + D",
-                        Conflict = false,
-                    },
-                    ScreenShotTranslate = new ScreenShotTranslate
-                    {
-                        Modifiers = 1,
-                        Key = 83,
-                        Text = "Alt + S",
-                        Conflict = false,
-                    },
-                    OpenMainWindow = new OpenMainWindow
-                    {
-                        Modifiers = 1,
-                        Key = 71,
-                        Text = "Alt + G",
-                        Conflict = false,
-                    },
-                }
-            };
-        }
+        public Hotkeys? Hotkeys { get; set; }
     }
 }

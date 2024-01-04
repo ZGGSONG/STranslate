@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="BtnStyle" TargetType="RadioButton">
+
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,5,0,0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+
+                    <Border x:Name="Border"
+                            Width="228"
+                            Height="50"
+                            Background="{DynamicResource NavigationBackground}"
+                            BorderThickness="0">
+
+                        <Grid>
+                            <Border x:Name="Indicator"
+                                    Width="4"
+                                    Height="35"
+                                    Margin="5,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Background="{DynamicResource ThemeAccentColor}"
+                                    CornerRadius="2"
+                                    Visibility="Collapsed" />
+
+                            <ContentPresenter />
+
+                        </Grid>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+
+                        <!-- // 未选中导航栏mouse hover时添加效果 // -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="Indicator" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource NavigationMouseOverBackground}" />
+                                <Setter TargetName="Indicator" Property="Background" Value="{DynamicResource NavigationIndicatorMouseOverBackground}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource NavigationSelected}" />
+
+                            <Setter TargetName="Indicator" Property="Visibility" Value="Visible" />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

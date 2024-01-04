@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <BitmapImage x:Key="STranslate" UriSource="pack://application:,,,/STranslate.Style;component/Resources/favicon.ico" />
+    <BitmapImage x:Key="DeepL" UriSource="pack://application:,,,/STranslate.Style;component/Resources/deepl.png" />
+    <BitmapImage x:Key="Baidu" UriSource="pack://application:,,,/STranslate.Style;component/Resources/baidu.png" />
+    <BitmapImage x:Key="Google" UriSource="pack://application:,,,/STranslate.Style;component/Resources/google.ico" />
+    <BitmapImage x:Key="Iciba" UriSource="pack://application:,,,/STranslate.Style;component/Resources/iciba.ico" />
+    <BitmapImage x:Key="Youdao" UriSource="pack://application:,,,/STranslate.Style;component/Resources/youdao.png" />
+</ResourceDictionary>

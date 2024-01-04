@@ -1,0 +1,274 @@
+﻿<Window x:Class="STranslate.Views.OCRView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:STranslate.Views"
+        xmlns:vm="clr-namespace:STranslate.ViewModels"
+        Title="STranslate OCR"
+        Width="900"
+        Height="400"
+        d:DataContext="{d:DesignInstance Type=vm:OCRViewModel}"
+        Background="{DynamicResource BorderBackground}"
+        BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        FontFamily="{DynamicResource FontFamily_LXGW}"
+        Icon="{DynamicResource Icon}"
+        WindowChrome.IsHitTestVisibleInChrome="True"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome />
+    </WindowChrome.WindowChrome>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="T"
+                    Command="{Binding StickyCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Modifiers="Ctrl+Shift" />
+    </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="StateChanged">
+            <i:InvokeCommandAction Command="{Binding WindowStateChangeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference TB}" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <!-- // Header // -->
+        <Border Name="Header"
+                Background="{DynamicResource BorderBackground}"
+                CornerRadius="5"
+                MouseDown="Header_MouseDown"
+                MouseLeftButtonDown="Header_MouseLeftButtonDown">
+
+            <Grid>
+                <!-- // Topmost // -->
+                <Button Margin="10,5,0,0"
+                        HorizontalAlignment="Left"
+                        Command="{Binding StickyCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        Content="{Binding TopMostContent}"
+                        FontSize="22"
+                        Style="{DynamicResource ButtonStickyIconStyle}"
+                        Tag="{Binding IsTopMost}" />
+
+                <!-- // Title // -->
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Visibility="Collapsed">
+                    <Image Height="30" Source="{DynamicResource STranslate}" />
+                    <TextBlock Margin="20,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource NavigationForeground}"
+                               Text="STranslate OCR" />
+                </StackPanel>
+
+                <!-- // Button // -->
+                <StackPanel Margin="15,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button Command="{Binding MinimizeCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Content="&#xe676;"
+                            FontSize="20"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                    <Button Command="{Binding MaximizeCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Content="{Binding MaximizeContent}"
+                            FontWeight="Bold"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                    <Button Command="{Binding CloseCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Content="&#xe64d;"
+                            FontSize="16"
+                            Style="{DynamicResource ButtonCloseStyle}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- // Content // -->
+        <Grid Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <!-- // img // -->
+                <Border Margin="10" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
+                    <Grid>
+                        <Image Margin="5,5,5,24"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               AllowDrop="True"
+                               Source="{Binding GetImg}"
+                               Stretch="Uniform">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Drop">
+                                    <i:InvokeCommandAction Command="{Binding DropCommand}" PassEventArgsToCommand="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Image>
+                        <StackPanel Margin="3,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Orientation="Horizontal">
+                            <Button Command="{Binding CopyImgCommand}"
+                                    CommandParameter="{Binding GetImg}"
+                                    Content="&#xe692;"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="复制图片"
+                                    Visibility="{Binding GetImg, Converter={StaticResource VisibilityConverter}}" />
+                            <Button Command="{Binding SaveImgCommand}"
+                                    CommandParameter="{Binding GetImg}"
+                                    Content="&#xe63b;"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="保存图片"
+                                    Visibility="{Binding GetImg, Converter={StaticResource VisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- // content // -->
+                <Border Grid.Column="1"
+                        Margin="10"
+                        Background="{DynamicResource BorderContentBackground}"
+                        CornerRadius="5">
+                    <Grid>
+                        <TextBox x:Name="TB"
+                                 Margin="3,3,3,24"
+                                 FontSize="{DynamicResource FontSize_TextBox}"
+                                 PreviewMouseWheel="InputTB_PreviewMouseWheel"
+                                 Style="{DynamicResource TextBoxOCRStyle}"
+                                 Text="{Binding GetContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <!-- // 右键菜单 // -->
+                            <TextBox.ContextMenu>
+                                <ContextMenu Width="120">
+                                    <MenuItem Command="{Binding TBSelectAllCommand}"
+                                              CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                                              Header="全选"
+                                              Icon="&#xe692;" />
+                                    <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+                                    <MenuItem Command="{Binding TBCopyCommand}"
+                                              CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                                              Header="复制"
+                                              Icon="&#xe692;" />
+                                    <MenuItem Command="{Binding TBPasteCommand}"
+                                              CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                                              Header="粘贴"
+                                              Icon="&#xe692;" />
+                                    <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+                                    <MenuItem Command="{Binding TBClearCommand}"
+                                              CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                                              Header="清空"
+                                              Icon="&#xe692;" />
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+
+                        <StackPanel Margin="3,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Orientation="Horizontal">
+                            <Button Command="{Binding CopyCommand}"
+                                    CommandParameter="{Binding GetContent}"
+                                    Content="&#xe692;"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="复制"
+                                    Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
+                            <Button Command="{Binding RemoveLineBreaksCommand}"
+                                    Content="&#xe6b2;"
+                                    FontWeight="Bold"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="移除换行"
+                                    Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
+                            <Button Command="{Binding RemoveSpaceCommand}"
+                                    Content="&#xe6ab;"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="移除空格"
+                                    Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- //Footer// -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Margin="10,0,10,10"
+                        Command="{Binding OpenfileCommand}"
+                        Content="文件"
+                        ToolTip="选中图片文件进行文字识别" />
+                <Button Margin="10,0,10,10"
+                        Command="{Binding ScreenshotCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        Content="截图"
+                        ToolTip="截图进行文字识别" />
+                <Button Margin="10,0,10,10"
+                        Command="{Binding ClipboardImgCommand}"
+                        Content="剪贴板"
+                        ToolTip="剪贴板获取图片文字识别(如果最新一条为图片的话)" />
+            </StackPanel>
+            <ComboBox Margin="10,10,20,10"
+                      HorizontalAlignment="Right"
+                      ItemsSource="{Binding OcrTypes}"
+                      SelectedItem="{Binding OcrType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Visibility="Collapsed">
+            </ComboBox>
+
+            <Button Grid.Column="1"
+                    Margin="20,0,10,10"
+                    HorizontalAlignment="Left"
+                    Command="{Binding RecertificationCommand}"
+                    CommandParameter="{Binding GetImg}"
+                    Content="识别" />
+            <Button Grid.Column="1"
+                    Margin="90,0,10,10"
+                    HorizontalAlignment="Left"
+                    Command="{Binding QRCodeCommand}"
+                    CommandParameter="{Binding GetImg}"
+                    Content="二维码" />
+            <Button Grid.Column="1"
+                    Margin="10,0,20,10"
+                    HorizontalAlignment="Right"
+                    Command="{Binding TranslateCommand}"
+                    Content="翻译">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                        <Binding Path="GetContent" />
+                        <Binding RelativeSource="{RelativeSource AncestorType=Window}" />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </Grid>
+
+        <!-- // Notify // -->
+        <view:ToastView x:Name="notify"
+                       Grid.RowSpan="2"
+                       Margin="0,8,0,0"
+                       VerticalAlignment="Top"
+                       Visibility="Collapsed" />
+    </Grid>
+</Window>

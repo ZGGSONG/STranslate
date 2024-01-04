@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="STranslate.Views.Preference.AboutPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+             d:DataContext="{d:DesignInstance Type=vm:AboutViewModel}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             d:FontFamily="{DynamicResource FontFamily_LXGW}"
+             d:FontSize="{DynamicResource FontSize_Content}"
+             Style="{StaticResource ResourceKey=Page_Style}"
+             mc:Ignorable="d">
+    <Border CornerRadius="5">
+        <StackPanel Orientation="Vertical">
+
+            <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
+                <StackPanel Orientation="Vertical">
+                    <Viewbox Height="80" Margin="0,20" HorizontalAlignment="Center">
+                        <Path Data="M31.79,28.11l-7-14a2,2,0,0,0-3.58,0L18,20.56,15.3,18.73A17.13,17.13,0,0,0,19.91,9H22a2,2,0,0,0,0-4H14V3a2,2,0,0,0-4,0V5H2A2,2,0,0,0,2,9H15.86a13.09,13.09,0,0,1-3.79,7.28,13.09,13.09,0,0,1-3.19-4.95,2,2,0,1,0-3.77,1.34A17.1,17.1,0,0,0,8.9,18.75L3.84,22.37a2,2,0,0,0,2.33,3.25l5.93-4.24,4.08,2.79-2,3.93a2,2,0,0,0,3.58,1.79l.45-.89H23a2,2,0,0,0,0-4H20.24L23,19.47l5.21,10.42a2,2,0,0,0,3.58-1.79Z" Fill="{DynamicResource ThemeAccentColor}" />
+                    </Viewbox>
+
+                    <TextBlock Margin="0,0,0,20"
+                               HorizontalAlignment="Center"
+                               FontSize="{DynamicResource FontSize_About}"
+                               FontWeight="Bold"
+                               Text="STranslate" />
+                </StackPanel>
+            </Border>
+
+            <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Margin="20,10">
+                        <TextBlock FontWeight="Bold" Text="版本    " />
+                        <TextBlock Text="{Binding Version}" />
+
+                        <Button Width="100"
+                                Padding="5,2"
+                                HorizontalAlignment="Right"
+                                Command="{Binding CheckUpdateCommand}"
+                                Content="检查更新" />
+                    </DockPanel>
+
+                    <WrapPanel Margin="20,10" Orientation="Horizontal">
+                        <TextBlock FontWeight="Bold" Text="开源    " />
+                        <TextBlock Cursor="Hand" Text="MIT License" ToolTip="https://github.com/ZGGSONG/STranslate/blob/main/LICENSE">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding OpenLinkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBlock}, Path=ToolTip}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                    </WrapPanel>
+
+                    <WrapPanel Margin="20,10" Orientation="Horizontal">
+                        <TextBlock FontWeight="Bold" Text="作者    " />
+                        <TextBlock Text="zggsong@foxmail.com" ToolTip="zggsong@foxmail.com" />
+                    </WrapPanel>
+
+                    <WrapPanel Margin="20,10" Orientation="Horizontal">
+                        <TextBlock FontWeight="Bold" Text="源码    " />
+                        <TextBlock Cursor="Hand" Text="https://github.com/zggsong/stranslate" ToolTip="https://github.com/zggsong/stranslate">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding OpenLinkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBlock}, Path=ToolTip}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                    </WrapPanel>
+
+                    <WrapPanel Margin="20,10" Orientation="Horizontal">
+                        <TextBlock FontWeight="Bold" Text="反馈    " />
+                        <TextBlock Cursor="Hand" Text="https://github.com/zggsong/stranslate/issues" ToolTip="https://github.com/zggsong/stranslate/issues">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding OpenLinkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBlock}, Path=ToolTip}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Border>
+</UserControl>

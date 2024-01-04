@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="STranslate.Views.OutputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:STranslate.Style.Converters;assembly=STranslate.Style"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:STranslate.ViewModels"
+             xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+             d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <StackPanel>
+        <ListBox BorderThickness="0"
+                 Background="Transparent"
+                 ItemsSource="{Binding Translators}"
+                 PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- 宽度需要绑定到StackPanel上，而非ListBox上 -->
+                    <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
+                            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource ScaleFromTop},
+                                                               Delay=20,
+                                                               TransformOn=Render}"
+                            Style="{DynamicResource BorderInOutputStyle}"
+                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Expander VerticalAlignment="Top"
+                                  ExpandDirection="Down"
+                                  IsEnabled="{Binding Data, Converter={StaticResource String2IsEnableConverter}, Mode=OneWay}"
+                                  SnapsToDevicePixels="True">
+                            <Expander.IsExpanded>
+                                <Binding Path="Data">
+                                    <Binding.Converter>
+                                        <conv:String2IsExpandedConverter />
+                                    </Binding.Converter>
+                                </Binding>
+                            </Expander.IsExpanded>
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="18" Margin="10,5,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                    <TextBlock Margin="10,0,0,0"
+                                               VerticalAlignment="Bottom"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource TextForeground}"
+                                               Text="{Binding Name}" />
+                                </StackPanel>
+                            </Expander.Header>
+                            <Grid>
+                                <TextBox ContextMenu="{x:Null}"
+                                         FontSize="{DynamicResource FontSize_TextBox}"
+                                         PreviewMouseWheel="TextBox_PreviewMouseWheel"
+                                         Style="{DynamicResource TextBoxOutputStyle}"
+                                         Text="{Binding Data}" />
+
+                                <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                    <!-- 普通复制 -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                            CommandParameter="{Binding Data}"
+                                            Content="&#xe692;"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="直接复制结果"
+                                            Visibility="{Binding Data, Converter={StaticResource VisibilityConverter}}" />
+                                    <!-- 蛇形复制 -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
+                                            CommandParameter="{Binding Data}"
+                                            Content="&#xe600;"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="复制为蛇形字符串"
+                                            Visibility="{Binding Data, Converter={StaticResource VisibilityConverter}}" />
+                                    <!-- 小驼峰复制 -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
+                                            CommandParameter="{Binding Data}"
+                                            Content="&#xe602;"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="复制为小驼峰字符串"
+                                            Visibility="{Binding Data, Converter={StaticResource VisibilityConverter}}" />
+                                    <!-- 大驼峰复制 -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
+                                            CommandParameter="{Binding Data}"
+                                            Content="&#xe601;"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="复制为大驼峰字符串"
+                                            Visibility="{Binding Data, Converter={StaticResource VisibilityConverter}}" />
+                                </StackPanel>
+                            </Grid>
+                        </Expander>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+</UserControl>

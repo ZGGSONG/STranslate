@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="STranslate.Views.NotifyIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:proxy="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+             xmlns:tb="http://www.hardcodet.net/taskbar"
+             xmlns:vm="clr-namespace:STranslate.ViewModels"
+             x:Name="notifyIcon"
+             d:DataContext="{d:DesignInstance Type=vm:NotifyIconViewModel}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <!-- 程序托盘菜单 -->
+    <UserControl.Resources>
+        <proxy:BindingProxy x:Key="NotifyIcon" Data="{Binding ElementName=notifyIcon}" />
+        <proxy:BindingProxy x:Key="MainView" Data="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+    </UserControl.Resources>
+    <tb:TaskbarIcon DoubleClickCommand="{Binding DoubleClickCommand}"
+                    DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    IconSource="{Binding NIModel.IconSource}"
+                    ToolTipText="{Binding NIModel.ToolTip}">
+        <tb:TaskbarIcon.ContextMenu>
+            <!-- // 编译出来似乎有点显示Bug，再手动指定一下DataContext // -->
+            <ContextMenu Width="150" d:DataContext="{d:DesignInstance Type=vm:NotifyIconViewModel}" DataContext="{Binding Source={StaticResource NotifyIcon}, Path=Data.DataContext}">
+
+                <MenuItem Command="{Binding InputTranslateCommand}"
+                          CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
+                          Header="输入翻译"
+                          Icon="&#xe694;" />
+
+                <MenuItem Command="{Binding ScreenShotTranslateCommand}"
+                          CommandParameter="placehold"
+                          Header="截图翻译"
+                          Icon="&#xe679;" />
+
+                <MenuItem Command="{Binding MousehookTranslateCommand}"
+                          CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
+                          Header="鼠标划词"
+                          Icon="&#xeb94;" />
+
+                <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+
+                <MenuItem Command="{Binding OCRCommand}"
+                          CommandParameter="placehold"
+                          Header="文字识别"
+                          Icon="&#xe861;" />
+
+                <MenuItem Command="{Binding QRCodeCommand}" Header="二维码" Icon="&#xe642;" />
+
+                <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+
+                <MenuItem Command="{Binding OpenMainWindowCommand}"
+                          CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
+                          Header="显示界面"
+                          Icon="&#xe65b;" />
+
+                <MenuItem Command="{Binding OpenPreferenceCommand}" Header="偏好设置" Icon="&#xe656;" />
+
+                <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+
+                <MenuItem Command="{Binding ForbiddenShortcutsCommand}"
+                          CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
+                          Header="禁用热键"
+                          Icon="&#xe615;"
+                          IsCheckable="{Binding IsForbiddenShortcuts}" />
+
+                <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+
+                <MenuItem Command="{Binding ExitCommand}" Header="退出程序" Icon="&#xe66b;" />
+            </ContextMenu>
+        </tb:TaskbarIcon.ContextMenu>
+    </tb:TaskbarIcon>
+</UserControl>

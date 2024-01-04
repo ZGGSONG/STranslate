@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://github.com/zggsong/STranslate" target="_blank">
-<img align="center" alt="STranslate" width="200" src="./translate.svg" />
+<img align="center" alt="STranslate" width="200" src="./favicon.svg" />
 </a>
 </p>
 <p align="center">
@@ -20,38 +20,7 @@
 <h1 align="center">STranslate</h1>
 
 <p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译工具
-<br> 中文 | <a href="README_EN.md">English</a>
 </p>
-
-## Preview 2.0
-
-- [x] 支持多服务同时翻译
-- [x] 支持完全离线OCR，实用效果ok
-- [x] 支持历史记录，方便回溯查找
-- [ ] 后期收尾，即将更新
-
-<div align=center>
-<img src="./preview_translate.png" />
-</div>
-
-![](./preview_ocr.png)
-
-![](./preview_preference.png)
-
-
-## 功能
-
-- [x] 添加 DeepL API
-- [x] 添加划词翻译
-- [x] 添加复制结果蛇形、大小驼峰
-- [x] 软件层面识别语种(中英文)
-- [x] 添加开机自启
-- [x] 添加明/暗主题
-- [x] 添加 UI 设置缓存(用户目录下 `AppData\Local\STranslate`)
-- [x] 添加离线语音合成
-- [x] 添加离线截图文字识别(支持英文, 中文数据包过大且体验不好)
-- [x] 添加检查更新
-- [x] 添加翻译记录缓存功能
 
 ## 安装
 
@@ -59,9 +28,9 @@
 
 ## 使用
 
-![previews](./example.png)
-
-![previews_dark](./example_dark.png)
+| 亮色 | 暗色 |
+| :-- | :-- |
+| ![](./light.png) | ![](./dark.png) |
 
 打开软件后会静默在后台，等待调用
 
@@ -69,9 +38,11 @@
 - `Alt` + `A` 打开软件界面，输入内容按回车翻译
 - `Alt` + `D` 复制当前鼠标选中内容并翻译
 - `Alt` + `S` 截图选中区域内容并翻译
-- `Alt` + `G` 打开窗口(不清空内容)
+- `Alt` + `G` 打开主界面
+- `Alt` + `Shift` + `S` 完全离线文字识别(基于PaddleOCR)
+- `Alt` + `Shift` + `D` 打开监听鼠标划词，鼠标滑动选中文字立即翻译
 
-2. 软件内快捷键
+1. 软件内快捷键
 - `ESC` 隐藏界面
 - `Ctrl+Shift+Q` 退出程序
 - `Ctrl+Shift+R` 切换主题
@@ -79,20 +50,20 @@
 
 点击软件外部任意处即自动隐藏到后台——即用即走。
 
-
-> STranslate依赖于.NET Framework 4.8 运行环境，如果程序启动时提示“This application requires *** .NETFramework,Version=v4.8”，请点击以下链接下载并安装.NET Framework 4.8 运行环境。  
-> [适用于 Windows 的 Microsoft .NET Framework 4.8 脱机安装程序下载](https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe) | [Microsoft Support](https://support.microsoft.com/zh-cn/topic/%E9%80%82%E7%94%A8%E4%BA%8E-windows-%E7%9A%84-microsoft-net-framework-4-8-%E8%84%B1%E6%9C%BA%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F-9d23f658-3b97-68ab-d013-aa3c3e7495e0)
-
 ## 卸载
 
-1. 删除软件运行目录
-2. 打开 cmd 运行下面的命令即可
-
+1. 打开 cmd 运行下面的命令即可
+> 或者双击运行目录下的`ClearCache.bat`文件
 ```shell
 rd /s /q "%localappdata%\stranslate"
 ```
+2. 删除软件运行目录
+
+
 
 ## 开发历史
+
+- 2024-01-04 1.0.0.104 全新开发（新更新程序变动较大，`1.*`开始需要全新安装一次）
 
 - 2023-03-02 0.25 添加复制提醒动画
 
@@ -108,45 +79,20 @@ rd /s /q "%localappdata%\stranslate"
 
 - 2023-01-10 0.15 添加离线 OCR 功能，其使用 [tesseract](https://github.com/tesseract-ocr/tesseract) 目前仅支持英文
 
-<details>
-  <summary>自修改提示</summary>
-
-有经验者可自行下载 [语言包](https://github.com/tesseract-ocr/tessdata) 至 `tessdata` 目录后修改 `Util`中`TesseractGetText`方法即可
-
-```C#
-public static string TesseractGetText(Bitmap bmp)
-{
-	try
-	{
-		using (var engine = new TesseractEngine(@"./tessdata", "eng", EngineMode.Default))
-		//using (var engine = new TesseractEngine(@"./tessdata", "chi_sim", EngineMode.Default))
-		{
-			using(var pix = PixConverter.ToPix(bmp))
-			{
-				using (var page = engine.Process(pix))
-				{
-					return page.GetText();
-				}
-			}
-		}
-	}
-	catch (Exception ex)
-	{
-		throw ex;
-	}
-}
-```
-</details>
-
 - 2023-12-28 0.10 添加明暗主题切换功能
 
 - 2022-12-27 0.08 版本添加开机启动
 
-## 如果接口失效
+## 免费接口
 
 当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
-1. **【推荐】** 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
-2. 【进阶】 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - cmd 运行 `start %localappdata%\stranslate\stranslate.json` - 修改接口地址 - 重启软件即可
+1. 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
+2. 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - cmd 运行 `start %localappdata%\stranslate\stranslate.json` - 修改接口地址 - 重启软件即可
+3. [https://github.com/OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
+
+## 付费接口
+
+1. 支持[百度翻译API](https://fanyi-api.baidu.com/product/11)
 
 ## Author 作者
 

@@ -1,0 +1,71 @@
+﻿<Window x:Class="STranslate.Updater.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:STranslate.Updater"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="STranslate 升级程序"
+        Width="420"
+        Height="300"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        Icon="favicon.ico"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Border Padding="10" Background="#f3f3f3" CornerRadius="2">
+                <TextBlock x:Name="StatusLabel" Foreground="Gray" TextWrapping="WrapWithOverflow" />
+            </Border>
+            <ProgressBar x:Name="ProgressBar"
+                         Height="10"
+                         Margin="0,10,0,10"
+                         Maximum="100"
+                         Value="{Binding ProcessValue}" />
+
+            <StackPanel x:Name="NewVersionSP" Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center">
+                        <Run>版本号</Run>
+                        <Run x:Name="Version" Foreground="Gray" />
+                    </TextBlock>
+                    <Border x:Name="PreTag"
+                            Margin="10,0,0,0"
+                            Padding="5,2"
+                            VerticalAlignment="Center"
+                            Background="OrangeRed"
+                            CornerRadius="4"
+                            ToolTip="预览版表示开发者没有进行过多的测试，相较于正式版可能会多一些bug，但也并不是一定">
+
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="10"
+                                   Foreground="White"
+                                   Text="预览版" />
+                    </Border>
+                </StackPanel>
+                <TextBlock Margin="0,10,0,0" ToolTip="版本简介"><Run x:Name="VersionTitle" Foreground="Gray" /></TextBlock>
+                <TextBlock Margin="0,10,0,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">查看详细更新内容</Hyperlink></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button x:Name="UpdateBtn"
+                    Margin="0,0,10,0"
+                    Padding="10,8"
+                    Click="UpdateBtn_Click">
+                升级到此新版本
+            </Button>
+            <Button x:Name="ReCheckBtn" Padding="10,8" Click="ReCheckBtn_Click">重新检查</Button>
+        </StackPanel>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Run>当前版本号：</Run><Run Text="{Binding Version}" />
+        </TextBlock>
+    </Grid>
+</Window>

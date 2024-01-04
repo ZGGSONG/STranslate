@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- // 主界面 Border // -->
+    <Style x:Key="BorderMainStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10" />
+        <!-- 主界面最大高度 -->
+        <Setter Property="MaxHeight" Value="800" />
+    </Style>
+
+    <!-- // 输入输出 Border // -->
+    <Style x:Key="BorderInOutputStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BorderContentBackground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <!-- // 自动识别语言 Border // -->
+    <Style x:Key="LanguageMarkBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BorderLangBackground}" />
+        <Setter Property="Margin" Value="10,0,0,1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <!-- // Popup Border // -->
+    <Style x:Key="BorderPopupStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+</ResourceDictionary>
