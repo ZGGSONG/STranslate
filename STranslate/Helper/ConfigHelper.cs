@@ -203,8 +203,8 @@ namespace STranslate
                 [
                     new TranslatorApi(Guid.NewGuid(), "https://deepl.deno.dev/translate", "zu1k/deepl"),
                     new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "zggsong/deepl"),
-                    new TranslatorApi(Guid.NewGuid(), "https://iciba.deno.dev/translate", "爱词霸", IconType.Iciba, isEnabled: false),
-                    new TranslatorApi(Guid.NewGuid(), "https://ggtranslate.deno.dev/translate", "谷歌翻译", IconType.Google, isEnabled: false)
+                    new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google, isEnabled: false),
+                    new TranslatorApi(Guid.NewGuid(), "https://iciba.deno.dev/translate", "爱词霸", IconType.Iciba, isEnabled: false)
                 ]
             };
         }
