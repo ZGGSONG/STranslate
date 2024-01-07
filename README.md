@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://github.com/zggsong/STranslate" target="_blank">
-<img align="center" alt="STranslate" width="200" src="./favicon.svg" />
+<img align="center" alt="STranslate" width="200" src="./img/favicon.svg" />
 </a>
 </p>
 <p align="center">
@@ -28,27 +28,36 @@
 
 ## 使用
 
-| 亮色 | 暗色 |
-| :-- | :-- |
-| ![](./light.png) | ![](./dark.png) |
+打开软件后会静默在后台，等待调用，点击软件外部任意处即自动隐藏到后台——即用即走。
 
-打开软件后会静默在后台，等待调用
+1. 全局快捷键
 
-1. 全局监听快捷键
-- `Alt` + `A` 打开软件界面，输入内容按回车翻译
-- `Alt` + `D` 复制当前鼠标选中内容并翻译
-- `Alt` + `S` 截图选中区域内容并翻译
-- `Alt` + `G` 打开主界面
-- `Alt` + `Shift` + `S` 完全离线文字识别(基于PaddleOCR)
-- `Alt` + `Shift` + `D` 打开监听鼠标划词，鼠标滑动选中文字立即翻译
+| 快捷键 | 功能 | 演示 |
+| :-- | :-- | :-- |
+| `Alt` + `A` | 打开软件界面，输入内容按`回车`翻译 | ![](./img/input.gif) |
+| `Alt` + `D` | 复制当前鼠标选中内容并翻译 | ![](./img/crossword.gif) |
+| `Alt` + `S` | 截图选中区域内容并翻译 | ![](./img/screenshot.gif) |
+| `Alt` + `G` | 打开主界面 | ![](./img/open.gif) |
+| `Alt` + `Shift` + `S` | 完全离线文字识别(基于PaddleOCR) | ![](./img/ocr.gif) |
+| `Alt` + `Shift` + `D` | 打开监听鼠标划词，鼠标滑动选中文字立即翻译 | ![](./img/mousehook.gif) |
 
-1. 软件内快捷键
-- `ESC` 隐藏界面
-- `Ctrl+Shift+Q` 退出程序
-- `Ctrl+Shift+R` 切换主题
-- `Ctrl+Shift+T` 置顶/取消置顶
 
-点击软件外部任意处即自动隐藏到后台——即用即走。
+2. 软件内快捷键
+- `ESC` 隐藏界面(含取消请求)
+- `Ctrl` + `,` 打开设置
+- `Ctrl` + `Shift` + `Q` 退出程序
+- `Ctrl` + `Shift` + `R` 切换主题
+- `Ctrl` + `Shift` + `T` 置顶/取消置顶
+
+3. 软件集成缓存功能，默认翻译一次则会缓存住，再次翻译或默认查询缓存，如果缓存存在则返回缓存结果，如需强制翻译只需要输入内容后按 `Ctrl` + `Enter` 即可
+
+4. 软件集成二维码识别，触发方式为: `右键任务栏图标`-`二维码`
+
+![qrcode](./img/qrcode.png)
+
+5. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
+
+![about](./img/about.png)
 
 ## 卸载
 
