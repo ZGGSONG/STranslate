@@ -1,6 +1,8 @@
-﻿using STranslate.Util;
+﻿using STranslate.Log;
+using STranslate.Util;
 using STranslate.ViewModels;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,7 +20,48 @@ namespace STranslate.Views
         {
             DataContext = vm;
 
+            vm.NotifyIconVM.OnExit += UnLoadPosition;
+
             InitializeComponent();
+
+            LoadPosition();
+        }
+
+        private void UnLoadPosition()
+        {
+            //写入配置
+            if (!Singleton<ConfigHelper>.Instance.WriteConfig(Left, Top))
+            {
+                LogService.Logger.Debug($"保存位置({Left},{Top})失败...");
+            }
+        }
+
+        private void LoadPosition()
+        {
+            var position = Singleton<ConfigHelper>.Instance.CurrentConfig?.Position;
+            try
+            {
+                var args = position?.Split(',');
+                if (string.IsNullOrEmpty(position) || args?.Length != 2)
+                {
+                    throw new Exception();
+                }
+
+                bool ret = true;
+                ret &= double.TryParse(args[0], out var left);
+                ret &= double.TryParse(args[1], out var top);
+                if (!ret) throw new Exception();
+
+                Left = left;
+                Top = top;
+            }
+            catch (Exception)
+            {
+                Top = (SystemParameters.WorkArea.Height - Height) / 2;
+                Left = (SystemParameters.WorkArea.Width - Width) / 2;
+
+                LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
+            }
         }
 
         private void Mwin_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

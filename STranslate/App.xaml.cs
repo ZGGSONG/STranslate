@@ -45,8 +45,6 @@ namespace STranslate
 #elif !DEBUG
             LogService.Register(minLevel: LogLevel.Info);
 #endif
-            //TODO: 支持系统代理，仍需优化热重载系统代理切换
-            HttpUtil.SupportSystemAgent();
 
             StartProgram();
 

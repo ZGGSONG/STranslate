@@ -7,11 +7,13 @@
         Title="STranslate 升级程序"
         Width="420"
         Height="300"
-        d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         Icon="favicon.ico"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

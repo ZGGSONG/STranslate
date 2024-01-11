@@ -67,9 +67,20 @@ namespace STranslate.Model
         /// </summary>
         public DoubleTapFuncEnum DoubleTapTrayFunc { get; set; } = DoubleTapFuncEnum.InputFunc;
 
+        /// <summary>
+        /// 原始语言
+        /// </summary>
         public string SourceLanguage { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 目标语言
+        /// </summary>
         public string TargetLanguage { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 退出时的位置
+        /// </summary>
+        public string Position { get; set; } = string.Empty;
 
         /// <summary>
         /// 服务

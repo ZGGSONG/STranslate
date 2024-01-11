@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 
 namespace STranslate
 {
@@ -35,9 +36,27 @@ namespace STranslate
             CurrentConfig = ResetConfig;
 
             //初始化主题
-            System.Windows.Application.Current.Resources.MergedDictionaries.First().Source = CurrentConfig.IsBright
+            Application.Current.Resources.MergedDictionaries.First().Source = CurrentConfig.IsBright
                 ? ConstStr.LIGHTURI
                 : ConstStr.DARKURI;
+        }
+
+        /// <summary>
+        /// 退出时保存位置
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool WriteConfig(double x, double y)
+        {
+            bool isSuccess = false;
+            if (CurrentConfig is not null)
+            {
+                CurrentConfig.Position = $"{x},{y}";
+                WriteConfig(CurrentConfig);
+                isSuccess = true;
+            }
+            return isSuccess;
         }
 
         /// <summary>

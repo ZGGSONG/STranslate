@@ -23,7 +23,6 @@
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeToContent="Height"
-        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
     <Window.InputBindings>
