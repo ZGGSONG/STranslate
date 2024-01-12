@@ -234,7 +234,7 @@ namespace STranslate.ViewModels
                         string getText = "";
                         try
                         {
-                            getText = Singleton<PaddleOCRHelper>.Instance.Excute(bytes).Trim();
+                            getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
 
                             //取词前移除换行
                             if (
