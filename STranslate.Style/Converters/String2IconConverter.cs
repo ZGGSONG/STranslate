@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace STranslate.Style.Converters
 {
-    public class String2IconConverterer : IValueConverter
+    public class String2IconConverter : IValueConverter
     {
         private readonly Dictionary<IconType, string> IconMap =
             Application.Current.Resources.MergedDictionaries

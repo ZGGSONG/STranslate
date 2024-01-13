@@ -85,7 +85,8 @@ namespace STranslate.ViewModels.Preference.History
             translator = type switch
             {
                 (int)ServiceType.ApiService => new TranslatorApi(),
-                (int)ServiceType.CloudService => new TranslatorBaidu(),
+                (int)ServiceType.BaiduService => new TranslatorBaidu(),
+                (int)ServiceType.BingService => new TranslatorBing(),
                 //TODO: 更多其他服务在这里添加
                 _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
             };

@@ -23,19 +23,17 @@ namespace STranslate.ViewModels.Preference.Services
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.CloudService,
-            RequestMode mode = RequestMode.GET
+            ServiceType type = ServiceType.BaiduService
         )
         {
             Identify = guid;
             Url = url;
             Name = name;
             Icon = icon;
-            AppID = appID;
+            AppIDRegion = appID;
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
-            HttpMode = mode;
         }
 
         [ObservableProperty]
@@ -63,11 +61,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        public RequestMode _httpMode = RequestMode.POST;
-
-        [JsonIgnore]
-        [ObservableProperty]
-        public string _appID = string.Empty;
+        public string _appIDRegion = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -114,12 +108,14 @@ namespace STranslate.ViewModels.Preference.Services
 
                 var ret = JsonConvert.DeserializeObject<ResponseBaidu>(resp ?? "");
 
+                //如果出错就将整个返回信息写入取值处
                 if (ret is null || string.IsNullOrEmpty(ret.TransResult?.FirstOrDefault()?.Dst))
                 {
                     ret = new ResponseBaidu { TransResult = [new TransResult { Dst = resp! }] };
                 }
                 return Task.FromResult<object>(ret);
             }
+
             return Task.FromResult<object>(new ResponseBaidu { TransResult = [new TransResult { Dst = "请求数据出错..." }] });
         }
     }

@@ -3,12 +3,9 @@ using System.Windows.Controls;
 
 namespace STranslate.Views.Preference.Service
 {
-    /// <summary>
-    /// TextCloudServicesPage.xaml 的交互逻辑
-    /// </summary>
-    public partial class TextCloudServicesPage : UserControl
+    public partial class TextBaiduServicesPage : UserControl
     {
-        public TextCloudServicesPage(ITranslator vm)
+        public TextBaiduServicesPage(ITranslator vm)
         {
             InitializeComponent();
 

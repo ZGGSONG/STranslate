@@ -20,9 +20,7 @@ namespace STranslate.Model
 
         object Data { get; set; }
 
-        RequestMode HttpMode { get; set; }
-
-        string AppID { get; set; }
+        string AppIDRegion { get; set; }
 
         string AppKey { get; set; }
 

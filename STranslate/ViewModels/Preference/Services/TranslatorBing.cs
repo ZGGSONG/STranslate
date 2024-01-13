@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using STranslate.Model;
@@ -10,20 +14,20 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorApi : ObservableObject, ITranslator
+    public partial class TranslatorBing : ObservableObject, ITranslator
     {
-        public TranslatorApi()
-            : this(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL") { }
+        public TranslatorBing()
+            : this(Guid.NewGuid(), "https://api.cognitive.microsofttranslator.com", "Bing") { }
 
-        public TranslatorApi(
+        public TranslatorBing(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.DeepL,
+            IconType icon = IconType.Bing,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.ApiService
+            ServiceType type = ServiceType.BingService
         )
         {
             Identify = guid;
@@ -53,7 +57,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        private IconType _icon = IconType.DeepL;
+        private IconType _icon = IconType.Bing;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -90,24 +94,43 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<object> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestApi)
+            Url += Url.EndsWith("translate") ? "" : "/translate";
+
+            if (request is RequestBing req)
             {
-                var req = JsonConvert.SerializeObject(request);
-
-                string resp = await HttpUtil.PostAsync(Url, req, token);
-                if (string.IsNullOrEmpty(resp))
-                    throw new Exception($"请求结果为空");
-
-                var ret = JsonConvert.DeserializeObject<ResponseApi>(resp ?? "");
-
-                if (ret is null || string.IsNullOrEmpty(ret.Data.ToString()))
+                var query = new Dictionary<string, string>
                 {
-                    ret = new ResponseApi { Data = resp! };
+                    { "api-version", "3.0" },
+                    { "to", req.To.ToLower() }
+                };
+
+                if (!string.Equals(req.From, "auto", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    query.Add("from", req.From.ToLower());
                 }
 
+                var headers = new Dictionary<string, string>
+                {
+                    { "Ocp-Apim-Subscription-Key", AppKey },
+                    { "Ocp-Apim-Subscription-Region", AppIDRegion },
+                };
+
+                string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(req.Req), query, headers, token);
+                if (string.IsNullOrEmpty(resp))
+                    throw new Exception("请求结果为空");
+
+                //TODO: 有问题
+                var ret = JsonConvert.DeserializeObject<ResponseBing[]>(resp ?? "");
+
+                //如果出错就将整个返回信息写入取值处
+                if (ret is null || string.IsNullOrEmpty(ret?.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text))
+                {
+                    ret = [new ResponseBing { Translations = [new Translation { Text = resp! }] }];
+                }
                 return Task.FromResult<object>(ret);
             }
-            return Task.FromResult<object>("请求数据出错");
+
+            return Task.FromResult<object>(new ResponseBing[] { new() { Translations = [new Translation { Text = "请求数据出错..." }] } });
         }
     }
 }

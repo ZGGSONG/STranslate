@@ -11,7 +11,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using STranslate.Style.Controls;
 using Newtonsoft.Json;
 using STranslate.Helper;
 
@@ -21,8 +20,10 @@ namespace STranslate.ViewModels.Preference
     {
         public ServiceViewModel()
         {
+            //添加默认支持服务
             TransServices.Add(new TranslatorApi());
             TransServices.Add(new TranslatorBaidu());
+            TransServices.Add(new TranslatorBing());
 
             ResetView();
         }
@@ -80,7 +81,8 @@ namespace STranslate.ViewModels.Preference
                 var name = service.Type switch
                 {
                     ServiceType.ApiService => string.Format("{0}TextApiServicePage", head),
-                    ServiceType.CloudService => string.Format("{0}TextCloudServicesPage", head),
+                    ServiceType.BaiduService => string.Format("{0}TextBaiduServicesPage", head),
+                    ServiceType.BingService => string.Format("{0}TextBingServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -89,10 +91,7 @@ namespace STranslate.ViewModels.Preference
         }
 
         [RelayCommand]
-        private void Popup(Popup control)
-        {
-            control.IsOpen = true;
-        }
+        private void Popup(Popup control) => control.IsOpen = true;
 
         [RelayCommand]
         private void Add(List<object> list)
@@ -100,14 +99,14 @@ namespace STranslate.ViewModels.Preference
             if (list?.Count == 2)
             {
                 var service = list.First();
-                if (service is TranslatorApi ta)
+
+                CurTransServiceList.Add(service switch
                 {
-                    CurTransServiceList.Add(ta.DeepClone());
-                }
-                else if (service is TranslatorBaidu tb)
-                {
-                    CurTransServiceList.Add(tb.DeepClone());
-                }
+                    TranslatorApi api => api.DeepClone(),
+                    TranslatorBaidu baidu => baidu.DeepClone(),
+                    TranslatorBing bing => bing.DeepClone(),
+                    _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
+                });
 
                 (list.Last() as Popup)!.IsOpen = false;
 

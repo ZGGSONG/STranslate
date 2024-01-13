@@ -7,4 +7,5 @@
     <BitmapImage x:Key="Google" UriSource="pack://application:,,,/STranslate.Style;component/Resources/google.ico" />
     <BitmapImage x:Key="Iciba" UriSource="pack://application:,,,/STranslate.Style;component/Resources/iciba.ico" />
     <BitmapImage x:Key="Youdao" UriSource="pack://application:,,,/STranslate.Style;component/Resources/youdao.png" />
+    <BitmapImage x:Key="Bing" UriSource="pack://application:,,,/STranslate.Style;component/Resources/bing.png" />
 </ResourceDictionary>

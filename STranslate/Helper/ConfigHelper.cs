@@ -220,9 +220,8 @@ namespace STranslate
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 Services =
                 [
-                    new TranslatorApi(Guid.NewGuid(), "https://deepl.deno.dev/translate", "zu1k/deepl"),
-                    new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "zggsong/deepl"),
-                    new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google, isEnabled: false),
+                    new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL"),
+                    new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google, isEnabled: true),
                     new TranslatorApi(Guid.NewGuid(), "https://iciba.deno.dev/translate", "爱词霸", IconType.Iciba, isEnabled: false)
                 ]
             };
@@ -281,7 +280,8 @@ namespace STranslate
             translator = type switch
             {
                 (int)ServiceType.ApiService => new TranslatorApi(),
-                (int)ServiceType.CloudService => new TranslatorBaidu(),
+                (int)ServiceType.BaiduService => new TranslatorBaidu(),
+                (int)ServiceType.BingService => new TranslatorBing(),
                 //TODO: 更多其他服务在这里添加
                 _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
             };

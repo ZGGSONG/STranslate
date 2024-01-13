@@ -183,51 +183,65 @@ namespace STranslate.ViewModels
                         }
 
                         //根据不同服务类型区分
-                        if (service.Type == ServiceType.ApiService)
+                        switch (service.Type)
                         {
-                            response =
-                                (Task<object>)
-                                    await service.TranslateAsync(
-                                        new RequestApi()
-                                        {
-                                            Text = InputContent,
-                                            SourceLang = LangDict[source].ToString(),
-                                            TargetLang = LangDict[target].ToString()
-                                        },
-                                        token
-                                    );
-                            service.Data = (response.Result as ResponseApi)!.Data;
-                        }
-                        else if (service.Type == ServiceType.CloudService)
-                        {
-                            Random rd = new Random();
-                            string salt = rd.Next(100000).ToString();
-                            string sign = StringUtil.EncryptString(service.AppID + InputContent + salt + service.AppKey);
-                            response =
-                                (Task<object>)
-                                    await service.TranslateAsync(
-                                        new RequestBaidu()
-                                        {
-                                            Text = InputContent,
-                                            From = LangDict[source].ToString(),
-                                            TO = LangDict[target].ToString(),
-                                            AppId = service.AppID,
-                                            Salt = salt,
-                                            Sign = sign
-                                        },
-                                        token
-                                    );
-                            var ret = (response.Result as ResponseBaidu)?.TransResult ?? [];
-                            if (ret.Length != 0)
-                            {
-                                var nonEmptyDstValues = ret.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst);
+                            case ServiceType.ApiService:
+                                {
+                                    response =
+                                        (Task<object>)
+                                            await service.TranslateAsync(
+                                                new RequestApi()
+                                                {
+                                                    Text = InputContent,
+                                                    SourceLang = LangDict[source].ToString(),
+                                                    TargetLang = LangDict[target].ToString()
+                                                },
+                                                token
+                                            );
+                                    service.Data = (response.Result as ResponseApi)!.Data;
+                                    break;
+                                }
 
-                                service.Data = string.Join(Environment.NewLine, nonEmptyDstValues);
-                            }
-                            else
-                            {
-                                service.Data = "";
-                            }
+                            case ServiceType.BaiduService:
+                                {
+                                    string salt = new Random().Next(100000).ToString();
+                                    string sign = StringUtil.EncryptString(service.AppIDRegion + InputContent + salt + service.AppKey);
+                                    response =
+                                        (Task<object>)
+                                            await service.TranslateAsync(
+                                                new RequestBaidu()
+                                                {
+                                                    Text = InputContent,
+                                                    From = LangDict[source].ToString(),
+                                                    TO = LangDict[target].ToString(),
+                                                    AppId = service.AppIDRegion,
+                                                    Salt = salt,
+                                                    Sign = sign
+                                                },
+                                                token
+                                            );
+                                    var ret = (response.Result as ResponseBaidu)?.TransResult ?? [];
+                                    service.Data = ret.Length == 0 ? string.Empty :
+                                    string.Join(Environment.NewLine, ret.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst));
+                                    break;
+                                }
+
+                            case ServiceType.BingService:
+                                {
+                                    var req = new RequestBing
+                                    {
+                                        From = LangDict[source].ToString(),
+                                        To = LangDict[target].ToString(),
+                                        Req = [new TextData { Text = InputContent }],
+                                    };
+                                    response = (Task<object>)await service.TranslateAsync(req, token);
+                                    var ret = (response.Result as ResponseBing[])!.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text;
+                                    service.Data = string.IsNullOrEmpty(ret) ? string.Empty : ret;
+                                    break;
+                                }
+
+                            default:
+                                break;
                         }
                     }
                     catch (TaskCanceledException ex)
@@ -431,6 +445,7 @@ namespace STranslate.ViewModels
             ITranslator translator;
 
             // 根据 Identify 查找匹配的翻译服务
+            // TODO: 优化删除配置后Identify更新后与数据库不一致导致的报错问题
             translator =
                 translators.FirstOrDefault(x => x.Identify.ToString() == identify)
                 ?? throw new NotSupportedException($"Unsupported Service: {identify}");

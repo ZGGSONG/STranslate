@@ -100,16 +100,8 @@ namespace STranslate.Model
     public enum ServiceType
     {
         ApiService = 0,
-        CloudService
-    }
-
-    /// <summary>
-    /// 请求方式
-    /// </summary>
-    public enum RequestMode
-    {
-        GET = 0,
-        POST
+        BaiduService,
+        BingService
     }
 
     /// <summary>
@@ -123,6 +115,7 @@ namespace STranslate.Model
         Google,
         Iciba,
         Youdao,
+        Bing,
     }
 
     /// <summary>

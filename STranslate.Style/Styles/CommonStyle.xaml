@@ -4,7 +4,7 @@
     <!-- // 转换器 // -->
     <converter:VisibilityConverter x:Key="VisibilityConverter" />
     <converter:String2IsExpandedConverter x:Key="String2IsExpandedConverter" />
-    <converter:String2IconConverterer x:Key="String2IconConverter" />
+    <converter:String2IconConverter x:Key="String2IconConverter" />
     <converter:MultiValue2ListConverter x:Key="MultiValue2ListConverter" />
     <converter:String2IsEnableConverter x:Key="String2IsEnableConverter" />
     <converter:BooleanReverseConverter x:Key="BooleanReverseConverter" />
