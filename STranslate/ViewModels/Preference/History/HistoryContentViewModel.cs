@@ -38,6 +38,8 @@ namespace STranslate.ViewModels.Preference.History
         private void Delete()
         {
             Singleton<HistoryViewModel>.Instance.DeleteHistoryCommand.Execute(null);
+
+            ToastHelper.Show("删除成功", WindowType.Preference);
         }
 
         [RelayCommand]
@@ -46,6 +48,8 @@ namespace STranslate.ViewModels.Preference.History
             if (obj is string str && !string.IsNullOrEmpty(str))
             {
                 Clipboard.SetDataObject(str);
+
+                ToastHelper.Show("复制成功", WindowType.Preference);
             }
         }
 

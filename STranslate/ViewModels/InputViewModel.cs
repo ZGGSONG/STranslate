@@ -123,14 +123,7 @@ namespace STranslate.ViewModels
             }
         }
 
-        private async Task<HistoryModel?> TranslateServiceAsync(
-            object obj,
-            string source,
-            string dbTarget,
-            string target,
-            long size,
-            CancellationToken token
-        )
+        private async Task<HistoryModel?> TranslateServiceAsync(object obj, string source, string dbTarget, string target, long size, CancellationToken token)
         {
             var services = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
             HistoryModel? history = null;
@@ -166,13 +159,10 @@ namespace STranslate.ViewModels
 
                     try
                     {
-                        Task<object> response;
-
                         if (translatorList != null)
                         {
                             IdentifyLanguage = "缓存";
-                            service.Data =
-                                translatorList?.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? "该服务未获取到缓存Ctrl+Enter更新";
+                            service.Data = translatorList?.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? "该服务未获取到缓存Ctrl+Enter更新";
                             return;
                         }
 
@@ -184,73 +174,18 @@ namespace STranslate.ViewModels
                             target = autoRet.Item2;
                         }
 
+                        var sourceStr = LangDict[source].ToString();
+                        var targetStr = LangDict[target].ToString();
+
                         //根据不同服务类型区分
                         //TODO: 新接口需要适配
-                        switch (service.Type)
+                        service.Data = service.Type switch
                         {
-                            case ServiceType.ApiService:
-                            {
-                                response =
-                                    (Task<object>)
-                                        await service.TranslateAsync(
-                                            new RequestApi()
-                                            {
-                                                Text = InputContent,
-                                                SourceLang = LangDict[source].ToString(),
-                                                TargetLang = LangDict[target].ToString()
-                                            },
-                                            token
-                                        );
-                                service.Data = (response.Result as ResponseApi)!.Data;
-                                break;
-                            }
-
-                            case ServiceType.BaiduService:
-                            {
-                                string salt = new Random().Next(100000).ToString();
-                                string sign = StringUtil.EncryptString(service.AppID + InputContent + salt + service.AppKey);
-                                response =
-                                    (Task<object>)
-                                        await service.TranslateAsync(
-                                            new RequestBaidu()
-                                            {
-                                                Text = InputContent,
-                                                From = LangDict[source].ToString(),
-                                                TO = LangDict[target].ToString(),
-                                                AppId = service.AppID,
-                                                Salt = salt,
-                                                Sign = sign
-                                            },
-                                            token
-                                        );
-                                var ret = (response.Result as ResponseBaidu)?.TransResult ?? [];
-                                service.Data =
-                                    ret.Length == 0
-                                        ? string.Empty
-                                        : string.Join(
-                                            Environment.NewLine,
-                                            ret.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst)
-                                        );
-                                break;
-                            }
-
-                            case ServiceType.BingService:
-                            {
-                                var req = new RequestBing
-                                {
-                                    From = LangDict[source].ToString(),
-                                    To = LangDict[target].ToString(),
-                                    Req = [new TextData { Text = InputContent }],
-                                };
-                                response = (Task<object>)await service.TranslateAsync(req, token);
-                                var ret = (response.Result as ResponseBing[])!.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text;
-                                service.Data = string.IsNullOrEmpty(ret) ? string.Empty : ret;
-                                break;
-                            }
-
-                            default:
-                                break;
-                        }
+                            ServiceType.ApiService => await ServiceHandler.ApiHandler(service, InputContent, sourceStr, targetStr, token),
+                            ServiceType.BaiduService => await ServiceHandler.BaiduHandler(service, InputContent, sourceStr, targetStr, token),
+                            ServiceType.BingService => await ServiceHandler.BingHandler(service, InputContent, sourceStr, targetStr, token),
+                            _ => throw new NotImplementedException()
+                        };
                     }
                     catch (TaskCanceledException ex)
                     {
@@ -286,13 +221,9 @@ namespace STranslate.ViewModels
             service.Data = errorMessage;
 
             if (isDebug)
-                LogService.Logger.Debug(
-                    $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}"
-                );
+                LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
             else
-                LogService.Logger.Error(
-                    $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}"
-                );
+                LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
         }
 
         #endregion Translatehandle
@@ -433,17 +364,11 @@ namespace STranslate.ViewModels
     }
 
     /// <summary>
-    /// 获取当前翻译服务
+    /// 获取当前翻译服务的缓存结果
     /// </summary>
     public class CurrentTranslatorConverter : JsonConverter<ITranslator>
     {
-        public override ITranslator? ReadJson(
-            JsonReader reader,
-            Type objectType,
-            ITranslator? existingValue,
-            bool hasExistingValue,
-            JsonSerializer serializer
-        )
+        public override ITranslator? ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // 从 JSON 数据中加载一个 JObject
             JObject jsonObject = JObject.Load(reader);
@@ -458,12 +383,14 @@ namespace STranslate.ViewModels
 
             // 根据 Identify 查找匹配的翻译服务
             //TODO: 新接口需要适配
-            translator = translators.FirstOrDefault(x => x.Identify.ToString() == identify) ?? type switch
-            {
-                (int)ServiceType.BaiduService => new TranslatorBaidu(),
-                (int)ServiceType.BingService => new TranslatorBing(),
-                _ => new TranslatorApi(),
-            };
+            translator =
+                translators.FirstOrDefault(x => x.Identify.ToString() == identify)
+                ?? type switch
+                {
+                    (int)ServiceType.BaiduService => new TranslatorBaidu(),
+                    (int)ServiceType.BingService => new TranslatorBing(),
+                    _ => new TranslatorApi(),
+                };
 
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
             translator.Data = jsonObject["Data"]!.Value<string>()!;
