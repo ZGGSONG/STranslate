@@ -20,7 +20,14 @@ namespace STranslate
         {
             base.OnStartup(e);
 
-            // 1. 检查是否已经具有管理员权限
+            // 1. 开启日志服务
+#if DEBUG
+            LogService.Register();
+#elif !DEBUG
+            LogService.Register(minLevel: LogLevel.Info);
+#endif
+
+            // 2. 检查是否已经具有管理员权限
             if (NeedAdministrator())
             {
                 // 如果没有管理员权限，可以提示用户提升权限
@@ -32,7 +39,7 @@ namespace STranslate
                 }
             }
 
-            // 2. 多开检测
+            // 3. 多开检测
             if (IsAnotherInstanceRunning())
             {
                 MessageBox_S.Show($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} 应用程序已经在运行中。", "多开检测");
@@ -40,19 +47,13 @@ namespace STranslate
                 return;
             }
 
-            // 3. 启动应用程序
-#if DEBUG
-            LogService.Register();
-#elif !DEBUG
-            LogService.Register(minLevel: LogLevel.Info);
-#endif
             // 4. 开启监听系统代理
             ProxyUtil.LoadDynamicProxy();
 
             // 5. 软件配置涉及初始化操作
             Singleton<ConfigHelper>.Instance.InitialOperate();
 
-            // 6. Open View
+            // 6. 启动应用程序
             StartProgram();
 
             // 7. 全局异常处理

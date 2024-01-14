@@ -1,4 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -8,14 +16,6 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -170,7 +170,8 @@ namespace STranslate.ViewModels
                         if (translatorList != null)
                         {
                             IdentifyLanguage = "缓存";
-                            service.Data = translatorList?.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? "该服务未获取到缓存Ctrl+Enter更新";
+                            service.Data =
+                                translatorList?.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? "该服务未获取到缓存Ctrl+Enter更新";
                             return;
                         }
 
@@ -186,59 +187,64 @@ namespace STranslate.ViewModels
                         switch (service.Type)
                         {
                             case ServiceType.ApiService:
-                                {
-                                    response =
-                                        (Task<object>)
-                                            await service.TranslateAsync(
-                                                new RequestApi()
-                                                {
-                                                    Text = InputContent,
-                                                    SourceLang = LangDict[source].ToString(),
-                                                    TargetLang = LangDict[target].ToString()
-                                                },
-                                                token
-                                            );
-                                    service.Data = (response.Result as ResponseApi)!.Data;
-                                    break;
-                                }
+                            {
+                                response =
+                                    (Task<object>)
+                                        await service.TranslateAsync(
+                                            new RequestApi()
+                                            {
+                                                Text = InputContent,
+                                                SourceLang = LangDict[source].ToString(),
+                                                TargetLang = LangDict[target].ToString()
+                                            },
+                                            token
+                                        );
+                                service.Data = (response.Result as ResponseApi)!.Data;
+                                break;
+                            }
 
                             case ServiceType.BaiduService:
-                                {
-                                    string salt = new Random().Next(100000).ToString();
-                                    string sign = StringUtil.EncryptString(service.AppID + InputContent + salt + service.AppKey);
-                                    response =
-                                        (Task<object>)
-                                            await service.TranslateAsync(
-                                                new RequestBaidu()
-                                                {
-                                                    Text = InputContent,
-                                                    From = LangDict[source].ToString(),
-                                                    TO = LangDict[target].ToString(),
-                                                    AppId = service.AppID,
-                                                    Salt = salt,
-                                                    Sign = sign
-                                                },
-                                                token
-                                            );
-                                    var ret = (response.Result as ResponseBaidu)?.TransResult ?? [];
-                                    service.Data = ret.Length == 0 ? string.Empty :
-                                    string.Join(Environment.NewLine, ret.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst));
-                                    break;
-                                }
+                            {
+                                string salt = new Random().Next(100000).ToString();
+                                string sign = StringUtil.EncryptString(service.AppID + InputContent + salt + service.AppKey);
+                                response =
+                                    (Task<object>)
+                                        await service.TranslateAsync(
+                                            new RequestBaidu()
+                                            {
+                                                Text = InputContent,
+                                                From = LangDict[source].ToString(),
+                                                TO = LangDict[target].ToString(),
+                                                AppId = service.AppID,
+                                                Salt = salt,
+                                                Sign = sign
+                                            },
+                                            token
+                                        );
+                                var ret = (response.Result as ResponseBaidu)?.TransResult ?? [];
+                                service.Data =
+                                    ret.Length == 0
+                                        ? string.Empty
+                                        : string.Join(
+                                            Environment.NewLine,
+                                            ret.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst)
+                                        );
+                                break;
+                            }
 
                             case ServiceType.BingService:
+                            {
+                                var req = new RequestBing
                                 {
-                                    var req = new RequestBing
-                                    {
-                                        From = LangDict[source].ToString(),
-                                        To = LangDict[target].ToString(),
-                                        Req = [new TextData { Text = InputContent }],
-                                    };
-                                    response = (Task<object>)await service.TranslateAsync(req, token);
-                                    var ret = (response.Result as ResponseBing[])!.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text;
-                                    service.Data = string.IsNullOrEmpty(ret) ? string.Empty : ret;
-                                    break;
-                                }
+                                    From = LangDict[source].ToString(),
+                                    To = LangDict[target].ToString(),
+                                    Req = [new TextData { Text = InputContent }],
+                                };
+                                response = (Task<object>)await service.TranslateAsync(req, token);
+                                var ret = (response.Result as ResponseBing[])!.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text;
+                                service.Data = string.IsNullOrEmpty(ret) ? string.Empty : ret;
+                                break;
+                            }
 
                             default:
                                 break;
@@ -278,15 +284,18 @@ namespace STranslate.ViewModels
             service.Data = errorMessage;
 
             if (isDebug)
-                LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
+                LogService.Logger.Debug(
+                    $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}"
+                );
             else
-                LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
+                LogService.Logger.Error(
+                    $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}"
+                );
         }
 
         #endregion Translatehandle
 
         public void Clear()
-
         {
             InputContent = string.Empty;
         }
@@ -412,7 +421,7 @@ namespace STranslate.ViewModels
 
             list!
                 .ToList()
-                ?.ForEach(x =>
+                .ForEach(x =>
                 {
                     if (x.Ignored && x.PropertyName == "Data")
                         x.Ignored = false; //不忽略

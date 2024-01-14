@@ -57,11 +57,11 @@ namespace STranslate.Views
                 Left = left;
                 Top = top;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-                LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置 {ex.Message}");
+                LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
             }
         }
 

@@ -165,9 +165,9 @@ namespace STranslate
                 var content = File.ReadAllText(CnfName);
                 return JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                LogService.Logger.Error("[READCONFIG] 读取配置错误，本次运行加载初始化配置...");
+                LogService.Logger.Error($"[READCONFIG] 读取配置错误，本次运行加载初始化配置...", ex);
                 return InitialConfig();
             }
         }
