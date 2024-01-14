@@ -52,7 +52,7 @@
                 <TextBox Grid.Column="1"
                          MinWidth="160"
                          HorizontalAlignment="Left"
-                         Text="{Binding AppIDRegion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                         Text="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,20">

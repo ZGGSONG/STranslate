@@ -20,7 +20,7 @@ namespace STranslate.Model
 
         object Data { get; set; }
 
-        string AppIDRegion { get; set; }
+        string AppID { get; set; }
 
         string AppKey { get; set; }
 

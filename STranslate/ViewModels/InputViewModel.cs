@@ -205,7 +205,7 @@ namespace STranslate.ViewModels
                             case ServiceType.BaiduService:
                                 {
                                     string salt = new Random().Next(100000).ToString();
-                                    string sign = StringUtil.EncryptString(service.AppIDRegion + InputContent + salt + service.AppKey);
+                                    string sign = StringUtil.EncryptString(service.AppID + InputContent + salt + service.AppKey);
                                     response =
                                         (Task<object>)
                                             await service.TranslateAsync(
@@ -214,7 +214,7 @@ namespace STranslate.ViewModels
                                                     Text = InputContent,
                                                     From = LangDict[source].ToString(),
                                                     TO = LangDict[target].ToString(),
-                                                    AppId = service.AppIDRegion,
+                                                    AppId = service.AppID,
                                                     Salt = salt,
                                                     Sign = sign
                                                 },

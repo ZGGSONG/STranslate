@@ -30,7 +30,7 @@ namespace STranslate.ViewModels.Preference.Services
             Url = url;
             Name = name;
             Icon = icon;
-            AppIDRegion = appID;
+            AppID = appID;
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
@@ -61,7 +61,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        public string _appIDRegion = string.Empty;
+        public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]

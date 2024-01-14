@@ -34,7 +34,7 @@ namespace STranslate.ViewModels.Preference.Services
             Url = url;
             Name = name;
             Icon = icon;
-            AppIDRegion = appID;
+            AppID = appID;
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
@@ -65,7 +65,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        public string _appIDRegion = string.Empty;
+        public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -112,7 +112,7 @@ namespace STranslate.ViewModels.Preference.Services
                 var headers = new Dictionary<string, string>
                 {
                     { "Ocp-Apim-Subscription-Key", AppKey },
-                    { "Ocp-Apim-Subscription-Region", AppIDRegion },
+                    { "Ocp-Apim-Subscription-Region", AppID },
                 };
 
                 string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(req.Req), query, headers, token);
