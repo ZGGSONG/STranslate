@@ -68,7 +68,7 @@
                          Text="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
-            <Grid>
+            <Grid Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
