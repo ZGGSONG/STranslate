@@ -22,7 +22,7 @@ namespace STranslate.ViewModels
         /// <param name="target"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> ApiHandler(ITranslator service, string content, string source, string target, CancellationToken token)
+        public static async Task<string> ApiHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
         {
             var response =
                 (Task<object>)
@@ -49,7 +49,7 @@ namespace STranslate.ViewModels
         /// <param name="target"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> BaiduHandler(ITranslator service, string content, string source, string target, CancellationToken token)
+        public static async Task<string> BaiduHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
         {
             string salt = new Random().Next(100000).ToString();
             string sign = StringUtil.EncryptString(service.AppID + content + salt + service.AppKey);
@@ -84,7 +84,7 @@ namespace STranslate.ViewModels
         /// <param name="target"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> BingHandler(ITranslator service, string content, string source, string target, CancellationToken token)
+        public static async Task<string> BingHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
         {
             var req = new RequestBing
             {

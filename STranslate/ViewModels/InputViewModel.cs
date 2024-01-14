@@ -181,9 +181,9 @@ namespace STranslate.ViewModels
                         //TODO: 新接口需要适配
                         service.Data = service.Type switch
                         {
-                            ServiceType.ApiService => await ServiceHandler.ApiHandler(service, InputContent, sourceStr, targetStr, token),
-                            ServiceType.BaiduService => await ServiceHandler.BaiduHandler(service, InputContent, sourceStr, targetStr, token),
-                            ServiceType.BingService => await ServiceHandler.BingHandler(service, InputContent, sourceStr, targetStr, token),
+                            ServiceType.ApiService => await ServiceHandler.ApiHandlerAsync(service, InputContent, sourceStr, targetStr, token),
+                            ServiceType.BaiduService => await ServiceHandler.BaiduHandlerAsync(service, InputContent, sourceStr, targetStr, token),
+                            ServiceType.BingService => await ServiceHandler.BingHandlerAsync(service, InputContent, sourceStr, targetStr, token),
                             _ => throw new NotImplementedException()
                         };
                     }
