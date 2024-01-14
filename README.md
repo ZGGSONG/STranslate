@@ -53,7 +53,9 @@
 
 4. 软件集成二维码识别，触发方式为: `右键任务栏图标`-`二维码`
 
-![qrcode](./img/qrcode.png)
+| 方式一 | 方式二 |
+| :-- | :-- |
+|![qrcode](./img/qrcode.png)|![qrcode2](./img/qrcode2.png)
 
 5. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
 
@@ -71,6 +73,13 @@ rd /s /q "%localappdata%\stranslate"
 
 
 ## 开发历史
+
+<details>
+<summary>详细内容</summary>
+
+- 2024-01-14 1.0.2.114 添加必应官方接口、禁用系统代理等功能...
+
+- 2024-01-11 1.0.1.111 添加动态监听系统代理功能...
 
 - 2024-01-04 1.0.0.104 全新开发（新更新程序变动较大，`1.*`开始需要全新安装一次）
 
@@ -92,16 +101,21 @@ rd /s /q "%localappdata%\stranslate"
 
 - 2022-12-27 0.08 版本添加开机启动
 
+</details>
+
 ## 免费接口
 
 当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
-1. 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)，随后在软件右上角选择 `local` 接口即可
-2. 下载 [docker镜像](https://hub.docker.com/r/zggsong/translate)，关闭软件 - cmd 运行 `start %localappdata%\stranslate\stranslate.json` - 修改接口地址 - 重启软件即可
-3. [https://github.com/OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
+1. 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)
+2. 下载作者打包的 [Docker镜像](https://hub.docker.com/r/zggsong/translate)
+3. 开源项目 [https://github.com/OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
+
+> 针对上述方式仅需在软件`偏好设置`-`服务`-`添加DeepL服务`后修改接口地址为对应接口地址即可
 
 ## 付费接口
 
-1. 支持[百度翻译API](https://fanyi-api.baidu.com/product/11)
+1. 支持 [百度翻译](https://fanyi-api.baidu.com)
+2. 支持 [必应翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
 
 ## Author 作者
 
