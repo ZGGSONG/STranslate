@@ -119,7 +119,6 @@ namespace STranslate.ViewModels.Preference.Services
                 if (string.IsNullOrEmpty(resp))
                     throw new Exception("请求结果为空");
 
-                //TODO: 有问题
                 var ret = JsonConvert.DeserializeObject<ResponseBing[]>(resp ?? "");
 
                 //如果出错就将整个返回信息写入取值处

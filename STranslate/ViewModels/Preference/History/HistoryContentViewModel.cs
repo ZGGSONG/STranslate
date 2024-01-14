@@ -87,7 +87,7 @@ namespace STranslate.ViewModels.Preference.History
                 (int)ServiceType.ApiService => new TranslatorApi(),
                 (int)ServiceType.BaiduService => new TranslatorBaidu(),
                 (int)ServiceType.BingService => new TranslatorBing(),
-                //TODO: 更多其他服务在这里添加
+                //TODO: 新接口需要适配
                 _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
             };
 

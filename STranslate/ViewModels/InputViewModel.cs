@@ -16,6 +16,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
+using STranslate.ViewModels.Preference.Services;
 
 namespace STranslate.ViewModels
 {
@@ -184,6 +185,7 @@ namespace STranslate.ViewModels
                         }
 
                         //根据不同服务类型区分
+                        //TODO: 新接口需要适配
                         switch (service.Type)
                         {
                             case ServiceType.ApiService:
@@ -435,7 +437,7 @@ namespace STranslate.ViewModels
     /// </summary>
     public class CurrentTranslatorConverter : JsonConverter<ITranslator>
     {
-        public override ITranslator ReadJson(
+        public override ITranslator? ReadJson(
             JsonReader reader,
             Type objectType,
             ITranslator? existingValue,
@@ -451,13 +453,17 @@ namespace STranslate.ViewModels
 
             // 从 JSON 中提取 Identify 字段的值，用于确定具体实现类
             var identify = jsonObject["Identify"]!.Value<string>();
+            var type = jsonObject["Type"]!.Value<int>();
             ITranslator translator;
 
             // 根据 Identify 查找匹配的翻译服务
-            // TODO: 优化删除配置后Identify更新后与数据库不一致导致的报错问题
-            translator =
-                translators.FirstOrDefault(x => x.Identify.ToString() == identify)
-                ?? throw new NotSupportedException($"Unsupported Service: {identify}");
+            //TODO: 新接口需要适配
+            translator = translators.FirstOrDefault(x => x.Identify.ToString() == identify) ?? type switch
+            {
+                (int)ServiceType.BaiduService => new TranslatorBaidu(),
+                (int)ServiceType.BingService => new TranslatorBing(),
+                _ => new TranslatorApi(),
+            };
 
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
             translator.Data = jsonObject["Data"]!.Value<string>()!;

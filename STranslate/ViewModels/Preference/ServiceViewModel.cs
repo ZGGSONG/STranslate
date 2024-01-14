@@ -21,6 +21,7 @@ namespace STranslate.ViewModels.Preference
         public ServiceViewModel()
         {
             //添加默认支持服务
+            //TODO: 新接口需要适配
             TransServices.Add(new TranslatorApi());
             TransServices.Add(new TranslatorBaidu());
             TransServices.Add(new TranslatorBing());
@@ -78,6 +79,7 @@ namespace STranslate.ViewModels.Preference
                     tmpIndex = SelectedIndex;
 
                 string head = "STranslate.Views.Preference.Service.";
+                //TODO: 新接口需要适配
                 var name = service.Type switch
                 {
                     ServiceType.ApiService => string.Format("{0}TextApiServicePage", head),
@@ -100,6 +102,7 @@ namespace STranslate.ViewModels.Preference
             {
                 var service = list.First();
 
+                //TODO: 新接口需要适配
                 CurTransServiceList.Add(service switch
                 {
                     TranslatorApi api => api.DeepClone(),
