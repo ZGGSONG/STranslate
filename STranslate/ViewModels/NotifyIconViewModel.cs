@@ -27,8 +27,6 @@ namespace STranslate.ViewModels
 
         public NotifyIconViewModel()
         {
-            ProxyUtil.LoadDynamicProxy();
-
             UpdateToolTip();
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
         }
@@ -340,8 +338,6 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void Exit()
         {
-            ProxyUtil.UnLoadDynamicProxy();
-
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= DisplaySettingsChanged;
 
             OnExit?.Invoke();

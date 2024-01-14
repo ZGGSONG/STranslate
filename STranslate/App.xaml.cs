@@ -1,8 +1,4 @@
-﻿using STranslate.Log;
-using STranslate.Style.Controls;
-using STranslate.Util;
-using STranslate.Views;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -10,6 +6,11 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Style.Controls;
+using STranslate.Util;
+using STranslate.Views;
 
 namespace STranslate
 {
@@ -45,17 +46,40 @@ namespace STranslate
 #elif !DEBUG
             LogService.Register(minLevel: LogLevel.Info);
 #endif
+            // 4. 开启监听系统代理
+            ProxyUtil.LoadDynamicProxy();
 
+            // 5. 软件配置涉及初始化操作
+            Singleton<ConfigHelper>.Instance.InitialOperate();
+
+            // 6. Open View
             StartProgram();
 
+            // 7. 全局异常处理
             ExceptionHandler();
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            //释放监听系统代理资源
+            ProxyUtil.UnLoadDynamicProxy();
+
+            //打印退出日志并释放日志资源
+            if (LogService.Logger != null)
+            {
+                LogService.Logger.Info($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} Closed...");
+                LogService.UnRegister();
+            }
+            base.OnExit(e);
+        }
+
         private bool NeedAdministrator()
         {
             //加载配置
             var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
 
-            if (!isRole) return false;
+            if (!isRole)
+                return false;
 
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
@@ -112,16 +136,6 @@ namespace STranslate
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            if (LogService.Logger != null)
-            {
-                LogService.Logger.Info($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} Closed...");
-                LogService.UnRegister();
-            }
-            base.OnExit(e);
-        }
-
         //UI线程未捕获异常处理事件（UI主线程）
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
@@ -129,7 +143,7 @@ namespace STranslate
             //异常信息 和 调用堆栈信息
             //string msg = String.Format("{0}\n\n{1}", ex.Message, ex.StackTrace);
             LogService.Logger.Error("UI线程异常", ex);
-            e.Handled = true;//表示异常已处理，可以继续运行
+            e.Handled = true; //表示异常已处理，可以继续运行
         }
 
         //非UI线程未捕获异常处理事件(例如自己创建的一个子线程)

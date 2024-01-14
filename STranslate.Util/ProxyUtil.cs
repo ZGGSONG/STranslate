@@ -10,6 +10,9 @@ namespace STranslate.Helper
     /// </summary>
     public static class ProxyUtil
     {
+        /// <summary>
+        /// 开始加载动态监听系统代理
+        /// </summary>
         public static void LoadDynamicProxy()
         {
             HttpClient.DefaultProxy = _dynamicProxy;
@@ -17,6 +20,19 @@ namespace STranslate.Helper
             ListeningAgent();
         }
 
+        /// <summary>
+        /// 更新是否使用监听到的系统代理
+        /// 有时代理不稳定，还不如禁用使用系统代理访问
+        /// </summary>
+        /// <param name="flag">false: 使用默认系统代理，true: 不使用任何代理</param>
+        public static void UpdateDynamicProxy(bool flag)
+        {
+            HttpClient.DefaultProxy = flag ? new HttpNoProxy() : _dynamicProxy;
+        }
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
         public static void UnLoadDynamicProxy() => _dynamicProxy.Dispose();
 
         internal static async void ListeningAgent()

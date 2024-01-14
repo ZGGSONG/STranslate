@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
@@ -34,11 +35,20 @@ namespace STranslate
 
             //初始化时将初始值赋给Config属性
             CurrentConfig = ResetConfig;
+        }
 
+        /// <summary>
+        /// 初始化操作
+        /// </summary>
+        public void InitialOperate()
+        {
             //初始化主题
-            Application.Current.Resources.MergedDictionaries.First().Source = CurrentConfig.IsBright
+            Application.Current.Resources.MergedDictionaries.First().Source = CurrentConfig?.IsBright ?? true
                 ? ConstStr.LIGHTURI
                 : ConstStr.DARKURI;
+
+            //初始化代理设置
+            ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
         }
 
         /// <summary>
@@ -131,6 +141,7 @@ namespace STranslate
                 CurrentConfig.IsFollowMouse = model.IsFollowMouse;
                 CurrentConfig.CloseUIOcrRetTranslate = model.CloseUIOcrRetTranslate;
                 CurrentConfig.UnconventionalScreen = model.UnconventionalScreen;
+                CurrentConfig.IsDisableSystemProxy = model.IsDisableSystemProxy;
                 CurrentConfig.IsOcrAutoCopyText = model.IsOcrAutoCopyText;
                 CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
                 CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
@@ -212,6 +223,7 @@ namespace STranslate
                 IsFollowMouse = false,
                 IsOcrAutoCopyText = false,
                 UnconventionalScreen = false,
+                IsDisableSystemProxy = false,
                 CloseUIOcrRetTranslate = false,
                 IsAdjustContentTranslate = false,
                 IsRemoveLineBreakGettingWords = false,

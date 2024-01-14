@@ -11,8 +11,8 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
     <StackPanel>
-        <ListBox BorderThickness="0"
-                 Background="Transparent"
+        <ListBox Background="Transparent"
+                 BorderThickness="0"
                  ItemsSource="{Binding Translators}"
                  PreviewMouseWheel="ListBox_PreviewMouseWheel"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -28,14 +28,8 @@
                         <Expander VerticalAlignment="Top"
                                   ExpandDirection="Down"
                                   IsEnabled="{Binding Data, Converter={StaticResource String2IsEnableConverter}, Mode=OneWay}"
+                                  IsExpanded="{Binding Data, Converter={StaticResource String2IsExpandedConverter}}"
                                   SnapsToDevicePixels="True">
-                            <Expander.IsExpanded>
-                                <Binding Path="Data">
-                                    <Binding.Converter>
-                                        <conv:String2IsExpandedConverter />
-                                    </Binding.Converter>
-                                </Binding>
-                            </Expander.IsExpanded>
                             <Expander.Header>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="18" Margin="10,5,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />

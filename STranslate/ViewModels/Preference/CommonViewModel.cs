@@ -133,6 +133,22 @@ namespace STranslate.ViewModels.Preference
         [ObservableProperty]
         private bool unconventionalScreen = Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false;
 
+        private bool isDisableSystemProxy = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsDisableSystemProxy ?? false;
+        public bool IsDisableSystemProxy
+        {
+            get => isDisableSystemProxy;
+            set
+            {
+                if (isDisableSystemProxy != value)
+                {
+                    OnPropertyChanging(nameof(IsDisableSystemProxy));
+                    isDisableSystemProxy = value;
+                    ProxyUtil.UpdateDynamicProxy(value);
+                    OnPropertyChanged(nameof(IsDisableSystemProxy));
+                }
+            }
+        }
+
         [ObservableProperty]
         private bool isOcrAutoCopyText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false;
 

@@ -77,6 +77,12 @@
                                           SelectedValue="{Binding DoubleTapTrayFunc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="Value" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="禁用系统代理" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用彻底不走系统代理，默认走系统代理(如果开启)，禁用后不论系统代理是否开启均走直连" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsDisableSystemProxy}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 
