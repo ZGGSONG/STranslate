@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:STranslate.Views.Preference.Service"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
              d:DataContext="{d:DesignInstance Type=vm:TranslatorBaidu}"
@@ -81,6 +80,15 @@
                           BorderThickness="1"
                           ItemsSource="{Binding Icons}"
                           SelectedValue="{Binding Icon}" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Other: " />
+                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
             </Grid>
         </StackPanel>
     </Border>
