@@ -33,7 +33,11 @@ namespace STranslate.ViewModels
 
         public void UpdateToolTip(string msg = "")
         {
-            NIModel.ToolTip = string.Format("STranslate {0} #\r\n{1}", Application.ResourceAssembly.GetName().Version!.ToString(), msg);
+            _ = bool.TryParse(Application.Current.Properties["admin"]?.ToString(), out bool isAdmin);
+
+            string toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
+
+            NIModel.ToolTip = string.Format(toolTipFormat, Application.ResourceAssembly.GetName().Version!, msg);
         }
 
         [RelayCommand]
@@ -235,16 +239,11 @@ namespace STranslate.ViewModels
                             getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
 
                             //取词前移除换行
-                            if (
-                                Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords
-                                ?? false && !string.IsNullOrEmpty(getText)
-                            )
+                            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
                                 getText = StringUtil.RemoveLineBreaks(getText);
 
                             //OCR后自动复制
-                            if (
-                                Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText)
-                            )
+                            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
                                 Clipboard.SetDataObject(getText, true);
 
                             CommonUtil.InvokeOnUIThread(() =>

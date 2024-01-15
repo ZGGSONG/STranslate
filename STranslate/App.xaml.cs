@@ -1,4 +1,9 @@
-﻿using System;
+﻿using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Style.Controls;
+using STranslate.Util;
+using STranslate.Views;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -6,11 +11,6 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using STranslate.Helper;
-using STranslate.Log;
-using STranslate.Style.Controls;
-using STranslate.Util;
-using STranslate.Views;
 
 namespace STranslate
 {
@@ -76,15 +76,28 @@ namespace STranslate
 
         private bool NeedAdministrator()
         {
-            //加载配置
+            // 初始化管理员缓存
+            Current.Properties["admin"] = false;
+
+            // 加载配置
             var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
 
             if (!isRole)
                 return false;
 
+            // 更新管理员缓存
+            bool role = IsUserAdministrator();
+            Current.Properties["admin"] = role;
+
+            return !role;
+        }
+
+        private bool IsUserAdministrator()
+        {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
-            return !principal.IsInRole(WindowsBuiltInRole.Administrator);
+
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         private bool TryRunAsAdministrator()
