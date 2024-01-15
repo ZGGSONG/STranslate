@@ -79,6 +79,12 @@ namespace STranslate
             bool isSuccess = false;
             if (CurrentConfig is not null)
             {
+                // 写入时加密AppID、AppKey
+                services.ToList().ForEach(service =>
+                {
+                    service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
+                    service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
+                });
                 CurrentConfig.Services = services;
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
@@ -163,7 +169,14 @@ namespace STranslate
             {
                 var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter() } };
                 var content = File.ReadAllText(CnfName);
-                return JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
+                var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
+                // 读取时解密AppID、AppKey
+                config.Services?.ToList().ForEach(service =>
+                {
+                    service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
+                    service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
+                });
+                return config;
             }
             catch (Exception ex)
             {
