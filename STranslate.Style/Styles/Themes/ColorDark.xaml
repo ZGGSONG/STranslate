@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <!-- // Border // -->
     <SolidColorBrush x:Key="BorderBackground">#2e323a</SolidColorBrush>
     <SolidColorBrush x:Key="BorderBrushColor">#393c43</SolidColorBrush>
@@ -13,7 +13,7 @@
     <SolidColorBrush x:Key="BtnBackground">#282c34</SolidColorBrush>
     <SolidColorBrush x:Key="BtnMouseOverBackground">#47484c</SolidColorBrush>
     <SolidColorBrush x:Key="BtnPressedBackground">#35333c</SolidColorBrush>
-    <!--//TODO: 切换主题测试 //-->
+    <!-- //TODO: 切换主题测试 // -->
     <SolidColorBrush x:Key="BtnDisabledBackground">#292834</SolidColorBrush>
     <SolidColorBrush x:Key="BtnClosedMouseOverBackground">#E81123</SolidColorBrush>
     <SolidColorBrush x:Key="BtnClosedPressedBackground">#8B0A14</SolidColorBrush>
@@ -67,6 +67,10 @@
     <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
     <SolidColorBrush x:Key="TextForeground">#dddddd</SolidColorBrush>
     <SolidColorBrush x:Key="TextSelectionBrushColor">#404856</SolidColorBrush>
+
+    <!-- // PasswordBox // -->
+    <SolidColorBrush x:Key="PasswordBoxMouseOverBrushColor">#FF7EB4EA</SolidColorBrush>
+    <SolidColorBrush x:Key="PasswordBoxKeyboardFocusedBrushColor">#FF569DE5</SolidColorBrush>
 
     <!-- // Label // -->
     <SolidColorBrush x:Key="LabelHotkeyCollisionForeground">#ff0000</SolidColorBrush>

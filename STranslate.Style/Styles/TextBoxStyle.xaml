@@ -51,16 +51,70 @@
 
     <!-- // 通用文本框 // -->
     <Style TargetType="TextBox">
-        <Setter Property="Padding" Value="5 2" />
+        <Setter Property="Padding" Value="5,2" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource TextForeground}" />
         <Style.Resources>
             <Style TargetType="{x:Type Border}">
-                <Setter Property="CornerRadius" Value="5"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrushColor}"/>
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrushColor}" />
             </Style>
         </Style.Resources>
+    </Style>
+
+    <!-- // 密码框 // -->
+    <Style TargetType="PasswordBox">
+        <Setter Property="Padding" Value="5,2" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <TextBlock Name="markText"
+                                       Grid.Column="1"
+                                       Margin="2,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Foreground="#BBB"
+                                       Text="{TemplateBinding Tag}"
+                                       Visibility="Collapsed" />
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Grid.Column="1"
+                                          MinHeight="20"
+                                          VerticalAlignment="Center"
+                                          Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxMouseOverBrushColor}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxKeyboardFocusedBrushColor}" />
+                        </Trigger>
+                        <!--<DataTrigger Binding="{TemplateBinding }" Value="">
+                            <Setter TargetName="markText" Property="Visibility" Value="Visible" />
+                        </DataTrigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

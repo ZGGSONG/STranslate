@@ -67,6 +67,10 @@
     <SolidColorBrush x:Key="TextForeground">#222222</SolidColorBrush>
     <SolidColorBrush x:Key="TextSelectionBrushColor">#eaeaea</SolidColorBrush>
 
+    <!-- // PasswordBox // -->
+    <SolidColorBrush x:Key="PasswordBoxMouseOverBrushColor">#FF7EB4EA</SolidColorBrush>
+    <SolidColorBrush x:Key="PasswordBoxKeyboardFocusedBrushColor">#FF569DE5</SolidColorBrush>
+
     <!-- // Label // -->
     <SolidColorBrush x:Key="LabelHotkeyCollisionForeground">#ff0000</SolidColorBrush>
 

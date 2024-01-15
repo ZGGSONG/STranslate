@@ -11,7 +11,7 @@
              Background="Transparent"
              FontSize="{DynamicResource FontSize_Content}"
              mc:Ignorable="d">
-    <Border Padding="5"
+    <Border Padding="10,20"
             BorderBrush="{DynamicResource BorderBrushColor}"
             BorderThickness="1"
             CornerRadius="4">
