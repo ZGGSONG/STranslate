@@ -57,9 +57,19 @@
 | :-- | :-- |
 |![qrcode](./img/qrcode.png)|![qrcode2](./img/qrcode2.png)
 
-5. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
+5. 历史记录
+
+> 刷新方式: 记录列`右键`-`刷新纪录`即可
+
+![history](./img/history.png)
+
+6. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
 
 ![about](./img/about.png)
+
+> 文件在github上，需要挂代理，否则很慢！！！
+
+![update](./img/update.png)
 
 ## 卸载
 

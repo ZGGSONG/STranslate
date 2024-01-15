@@ -4,17 +4,17 @@ namespace STranslate.Updater
 {
     public partial class App : Application
     {
-        private readonly string defaultVersion = "1.0.0.0101";
+        private readonly string defaultVersion = "1.0.0.101";
 
         private Mutex? mutex;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             // 阻止多开和用户主动启动
-            if (e.Args.Length == 0 || IsAlreadyRunning())
-            {
-                Environment.Exit(0);
-            }
+            //if (e.Args.Length == 0 || IsAlreadyRunning())
+            //{
+            //    Environment.Exit(0);
+            //}
 
             base.OnStartup(e);
 
