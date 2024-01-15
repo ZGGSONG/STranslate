@@ -63,7 +63,11 @@
 
 ![history](./img/history.png)
 
-6. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
+6. 更新热键
+
+![hotkey](./img/updatehotkey.gif)
+
+7. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
 
 ![about](./img/about.png)
 
