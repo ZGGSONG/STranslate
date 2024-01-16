@@ -80,6 +80,7 @@ namespace STranslate
             if (CurrentConfig is not null)
             {
                 // 写入时加密AppID、AppKey
+                //TODO: 保存加密导致内存数据出错
                 services.ToList().ForEach(service =>
                 {
                     service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);

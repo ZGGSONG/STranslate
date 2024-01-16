@@ -99,6 +99,7 @@ namespace STranslate.ViewModels.Preference.History
             serializer.Populate(jsonObject.CreateReader(), translator);
 
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
+            //TODO: 存在历史记录的服务删除出现bug
             translator.Data = jsonObject["Data"]!.Value<string>()!;
 
             // 返回构建好的 translator 对象
