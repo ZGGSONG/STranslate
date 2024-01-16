@@ -10,16 +10,16 @@ namespace STranslate.Updater
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            // 阻止多开和用户主动启动
-            //if (e.Args.Length == 0 || IsAlreadyRunning())
-            //{
-            //    Environment.Exit(0);
-            //}
+            //阻止多开和用户主动启动
+            if (e.Args.Length == 0 || IsAlreadyRunning())
+            {
+                Environment.Exit(0);
+            }
 
             base.OnStartup(e);
 
             var version = e.Args.FirstOrDefault() ?? defaultVersion;
-            var mainWindow = new MainWindow(version) { DataContext = new MainViewModel(version) };
+            var mainWindow = new MainWindow(version);
             mainWindow.Show();
         }
 

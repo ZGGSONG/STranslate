@@ -33,7 +33,7 @@ namespace STranslate.Updater
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                using HttpClient httpClient = new HttpClient();
+                using HttpClient httpClient = new(new SocketsHttpHandler());
                 httpClient.Timeout = TimeSpan.FromMilliseconds(60000);
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36");
 

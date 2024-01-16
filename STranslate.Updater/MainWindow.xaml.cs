@@ -50,7 +50,9 @@ namespace STranslate.Updater
         {
             InitializeComponent();
 
-            vm = (MainViewModel)DataContext;
+            vm = new MainViewModel(version);
+
+            DataContext = vm;
 
             githubRelease = new GithubRelease(ReleasesURL, version);
 
@@ -71,7 +73,7 @@ namespace STranslate.Updater
             ProgressBar.Visibility = Visibility.Visible;
             vm.ProcessValue = 0;
 
-            var httpClient = new HttpClient();
+            var httpClient = new HttpClient(new SocketsHttpHandler());
 
             try
             {
