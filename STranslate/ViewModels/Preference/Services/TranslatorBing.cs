@@ -94,7 +94,10 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<object> TranslateAsync(object request, CancellationToken token)
         {
-            Url += Url.EndsWith("translate") ? "" : "/translate";
+            if (!Url.EndsWith("translate"))
+            {
+                Url = Url.TrimEnd('/') + "/translate";
+            }
 
             if (request is RequestBing req)
             {

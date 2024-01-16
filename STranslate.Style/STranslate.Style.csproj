@@ -46,6 +46,9 @@
     <Resource Include="Resources\iciba.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\openai.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\preference.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

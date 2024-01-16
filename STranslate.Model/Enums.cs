@@ -101,7 +101,8 @@ namespace STranslate.Model
     {
         ApiService = 0,
         BaiduService,
-        BingService
+        BingService,
+        OpenAIService
     }
 
     /// <summary>
@@ -116,6 +117,7 @@ namespace STranslate.Model
         Iciba,
         Youdao,
         Bing,
+        OpenAI,
     }
 
     /// <summary>

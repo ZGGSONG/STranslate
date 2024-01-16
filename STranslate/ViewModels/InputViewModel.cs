@@ -179,13 +179,23 @@ namespace STranslate.ViewModels
 
                         //根据不同服务类型区分
                         //TODO: 新接口需要适配
-                        service.Data = service.Type switch
+                        switch (service.Type)
                         {
-                            ServiceType.ApiService => await ServiceHandler.ApiHandlerAsync(service, InputContent, sourceStr, targetStr, token),
-                            ServiceType.BaiduService => await ServiceHandler.BaiduHandlerAsync(service, InputContent, sourceStr, targetStr, token),
-                            ServiceType.BingService => await ServiceHandler.BingHandlerAsync(service, InputContent, sourceStr, targetStr, token),
-                            _ => throw new NotImplementedException()
-                        };
+                            case ServiceType.ApiService:
+                                await ServiceHandler.ApiHandlerAsync(service, InputContent, sourceStr, targetStr, token);
+                                break;
+                            case ServiceType.BaiduService:
+                                await ServiceHandler.BaiduHandlerAsync(service, InputContent, sourceStr, targetStr, token);
+                                break;
+                            case ServiceType.BingService:
+                                await ServiceHandler.BingHandlerAsync(service, InputContent, sourceStr, targetStr, token);
+                                break;
+                            case ServiceType.OpenAIService:
+                                await ServiceHandler.OpenAIHandlerAsync(service, InputContent, sourceStr, targetStr, token);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     catch (TaskCanceledException ex)
                     {
@@ -389,6 +399,7 @@ namespace STranslate.ViewModels
                 {
                     (int)ServiceType.BaiduService => new TranslatorBaidu(),
                     (int)ServiceType.BingService => new TranslatorBing(),
+                    (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
                     _ => new TranslatorApi(),
                 };
 

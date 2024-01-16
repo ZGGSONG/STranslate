@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="STranslate.Views.Preference.Service.TextOpenAIServicesPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
+             d:DataContext="{d:DesignInstance Type=vm:TranslatorOpenAI}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Background="Transparent"
+             FontSize="{DynamicResource FontSize_Content}"
+             mc:Ignorable="d">
+    <Border Padding="10,20"
+            BorderBrush="{DynamicResource BorderBrushColor}"
+            BorderThickness="1"
+            CornerRadius="4">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="名称: " />
+
+                <TextBox Grid.Column="1"
+                         MinWidth="160"
+                         HorizontalAlignment="Left"
+                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="接口: " />
+
+                <TextBox Grid.Column="1"
+                         MinWidth="160"
+                         HorizontalAlignment="Left"
+                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Key: " />
+
+                <PasswordBox Grid.Column="1"
+                             MinWidth="160"
+                             HorizontalAlignment="Left"
+                             common:BoundPasswordBox.Attach="True"
+                             common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="图标: " />
+
+                <ComboBox Grid.Column="1"
+                          Width="120"
+                          HorizontalAlignment="Left"
+                          BorderThickness="1"
+                          ItemsSource="{Binding Icons}"
+                          SelectedValue="{Binding Icon}" />
+            </Grid>
+
+            <Grid Margin="0, 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Other: " />
+                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>
