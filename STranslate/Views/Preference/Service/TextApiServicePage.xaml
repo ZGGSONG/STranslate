@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="STranslate.Views.Preference.Service.TextApiServicePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:STranslate.Views.Preference.Service"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -23,10 +24,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="名称: " />
 
-                <TextBox Grid.Column="1"
-                         MinWidth="160"
-                         HorizontalAlignment="Left"
-                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="160"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="DeepL"
+                                           Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,20">
@@ -35,10 +37,11 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="接口: " />
-                <TextBox Grid.Column="1"
-                         MinWidth="160"
-                         HorizontalAlignment="Left"
-                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="282"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="http://127.0.0.1:8000/translate"
+                                           Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid>

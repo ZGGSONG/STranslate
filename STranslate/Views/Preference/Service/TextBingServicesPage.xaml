@@ -23,10 +23,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="名称: " />
 
-                <TextBox Grid.Column="1"
-                         MinWidth="160"
-                         HorizontalAlignment="Left"
-                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="160"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="Bing"
+                                           Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,20">
@@ -36,10 +37,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="接口: " />
 
-                <TextBox Grid.Column="1"
-                         MinWidth="160"
-                         HorizontalAlignment="Left"
-                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="304"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="https://api.cognitive.microsofttranslator.com"
+                                           Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid>
@@ -53,7 +55,9 @@
                              MinWidth="160"
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
-                             common:BoundPasswordBox.Password="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                             common:BoundPasswordBox.Password="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Tag="southeaseasia"
+                             ToolTip="{Binding AppID}" />
             </Grid>
 
             <Grid Margin="0,20">
@@ -67,7 +71,9 @@
                              MinWidth="160"
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
-                             common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                             common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Tag="Key"
+                             ToolTip="{Binding AppKey}" />
             </Grid>
 
             <Grid Visibility="Collapsed">

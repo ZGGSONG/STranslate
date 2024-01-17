@@ -85,15 +85,12 @@
                             SnapsToDevicePixels="True">
                         <Grid>
                             <TextBlock Name="markText"
-                                       Grid.Column="1"
-                                       Margin="2,0"
+                                       Margin="5,2"
                                        VerticalAlignment="Center"
-                                       FontSize="12"
-                                       Foreground="#BBB"
+                                       Foreground="Gray"
                                        Text="{TemplateBinding Tag}"
                                        Visibility="Collapsed" />
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          Grid.Column="1"
                                           MinHeight="20"
                                           VerticalAlignment="Center"
                                           Focusable="false"
@@ -112,9 +109,9 @@
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxKeyboardFocusedBrushColor}" />
                         </Trigger>
-                        <!--<DataTrigger Binding="{TemplateBinding }" Value="">
+                        <DataTrigger Binding="{Binding ToolTip, RelativeSource={RelativeSource Self}}" Value="">
                             <Setter TargetName="markText" Property="Visibility" Value="Visible" />
-                        </DataTrigger>-->
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
