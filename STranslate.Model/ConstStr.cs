@@ -21,6 +21,9 @@ namespace STranslate.Model
         public const string MAXIMIZECONTENT = "\xe651";
         public const string MAXIMIZEBACKCONTENT = "\xe693";
 
+        public const string SHOWICON = "\xe608";
+        public const string HIDEICON = "\xe725";
+
         public const string DEFAULTINPUTHOTKEY = "Alt + A";
         public const string DEFAULTCROSSWORDHOTKEY = "Alt + D";
         public const string DEFAULTSCREENSHOTHOTKEY = "Alt + S";

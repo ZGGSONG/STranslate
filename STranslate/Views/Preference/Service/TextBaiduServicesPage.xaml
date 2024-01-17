@@ -48,32 +48,60 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="AppID: " />
 
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="160"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="AppID"
+                                           Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <PasswordBox Grid.Column="1"
                              MinWidth="160"
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
                              common:BoundPasswordBox.Password="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                              Tag="AppID"
-                             ToolTip="{Binding AppID}" />
+                             ToolTip="{Binding AppID}"
+                             Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <Button Grid.Column="2"
+                        Command="{Binding ShowEncryptInfoCommand}"
+                        CommandParameter="AppID"
+                        Content="{Binding IdHide, Converter={StaticResource BooleanToContentConverter}}"
+                        Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 
             <Grid Margin="0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="AppKey: " />
 
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="160"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="AppKey"
+                                           Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <PasswordBox Grid.Column="1"
                              MinWidth="160"
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
                              common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                              Tag="AppKey"
-                             ToolTip="{Binding AppKey}" />
+                             ToolTip="{Binding AppKey}"
+                             Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <Button Grid.Column="2"
+                        Command="{Binding ShowEncryptInfoCommand}"
+                        CommandParameter="AppKey"
+                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}}"
+                        Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 
             <Grid Visibility="Collapsed">

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Model;
 using STranslate.Util;
@@ -92,6 +93,59 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
 
+        #region Show/Hide Encrypt Info
+
+        [JsonIgnore]
+        private bool _idHide = true;
+
+        [JsonIgnore]
+        public bool IdHide
+        {
+            get => _idHide;
+            set
+            {
+                if (_idHide != value)
+                {
+                    OnPropertyChanging(nameof(IdHide));
+                    _idHide = value;
+                    OnPropertyChanged(nameof(IdHide));
+                }
+            }
+        }
+
+        [JsonIgnore]
+        private bool _keyHide = true;
+
+        [JsonIgnore]
+        public bool KeyHide
+        {
+            get => _keyHide;
+            set
+            {
+                if (_keyHide != value)
+                {
+                    OnPropertyChanging(nameof(KeyHide));
+                    _keyHide = value;
+                    OnPropertyChanged(nameof(KeyHide));
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ShowEncryptInfo(string obj)
+        {
+            if (obj.Equals(nameof(AppID)))
+            {
+                IdHide = !IdHide;
+            }
+            else if (obj.Equals(nameof(AppKey)))
+            {
+                KeyHide = !KeyHide;
+            }
+        }
+
+        #endregion Show/Hide Encrypt Info
+
         public async Task<object> TranslateAsync(object request, CancellationToken token)
         {
             if (!Url.EndsWith("translate"))
@@ -101,22 +155,14 @@ namespace STranslate.ViewModels.Preference.Services
 
             if (request is RequestBing req)
             {
-                var query = new Dictionary<string, string>
-                {
-                    { "api-version", "3.0" },
-                    { "to", req.To.ToLower() }
-                };
+                var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", req.To.ToLower() } };
 
                 if (!string.Equals(req.From, "auto", StringComparison.CurrentCultureIgnoreCase))
                 {
                     query.Add("from", req.From.ToLower());
                 }
 
-                var headers = new Dictionary<string, string>
-                {
-                    { "Ocp-Apim-Subscription-Key", AppKey },
-                    { "Ocp-Apim-Subscription-Region", AppID },
-                };
+                var headers = new Dictionary<string, string> { { "Ocp-Apim-Subscription-Key", AppKey }, { "Ocp-Apim-Subscription-Region", AppID }, };
 
                 string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(req.Req), query, headers, token);
                 if (string.IsNullOrEmpty(resp))

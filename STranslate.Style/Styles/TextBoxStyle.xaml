@@ -53,6 +53,7 @@
     <Style TargetType="TextBox">
         <Setter Property="Padding" Value="5,2" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource TextForeground}" />

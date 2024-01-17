@@ -9,4 +9,6 @@
     <converter:String2IsEnableConverter x:Key="String2IsEnableConverter" />
     <converter:BooleanReverseConverter x:Key="BooleanReverseConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converter:BooleanToVisibilityReverseConverter x:Key="BooleanToVisibilityReverseConverter" />
+    <converter:BooleanToContentConverter x:Key="BooleanToContentConverter" />
 </ResourceDictionary>

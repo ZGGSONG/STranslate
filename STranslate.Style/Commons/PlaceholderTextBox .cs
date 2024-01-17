@@ -54,7 +54,7 @@ namespace STranslate.Style.Commons
             var binding = new Binding { Source = this, Path = new PropertyPath("Placeholder") };
             _placeholderTextBlock.SetBinding(TextProperty, binding);
             //_placeholderTextBlock.FontStyle = FontStyles.Italic;
-            _placeholderTextBlock.Padding = new Thickness(5, 2, 5, 2);
+            _placeholderTextBlock.Padding = new Thickness(3,0,3,0);
             _placeholderTextBlock.BorderThickness = new Thickness(0);
             _placeholderTextBlock.Foreground = Brushes.Gray;
 

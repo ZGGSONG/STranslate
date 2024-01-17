@@ -48,9 +48,16 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Key: " />
 
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="160"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="API Key"
+                                           Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <PasswordBox Grid.Column="1"
                              MinWidth="160"
                              HorizontalAlignment="Left"
@@ -58,6 +65,11 @@
                              common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                              Tag="API Key"
                              ToolTip="{Binding AppKey}" />
+
+                <Button Grid.Column="2"
+                        Command="{Binding ShowEncryptInfoCommand}"
+                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}}"
+                        Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 
             <Grid Visibility="Collapsed">

@@ -1,9 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using STranslate.Model;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +7,12 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using STranslate.Model;
+using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -93,6 +94,31 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
 
+        #region Show/Hide Encrypt Info
+
+        [JsonIgnore]
+        private bool _keyHide = true;
+
+        [JsonIgnore]
+        public bool KeyHide
+        {
+            get => _keyHide;
+            set
+            {
+                if (_keyHide != value)
+                {
+                    OnPropertyChanging(nameof(KeyHide));
+                    _keyHide = value;
+                    OnPropertyChanged(nameof(KeyHide));
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void ShowEncryptInfo() => KeyHide = !KeyHide;
+
+        #endregion Show/Hide Encrypt Info
+
         [Obsolete]
         public async Task<object> TranslateAsync(object request, CancellationToken token)
         {
@@ -120,7 +146,7 @@ namespace STranslate.ViewModels.Preference.Services
                     };
                     req.Headers.Add("Authorization", $"Bearer {AppKey}");
 
-                    // 发送请求 
+                    // 发送请求
                     using var response = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token);
                     // 获取响应流
                     using var responseStream = await response.Content.ReadAsStreamAsync(token);
@@ -130,29 +156,32 @@ namespace STranslate.ViewModels.Preference.Services
                     {
                         var line = await reader.ReadLineAsync(token);
 
-                        if (string.IsNullOrEmpty(line?.Trim())) continue;
+                        if (string.IsNullOrEmpty(line?.Trim()))
+                            continue;
 
                         var preprocessString = line.Replace("data:", "").Trim();
 
                         // 结束标记
-                        if (preprocessString.Equals("[DONE]")) break;
+                        if (preprocessString.Equals("[DONE]"))
+                            break;
 
                         // 解析JSON数据
                         var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
 
-                        if (parsedData is null) continue;
+                        if (parsedData is null)
+                            continue;
 
                         // 提取content的值
                         var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
 
-                        if (string.IsNullOrEmpty(contentValue)) continue;
+                        if (string.IsNullOrEmpty(contentValue))
+                            continue;
 
                         // 输出
                         Data += contentValue;
                         //Debug.Write(contentValue);
                     }
                 }
-
             }
             catch (Exception ex)
             {
