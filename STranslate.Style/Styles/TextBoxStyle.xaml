@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:common="clr-namespace:STranslate.Style.Commons">
     <!-- // 输入框 // -->
     <Style x:Key="TextBoxInputStyle" TargetType="TextBox">
         <Setter Property="Background" Value="Transparent" />
@@ -63,6 +63,9 @@
             </Style>
         </Style.Resources>
     </Style>
+
+    <!-- // PlaceholderTextBox Style // -->
+    <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="common:PlaceholderTextBox" />
 
     <!-- // 密码框 // -->
     <Style TargetType="PasswordBox">

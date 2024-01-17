@@ -23,10 +23,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="名称: " />
 
-                <TextBox Grid.Column="1"
-                         MinWidth="160"
-                         HorizontalAlignment="Left"
-                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="160"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="OpenAI"
+                                           Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,20">
@@ -71,7 +72,7 @@
                           SelectedValue="{Binding Icon}" />
             </Grid>
 
-            <Grid Margin="0, 20">
+            <Grid Margin="0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
