@@ -79,13 +79,6 @@ namespace STranslate
             bool isSuccess = false;
             if (CurrentConfig is not null)
             {
-                // 写入时加密AppID、AppKey
-                //TODO: 保存加密导致内存数据出错
-                services.ToList().ForEach(service =>
-                {
-                    service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
-                    service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
-                });
                 CurrentConfig.Services = services;
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
@@ -201,9 +194,16 @@ namespace STranslate
             }
         }
 
-        internal void WriteConfig(object obj)
+        internal void WriteConfig(ConfigModel conf)
         {
-            File.WriteAllText(CnfName, JsonConvert.SerializeObject(obj, Formatting.Indented));
+            var copy = conf.ServiceDeepClone();
+            // 写入时加密AppID、AppKey
+            copy.Services?.ToList().ForEach(service =>
+            {
+                service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
+                service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
+            });
+            File.WriteAllText(CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
         }
 
         #endregion 私有方法
@@ -323,5 +323,17 @@ namespace STranslate
         }
     }
 
+    public static class ObjectExtensions
+    {
+        public static T ServiceDeepClone<T>(this T source)
+        {
+            if (source == null)
+                return default!;
+
+            var json = JsonConvert.SerializeObject(source);
+            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter() } };
+            return JsonConvert.DeserializeObject<T>(json, settings)!;
+        }
+    }
     #endregion JsonConvert
 }
