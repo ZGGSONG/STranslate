@@ -18,7 +18,7 @@ namespace STranslate.ViewModels.Preference.Services
     public partial class TranslatorOpenAI : ObservableObject, ITranslator
     {
         public TranslatorOpenAI()
-            : this(Guid.NewGuid(), "https://api.openai.com/v1", "OpenAI") { }
+            : this(Guid.NewGuid(), "https://api.openai.com", "OpenAI") { }
 
         public TranslatorOpenAI(
             Guid guid,

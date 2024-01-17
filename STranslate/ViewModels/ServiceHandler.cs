@@ -113,9 +113,9 @@ namespace STranslate.ViewModels
                 if (string.IsNullOrEmpty(service.Url) || string.IsNullOrEmpty(service.AppKey))
                     throw new Exception("请先完善配置");
 
-                if (!service.Url.EndsWith("completions"))
+                if (!service.Url.EndsWith("/v1/completions"))
                 {
-                    service.Url = service.Url.TrimEnd('/') + "/completions";
+                    service.Url = service.Url.TrimEnd('/') + "/v1/completions";
                 }
                 // 构建请求数据
                 var reqData = new
