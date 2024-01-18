@@ -36,7 +36,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PaddleOCRSharp" Version="4.0.2" />
+    <PackageReference Include="PaddleOCRSharp" Version="4.1.0" />
     <PackageReference Include="WpfScreenHelper" Version="2.1.0" />
     <PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
     <PackageReference Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" Version="0.16.7" />
