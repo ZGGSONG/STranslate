@@ -116,9 +116,10 @@ namespace STranslate.ViewModels
 
                 UriBuilder uriBuilder = new(service.Url);
 
-                if (!uriBuilder.Path.EndsWith("/v1/completions"))
+                // 兼容旧版API: https://platform.openai.com/docs/guides/text-generation
+                if (!uriBuilder.Path.EndsWith("/v1/chat/completions") && !uriBuilder.Path.EndsWith("/v1/completions"))
                 {
-                    uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1/completions";
+                    uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1/chat/completions";
                 }
 
                 var a_model = (service as TranslatorOpenAI)?.Model;
