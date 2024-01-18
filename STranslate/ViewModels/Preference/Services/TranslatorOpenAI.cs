@@ -74,6 +74,10 @@ namespace STranslate.ViewModels.Preference.Services
         public string _appKey = string.Empty;
 
         [JsonIgnore]
+        [ObservableProperty]
+        private string _model = "gpt-3.5-turbo";
+
+        [JsonIgnore]
         public object _data = string.Empty;
 
         [JsonIgnore]

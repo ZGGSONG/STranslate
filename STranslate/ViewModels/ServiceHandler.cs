@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
+using STranslate.ViewModels.Preference.Services;
 
 namespace STranslate.ViewModels
 {
@@ -121,10 +121,13 @@ namespace STranslate.ViewModels
                     uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1/completions";
                 }
 
+                var a_model = (service as TranslatorOpenAI)?.Model;
+                a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
+
                 // 构建请求数据
                 var reqData = new
                 {
-                    model = "gpt-3.5-turbo",
+                    model = a_model,
                     messages = new[] { new { role = "user", content = $"Translate the following text to {target}: {content}" } },
                     temperature = 1.0,
                     stream = true
@@ -232,7 +235,7 @@ namespace STranslate.ViewModels
                     Content = new StringContent(jsonData, Encoding.UTF8, "application/json")
                 };
 
-                // 发送请求 
+                // 发送请求
                 using var response = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token);
                 // 获取响应流
                 using var responseStream = await response.Content.ReadAsStreamAsync(token);

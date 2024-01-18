@@ -48,6 +48,20 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="模型: " />
+
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="206"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="gpt-3.5-turbo"
+                                           Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Key: " />
@@ -88,7 +102,7 @@
                           SelectedValue="{Binding Icon}" />
             </Grid>
 
-            <Grid Margin="0,20">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
