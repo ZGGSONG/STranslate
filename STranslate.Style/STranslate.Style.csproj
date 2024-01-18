@@ -40,6 +40,9 @@
     <Resource Include="Resources\forbidden.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\gemini.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\google.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

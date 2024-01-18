@@ -102,7 +102,8 @@ namespace STranslate.Model
         ApiService = 0,
         BaiduService,
         BingService,
-        OpenAIService
+        OpenAIService,
+        GeminiService,
     }
 
     /// <summary>
@@ -118,6 +119,7 @@ namespace STranslate.Model
         Youdao,
         Bing,
         OpenAI,
+        Gemini,
     }
 
     /// <summary>

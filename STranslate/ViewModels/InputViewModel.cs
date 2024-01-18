@@ -193,6 +193,9 @@ namespace STranslate.ViewModels
                             case ServiceType.OpenAIService:
                                 await ServiceHandler.OpenAIHandlerAsync(service, InputContent, sourceStr, targetStr, token);
                                 break;
+                            case ServiceType.GeminiService:
+                                await ServiceHandler.GeminiHandlerAsync(service, InputContent, sourceStr, targetStr, token);
+                                break;
                             default:
                                 break;
                         }
@@ -400,6 +403,7 @@ namespace STranslate.ViewModels
                     (int)ServiceType.BaiduService => new TranslatorBaidu(),
                     (int)ServiceType.BingService => new TranslatorBing(),
                     (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
+                    (int)ServiceType.GeminiService => new TranslatorGemini(),
                     _ => new TranslatorApi(),
                 };
 

@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using STranslate.Model;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using STranslate.Model;
+using STranslate.Util;
 
 namespace STranslate.ViewModels
 {
@@ -113,18 +114,19 @@ namespace STranslate.ViewModels
                 if (string.IsNullOrEmpty(service.Url) || string.IsNullOrEmpty(service.AppKey))
                     throw new Exception("请先完善配置");
 
-                if (!service.Url.EndsWith("/v1/completions"))
+                UriBuilder uriBuilder = new(service.Url);
+
+                if (!uriBuilder.Path.EndsWith("/v1/completions"))
                 {
-                    service.Url = service.Url.TrimEnd('/') + "/v1/completions";
+                    uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1/completions";
                 }
+
                 // 构建请求数据
                 var reqData = new
                 {
                     model = "gpt-3.5-turbo",
-                    messages = new[] {
-                    new { role = "user", content = $"Translate the following text to {target}: {content}" }
-                },
-                    temperature = 0,
+                    messages = new[] { new { role = "user", content = $"Translate the following text to {target}: {content}" } },
+                    temperature = 1.0,
                     stream = true
                 };
 
@@ -136,7 +138,7 @@ namespace STranslate.ViewModels
                 var req = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
-                    RequestUri = new Uri(service.Url),
+                    RequestUri = uriBuilder.Uri,
                     Content = new StringContent(jsonData, Encoding.UTF8, "application/json")
                 };
                 req.Headers.Add("Authorization", $"Bearer {service.AppKey}");
@@ -146,31 +148,110 @@ namespace STranslate.ViewModels
                 // 获取响应流
                 using var responseStream = await response.Content.ReadAsStreamAsync(token);
                 using var reader = new System.IO.StreamReader(responseStream);
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception(response.ReasonPhrase);
                 // 逐行读取并输出结果
                 while (!reader.EndOfStream || token.IsCancellationRequested)
                 {
                     var line = await reader.ReadLineAsync(token);
 
-                    if (string.IsNullOrEmpty(line?.Trim())) continue;
+                    if (string.IsNullOrEmpty(line?.Trim()))
+                        continue;
 
                     var preprocessString = line.Replace("data:", "").Trim();
 
                     // 结束标记
-                    if (preprocessString.Equals("[DONE]")) break;
+                    if (preprocessString.Equals("[DONE]"))
+                        break;
 
                     // 解析JSON数据
                     var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
 
-                    if (parsedData is null) continue;
+                    if (parsedData is null)
+                        continue;
 
                     // 提取content的值
                     var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
 
-                    if (string.IsNullOrEmpty(contentValue)) continue;
+                    if (string.IsNullOrEmpty(contentValue))
+                        continue;
 
                     // 输出
-                    service.Data += contentValue;
+                    lock (service)
+                    {
+                        service.Data += contentValue;
+                    }
                 }
+
+                if (string.IsNullOrEmpty(service.Data?.ToString()))
+                    service.Data = "未获取到内容";
+            }
+            catch (Exception ex)
+            {
+                service.Data = ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// Gemini
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="content"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task GeminiHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(service.Url) || string.IsNullOrEmpty(service.AppKey))
+                    throw new Exception("请先完善配置");
+
+                UriBuilder uriBuilder = new(service.Url);
+
+                if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
+                {
+                    uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1beta/models/gemini-pro:streamGenerateContent";
+                }
+
+                uriBuilder.Query = $"key={service.AppKey}";
+
+                // 构建请求数据
+                var reqData = new { contents = new[] { new { parts = new[] { new { text = $"Translate the following text to {target}: {content}" } } } } };
+
+                // 为了流式输出与MVVM还是放这里吧
+                var jsonData = JsonConvert.SerializeObject(reqData);
+
+                // 构建请求
+                var client = new HttpClient(new SocketsHttpHandler());
+                var req = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = uriBuilder.Uri,
+                    Content = new StringContent(jsonData, Encoding.UTF8, "application/json")
+                };
+
+                // 发送请求 
+                using var response = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token);
+                // 获取响应流
+                using var responseStream = await response.Content.ReadAsStreamAsync(token);
+                using var reader = new System.IO.StreamReader(responseStream);
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception(response.ReasonPhrase);
+                // 逐行读取并输出结果
+                while (!reader.EndOfStream)
+                {
+                    string line = await reader.ReadLineAsync(token) ?? "";
+                    line = line.Trim();
+                    if (line.StartsWith("\"text\":"))
+                    {
+                        service.Data += line.Replace("\"text\": ", "").Replace("\"", "");
+                    }
+                }
+
+                if (string.IsNullOrEmpty(service.Data?.ToString()))
+                    service.Data = "未获取到内容";
             }
             catch (Exception ex)
             {

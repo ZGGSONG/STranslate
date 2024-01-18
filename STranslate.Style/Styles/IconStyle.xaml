@@ -9,4 +9,5 @@
     <BitmapImage x:Key="Youdao" UriSource="pack://application:,,,/STranslate.Style;component/Resources/youdao.png" />
     <BitmapImage x:Key="Bing" UriSource="pack://application:,,,/STranslate.Style;component/Resources/bing.png" />
     <BitmapImage x:Key="OpenAI" UriSource="pack://application:,,,/STranslate.Style;component/Resources/openai.png" />
+    <BitmapImage x:Key="Gemini" UriSource="pack://application:,,,/STranslate.Style;component/Resources/gemini.png" />
 </ResourceDictionary>

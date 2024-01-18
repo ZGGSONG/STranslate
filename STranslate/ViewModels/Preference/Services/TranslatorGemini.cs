@@ -16,20 +16,20 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorOpenAI : ObservableObject, ITranslator
+    public partial class TranslatorGemini : ObservableObject, ITranslator
     {
-        public TranslatorOpenAI()
-            : this(Guid.NewGuid(), "https://api.openai.com", "OpenAI") { }
+        public TranslatorGemini()
+            : this(Guid.NewGuid(), "https://generativelanguage.googleapis.com", "Gemini") { }
 
-        public TranslatorOpenAI(
+        public TranslatorGemini(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.OpenAI,
+            IconType icon = IconType.Gemini,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.OpenAIService
+            ServiceType type = ServiceType.GeminiService
         )
         {
             Identify = guid;
@@ -59,7 +59,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        private IconType _icon = IconType.Bing;
+        private IconType _icon = IconType.Gemini;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -113,6 +113,7 @@ namespace STranslate.ViewModels.Preference.Services
                 }
             }
         }
+
 
         private void ShowEncryptInfo() => KeyHide = !KeyHide;
 

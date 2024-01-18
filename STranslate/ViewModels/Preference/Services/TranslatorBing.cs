@@ -131,9 +131,10 @@ namespace STranslate.ViewModels.Preference.Services
             }
         }
 
-        [RelayCommand]
-        private void ShowEncryptInfo(string obj)
+        private void ShowEncryptInfo(string? obj)
         {
+            if (obj == null) return;
+
             if (obj.Equals(nameof(AppID)))
             {
                 IdHide = !IdHide;
@@ -143,6 +144,10 @@ namespace STranslate.ViewModels.Preference.Services
                 KeyHide = !KeyHide;
             }
         }
+
+        private RelayCommand<string>? showEncryptInfoCommand;
+        [JsonIgnore]
+        public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 
         #endregion Show/Hide Encrypt Info
 

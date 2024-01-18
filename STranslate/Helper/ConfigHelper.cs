@@ -309,6 +309,7 @@ namespace STranslate
                 (int)ServiceType.BaiduService => new TranslatorBaidu(),
                 (int)ServiceType.BingService => new TranslatorBing(),
                 (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
+                (int)ServiceType.GeminiService => new TranslatorGemini(),
                 //TODO: 新接口需要适配
                 _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
             };
