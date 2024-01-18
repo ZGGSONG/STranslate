@@ -3,7 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
     <FontFamily x:Key="IconFont">/STranslate.Style;component/Fonts/#iconfont</FontFamily>
-    <FontFamily x:Key="FontFamily_LXGW">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
+    <FontFamily x:Key="UserFont">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
+    <FontFamily x:Key="LXGW WenKai">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
 
     <sys:Double x:Key="FontSize_About">30</sys:Double>
     <sys:Double x:Key="FontSize_Title">20</sys:Double>

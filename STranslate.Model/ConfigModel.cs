@@ -88,6 +88,11 @@ namespace STranslate.Model
         public string Position { get; set; } = string.Empty;
 
         /// <summary>
+        /// 自定义字体
+        /// </summary>
+        public string CustomFont { get; set; } = ConstStr.DEFAULTFONTNAME;
+
+        /// <summary>
         /// 服务
         /// </summary>
         [JsonIgnore]

@@ -13,7 +13,7 @@
         Background="{DynamicResource BorderBackground}"
         BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
-        FontFamily="{DynamicResource FontFamily_LXGW}"
+        FontFamily="{DynamicResource UserFont}"
         Icon="{DynamicResource Icon}"
         WindowChrome.IsHitTestVisibleInChrome="True"
         WindowStartupLocation="CenterScreen"

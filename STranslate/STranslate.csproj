@@ -10,8 +10,8 @@
 	<ApplicationManifest>app.manifest</ApplicationManifest>
 	<PlatformTarget>x64</PlatformTarget>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<AssemblyVersion>1.0.2.0114</AssemblyVersion>
-	<FileVersion>1.0.2.0114</FileVersion>
+	<AssemblyVersion>1.0.2.0118</AssemblyVersion>
+	<FileVersion>1.0.2.0118</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

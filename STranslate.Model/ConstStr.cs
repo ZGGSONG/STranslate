@@ -30,5 +30,8 @@ namespace STranslate.Model
         public const string DEFAULTOPENHOTKEY = "Alt + G";
         public const string DEFAULTMOUSEHOOKHOTKEY = "Alt + Shift + D";
         public const string DEFAULTOCRHOTKEY = "Alt + Shift + S";
+
+        public const string USERDEFINEFONTKEY = "UserFont";
+        public const string DEFAULTFONTNAME = "LXGW WenKai";
     }
 }

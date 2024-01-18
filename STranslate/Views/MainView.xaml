@@ -16,7 +16,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         Deactivated="Mwin_Deactivated"
-        FontFamily="{DynamicResource FontFamily_LXGW}"
+        FontFamily="{DynamicResource UserFont}"
         FontSize="{DynamicResource FontSize_Content}"
         Icon="{DynamicResource STranslate}"
         MouseLeftButtonDown="Mwin_MouseLeftButtonDown"

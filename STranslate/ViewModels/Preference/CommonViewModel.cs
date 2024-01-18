@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -62,6 +64,17 @@ namespace STranslate.ViewModels.Preference
             else
             {
                 ShortcutUtil.UnSetStartup();
+            }
+        }
+
+        public CommonViewModel()
+        {
+            // 获取系统已安装字体
+            GetFontFamilys = Fonts.SystemFontFamilies.Select(font => font.Source).ToList();
+            // 判断是否已安装软件字体，没有则插入到列表中
+            if (!GetFontFamilys.Contains(ConstStr.DEFAULTFONTNAME))
+            {
+                GetFontFamilys.Insert(0, ConstStr.DEFAULTFONTNAME);
             }
         }
 
@@ -134,6 +147,7 @@ namespace STranslate.ViewModels.Preference
         private bool unconventionalScreen = Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false;
 
         private bool isDisableSystemProxy = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsDisableSystemProxy ?? false;
+
         public bool IsDisableSystemProxy
         {
             get => isDisableSystemProxy;
@@ -164,7 +178,39 @@ namespace STranslate.ViewModels.Preference
         }
 
         [ObservableProperty]
-        private DoubleTapFuncEnum doubleTapTrayFunc =
-            Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+        private DoubleTapFuncEnum doubleTapTrayFunc = Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+
+        [ObservableProperty]
+        private List<string> _getFontFamilys;
+
+        private string _customFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
+
+        public string CustomFont
+        {
+            get => _customFont;
+            set
+            {
+                if (_customFont != value)
+                {
+                    OnPropertyChanging(nameof(CustomFont));
+
+                    try
+                    {
+                        // 切换字体
+                        Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = value.Equals(ConstStr.DEFAULTFONTNAME)
+                            ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME] : new FontFamily(value);
+                        _customFont = value;
+                    }
+                    catch (Exception)
+                    {
+                        Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
+                        _customFont = ConstStr.DEFAULTFONTNAME;
+                    }
+
+
+                    OnPropertyChanged(nameof(CustomFont));
+                }
+            }
+        }
     }
 }

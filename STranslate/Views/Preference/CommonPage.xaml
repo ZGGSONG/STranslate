@@ -8,7 +8,7 @@
              d:DataContext="{d:DesignInstance Type=vm:CommonViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             d:FontFamily="{DynamicResource FontFamily_LXGW}"
+             d:FontFamily="{DynamicResource UserFont}"
              d:FontSize="{DynamicResource FontSize_Content}"
              Style="{StaticResource ResourceKey=Page_Style}"
              mc:Ignorable="d">
@@ -93,6 +93,15 @@
                                 <TextBlock Text="明暗主题" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题切换" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsBright}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="字体选择" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择系统中自带字体" />
+                                <ComboBox Height="30"
+                                          HorizontalAlignment="Right"
+                                          ItemsSource="{Binding GetFontFamilys}"
+                                          SelectedValue="{Binding CustomFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">

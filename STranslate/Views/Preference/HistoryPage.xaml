@@ -10,7 +10,7 @@
              d:DataContext="{d:DesignInstance Type=vm:HistoryViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             d:FontFamily="{DynamicResource FontFamily_LXGW}"
+             d:FontFamily="{DynamicResource UserFont}"
              d:FontSize="{DynamicResource FontSize_Content}"
              Style="{StaticResource ResourceKey=Page_Style}"
              mc:Ignorable="d">

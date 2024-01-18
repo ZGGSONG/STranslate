@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 
 namespace STranslate
 {
@@ -46,6 +47,18 @@ namespace STranslate
             Application.Current.Resources.MergedDictionaries.First().Source = CurrentConfig?.IsBright ?? true
                 ? ConstStr.LIGHTURI
                 : ConstStr.DARKURI;
+
+            //初始化字体
+            try
+            {
+                Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
+                    ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME] : new FontFamily(CurrentConfig!.CustomFont);
+            }
+            catch (Exception)
+            {
+                Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
+                CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
+            }
 
             //初始化代理设置
             ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
@@ -146,6 +159,7 @@ namespace STranslate
                 CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
                 CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
                 CurrentConfig.DoubleTapTrayFunc = model.DoubleTapTrayFunc;
+                CurrentConfig.CustomFont = model.CustomFont;
 
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
@@ -242,6 +256,7 @@ namespace STranslate
                 IsAdjustContentTranslate = false,
                 IsRemoveLineBreakGettingWords = false,
                 DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
+                CustomFont = ConstStr.DEFAULTFONTNAME,
                 SourceLanguage = LanguageEnum.AUTO.GetDescription(),
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 Services =
