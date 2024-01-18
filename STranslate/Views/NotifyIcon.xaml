@@ -16,13 +16,19 @@
         <proxy:BindingProxy x:Key="NotifyIcon" Data="{Binding ElementName=notifyIcon}" />
         <proxy:BindingProxy x:Key="MainView" Data="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
     </UserControl.Resources>
-    <tb:TaskbarIcon DoubleClickCommand="{Binding DoubleClickCommand}"
+    <tb:TaskbarIcon x:Name="TrayIcon"
+                    DoubleClickCommand="{Binding DoubleClickCommand}"
                     DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                     IconSource="{Binding NIModel.IconSource}"
-                    ToolTipText="{Binding NIModel.ToolTip}">
+                    ToolTipText="{Binding NIModel.ToolTip}"
+                    TrayContextMenuOpen="TrayIcon_TrayContextMenuOpen">
         <tb:TaskbarIcon.ContextMenu>
             <!-- // 编译出来似乎有点显示Bug，再手动指定一下DataContext // -->
-            <ContextMenu Width="150" d:DataContext="{d:DesignInstance Type=vm:NotifyIconViewModel}" DataContext="{Binding Source={StaticResource NotifyIcon}, Path=Data.DataContext}">
+            <ContextMenu x:Name="TrayIconContextMenu"
+                         Width="150"
+                         d:DataContext="{d:DesignInstance Type=vm:NotifyIconViewModel}"
+                         DataContext="{Binding Source={StaticResource NotifyIcon}, Path=Data.DataContext}"
+                         FontFamily="{DynamicResource UserFont}">
 
                 <MenuItem Command="{Binding InputTranslateCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"

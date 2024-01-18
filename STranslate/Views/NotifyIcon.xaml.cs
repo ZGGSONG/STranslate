@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace STranslate.Views
 {
@@ -10,6 +11,16 @@ namespace STranslate.Views
         public NotifyIcon()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// https://github.com/hardcodet/wpf-notifyicon/issues/19
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TrayIcon_TrayContextMenuOpen(object sender, RoutedEventArgs e)
+        {
+            TrayIconContextMenu.UpdateDefaultStyle();
         }
     }
 }
