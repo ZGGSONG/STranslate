@@ -38,8 +38,9 @@
 | `Alt` + `D` | 复制当前鼠标选中内容并翻译 | ![](./img/crossword.gif) |
 | `Alt` + `S` | 截图选中区域内容并翻译 | ![](./img/screenshot.gif) |
 | `Alt` + `G` | 打开主界面 | ![](./img/open.gif) |
-| `Alt` + `Shift` + `S` | 完全离线文字识别(基于PaddleOCR) | ![](./img/ocr.gif) |
 | `Alt` + `Shift` + `D` | 打开监听鼠标划词，鼠标滑动选中文字立即翻译 | ![](./img/mousehook.gif) |
+| `Alt` + `Shift` + `S` | 完全离线文字识别(基于PaddleOCR) | ![](./img/ocr.gif) |
+| `Alt` + `Shift` + `F` | 静默OCR(OCR后自动复制到剪贴板) | ![](./img/silentocr.gif) |
 
 
 2. 软件内快捷键
@@ -75,6 +76,12 @@
 
 ![update](./img/update.png)
 
+## 注意
+
+1.0.3.118 版本以后开始加密保存密钥等信息，如需查看请进入软件`偏好设置`-`服务`中显示查看密钥等信息
+
+![encrypt](./img/encrypt.png)
+
 ## 疑问
 
 1. 问：划词翻译无法获取? 答：建议开启管理员权限启动，`设置`-`常规设置`-`以管理员权限启动`-`重启软件`
@@ -92,11 +99,12 @@ rd /s /q "%localappdata%\stranslate"
 2. 删除软件运行目录
 
 
-
 ## 开发历史
 
 <details>
 <summary>详细内容</summary>
+
+- 2024-01-18 1.0.3.118 添加OpenAI、Gemini接口，静默OCR等功能，修复了若干BUG和优化体验...
 
 - 2024-01-14 1.0.2.114 添加必应官方接口、禁用系统代理等功能...
 
@@ -137,6 +145,8 @@ rd /s /q "%localappdata%\stranslate"
 
 1. 支持 [百度翻译](https://fanyi-api.baidu.com)
 2. 支持 [必应翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
+3. 支持 [OpenAI](https://openai.com)
+4. 支持 [Google Gemini](https://makersuite.google.com/app/apikey)
 
 ## Author 作者
 
