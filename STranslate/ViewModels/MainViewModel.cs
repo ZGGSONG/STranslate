@@ -126,28 +126,36 @@ namespace STranslate.ViewModels
                     NotifyIconVM.OCRCommand.Execute(null);
                 });
 
+                HotkeyHelper.Register(HotkeyHelper.SilentOCRId, () =>
+                {
+                    NotifyIconVM.SilentOCRCommand.Execute(null);
+                });
+
                 if (HotkeyHelper.Hotkeys!.InputTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.ScreenShotTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.OpenMainWindow.Conflict
                     || HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict
-                    || HotkeyHelper.Hotkeys!.OCR.Conflict)
+                    || HotkeyHelper.Hotkeys!.OCR.Conflict
+                    || HotkeyHelper.Hotkeys!.SilentOCR.Conflict)
                 {
-                    MessageBox_S.Show("全局快捷键有冲突，请前往软件首选项中修改...");
+                    MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
                 }
                 var msg = "";
                 if (!HotkeyHelper.Hotkeys!.InputTranslate.Conflict)
                     msg += $"输入: {HotkeyHelper.Hotkeys.InputTranslate.Text}\n";
                 if (!HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict)
                     msg += $"划词: {HotkeyHelper.Hotkeys.CrosswordTranslate.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict)
-                    msg += $"鼠标: {HotkeyHelper.Hotkeys.MousehookTranslate.Text}\n";
                 if (!HotkeyHelper.Hotkeys!.ScreenShotTranslate.Conflict)
                     msg += $"截图: {HotkeyHelper.Hotkeys.ScreenShotTranslate.Text}\n";
                 if (!HotkeyHelper.Hotkeys!.OpenMainWindow.Conflict)
                     msg += $"显示: {HotkeyHelper.Hotkeys.OpenMainWindow.Text}\n";
+                if (!HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict)
+                    msg += $"鼠标: {HotkeyHelper.Hotkeys.MousehookTranslate.Text}\n";
                 if (!HotkeyHelper.Hotkeys!.OCR.Conflict)
                     msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
+                if (!HotkeyHelper.Hotkeys!.SilentOCR.Conflict)
+                    msg += $"静默: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
                 NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
             }
             catch (Exception)

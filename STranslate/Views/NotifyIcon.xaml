@@ -50,6 +50,11 @@
                 <MenuItem Command="{Binding OCRCommand}"
                           CommandParameter="placehold"
                           Header="文字识别"
+                          Icon="&#xe695;" />
+
+                <MenuItem Command="{Binding SilentOCRCommand}"
+                          CommandParameter="placehold"
+                          Header="静默OCR"
                           Icon="&#xe861;" />
 
                 <MenuItem Command="{Binding QRCodeCommand}" Header="二维码" Icon="&#xe642;" />

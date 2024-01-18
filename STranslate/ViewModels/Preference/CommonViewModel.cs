@@ -54,6 +54,7 @@ namespace STranslate.ViewModels.Preference
             IsAdjustContentTranslate = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false;
             IsRemoveLineBreakGettingWords = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
             DoubleTapTrayFunc = Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+            CustomFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
 
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)

@@ -13,6 +13,8 @@
         public MousehookTranslate MousehookTranslate { get; set; } = new MousehookTranslate();
 
         public OCR OCR { get; set; } = new OCR();
+
+        public SilentOCR SilentOCR { get; set; } = new SilentOCR();
     }
 
     public class InputTranslate : HotkeyBase { }
@@ -26,6 +28,8 @@
     public class MousehookTranslate : HotkeyBase { }
 
     public class OCR : HotkeyBase { }
+
+    public class SilentOCR : HotkeyBase { }
 
     public class HotkeyBase
     {
@@ -43,8 +47,8 @@
         public static T Update<T>(this T t, KeyModifiers modifiers, KeyCodes key, string? text, bool conflict = false)
             where T : HotkeyBase
         {
-            t.Modifiers = modifiers;
             t.Key = key;
+            t.Modifiers = modifiers;
             t.Text = text;
             t.Conflict = conflict;
             return t;

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using STranslate.Util;
+using STranslate.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace STranslate.Views
@@ -11,6 +13,9 @@ namespace STranslate.Views
         public NotifyIcon()
         {
             InitializeComponent();
+
+            Singleton<NotifyIconViewModel>.Instance.OnShowBalloonTip += (msg)
+                => TrayIcon.ShowBalloonTip("", msg, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.None);
         }
 
         /// <summary>

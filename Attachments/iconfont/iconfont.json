@@ -6,6 +6,20 @@
   "description": "基于.Net 6 开发的新款翻译工具",
   "glyphs": [
     {
+      "icon_id": "10048824",
+      "name": "OCR识别",
+      "font_class": "OCRshibie",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "15556290",
+      "name": "OCR",
+      "font_class": "OCR",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
       "icon_id": "6250252",
       "name": "密码显示隐藏-02",
       "font_class": "mimaxianshiyincang-",

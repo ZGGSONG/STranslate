@@ -38,6 +38,7 @@ namespace STranslate.Views.Preference
             OpenMainWindowTextBox.Text = conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text;
             MousehookTextBox.Text = conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text;
             OCRTextBox.Text = conf.CurrentConfig!.Hotkeys!.OCR.Text;
+            SilentOCRTextBox.Text = conf.CurrentConfig!.Hotkeys!.SilentOCR.Text;
             HotKeyConflictCheck();
         }
 
@@ -67,15 +68,15 @@ namespace STranslate.Views.Preference
                 _hotkeysModifiers += 2;
                 shortcutText.Append("Ctrl + ");
             }
-            if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0)
-            {
-                _hotkeysModifiers += 4;
-                shortcutText.Append("Shift + ");
-            }
             if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0)
             {
                 _hotkeysModifiers += 1;
                 shortcutText.Append("Alt + ");
+            }
+            if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0)
+            {
+                _hotkeysModifiers += 4;
+                shortcutText.Append("Shift + ");
             }
             if (_hotkeysModifiers == 0 && (key < Key.F1 || key > Key.F12))
             {
@@ -233,18 +234,51 @@ namespace STranslate.Views.Preference
             RefreshNotifyToolTip();
         }
 
+        private void SilentOCR_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (
+                key == Key.LeftShift
+                || key == Key.RightShift
+                || key == Key.LeftCtrl
+                || key == Key.RightCtrl
+                || key == Key.LeftAlt
+                || key == Key.RightAlt
+                || key == Key.LWin
+                || key == Key.RWin
+            )
+            {
+                return;
+            }
+            conf.CurrentConfig!.Hotkeys!.SilentOCR.Modifiers = _hotkeysModifiers;
+            conf.CurrentConfig!.Hotkeys!.SilentOCR.Key = _hotkeysKey;
+            conf.CurrentConfig!.Hotkeys!.SilentOCR.Text = _hotkeysText.ToString();
+            HotkeyHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+            RefreshNotifyToolTip();
+        }
+
         private void HotKeyConflictCheck()
         {
+            InputHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict
+                ? Visibility.Visible
+                : Visibility.Hidden;
             CrossWordHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict
                 ? Visibility.Visible
                 : Visibility.Hidden;
             ScreenshotHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict
                 ? Visibility.Visible
                 : Visibility.Hidden;
-            InputHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict
+            ShowMainwinHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict
                 ? Visibility.Visible
                 : Visibility.Hidden;
-            ShowMainwinHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict
+            MousehookHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict
+                ? Visibility.Visible
+                : Visibility.Hidden;
+            OCRHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.OCR.Conflict
+                ? Visibility.Visible
+                : Visibility.Hidden;
+            SilentOCRHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict
                 ? Visibility.Visible
                 : Visibility.Hidden;
         }
@@ -256,14 +290,16 @@ namespace STranslate.Views.Preference
                 msg += $"输入: {conf.CurrentConfig!.Hotkeys!.InputTranslate.Text}\r\n";
             if (!conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict)
                 msg += $"划词: {conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict)
-                msg += $"鼠标: {conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\r\n";
             if (!conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict)
                 msg += $"截图: {conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text}\r\n";
             if (!conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict)
                 msg += $"显示: {conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text}\r\n";
+            if (!conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict)
+                msg += $"鼠标: {conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\r\n";
             if (!conf.CurrentConfig!.Hotkeys!.OCR.Conflict)
                 msg += $"识字: {conf.CurrentConfig!.Hotkeys!.OCR.Text}\r\n";
+            if (!conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict)
+                msg += $"静默: {conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
             Singleton<NotifyIconViewModel>.Instance.UpdateToolTip(msg.TrimEnd(['\r', '\n']));
         }
 
@@ -277,6 +313,7 @@ namespace STranslate.Views.Preference
             OpenMainWindowTextBox.Text = cHotkeys.OpenMainWindow.Text;
             MousehookTextBox.Text = cHotkeys.MousehookTranslate.Text;
             OCRTextBox.Text = cHotkeys.OCR.Text;
+            SilentOCRTextBox.Text = cHotkeys.SilentOCR.Text;
 
             conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Modifiers = cHotkeys.CrosswordTranslate.Modifiers;
             conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Key = cHotkeys.CrosswordTranslate.Key;
@@ -301,6 +338,10 @@ namespace STranslate.Views.Preference
             conf.CurrentConfig!.Hotkeys!.OCR.Modifiers = cHotkeys.OCR.Modifiers;
             conf.CurrentConfig!.Hotkeys!.OCR.Key = cHotkeys.OCR.Key;
             conf.CurrentConfig!.Hotkeys!.OCR.Text = cHotkeys.OCR.Text;
+
+            conf.CurrentConfig!.Hotkeys!.SilentOCR.Modifiers = cHotkeys.SilentOCR.Modifiers;
+            conf.CurrentConfig!.Hotkeys!.SilentOCR.Key = cHotkeys.SilentOCR.Key;
+            conf.CurrentConfig!.Hotkeys!.SilentOCR.Text = cHotkeys.SilentOCR.Text;
 
             HotkeyHelper.ReRegisterHotKey();
             HotKeyConflictCheck();

@@ -220,7 +220,41 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid Margin="20,10,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Margin="20,0"
+                           VerticalAlignment="Center"
+                           HorizontalContentAlignment="Right"
+                           Content="静默OCR" />
+                    <TextBox x:Name="SilentOCRTextBox"
+                             Grid.Column="1"
+                             MinWidth="180"
+                             Margin="20,2"
+                             HorizontalAlignment="Left"
+                             VerticalContentAlignment="Center"
+                             CaretBrush="Transparent"
+                             Cursor="Hand"
+                             InputMethod.IsInputMethodEnabled="False"
+                             KeyUp="SilentOCR_KeyUp"
+                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
+                    <Label x:Name="SilentOCRHotKeyConflictLabel"
+                           Grid.Column="2"
+                           Margin="20,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Content="热键冲突"
+                           DockPanel.Dock="Right"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
+                           Visibility="Hidden" />
+                </Grid>
+
+                <Grid Margin="20,30,0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="2*" />

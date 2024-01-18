@@ -22,6 +22,8 @@ namespace STranslate.ViewModels
 
         public event Action? OnExit;
 
+        public event Action<string>? OnShowBalloonTip;
+
         [ObservableProperty]
         private bool _isForbiddenShortcuts = false;
 
@@ -168,7 +170,7 @@ namespace STranslate.ViewModels
                 });
         }
 
-        private void OCRHandler()
+        internal void OCRHandler()
         {
             ScreenshotView view = new();
             ShowAndActive(view, false);
@@ -192,6 +194,52 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
+        private void SilentOCR(object obj)
+        {
+            if (obj == null)
+            {
+                SilentOCRHandler();
+                return;
+            }
+            System.Threading.Tasks.Task
+                .Delay(200)
+                .ContinueWith(_ =>
+                {
+                    CommonUtil.InvokeOnUIThread(() =>
+                    {
+                        SilentOCRHandler();
+                    });
+                });
+        }
+
+        internal void SilentOCRHandler()
+        {
+            ScreenshotView view = new();
+            ShowAndActive(view, false);
+
+            view.BitmapCallback += (
+                bitmap =>
+                {
+                    var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+
+                    var getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
+
+                    //取词前移除换行
+                    getText =
+                        Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
+                            ? StringUtil.RemoveLineBreaks(getText)
+                            : getText;
+
+                    //写入剪贴板
+                    Clipboard.SetDataObject(getText, true);
+
+                    var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
+                    OnShowBalloonTip?.Invoke($"OCR识别成功: {tmp}");
+                }
+            );
+        }
+
+        [RelayCommand]
         private void ScreenShotTranslate(object obj)
         {
             if (obj == null)
@@ -210,7 +258,7 @@ namespace STranslate.ViewModels
                 });
         }
 
-        private void ScreenShotHandler()
+        internal void ScreenShotHandler()
         {
             ScreenshotView view = new();
             ShowAndActive(view, false);
