@@ -80,7 +80,7 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="禁用系统代理" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用彻底不走系统代理，默认走系统代理(如果开启)，禁用后不论系统代理是否开启均走直连" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用彻底不走系统代理，默认走系统代理(如果开启)&#13;禁用后不论系统代理是否开启均走直连(立即生效)" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsDisableSystemProxy}" />
                             </DockPanel>
                         </StackPanel>
@@ -91,7 +91,7 @@
                         <StackPanel>
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="明暗主题" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题切换" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题切换(立即生效)" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsBright}" />
                             </DockPanel>
 
@@ -120,6 +120,12 @@
                                 <TextBlock HorizontalAlignment="Left" Text="非常规屏幕截图修复" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="非16:9的拓展显示器截图移位的问题" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding UnconventionalScreen}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="关闭鼠标划词保持置顶" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="关闭鼠标划词功能后保持窗口置顶" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsKeepTopmostAfterMousehook}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

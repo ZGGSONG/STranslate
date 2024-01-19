@@ -55,6 +55,7 @@ namespace STranslate.ViewModels.Preference
             IsRemoveLineBreakGettingWords = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
             DoubleTapTrayFunc = Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
             CustomFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
+            IsKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
 
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)
@@ -213,5 +214,8 @@ namespace STranslate.ViewModels.Preference
                 }
             }
         }
+
+        [ObservableProperty]
+        private bool isKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
     }
 }

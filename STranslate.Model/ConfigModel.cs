@@ -93,6 +93,11 @@ namespace STranslate.Model
         public string CustomFont { get; set; } = ConstStr.DEFAULTFONTNAME;
 
         /// <summary>
+        /// 鼠标划词取消后是否保留置顶
+        /// </summary>
+        public bool IsKeepTopmostAfterMousehook { get; set; } = false;
+
+        /// <summary>
         /// 服务
         /// </summary>
         [JsonIgnore]

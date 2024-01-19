@@ -160,7 +160,7 @@ namespace STranslate
                 CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
                 CurrentConfig.DoubleTapTrayFunc = model.DoubleTapTrayFunc;
                 CurrentConfig.CustomFont = model.CustomFont;
-
+                CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
             }
@@ -258,6 +258,7 @@ namespace STranslate
                 IsRemoveLineBreakGettingWords = false,
                 DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
                 CustomFont = ConstStr.DEFAULTFONTNAME,
+                IsKeepTopmostAfterMousehook = false,
                 SourceLanguage = LanguageEnum.AUTO.GetDescription(),
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 Services =

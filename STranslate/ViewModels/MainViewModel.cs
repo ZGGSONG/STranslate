@@ -209,9 +209,12 @@ namespace STranslate.ViewModels
             }
             else
             {
-                view.Topmost = false;
-                IsTopMost = ConstStr.TAGFALSE;
-                TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+                if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false))
+                {
+                    view.Topmost = false;
+                    IsTopMost = ConstStr.TAGFALSE;
+                    TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+                }
                 Singleton<MouseHookHelper>.Instance.MouseHookStop();
                 Singleton<MouseHookHelper>.Instance.OnGetwordsHandler -= OnGetwordsHandlerChanged;
                 ToastHelper.Show("关闭鼠标划词");
