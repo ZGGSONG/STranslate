@@ -104,7 +104,7 @@
                              CaretBrush="Transparent"
                              Cursor="Hand"
                              InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="CrossWord_KeyUp"
+                             KeyUp="Screenshot_KeyUp"
                              PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
                     <Label x:Name="ScreenshotHotKeyConflictLabel"
                            Grid.Column="2"

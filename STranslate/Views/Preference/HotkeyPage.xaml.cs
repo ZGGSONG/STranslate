@@ -90,30 +90,6 @@ namespace STranslate.Views.Preference
             ((TextBox)sender).Text = _hotkeysText = shortcutText.ToString();
         }
 
-        private void CrossWord_KeyUp(object sender, KeyEventArgs e)
-        {
-            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
-            if (
-                key == Key.LeftShift
-                || key == Key.RightShift
-                || key == Key.LeftCtrl
-                || key == Key.RightCtrl
-                || key == Key.LeftAlt
-                || key == Key.RightAlt
-                || key == Key.LWin
-                || key == Key.RWin
-            )
-            {
-                return;
-            }
-            conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Modifiers = _hotkeysModifiers;
-            conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Key = _hotkeysKey;
-            conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text = _hotkeysText.ToString();
-            HotkeyHelper.ReRegisterHotKey();
-            HotKeyConflictCheck();
-            RefreshNotifyToolTip();
-        }
-
         private void Input_KeyUp(object sender, KeyEventArgs e)
         {
             Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
@@ -133,6 +109,30 @@ namespace STranslate.Views.Preference
             conf.CurrentConfig!.Hotkeys!.InputTranslate.Modifiers = _hotkeysModifiers;
             conf.CurrentConfig!.Hotkeys!.InputTranslate.Key = _hotkeysKey;
             conf.CurrentConfig!.Hotkeys!.InputTranslate.Text = _hotkeysText.ToString();
+            HotkeyHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+            RefreshNotifyToolTip();
+        }
+
+        private void CrossWord_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (
+                key == Key.LeftShift
+                || key == Key.RightShift
+                || key == Key.LeftCtrl
+                || key == Key.RightCtrl
+                || key == Key.LeftAlt
+                || key == Key.RightAlt
+                || key == Key.LWin
+                || key == Key.RWin
+            )
+            {
+                return;
+            }
+            conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Modifiers = _hotkeysModifiers;
+            conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Key = _hotkeysKey;
+            conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text = _hotkeysText.ToString();
             HotkeyHelper.ReRegisterHotKey();
             HotKeyConflictCheck();
             RefreshNotifyToolTip();
@@ -286,19 +286,19 @@ namespace STranslate.Views.Preference
         private void RefreshNotifyToolTip()
         {
             var msg = "";
-            if (!conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.InputTranslate.Text))
                 msg += $"输入: {conf.CurrentConfig!.Hotkeys!.InputTranslate.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text))
                 msg += $"划词: {conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text))
                 msg += $"截图: {conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text))
                 msg += $"显示: {conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text))
                 msg += $"鼠标: {conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.OCR.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.OCR.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.OCR.Text))
                 msg += $"识字: {conf.CurrentConfig!.Hotkeys!.OCR.Text}\r\n";
-            if (!conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict)
+            if (!conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.SilentOCR.Text))
                 msg += $"静默: {conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
             Singleton<NotifyIconViewModel>.Instance.UpdateToolTip(msg.TrimEnd(['\r', '\n']));
         }
@@ -345,6 +345,7 @@ namespace STranslate.Views.Preference
 
             HotkeyHelper.ReRegisterHotKey();
             HotKeyConflictCheck();
+            RefreshNotifyToolTip();
 
             ToastHelper.Show("重置成功", WindowType.Preference);
         }
@@ -359,6 +360,7 @@ namespace STranslate.Views.Preference
             }
             else
             {
+                RefreshNotifyToolTip();
                 ToastHelper.Show("保存热键成功", WindowType.Preference);
             }
         }

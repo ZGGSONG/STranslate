@@ -142,19 +142,19 @@ namespace STranslate.ViewModels
                     MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
                 }
                 var msg = "";
-                if (!HotkeyHelper.Hotkeys!.InputTranslate.Conflict)
+                if (!HotkeyHelper.Hotkeys.InputTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.InputTranslate.Text))
                     msg += $"输入: {HotkeyHelper.Hotkeys.InputTranslate.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict)
+                if (!HotkeyHelper.Hotkeys.CrosswordTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.CrosswordTranslate.Text))
                     msg += $"划词: {HotkeyHelper.Hotkeys.CrosswordTranslate.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.ScreenShotTranslate.Conflict)
+                if (!HotkeyHelper.Hotkeys.ScreenShotTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ScreenShotTranslate.Text))
                     msg += $"截图: {HotkeyHelper.Hotkeys.ScreenShotTranslate.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.OpenMainWindow.Conflict)
+                if (!HotkeyHelper.Hotkeys.OpenMainWindow.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OpenMainWindow.Text))
                     msg += $"显示: {HotkeyHelper.Hotkeys.OpenMainWindow.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict)
+                if (!HotkeyHelper.Hotkeys.MousehookTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.MousehookTranslate.Text))
                     msg += $"鼠标: {HotkeyHelper.Hotkeys.MousehookTranslate.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.OCR.Conflict)
+                if (!HotkeyHelper.Hotkeys.OCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OCR.Text))
                     msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
-                if (!HotkeyHelper.Hotkeys!.SilentOCR.Conflict)
+                if (!HotkeyHelper.Hotkeys.SilentOCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentOCR.Text))
                     msg += $"静默: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
                 NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
             }
