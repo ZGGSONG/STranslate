@@ -220,21 +220,28 @@ namespace STranslate.ViewModels
             view.BitmapCallback += (
                 bitmap =>
                 {
-                    var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+                    try
+                    {
+                        var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+                        var getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
 
-                    var getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
+                        //取词前移除换行
+                        getText =
+                            Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
+                                ? StringUtil.RemoveLineBreaks(getText)
+                                : getText;
 
-                    //取词前移除换行
-                    getText =
-                        Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
-                            ? StringUtil.RemoveLineBreaks(getText)
-                            : getText;
+                        //写入剪贴板
+                        Clipboard.SetDataObject(getText, true);
 
-                    //写入剪贴板
-                    Clipboard.SetDataObject(getText, true);
-
-                    var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
-                    OnShowBalloonTip?.Invoke($"OCR识别成功: {tmp}");
+                        var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
+                        OnShowBalloonTip?.Invoke($"OCR识别成功: {tmp}");
+                    }
+                    catch (Exception ex)
+                    {
+                        OnShowBalloonTip?.Invoke($"OCR识别失败: {ex.Message}");
+                        LogService.Logger.Error("静默OCR失败", ex);
+                    }
                 }
             );
         }

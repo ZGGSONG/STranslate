@@ -4,6 +4,7 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
+using STranslate.ViewModels;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.Services;
 using System;
@@ -62,6 +63,9 @@ namespace STranslate
 
             //初始化代理设置
             ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
+
+            //初始化首页图标
+            Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         }
 
         /// <summary>
@@ -161,6 +165,14 @@ namespace STranslate
                 CurrentConfig.DoubleTapTrayFunc = model.DoubleTapTrayFunc;
                 CurrentConfig.CustomFont = model.CustomFont;
                 CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
+                CurrentConfig.IsShowPreference = model.IsShowPreference;
+                CurrentConfig.IsShowSwitchTheme = model.IsShowSwitchTheme;
+                CurrentConfig.IsShowMousehook = model.IsShowMousehook;
+                CurrentConfig.IsShowScreenshot = model.IsShowScreenshot;
+                CurrentConfig.IsShowOCR = model.IsShowOCR;
+                CurrentConfig.IsShowSilentOCR = model.IsShowSilentOCR;
+                CurrentConfig.IsShowQRCode = model.IsShowQRCode;
+                Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
             }
@@ -259,6 +271,13 @@ namespace STranslate
                 DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
                 CustomFont = ConstStr.DEFAULTFONTNAME,
                 IsKeepTopmostAfterMousehook = false,
+                IsShowPreference = false,
+                IsShowSwitchTheme = false,
+                IsShowMousehook = false,
+                IsShowScreenshot = false,
+                IsShowOCR = false,
+                IsShowSilentOCR = false,
+                IsShowQRCode = false,
                 SourceLanguage = LanguageEnum.AUTO.GetDescription(),
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 Services =

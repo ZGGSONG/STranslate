@@ -98,6 +98,41 @@ namespace STranslate.Model
         public bool IsKeepTopmostAfterMousehook { get; set; } = false;
 
         /// <summary>
+        /// 是否显示设置图标
+        /// </summary>
+        public bool IsShowPreference { get; set; } = true;
+
+        /// <summary>
+        /// 是否显示切换主题图标
+        /// </summary>
+        public bool IsShowSwitchTheme { get; set; } = true;
+
+        /// <summary>
+        /// 是否显示打开鼠标划词图标
+        /// </summary>
+        public bool IsShowMousehook { get; set; } = false;
+
+        /// <summary>
+        /// 是否显示截图翻译图标
+        /// </summary>
+        public bool IsShowScreenshot { get; set; } = false;
+
+        /// <summary>
+        /// 是否显示OCR图标
+        /// </summary>
+        public bool IsShowOCR { get; set; } = false;
+
+        /// <summary>
+        /// 是否显示静默OCR图标
+        /// </summary>
+        public bool IsShowSilentOCR { get; set; } = false;
+
+        /// <summary>
+        /// 是否显示识别二维码图标
+        /// </summary>
+        public bool IsShowQRCode { get; set; } = false;
+
+        /// <summary>
         /// 服务
         /// </summary>
         [JsonIgnore]

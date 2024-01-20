@@ -56,7 +56,13 @@ namespace STranslate.ViewModels.Preference
             DoubleTapTrayFunc = Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
             CustomFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
             IsKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
-
+            IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
+            IsShowSwitchTheme = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSwitchTheme ?? false;
+            IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
+            IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
+            IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
+            IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
+            IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)
             {
@@ -217,5 +223,48 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private bool isKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
+
+
+        /// <summary>
+        /// 是否显示设置图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
+
+        /// <summary>
+        /// 是否显示切换主题图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowSwitchTheme = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSwitchTheme ?? false;
+
+        /// <summary>
+        /// 是否显示打开鼠标划词图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
+
+        /// <summary>
+        /// 是否显示截图翻译图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
+
+        /// <summary>
+        /// 是否显示OCR图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
+
+        /// <summary>
+        /// 是否显示静默OCR图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
+
+        /// <summary>
+        /// 是否显示识别二维码图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
     }
 }

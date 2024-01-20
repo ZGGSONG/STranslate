@@ -12,32 +12,60 @@
         <Button x:Name="TopmostBtn"
                 Margin="10,5,0,0"
                 HorizontalAlignment="Left"
+                ToolTip="置顶"
                 Command="{Binding StickyCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="{Binding TopMostContent}"
-                FontSize="22"
+                FontSize="21"
                 Style="{DynamicResource ButtonStickyIconStyle}"
                 Tag="{Binding IsTopMost}" />
-        <Button Margin="0,0,100,0"
-                HorizontalAlignment="Right"
-                Command="{Binding MouseHookCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                Content="&#xe650;"
-                FontSize="21"
-                FontWeight="Black"
-                Style="{DynamicResource ButtonCrosswordsIconStyle}"
-                Tag="{Binding IsEnableMosehook}" />
-        <Button Margin="0,0,60,0"
-                HorizontalAlignment="Right"
-                Content="&#xe994;"
-                FontSize="21"
-                Command="{Binding SwitchThemeCommand}"
-                Style="{DynamicResource ButtonIconStyle}" />
-        <Button Margin="0,0,20,0"
-                HorizontalAlignment="Right"
-                Command="{Binding NotifyIconVM.OpenPreferenceCommand}"
-                Content="&#xe604;"
-                FontSize="21"
-                Style="{DynamicResource ButtonIconStyle}" />
+        <StackPanel Margin="0,0,10,0" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button HorizontalAlignment="Right"
+                    ToolTip="偏好设置"
+                    Visibility="{Binding IsShowPreference, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Command="{Binding NotifyIconVM.OpenPreferenceCommand}"
+                    Content="&#xe656;"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            <Button HorizontalAlignment="Right"
+                    ToolTip="切换主题"
+                    Visibility="{Binding IsShowSwitchTheme, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Content="&#xe994;"
+                    Command="{Binding SwitchThemeCommand}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            <Button HorizontalAlignment="Right"
+                    ToolTip="监听鼠标划词"
+                    Visibility="{Binding IsShowMousehook, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Command="{Binding MouseHookCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Content="&#xeb94;"
+                    Height="30"
+                    Width="30"
+                    Style="{DynamicResource ButtonCrosswordsIconStyle}"
+                    Tag="{Binding IsEnableMosehook}" />
+            <Button HorizontalAlignment="Right"
+                    ToolTip="截图翻译"
+                    Visibility="{Binding IsShowScreenshot, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Content="&#xe679;"
+                    Command="{Binding NotifyIconVM.ScreenShotTranslateCommand}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            <Button HorizontalAlignment="Right"
+                    ToolTip="OCR"
+                    Visibility="{Binding IsShowOCR, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Content="&#xe695;"
+                    Command="{Binding NotifyIconVM.OCRCommand}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            <Button HorizontalAlignment="Right"
+                    ToolTip="静默OCR"
+                    Visibility="{Binding IsShowSilentOCR, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Content="&#xe861;"
+                    Command="{Binding NotifyIconVM.SilentOCRCommand}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            <Button HorizontalAlignment="Right"
+                    ToolTip="识别二维码"
+                    Visibility="{Binding IsShowQRCode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Content="&#xe642;"
+                    Command="{Binding  NotifyIconVM.QRCodeCommand}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+        </StackPanel>
     </Grid>
 </UserControl>

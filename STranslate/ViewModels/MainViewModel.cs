@@ -289,5 +289,42 @@ namespace STranslate.ViewModels
         {
             Singleton<CommonViewModel>.Instance.IsBright = !Singleton<CommonViewModel>.Instance.IsBright;
         }
+
+        /// <summary>
+        /// 更新主界面图标显示
+        /// </summary>
+        internal void UpdateMainViewIcons()
+        {
+            IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
+            IsShowSwitchTheme = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSwitchTheme ?? false;
+            IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
+            IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
+            IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
+            IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
+            IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+        }
+
+        #region 显示图标
+        [ObservableProperty]
+        private bool isShowPreference;
+
+        [ObservableProperty]
+        private bool isShowSwitchTheme;
+
+        [ObservableProperty]
+        private bool isShowMousehook;
+
+        [ObservableProperty]
+        private bool isShowScreenshot;
+
+        [ObservableProperty]
+        private bool isShowOCR;
+
+        [ObservableProperty]
+        private bool isShowSilentOCR;
+
+        [ObservableProperty]
+        private bool isShowQRCode;
+        #endregion 显示图标
     }
 }
