@@ -133,6 +133,15 @@ namespace STranslate.Model
         public bool IsShowQRCode { get; set; } = false;
 
         /// <summary>
+        /// 取词间隔
+        /// </summary>
+        /// <remarks>
+        /// 默认200，体验区别不大，主要是避免了福昕阅读器，复制时弹窗导致取词时间变长最终无法取词成功
+        /// https://github.com/zggsong/stranslate/issues/13
+        /// </remarks>
+        public int WordPickingInterval { get; set; } = 200;
+
+        /// <summary>
         /// 服务
         /// </summary>
         [JsonIgnore]

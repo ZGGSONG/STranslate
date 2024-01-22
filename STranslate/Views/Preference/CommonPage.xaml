@@ -68,6 +68,22 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="取词时间间隔" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="针对部分软件取词失败的情况，延长取词时间间隔" />
+                                <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <Slider MinWidth="160"
+                                            Margin="0,0,30,0"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="2000"
+                                            Minimum="50"
+                                            TickFrequency="50"
+                                            TickPlacement="None"
+                                            Value="{Binding WordPickingInterval}" />
+                                    <TextBlock Margin="0,0,10,0" Text="{Binding WordPickingInterval}" />
+                                </StackPanel>
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="双击托盘功能" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标左键双击头盘程序功能选择" />
                                 <ComboBox Height="30"

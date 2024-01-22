@@ -63,7 +63,7 @@ namespace STranslate.Helper
             }
             if (isDown && isMove)
             {
-                var content = GetWordsUtil.MouseSlidGet();
+                var content = GetWordsUtil.MouseSlidGet(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
                 OnGetwordsHandler?.Invoke(content);
             }
             isDown = false;

@@ -6,19 +6,19 @@ namespace STranslate.Util
 {
     public class GetWordsUtil
     {
-        public static string Get()
+        public static string Get(int interval = 100)
         {
             SendCtrlC();
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(interval);
 
             return GetText();
         }
 
-        public static string MouseSlidGet()
+        public static string MouseSlidGet(int interval = 100)
         {
             var oldTxt = GetText();
             SendCtrlC();
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(interval);
 
             //为了鼠标划词做对比
             var newTxt = GetText();

@@ -63,6 +63,7 @@ namespace STranslate.ViewModels.Preference
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+            WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)
             {
@@ -266,5 +267,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool isShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+
+        /// <summary>
+        /// 取词时间间隔
+        /// </summary>
+        [ObservableProperty]
+        private int wordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
     }
 }
