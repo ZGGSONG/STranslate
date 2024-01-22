@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.csharpierrc.json = .csharpierrc.json
 		.gitignore = .gitignore
 		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Style", "STranslate.Style\STranslate.Style.csproj", "{420EAA87-5CA1-4117-94E0-B070FCCD06C2}"
@@ -20,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Util", "STransla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Log", "STranslate.Log\STranslate.Log.csproj", "{92255394-9202-40FF-941F-C617A9CC8739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STranslate.Updater", "STranslate.Updater\STranslate.Updater.csproj", "{409A6A79-30E0-42EF-B4AF-C409980FC4AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Updater", "STranslate.Updater\STranslate.Updater.csproj", "{409A6A79-30E0-42EF-B4AF-C409980FC4AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

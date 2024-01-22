@@ -148,9 +148,19 @@ rd /s /q "%localappdata%\stranslate"
 3. 支持 [OpenAI](https://openai.com)
 4. 支持 [Google Gemini](https://makersuite.google.com/app/apikey)
 
-## Author 作者
+
+## 感谢
+
+- [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp)
+- [WpfTool](https://github.com/NPCDW/WpfTool)
+- [Tai](https://github.com/Planshit/Tai)
+
+- 感谢 JetBrains 提供开源项目免费License 
+
+<a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
+
+## 作者
 
 **STranslate** © [zggsong](https://github.com/zggsong), Released under the [MIT](https://github.com/ZGGSONG/STranslate/blob/main/LICENSE) License.<br>
-Authored and maintained by zggsong with help from other open source projects [WpfTool](https://github.com/NPCDW/WpfTool) and [Tai](https://github.com/Planshit/Tai).
 
 > Website [Blog](https://www.zggsong.com) · GitHub [@zggsong](https://github.com/zggsong)
