@@ -119,17 +119,23 @@ namespace STranslate.ViewModels
                 // 兼容旧版API: https://platform.openai.com/docs/guides/text-generation
                 if (!uriBuilder.Path.EndsWith("/v1/chat/completions") && !uriBuilder.Path.EndsWith("/v1/completions"))
                 {
-                    uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1/chat/completions";
+                    uriBuilder.Path = "/v1/chat/completions";
                 }
 
+                // 选择模型
                 var a_model = (service as TranslatorOpenAI)?.Model;
                 a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
+
+                // 组织语言
+                var a_content = source.Equals("auto", StringComparison.CurrentCultureIgnoreCase)
+                    ? $"Translate the following text to {target}: {content}"
+                    : $"Translate the following text from {source} to {target}: {content}";
 
                 // 构建请求数据
                 var reqData = new
                 {
                     model = a_model,
-                    messages = new[] { new { role = "user", content = $"Translate the following text to {target}: {content}" } },
+                    messages = new[] { new { role = "user", content = a_content } },
                     temperature = 1.0,
                     stream = true
                 };
@@ -138,7 +144,7 @@ namespace STranslate.ViewModels
                 var jsonData = JsonConvert.SerializeObject(reqData);
 
                 // 构建请求
-                var client = new HttpClient(new SocketsHttpHandler());
+                var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(10) };
                 var req = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
@@ -216,19 +222,24 @@ namespace STranslate.ViewModels
 
                 if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
                 {
-                    uriBuilder.Path = uriBuilder.Path.TrimEnd('/') + "/v1beta/models/gemini-pro:streamGenerateContent";
+                    uriBuilder.Path = "/v1beta/models/gemini-pro:streamGenerateContent";
                 }
 
                 uriBuilder.Query = $"key={service.AppKey}";
 
+                // 组织语言
+                var a_content = source.Equals("auto", StringComparison.CurrentCultureIgnoreCase)
+                    ? $"Translate the following text to {target}: {content}"
+                    : $"Translate the following text from {source} to {target}: {content}";
+
                 // 构建请求数据
-                var reqData = new { contents = new[] { new { parts = new[] { new { text = $"Translate the following text to {target}: {content}" } } } } };
+                var reqData = new { contents = new[] { new { parts = new[] { new { text = a_content } } } } };
 
                 // 为了流式输出与MVVM还是放这里吧
                 var jsonData = JsonConvert.SerializeObject(reqData);
 
                 // 构建请求
-                var client = new HttpClient(new SocketsHttpHandler());
+                var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(10) };
                 var req = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
