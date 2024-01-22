@@ -61,7 +61,7 @@
     <SolidColorBrush x:Key="TextBlockLangForeground">#999999</SolidColorBrush>
     <SolidColorBrush x:Key="TextBlockToastViewForeground">#ffffff</SolidColorBrush>
     <SolidColorBrush x:Key="TextBlockDisabledForeground">#bababa</SolidColorBrush>
-    
+
     <!-- // TextBox // -->
     <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
     <SolidColorBrush x:Key="TextForeground">#222222</SolidColorBrush>
@@ -77,4 +77,6 @@
     <!-- // Popup // -->
     <Color x:Key="PopupDropShadowEffectColor">#FFB6B6B6</Color>
 
+    <!-- // Other // -->
+    <SolidColorBrush x:Key="OfficialServiceColor">#e6c619</SolidColorBrush>
 </ResourceDictionary>

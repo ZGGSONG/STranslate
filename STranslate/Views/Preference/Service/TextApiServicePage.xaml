@@ -22,6 +22,23 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="类型: " />
+
+                <Border Grid.Column="1"
+                        Width="88"
+                        HorizontalAlignment="Left"
+                        BorderBrush="{DynamicResource ThemeAccentColor}"
+                        BorderThickness="2"
+                        CornerRadius="5">
+                    <TextBlock Padding="5,2" FontWeight="Black" Text="自建服务" />
+                </Border>
+            </Grid>
+
+            <Grid Margin="0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="名称: " />
 
                 <common:PlaceholderTextBox Grid.Column="1"
@@ -31,7 +48,7 @@
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
-            <Grid Margin="0,20">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
@@ -44,7 +61,7 @@
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
-            <Grid>
+            <Grid Margin="0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
