@@ -123,35 +123,48 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void QRCode()
+        private void QRCode(object obj)
         {
-            System.Threading.Tasks.Task
-                .Delay(200)
-                .ContinueWith(_ =>
+            if (obj is null)
+            {
+                goto Last;
+            }
+
+            if (obj.Equals("header"))
+            {
+                HideMainView();
+
+                goto Last;
+            }
+
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
+                => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
+
+            Last:
+            QRCodeHandler();
+        }
+
+        internal void QRCodeHandler()
+        {
+            ScreenshotView view = new();
+            ShowAndActive(view, false);
+
+            view.BitmapCallback += (
+                bitmap =>
                 {
-                    CommonUtil.InvokeOnUIThread(() =>
-                    {
-                        ScreenshotView view = new();
-                        ShowAndActive(view, false);
+                    //显示OCR窗口
+                    OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
+                    view ??= new OCRView();
+                    ShowAndActive(view, false);
 
-                        view.BitmapCallback += (
-                            bitmap =>
-                            {
-                                //显示OCR窗口
-                                OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
-                                view ??= new OCRView();
-                                ShowAndActive(view, false);
+                    //显示截图
+                    var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
 
-                                //显示截图
-                                var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
+                    Singleton<OCRViewModel>.Instance.GetImg = bs;
 
-                                Singleton<OCRViewModel>.Instance.GetImg = bs;
-
-                                Singleton<OCRViewModel>.Instance.QRCodeCommand.Execute(bs);
-                            }
-                        );
-                    });
-                });
+                    Singleton<OCRViewModel>.Instance.QRCodeCommand.Execute(bs);
+                }
+            );
         }
 
         [RelayCommand]
@@ -159,18 +172,21 @@ namespace STranslate.ViewModels
         {
             if (obj == null)
             {
-                OCRHandler();
-                return;
+                goto Last;
             }
-            System.Threading.Tasks.Task
-                .Delay(200)
-                .ContinueWith(_ =>
-                {
-                    CommonUtil.InvokeOnUIThread(() =>
-                    {
-                        OCRHandler();
-                    });
-                });
+
+            if (obj.Equals("header"))
+            {
+                HideMainView();
+
+                goto Last;
+            }
+
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
+                => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
+
+            Last:
+            OCRHandler();
         }
 
         internal void OCRHandler()
@@ -201,18 +217,21 @@ namespace STranslate.ViewModels
         {
             if (obj == null)
             {
-                SilentOCRHandler();
-                return;
+                goto Last;
             }
-            System.Threading.Tasks.Task
-                .Delay(200)
-                .ContinueWith(_ =>
-                {
-                    CommonUtil.InvokeOnUIThread(() =>
-                    {
-                        SilentOCRHandler();
-                    });
-                });
+
+            if (obj.Equals("header"))
+            {
+                HideMainView();
+
+                goto Last;
+            }
+
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
+                => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
+
+            Last:
+            SilentOCRHandler();
         }
 
         internal void SilentOCRHandler()
@@ -254,18 +273,21 @@ namespace STranslate.ViewModels
         {
             if (obj == null)
             {
-                ScreenShotHandler();
-                return;
+                goto Last;
             }
-            System.Threading.Tasks.Task
-                .Delay(200)
-                .ContinueWith(_ =>
-                {
-                    CommonUtil.InvokeOnUIThread(() =>
-                    {
-                        ScreenShotHandler();
-                    });
-                });
+
+            if (obj.Equals("header"))
+            {
+                HideMainView();
+
+                goto Last;
+            }
+
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
+                => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
+
+            Last:
+            ScreenShotHandler();
         }
 
         internal void ScreenShotHandler()
@@ -322,13 +344,25 @@ namespace STranslate.ViewModels
             );
         }
 
+        /// <summary>
+        /// 隐藏主窗口
+        /// </summary>
+        internal void HideMainView()
+        {
+            var view = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
+            if (!view.Topmost)
+            {
+                view.Hide();
+            }
+        }
+
         [RelayCommand]
         private void OpenMainWindow(Window view)
         {
             ShowAndActive(view);
         }
 
-        private void Clear()
+        internal void Clear()
         {
             //清空输入相关
             Singleton<InputViewModel>.Instance.Clear();

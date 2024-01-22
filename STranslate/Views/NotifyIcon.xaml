@@ -57,7 +57,10 @@
                           Header="静默OCR"
                           Icon="&#xe861;" />
 
-                <MenuItem Command="{Binding QRCodeCommand}" Header="二维码" Icon="&#xe642;" />
+                <MenuItem Command="{Binding QRCodeCommand}"
+                          CommandParameter="placehold"
+                          Header="二维码"
+                          Icon="&#xe642;" />
 
                 <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
 
