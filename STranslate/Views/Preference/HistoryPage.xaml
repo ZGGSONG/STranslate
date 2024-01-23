@@ -58,6 +58,7 @@
                 <!-- // Data // -->
                 <ScrollViewer x:Name="scroll"
                               Grid.Row="1"
+                              Margin="0,5,0,0"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Auto">
                     <!-- // 历史记录 // -->
