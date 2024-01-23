@@ -223,12 +223,12 @@ namespace STranslate.ViewModels
             bool isDebug = false;
             if (exception is TaskCanceledException)
             {
-                errorMessage = token.IsCancellationRequested ? "请求取消..." : "请求超时...";
+                errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时";
                 isDebug = token.IsCancellationRequested;
             }
             else if (exception is HttpRequestException)
             {
-                errorMessage = "请求出错...";
+                errorMessage = "请求出错";
             }
 
             service.Data = $"{errorMessage}: {exception.Message}";

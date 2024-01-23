@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,12 +35,14 @@ namespace STranslate.ViewModels.Preference
             {
                 HistoryList = new BindingList<HistoryModel>(historyModels.Reverse().ToList());
 
+                // 缓存一份
+                tmpList = HistoryList;
+
                 Count = HistoryList.Count;
 
                 if (Count > 0)
                 {
-                    SelectedIndex = 0;
-                    HistoryDetailContent = new HistoryContentPage(new HistoryContentViewModel(HistoryList.FirstOrDefault()));
+                    UpdateHistoryIndex();
                 }
                 else
                 {
@@ -50,6 +53,18 @@ namespace STranslate.ViewModels.Preference
 
                 ToastHelper.Show("刷新历史记录", WindowType.Preference);
             });
+        }
+
+        /// <summary>
+        /// 刷新选中历史记录
+        /// </summary>
+        private void UpdateHistoryIndex(int index = 0)
+        {
+            index = HistoryList?.Count > index ? index : 0;
+
+            SelectedIndex = index;
+
+            HistoryDetailContent = HistoryList is null || HistoryList?.Count == 0 ? null : new HistoryContentPage(new HistoryContentViewModel(HistoryList?[index]));
         }
 
         [RelayCommand]
@@ -147,6 +162,23 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
+        [RelayCommand]
+        private async Task SearchAsync()
+        {
+            await Task.Run(() =>
+            {
+                CommonUtil.InvokeOnUIThread(() =>
+                {
+                    HistoryList = string.IsNullOrEmpty(SearchContent) ? tmpList
+                    : new BindingList<HistoryModel>(tmpList?.Where(x => x.SourceText.Contains(SearchContent, StringComparison.CurrentCultureIgnoreCase))?.ToList() ?? []);
+                    
+                    UpdateHistoryIndex();
+                });
+            });
+        }
+
+        private BindingList<HistoryModel>? tmpList;
+
         /// <summary>
         /// SelectedChanged 可能会先触发 "SelectionChanged" 事件
         /// 然后再触发 "LostFocus" 事件，导致 Command 被调用两次
@@ -167,5 +199,8 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private BindingList<HistoryModel>? _historyList;
+
+        [ObservableProperty]
+        private string _searchContent = string.Empty;
     }
 }
