@@ -165,7 +165,7 @@ namespace STranslate.ViewModels
                 {
                     lock (service)
                     {
-                        service.Data += match.Value;
+                        service.Data += match.Value.Replace("\\n", "\n");
                     }
                 }
             }, token);
