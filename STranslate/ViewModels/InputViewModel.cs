@@ -231,7 +231,7 @@ namespace STranslate.ViewModels
                 errorMessage = "请求出错...";
             }
 
-            service.Data = errorMessage;
+            service.Data = $"{errorMessage}: {exception.Message}";
 
             if (isDebug)
                 LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
