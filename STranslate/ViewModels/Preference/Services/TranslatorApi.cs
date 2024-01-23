@@ -68,22 +68,9 @@ namespace STranslate.ViewModels.Preference.Services
         public string _appKey = string.Empty;
 
         [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
         public object _data = string.Empty;
-
-        [JsonIgnore]
-        public object Data
-        {
-            get => _data;
-            set
-            {
-                if (_data != value)
-                {
-                    OnPropertyChanging(nameof(Data));
-                    _data = value;
-                    OnPropertyChanged(nameof(Data));
-                }
-            }
-        }
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();

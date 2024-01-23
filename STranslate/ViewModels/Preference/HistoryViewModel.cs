@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Util;
 using STranslate.ViewModels.Preference.History;
 using STranslate.Views.Preference.History;
 using System;
@@ -20,30 +21,35 @@ namespace STranslate.ViewModels.Preference
     {
         public HistoryViewModel()
         {
-            RefreshCommand.Execute(null);
+            // 异步加载
+            Task.Run(async () => await RefreshCommand.ExecuteAsync(null));
         }
 
         [RelayCommand]
         private async Task RefreshAsync(ScrollViewer? scroll)
         {
             var historyModels = await SqlHelper.GetDataAsync();
-            HistoryList = new BindingList<HistoryModel>(historyModels.Reverse().ToList());
 
-            Count = HistoryList.Count;
-
-            if (Count > 0)
+            CommonUtil.InvokeOnUIThread(() =>
             {
-                SelectedIndex = 0;
-                HistoryDetailContent = new HistoryContentPage(new HistoryContentViewModel(HistoryList.FirstOrDefault()));
-            }
-            else
-            {
-                HistoryDetailContent = null;
-            }
+                HistoryList = new BindingList<HistoryModel>(historyModels.Reverse().ToList());
 
-            scroll?.ScrollToTop();
+                Count = HistoryList.Count;
 
-            ToastHelper.Show("刷新历史记录", WindowType.Preference);
+                if (Count > 0)
+                {
+                    SelectedIndex = 0;
+                    HistoryDetailContent = new HistoryContentPage(new HistoryContentViewModel(HistoryList.FirstOrDefault()));
+                }
+                else
+                {
+                    HistoryDetailContent = null;
+                }
+
+                scroll?.ScrollToTop();
+
+                ToastHelper.Show("刷新历史记录", WindowType.Preference);
+            });
         }
 
         [RelayCommand]
@@ -146,7 +152,6 @@ namespace STranslate.ViewModels.Preference
         /// 然后再触发 "LostFocus" 事件，导致 Command 被调用两次
         /// </summary>
         private bool _isSelectionChanging = false;
-
 
         [ObservableProperty]
         private List<string> eventList = ["清空全部"];

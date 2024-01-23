@@ -73,22 +73,9 @@ namespace STranslate.ViewModels.Preference.Services
         public string _appKey = string.Empty;
 
         [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
         public object _data = string.Empty;
-
-        [JsonIgnore]
-        public object Data
-        {
-            get => _data;
-            set
-            {
-                if (_data != value)
-                {
-                    OnPropertyChanging(nameof(Data));
-                    _data = value;
-                    OnPropertyChanged(nameof(Data));
-                }
-            }
-        }
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
@@ -96,22 +83,9 @@ namespace STranslate.ViewModels.Preference.Services
         #region Show/Hide Encrypt Info
 
         [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
         private bool _keyHide = true;
-
-        [JsonIgnore]
-        public bool KeyHide
-        {
-            get => _keyHide;
-            set
-            {
-                if (_keyHide != value)
-                {
-                    OnPropertyChanging(nameof(KeyHide));
-                    _keyHide = value;
-                    OnPropertyChanged(nameof(KeyHide));
-                }
-            }
-        }
 
         private void ShowEncryptInfo() => KeyHide = !KeyHide;
 
