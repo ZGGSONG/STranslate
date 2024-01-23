@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
+using STranslate.Model;
+using STranslate.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using STranslate.Model;
-using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -108,6 +108,11 @@ namespace STranslate.ViewModels.Preference.Services
                 return Task.FromResult<object>(ret);
             }
             return Task.FromResult<object>("请求数据出错");
+        }
+
+        public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+        {
+            throw new NotImplementedException();
         }
     }
 }

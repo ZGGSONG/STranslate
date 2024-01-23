@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using System.Threading;
-using System;
+using System.Threading.Tasks;
 
 namespace STranslate.Model
 {
@@ -25,5 +25,7 @@ namespace STranslate.Model
         string AppKey { get; set; }
 
         Task<object> TranslateAsync(object request, CancellationToken token);
+
+        Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token);
     }
 }

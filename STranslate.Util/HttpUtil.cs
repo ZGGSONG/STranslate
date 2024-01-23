@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace STranslate.Util
 {
@@ -45,12 +43,7 @@ namespace STranslate.Util
         /// <param name="token">取消令牌</param>
         /// <param name="timeout">超时时间（秒）</param>
         /// <returns></returns>
-        public static async Task<string> GetAsync(
-            string url,
-            Dictionary<string, string> queryParams,
-            CancellationToken token,
-            int timeout = 10
-        )
+        public static async Task<string> GetAsync(string url, Dictionary<string, string> queryParams, CancellationToken token, int timeout = 10)
         {
             using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
             // 构建带查询参数的URL
@@ -75,8 +68,7 @@ namespace STranslate.Util
         /// <param name="url"></param>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static async Task<string> PostAsync(string url, string req, int timeout = 10) =>
-            await PostAsync(url, req, CancellationToken.None, timeout);
+        public static async Task<string> PostAsync(string url, string req, int timeout = 10) => await PostAsync(url, req, CancellationToken.None, timeout);
 
         /// <summary>
         /// 异步Post请求(Body)
@@ -108,7 +100,14 @@ namespace STranslate.Util
         /// <param name="token"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static async Task<string> PostAsync(string url, string req, Dictionary<string, string> queryParams, Dictionary<string, string> headers, CancellationToken token, int timeout = 10)
+        public static async Task<string> PostAsync(
+            string url,
+            string req,
+            Dictionary<string, string> queryParams,
+            Dictionary<string, string> headers,
+            CancellationToken token,
+            int timeout = 10
+        )
         {
             using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
             // 构建带查询参数的URL
@@ -129,6 +128,51 @@ namespace STranslate.Util
             string result = await response.Content.ReadAsStringAsync(token);
 
             return result;
+        }
+
+        /// <summary>
+        /// 异步Post请求(Authorization) 回调返回流数据结果
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="req"></param>
+        /// <param name="key"></param>
+        /// <param name="OnDataReceived"></param>
+        /// <param name="token"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task PostAsync(Uri uri, string req, string? key, Action<string> OnDataReceived, CancellationToken token, int timeout = 10)
+        {
+            using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = uri,
+                Content = new StringContent(req, Encoding.UTF8, "application/json")
+            };
+
+            // key不为空时添加
+            if (!string.IsNullOrEmpty(key))
+            {
+                request.Headers.Add("Authorization", $"Bearer {key}");
+            }
+
+            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(response.ReasonPhrase);
+            }
+            using var responseStream = await response.Content.ReadAsStreamAsync(token);
+            using var reader = new System.IO.StreamReader(responseStream);
+            // 逐行读取并输出结果
+            while (!reader.EndOfStream)
+            {
+                var content = await reader.ReadLineAsync(token);
+
+                if (!string.IsNullOrEmpty(content))
+                    OnDataReceived?.Invoke(content);
+            }
         }
     }
 }

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Policy;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Reflection.Metadata;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -114,85 +113,51 @@ namespace STranslate.ViewModels.Preference.Services
             }
         }
 
-
         private void ShowEncryptInfo() => KeyHide = !KeyHide;
 
         private RelayCommand? showEncryptInfoCommand;
+
         [JsonIgnore]
         public IRelayCommand ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand(new Action(ShowEncryptInfo));
 
         #endregion Show/Hide Encrypt Info
 
-        [Obsolete]
-        public async Task<object> TranslateAsync(object request, CancellationToken token)
+        public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
         {
-            try
+            if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
+                throw new Exception("请先完善配置");
+            if (request is string[] strs)
             {
-                if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
-                    throw new Exception("请先完善配置");
+                var source = strs[0];
+                var target = strs[1];
+                var content = strs[2];
+                UriBuilder uriBuilder = new(Url);
 
-                if (!Url.EndsWith("completions"))
+                if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
                 {
-                    Url = Url.TrimEnd('/') + "/completions";
+                    uriBuilder.Path = "/v1beta/models/gemini-pro:streamGenerateContent";
                 }
 
-                if (request != null)
-                {
-                    var jsonData = JsonConvert.SerializeObject(request);
+                uriBuilder.Query = $"key={AppKey}";
 
-                    // 构建请求
-                    var client = new HttpClient(new SocketsHttpHandler());
-                    var req = new HttpRequestMessage
-                    {
-                        Method = HttpMethod.Post,
-                        RequestUri = new Uri(Url),
-                        Content = new StringContent(jsonData, Encoding.UTF8, "application/json")
-                    };
-                    req.Headers.Add("Authorization", $"Bearer {AppKey}");
+                // 组织语言
+                var a_content = source.Equals("auto", StringComparison.CurrentCultureIgnoreCase)
+                    ? $"Translate the following text to {target}: {content}"
+                    : $"Translate the following text from {source} to {target}: {content}";
 
-                    // 发送请求
-                    using var response = await client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token);
-                    // 获取响应流
-                    using var responseStream = await response.Content.ReadAsStreamAsync(token);
-                    using var reader = new System.IO.StreamReader(responseStream);
-                    // 逐行读取并输出结果
-                    while (!reader.EndOfStream || token.IsCancellationRequested)
-                    {
-                        var line = await reader.ReadLineAsync(token);
+                // 构建请求数据
+                var reqData = new { contents = new[] { new { parts = new[] { new { text = a_content } } } } };
 
-                        if (string.IsNullOrEmpty(line?.Trim()))
-                            continue;
+                // 为了流式输出与MVVM还是放这里吧
+                var jsonData = JsonConvert.SerializeObject(reqData);
 
-                        var preprocessString = line.Replace("data:", "").Trim();
-
-                        // 结束标记
-                        if (preprocessString.Equals("[DONE]"))
-                            break;
-
-                        // 解析JSON数据
-                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
-
-                        if (parsedData is null)
-                            continue;
-
-                        // 提取content的值
-                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
-
-                        if (string.IsNullOrEmpty(contentValue))
-                            continue;
-
-                        // 输出
-                        Data += contentValue;
-                        //Debug.Write(contentValue);
-                    }
-                }
+                await HttpUtil.PostAsync(uriBuilder.Uri, jsonData, null, msg => OnDataReceived?.Invoke(msg), token);
             }
-            catch (Exception ex)
-            {
-                Data = ex.Message;
-            }
+        }
 
-            return Task.FromResult<string?>(null);
+        public Task<object> TranslateAsync(object request, CancellationToken token)
+        {
+            throw new NotImplementedException();
         }
     }
 }

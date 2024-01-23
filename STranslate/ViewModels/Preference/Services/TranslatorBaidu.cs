@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Model;
 using STranslate.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -126,7 +126,7 @@ namespace STranslate.ViewModels.Preference.Services
                 }
             }
         }
-        
+
         private void ShowEncryptInfo(string? obj)
         {
             if (obj == null) return;
@@ -142,6 +142,7 @@ namespace STranslate.ViewModels.Preference.Services
         }
 
         private RelayCommand<string>? showEncryptInfoCommand;
+
         [JsonIgnore]
         public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 
@@ -176,6 +177,11 @@ namespace STranslate.ViewModels.Preference.Services
             }
 
             return Task.FromResult<object>(new ResponseBaidu { TransResult = [new TransResult { Dst = "请求数据出错..." }] });
+        }
+
+        public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+        {
+            throw new NotImplementedException();
         }
     }
 }
