@@ -90,6 +90,24 @@
                         Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="超时: " />
+
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="80"
+                                           HorizontalAlignment="Left"
+                                           InputMethod.IsInputMethodEnabled="False"
+                                           Placeholder="10"
+                                           PreviewKeyDown="AcceptOnlyNumber"
+                                           Text="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBlock Grid.Column="2" Margin="10,0" Text="秒" />
+            </Grid>
+
             <Grid Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />

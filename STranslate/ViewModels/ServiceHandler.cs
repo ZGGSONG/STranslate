@@ -137,9 +137,6 @@ namespace STranslate.ViewModels
                     service.Data += contentValue;
                 }
             }, token);
-
-            if (string.IsNullOrEmpty(service.Data?.ToString()))
-                service.Data = "未获取到内容";
         }
 
         /// <summary>
@@ -169,9 +166,6 @@ namespace STranslate.ViewModels
                     }
                 }
             }, token);
-
-            if (string.IsNullOrEmpty(service.Data?.ToString()))
-                service.Data = "未获取到内容";
         }
     }
 }

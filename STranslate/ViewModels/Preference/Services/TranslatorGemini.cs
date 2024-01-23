@@ -74,6 +74,10 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        public int _timeOut = 10;
+
+        [JsonIgnore]
+        [ObservableProperty]
         [property: JsonIgnore]
         public object _data = string.Empty;
 
@@ -125,7 +129,7 @@ namespace STranslate.ViewModels.Preference.Services
                 // 为了流式输出与MVVM还是放这里吧
                 var jsonData = JsonConvert.SerializeObject(reqData);
 
-                await HttpUtil.PostAsync(uriBuilder.Uri, jsonData, null, msg => OnDataReceived?.Invoke(msg), token);
+                await HttpUtil.PostAsync(uriBuilder.Uri, jsonData, null, msg => OnDataReceived?.Invoke(msg), token, TimeOut);
             }
         }
 

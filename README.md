@@ -148,6 +148,8 @@ rd /s /q "%localappdata%\stranslate"
 3. 支持 [OpenAI](https://openai.com)
 4. 支持 [Google Gemini](https://makersuite.google.com/app/apikey)
 
+> 公共 `Gemini API`: `https://gemini.vercel.zggsong.com`
+
 
 ## 感谢
 

@@ -1,7 +1,8 @@
-﻿using System.Diagnostics;
+﻿using STranslate.Model;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using STranslate.Model;
+using System.Windows.Input;
 
 namespace STranslate.Views.Preference.Service
 {
@@ -24,12 +25,24 @@ namespace STranslate.Views.Preference.Service
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) =>
-            Process.Start(
-                new ProcessStartInfo
-                {
-                    FileName = "https://makersuite.google.com/app/apikey",
-                    UseShellExecute = true
-                }
-            );
+            Process.Start(new ProcessStartInfo { FileName = "https://makersuite.google.com/app/apikey", UseShellExecute = true });
+
+        /// <summary>
+        /// 限制输入数字
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AcceptOnlyNumber(object sender, KeyEventArgs e)
+        {
+            if (!IsAllowedKey(e.Key))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool IsAllowedKey(Key key)
+        {
+            return (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9) || key == Key.Back || key == Key.Delete || key == Key.Left || key == Key.Right;
+        }
     }
 }
