@@ -13,7 +13,6 @@
     <SolidColorBrush x:Key="BtnBackground">#282c34</SolidColorBrush>
     <SolidColorBrush x:Key="BtnMouseOverBackground">#47484c</SolidColorBrush>
     <SolidColorBrush x:Key="BtnPressedBackground">#35333c</SolidColorBrush>
-    <!-- //TODO: 切换主题测试 // -->
     <SolidColorBrush x:Key="BtnDisabledBackground">#292834</SolidColorBrush>
     <SolidColorBrush x:Key="BtnClosedMouseOverBackground">#E81123</SolidColorBrush>
     <SolidColorBrush x:Key="BtnClosedPressedBackground">#8B0A14</SolidColorBrush>
@@ -66,6 +65,7 @@
     <!-- // TextBox // -->
     <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
     <SolidColorBrush x:Key="TextForeground">#dddddd</SolidColorBrush>
+    <SolidColorBrush x:Key="TextErrorForeground">#aa0000</SolidColorBrush>
     <SolidColorBrush x:Key="TextSelectionBrushColor">#404856</SolidColorBrush>
 
     <!-- // PasswordBox // -->

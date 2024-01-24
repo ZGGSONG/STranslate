@@ -220,7 +220,6 @@ namespace STranslate.ViewModels.Preference
         private int _serviceCounter;
 
         [ObservableProperty]
-        private BindingList<ITranslator> _curTransServiceList =
-            Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? new BindingList<ITranslator>();
+        private BindingList<ITranslator> _curTransServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
     }
 }

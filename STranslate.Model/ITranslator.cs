@@ -18,13 +18,13 @@ namespace STranslate.Model
 
         string Url { get; set; }
 
-        object Data { get; set; }
+        TranslationResult Data { get; set; }
 
         string AppID { get; set; }
 
         string AppKey { get; set; }
 
-        Task<object> TranslateAsync(object request, CancellationToken token);
+        Task<TranslationResult> TranslateAsync(object request, CancellationToken token);
 
         Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token);
     }

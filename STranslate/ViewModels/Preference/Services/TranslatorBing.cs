@@ -71,7 +71,7 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public object _data = string.Empty;
+        public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
@@ -90,7 +90,8 @@ namespace STranslate.ViewModels.Preference.Services
 
         private void ShowEncryptInfo(string? obj)
         {
-            if (obj == null) return;
+            if (obj == null)
+                return;
 
             if (obj.Equals(nameof(AppID)))
             {
@@ -109,25 +110,26 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
-        public async Task<object> TranslateAsync(object request, CancellationToken token)
+        public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             if (!Url.EndsWith("translate"))
             {
                 Url = Url.TrimEnd('/') + "/translate";
             }
 
-            if (request is RequestBing req)
+            if (request is RequestModel req)
             {
-                var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", req.To.ToLower() } };
+                var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", req.TargetLang.ToLower() } };
 
-                if (!string.Equals(req.From, "auto", StringComparison.CurrentCultureIgnoreCase))
+                if (!string.Equals(req.SourceLang, "auto", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    query.Add("from", req.From.ToLower());
+                    query.Add("from", req.SourceLang.ToLower());
                 }
 
                 var headers = new Dictionary<string, string> { { "Ocp-Apim-Subscription-Key", AppKey }, { "Ocp-Apim-Subscription-Region", AppID }, };
+                var body = new[] { new { text = req.Text } };
 
-                string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(req.Req), query, headers, token);
+                string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(body), query, headers, token);
                 if (string.IsNullOrEmpty(resp))
                     throw new Exception("请求结果为空");
 
@@ -136,12 +138,15 @@ namespace STranslate.ViewModels.Preference.Services
                 //如果出错就将整个返回信息写入取值处
                 if (ret is null || string.IsNullOrEmpty(ret?.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text))
                 {
-                    ret = [new ResponseBing { Translations = [new Translation { Text = resp! }] }];
+                    throw new Exception(resp);
                 }
-                return Task.FromResult<object>(ret);
+
+                var data = ret.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text ?? throw new Exception("请求结果为空");
+
+                return TranslationResult.Success(data);
             }
 
-            return Task.FromResult<object>(new ResponseBing[] { new() { Translations = [new Translation { Text = "请求数据出错..." }] } });
+            throw new Exception($"请求数据出错: {request}");
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

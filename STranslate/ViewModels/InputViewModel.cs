@@ -93,37 +93,7 @@ namespace STranslate.ViewModels
             }
         }
 
-        /// <summary>
-        /// 插入数据库
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="history"></param>
-        /// <param name="source"></param>
-        /// <param name="dbTarget"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        private async Task HandleHistoryAsync(object obj, HistoryModel? history, string source, string dbTarget, long size)
-        {
-            if (history is null && size > 0)
-            {
-                var enableServices = Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
-                var jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CustomizeContractResolver() };
-
-                var data = new HistoryModel
-                {
-                    Time = DateTime.Now,
-                    SourceLang = source,
-                    TargetLang = dbTarget,
-                    SourceText = InputContent,
-                    Data = JsonConvert.SerializeObject(enableServices, Formatting.None, jsonSerializerSettings)
-                };
-                var isForceWrite = obj != null;
-                //翻译结果插入数据库
-                await SqlHelper.InsertDataAsync(data, size, isForceWrite);
-            }
-        }
-
-        private async Task<HistoryModel?> TranslateServiceAsync(object obj, string source, string dbTarget, string target, long size, CancellationToken token)
+        internal async Task<HistoryModel?> TranslateServiceAsync(object obj, string source, string dbTarget, string target, long size, CancellationToken token)
         {
             var services = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
             HistoryModel? history = null;
@@ -162,7 +132,7 @@ namespace STranslate.ViewModels
                         if (translatorList != null)
                         {
                             IdentifyLanguage = "缓存";
-                            service.Data = translatorList?.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? "该服务未获取到缓存Ctrl+Enter更新";
+                            service.Data = translatorList?.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
                             return;
                         }
 
@@ -177,26 +147,17 @@ namespace STranslate.ViewModels
                         var sourceStr = LangDict[source].ToString();
                         var targetStr = LangDict[target].ToString();
 
-                        //根据不同服务类型区分
+                        //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
                         //TODO: 新接口需要适配
                         switch (service.Type)
                         {
-                            case ServiceType.ApiService:
-                                await ServiceHandler.ApiHandlerAsync(service, InputContent, sourceStr, targetStr, token);
-                                break;
-                            case ServiceType.BaiduService:
-                                await ServiceHandler.BaiduHandlerAsync(service, InputContent, sourceStr, targetStr, token);
-                                break;
-                            case ServiceType.BingService:
-                                await ServiceHandler.BingHandlerAsync(service, InputContent, sourceStr, targetStr, token);
-                                break;
-                            case ServiceType.OpenAIService:
-                                await ServiceHandler.OpenAIHandlerAsync(service, InputContent, sourceStr, targetStr, token);
-                                break;
                             case ServiceType.GeminiService:
-                                await ServiceHandler.GeminiHandlerAsync(service, InputContent, sourceStr, targetStr, token);
+                            case ServiceType.OpenAIService:
+                                await StreamHandlerAsync(service, InputContent, sourceStr, targetStr, token);
                                 break;
+
                             default:
+                                await NonStreamHandlerAsync(service, InputContent, sourceStr, targetStr, token);
                                 break;
                         }
                     }
@@ -218,7 +179,7 @@ namespace STranslate.ViewModels
             return history;
         }
 
-        private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception, CancellationToken token)
+        internal void HandleTranslationException(ITranslator service, string errorMessage, Exception exception, CancellationToken token)
         {
             bool isDebug = false;
             if (exception is TaskCanceledException)
@@ -231,12 +192,76 @@ namespace STranslate.ViewModels
                 errorMessage = "请求出错";
             }
 
-            service.Data = $"{errorMessage}: {exception.Message}";
+            service.Data = TranslationResult.Fail($"{errorMessage}: {exception.Message}", exception);
 
             if (isDebug)
                 LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
             else
                 LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception?.Message}");
+        }
+
+        /// <summary>
+        /// 插入数据库
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="history"></param>
+        /// <param name="source"></param>
+        /// <param name="dbTarget"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        internal async Task HandleHistoryAsync(object obj, HistoryModel? history, string source, string dbTarget, long size)
+        {
+            if (history is null && size > 0)
+            {
+                var enableServices = Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
+                var jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CustomizeContractResolver() };
+
+                var data = new HistoryModel
+                {
+                    Time = DateTime.Now,
+                    SourceLang = source,
+                    TargetLang = dbTarget,
+                    SourceText = InputContent,
+                    Data = JsonConvert.SerializeObject(enableServices, Formatting.None, jsonSerializerSettings)
+                };
+                var isForceWrite = obj != null;
+                //翻译结果插入数据库
+                await SqlHelper.InsertDataAsync(data, size, isForceWrite);
+            }
+        }
+
+        /// <summary>
+        /// 非流数据处理
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="content"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        internal async Task NonStreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token) =>
+            service.Data = await service.TranslateAsync(new RequestModel(content, source, target), token);
+
+        /// <summary>
+        /// 流式数据处理
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="content"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        internal async Task StreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
+        {
+            await service.TranslateAsync(
+                new RequestModel(content, source, target),
+                msg =>
+                {
+                    service.Data.IsSuccess = true;
+                    service.Data.Result += msg;
+                },
+                token
+            );
         }
 
         #endregion Translatehandle
@@ -408,7 +433,8 @@ namespace STranslate.ViewModels
                 };
 
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
-            translator.Data = jsonObject["Data"]!.Value<string>()!;
+            var dataToken = jsonObject["Data"];
+            translator.Data = dataToken?.ToObject<TranslationResult>() ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
 
             // 返回构建好的 translator 对象
             return translator;

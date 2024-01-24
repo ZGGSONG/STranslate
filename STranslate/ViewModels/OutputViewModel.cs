@@ -66,7 +66,7 @@ namespace STranslate.ViewModels
         {
             foreach (var item in Translators)
             {
-                item.Data = string.Empty;
+                item.Data = TranslationResult.Reset;
             }
         }
     }

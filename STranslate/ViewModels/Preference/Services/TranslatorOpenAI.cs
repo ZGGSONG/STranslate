@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -75,7 +76,7 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public object _data = string.Empty;
+        public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
@@ -101,11 +102,11 @@ namespace STranslate.ViewModels.Preference.Services
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
                 throw new Exception("请先完善配置");
 
-            if (request is string[] strs)
+            if (request is RequestModel req)
             {
-                var source = strs[0];
-                var target = strs[1];
-                var content = strs[2];
+                var source = req.SourceLang;
+                var target = req.TargetLang;
+                var content = req.Text;
 
                 UriBuilder uriBuilder = new(Url);
 
@@ -135,11 +136,45 @@ namespace STranslate.ViewModels.Preference.Services
 
                 var jsonData = JsonConvert.SerializeObject(reqData);
 
-                await HttpUtil.PostAsync(uriBuilder.Uri, jsonData, AppKey, msg => OnDataReceived?.Invoke(msg), token);
+                await HttpUtil.PostAsync(
+                    uriBuilder.Uri,
+                    jsonData,
+                    AppKey,
+                    msg =>
+                    {
+                        if (string.IsNullOrEmpty(msg?.Trim()))
+                            return;
+
+                        var preprocessString = msg.Replace("data:", "").Trim();
+
+                        // 结束标记
+                        if (preprocessString.Equals("[DONE]"))
+                            return;
+
+                        // 解析JSON数据
+                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+
+                        if (parsedData is null)
+                            return;
+
+                        // 提取content的值
+                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
+
+                        if (string.IsNullOrEmpty(contentValue))
+                            return;
+
+                        OnDataReceived?.Invoke(contentValue);
+                    },
+                    token
+                );
+
+                return;
             }
+
+            throw new Exception($"请求数据出错: {request}");
         }
 
-        public Task<object> TranslateAsync(object request, CancellationToken token)
+        public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             throw new NotImplementedException();
         }

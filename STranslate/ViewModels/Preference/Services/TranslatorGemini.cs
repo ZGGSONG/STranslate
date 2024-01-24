@@ -1,15 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Reflection.Metadata;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -79,7 +76,7 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public object _data = string.Empty;
+        public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
@@ -104,11 +101,13 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
                 throw new Exception("请先完善配置");
-            if (request is string[] strs)
+
+            if (request is RequestModel req)
             {
-                var source = strs[0];
-                var target = strs[1];
-                var content = strs[2];
+                var source = req.SourceLang;
+                var target = req.TargetLang;
+                var content = req.Text;
+
                 UriBuilder uriBuilder = new(Url);
 
                 if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
@@ -129,11 +128,33 @@ namespace STranslate.ViewModels.Preference.Services
                 // 为了流式输出与MVVM还是放这里吧
                 var jsonData = JsonConvert.SerializeObject(reqData);
 
-                await HttpUtil.PostAsync(uriBuilder.Uri, jsonData, null, msg => OnDataReceived?.Invoke(msg), token, TimeOut);
+                await HttpUtil.PostAsync(
+                    uriBuilder.Uri,
+                    jsonData,
+                    null,
+                    msg =>
+                    {
+                        // 使用正则表达式提取目标字符串
+                        string pattern = "(?<=\"text\": \")[^\"]+(?=\")";
+
+                        var match = Regex.Match(msg, pattern);
+
+                        if (match.Success)
+                        {
+                            OnDataReceived?.Invoke(match.Value.Replace("\\n", "\n"));
+                        }
+                    },
+                    token,
+                    TimeOut
+                );
+
+                return;
             }
+
+            throw new Exception($"请求数据出错: {request}");
         }
 
-        public Task<object> TranslateAsync(object request, CancellationToken token)
+        public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             throw new NotImplementedException();
         }

@@ -71,7 +71,7 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public object _data = string.Empty;
+        public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
@@ -109,21 +109,24 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
-        public async Task<object> TranslateAsync(object request, CancellationToken token)
+        public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestBaidu rb)
+            if (request is RequestModel req)
             {
-                var req = new Dictionary<string, string>
+                string salt = new Random().Next(100000).ToString();
+                string sign = StringUtil.EncryptString(AppID + req.Text + salt + AppKey);
+
+                var queryparams = new Dictionary<string, string>
                 {
-                    { "q", rb.Text },
-                    { "from", rb.From.ToLower() },
-                    { "to", rb.TO.ToLower() },
-                    { "appid", rb.AppId },
-                    { "salt", rb.Salt },
-                    { "sign", rb.Sign }
+                    { "q", req.Text },
+                    { "from", req.SourceLang.ToLower() },
+                    { "to", req.TargetLang.ToLower() },
+                    { "appid", AppID },
+                    { "salt", salt },
+                    { "sign", sign }
                 };
 
-                string resp = await HttpUtil.GetAsync(Url, req, token);
+                string resp = await HttpUtil.GetAsync(Url, queryparams, token);
                 if (string.IsNullOrEmpty(resp))
                     throw new Exception("请求结果为空");
 
@@ -132,12 +135,17 @@ namespace STranslate.ViewModels.Preference.Services
                 //如果出错就将整个返回信息写入取值处
                 if (ret is null || string.IsNullOrEmpty(ret.TransResult?.FirstOrDefault()?.Dst))
                 {
-                    ret = new ResponseBaidu { TransResult = [new TransResult { Dst = resp! }] };
+                    throw new Exception(resp);
                 }
-                return Task.FromResult<object>(ret);
+
+                var transResults = ret.TransResult ?? [];
+                var data = transResults.Length == 0 ? throw new Exception("请求结果为空")
+                        : string.Join(Environment.NewLine, transResults.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst));
+
+                return TranslationResult.Success(data);
             }
 
-            return Task.FromResult<object>(new ResponseBaidu { TransResult = [new TransResult { Dst = "请求数据出错..." }] });
+            throw new Exception($"请求数据出错: {request}");
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

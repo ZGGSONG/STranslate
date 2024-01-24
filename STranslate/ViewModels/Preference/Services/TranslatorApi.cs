@@ -70,31 +70,32 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public object _data = string.Empty;
+        public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
 
-        public async Task<object> TranslateAsync(object request, CancellationToken token)
+        public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestApi)
+            if (request is RequestModel)
             {
                 var req = JsonConvert.SerializeObject(request);
 
                 string resp = await HttpUtil.PostAsync(Url, req, token);
                 if (string.IsNullOrEmpty(resp))
-                    throw new Exception($"请求结果为空");
+                    throw new Exception("请求结果为空");
 
                 var ret = JsonConvert.DeserializeObject<ResponseApi>(resp ?? "");
 
                 if (ret is null || string.IsNullOrEmpty(ret.Data.ToString()))
                 {
-                    ret = new ResponseApi { Data = resp! };
+                    throw new Exception(resp);
                 }
 
-                return Task.FromResult<object>(ret);
+                return TranslationResult.Success(ret.Data.ToString() ?? "");
             }
-            return Task.FromResult<object>("请求数据出错");
+
+            throw new Exception($"请求数据出错: {request}");
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

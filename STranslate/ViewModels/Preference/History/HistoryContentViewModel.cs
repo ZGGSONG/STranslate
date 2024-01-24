@@ -31,7 +31,7 @@ namespace STranslate.ViewModels.Preference.History
             SourceLang = history.SourceLang;
             TargetLang = history.TargetLang;
 
-            outputContents = outputs?.Select(x => new Tuple<string, IconType, string>(x.Name, x.Icon, x.Data?.ToString() ?? ""))?.ToList();
+            OutputContents = outputs?.Select(x => new Tuple<string, IconType, TranslationResult>(x.Name, x.Icon, x.Data))?.ToList();
         }
 
         [RelayCommand]
@@ -66,7 +66,7 @@ namespace STranslate.ViewModels.Preference.History
         private string targetLang = "";
 
         [ObservableProperty]
-        private List<Tuple<string, IconType, string>>? outputContents;
+        private List<Tuple<string, IconType, TranslationResult>>? outputContents;
     }
 
     public class HistoryTranslatorConverter : JsonConverter<ITranslator>
@@ -101,7 +101,7 @@ namespace STranslate.ViewModels.Preference.History
 
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
             //TODO: 存在历史记录的服务删除出现bug
-            translator.Data = jsonObject["Data"]!.Value<string>()!;
+            translator.Data = jsonObject["Data"]!.Value<TranslationResult>()!;
 
             // 返回构建好的 translator 对象
             return translator;

@@ -31,6 +31,11 @@
         <!--<Setter Property="MaxHeight" Value="400" />-->
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Tag}" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource TextErrorForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <!-- // OCR 文本框 // -->

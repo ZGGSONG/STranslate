@@ -96,7 +96,7 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="禁用系统代理" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用彻底不走系统代理，默认走系统代理(如果开启)&#13;禁用后不论系统代理是否开启均走直连(立即生效)" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用彻底不走代理，默认走系统代理(如果开启)&#13;禁用后不论代理(包括Tun模式)是否开启均走直连[立即生效]" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsDisableSystemProxy}" />
                             </DockPanel>
                         </StackPanel>
@@ -107,7 +107,7 @@
                         <StackPanel>
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="明暗主题" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题切换(立即生效)" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题切换[立即生效]" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsBright}" />
                             </DockPanel>
 
