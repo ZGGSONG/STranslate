@@ -12,7 +12,6 @@
         Title="STranslate"
         Width="480"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-        Activated="Mwin_Activated"
         AllowsTransparency="True"
         Background="Transparent"
         Deactivated="Mwin_Deactivated"
@@ -54,7 +53,7 @@
             <local:NotifyIcon DataContext="{Binding NotifyIconVM}" />
 
             <!-- // Header // -->
-            <local:HeaderView x:Name="HeaderView" DataContext="{Binding ElementName=Mwin, Path=DataContext}" />
+            <local:HeaderView x:Name="HeaderView" DataContext="{Binding ElementName=Mwin, Path=DataContext}" Focusable="False" />
 
             <ScrollViewer Grid.Row="1">
                 <StackPanel>
@@ -65,10 +64,13 @@
                                      FontSize="{DynamicResource FontSize_TextBox}" />
 
                     <!-- // Mid // -->
-                    <local:LangView Margin="60,0" DataContext="{Binding ElementName=Mwin, Path=DataContext}" />
+                    <local:LangView Margin="60,0" DataContext="{Binding ElementName=Mwin, Path=DataContext}" Focusable="False" />
 
                     <!-- // Output // -->
-                    <local:OutputView Margin="10,0,10,10" DataContext="{Binding OutputVM}" FontSize="{DynamicResource FontSize_TextBox}" />
+                    <local:OutputView Margin="10,0,10,10"
+                                      DataContext="{Binding OutputVM}"
+                                      Focusable="False"
+                                      FontSize="{DynamicResource FontSize_TextBox}" />
                 </StackPanel>
             </ScrollViewer>
 
@@ -76,6 +78,7 @@
             <view:ToastView x:Name="notify"
                             Grid.RowSpan="2"
                             VerticalAlignment="Top"
+                            Focusable="False"
                             Visibility="Collapsed" />
         </Grid>
     </Border>

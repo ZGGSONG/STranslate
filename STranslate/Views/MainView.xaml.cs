@@ -10,9 +10,6 @@ using System.Windows.Interop;
 
 namespace STranslate.Views
 {
-    /// <summary>
-    /// Interaction logic for MainView.xaml
-    /// </summary>
     public partial class MainView : Window
     {
         public MainView()
@@ -63,6 +60,11 @@ namespace STranslate.Views
 
                 LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
             }
+            finally
+            {
+                // 第一次加载页面激活输入框
+                (InputView.FindName("InputTB") as TextBox)?.Focus();
+            }
         }
 
         private void Mwin_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -76,26 +78,6 @@ namespace STranslate.Views
             if (!Topmost)
             {
                 Hide();
-            }
-        }
-
-        /// <summary>
-        /// 保证每次打开都激活输入框
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Mwin_Activated(object sender, EventArgs e)
-        {
-            if (InputView.FindName("InputTB") is TextBox tb && Visibility == Visibility.Visible)
-            {
-                // 执行激活控件的操作，例如设置焦点
-                tb.Focus();
-
-                // 光标移动至末尾
-                tb.CaretIndex = tb.Text?.Length ?? 0;
-
-                // 全选
-                //tb?.SelectAll();
             }
         }
 

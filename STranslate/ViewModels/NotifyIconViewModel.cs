@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -137,8 +138,7 @@ namespace STranslate.ViewModels
                 goto Last;
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
-                => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
 
             Last:
             QRCodeHandler();
@@ -182,8 +182,7 @@ namespace STranslate.ViewModels
                 goto Last;
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
-                => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
 
             Last:
             OCRHandler();
@@ -227,8 +226,7 @@ namespace STranslate.ViewModels
                 goto Last;
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
-                => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
 
             Last:
             SilentOCRHandler();
@@ -283,8 +281,7 @@ namespace STranslate.ViewModels
                 goto Last;
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_
-                => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
+            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
 
             Last:
             ScreenShotHandler();
@@ -381,6 +378,13 @@ namespace STranslate.ViewModels
             //显示主界面
             view.Show();
             view.Activate();
+
+            //激活输入框
+            if (view is MainView mainView)
+            {
+                var inputTextBox = (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") as TextBox;
+                inputTextBox?.Focus();
+            }
         }
 
         [RelayCommand]
