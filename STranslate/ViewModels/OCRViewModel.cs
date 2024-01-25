@@ -254,7 +254,7 @@ namespace STranslate.ViewModels
 
         private void OCRHandler(byte[] bytes)
         {
-            ToastHelper.Show("识别中...", WindowType.OCR);
+            //ToastHelper.Show("识别中...", WindowType.OCR);
             string getText = "";
 
             Thread thread = new Thread(() =>
@@ -284,7 +284,7 @@ namespace STranslate.ViewModels
                 {
                     GetContent = getText;
 
-                    ToastHelper.Show("识别成功", WindowType.OCR);
+                    //ToastHelper.Show("识别成功", WindowType.OCR);
                 });
             });
             thread.IsBackground = true;

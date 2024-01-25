@@ -30,19 +30,71 @@
                                   IsExpanded="{Binding Data.Result, Converter={StaticResource String2IsExpandedConverter}}"
                                   SnapsToDevicePixels="True">
                             <Expander.Header>
-                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                    <Image Width="18" Margin="10,0,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
-                                    <TextBlock Margin="10,0,0,0"
-                                               FontSize="14"
-                                               Foreground="{DynamicResource TextForeground}"
-                                               Text="{Binding Name}" />
-                                    <Button Margin="10,0,0,0"
-                                            Padding="1"
-                                            Content="&#xe60f;"
-                                            Style="{DynamicResource ButtonExpanderIconStyle}"
-                                            Visibility="Collapsed" />
-                                    <!-- Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" /> -->
-                                </StackPanel>
+                                <Grid Height="30">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <Image Width="18" Margin="10,0,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                        <TextBlock Margin="10,0,0,0"
+                                                   FontSize="14"
+                                                   Foreground="{DynamicResource TextForeground}"
+                                                   Text="{Binding Name}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Margin="0,0,30,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                FlowDirection="RightToLeft"
+                                                Orientation="Horizontal">
+                                        <!-- // TODO: 单服务重试 // -->
+                                        <Button Margin="2,2,0,2"
+                                                HorizontalAlignment="Right"
+                                                Content="&#xe60f;"
+                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                ToolTip="重试"
+                                                Visibility="Collapsed" />
+                                        <!-- Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" /> -->
+
+                                        <!-- // 复制按钮到Expander上 Expander收起时显示// -->
+                                        <StackPanel Orientation="Horizontal">
+                                            <!-- 大驼峰复制 -->
+                                            <Button Margin="2,2,0,2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
+                                                    CommandParameter="{Binding Data.Result}"
+                                                    Content="&#xe601;"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="复制为大驼峰字符串"
+                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!-- 小驼峰复制 -->
+                                            <Button Margin="2,2,0,2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
+                                                    CommandParameter="{Binding Data.Result}"
+                                                    Content="&#xe602;"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="复制为小驼峰字符串"
+                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!-- 蛇形复制 -->
+                                            <Button Margin="2,2,0,2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
+                                                    CommandParameter="{Binding Data.Result}"
+                                                    Content="&#xe600;"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="复制为蛇形字符串"
+                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!-- 普通复制 -->
+                                            <Button Margin="2,2,0,2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                                    CommandParameter="{Binding Data.Result}"
+                                                    Content="&#xe692;"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="直接复制结果"
+                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
                             </Expander.Header>
                             <Grid>
                                 <TextBox ContextMenu="{x:Null}"

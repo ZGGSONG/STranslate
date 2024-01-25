@@ -104,8 +104,8 @@ namespace STranslate.ViewModels.Preference.Services
 
             if (request is RequestModel req)
             {
-                var source = req.SourceLang;
-                var target = req.TargetLang;
+                var source = req.SourceLang.ToLower();
+                var target = req.TargetLang.ToLower();
                 var content = req.Text;
 
                 UriBuilder uriBuilder = new(Url);

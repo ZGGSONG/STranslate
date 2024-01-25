@@ -71,7 +71,8 @@
                                                                   SnapsToDevicePixels="False"
                                                                   Stroke="{DynamicResource ExpanderStrokeColor}"
                                                                   StrokeThickness="2" />
-                                                            <ContentPresenter Margin="4,0,0,0"
+                                                            <ContentPresenter Width="{TemplateBinding ActualWidth}"
+                                                                              Margin="4,0,0,0"
                                                                               HorizontalAlignment="Left"
                                                                               VerticalAlignment="Center"
                                                                               Content="{TemplateBinding Content}"

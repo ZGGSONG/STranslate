@@ -380,10 +380,12 @@ namespace STranslate.ViewModels
             view.Activate();
 
             //激活输入框
-            if (view is MainView mainView)
+            if (view is MainView mainView && (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") is TextBox inputTextBox)
             {
-                var inputTextBox = (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") as TextBox;
-                inputTextBox?.Focus();
+                // 获取焦点
+                inputTextBox.Focus();
+                // 光标移动至末尾
+                //inputTextBox.CaretIndex = inputTextBox.Text.Length;
             }
         }
 

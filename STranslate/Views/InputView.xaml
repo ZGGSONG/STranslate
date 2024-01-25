@@ -17,21 +17,22 @@
     <!-- // 输入框 // -->
     <Border Style="{DynamicResource BorderInOutputStyle}">
         <Grid>
-            <TextBox x:Name="InputTB"
-                     FontSize="{DynamicResource FontSize_TextBox}"
-                     PreviewMouseWheel="InputTB_PreviewMouseWheel"
-                     Style="{DynamicResource TextBoxInputStyle}"
-                     Text="{Binding InputContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox.InputBindings>
+            <common:PlaceholderTextBox x:Name="InputTB"
+                                       FontSize="{DynamicResource FontSize_TextBox}"
+                                       PreviewMouseWheel="InputTB_PreviewMouseWheel"
+                                       Placeholder="Enter 翻译/缓存&#10;Ctrl+Enter 强制翻译&#10;Shift+Enter 换行"
+                                       Style="{DynamicResource TextBoxInputStyle}"
+                                       Text="{Binding InputContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <common:PlaceholderTextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding TranslateCommand}" />
                     <KeyBinding Key="Enter"
                                 Command="{Binding TranslateCommand}"
                                 CommandParameter="True"
                                 Modifiers="Ctrl" />
-                </TextBox.InputBindings>
+                </common:PlaceholderTextBox.InputBindings>
 
                 <!-- // 右键菜单 // -->
-                <TextBox.ContextMenu>
+                <common:PlaceholderTextBox.ContextMenu>
                     <ContextMenu Width="120">
                         <MenuItem Command="{Binding TBSelectAllCommand}"
                                   CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
@@ -52,8 +53,8 @@
                                   Header="清空"
                                   Icon="&#xe692;" />
                     </ContextMenu>
-                </TextBox.ContextMenu>
-            </TextBox>
+                </common:PlaceholderTextBox.ContextMenu>
+            </common:PlaceholderTextBox>
             <StackPanel Margin="10,5" VerticalAlignment="Bottom" Orientation="Horizontal">
                 <Button Command="{Binding CopyContentCommand}"
                         CommandParameter="{Binding InputContent}"
