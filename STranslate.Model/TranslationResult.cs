@@ -61,7 +61,8 @@ namespace STranslate.Model
         {
             IsSuccess = false;
             Result = errorMessage;
-            Exception = exception;
+            Exception = null;//暂时不记录异常
+            //Exception = exception;
         }
 
         /// <summary>

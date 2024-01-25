@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -222,7 +223,7 @@ namespace STranslate.ViewModels
                     SourceLang = source,
                     TargetLang = dbTarget,
                     SourceText = InputContent,
-                    Data = JsonConvert.SerializeObject(enableServices, Formatting.None, jsonSerializerSettings)
+                    Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
                 };
                 var isForceWrite = obj != null;
                 //翻译结果插入数据库
@@ -388,16 +389,38 @@ namespace STranslate.ViewModels
     {
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
-            var list = base.CreateProperties(type, memberSerialization);
+            var properties = base.CreateProperties(type, memberSerialization);
 
-            list!
-                .ToList()
-                .ForEach(x =>
+            return properties
+                .Select(property =>
                 {
-                    if (x.Ignored && x.PropertyName == "Data")
-                        x.Ignored = false; //不忽略
-                });
-            return list!;
+                    // 设置不忽略 Data 属性
+                    if (property.Ignored && property.PropertyName == "Data")
+                    {
+                        property.Ignored = false;
+                    }
+
+                    // 忽略 AppID 和 AppKey 属性
+                    if (property.PropertyName == "AppID" || property.PropertyName == "AppKey")
+                    {
+                        property.Ignored = true;
+                    }
+
+                    // 特殊处理 TranslationResult 类型的 Data 属性
+                    if (property.PropertyName == "Data" && property.PropertyType == typeof(TranslationResult))
+                    {
+                        property.ShouldSerialize = instance =>
+                        {
+                            var data = property?.ValueProvider?.GetValue(instance) as TranslationResult;
+
+                            // 过滤翻译失败数据
+                            return data?.IsSuccess ?? false;
+                        };
+                    }
+
+                    return property;
+                })
+                .ToList();
         }
     }
 
