@@ -143,6 +143,12 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="关闭鼠标划词功能后保持窗口置顶" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsKeepTopmostAfterMousehook}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="启动时隐藏主界面" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示主界面" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsHideOnStart}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
                     

@@ -142,6 +142,11 @@ namespace STranslate.Model
         public int WordPickingInterval { get; set; } = 200;
 
         /// <summary>
+        /// 启动时隐藏主界面
+        /// </summary>
+        public bool IsHideOnStart { get; set; } = false;
+
+        /// <summary>
         /// 服务
         /// </summary>
         [JsonIgnore]

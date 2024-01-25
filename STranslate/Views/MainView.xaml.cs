@@ -60,7 +60,8 @@ namespace STranslate.Views
 
                 LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
             }
-            finally
+
+            if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false))
             {
                 // 第一次加载页面激活输入框
                 (InputView.FindName("InputTB") as TextBox)?.Focus();
@@ -88,6 +89,24 @@ namespace STranslate.Views
 
         protected override void OnSourceInitialized(EventArgs e)
         {
+            #region 开启时隐藏主界面
+
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false)
+            {
+                Hide();
+
+                _ = bool.TryParse(Application.Current.Properties["admin"]?.ToString(), out bool isAdmin);
+
+                string toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
+
+                var msg = string.Format(toolTipFormat, Application.ResourceAssembly.GetName().Version!);
+
+                // 显示信息
+                Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
+            }
+
+            #endregion 开启时隐藏主界面
+
             base.OnSourceInitialized(e);
 
             var windowInteropHelper = new WindowInteropHelper(this);

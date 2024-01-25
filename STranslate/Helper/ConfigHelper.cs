@@ -173,6 +173,7 @@ namespace STranslate
                 CurrentConfig.IsShowSilentOCR = model.IsShowSilentOCR;
                 CurrentConfig.IsShowQRCode = model.IsShowQRCode;
                 CurrentConfig.WordPickingInterval = model.WordPickingInterval;
+                CurrentConfig.IsHideOnStart = model.IsHideOnStart;
                 Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
@@ -280,6 +281,7 @@ namespace STranslate
                 IsShowSilentOCR = false,
                 IsShowQRCode = false,
                 WordPickingInterval = 100,
+                IsHideOnStart = false,
                 SourceLanguage = LanguageEnum.AUTO.GetDescription(),
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 Services =

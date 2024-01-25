@@ -255,11 +255,11 @@ namespace STranslate.ViewModels
                         Clipboard.SetDataObject(getText, true);
 
                         var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
-                        OnShowBalloonTip?.Invoke($"OCR识别成功: {tmp}");
+                        ShowBalloonTip($"OCR识别成功: {tmp}");
                     }
                     catch (Exception ex)
                     {
-                        OnShowBalloonTip?.Invoke($"OCR识别失败: {ex.Message}");
+                        ShowBalloonTip($"OCR识别失败: {ex.Message}");
                         LogService.Logger.Error("静默OCR失败", ex);
                     }
                 }
@@ -429,6 +429,12 @@ namespace STranslate.ViewModels
         {
             NIModel.IconSource = ConstStr.ICON;
         }
+
+        /// <summary>
+        /// 托盘程序BallonTip消息入口
+        /// </summary>
+        /// <param name="msg"></param>
+        public void ShowBalloonTip(string msg) => OnShowBalloonTip?.Invoke(msg);
 
         [RelayCommand]
         private void Exit()

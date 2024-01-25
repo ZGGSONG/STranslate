@@ -64,6 +64,7 @@ namespace STranslate.ViewModels.Preference
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
             WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
+            IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)
             {
@@ -207,7 +208,8 @@ namespace STranslate.ViewModels.Preference
                     {
                         // 切换字体
                         Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = value.Equals(ConstStr.DEFAULTFONTNAME)
-                            ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME] : new FontFamily(value);
+                            ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+                            : new FontFamily(value);
                         _customFont = value;
                     }
                     catch (Exception)
@@ -216,7 +218,6 @@ namespace STranslate.ViewModels.Preference
                         _customFont = ConstStr.DEFAULTFONTNAME;
                     }
 
-
                     OnPropertyChanged(nameof(CustomFont));
                 }
             }
@@ -224,7 +225,6 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private bool isKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
-
 
         /// <summary>
         /// 是否显示设置图标
@@ -273,5 +273,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private int wordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
+
+        /// <summary>
+        /// 启动时隐藏主界面
+        /// </summary>
+        [ObservableProperty]
+        private bool isHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
     }
 }
