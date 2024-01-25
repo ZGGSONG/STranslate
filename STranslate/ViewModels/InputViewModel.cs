@@ -433,8 +433,16 @@ namespace STranslate.ViewModels
                 };
 
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
-            var dataToken = jsonObject["Data"];
-            translator.Data = dataToken?.ToObject<TranslationResult>() ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
+            try
+            {
+                var dataToken = jsonObject["Data"];
+                translator.Data = dataToken?.ToObject<TranslationResult>() ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
+            }
+            catch (Exception)
+            {
+                //兼容旧版结果
+                translator.Data.Result = jsonObject["Data"]?.Value<string>() ?? "该服务未获取到缓存Ctrl+Enter更新";
+            }
 
             // 返回构建好的 translator 对象
             return translator;

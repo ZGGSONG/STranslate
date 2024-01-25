@@ -84,7 +84,7 @@
                                     <TextBox ContextMenu="{x:Null}"
                                              FontSize="{DynamicResource FontSize_TextBox}"
                                              Style="{DynamicResource TextBoxOutputStyle}"
-                                             Text="{Binding Item3, Mode=OneWay}" />
+                                             Text="{Binding Item3.Result, Mode=OneWay}" />
 
                                     <Grid Margin="5" VerticalAlignment="Bottom">
                                         <Button Margin="5,0"

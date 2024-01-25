@@ -99,9 +99,18 @@ namespace STranslate.ViewModels.Preference.History
 
             serializer.Populate(jsonObject.CreateReader(), translator);
 
-            // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
-            //TODO: 存在历史记录的服务删除出现bug
-            translator.Data = jsonObject["Data"]!.Value<TranslationResult>()!;
+            try
+            {
+                // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
+                var dataToken = jsonObject["Data"];
+                translator.Data = dataToken?.ToObject<TranslationResult>() ?? TranslationResult.Fail("该服务未获取到缓存强制翻译(Ctrl+Enter)以更新");
+            }
+            catch (Exception)
+            {
+                //兼容旧版结果
+                translator.Data.Result = jsonObject["Data"]?.Value<string>() ?? "该服务未获取到缓存强制翻译(Ctrl+Enter)以更新";
+            }
+
 
             // 返回构建好的 translator 对象
             return translator;
