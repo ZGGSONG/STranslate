@@ -32,15 +32,17 @@
                             <Expander.Header>
                                 <Grid Height="30">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="2*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
                                         <Image Width="18" Margin="10,0,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
-                                        <TextBlock Margin="10,0,0,0"
+                                        <TextBlock MaxWidth="200"
+                                                   Margin="10,0,0,0"
                                                    FontSize="14"
                                                    Foreground="{DynamicResource TextForeground}"
-                                                   Text="{Binding Name}" />
+                                                   Text="{Binding Name}"
+                                                   TextTrimming="CharacterEllipsis" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1"
