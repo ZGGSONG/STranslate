@@ -155,6 +155,8 @@ namespace STranslate.ViewModels
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
 
+            return;
+
             Last:
             QRCodeHandler();
         }
@@ -199,6 +201,8 @@ namespace STranslate.ViewModels
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
 
+            return;
+
             Last:
             OCRHandler();
         }
@@ -227,7 +231,7 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void SilentOCR(object obj)
+        private void SilentOCR(object? obj)
         {
             if (obj == null)
             {
@@ -242,6 +246,8 @@ namespace STranslate.ViewModels
             }
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
+
+            return;
 
             Last:
             SilentOCRHandler();
@@ -297,6 +303,8 @@ namespace STranslate.ViewModels
             }
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
+
+            return;
 
             Last:
             ScreenShotHandler();

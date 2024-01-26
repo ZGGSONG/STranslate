@@ -29,6 +29,10 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private async Task RefreshAsync(ScrollViewer? scroll)
         {
+            // 清空搜索框
+            SearchContent = string.Empty;
+
+            // 获取结果
             var historyModels = await SqlHelper.GetDataAsync();
 
             CommonUtil.InvokeOnUIThread(() =>
