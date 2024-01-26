@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using STranslate.Helper;
 using Point = System.Windows.Point;
 
 namespace STranslate.Views

@@ -15,15 +15,30 @@ namespace STranslate.ViewModels
 {
     public partial class NotifyIconViewModel : ObservableObject
     {
-        public NotifyIconModel NIModel { get; } = new();
+        /// <summary>
+        /// 屏蔽快捷键事件
+        /// </summary>
+        public event Action<Window, bool>? OnForbiddenShortcuts;
 
-        public Action<Window, bool>? OnForbiddenShortcuts;
+        /// <summary>
+        /// 监听鼠标划词事件
+        /// </summary>
+        public event Action<Window>? OnMousehook;
 
-        public Action<Window>? OnMousehook;
-
+        /// <summary>
+        /// 退出事件
+        /// </summary>
         public event Action? OnExit;
 
+        /// <summary>
+        /// Toast通知事件
+        /// </summary>
         public event Action<string>? OnShowBalloonTip;
+
+        /// <summary>
+        /// 图标、提示
+        /// </summary>
+        public NotifyIconModel NIModel { get; } = new();
 
         [ObservableProperty]
         private bool _isForbiddenShortcuts = false;
@@ -380,7 +395,7 @@ namespace STranslate.ViewModels
             view.Activate();
 
             //激活输入框
-            if (view is MainView mainView && (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") is TextBox inputTextBox)
+            if (view is MainView mainView && (mainView.FindName("InputView") as UserControl)?.FindName("InputTb") is TextBox inputTextBox)
             {
                 // 获取焦点
                 inputTextBox.Focus();

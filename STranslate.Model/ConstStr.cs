@@ -34,5 +34,8 @@ namespace STranslate.Model
 
         public const string USERDEFINEFONTKEY = "UserFont";
         public const string DEFAULTFONTNAME = "LXGW WenKai";
+
+        public const string INPUTERRORCONTENT = "该服务未获取到缓存Ctrl+Enter更新";
+        public const string HISTORYERRORCONTENT = "该服务翻译时未正确返回Ctrl+Enter以更新";
     }
 }

@@ -2,7 +2,6 @@
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
-using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels;
 using STranslate.ViewModels.Preference;

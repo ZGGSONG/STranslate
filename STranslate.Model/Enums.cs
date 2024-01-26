@@ -125,6 +125,7 @@ namespace STranslate.Model
     /// <summary>
     /// 快捷键修饰键
     /// </summary>
+    [Flags]
     public enum KeyModifiers : byte
     {
         MOD_NONE = 0x0,

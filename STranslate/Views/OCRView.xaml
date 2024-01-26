@@ -152,7 +152,7 @@
                         <TextBox x:Name="TB"
                                  Margin="3,3,3,24"
                                  FontSize="{DynamicResource FontSize_TextBox}"
-                                 PreviewMouseWheel="InputTB_PreviewMouseWheel"
+                                 PreviewMouseWheel="InputTb_PreviewMouseWheel"
                                  Style="{DynamicResource TextBoxOCRStyle}"
                                  Text="{Binding GetContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <!-- // 右键菜单 // -->

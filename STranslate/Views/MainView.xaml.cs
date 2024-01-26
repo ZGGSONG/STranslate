@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using STranslate.Helper;
 
 namespace STranslate.Views
 {
@@ -64,7 +65,7 @@ namespace STranslate.Views
             if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false))
             {
                 // 第一次加载页面激活输入框
-                (InputView.FindName("InputTB") as TextBox)?.Focus();
+                (InputView.FindName("InputTb") as TextBox)?.Focus();
             }
         }
 

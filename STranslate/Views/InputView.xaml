@@ -11,15 +11,15 @@
              Background="Transparent"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference InputTB}" />
+        <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference InputTb}" />
     </UserControl.Resources>
 
     <!-- // 输入框 // -->
     <Border Style="{DynamicResource BorderInOutputStyle}">
         <Grid>
-            <common:PlaceholderTextBox x:Name="InputTB"
+            <common:PlaceholderTextBox x:Name="InputTb"
                                        FontSize="{DynamicResource FontSize_TextBox}"
-                                       PreviewMouseWheel="InputTB_PreviewMouseWheel"
+                                       PreviewMouseWheel="InputTb_PreviewMouseWheel"
                                        Placeholder="Enter 翻译/缓存&#10;Ctrl+Enter 强制翻译&#10;Shift+Enter 换行"
                                        Style="{DynamicResource TextBoxInputStyle}"
                                        Text="{Binding InputContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -34,21 +34,21 @@
                 <!-- // 右键菜单 // -->
                 <common:PlaceholderTextBox.ContextMenu>
                     <ContextMenu Width="120">
-                        <MenuItem Command="{Binding TBSelectAllCommand}"
+                        <MenuItem Command="{Binding TbSelectAllCommand}"
                                   CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                   Header="全选"
                                   Icon="&#xe692;" />
                         <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
-                        <MenuItem Command="{Binding TBCopyCommand}"
+                        <MenuItem Command="{Binding TbCopyCommand}"
                                   CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                   Header="复制"
                                   Icon="&#xe692;" />
-                        <MenuItem Command="{Binding TBPasteCommand}"
+                        <MenuItem Command="{Binding TbPasteCommand}"
                                   CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                   Header="粘贴"
                                   Icon="&#xe692;" />
                         <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
-                        <MenuItem Command="{Binding TBClearCommand}"
+                        <MenuItem Command="{Binding TbClearCommand}"
                                   CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                   Header="清空"
                                   Icon="&#xe692;" />

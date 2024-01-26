@@ -85,7 +85,7 @@ namespace STranslate.Views
             }
         }
 
-        private void InputTB_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void InputTb_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
 

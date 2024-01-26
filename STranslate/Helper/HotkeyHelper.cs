@@ -134,12 +134,7 @@ namespace STranslate.Helper
 
             if (Hotkeys!.InputTranslate.Key != 0)
             {
-                Hotkeys!.InputTranslate.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    InputTranslateId,
-                    (byte)Hotkeys!.InputTranslate.Modifiers,
-                    (int)Hotkeys!.InputTranslate.Key
-                );
+                Hotkeys!.InputTranslate.Conflict = !CommonUtil.RegisterHotKey(handle, InputTranslateId, (byte)Hotkeys!.InputTranslate.Modifiers, (int)Hotkeys!.InputTranslate.Key);
             }
 
             if (Hotkeys!.CrosswordTranslate.Key != 0)
@@ -164,12 +159,7 @@ namespace STranslate.Helper
 
             if (Hotkeys!.OpenMainWindow.Key != 0)
             {
-                Hotkeys!.OpenMainWindow.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    OpenMainWindowId,
-                    (byte)Hotkeys!.OpenMainWindow.Modifiers,
-                    (int)Hotkeys!.OpenMainWindow.Key
-                );
+                Hotkeys!.OpenMainWindow.Conflict = !CommonUtil.RegisterHotKey(handle, OpenMainWindowId, (byte)Hotkeys!.OpenMainWindow.Modifiers, (int)Hotkeys!.OpenMainWindow.Key);
             }
 
             if (Hotkeys!.MousehookTranslate.Key != 0)
@@ -184,21 +174,11 @@ namespace STranslate.Helper
 
             if (Hotkeys!.OCR.Key != 0)
             {
-                Hotkeys!.OCR.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    OCRId,
-                    (byte)Hotkeys!.OCR.Modifiers,
-                    (int)Hotkeys!.OCR.Key
-                );
+                Hotkeys!.OCR.Conflict = !CommonUtil.RegisterHotKey(handle, OCRId, (byte)Hotkeys!.OCR.Modifiers, (int)Hotkeys!.OCR.Key);
             }
             if (Hotkeys!.SilentOCR.Key != 0)
             {
-                Hotkeys!.SilentOCR.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    SilentOCRId,
-                    (byte)Hotkeys!.SilentOCR.Modifiers,
-                    (int)Hotkeys!.SilentOCR.Key
-                );
+                Hotkeys!.SilentOCR.Conflict = !CommonUtil.RegisterHotKey(handle, SilentOCRId, (byte)Hotkeys!.SilentOCR.Modifiers, (int)Hotkeys!.SilentOCR.Key);
             }
         }
 
@@ -211,10 +191,7 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, InputTranslateId);
             }
-            else if (
-                InputTranslateModifiers != Hotkeys!.InputTranslate.Modifiers
-                || InputTranslateKey != Hotkeys!.InputTranslate.Key
-            )
+            else if (InputTranslateModifiers != Hotkeys!.InputTranslate.Modifiers || InputTranslateKey != Hotkeys!.InputTranslate.Key)
             {
                 {
                     CommonUtil.UnregisterHotKey(MainIntPtr, InputTranslateId);
@@ -233,10 +210,7 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, CrosswordTranslateId);
             }
-            else if (
-                CrosswordTranslateModifiers != Hotkeys!.CrosswordTranslate.Modifiers
-                || CrosswordTranslateKey != Hotkeys!.CrosswordTranslate.Key
-            )
+            else if (CrosswordTranslateModifiers != Hotkeys!.CrosswordTranslate.Modifiers || CrosswordTranslateKey != Hotkeys!.CrosswordTranslate.Key)
             {
                 {
                     CommonUtil.UnregisterHotKey(MainIntPtr, CrosswordTranslateId);
@@ -255,10 +229,7 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, ScreenShotTranslateId);
             }
-            else if (
-                ScreenShotTranslateModifiers != Hotkeys!.ScreenShotTranslate.Modifiers
-                || ScreenShotTranslateKey != Hotkeys!.ScreenShotTranslate.Key
-            )
+            else if (ScreenShotTranslateModifiers != Hotkeys!.ScreenShotTranslate.Modifiers || ScreenShotTranslateKey != Hotkeys!.ScreenShotTranslate.Key)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, ScreenShotTranslateId);
                 Hotkeys!.ScreenShotTranslate.Conflict = !CommonUtil.RegisterHotKey(
@@ -275,10 +246,7 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, OpenMainWindowId);
             }
-            else if (
-                OpenMainWindowModifiers != Hotkeys!.OpenMainWindow.Modifiers
-                || OpenMainWindowKey != Hotkeys!.OpenMainWindow.Key
-            )
+            else if (OpenMainWindowModifiers != Hotkeys!.OpenMainWindow.Modifiers || OpenMainWindowKey != Hotkeys!.OpenMainWindow.Key)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, OpenMainWindowId);
                 Hotkeys!.OpenMainWindow.Conflict = !CommonUtil.RegisterHotKey(
@@ -295,10 +263,7 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, MousehookTranslateId);
             }
-            else if (
-                MousehookTranslateModifiers != Hotkeys!.MousehookTranslate.Modifiers
-                || MousehookTranslateKey != Hotkeys!.MousehookTranslate.Key
-            )
+            else if (MousehookTranslateModifiers != Hotkeys!.MousehookTranslate.Modifiers || MousehookTranslateKey != Hotkeys!.MousehookTranslate.Key)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, MousehookTranslateId);
                 Hotkeys!.MousehookTranslate.Conflict = !CommonUtil.RegisterHotKey(
@@ -315,18 +280,10 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, OCRId);
             }
-            else if (
-                OCRModifiers != Hotkeys!.OCR.Modifiers
-                || OCRKey != Hotkeys!.OCR.Key
-            )
+            else if (OCRModifiers != Hotkeys!.OCR.Modifiers || OCRKey != Hotkeys!.OCR.Key)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, OCRId);
-                Hotkeys!.OCR.Conflict = !CommonUtil.RegisterHotKey(
-                    MainIntPtr,
-                    OCRId,
-                    (byte)Hotkeys!.OCR.Modifiers,
-                    (int)Hotkeys!.OCR.Key
-                );
+                Hotkeys!.OCR.Conflict = !CommonUtil.RegisterHotKey(MainIntPtr, OCRId, (byte)Hotkeys!.OCR.Modifiers, (int)Hotkeys!.OCR.Key);
             }
             OCRModifiers = Hotkeys!.OCR.Modifiers;
             OCRKey = Hotkeys!.OCR.Key;
@@ -335,18 +292,10 @@ namespace STranslate.Helper
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, SilentOCRId);
             }
-            else if (
-                SilentOCRModifiers != Hotkeys!.SilentOCR.Modifiers
-                || SilentOCRKey != Hotkeys!.SilentOCR.Key
-            )
+            else if (SilentOCRModifiers != Hotkeys!.SilentOCR.Modifiers || SilentOCRKey != Hotkeys!.SilentOCR.Key)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, SilentOCRId);
-                Hotkeys!.SilentOCR.Conflict = !CommonUtil.RegisterHotKey(
-                    MainIntPtr,
-                    SilentOCRId,
-                    (byte)Hotkeys!.SilentOCR.Modifiers,
-                    (int)Hotkeys!.SilentOCR.Key
-                );
+                Hotkeys!.SilentOCR.Conflict = !CommonUtil.RegisterHotKey(MainIntPtr, SilentOCRId, (byte)Hotkeys!.SilentOCR.Modifiers, (int)Hotkeys!.SilentOCR.Key);
             }
             SilentOCRModifiers = Hotkeys!.SilentOCR.Modifiers;
             SilentOCRKey = Hotkeys!.SilentOCR.Key;
