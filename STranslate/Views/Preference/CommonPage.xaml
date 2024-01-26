@@ -134,7 +134,7 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="非常规屏幕截图修复" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="非16:9的拓展显示器截图移位的问题" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="非16:9的拓展显示器截图移位的问题&#13;如果出现问题尝试开启一下该选项" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding UnconventionalScreen}" />
                             </DockPanel>
 
@@ -148,6 +148,12 @@
                                 <TextBlock HorizontalAlignment="Left" Text="启动时隐藏主界面" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示主界面" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsHideOnStart}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="显示复制按钮" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="翻译结果收缩框收缩时上方是否显示复制按钮" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ShowCopyOnHeader}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

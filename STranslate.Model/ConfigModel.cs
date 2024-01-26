@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using System.ComponentModel;
-using System.Windows;
 
 namespace STranslate.Model
 {
@@ -145,6 +144,11 @@ namespace STranslate.Model
         /// 启动时隐藏主界面
         /// </summary>
         public bool IsHideOnStart { get; set; } = false;
+
+        /// <summary>
+        /// 收缩框是否显示复制按钮
+        /// </summary>
+        public bool ShowCopyOnHeader { get; set; } = false;
 
         /// <summary>
         /// 服务

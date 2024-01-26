@@ -6,6 +6,7 @@
     <converter:String2IsExpandedConverter x:Key="String2IsExpandedConverter" />
     <converter:String2IconConverter x:Key="String2IconConverter" />
     <converter:MultiValue2ListConverter x:Key="MultiValue2ListConverter" />
+    <converter:MultiValue2VisibilityConverter x:Key="MultiValue2VisibilityConverter" />
     <converter:String2IsEnableConverter x:Key="String2IsEnableConverter" />
     <converter:BooleanReverseConverter x:Key="BooleanReverseConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

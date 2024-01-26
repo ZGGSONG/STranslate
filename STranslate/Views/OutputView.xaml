@@ -9,6 +9,20 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetName="HeaderCopySP"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0:0:1" />
+        </Storyboard>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetName="HeaderCopySP"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0"
+                             Duration="0:0:1" />
+        </Storyboard>
+    </UserControl.Resources>
     <StackPanel>
         <ListBox Background="Transparent"
                  BorderThickness="0"
@@ -29,6 +43,14 @@
                                   IsEnabled="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}, Mode=OneWay}"
                                   IsExpanded="{Binding Data.Result, Converter={StaticResource String2IsExpandedConverter}}"
                                   SnapsToDevicePixels="True">
+                            <Expander.Triggers>
+                                <EventTrigger RoutedEvent="Expander.Expanded">
+                                    <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}" />
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="Expander.Collapsed">
+                                    <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}" />
+                                </EventTrigger>
+                            </Expander.Triggers>
                             <Expander.Header>
                                 <Grid Height="30">
                                     <Grid.ColumnDefinitions>
@@ -61,7 +83,13 @@
                                         <!-- Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" /> -->
 
                                         <!-- // 复制按钮到Expander上 Expander收起时显示// -->
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
+                                            <StackPanel.Visibility>
+                                                <MultiBinding Converter="{StaticResource MultiValue2VisibilityConverter}">
+                                                    <Binding Path="IsExpanded" RelativeSource="{RelativeSource AncestorType=Expander}" />
+                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                </MultiBinding>
+                                            </StackPanel.Visibility>
                                             <!-- 大驼峰复制 -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"

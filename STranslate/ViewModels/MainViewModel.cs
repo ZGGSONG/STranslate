@@ -17,6 +17,7 @@ namespace STranslate.ViewModels
         public InputViewModel InputVM { get; } = Singleton<InputViewModel>.Instance;
         public OutputViewModel OutputVM { get; set; } = Singleton<OutputViewModel>.Instance;
         public NotifyIconViewModel NotifyIconVM { get; } = Singleton<NotifyIconViewModel>.Instance;
+        public CommonViewModel CommonSettingVM { get; } = Singleton<CommonViewModel>.Instance;
 
         /// <summary>
         /// 语言字典

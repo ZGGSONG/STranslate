@@ -65,6 +65,7 @@ namespace STranslate.ViewModels.Preference
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
             WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
             IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
+            ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)
             {
@@ -279,5 +280,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool isHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
+
+        /// <summary>
+        /// 收缩框是否显示复制按钮
+        /// </summary>
+        [ObservableProperty]
+        private bool showCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
     }
 }

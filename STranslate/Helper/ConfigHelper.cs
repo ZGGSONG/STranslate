@@ -174,6 +174,7 @@ namespace STranslate
                 CurrentConfig.IsShowQRCode = model.IsShowQRCode;
                 CurrentConfig.WordPickingInterval = model.WordPickingInterval;
                 CurrentConfig.IsHideOnStart = model.IsHideOnStart;
+                CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
                 Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
                 WriteConfig(CurrentConfig);
                 isSuccess = true;
@@ -282,6 +283,7 @@ namespace STranslate
                 IsShowQRCode = false,
                 WordPickingInterval = 100,
                 IsHideOnStart = false,
+                ShowCopyOnHeader = false,
                 SourceLanguage = LanguageEnum.AUTO.GetDescription(),
                 TargetLanguage = LanguageEnum.AUTO.GetDescription(),
                 Services =
@@ -376,5 +378,6 @@ namespace STranslate
             return JsonConvert.DeserializeObject<T>(json, settings)!;
         }
     }
+
     #endregion JsonConvert
 }
