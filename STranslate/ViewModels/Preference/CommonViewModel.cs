@@ -63,9 +63,11 @@ namespace STranslate.ViewModels.Preference
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
-            WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
+            WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 200;
             IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
             ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
+
+            LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
             if (IsStartup)
             {
@@ -87,6 +89,23 @@ namespace STranslate.ViewModels.Preference
             {
                 GetFontFamilys.Insert(0, ConstStr.DEFAULTFONTNAME);
             }
+
+            // 加载历史记录类型
+            LoadHistorySizeType();
+        }
+
+        private void LoadHistorySizeType()
+        {
+            HistorySizeType = HistorySize switch
+            {
+                50 => 0,
+                100 => 1,
+                200 => 2,
+                500 => 3,
+                1000 => 4,
+                long.MaxValue => 5,
+                _ => 0
+            };
         }
 
         [ObservableProperty]
