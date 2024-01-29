@@ -30,10 +30,10 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private async Task LoadMoreHistory(object? obj)
         {
-            if (IsLoading)
-            {
-                return;
-            }
+            // 清空搜索框
+            SearchContent = string.Empty;
+
+            if (IsLoading) return;
 
             IsLoading = true;
 
@@ -72,7 +72,8 @@ namespace STranslate.ViewModels.Preference
                             HistoryList.Insert(indexToInsert, history);
                         }
                     }
-
+                    // 缓存一份
+                    tmpList = HistoryList;
 
                     // 刷新历史记录数量
                     Count = HistoryList.Count;
@@ -209,7 +210,7 @@ namespace STranslate.ViewModels.Preference
             {
                 CommonUtil.InvokeOnUIThread(() =>
                 {
-                    HistoryList = string.IsNullOrEmpty(SearchContent) ? tmpList
+                    HistoryList = string.IsNullOrEmpty(SearchContent) ? tmpList ?? []
                     : new BindingList<HistoryModel>(tmpList?.Where(x => x.SourceText.Contains(SearchContent, StringComparison.CurrentCultureIgnoreCase))?.ToList() ?? []);
 
                     UpdateHistoryIndex();
