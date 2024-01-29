@@ -32,6 +32,19 @@ namespace STranslate.Util
             }
         }
 
+        public static void Insert<T>(this BindingList<T>? list, int index, IEnumerable<T>? data)
+        {
+            if (list == null || data == null || data.Count() < index)
+            {
+                return;
+            }
+
+            foreach (T t in data)
+            {
+                list.Insert(index++, t);
+            }
+        }
+
         /// <summary>
         /// 比较两个List是否相同
         /// </summary>

@@ -55,23 +55,16 @@ namespace STranslate.ViewModels.Preference
                     
                     // 当前添加的数据的数量
                     var curCount = uniqueHistoryData.Count();
-                    // 将 uniqueHistoryData 按时间排序
-                    var sortedHistoryData = uniqueHistoryData.OrderBy(h => h.Time);
-
-                    foreach (var history in sortedHistoryData)
+                   
+                    if (obj is null)
                     {
-                        int indexToInsert = HistoryList.ToList().FindIndex(existing => existing.Time < history.Time);
-                        if (indexToInsert == -1)
-                        {
-                            // 如果找不到比当前历史记录更早的记录，直接添加到末尾
-                            HistoryList.Add(history);
-                        }
-                        else
-                        {
-                            // 否则插入到找到的位置
-                            HistoryList.Insert(indexToInsert, history);
-                        }
+                        HistoryList.Insert(0, uniqueHistoryData);
                     }
+                    else
+                    {
+                        HistoryList.AddRange(uniqueHistoryData);
+                    }
+
                     // 缓存一份
                     tmpList = HistoryList;
 
@@ -81,7 +74,7 @@ namespace STranslate.ViewModels.Preference
                     if (Count > 0)
                     {
                         // 刷新右侧面板
-                        UpdateHistoryIndex(Count - curCount);
+                        UpdateHistoryIndex(obj is null ? 0 : Count - curCount);
                     }
                     else
                     {
