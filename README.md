@@ -147,17 +147,16 @@ rd /s /q "%localappdata%\stranslate"
 2. 支持 [必应翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
 3. 支持 [OpenAI](https://openai.com)
 4. 支持 [Google Gemini](https://makersuite.google.com/app/apikey)
-
-> 公共 `Gemini API`: `https://gemini.vercel.zggsong.com`
-
+> 国内可访问的公共 `Gemini API`: `https://gemini.vercel.zggsong.com`
+5. 支持 [腾讯翻译君](https://cloud.tencent.com/product/tmt)
 
 ## 感谢
 
+- 特别鸣谢 [zu1k](https://github.com/zu1k)
 - [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp)
 - [WpfTool](https://github.com/NPCDW/WpfTool)
 - [Tai](https://github.com/Planshit/Tai)
-
-- 感谢 JetBrains 提供开源项目免费License 
+- 感谢 JetBrains 提供开源项目免费License
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
 

@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,43 +20,80 @@ namespace STranslate.ViewModels.Preference
 {
     public partial class HistoryViewModel : ObservableObject
     {
+
         public HistoryViewModel()
         {
             // 异步加载
-            Task.Run(async () => await RefreshCommand.ExecuteAsync(null));
+            Task.Run(async () => await LoadMoreHistory(null));
         }
 
         [RelayCommand]
-        private async Task RefreshAsync(ScrollViewer? scroll)
+        private async Task LoadMoreHistory(object? obj)
         {
-            // 清空搜索框
-            SearchContent = string.Empty;
-
-            // 获取结果
-            var historyModels = await SqlHelper.GetDataAsync();
-
-            CommonUtil.InvokeOnUIThread(() =>
+            if (IsLoading)
             {
-                HistoryList = new BindingList<HistoryModel>(historyModels.Reverse().ToList());
+                return;
+            }
 
-                // 缓存一份
-                tmpList = HistoryList;
+            IsLoading = true;
 
-                Count = HistoryList.Count;
+            try
+            {
+                _lastCursorTime = obj is null ? DateTime.Now : _lastCursorTime;
 
-                if (Count > 0)
+                var historyData = await SqlHelper.GetDataCursorPagedAsync(pageSize, _lastCursorTime);
+
+                if (!historyData.Any()) return;
+
+                CommonUtil.InvokeOnUIThread(() =>
                 {
-                    UpdateHistoryIndex();
-                }
-                else
-                {
-                    HistoryDetailContent = null;
-                }
+                    // 更新游标
+                    _lastCursorTime = historyData.Last().Time;
 
-                scroll?.ScrollToTop();
+                    // 检查是否已经加载过相同的记录
+                    var uniqueHistoryData = historyData.Where(h => !HistoryList.Any(existing => existing.Id == h.Id));
+                    
+                    // 当前添加的数据的数量
+                    var curCount = uniqueHistoryData.Count();
+                    // 将 uniqueHistoryData 按时间排序
+                    var sortedHistoryData = uniqueHistoryData.OrderBy(h => h.Time);
 
-                ToastHelper.Show("刷新历史记录", WindowType.Preference);
-            });
+                    foreach (var history in sortedHistoryData)
+                    {
+                        int indexToInsert = HistoryList.ToList().FindIndex(existing => existing.Time < history.Time);
+                        if (indexToInsert == -1)
+                        {
+                            // 如果找不到比当前历史记录更早的记录，直接添加到末尾
+                            HistoryList.Add(history);
+                        }
+                        else
+                        {
+                            // 否则插入到找到的位置
+                            HistoryList.Insert(indexToInsert, history);
+                        }
+                    }
+
+
+                    // 刷新历史记录数量
+                    Count = HistoryList.Count;
+
+                    if (Count > 0)
+                    {
+                        // 刷新右侧面板
+                        UpdateHistoryIndex(Count - curCount);
+                    }
+                    else
+                    {
+                        HistoryDetailContent = null;
+                    }
+                });
+            }
+            finally
+            {
+                IsLoading = false;
+
+                if (obj is null) ToastHelper.Show("刷新历史记录", WindowType.Preference);
+            }
         }
 
         /// <summary>
@@ -144,24 +181,23 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private void TogglePage(HistoryModel? model)
         {
-            if (model == null)
+            // 防止重入
+            if (model == null || _isSelectionChanging || HistoryDetailContent is null)
                 return;
 
-            // 防止重入
-            if (!_isSelectionChanging)
+            _isSelectionChanging = true;
+
+            try
             {
-                _isSelectionChanging = true;
-
-                try
-                {
-                    var method = typeof(HistoryContentPage).GetMethod("UpdateVM");
-                    method?.Invoke(HistoryDetailContent, new[] { new HistoryContentViewModel(model) });
-                }
-                catch (Exception ex)
-                {
-                    LogService.Logger.Error("历史记录导航出错", ex);
-                }
-
+                var method = typeof(HistoryContentPage).GetMethod("UpdateVM");
+                method?.Invoke(HistoryDetailContent, new[] { new HistoryContentViewModel(model) });
+            }
+            catch(Exception ex)
+            {
+                LogService.Logger.Error("历史记录导航出错", ex);
+            }
+            finally
+            {
                 _isSelectionChanging = false;
             }
         }
@@ -175,7 +211,7 @@ namespace STranslate.ViewModels.Preference
                 {
                     HistoryList = string.IsNullOrEmpty(SearchContent) ? tmpList
                     : new BindingList<HistoryModel>(tmpList?.Where(x => x.SourceText.Contains(SearchContent, StringComparison.CurrentCultureIgnoreCase))?.ToList() ?? []);
-                    
+
                     UpdateHistoryIndex();
                 });
             });
@@ -202,9 +238,22 @@ namespace STranslate.ViewModels.Preference
         private UIElement? _historyDetailContent;
 
         [ObservableProperty]
-        private BindingList<HistoryModel>? _historyList;
+        private BindingList<HistoryModel> _historyList = [];
 
         [ObservableProperty]
         private string _searchContent = string.Empty;
+
+        [ObservableProperty]
+        private bool _isLoading = false;
+
+        /// <summary>
+        /// 每页大小
+        /// </summary>
+        private readonly int pageSize = 10;
+
+        /// <summary>
+        /// 初始游标时间
+        /// </summary>
+        private DateTime _lastCursorTime = DateTime.Now;
     }
 }

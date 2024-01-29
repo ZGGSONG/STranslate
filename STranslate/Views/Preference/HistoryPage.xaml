@@ -48,9 +48,9 @@
                     </common:PlaceholderTextBox>
 
                     <Button Grid.Column="1"
+                            Margin="0"
                             Command="{Binding SearchCommand}"
                             Content="&#xeafe;"
-                            Margin="0"
                             FontSize="26"
                             Style="{DynamicResource ButtonIconStyle}" />
                 </Grid>
@@ -60,6 +60,7 @@
                               Grid.Row="1"
                               Margin="0,5,0,0"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ScrollViewer.ScrollChanged="HistoryListBox_ScrollChanged"
                               VerticalScrollBarVisibility="Auto">
                     <!-- // 历史记录 // -->
                     <ListBox x:Name="HistoryListBox"
@@ -73,8 +74,7 @@
                              SelectedIndex="{Binding SelectedIndex}">
                         <ListBox.ContextMenu>
                             <ContextMenu Width="120">
-                                <MenuItem Command="{Binding RefreshCommand}"
-                                          CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
+                                <MenuItem Command="{Binding LoadMoreHistoryCommand}"
                                           FontFamily="{DynamicResource IconFont}"
                                           Header="刷新记录"
                                           Icon="&#xe60f;" />
@@ -95,8 +95,7 @@
                                                       Header="添加收藏"
                                                       Icon="&#xe8b9;"
                                                       Visibility="Collapsed" />
-                                            <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.RefreshCommand}"
-                                                      CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
+                                            <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
                                                       FontFamily="{DynamicResource IconFont}"
                                                       Header="刷新记录"
                                                       Icon="&#xe60f;" />

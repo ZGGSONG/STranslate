@@ -149,12 +149,12 @@ public class ConfigModel
     public bool ShowCopyOnHeader { get; set; } = false;
 
     /// <summary>
-    /// 服务
-    /// </summary>
-    public BindingList<ITranslator>? Services { get; set; }
-
-    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
+
+    /// <summary>
+    /// 服务
+    /// </summary>
+    public BindingList<ITranslator>? Services { get; set; }
 }

@@ -164,10 +164,20 @@ namespace STranslate.Helper
             int startRow = (pageNum - 1) * pageSize + 1;
 
             // 使用 Dapper 进行分页查询
-            string query =
-                @"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY Time) AS RowNum, SourceText FROM History) AS p WHERE RowNum BETWEEN @StartRow AND @EndRow";
+            string query = @"SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY Time DESC) AS RowNum, * FROM History) AS p WHERE RowNum BETWEEN @StartRow AND @EndRow";
 
             return await connection.QueryAsync<HistoryModel>(query, new { StartRow = startRow, EndRow = startRow + pageSize - 1 });
+        }
+
+        public static async Task<IEnumerable<HistoryModel>> GetDataCursorPagedAsync(int pageSize, DateTime cursor)
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            // 使用 Dapper 进行分页查询
+            string query = @"SELECT * FROM History WHERE Time < @Cursor ORDER BY Time DESC LIMIT @PageSize OFFSET 0";
+
+            return await connection.QueryAsync<HistoryModel>(query, new { PageSize = pageSize, Cursor = cursor });
         }
 
         #endregion Asynchronous method
@@ -323,9 +333,7 @@ namespace STranslate.Helper
         /// <summary>
         /// C:\Users\user\AppData\Local\STranslate
         /// </summary>
-        private static string ApplicationPath =>
-            $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
-
+        private static string ApplicationPath => $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
 #else
         /// <summary>
         /// 当前目录

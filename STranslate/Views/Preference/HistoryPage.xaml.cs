@@ -1,50 +1,58 @@
 ﻿using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace STranslate.Views.Preference
 {
-    /// <summary>
-    /// HistoryPage.xaml 的交互逻辑
-    /// </summary>
     public partial class HistoryPage : UserControl
     {
+        private readonly HistoryViewModel vm = Singleton<HistoryViewModel>.Instance;
+
         public HistoryPage()
         {
             InitializeComponent();
-            DataContext = Singleton<HistoryViewModel>.Instance;
+            DataContext = vm;
         }
 
         private void HistoryListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            //按住Ctrl滚动时不将滚动冒泡给上一层级的控件
+            // 按住Ctrl滚动时不将滚动冒泡给上一层级的控件
             if (!e.Handled && !Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.RightCtrl))
             {
                 // ListBox拦截鼠标滚轮事件
                 e.Handled = true;
 
                 // 激发一个鼠标滚轮事件，冒泡给外层ListBox接收到
-                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-                {
-                    RoutedEvent = UIElement.MouseWheelEvent,
-                    Source = sender
-                };
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) { RoutedEvent = UIElement.MouseWheelEvent, Source = sender };
                 var parent = ((Control)sender).Parent as UIElement;
                 parent!.RaiseEvent(eventArg);
             }
+        }
+
+        private void HistoryListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            // 检查是否滚动到底部
+            var scrollViewer = (ScrollViewer)e.OriginalSource;
+
+            // 老是触发ScrollableHeight==0，规避一下
+            bool atBottom = scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight && scrollViewer.ScrollableHeight != 0;
+
+            //System.Diagnostics.Debug.WriteLine(
+            //    $"{DateTime.Now:HH:mm:ss.fff}\t"
+            //        + $"{((ScrollViewer)sender).Name}\t"
+            //        + $"VerticalOffset: {scrollViewer.VerticalOffset}\t"
+            //        + $"ScrollableHeight: {scrollViewer.ScrollableHeight}\t"
+            //        + $"bottom: {atBottom}"
+            //);
+
+            if (!atBottom)
+                return;
+
+            // 已经到达底部，执行刷新操作
+            Task.Run(async () => await vm.LoadMoreHistoryCommand.ExecuteAsync("load"));
         }
     }
 }
