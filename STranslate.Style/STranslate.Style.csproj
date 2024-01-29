@@ -55,6 +55,9 @@
     <Resource Include="Resources\preference.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\tencent.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
 	  <Resource Include="Resources\update.ico">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>

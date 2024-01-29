@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using STranslate.Model;
 
 namespace STranslate.Views.Preference.Service
@@ -25,5 +26,24 @@ namespace STranslate.Views.Preference.Service
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) =>
             Process.Start(new ProcessStartInfo { FileName = "https://cloud.tencent.com/product/tmt", UseShellExecute = true });
+
+
+        /// <summary>
+        /// 限制输入数字
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AcceptOnlyNumber(object sender, KeyEventArgs e)
+        {
+            if (!IsAllowedKey(e.Key))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool IsAllowedKey(Key key)
+        {
+            return (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9) || key == Key.Back || key == Key.Delete || key == Key.Left || key == Key.Right;
+        }
     }
 }

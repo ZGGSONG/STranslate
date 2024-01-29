@@ -11,6 +11,7 @@ using TencentCloud.Common.Profile;
 using TencentCloud.Common;
 using TencentCloud.Tmt.V20180321.Models;
 using TencentCloud.Tmt.V20180321;
+using Task = System.Threading.Tasks.Task;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -84,11 +85,11 @@ namespace STranslate.ViewModels.Preference.Services
         private TencentRegionEnum _region = TencentRegionEnum.华东地区_上海;
 
         [JsonIgnore]
-        public List<TencentRegionEnum> Resiongs = Enum.GetValues(typeof(TencentRegionEnum)).OfType<TencentRegionEnum>().ToList();
+        public List<TencentRegionEnum> Resiongs { get; set; } = Enum.GetValues(typeof(TencentRegionEnum)).OfType<TencentRegionEnum>().ToList();
 
         [JsonIgnore]
         [ObservableProperty]
-        private int _projectId = 0;
+        private string? _projectId = "0";
 
         #region Show/Hide Encrypt Info
 
@@ -123,14 +124,14 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
-        public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
+        public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             if (request is RequestModel reqModel)
             {
                 // 实例化一个认证对象，入参需要传入腾讯云账户 SecretId 和 SecretKey，此处还需注意密钥对的保密
                 // 代码泄露可能会导致 SecretId 和 SecretKey 泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议采用更安全的方式来使用密钥，请参见：https://cloud.tencent.com/document/product/1278/85305
                 // 密钥可前往官网控制台 https://console.cloud.tencent.com/cam/capi 进行获取
-                Credential cred = new Credential
+                Credential cred = new()
                 {
                     SecretId = AppID,
                     SecretKey = AppKey
@@ -152,16 +153,14 @@ namespace STranslate.ViewModels.Preference.Services
                     SourceText = reqModel.Text,
                     Source = reqModel.SourceLang.ToLower(),
                     Target = reqModel.TargetLang.ToLower(),
-                    ProjectId = ProjectId
+                    ProjectId = Convert.ToInt64(ProjectId)
                 };
                 // 返回的resp是一个TextTranslateResponse的实例，与请求对象对应
                 TextTranslateResponse resp = client.TextTranslateSync(req);
 
-                var transResults = ret.TransResult ?? [];
-                var data = transResults.Length == 0 ? throw new Exception("请求结果为空")
-                        : string.Join(Environment.NewLine, transResults.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst));
+                var data = resp.TargetText.Length == 0 ? throw new Exception("请求结果为空") : resp.TargetText;
 
-                return TranslationResult.Success(data);
+                return Task.FromResult(TranslationResult.Success(data));
             }
 
             throw new Exception($"请求数据出错: {request}");

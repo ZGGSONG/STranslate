@@ -10,5 +10,5 @@
     <BitmapImage x:Key="Bing" UriSource="pack://application:,,,/STranslate.Style;component/Resources/bing.png" />
     <BitmapImage x:Key="OpenAI" UriSource="pack://application:,,,/STranslate.Style;component/Resources/openai.png" />
     <BitmapImage x:Key="Gemini" UriSource="pack://application:,,,/STranslate.Style;component/Resources/gemini.png" />
-    <BitmapImage x:Key="Tencent" UriSource="pack://application:,,,/STranslate.Style;component/Resources/gemini.png" />
+    <BitmapImage x:Key="Tencent" UriSource="pack://application:,,,/STranslate.Style;component/Resources/tencent.ico" />
 </ResourceDictionary>
