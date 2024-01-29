@@ -446,6 +446,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.BingService => new TranslatorBing(),
                 (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
                 (int)ServiceType.GeminiService => new TranslatorGemini(),
+                (int)ServiceType.TencentService => new TranslatorTencent(),
                 _ => new TranslatorApi()
             };
 

@@ -312,6 +312,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.BingService => new TranslatorBing(),
             (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
             (int)ServiceType.GeminiService => new TranslatorGemini(),
+            (int)ServiceType.TencentService => new TranslatorTencent(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

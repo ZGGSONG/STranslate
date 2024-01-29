@@ -27,6 +27,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorBing());
             TransServices.Add(new TranslatorOpenAI());
             TransServices.Add(new TranslatorGemini());
+            TransServices.Add(new TranslatorTencent());
 
             ResetView();
         }
@@ -89,6 +90,7 @@ namespace STranslate.ViewModels.Preference
                     ServiceType.BingService => string.Format("{0}TextBingServicesPage", head),
                     ServiceType.OpenAIService => string.Format("{0}TextOpenAIServicesPage", head),
                     ServiceType.GeminiService => string.Format("{0}TextGeminiServicesPage", head),
+                    ServiceType.TencentService => string.Format("{0}TextTencentServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -114,6 +116,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorBing bing => bing.DeepClone(),
                     TranslatorOpenAI openAI => openAI.DeepClone(),
                     TranslatorGemini gemini => gemini.DeepClone(),
+                    TranslatorTencent tencent => tencent.DeepClone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 

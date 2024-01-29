@@ -104,6 +104,7 @@ namespace STranslate.Model
         BingService,
         OpenAIService,
         GeminiService,
+        TencentService,
     }
 
     /// <summary>
@@ -120,6 +121,7 @@ namespace STranslate.Model
         Bing,
         OpenAI,
         Gemini,
+        Tencent,
     }
 
     /// <summary>
@@ -189,20 +191,84 @@ namespace STranslate.Model
     {
         [Description("输入翻译")]
         InputFunc,
+
         [Description("截图翻译")]
         ScreenFunc,
+
         [Description("鼠标划词")]
         MouseHookFunc,
+
         [Description("文字识别")]
         OCRFunc,
+
         [Description("显示界面")]
         ShowViewFunc,
+
         [Description("偏好设置")]
         PreferenceFunc,
+
         [Description("禁用热键")]
         ForbidShortcutFunc,
+
         [Description("退出程序")]
         ExitFunc
+    }
+
+    /// <summary>
+    /// 腾讯地区
+    /// </summary>
+    public enum TencentRegionEnum
+    {
+        [Description("ap-bangkok")]
+        亚太东南_曼谷,
+
+        [Description("ap-beijing")]
+        华北地区_北京,
+
+        [Description("ap-chengdu")]
+        西南地区_成都,
+
+        [Description("ap-chongqing")]
+        西南地区_重庆,
+
+        [Description("ap-guangzhou")]
+        华南地区_广州,
+
+        [Description("ap-hongkong")]
+        港澳台地区_中国香港,
+
+        [Description("ap-mumbai")]
+        亚太南部_孟买,
+
+        [Description("ap-seoul")]
+        亚太东北_首尔,
+
+        [Description("ap-shanghai")]
+        华东地区_上海,
+
+        [Description("ap-shanghai-fsi")]
+        华东地区_上海金融,
+
+        [Description("ap-shenzhen-fsi")]
+        华南地区_深圳金融,
+
+        [Description("ap-singapore")]
+        亚太东南_新加坡,
+
+        [Description("ap-tokyo")]
+        亚太东北_东京,
+
+        [Description("eu-frankfurt")]
+        欧洲地区_法兰克福,
+
+        [Description("na-ashburn")]
+        美国东部_弗吉尼亚,
+
+        [Description("na-siliconvalley")]
+        美国西部_硅谷,
+
+        [Description("na-toronto")]
+        北美地区_多伦多,
     }
 
     /// <summary>
