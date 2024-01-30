@@ -29,6 +29,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorGemini());
             TransServices.Add(new TranslatorTencent());
             TransServices.Add(new TranslatorAli());
+            TransServices.Add(new TranslatorYoudao());
 
             ResetView();
         }
@@ -93,6 +94,7 @@ namespace STranslate.ViewModels.Preference
                     ServiceType.GeminiService => string.Format("{0}TextGeminiServicesPage", head),
                     ServiceType.TencentService => string.Format("{0}TextTencentServicesPage", head),
                     ServiceType.AliService => string.Format("{0}TextAliServicesPage", head),
+                    ServiceType.YoudaoService => string.Format("{0}TextYoudaoServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -120,6 +122,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorGemini gemini => gemini.DeepClone(),
                     TranslatorTencent tencent => tencent.DeepClone(),
                     TranslatorAli ali => ali.DeepClone(),
+                    TranslatorYoudao youdao => youdao.DeepClone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 

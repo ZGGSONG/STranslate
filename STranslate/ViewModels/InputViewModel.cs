@@ -193,7 +193,7 @@ public partial class InputViewModel : ObservableObject
         if (isCancelMsg)
             LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
         else
-            LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}", exception);
+            LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
     }
 
     /// <summary>
@@ -448,6 +448,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.GeminiService => new TranslatorGemini(),
                 (int)ServiceType.TencentService => new TranslatorTencent(),
                 (int)ServiceType.AliService => new TranslatorAli(),
+                (int)ServiceType.YoudaoService => new TranslatorYoudao(),
                 _ => new TranslatorApi()
             };
 

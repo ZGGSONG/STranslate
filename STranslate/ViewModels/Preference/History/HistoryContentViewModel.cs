@@ -85,6 +85,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.GeminiService => new TranslatorGemini(),
             (int)ServiceType.TencentService => new TranslatorTencent(),
             (int)ServiceType.AliService => new TranslatorAli(),
+            (int)ServiceType.YoudaoService => new TranslatorYoudao(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

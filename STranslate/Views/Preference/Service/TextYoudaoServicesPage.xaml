@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="STranslate.Views.Preference.Service.TextAliServicesPage"
+﻿<UserControl x:Class="STranslate.Views.Preference.Service.TextYoudaoServicesPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
-             d:DataContext="{d:DesignInstance Type=vm:TranslatorAli}"
+             d:DataContext="{d:DesignInstance Type=vm:TranslatorYoudao}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Transparent"
@@ -18,7 +18,7 @@
         <StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="类型: " />
@@ -35,7 +35,7 @@
 
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="名称: " />
@@ -43,13 +43,13 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
-                                           Placeholder="Ali"
+                                           Placeholder="Youdao"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,10,0,0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="接口: " />
@@ -57,22 +57,22 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="304"
                                            HorizontalAlignment="Left"
-                                           Placeholder="https://mt.cn-hangzhou.aliyuncs.com"
+                                           Placeholder="https://openapi.youdao.com/api"
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="AccessKeyId: " />
+                <TextBlock Text="AppID: " />
 
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
-                                           Placeholder="AccessKeyId"
+                                           Placeholder="AppID"
                                            Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <PasswordBox Grid.Column="1"
@@ -93,16 +93,16 @@
 
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="AccessKeySecret: " />
+                <TextBlock Text="AppKey: " />
 
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
-                                           Placeholder="AccessKeySecret"
+                                           Placeholder="AppKey"
                                            Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <PasswordBox Grid.Column="1"
@@ -123,7 +123,7 @@
 
             <Grid Margin="0,10,0,0" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="图标: " />
@@ -138,7 +138,7 @@
 
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Other: " />

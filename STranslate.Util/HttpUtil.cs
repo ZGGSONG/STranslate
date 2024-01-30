@@ -1,7 +1,8 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace STranslate.Util
     public class HttpUtil
     {
         /// <summary>
-        /// Òì²½GetÇëÇó(²»´øToken)
+        /// å¼‚æ­¥Getè¯·æ±‚(ä¸å¸¦Token)
         /// </summary>
         /// <param name="url"></param>
         /// <param name="timeout"></param>
@@ -19,7 +20,7 @@ namespace STranslate.Util
         public static async Task<string> GetAsync(string url, int timeout = 10) => await GetAsync(url, CancellationToken.None, timeout);
 
         /// <summary>
-        /// Òì²½GetÇëÇó
+        /// å¼‚æ­¥Getè¯·æ±‚
         /// </summary>
         /// <param name="url"></param>
         /// <param name="token"></param>
@@ -36,17 +37,17 @@ namespace STranslate.Util
         }
 
         /// <summary>
-        /// Òì²½GetÇëÇó£¬´ø²éÑ¯²ÎÊı
+        /// å¼‚æ­¥Getè¯·æ±‚ï¼Œå¸¦æŸ¥è¯¢å‚æ•°
         /// </summary>
-        /// <param name="url">ÇëÇóµÄURL</param>
-        /// <param name="queryParams">²éÑ¯²ÎÊı×Öµä</param>
-        /// <param name="token">È¡ÏûÁîÅÆ</param>
-        /// <param name="timeout">³¬Ê±Ê±¼ä£¨Ãë£©</param>
+        /// <param name="url">è¯·æ±‚çš„URL</param>
+        /// <param name="queryParams">æŸ¥è¯¢å‚æ•°å­—å…¸</param>
+        /// <param name="token">å–æ¶ˆä»¤ç‰Œ</param>
+        /// <param name="timeout">è¶…æ—¶æ—¶é—´ï¼ˆç§’ï¼‰</param>
         /// <returns></returns>
         public static async Task<string> GetAsync(string url, Dictionary<string, string> queryParams, CancellationToken token, int timeout = 10)
         {
             using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
-            // ¹¹½¨´ø²éÑ¯²ÎÊıµÄURL
+            // æ„å»ºå¸¦æŸ¥è¯¢å‚æ•°çš„URL
             if (queryParams != null && queryParams.Count > 0)
             {
                 var uriBuilder = new UriBuilder(url);
@@ -63,7 +64,7 @@ namespace STranslate.Util
         }
 
         /// <summary>
-        /// Òì²½PostÇëÇó(²»´øToken)
+        /// å¼‚æ­¥Postè¯·æ±‚(ä¸å¸¦Token)
         /// </summary>
         /// <param name="url"></param>
         /// <param name="req"></param>
@@ -71,7 +72,7 @@ namespace STranslate.Util
         public static async Task<string> PostAsync(string url, string req, int timeout = 10) => await PostAsync(url, req, CancellationToken.None, timeout);
 
         /// <summary>
-        /// Òì²½PostÇëÇó(Body)
+        /// å¼‚æ­¥Postè¯·æ±‚(Body)
         /// </summary>
         /// <param name="url"></param>
         /// <param name="req"></param>
@@ -91,7 +92,7 @@ namespace STranslate.Util
         }
 
         /// <summary>
-        /// Òì²½PostÇëÇó(QueryParams¡¢Header¡¢Body)
+        /// å¼‚æ­¥Postè¯·æ±‚(QueryParamsã€Headerã€Body)
         /// </summary>
         /// <param name="url"></param>
         /// <param name="req"></param>
@@ -100,17 +101,10 @@ namespace STranslate.Util
         /// <param name="token"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static async Task<string> PostAsync(
-            string url,
-            string req,
-            Dictionary<string, string> queryParams,
-            Dictionary<string, string> headers,
-            CancellationToken token,
-            int timeout = 10
-        )
+        public static async Task<string> PostAsync(string url, string? req, Dictionary<string, string> queryParams, Dictionary<string, string> headers, CancellationToken token, int timeout = 10)
         {
             using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
-            // ¹¹½¨´ø²éÑ¯²ÎÊıµÄURL
+            // æ„å»ºå¸¦æŸ¥è¯¢å‚æ•°çš„URL
             if (queryParams != null && queryParams.Count > 0)
             {
                 var uriBuilder = new UriBuilder(url);
@@ -119,7 +113,9 @@ namespace STranslate.Util
                 url = uriBuilder.ToString();
             }
             using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
-            request.Content = new StringContent(req, Encoding.UTF8, "application/json");
+            if (!string.IsNullOrEmpty(req))
+                request.Content = new StringContent(req, Encoding.UTF8, "application/json");
+
             headers.ToList().ForEach(header => request.Headers.Add(header.Key, header.Value));
 
             // Send the request and get response.
@@ -131,7 +127,7 @@ namespace STranslate.Util
         }
 
         /// <summary>
-        /// Òì²½PostÇëÇó(Authorization) »Øµ÷·µ»ØÁ÷Êı¾İ½á¹û
+        /// å¼‚æ­¥Postè¯·æ±‚(Authorization) å›è°ƒè¿”å›æµæ•°æ®ç»“æœ
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="req"></param>
@@ -152,7 +148,7 @@ namespace STranslate.Util
                 Content = new StringContent(req, Encoding.UTF8, "application/json")
             };
 
-            // key²»Îª¿ÕÊ±Ìí¼Ó
+            // keyä¸ä¸ºç©ºæ—¶æ·»åŠ 
             if (!string.IsNullOrEmpty(key))
             {
                 request.Headers.Add("Authorization", $"Bearer {key}");
@@ -165,7 +161,7 @@ namespace STranslate.Util
             }
             using var responseStream = await response.Content.ReadAsStreamAsync(token);
             using var reader = new System.IO.StreamReader(responseStream);
-            // ÖğĞĞ¶ÁÈ¡²¢Êä³ö½á¹û
+            // é€è¡Œè¯»å–å¹¶è¾“å‡ºç»“æœ
             while (!reader.EndOfStream)
             {
                 var content = await reader.ReadLineAsync(token);
@@ -174,5 +170,133 @@ namespace STranslate.Util
                     OnDataReceived?.Invoke(content);
             }
         }
+
+        /// <summary>
+        /// ä¿®æ”¹è‡ªæœ‰é“å®˜æ–¹Demo
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="header"></param>
+        /// <param name="param"></param>
+        /// <param name="token"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, Dictionary<string, string[]> headers, Dictionary<string, string[]> parameters, CancellationToken token, int timeout = 10)
+        {
+            using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
+
+            if (parameters != null)
+            {
+                var content = new StringBuilder();
+                foreach (var parameter in parameters.SelectMany(p => p.Value.Select(v => new KeyValuePair<string, string>(p.Key, v))))
+                {
+                    if (content.Length > 0)
+                    {
+                        content.Append('&');
+                    }
+                    content.Append($"{Uri.EscapeDataString(parameter.Key)}={Uri.EscapeDataString(parameter.Value)}");
+                }
+
+                var stringContent = new StringContent(content.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded");
+                var response = await client.PostAsync(url, stringContent, token);
+                return await response.Content.ReadAsStringAsync(token);
+            }
+
+            var emptyContent = new StringContent(string.Empty);
+
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    foreach (var value in header.Value)
+                    {
+                        client.DefaultRequestHeaders.Add(header.Key, value);
+                    }
+                }
+            }
+
+            var result = await client.PostAsync(url, emptyContent, token);
+            return await result.Content.ReadAsStringAsync(token);
+        }
     }
+
+    #region æœ‰é“ç­¾å
+
+    public static class AuthV3Util
+    {
+        /*
+            æ·»åŠ é‰´æƒç›¸å…³å‚æ•° -
+            appKey : åº”ç”¨ID
+            salt : éšæœºå€¼
+            curtime : å½“å‰æ—¶é—´æˆ³(ç§’)
+            signType : ç­¾åç‰ˆæœ¬
+            sign : è¯·æ±‚ç­¾å
+
+            @param appKey    æ‚¨çš„åº”ç”¨ID
+            @param appSecret æ‚¨çš„åº”ç”¨å¯†é’¥
+            @param paramsMap è¯·æ±‚å‚æ•°è¡¨
+        */
+
+        public static void AddAuthParams(string appKey, string appSecret, Dictionary<string, string[]> paramsMap)
+        {
+            string q = "";
+            string[] qArray;
+            if (paramsMap.ContainsKey("q"))
+            {
+                qArray = paramsMap["q"];
+            }
+            else
+            {
+                qArray = paramsMap["img"];
+            }
+            foreach (var item in qArray)
+            {
+                q += item;
+            }
+            string salt = Guid.NewGuid().ToString();
+            string curtime = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + "";
+            string sign = CalculateSign(appKey, appSecret, q, salt, curtime);
+            paramsMap.Add("appKey", [appKey]);
+            paramsMap.Add("salt", [salt]);
+            paramsMap.Add("curtime", [curtime]);
+            paramsMap.Add("signType", ["v3"]);
+            paramsMap.Add("sign", [sign]);
+        }
+
+        /*
+            è®¡ç®—é‰´æƒç­¾å -
+            è®¡ç®—æ–¹å¼ : sign = sha256(appKey + input(q) + salt + curtime + appSecret)
+
+            @param appKey    æ‚¨çš„åº”ç”¨ID
+            @param appSecret æ‚¨çš„åº”ç”¨å¯†é’¥
+            @param q         è¯·æ±‚å†…å®¹
+            @param salt      éšæœºå€¼
+            @param curtime   å½“å‰æ—¶é—´æˆ³(ç§’)
+            @return é‰´æƒç­¾åsign
+        */
+
+        public static string CalculateSign(string appKey, string appSecret, string q, string salt, string curtime)
+        {
+            string strSrc = appKey + GetInput(q) + salt + curtime + appSecret;
+            return Encrypt(strSrc);
+        }
+
+        private static string Encrypt(string strSrc)
+        {
+            byte[] inputBytes = Encoding.UTF8.GetBytes(strSrc);
+            byte[] hashedBytes = SHA256.HashData(inputBytes);
+            return BitConverter.ToString(hashedBytes).Replace("-", "").ToUpperInvariant();
+        }
+
+        private static string GetInput(string q)
+        {
+            if (q == null)
+            {
+                return "";
+            }
+            int len = q.Length;
+            return len <= 20 ? q : q[..10] + len + q.Substring(len - 10, 10);
+        }
+    }
+
+    #endregion æœ‰é“ç­¾å
 }

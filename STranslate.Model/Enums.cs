@@ -106,6 +106,7 @@ namespace STranslate.Model
         GeminiService,
         TencentService,
         AliService,
+        YoudaoService,
     }
 
     /// <summary>
