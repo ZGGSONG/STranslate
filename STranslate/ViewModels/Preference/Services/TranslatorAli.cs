@@ -19,7 +19,7 @@ namespace STranslate.ViewModels.Preference.Services
     public partial class TranslatorAli : ObservableObject, ITranslator
     {
         public TranslatorAli()
-            : this(Guid.NewGuid(), "https://mt.cn-hangzhou.aliyuncs.com", "Ali") { }
+            : this(Guid.NewGuid(), "https://mt.cn-hangzhou.aliyuncs.com", "阿里翻译") { }
 
         public TranslatorAli(
             Guid guid,

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -11,20 +12,20 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorBaidu : ObservableObject, ITranslator
+    public partial class TranslatorNiutrans : ObservableObject, ITranslator
     {
-        public TranslatorBaidu()
-            : this(Guid.NewGuid(), "https://fanyi-api.baidu.com/api/trans/vip/translate", "百度翻译") { }
+        public TranslatorNiutrans()
+            : this(Guid.NewGuid(), "http://api.niutrans.com/NiuTransServer/translation", "小牛翻译") { }
 
-        public TranslatorBaidu(
+        public TranslatorNiutrans(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Baidu,
+            IconType icon = IconType.Niutrans,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.BaiduService
+            ServiceType type = ServiceType.NiutransService
         )
         {
             Identify = guid;
@@ -90,7 +91,8 @@ namespace STranslate.ViewModels.Preference.Services
 
         private void ShowEncryptInfo(string? obj)
         {
-            if (obj == null) return;
+            if (obj == null)
+                return;
 
             if (obj.Equals(nameof(AppID)))
             {
@@ -113,34 +115,23 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
-                string salt = new Random().Next(100000).ToString();
-                string sign = StringUtil.EncryptString(AppID + req.Text + salt + AppKey);
-
                 var queryparams = new Dictionary<string, string>
                 {
-                    { "q", req.Text },
                     { "from", req.SourceLang.ToLower() },
                     { "to", req.TargetLang.ToLower() },
-                    { "appid", AppID },
-                    { "salt", salt },
-                    { "sign", sign }
+                    { "src_text", req.Text },
+                    { "apikey", AppKey },
                 };
 
                 string resp = await HttpUtil.GetAsync(Url, queryparams, token);
                 if (string.IsNullOrEmpty(resp))
                     throw new Exception("请求结果为空");
 
-                var ret = JsonConvert.DeserializeObject<ResponseBaidu>(resp ?? "");
+                // 解析JSON数据
+                var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
 
-                //如果出错就将整个返回信息写入取值处
-                if (ret is null || string.IsNullOrEmpty(ret.TransResult?.FirstOrDefault()?.Dst))
-                {
-                    throw new Exception(resp);
-                }
-
-                var transResults = ret.TransResult ?? [];
-                var data = transResults.Length == 0 ? throw new Exception("请求结果为空")
-                        : string.Join(Environment.NewLine, transResults.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst));
+                // 提取content的值
+                var data = parsedData["tgt_text"]?.ToString() ?? throw new Exception("未获取到结果");
 
                 return TranslationResult.Success(data);
             }

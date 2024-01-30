@@ -13,7 +13,7 @@ namespace STranslate.ViewModels.Preference.Services
     public partial class TranslatorApi : ObservableObject, ITranslator
     {
         public TranslatorApi()
-            : this(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL") { }
+            : this(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "自建服务") { }
 
         public TranslatorApi(
             Guid guid,

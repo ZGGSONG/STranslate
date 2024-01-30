@@ -14,7 +14,7 @@ namespace STranslate.ViewModels.Preference.Services
     public partial class TranslatorBing : ObservableObject, ITranslator
     {
         public TranslatorBing()
-            : this(Guid.NewGuid(), "https://api.cognitive.microsofttranslator.com", "Bing") { }
+            : this(Guid.NewGuid(), "https://api.cognitive.microsofttranslator.com", "微软翻译") { }
 
         public TranslatorBing(
             Guid guid,

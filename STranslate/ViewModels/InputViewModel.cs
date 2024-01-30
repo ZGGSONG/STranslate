@@ -449,6 +449,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.TencentService => new TranslatorTencent(),
                 (int)ServiceType.AliService => new TranslatorAli(),
                 (int)ServiceType.YoudaoService => new TranslatorYoudao(),
+                (int)ServiceType.NiutransService => new TranslatorNiutrans(),
                 _ => new TranslatorApi()
             };
 

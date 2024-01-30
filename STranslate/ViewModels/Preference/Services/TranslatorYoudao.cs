@@ -15,7 +15,7 @@ namespace STranslate.ViewModels.Preference.Services
     public partial class TranslatorYoudao : ObservableObject, ITranslator
     {
         public TranslatorYoudao()
-            : this(Guid.NewGuid(), "https://openapi.youdao.com/api", "Youdao") { }
+            : this(Guid.NewGuid(), "https://openapi.youdao.com/api", "有道翻译") { }
 
         public TranslatorYoudao(
             Guid guid,
@@ -125,7 +125,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
                 var headers = new Dictionary<string, string[]>() { { "Content-Type", new string[] { "application/x-www-form-urlencoded" } } };
 
-                string resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token, 60);
+                string resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token);
 
                 // 解析JSON数据
                 var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
