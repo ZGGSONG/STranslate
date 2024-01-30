@@ -23,14 +23,14 @@ namespace STranslate.ViewModels.Preference
             //添加默认支持服务
             //TODO: 新接口需要适配
             TransServices.Add(new TranslatorApi());
-            TransServices.Add(new TranslatorBaidu());
-            TransServices.Add(new TranslatorBing());
             TransServices.Add(new TranslatorOpenAI());
             TransServices.Add(new TranslatorGemini());
-            TransServices.Add(new TranslatorTencent());
             TransServices.Add(new TranslatorAli());
-            TransServices.Add(new TranslatorYoudao());
+            TransServices.Add(new TranslatorBaidu());
+            TransServices.Add(new TranslatorTencent());
             TransServices.Add(new TranslatorNiutrans());
+            TransServices.Add(new TranslatorBing());
+            TransServices.Add(new TranslatorYoudao());
 
             ResetView();
         }

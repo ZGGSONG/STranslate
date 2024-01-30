@@ -12,5 +12,5 @@
     <BitmapImage x:Key="Gemini" UriSource="pack://application:,,,/STranslate.Style;component/Resources/gemini.png" />
     <BitmapImage x:Key="Tencent" UriSource="pack://application:,,,/STranslate.Style;component/Resources/tencent.png" />
     <BitmapImage x:Key="Ali" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ali.png" />
-    <BitmapImage x:Key="Niutrans" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ali.png" />
+    <BitmapImage x:Key="Niutrans" UriSource="pack://application:,,,/STranslate.Style;component/Resources/niutrans.png" />
 </ResourceDictionary>
