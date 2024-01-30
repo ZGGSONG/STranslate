@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
 using STranslate.ViewModels.Preference;
+using System.Threading.Tasks;
 
 namespace STranslate.ViewModels
 {
@@ -27,12 +28,20 @@ namespace STranslate.ViewModels
         private void FavoritePage() => CurrentView = Singleton<FavoriteViewModel>.Instance;
 
         [RelayCommand]
-        private void HistoryPage() => CurrentView = Singleton<HistoryViewModel>.Instance;
+        private void HistoryPage()
+        {
+            CurrentView = Singleton<HistoryViewModel>.Instance;
+
+            // 加载记录
+            Singleton<HistoryViewModel>.Instance.LoadMoreHistoryCommand.Execute(view);
+        }
 
         [RelayCommand]
         private void AboutPage() => CurrentView = Singleton<AboutViewModel>.Instance;
 
         [ObservableProperty]
         private object? _currentView;
+
+        private readonly System.Windows.Controls.ScrollViewer view = new();
     }
 }

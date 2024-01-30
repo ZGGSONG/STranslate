@@ -33,27 +33,10 @@
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="40" />
-                    </Grid.ColumnDefinitions>
-                    <common:PlaceholderTextBox Height="32"
-                                               Margin="8,0,0,0"
-                                               Placeholder="请输入搜索内容"
-                                               Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                        <common:PlaceholderTextBox.InputBindings>
-                            <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
-                        </common:PlaceholderTextBox.InputBindings>
-                    </common:PlaceholderTextBox>
-
-                    <Button Grid.Column="1"
-                            Margin="0"
-                            Command="{Binding SearchCommand}"
-                            Content="&#xeafe;"
-                            FontSize="26"
-                            Style="{DynamicResource ButtonIconStyle}" />
-                </Grid>
+                <common:PlaceholderTextBox Height="32"
+                                           Margin="8,0"
+                                           Placeholder="请输入搜索内容"
+                                           Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                 <!-- // Data // -->
                 <ScrollViewer x:Name="scroll"
@@ -75,6 +58,7 @@
                         <ListBox.ContextMenu>
                             <ContextMenu Width="120">
                                 <MenuItem Command="{Binding LoadMoreHistoryCommand}"
+                                          CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
                                           FontFamily="{DynamicResource IconFont}"
                                           Header="刷新记录"
                                           Icon="&#xe60f;" />
@@ -96,6 +80,7 @@
                                                       Icon="&#xe8b9;"
                                                       Visibility="Collapsed" />
                                             <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
+                                                      CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
                                                       FontFamily="{DynamicResource IconFont}"
                                                       Header="刷新记录"
                                                       Icon="&#xe60f;" />

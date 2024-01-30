@@ -104,7 +104,7 @@ namespace STranslate.ViewModels.Preference
                 500 => 3,
                 1000 => 4,
                 long.MaxValue => 5,
-                _ => 0
+                _ => 1
             };
         }
 
@@ -134,7 +134,7 @@ namespace STranslate.ViewModels.Preference
                         3 => 500,
                         4 => 1000,
                         5 => long.MaxValue,
-                        _ => 0
+                        _ => 100
                     };
 
                     OnPropertyChanged(nameof(HistorySizeType));

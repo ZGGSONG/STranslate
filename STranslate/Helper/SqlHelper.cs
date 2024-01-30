@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Reflection.Metadata;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace STranslate.Helper
@@ -21,7 +23,7 @@ namespace STranslate.Helper
         public static async Task InitializeDBAsync()
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             // 创建表的 SQL 语句
             string createTableSql =
@@ -48,7 +50,7 @@ namespace STranslate.Helper
         public static async Task<bool> DeleteDataAsync(HistoryModel history)
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             return await connection.DeleteAsync(history);
         }
@@ -60,7 +62,7 @@ namespace STranslate.Helper
         public static async Task<bool> DeleteAllDataAsync()
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             return await connection.DeleteAllAsync<HistoryModel>();
         }
@@ -75,10 +77,10 @@ namespace STranslate.Helper
         public static async Task InsertDataAsync(HistoryModel history, long count, bool forceWrite = false)
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
-            var curCount = await connection.QueryFirstOrDefaultAsync<long>("SELECT COUNT(*) FROM History");
-            if (curCount > count)
+            var curCount = await connection.QueryFirstOrDefaultAsync<long>("SELECT COUNT(Id) FROM History");
+            if (curCount >= count)
             {
                 var sql = @"DELETE FROM History WHERE Id IN (SELECT Id FROM History ORDER BY Id ASC LIMIT @Limit)";
 
@@ -122,7 +124,7 @@ namespace STranslate.Helper
         public static async Task<HistoryModel?> GetDataAsync(string content, string source, string target)
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             // 使用 Dapper 执行查询数据的 SQL 语句
             return await connection.QueryFirstOrDefaultAsync<HistoryModel>(
@@ -137,13 +139,44 @@ namespace STranslate.Helper
         }
 
         /// <summary>
+        /// 模糊查询内容相关的结果
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<HistoryModel>?> GetDataAsync(string content, CancellationToken? token = null)
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            await connection.OpenAsync(token ?? CancellationToken.None);
+
+            // 构造查询语句
+            var query = $"SELECT * FROM History WHERE LOWER(SourceText) LIKE '%{content.ToLower()}%'";
+            // 使用 Dapper 执行查询数据的 SQL 语句
+            // https://stackoverflow.com/questions/25540793/cancellationtoken-with-async-dapper-methods
+            return await connection.QueryAsync<HistoryModel>(new CommandDefinition(query, cancellationToken: token ?? CancellationToken.None));
+        }
+
+        /// <summary>
+        /// 计算总数
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<int> GetCountAsync()
+        {
+            // 可能会存在溢出的情况，不瞎搞出现不了，就酱，逃，欸，还是一开始没定义好
+            using var connection = new SqliteConnection(ConnectionString);
+            await connection.OpenAsync();
+
+            // 使用 Dapper 执行查询数据的 SQL 语句
+            return await connection.ExecuteScalarAsync<int>("SELECT COUNT(Id) FROM History");
+        }
+
+        /// <summary>
         /// 查询所有数据
         /// </summary>
         /// <returns></returns>
         public static async Task<IEnumerable<HistoryModel>> GetDataAsync()
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             // 使用 Dapper 执行查询数据的 SQL 语句
             return await connection.GetAllAsync<HistoryModel>();
@@ -158,7 +191,7 @@ namespace STranslate.Helper
         public static async Task<IEnumerable<HistoryModel>?> GetDataAsync(int pageNum, int pageSize)
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             // 计算起始行号
             int startRow = (pageNum - 1) * pageSize + 1;
@@ -169,10 +202,16 @@ namespace STranslate.Helper
             return await connection.QueryAsync<HistoryModel>(query, new { StartRow = startRow, EndRow = startRow + pageSize - 1 });
         }
 
+        /// <summary>
+        /// 游标分页
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="cursor"></param>
+        /// <returns></returns>
         public static async Task<IEnumerable<HistoryModel>> GetDataCursorPagedAsync(int pageSize, DateTime cursor)
         {
             using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
+            await connection.OpenAsync();
 
             // 使用 Dapper 进行分页查询
             string query = @"SELECT * FROM History WHERE Time < @Cursor ORDER BY Time DESC LIMIT @PageSize OFFSET 0";

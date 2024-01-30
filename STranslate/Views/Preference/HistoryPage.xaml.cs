@@ -1,6 +1,5 @@
 ﻿using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -48,11 +47,12 @@ namespace STranslate.Views.Preference
             //        + $"bottom: {atBottom}"
             //);
 
-            if (!atBottom)
+            // 滚动到底 && command执行条件允许才能执行
+            if (!atBottom || !vm.LoadMoreHistoryCommand.CanExecute(null))
                 return;
 
             // 已经到达底部，执行刷新操作
-            Task.Run(async () => await vm.LoadMoreHistoryCommand.ExecuteAsync("load"));
+            vm.LoadMoreHistoryCommand.Execute(null);
         }
     }
 }
