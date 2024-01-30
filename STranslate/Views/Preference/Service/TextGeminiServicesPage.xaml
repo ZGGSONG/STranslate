@@ -86,7 +86,7 @@
 
                 <Button Grid.Column="2"
                         Command="{Binding ShowEncryptInfoCommand}"
-                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}}"
+                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                         Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 

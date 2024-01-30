@@ -16,6 +16,11 @@ namespace STranslate.Views.Preference
             DataContext = vm;
         }
 
+        private void HistoryPageUC_Loaded(object sender, RoutedEventArgs e)
+        {
+            SearchTb.Focus();
+        }
+
         private void HistoryListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // 按住Ctrl滚动时不将滚动冒泡给上一层级的控件

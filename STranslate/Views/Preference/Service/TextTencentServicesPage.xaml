@@ -117,7 +117,7 @@
                 <Button Grid.Column="2"
                         Command="{Binding ShowEncryptInfoCommand}"
                         CommandParameter="AppID"
-                        Content="{Binding IdHide, Converter={StaticResource BooleanToContentConverter}}"
+                        Content="{Binding IdHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                         Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 
@@ -147,7 +147,7 @@
                 <Button Grid.Column="2"
                         Command="{Binding ShowEncryptInfoCommand}"
                         CommandParameter="AppKey"
-                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}}"
+                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                         Style="{DynamicResource ButtonIconStyle}" />
             </Grid>
 

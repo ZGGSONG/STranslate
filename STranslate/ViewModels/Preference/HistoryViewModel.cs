@@ -220,7 +220,7 @@ namespace STranslate.ViewModels.Preference
         /// <summary>
         /// 每页大小
         /// </summary>
-        private readonly int pageSize = 10;
+        private readonly int pageSize = 30;
 
         /// <summary>
         /// 初始游标时间

@@ -19,10 +19,13 @@ namespace STranslate.Style.Converters
         {
             if (value is bool bValue)
             {
-                return bValue ? ConstStr.HIDEICON : ConstStr.SHOWICON;
+                if (parameter.Equals("ICON"))
+                    return bValue ? ConstStr.HIDEICON : ConstStr.SHOWICON;
+                if (parameter.Equals("HISTORY"))
+                    return bValue ? ConstStr.LOADING : ConstStr.UNLOADING;
             }
 
-            return ConstStr.HIDEICON;
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

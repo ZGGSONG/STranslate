@@ -37,5 +37,8 @@ namespace STranslate.Model
 
         public const string INPUTERRORCONTENT = "该服务未获取到缓存Ctrl+Enter更新";
         public const string HISTORYERRORCONTENT = "该服务翻译时未正确返回Ctrl+Enter以更新";
+
+        public const string LOADING = "加载中...";
+        public const string UNLOADING = "加载结束...";
     }
 }

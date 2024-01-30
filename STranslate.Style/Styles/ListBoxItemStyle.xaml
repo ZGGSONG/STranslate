@@ -8,7 +8,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!-- //TODO: 不生效 -->
-        <!--<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />-->
     </Style>
 </ResourceDictionary>

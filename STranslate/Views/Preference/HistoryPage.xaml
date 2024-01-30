@@ -13,6 +13,7 @@
              d:DesignWidth="800"
              d:FontFamily="{DynamicResource UserFont}"
              d:FontSize="{DynamicResource FontSize_Content}"
+             Loaded="HistoryPageUC_Loaded"
              Style="{StaticResource ResourceKey=Page_Style}"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -30,10 +31,13 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
 
-                <common:PlaceholderTextBox Height="32"
+                <!-- // Search Control // -->
+                <common:PlaceholderTextBox x:Name="SearchTb"
+                                           Height="32"
                                            Margin="8,0"
                                            Placeholder="请输入搜索内容"
                                            Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -105,8 +109,18 @@
                     </ListBox>
                 </ScrollViewer>
 
+                <!-- // TODO: Loading // -->
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Thin"
+                           Foreground="Gray"
+                           Text="{Binding IsLoading, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=HISTORY}"
+                           Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                 <!-- // Total count // -->
-                <Grid Grid.Row="2" VerticalAlignment="Bottom" Background="{DynamicResource BorderLangBackground}">
+                <Grid Grid.Row="3" VerticalAlignment="Bottom" Background="{DynamicResource BorderLangBackground}">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{DynamicResource FontSize_Identify}">
                         <Run Text="共 " />
                         <Run Text="{Binding Count}" />
