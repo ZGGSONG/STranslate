@@ -176,12 +176,12 @@ public partial class InputViewModel : ObservableObject
 
     private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception, CancellationToken token)
     {
-        var isDebug = false;
+        var isCancelMsg = false;
         switch (exception)
         {
             case TaskCanceledException:
                 errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时";
-                isDebug = token.IsCancellationRequested;
+                isCancelMsg = token.IsCancellationRequested;
                 break;
             case HttpRequestException:
                 errorMessage = "请求出错";
@@ -190,10 +190,10 @@ public partial class InputViewModel : ObservableObject
 
         service.Data = TranslationResult.Fail($"{errorMessage}: {exception.Message}", exception);
 
-        if (isDebug)
+        if (isCancelMsg)
             LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
         else
-            LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+            LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}", exception);
     }
 
     /// <summary>
@@ -447,6 +447,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
                 (int)ServiceType.GeminiService => new TranslatorGemini(),
                 (int)ServiceType.TencentService => new TranslatorTencent(),
+                (int)ServiceType.AliService => new TranslatorAli(),
                 _ => new TranslatorApi()
             };
 

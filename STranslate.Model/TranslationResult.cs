@@ -60,8 +60,8 @@ public partial class TranslationResult : ObservableObject
     {
         IsSuccess = false;
         Result = errorMessage;
-        Exception = null;//暂时不记录异常
-        // Exception = exception;
+        //Exception = null;//暂时不记录异常
+        Exception = exception;
     }
 
     /// <summary>

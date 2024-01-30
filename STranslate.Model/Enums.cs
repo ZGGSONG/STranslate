@@ -105,6 +105,7 @@ namespace STranslate.Model
         OpenAIService,
         GeminiService,
         TencentService,
+        AliService,
     }
 
     /// <summary>
@@ -122,6 +123,7 @@ namespace STranslate.Model
         OpenAI,
         Gemini,
         Tencent,
+        Ali,
     }
 
     /// <summary>

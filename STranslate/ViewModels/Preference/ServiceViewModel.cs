@@ -28,6 +28,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorOpenAI());
             TransServices.Add(new TranslatorGemini());
             TransServices.Add(new TranslatorTencent());
+            TransServices.Add(new TranslatorAli());
 
             ResetView();
         }
@@ -91,6 +92,7 @@ namespace STranslate.ViewModels.Preference
                     ServiceType.OpenAIService => string.Format("{0}TextOpenAIServicesPage", head),
                     ServiceType.GeminiService => string.Format("{0}TextGeminiServicesPage", head),
                     ServiceType.TencentService => string.Format("{0}TextTencentServicesPage", head),
+                    ServiceType.AliService => string.Format("{0}TextAliServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -117,6 +119,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorOpenAI openAI => openAI.DeepClone(),
                     TranslatorGemini gemini => gemini.DeepClone(),
                     TranslatorTencent tencent => tencent.DeepClone(),
+                    TranslatorAli ali => ali.DeepClone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 

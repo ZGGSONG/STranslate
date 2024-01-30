@@ -25,6 +25,9 @@
     <Resource Include="Fonts\LXGWWenKai-Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\ali.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\baidu.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -55,7 +58,7 @@
     <Resource Include="Resources\preference.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\tencent.ico">
+    <Resource Include="Resources\tencent.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
 	  <Resource Include="Resources\update.ico">
