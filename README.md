@@ -108,6 +108,8 @@ rd /s /q "%localappdata%\stranslate"
 <details>
 <summary>详细内容</summary>
 
+- 2024-01-31 1.0.5.131 添加支持腾讯、阿里、有道、小牛、彩云等API，添加搜索历史记录，优化软件使用体验
+
 - 2024-01-18 1.0.3.118 添加OpenAI、Gemini接口，静默OCR等功能，修复了若干BUG和优化体验...
 
 - 2024-01-14 1.0.2.114 添加必应官方接口、禁用系统代理等功能...
@@ -167,9 +169,10 @@ rd /s /q "%localappdata%\stranslate"
 ## 感谢
 
 - 特别鸣谢 [zu1k](https://github.com/zu1k)
-- [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp)
-- [WpfTool](https://github.com/NPCDW/WpfTool)
-- [Tai](https://github.com/Planshit/Tai)
+- 感谢 [Bob](https://bobtranslate.com/guide/) 的启发
+- 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对paddleocr的封装
+- 感谢 [WpfTool](https://github.com/NPCDW/WpfTool) 截图功能
+- 感谢 [Tai](https://github.com/Planshit/Tai) 升级功能
 - 感谢 JetBrains 提供开源项目免费License
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
