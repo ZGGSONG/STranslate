@@ -34,6 +34,9 @@
     <Resource Include="Resources\bing.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\caiyun.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\deepl.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

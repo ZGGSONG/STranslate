@@ -108,6 +108,7 @@ namespace STranslate.Model
         AliService,
         YoudaoService,
         NiutransService,
+        CaiyunService,
     }
 
     /// <summary>
@@ -127,6 +128,7 @@ namespace STranslate.Model
         Tencent,
         Ali,
         Niutrans,
+        Caiyun,
     }
 
     /// <summary>

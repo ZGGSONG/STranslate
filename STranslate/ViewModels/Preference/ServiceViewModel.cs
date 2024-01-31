@@ -31,6 +31,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorNiutrans());
             TransServices.Add(new TranslatorBing());
             TransServices.Add(new TranslatorYoudao());
+            TransServices.Add(new TranslatorCaiyun());
 
             ResetView();
         }
@@ -97,6 +98,7 @@ namespace STranslate.ViewModels.Preference
                     ServiceType.AliService => string.Format("{0}TextAliServicesPage", head),
                     ServiceType.YoudaoService => string.Format("{0}TextYoudaoServicesPage", head),
                     ServiceType.NiutransService => string.Format("{0}TextNiutransServicesPage", head),
+                    ServiceType.CaiyunService => string.Format("{0}TextCaiyunServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -126,6 +128,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorAli ali => ali.DeepClone(),
                     TranslatorYoudao youdao => youdao.DeepClone(),
                     TranslatorNiutrans niutrans => niutrans.DeepClone(),
+                    TranslatorCaiyun caiyun => caiyun.DeepClone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 

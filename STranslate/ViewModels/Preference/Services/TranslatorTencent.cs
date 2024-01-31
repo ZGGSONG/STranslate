@@ -18,7 +18,7 @@ namespace STranslate.ViewModels.Preference.Services
     public partial class TranslatorTencent : ObservableObject, ITranslator
     {
         public TranslatorTencent()
-            : this(Guid.NewGuid(), "https://tmt.tencentcloudapi.com", "腾讯翻译") { }
+            : this(Guid.NewGuid(), "https://tmt.tencentcloudapi.com", "腾讯翻译君") { }
 
         public TranslatorTencent(
             Guid guid,

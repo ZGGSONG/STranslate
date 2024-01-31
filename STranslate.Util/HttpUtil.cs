@@ -101,7 +101,7 @@ namespace STranslate.Util
         /// <param name="token"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static async Task<string> PostAsync(string url, string? req, Dictionary<string, string> queryParams, Dictionary<string, string> headers, CancellationToken token, int timeout = 10)
+        public static async Task<string> PostAsync(string url, string? req, Dictionary<string, string>? queryParams, Dictionary<string, string> headers, CancellationToken token, int timeout = 10)
         {
             using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
             // 构建带查询参数的URL
@@ -113,13 +113,21 @@ namespace STranslate.Util
                 url = uriBuilder.ToString();
             }
             using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
+            
             if (!string.IsNullOrEmpty(req))
+            {
                 request.Content = new StringContent(req, Encoding.UTF8, "application/json");
+            }
 
-            headers.ToList().ForEach(header => request.Headers.Add(header.Key, header.Value));
+            // 添加请求头
+            foreach (var header in headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
 
             // Send the request and get response.
             HttpResponseMessage response = await client.SendAsync(request, token);
+            
             // Read response as a string.
             string result = await response.Content.ReadAsStringAsync(token);
 

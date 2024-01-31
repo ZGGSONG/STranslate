@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:STranslate.Views.Preference.Service"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
              d:DataContext="{d:DesignInstance Type=vm:TranslatorApi}"
@@ -34,7 +33,7 @@
                 </Border>
             </Grid>
 
-            <Grid Margin="0,20">
+            <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
@@ -44,11 +43,11 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
-                                           Placeholder="DeepL"
+                                           Placeholder="自建服务"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
-            <Grid>
+            <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
@@ -61,7 +60,7 @@
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
-            <Grid Margin="0,20">
+            <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
@@ -74,6 +73,16 @@
                           BorderThickness="1"
                           ItemsSource="{Binding Icons}"
                           SelectedValue="{Binding Icon}" />
+            </Grid>
+
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="说明: " />
+                <TextBlock Grid.Column="1" Text="支持符合条件的所有接口" />
+                <TextBlock Grid.Column="1" Margin="205,0,0,0" Style="{DynamicResource InfoTextBlock}" ToolTip="{Binding Tips}" />
             </Grid>
         </StackPanel>
     </Border>

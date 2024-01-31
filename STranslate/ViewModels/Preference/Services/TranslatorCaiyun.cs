@@ -12,20 +12,20 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorYoudao : ObservableObject, ITranslator
+    public partial class TranslatorCaiyun : ObservableObject, ITranslator
     {
-        public TranslatorYoudao()
-            : this(Guid.NewGuid(), "https://openapi.youdao.com/api", "有道翻译") { }
+        public TranslatorCaiyun()
+            : this(Guid.NewGuid(), "http://api.interpreter.caiyunai.com/v1/translator", "彩云小译") { }
 
-        public TranslatorYoudao(
+        public TranslatorCaiyun(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Youdao,
+            IconType icon = IconType.Caiyun,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.YoudaoService
+            ServiceType type = ServiceType.CaiyunService
         )
         {
             Identify = guid;
@@ -115,23 +115,30 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
-                var paramsMap = new Dictionary<string, string[]>
+                var body = new
                 {
-                    { "q", new string[] { req.Text } },
-                    { "from", new string[] { req.SourceLang.ToLower() } },
-                    { "to", new string[] { req.TargetLang.ToLower() } },
+                    source = req.Text.Split(Environment.NewLine),
+                    trans_type = $"{req.SourceLang.ToLower()}2{req.TargetLang.ToLower()}",
+                    request_id = "demo",
+                    detect = true
                 };
-                // 添加鉴权相关参数
-                AuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
-                var headers = new Dictionary<string, string[]>() { { "Content-Type", new string[] { "application/x-www-form-urlencoded" } } };
 
-                string resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token);
+                var headers = new Dictionary<string, string>
+                {
+                    { "X-Authorization", $"token {AppKey}" },
+                };
+
+                string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(body), null, headers, token);
+                if (string.IsNullOrEmpty(resp))
+                    throw new Exception("请求结果为空");
 
                 // 解析JSON数据
                 var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
 
                 // 提取content的值
-                var data = parsedData["translation"]?.FirstOrDefault()?.ToString() ?? throw new Exception("未获取到结果");
+                JArray arrayData = parsedData["target"] as JArray ?? throw new Exception("未获取到结果");
+
+                string data = string.Join(Environment.NewLine, arrayData.Select(item => item.ToString()));
 
                 return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
             }

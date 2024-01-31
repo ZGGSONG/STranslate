@@ -17,6 +17,7 @@ using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.Services;
+using ZXing.Aztec.Internal;
 
 namespace STranslate.ViewModels;
 
@@ -42,7 +43,8 @@ public partial class InputViewModel : ObservableObject
         get => _inputContent;
         set
         {
-            if (_inputContent == value) return;
+            if (_inputContent == value)
+                return;
             OnPropertyChanging();
             _inputContent = value;
             OnPropertyChanged();
@@ -74,6 +76,9 @@ public partial class InputViewModel : ObservableObject
         var dbTarget = target;
         HistoryModel? history = null;
 
+        if (!PreviousHandle(InputContent))
+            return;
+
         try
         {
             history = await TranslateServiceAsync(obj, source, dbTarget, target, size, token);
@@ -86,6 +91,20 @@ public partial class InputViewModel : ObservableObject
         {
             await HandleHistoryAsync(obj, history, source, dbTarget, size);
         }
+    }
+
+    /// <summary>
+    /// 前置处理
+    /// </summary>
+    /// <param name="inputContent"></param>
+    /// <returns></returns>
+    private bool PreviousHandle(string inputContent)
+    {
+        if (!string.IsNullOrWhiteSpace(inputContent))
+            return true;
+
+        Parallel.ForEach(Singleton<ServiceViewModel>.Instance.CurTransServiceList, (service, cancellationToken) => service.Data = TranslationResult.Fail("请输入有效内容"));
+        return false;
     }
 
     private async Task<HistoryModel?> TranslateServiceAsync(object? obj, string source, string dbTarget, string target, long size, CancellationToken token)
@@ -249,6 +268,9 @@ public partial class InputViewModel : ObservableObject
     /// <returns></returns>
     private async Task StreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
     {
+        //先清空
+        service.Data = TranslationResult.Reset;
+
         await service.TranslateAsync(
             new RequestModel(content, source, target),
             msg =>
@@ -398,7 +420,8 @@ public class CustomizeContractResolver : DefaultContractResolver
                 switch (property.PropertyName)
                 {
                     // 忽略 AppID 和 AppKey 属性
-                    case "AppID" or "AppKey":
+                    case "AppID"
+                    or "AppKey":
                         property.Ignored = true;
                         break;
                     // 特殊处理 TranslationResult 类型的 Data 属性
@@ -450,6 +473,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.AliService => new TranslatorAli(),
                 (int)ServiceType.YoudaoService => new TranslatorYoudao(),
                 (int)ServiceType.NiutransService => new TranslatorNiutrans(),
+                (int)ServiceType.CaiyunService => new TranslatorCaiyun(),
                 _ => new TranslatorApi()
             };
 
@@ -458,9 +482,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            translator.Data = string.IsNullOrEmpty(data?.Result)
-                ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT)
-                : data;
+            translator.Data = string.IsNullOrEmpty(data?.Result) ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT) : data;
         }
         catch (Exception)
         {

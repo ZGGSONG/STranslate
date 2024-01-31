@@ -75,6 +75,19 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
 
+        [JsonIgnore]
+        public string Tips { get; set; } = @"请求:
+{
+    ""text"": ""test"",
+    ""source_lang"": ""auto"",
+    ""target_lang"": ""zh""
+}
+回复:
+{
+    ""code"": 200,
+    ""data"": ""测试""
+}";
+
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             if (request is RequestModel)

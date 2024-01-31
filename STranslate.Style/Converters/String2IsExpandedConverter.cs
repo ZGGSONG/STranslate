@@ -16,6 +16,7 @@ namespace STranslate.Style.Converters
         /// <returns>如果内容不为 null 或空，则为 true；否则为 false。</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            System.Diagnostics.Debug.WriteLine(value);
             // 如果值是非空字符串，则返回 true；否则返回 false。
             return value is string str && !string.IsNullOrEmpty(str);
         }

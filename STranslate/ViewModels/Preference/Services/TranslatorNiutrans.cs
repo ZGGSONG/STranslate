@@ -133,7 +133,7 @@ namespace STranslate.ViewModels.Preference.Services
                 // 提取content的值
                 var data = parsedData["tgt_text"]?.ToString() ?? throw new Exception("未获取到结果");
 
-                return TranslationResult.Success(data);
+                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") :TranslationResult.Success(data);
             }
 
             throw new Exception($"请求数据出错: {request}");
