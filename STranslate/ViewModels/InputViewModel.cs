@@ -466,7 +466,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
             ?? type switch
             {
                 (int)ServiceType.BaiduService => new TranslatorBaidu(),
-                (int)ServiceType.BingService => new TranslatorBing(),
+                (int)ServiceType.MicrosoftService => new TranslatorMicrosoft(),
                 (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
                 (int)ServiceType.GeminiService => new TranslatorGemini(),
                 (int)ServiceType.TencentService => new TranslatorTencent(),

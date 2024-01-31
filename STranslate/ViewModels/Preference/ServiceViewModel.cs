@@ -29,7 +29,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorBaidu());
             TransServices.Add(new TranslatorTencent());
             TransServices.Add(new TranslatorNiutrans());
-            TransServices.Add(new TranslatorBing());
+            TransServices.Add(new TranslatorMicrosoft());
             TransServices.Add(new TranslatorYoudao());
             TransServices.Add(new TranslatorCaiyun());
 
@@ -91,7 +91,7 @@ namespace STranslate.ViewModels.Preference
                 {
                     ServiceType.ApiService => string.Format("{0}TextApiServicePage", head),
                     ServiceType.BaiduService => string.Format("{0}TextBaiduServicesPage", head),
-                    ServiceType.BingService => string.Format("{0}TextBingServicesPage", head),
+                    ServiceType.MicrosoftService => string.Format("{0}TextMicrosoftServicesPage", head),
                     ServiceType.OpenAIService => string.Format("{0}TextOpenAIServicesPage", head),
                     ServiceType.GeminiService => string.Format("{0}TextGeminiServicesPage", head),
                     ServiceType.TencentService => string.Format("{0}TextTencentServicesPage", head),
@@ -121,7 +121,7 @@ namespace STranslate.ViewModels.Preference
                 {
                     TranslatorApi api => api.DeepClone(),
                     TranslatorBaidu baidu => baidu.DeepClone(),
-                    TranslatorBing bing => bing.DeepClone(),
+                    TranslatorMicrosoft bing => bing.DeepClone(),
                     TranslatorOpenAI openAI => openAI.DeepClone(),
                     TranslatorGemini gemini => gemini.DeepClone(),
                     TranslatorTencent tencent => tencent.DeepClone(),

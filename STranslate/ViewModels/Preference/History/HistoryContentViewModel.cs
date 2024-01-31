@@ -80,7 +80,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
         {
             (int)ServiceType.ApiService => new TranslatorApi(),
             (int)ServiceType.BaiduService => new TranslatorBaidu(),
-            (int)ServiceType.BingService => new TranslatorBing(),
+            (int)ServiceType.MicrosoftService => new TranslatorMicrosoft(),
             (int)ServiceType.OpenAIService => new TranslatorOpenAI(),
             (int)ServiceType.GeminiService => new TranslatorGemini(),
             (int)ServiceType.TencentService => new TranslatorTencent(),

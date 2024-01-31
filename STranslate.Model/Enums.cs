@@ -101,7 +101,7 @@ namespace STranslate.Model
     {
         ApiService = 0,
         BaiduService,
-        BingService,
+        MicrosoftService,
         OpenAIService,
         GeminiService,
         TencentService,
@@ -129,6 +129,7 @@ namespace STranslate.Model
         Ali,
         Niutrans,
         Caiyun,
+        Microsoft,
     }
 
     /// <summary>

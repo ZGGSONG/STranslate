@@ -4,8 +4,8 @@
     <BitmapImage x:Key="STranslate" UriSource="pack://application:,,,/STranslate.Style;component/Resources/favicon.ico" />
     <BitmapImage x:Key="DeepL" UriSource="pack://application:,,,/STranslate.Style;component/Resources/deepl.png" />
     <BitmapImage x:Key="Baidu" UriSource="pack://application:,,,/STranslate.Style;component/Resources/baidu.png" />
-    <BitmapImage x:Key="Google" UriSource="pack://application:,,,/STranslate.Style;component/Resources/google.ico" />
-    <BitmapImage x:Key="Iciba" UriSource="pack://application:,,,/STranslate.Style;component/Resources/iciba.ico" />
+    <BitmapImage x:Key="Google" UriSource="pack://application:,,,/STranslate.Style;component/Resources/google.png" />
+    <BitmapImage x:Key="Iciba" UriSource="pack://application:,,,/STranslate.Style;component/Resources/iciba.png" />
     <BitmapImage x:Key="Youdao" UriSource="pack://application:,,,/STranslate.Style;component/Resources/youdao.png" />
     <BitmapImage x:Key="Bing" UriSource="pack://application:,,,/STranslate.Style;component/Resources/bing.png" />
     <BitmapImage x:Key="OpenAI" UriSource="pack://application:,,,/STranslate.Style;component/Resources/openai.png" />
@@ -14,4 +14,5 @@
     <BitmapImage x:Key="Ali" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ali.png" />
     <BitmapImage x:Key="Niutrans" UriSource="pack://application:,,,/STranslate.Style;component/Resources/niutrans.png" />
     <BitmapImage x:Key="Caiyun" UriSource="pack://application:,,,/STranslate.Style;component/Resources/caiyun.png" />
+    <BitmapImage x:Key="Microsoft" UriSource="pack://application:,,,/STranslate.Style;component/Resources/microsoft.png" />
 </ResourceDictionary>

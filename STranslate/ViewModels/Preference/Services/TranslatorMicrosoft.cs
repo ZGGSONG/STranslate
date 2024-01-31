@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorBing : ObservableObject, ITranslator
+    public partial class TranslatorMicrosoft : ObservableObject, ITranslator
     {
-        public TranslatorBing()
+        public TranslatorMicrosoft()
             : this(Guid.NewGuid(), "https://api.cognitive.microsofttranslator.com", "微软翻译") { }
 
-        public TranslatorBing(
+        public TranslatorMicrosoft(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Bing,
+            IconType icon = IconType.Microsoft,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.BingService
+            ServiceType type = ServiceType.MicrosoftService
         )
         {
             Identify = guid;

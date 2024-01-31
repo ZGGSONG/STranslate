@@ -143,12 +143,22 @@ rd /s /q "%localappdata%\stranslate"
 
 ## 付费接口
 
-1. 支持 [百度翻译](https://fanyi-api.baidu.com)
-2. 支持 [必应翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
-3. 支持 [OpenAI](https://openai.com)
-4. 支持 [Google Gemini](https://makersuite.google.com/app/apikey)
+### 已接入
+
+1. [百度翻译](https://fanyi-api.baidu.com)
+2. [微软翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
+3. [OpenAI](https://openai.com)
+4. [Google Gemini](https://makersuite.google.com/app/apikey)
 > 国内可访问的公共 `Gemini API`: `https://gemini.vercel.zggsong.com`
-5. 支持 [腾讯翻译君](https://cloud.tencent.com/product/tmt)
+5. [腾讯翻译君](https://cloud.tencent.com/product/tmt)
+6. [有道翻译](https://ai.youdao.com/)
+7. [阿里翻译](https://www.aliyun.com/product/ai/base_alimt)
+8. [小牛翻译](https://niutrans.com/trans?type=text)
+9. [彩云小译](https://dashboard.caiyunapp.com/user/sign_in/)
+
+### 待接入
+
+- [火山引擎](https://www.volcengine.com/)
 
 ## 感谢
 

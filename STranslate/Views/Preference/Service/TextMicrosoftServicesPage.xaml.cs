@@ -1,13 +1,13 @@
-﻿using System.Diagnostics;
+﻿using STranslate.Model;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using STranslate.Model;
 
 namespace STranslate.Views.Preference.Service
 {
-    public partial class TextBingServicesPage : UserControl
+    public partial class TextMicrosoftServicesPage : UserControl
     {
-        public TextBingServicesPage(ITranslator vm)
+        public TextMicrosoftServicesPage(ITranslator vm)
         {
             InitializeComponent();
 
@@ -24,12 +24,6 @@ namespace STranslate.Views.Preference.Service
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) =>
-            Process.Start(
-                new ProcessStartInfo
-                {
-                    FileName = "https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator",
-                    UseShellExecute = true
-                }
-            );
+            Process.Start(new ProcessStartInfo { FileName = "https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator", UseShellExecute = true });
     }
 }
