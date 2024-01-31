@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -396,6 +397,18 @@ namespace STranslate.Util
                 }
             }
             return new System.Windows.Point(ms.X / dpiScale, ms.Y / dpiScale);
+        }
+
+        /// <summary>
+        /// 是否为管理员权限
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsUserAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new(identity);
+
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         #endregion Other

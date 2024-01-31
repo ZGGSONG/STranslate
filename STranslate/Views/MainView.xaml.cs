@@ -96,7 +96,7 @@ namespace STranslate.Views
             {
                 Hide();
 
-                _ = bool.TryParse(Application.Current.Properties["admin"]?.ToString(), out bool isAdmin);
+                bool isAdmin = CommonUtil.IsUserAdministrator();
 
                 string toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
 

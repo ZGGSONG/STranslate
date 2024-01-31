@@ -7,7 +7,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -76,28 +75,13 @@ namespace STranslate
 
         private bool NeedAdministrator()
         {
-            // 初始化管理员缓存
-            Current.Properties["admin"] = false;
-
             // 加载配置
             var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
 
             if (!isRole)
                 return false;
 
-            // 更新管理员缓存
-            bool role = IsUserAdministrator();
-            Current.Properties["admin"] = role;
-
-            return !role;
-        }
-
-        private bool IsUserAdministrator()
-        {
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
-
-            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            return !CommonUtil.IsUserAdministrator();
         }
 
         private bool TryRunAsAdministrator()

@@ -51,7 +51,7 @@ namespace STranslate.ViewModels
 
         public void UpdateToolTip(string msg = "")
         {
-            _ = bool.TryParse(Application.Current.Properties["admin"]?.ToString(), out bool isAdmin);
+            bool isAdmin = CommonUtil.IsUserAdministrator();
 
             string toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
 
