@@ -61,7 +61,7 @@
                              SelectedIndex="{Binding SelectedIndex}">
                         <ListBox.ContextMenu>
                             <ContextMenu Width="120">
-                                <MenuItem Command="{Binding LoadMoreHistoryCommand}"
+                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
                                           CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
                                           FontFamily="{DynamicResource IconFont}"
                                           Header="刷新记录"

@@ -53,7 +53,7 @@ namespace STranslate.Views.Preference
             //);
 
             // 滚动到底 && command执行条件允许才能执行
-            if (!atBottom || !vm.LoadMoreHistoryCommand.CanExecute(null))
+            if (!atBottom || !vm.CanLoadHistory)
                 return;
 
             // 已经到达底部，执行刷新操作

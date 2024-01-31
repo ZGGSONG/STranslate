@@ -30,9 +30,9 @@ namespace STranslate.ViewModels.Preference
         /// 2. 在搜索过程中
         /// 3. view列表总数等于数据库总数
         /// </summary>
-        private bool CanLoadHistory => !IsLoading && string.IsNullOrEmpty(SearchContent) && (Count == 0 || HistoryList.Count != Count);
+        public bool CanLoadHistory => !IsLoading && string.IsNullOrEmpty(SearchContent) && (Count == 0 || HistoryList.Count != Count);
 
-        [RelayCommand(CanExecute = nameof(CanLoadHistory))]
+        [RelayCommand]
         private async Task LoadMoreHistoryAsync(ScrollViewer? scroll)
         {
             IsLoading = true;
