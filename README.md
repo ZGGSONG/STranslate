@@ -76,7 +76,8 @@
 
 ![about](./img/about.png)
 
-> 文件在github上，需要挂代理，否则很慢！！！
+> 文件在github上，需要挂代理，否则很慢！！！  
+> 此外，升级方式所下载的为不带有`Runtime`的版本，如需带有`Runtime`版本，前往 [Release](https://github.com/ZGGSONG/STranslate/releases) 页面下载带有 `self contained` 标记的软件压缩包
 
 ![update](./img/update.png)
 
