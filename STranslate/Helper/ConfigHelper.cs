@@ -193,9 +193,22 @@ public class ConfigHelper
         }
         catch (Exception ex)
         {
-            LogService.Logger.Error("[READ CONFIG] 读取配置错误，本次运行加载初始化配置...", ex);
+            // 备份当前config
+            var path = BackupCurrentConfig();
+
+            LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
             return InitialConfig();
         }
+    }
+
+    /// <summary>
+    /// 备份当前配置文件
+    /// </summary>
+    private string BackupCurrentConfig()
+    {
+        var backupFilePath = $"{ApplicationData}\\{_appName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
+        File.Copy(CnfName, backupFilePath, true );
+        return backupFilePath;
     }
 
     private void WriteConfig(ConfigModel conf)
