@@ -19,7 +19,7 @@
 </p>
 <h1 align="center">STranslate</h1>
 
-<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译工具
+<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译、OCR工具
 </p>
 
 ## 安装
@@ -56,17 +56,19 @@
 
 3. 软件集成缓存功能，默认翻译一次则会缓存住，再次翻译或默认查询缓存，如果缓存存在则返回缓存结果，如需强制翻译只需要输入内容后按 `Ctrl` + `Enter` 即可
 
-4. 软件集成二维码识别，触发方式为: `右键任务栏图标`-`二维码`
+4. 添加服务
 
-| 方式一 | 方式二 |
-| :-- | :-- |
-|![qrcode](./img/qrcode.png)|![qrcode2](./img/qrcode2.png)
+![service](./img/service_add.gif)
+
+5. 软件集成二维码识别，触发方式为: `右键任务栏图标`-`二维码`
+
+| 方式一 | 方式二 | 方式三 |
+| :--: | :--: | :--: |
+|![qrcode](./img/qrcode.png)|![qrcode2](./img/qrcode2.png) | ![qrcode3](./img/qrcode3.png) |
 
 5. 历史记录
 
-> 刷新方式: 记录列`右键`-`刷新纪录`即可
-
-![history](./img/history.png)
+![history](./img/history.gif)
 
 6. 更新热键
 
@@ -74,25 +76,53 @@
 
 7. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
 
-![about](./img/about.png)
-
 > 文件在github上，需要挂代理，否则很慢！！！  
 > 此外，升级方式所下载的为不带有`Runtime`的版本，如需带有`Runtime`版本，前往 [Release](https://github.com/ZGGSONG/STranslate/releases) 页面下载带有 `self contained` 标记的软件压缩包
 
-![update](./img/update.png)
+![update](./img/update.gif)
 
-## 注意
+## 加密
 
-1.0.3.118 版本以后开始加密保存密钥等信息，如需查看请进入软件`偏好设置`-`服务`中显示查看密钥等信息
+1.0.3.118 版本以后开始加密保存密钥等信息到本地，如需查看请进入软件`偏好设置`-`服务`中显示查看密钥等信息
 
-![encrypt](./img/encrypt.png)
+![encrypt](./img/encrypt.gif)
+
+## 服务
+
+### !!!本地服务!!!
+
+**★★★ `1.0.6.201` 推出本地服务接口，即开即用，避免多人使用公共接口导致失效问题★★★**
+
+### 免费接口
+当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
+1. 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)
+2. 下载作者打包的 [Docker镜像](https://hub.docker.com/r/zggsong/translate)
+3. 开源项目 [https://github.com/OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
+
+> 针对上述方式仅需在软件`偏好设置`-`服务`-`添加DeepL服务`后修改接口地址为对应接口地址即可
+
+### 付费接口
+
+> 国内可访问的公共 `Gemini API`: `https://gemini.vercel.zggsong.com`
+
+1. [百度翻译](https://fanyi-api.baidu.com)
+2. [微软翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
+3. [OpenAI](https://openai.com)
+4. [Google Gemini](https://makersuite.google.com/app/apikey)
+5. [腾讯翻译君](https://cloud.tencent.com/product/tmt)
+6. [有道翻译](https://ai.youdao.com/)
+7. [阿里翻译](https://www.aliyun.com/product/ai/base_alimt)
+8. [小牛翻译](https://niutrans.com/trans?type=text)
+9. [彩云小译](https://dashboard.caiyunapp.com/user/sign_in/)
+10. [火山引擎](https://www.volcengine.com/)
+
 
 ## 疑问
 
 1. 问：划词翻译无法获取? 答：建议开启管理员权限启动，`设置`-`常规设置`-`以管理员权限启动`-`重启软件`
-2. 问：历史记录无法更新？答：`列表右键`-`手动刷新`
-3. 问：公共接口挂了怎么办？答：用的人越来越多，公共接口在官方认为是一个ip疯狂请求，会被限制请求，最好的是自己建一个，下面免费接口里面任选一种方式，在软件中修改或添加你的本地接口(如: `http://127.0.0.1:8080/translate`，具体ip、端口以实际为准)
-4. 问：有没有别的官方接口？答：提`Feature Issue`，有空的话我会优先适配
+2. 问：公共接口挂了怎么办？答：用的人越来越多，公共接口在官方认为是一个ip疯狂请求，会被限制请求，最好的是自己建一个，下面免费接口里面任选一种方式，在软件中修改或添加你的本地接口(如: `http://127.0.0.1:8080/translate`，具体ip、端口以实际为准) 注: [1.0.6.201](https://github.com/ZGGSONG/STranslate/releases/tag/1.0.6.201) 开始有本地服务，直接开启后可替代自建免费服务
+3. 问：有没有别的官方接口？答：提`Feature Issue`，有空的话我会优先适配
+4. 问：存在BUG？提[Issue](https://github.com/ZGGSONG/STranslate/issues)，最好带上所运行`软件版本`、`系统版本`、`复现条件`，有条件可以带上`视频`或`GIF`
 
 ## 卸载
 
@@ -141,34 +171,6 @@ rd /s /q "%localappdata%\stranslate"
 
 </details>
 
-## !!!本地服务!!!
-
-`1.0.6.201` 推出本地服务接口，即开即用，避免多人使用公共接口导致失效问题
-
-## 免费接口
-
-当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
-1. 下载对应平台可 [执行文件](https://github.com/ZGGSONG/STranslate/releases/tag/0.01)
-2. 下载作者打包的 [Docker镜像](https://hub.docker.com/r/zggsong/translate)
-3. 开源项目 [https://github.com/OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
-
-> 针对上述方式仅需在软件`偏好设置`-`服务`-`添加DeepL服务`后修改接口地址为对应接口地址即可
-
-## 付费接口
-
-### 已接入
-
-1. [百度翻译](https://fanyi-api.baidu.com)
-2. [微软翻译](https://azure.microsoft.com/zh-cn/products/ai-services/ai-translator)
-3. [OpenAI](https://openai.com)
-4. [Google Gemini](https://makersuite.google.com/app/apikey)
-> 国内可访问的公共 `Gemini API`: `https://gemini.vercel.zggsong.com`
-5. [腾讯翻译君](https://cloud.tencent.com/product/tmt)
-6. [有道翻译](https://ai.youdao.com/)
-7. [阿里翻译](https://www.aliyun.com/product/ai/base_alimt)
-8. [小牛翻译](https://niutrans.com/trans?type=text)
-9. [彩云小译](https://dashboard.caiyunapp.com/user/sign_in/)
-10. [火山引擎](https://www.volcengine.com/)
 
 ## 感谢
 
@@ -177,9 +179,18 @@ rd /s /q "%localappdata%\stranslate"
 - 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对paddleocr的封装
 - 感谢 [WpfTool](https://github.com/NPCDW/WpfTool) 截图功能
 - 感谢 [Tai](https://github.com/Planshit/Tai) 升级功能
+- 感谢 ChatGPT
 - 感谢 JetBrains 提供开源项目免费License
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
+
+## 打赏
+
+觉得不错的话可以请作者喝杯阔落
+
+| 微信 | 支付宝 |
+| :--: | :--: |
+|![wehcatpay](./img/wechatpay.JPG) | ![alipay](./img/alipay.JPG) |
 
 ## 作者
 
