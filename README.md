@@ -74,7 +74,7 @@
 
 ![hotkey](./img/updatehotkey.gif)
 
-7. 后续升级仅需点击软件`偏好设置`-`关于`-`检查更新`即可
+7. 升级功能
 
 > 文件在github上，需要挂代理，否则很慢！！！  
 > 此外，升级方式所下载的为不带有`Runtime`的版本，如需带有`Runtime`版本，前往 [Release](https://github.com/ZGGSONG/STranslate/releases) 页面下载带有 `self contained` 标记的软件压缩包
@@ -92,6 +92,7 @@
 ### !!!本地服务!!!
 
 **★★★ `1.0.6.201` 推出本地服务接口，即开即用，避免多人使用公共接口导致失效问题★★★**
+> 服务页面中添加`STranslate`的服务即可
 
 ### 免费接口
 当请求人数较多时，远端接口可能暂时失效，可自行运行翻译接口程序
@@ -99,7 +100,7 @@
 2. 下载作者打包的 [Docker镜像](https://hub.docker.com/r/zggsong/translate)
 3. 开源项目 [https://github.com/OwO-Network/DeepLX](https://github.com/OwO-Network/DeepLX)
 
-> 针对上述方式仅需在软件`偏好设置`-`服务`-`添加DeepL服务`后修改接口地址为对应接口地址即可
+> 针对上述方式仅需在软件`偏好设置`-`服务`- 添加`自建服务`后修改接口地址为对应接口地址即可
 
 ### 付费接口
 
