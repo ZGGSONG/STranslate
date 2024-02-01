@@ -80,7 +80,7 @@
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
                              common:BoundPasswordBox.Password="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Tag="AppID"
+                             Tag="AccessKeyId"
                              ToolTip="{Binding AppID}"
                              Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
@@ -110,7 +110,7 @@
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
                              common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Tag="AppKey"
+                             Tag="AccessKeySecret"
                              ToolTip="{Binding AppKey}"
                              Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 

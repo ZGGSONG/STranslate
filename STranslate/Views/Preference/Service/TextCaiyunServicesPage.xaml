@@ -80,7 +80,7 @@
                              HorizontalAlignment="Left"
                              common:BoundPasswordBox.Attach="True"
                              common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Tag="AppKey"
+                             Tag="Token"
                              ToolTip="{Binding AppKey}"
                              Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 

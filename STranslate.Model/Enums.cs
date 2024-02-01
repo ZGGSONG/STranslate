@@ -109,6 +109,7 @@ namespace STranslate.Model
         YoudaoService,
         NiutransService,
         CaiyunService,
+        VolcengineService,
     }
 
     /// <summary>
@@ -130,6 +131,7 @@ namespace STranslate.Model
         Niutrans,
         Caiyun,
         Microsoft,
+        Volcengine,
     }
 
     /// <summary>

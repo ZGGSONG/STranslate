@@ -15,4 +15,5 @@
     <BitmapImage x:Key="Niutrans" UriSource="pack://application:,,,/STranslate.Style;component/Resources/niutrans.png" />
     <BitmapImage x:Key="Caiyun" UriSource="pack://application:,,,/STranslate.Style;component/Resources/caiyun.png" />
     <BitmapImage x:Key="Microsoft" UriSource="pack://application:,,,/STranslate.Style;component/Resources/microsoft.png" />
+    <BitmapImage x:Key="Volcengine" UriSource="pack://application:,,,/STranslate.Style;component/Resources/volcengine.png" />
 </ResourceDictionary>

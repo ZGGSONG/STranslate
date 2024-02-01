@@ -474,6 +474,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.YoudaoService => new TranslatorYoudao(),
                 (int)ServiceType.NiutransService => new TranslatorNiutrans(),
                 (int)ServiceType.CaiyunService => new TranslatorCaiyun(),
+                (int)ServiceType.VolcengineService => new TranslatorVolcengine(),
                 _ => new TranslatorApi()
             };
 
