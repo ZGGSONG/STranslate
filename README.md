@@ -141,7 +141,7 @@ rd /s /q "%localappdata%\stranslate"
 
 </details>
 
-## 本地服务
+## !!!本地服务!!!
 
 `1.0.6.201` 推出本地服务接口，即开即用，避免多人使用公共接口导致失效问题
 
@@ -168,10 +168,7 @@ rd /s /q "%localappdata%\stranslate"
 7. [阿里翻译](https://www.aliyun.com/product/ai/base_alimt)
 8. [小牛翻译](https://niutrans.com/trans?type=text)
 9. [彩云小译](https://dashboard.caiyunapp.com/user/sign_in/)
-
-### 待接入
-
-- [火山引擎](https://www.volcengine.com/)
+10. [火山引擎](https://www.volcengine.com/)
 
 ## 感谢
 
