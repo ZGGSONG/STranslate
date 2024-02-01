@@ -191,7 +191,7 @@ rd /s /q "%localappdata%\stranslate"
 
 | 微信 | 支付宝 |
 | :--: | :--: |
-|![wehcatpay](./img/wechatpay.JPG) | ![alipay](./img/alipay.JPG) |
+|![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |
 
 ## 作者
 
