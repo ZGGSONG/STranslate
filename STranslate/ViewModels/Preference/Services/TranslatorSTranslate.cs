@@ -13,20 +13,20 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorVolcengine : ObservableObject, ITranslator
+    public partial class TranslatorSTranslate : ObservableObject, ITranslator
     {
-        public TranslatorVolcengine()
-            : this(Guid.NewGuid(), "https://translate.volcengineapi.com", "火山翻译") { }
+        public TranslatorSTranslate()
+            : this(Guid.NewGuid(), "", "STranslate") { }
 
-        public TranslatorVolcengine(
+        public TranslatorSTranslate(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Volcengine,
+            IconType icon = IconType.STranslate,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
-            ServiceType type = ServiceType.VolcengineService
+            ServiceType type = ServiceType.STranslateService
         )
         {
             Identify = guid;
@@ -56,7 +56,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        private IconType _icon = IconType.Baidu;
+        private IconType _icon = IconType.STranslate;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -77,6 +77,9 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+
+        [JsonIgnore]
+        public string Tips { get; set; } = "本地服务，无需配置";
 
         #region Show/Hide Encrypt Info
 
@@ -119,22 +122,17 @@ namespace STranslate.ViewModels.Preference.Services
                 //https://github.com/Baozisoftware/go-dll/wiki/C%23%E8%B0%83%E7%94%A8Go%E7%89%88DLL#%E5%85%B3%E4%BA%8Ego%E7%9A%84%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E8%BF%94%E5%9B%9E%E9%97%AE%E9%A2%98
                 //加入这个就不崩溃了
                 Environment.SetEnvironmentVariable("GODEBUG", "cgocheck=0");
-
-                var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
-                var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
-                var sourceBytes = Encoding.UTF8.GetBytes(req.SourceLang.ToLower());
-                var targetBytes = Encoding.UTF8.GetBytes(req.TargetLang.ToLower());
+                var sourceBytes = Encoding.UTF8.GetBytes(req.SourceLang);
+                var targetBytes = Encoding.UTF8.GetBytes(req.TargetLang);
                 var contentBytes = Encoding.UTF8.GetBytes(req.Text);
-                var result = await Task.Run(() => GoUtil.Execute(accessKeyBytes, secretKeyBytes, sourceBytes, targetBytes, contentBytes));
-                var tuple = GoUtil.GoTupleToCSharpTuple(result);
-                var resp = tuple.Item2;
-                if (tuple.Item1 != 200) throw new Exception(resp);
+                var result = await Task.Run(() => GoUtil.Execute(sourceBytes, targetBytes, contentBytes));
+                var resp = GoUtil.GoStringToCSharpString(result);
 
                 // 解析JSON数据
                 var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
 
                 // 提取content的值
-                var data = parsedData["TranslationList"]?.FirstOrDefault()?["Translation"]?.ToString() ?? throw new Exception("未获取到结果");
+                var data = parsedData["data"]?.ToString() ?? throw new Exception("未获取到结果");
 
                 return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
             }

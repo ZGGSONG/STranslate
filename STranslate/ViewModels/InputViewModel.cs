@@ -465,6 +465,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
             translators.FirstOrDefault(x => x.Identify.ToString() == identify)
             ?? type switch
             {
+                (int)ServiceType.STranslateService => new TranslatorSTranslate(),
                 (int)ServiceType.BaiduService => new TranslatorBaidu(),
                 (int)ServiceType.MicrosoftService => new TranslatorMicrosoft(),
                 (int)ServiceType.OpenAIService => new TranslatorOpenAI(),

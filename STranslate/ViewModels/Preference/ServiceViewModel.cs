@@ -22,6 +22,7 @@ namespace STranslate.ViewModels.Preference
         {
             //添加默认支持服务
             //TODO: 新接口需要适配
+            TransServices.Add(new TranslatorSTranslate());
             TransServices.Add(new TranslatorApi());
             TransServices.Add(new TranslatorOpenAI());
             TransServices.Add(new TranslatorGemini());
@@ -90,6 +91,7 @@ namespace STranslate.ViewModels.Preference
                 //TODO: 新接口需要适配
                 var name = service.Type switch
                 {
+                    ServiceType.STranslateService => string.Format("{0}TextSTranslateServicesPage", head),
                     ServiceType.ApiService => string.Format("{0}TextApiServicePage", head),
                     ServiceType.BaiduService => string.Format("{0}TextBaiduServicesPage", head),
                     ServiceType.MicrosoftService => string.Format("{0}TextMicrosoftServicesPage", head),
@@ -121,6 +123,7 @@ namespace STranslate.ViewModels.Preference
                 //TODO: 新接口需要适配
                 CurTransServiceList.Add(service switch
                 {
+                    TranslatorSTranslate stranslate => stranslate.DeepClone(),
                     TranslatorApi api => api.DeepClone(),
                     TranslatorBaidu baidu => baidu.DeepClone(),
                     TranslatorMicrosoft bing => bing.DeepClone(),

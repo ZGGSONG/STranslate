@@ -110,6 +110,7 @@ namespace STranslate.Model
         NiutransService,
         CaiyunService,
         VolcengineService,
+        STranslateService,
     }
 
     /// <summary>

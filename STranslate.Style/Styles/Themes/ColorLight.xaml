@@ -80,4 +80,5 @@
 
     <!-- // Other // -->
     <SolidColorBrush x:Key="OfficialServiceColor">#e6c619</SolidColorBrush>
+    <SolidColorBrush x:Key="UnOfficialServiceColor">#7CCD7C</SolidColorBrush>
 </ResourceDictionary>

@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace STranslate.Util
 {
-    public class Volcengine
+    public class GoUtil
     {
         [DllImport("volcengine.dll", EntryPoint = "Execute", CallingConvention = CallingConvention.Cdecl)]
         public static extern GoTuple Execute(byte[] appid, byte[] appkey, byte[] source, byte[] target, byte[] content);
+
+        [DllImport("zstranslator.dll", EntryPoint = "Execute", CallingConvention = CallingConvention.Cdecl)]
+        public static extern GoString Execute(byte[] source, byte[] target, byte[] content);
+
 
         public struct GoTuple
         {
