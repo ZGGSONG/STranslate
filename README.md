@@ -22,6 +22,13 @@
 <p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译、OCR工具
 </p>
 
+## 访问
+
+| 国外 | 国内 |
+| :--: | :--: |
+| **[Github](https://github.com/ZGGSONG/STranslate)** | **[Gitee](https://gitee.com/zggsong/STranslate)** |
+
+
 ## 安装
 
 下载最新 [Release](https://github.com/ZGGSONG/STranslate/releases) 版本后解压即可使用
