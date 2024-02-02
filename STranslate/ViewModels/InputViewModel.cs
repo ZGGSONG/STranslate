@@ -76,7 +76,7 @@ public partial class InputViewModel : ObservableObject
         var dbTarget = target;
         HistoryModel? history = null;
 
-        if (!PreviousHandle(InputContent))
+        if (!PreviousHandle())
             return;
 
         try
@@ -96,11 +96,11 @@ public partial class InputViewModel : ObservableObject
     /// <summary>
     /// 前置处理
     /// </summary>
-    /// <param name="inputContent"></param>
     /// <returns></returns>
-    private bool PreviousHandle(string inputContent)
+    private bool PreviousHandle()
     {
-        if (!string.IsNullOrWhiteSpace(inputContent))
+        InputContent = InputContent.Trim();
+        if (!string.IsNullOrWhiteSpace(InputContent))
             return true;
 
         Parallel.ForEach(Singleton<ServiceViewModel>.Instance.CurTransServiceList, (service, cancellationToken) => service.Data = TranslationResult.Fail("请输入有效内容"));

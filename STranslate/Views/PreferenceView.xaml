@@ -8,21 +8,20 @@
         xmlns:view="clr-namespace:STranslate.Views"
         xmlns:vm="clr-namespace:STranslate.ViewModels"
         Title="STranslate 首选项"
-        Width="800"
-        Height="650"
+        MinWidth="800"
+        MinHeight="650"
         Background="{DynamicResource BorderBackground}"
         BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         FontFamily="{DynamicResource UserFont}"
         Icon="{DynamicResource Icon}"
-        WindowChrome.IsHitTestVisibleInChrome="True"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.DataContext>
         <vm:PreferenceViewModel />
     </Window.DataContext>
     <WindowChrome.WindowChrome>
-        <WindowChrome />
+        <WindowChrome ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
@@ -43,7 +42,8 @@
                 Background="{DynamicResource BorderBackground}"
                 CornerRadius="5"
                 MouseDown="Header_MouseDown"
-                MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                MouseLeftButtonDown="Header_MouseLeftButtonDown"
+                WindowChrome.IsHitTestVisibleInChrome="True">
 
             <Grid>
                 <!-- // Title // -->
@@ -146,10 +146,10 @@
 
         <!-- // Notify // -->
         <view:ToastView x:Name="notify"
-                       Grid.RowSpan="2"
-                       Margin="0,8,0,0"
-                       VerticalAlignment="Top"
-                       Visibility="Collapsed" />
+                        Grid.RowSpan="2"
+                        Margin="0,8,0,0"
+                        VerticalAlignment="Top"
+                        Visibility="Collapsed" />
     </Grid>
 </Window>
 

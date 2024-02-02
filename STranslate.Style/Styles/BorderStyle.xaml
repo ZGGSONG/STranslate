@@ -7,8 +7,6 @@
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10" />
-        <!-- 主界面最大高度 -->
-        <Setter Property="MaxHeight" Value="800" />
     </Style>
 
     <!-- // 输入输出 Border // -->
