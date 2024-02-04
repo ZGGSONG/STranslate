@@ -11,9 +11,9 @@
         x:Name="Mwin"
         Title="STranslate"
         Width="480"
+        MinWidth="450"
         MaxHeight="800"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-        AllowsTransparency="True"
         Background="Transparent"
         Deactivated="Mwin_Deactivated"
         FontFamily="{DynamicResource UserFont}"
@@ -22,8 +22,10 @@
         MouseLeftButtonDown="Mwin_MouseLeftButtonDown"
         ShowInTaskbar="False"
         SizeToContent="Height"
-        WindowStyle="None"
         mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Q" Command="{Binding NotifyIconVM.ExitCommand}" Modifiers="Ctrl+Shift" />
         <KeyBinding Key="OemComma" Command="{Binding NotifyIconVM.OpenPreferenceCommand}" Modifiers="Ctrl" />
@@ -42,7 +44,7 @@
             <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=Mwin}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=100}" Style="{DynamicResource BorderMainStyle}">
+    <Border Style="{DynamicResource BorderMainStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
@@ -53,7 +55,10 @@
             <local:NotifyIcon DataContext="{Binding NotifyIconVM}" />
 
             <!-- // Header // -->
-            <local:HeaderView x:Name="HeaderView" DataContext="{Binding ElementName=Mwin, Path=DataContext}" Focusable="False" />
+            <local:HeaderView x:Name="HeaderView"
+                              DataContext="{Binding ElementName=Mwin, Path=DataContext}"
+                              Focusable="False"
+                              WindowChrome.IsHitTestVisibleInChrome="True" />
 
             <ScrollViewer Grid.Row="1">
                 <StackPanel>
