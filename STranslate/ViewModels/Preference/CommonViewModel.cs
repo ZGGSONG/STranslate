@@ -6,6 +6,7 @@ using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -101,9 +102,16 @@ namespace STranslate.ViewModels.Preference
             LoadHistorySizeType();
         }
 
-        // 手动触发
-        public void TriggerMaxHeight() => OnViewMaxHeightChanged?.Invoke(MaxHeight.ToInt());
-
+        /// <summary>
+        /// 触发最大高度信息到View
+        /// </summary>
+        public void TriggerMaxHeight()
+        {
+            var workAreaHeight = Convert.ToInt32(SystemParameters.WorkArea.Height);
+            // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
+            var height = MaxHeight.GetHashCode() > workAreaHeight ? workAreaHeight : MaxHeight.ToInt();
+            OnViewMaxHeightChanged?.Invoke(height);
+        }
         private void LoadHistorySizeType()
         {
             HistorySizeType = HistorySize switch
@@ -336,10 +344,7 @@ namespace STranslate.ViewModels.Preference
                 {
                     OnPropertyChanging();
                     _maxHeight = value;
-                    var workAreaHeight = Convert.ToInt32(SystemParameters.WorkArea.Height);
-                    // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
-                    var height = value.GetHashCode() > workAreaHeight ? workAreaHeight : value.ToInt();
-                    OnViewMaxHeightChanged?.Invoke(height);
+                    TriggerMaxHeight();
                     OnPropertyChanged();
                 }
             }
