@@ -77,6 +77,7 @@
                     Content="&#xe63f;"
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="历史记录"
+                    FontSize="20"
                     Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
