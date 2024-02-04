@@ -15,6 +15,8 @@ namespace STranslate.ViewModels.Preference
 {
     public partial class CommonViewModel : ObservableObject
     {
+        public Action<int>? OnViewMaxHeightChanged;
+
         [RelayCommand]
         private void Save()
         {
@@ -66,6 +68,7 @@ namespace STranslate.ViewModels.Preference
             WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 200;
             IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
             ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
+            MaxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -90,9 +93,15 @@ namespace STranslate.ViewModels.Preference
                 GetFontFamilys.Insert(0, ConstStr.DEFAULTFONTNAME);
             }
 
+            // 加载最大高度集合
+            MaxHeightList = EnumExtensions.GetEnumList<MaxHeight>();
+
             // 加载历史记录类型
             LoadHistorySizeType();
         }
+
+        // 手动触发
+        public void TriggerMaxHeight() => OnViewMaxHeightChanged?.Invoke(MaxHeight.ToInt());
 
         private void LoadHistorySizeType()
         {
@@ -305,5 +314,29 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool showCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
+
+        /// <summary>
+        /// View最大高度
+        /// </summary>
+        private MaxHeight _maxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
+
+        public MaxHeight MaxHeight
+        {
+            get => _maxHeight;
+            set
+            {
+                if (_maxHeight != value)
+                {
+                    OnPropertyChanging();
+                    _maxHeight = value;
+
+                    var height = value == MaxHeight.WorkAreaMaximum ? Convert.ToInt32(SystemParameters.WorkArea.Height) : value.ToInt();
+                    OnViewMaxHeightChanged?.Invoke(height);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<MaxHeight> MaxHeightList { get; set; }
     }
 }

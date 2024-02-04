@@ -8,6 +8,7 @@
              d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
+             SizeChanged="OutputView_SizeChanged"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Storyboard x:Key="FadeInStoryboard">

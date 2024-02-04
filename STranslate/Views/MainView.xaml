@@ -12,7 +12,6 @@
         Title="STranslate"
         Width="480"
         MinWidth="450"
-        MaxHeight="800"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         Background="Transparent"
         Deactivated="Mwin_Deactivated"
@@ -21,6 +20,7 @@
         Icon="{DynamicResource STranslate}"
         MouseLeftButtonDown="Mwin_MouseLeftButtonDown"
         ShowInTaskbar="False"
+        SizeChanged="Mwin_SizeChanged"
         SizeToContent="Height"
         mc:Ignorable="d">
     <WindowChrome.WindowChrome>

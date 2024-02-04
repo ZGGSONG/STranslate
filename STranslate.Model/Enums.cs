@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace STranslate.Model
 {
@@ -282,6 +284,14 @@ namespace STranslate.Model
         北美地区_多伦多,
     }
 
+    public enum MaxHeight : int
+    {
+        Minimum = 328,
+        Medium = 496,
+        Maximum = 800,
+        WorkAreaMaximum
+    }
+
     /// <summary>
     /// 获取Description
     /// </summary>
@@ -292,6 +302,47 @@ namespace STranslate.Model
             var field = val.GetType().GetField(val.ToString());
             var customAttribute = Attribute.GetCustomAttribute(field!, typeof(DescriptionAttribute));
             return customAttribute == null ? val.ToString() : ((DescriptionAttribute)customAttribute).Description;
+        }
+
+        /// <summary>
+        /// https://blog.csdn.net/lzdidiv/article/details/71170528
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static int ToInt(this System.Enum e)
+        {
+            return e.GetHashCode();
+        }
+
+        /// <summary>
+        /// 通过枚举对象获取枚举列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static List<T> GetEnumList<T>(this T value)
+        {
+            var list = new List<T>();
+            if (value is Enum)
+            {
+                var valData = Convert.ToInt32((T)Enum.Parse(typeof(T), value.ToString() ?? ""));
+                var tps = Enum.GetValues(typeof(T));
+
+                list.AddRange(from object tp in tps where ((int)Convert.ToInt32((T)Enum.Parse(typeof(T), tp.ToString() ?? "")) & valData) == valData select (T)tp);
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// 通过枚举类型获取枚举列表;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static List<T> GetEnumList<T>() where T : Enum
+        {
+            return Enum.GetValues(typeof(T)).OfType<T>().ToList();
         }
     }
 }

@@ -8,20 +8,44 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using STranslate.Helper;
+using System.ComponentModel;
 
 namespace STranslate.Views
 {
     public partial class MainView : Window
     {
+        private readonly MainViewModel vm = Singleton<MainViewModel>.Instance;
+
         public MainView()
         {
             DataContext = vm;
 
             vm.NotifyIconVM.OnExit += UnLoadPosition;
 
+            vm.CommonSettingVM.OnViewMaxHeightChanged += Vm_OnMaxHeightChanged;
+            vm.CommonSettingVM.TriggerMaxHeight();
+
             InitializeComponent();
 
             LoadPosition();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            vm.NotifyIconVM.OnExit -= UnLoadPosition;
+            vm.CommonSettingVM.OnViewMaxHeightChanged -= Vm_OnMaxHeightChanged;
+
+            base.OnClosing(e);
+        }
+
+        private void Vm_OnMaxHeightChanged(int height)
+        {
+            MaxHeight = height;
+        }
+        private void Mwin_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SizeToContent = SizeToContent.Height;
+            Mwin.UpdateDefaultStyle();
         }
 
         private void UnLoadPosition()
@@ -143,7 +167,5 @@ namespace STranslate.Views
         private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         #endregion 隐藏系统窗口菜单
-
-        private readonly MainViewModel vm = Singleton<MainViewModel>.Instance;
     }
 }

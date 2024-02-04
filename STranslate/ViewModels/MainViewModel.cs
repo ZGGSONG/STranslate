@@ -63,7 +63,7 @@ namespace STranslate.ViewModels
 
                 NotifyIconVM.OnMousehook += MouseHook;
                 NotifyIconVM.OnForbiddenShortcuts += OnForbiddenShortcutsChanged;
-                Register(view);
+                RegisterHotkeys(view);
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace STranslate.ViewModels
         {
             NotifyIconVM.OnMousehook -= MouseHook;
             NotifyIconVM.OnForbiddenShortcuts -= OnForbiddenShortcutsChanged;
-            UnRegister(view);
+            UnRegisterHotkeys(view);
         }
 
         /// <summary>
@@ -87,12 +87,12 @@ namespace STranslate.ViewModels
         private void OnForbiddenShortcutsChanged(Window view, bool forbidden)
         {
             if (forbidden)
-                UnRegister(view);
+                UnRegisterHotkeys(view);
             else
-                Register(view);
+                RegisterHotkeys(view);
         }
 
-        private void Register(Window view)
+        private void RegisterHotkeys(Window view)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace STranslate.ViewModels
             }
         }
 
-        private void UnRegister(Window view)
+        private void UnRegisterHotkeys(Window view)
         {
             HotkeyHelper.UnRegisterHotKey(view);
 

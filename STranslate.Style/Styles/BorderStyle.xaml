@@ -4,9 +4,7 @@
     <!-- // 主界面 Border // -->
     <Style x:Key="BorderMainStyle" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- // 输入输出 Border // -->

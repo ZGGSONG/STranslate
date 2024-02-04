@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -64,6 +65,11 @@ namespace STranslate.Views
                 // 设置新的字体大小
                 Application.Current.Resources["FontSize_TextBox"] = currentFontSize;
             }
+        }
+
+        private void OutputView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Application.Current.Windows.OfType<MainView>().FirstOrDefault()!.UpdateDefaultStyle();
         }
     }
 }

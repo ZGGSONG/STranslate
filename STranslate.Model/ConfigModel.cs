@@ -149,6 +149,11 @@ public class ConfigModel
     public bool ShowCopyOnHeader { get; set; } = false;
 
     /// <summary>
+    /// 最大高度
+    /// </summary>
+    public MaxHeight MaxHeight { get; set; } = MaxHeight.Maximum;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
