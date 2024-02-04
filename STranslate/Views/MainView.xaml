@@ -13,6 +13,7 @@
         Width="480"
         MinWidth="450"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        AllowsTransparency="True"
         Background="Transparent"
         Deactivated="Mwin_Deactivated"
         FontFamily="{DynamicResource UserFont}"
@@ -22,10 +23,8 @@
         ShowInTaskbar="False"
         SizeChanged="Mwin_SizeChanged"
         SizeToContent="Height"
+        WindowStyle="None"
         mc:Ignorable="d">
-    <WindowChrome.WindowChrome>
-        <WindowChrome ResizeBorderThickness="5" />
-    </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Q" Command="{Binding NotifyIconVM.ExitCommand}" Modifiers="Ctrl+Shift" />
         <KeyBinding Key="OemComma" Command="{Binding NotifyIconVM.OpenPreferenceCommand}" Modifiers="Ctrl" />
@@ -44,7 +43,7 @@
             <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=Mwin}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Border Style="{DynamicResource BorderMainStyle}">
+    <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=100}" Style="{DynamicResource BorderMainStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
