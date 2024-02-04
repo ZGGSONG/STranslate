@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace STranslate.Util
@@ -8,7 +9,7 @@ namespace STranslate.Util
     {
         public static string Get(int interval = 100)
         {
-            SendCtrlC();
+            SendCtrlCV();
             System.Threading.Thread.Sleep(interval);
 
             return GetText();
@@ -17,7 +18,7 @@ namespace STranslate.Util
         public static string MouseSlidGet(int interval = 100)
         {
             var oldTxt = GetText();
-            SendCtrlC();
+            SendCtrlCV();
             System.Threading.Thread.Sleep(interval);
 
             //为了鼠标划词做对比
@@ -37,23 +38,21 @@ namespace STranslate.Util
             return ret;
         }
 
-        private static void SendCtrlC()
+        private static void SendCtrlCV(bool isPaste = false)
         {
-            //IntPtr hWnd = GetForegroundWindow();
-            //SetForegroundWindow(hWnd);
             uint KEYEVENTF_KEYUP = 2;
 
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.ControlKey, 0, KEYEVENTF_KEYUP, 0);
+            CommonUtil.keybd_event(Keys.ControlKey, 0, KEYEVENTF_KEYUP, 0);
             CommonUtil.keybd_event(KeyInterop.VirtualKeyFromKey(Key.LeftAlt), 0, KEYEVENTF_KEYUP, 0);
             CommonUtil.keybd_event(KeyInterop.VirtualKeyFromKey(Key.RightAlt), 0, KEYEVENTF_KEYUP, 0);
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.LWin, 0, KEYEVENTF_KEYUP, 0);
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.RWin, 0, KEYEVENTF_KEYUP, 0);
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.ShiftKey, 0, KEYEVENTF_KEYUP, 0);
+            CommonUtil.keybd_event(Keys.LWin, 0, KEYEVENTF_KEYUP, 0);
+            CommonUtil.keybd_event(Keys.RWin, 0, KEYEVENTF_KEYUP, 0);
+            CommonUtil.keybd_event(Keys.ShiftKey, 0, KEYEVENTF_KEYUP, 0);
 
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.ControlKey, 0, 0, 0);
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.C, 0, 0, 0);
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.C, 0, KEYEVENTF_KEYUP, 0);
-            CommonUtil.keybd_event(System.Windows.Forms.Keys.ControlKey, 0, KEYEVENTF_KEYUP, 0);// 'Left Control Up
+            CommonUtil.keybd_event(Keys.ControlKey, 0, 0, 0);
+            CommonUtil.keybd_event(isPaste ? Keys.V : Keys.C, 0, 0, 0);
+            CommonUtil.keybd_event(isPaste ? Keys.V : Keys.C, 0, KEYEVENTF_KEYUP, 0);
+            CommonUtil.keybd_event(Keys.ControlKey, 0, KEYEVENTF_KEYUP, 0);// 'Left Control Up
         }
 
         #region Clipboard

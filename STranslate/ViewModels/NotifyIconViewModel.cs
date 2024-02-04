@@ -398,6 +398,9 @@ namespace STranslate.ViewModels
                 view.Left = mouseLocation.X;
                 view.Top = mouseLocation.Y;
             }
+            //TODO: 发现当前已经存在子窗口时,无法active
+            view.Topmost = true;
+            view.Topmost = false;
             //显示主界面
             view.Show();
             view.Activate();
@@ -417,6 +420,7 @@ namespace STranslate.ViewModels
         {
             PreferenceView? window = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
             window ??= new PreferenceView();
+            window.UpdateNavigation();
 
             ShowAndActive(window, false);
         }
@@ -425,7 +429,8 @@ namespace STranslate.ViewModels
         private void OpenHistory()
         {
             PreferenceView? window = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
-            window ??= new PreferenceView(PerferenceType.History);
+            window ??= new PreferenceView();
+            window.UpdateNavigation(PerferenceType.History);
 
             ShowAndActive(window, false);
         }

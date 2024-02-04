@@ -43,15 +43,22 @@ namespace STranslate.Views
         /// </summary>
         private const int WM_NULL = 0x0000;
 
-        public PreferenceView(PerferenceType type = PerferenceType.Common)
+        /// <summary>
+        /// ViewModel
+        /// </summary>
+        private readonly PreferenceViewModel vm = new();
+
+        public PreferenceView()
         {
             InitializeComponent();
 
-            DataContext = new PreferenceViewModel(type);
+            DataContext = vm;
 #if false
             Topmost = true;
 #endif
         }
+
+        public void UpdateNavigation(PerferenceType type = PerferenceType.Common) => vm.UpdateNavigation(type);
 
         /// <summary>
         /// 左键按住拖动

@@ -336,8 +336,9 @@ namespace STranslate.ViewModels.Preference
                 {
                     OnPropertyChanging();
                     _maxHeight = value;
-
-                    var height = value == MaxHeight.WorkAreaMaximum ? Convert.ToInt32(SystemParameters.WorkArea.Height) : value.ToInt();
+                    var workAreaHeight = Convert.ToInt32(SystemParameters.WorkArea.Height);
+                    // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
+                    var height = value.GetHashCode() > workAreaHeight ? workAreaHeight : value.ToInt();
                     OnViewMaxHeightChanged?.Invoke(height);
                     OnPropertyChanged();
                 }

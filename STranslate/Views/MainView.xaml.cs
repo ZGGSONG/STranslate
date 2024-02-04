@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using STranslate.Helper;
 using System.ComponentModel;
+using STranslate.Model;
 
 namespace STranslate.Views
 {
@@ -28,26 +29,65 @@ namespace STranslate.Views
             InitializeComponent();
 
             LoadPosition();
+
+            SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
         }
 
+        /// <summary>
+        /// 退出前取消事件订阅
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClosing(CancelEventArgs e)
         {
             vm.NotifyIconVM.OnExit -= UnLoadPosition;
             vm.CommonSettingVM.OnViewMaxHeightChanged -= Vm_OnMaxHeightChanged;
+            SystemParameters.StaticPropertyChanged -= SystemParameters_StaticPropertyChanged;
 
             base.OnClosing(e);
         }
 
+        /// <summary>
+        /// 副屏不生效
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SystemParameters_StaticPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SystemParameters.WorkArea))
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    // 如果当前最大高度值不在enum中则说明为工作区最大高度
+                    // 工作区变动=>更新MaxHeight
+                    if (!Enum.IsDefined(typeof(MaxHeight), Convert.ToInt32(MaxHeight)))
+                    {
+                        MaxHeight = SystemParameters.WorkArea.Height;
+                        Mwin_SizeChanged(null, null);
+                    }
+                });
+            }
+        }
+
         private void Vm_OnMaxHeightChanged(int height)
         {
+            // 更新最大高度
             MaxHeight = height;
         }
-        private void Mwin_SizeChanged(object sender, SizeChangedEventArgs e)
+
+        /// <summary>
+        /// 刷新最大高度并刷新界面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mwin_SizeChanged(object? sender, SizeChangedEventArgs? e)
         {
             SizeToContent = SizeToContent.Height;
             Mwin.UpdateDefaultStyle();
         }
 
+        /// <summary>
+        /// 保存退出前位置
+        /// </summary>
         private void UnLoadPosition()
         {
             //写入配置
@@ -57,6 +97,9 @@ namespace STranslate.Views
             }
         }
 
+        /// <summary>
+        /// 加载上次退出前位置
+        /// </summary>
         private void LoadPosition()
         {
             var position = Singleton<ConfigHelper>.Instance.CurrentConfig?.Position;
@@ -92,6 +135,7 @@ namespace STranslate.Views
                 (InputView.FindName("InputTb") as TextBox)?.Focus();
             }
         }
+
 
         private void Mwin_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

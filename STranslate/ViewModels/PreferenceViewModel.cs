@@ -10,8 +10,13 @@ namespace STranslate.ViewModels
 {
     public partial class PreferenceViewModel : WindowVMBase
     {
-        public PreferenceViewModel(PerferenceType type)
+        [ObservableProperty]
+        private PerferenceType _pType;
+
+        public void UpdateNavigation(PerferenceType type = PerferenceType.Common)
         {
+            PType = type;
+
             switch (type)
             {
                 case PerferenceType.Hotkey:

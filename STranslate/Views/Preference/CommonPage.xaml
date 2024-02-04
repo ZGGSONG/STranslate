@@ -121,6 +121,15 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="主界面最大高度" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置[立即生效]" />
+                                <ComboBox Height="30"
+                                          HorizontalAlignment="Right"
+                                          ItemsSource="{Binding MaxHeightList}"
+                                          SelectedValue="{Binding MaxHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="窗口跟随鼠标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主窗口弹出位置跟随鼠标位置" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsFollowMouse}" />
@@ -154,15 +163,6 @@
                                 <TextBlock HorizontalAlignment="Left" Text="显示复制按钮" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="翻译结果收缩框收缩时上方是否显示复制按钮" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ShowCopyOnHeader}" />
-                            </DockPanel>
-
-                            <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="主界面最大高度" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置[立即生效]" />
-                                <ComboBox Height="30"
-                                          HorizontalAlignment="Right"
-                                          ItemsSource="{Binding MaxHeightList}"
-                                          SelectedValue="{Binding MaxHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

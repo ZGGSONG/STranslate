@@ -96,29 +96,29 @@
             <Grid HorizontalAlignment="Left">
 
                 <StackPanel Width="228" Height="640">
-                    <menu:Btn Command="{Binding CommonPageCommand}" IsChecked="True" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding CommonPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Common}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="常规设置" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding HotkeyPageCommand}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding HotkeyPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Hotkey}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding ServicePageCommand}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding ServicePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="服务设置" />
                     </menu:Btn>
                     <!-- //  分隔符号  // -->
                     <!--<Separator Background="DarkGray" Margin="10,20"/>-->
 
-                    <menu:Btn Command="{Binding FavoritePageCommand}" Style="{StaticResource BtnStyle}" Visibility="Collapsed">
+                    <menu:Btn Command="{Binding FavoritePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Favorite}" Style="{StaticResource BtnStyle}" Visibility="Collapsed">
                         <TextBlock Style="{StaticResource Text_Style}" Text="收藏夹" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding HistoryPageCommand}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding HistoryPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=History}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="历史记录" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding AboutPageCommand}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding AboutPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=About}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="关于软件" />
                     </menu:Btn>
 

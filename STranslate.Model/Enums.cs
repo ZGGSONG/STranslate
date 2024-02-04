@@ -289,10 +289,17 @@ namespace STranslate.Model
     /// </summary>
     public enum MaxHeight : int
     {
+        [Description("最小高度")]
         Minimum = 328,
+
+        [Description("中等高度")]
         Medium = 496,
+
+        [Description("最大高度")]
         Maximum = 800,
-        WorkAreaMaximum
+
+        [Description("工作区高度")]
+        WorkAreaMaximum = 9999
     }
 
     /// <summary>
