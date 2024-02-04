@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
 using STranslate.ViewModels.Preference;
@@ -9,10 +10,27 @@ namespace STranslate.ViewModels
 {
     public partial class PreferenceViewModel : WindowVMBase
     {
-        public PreferenceViewModel()
+        public PreferenceViewModel(PerferenceType type)
         {
-            // 初始化Page
-            CommonPage();
+            switch (type)
+            {
+                case PerferenceType.Hotkey:
+                    HotkeyPage();
+                    break;
+                case PerferenceType.Service:
+                    ServicePage();
+                    break;
+                case PerferenceType.Favorite:
+                case PerferenceType.History:
+                    HistoryPage();
+                    break;
+                case PerferenceType.About:
+                    AboutPage();
+                    break;
+                default:
+                    CommonPage();
+                    break;
+            }
         }
 
         [RelayCommand]

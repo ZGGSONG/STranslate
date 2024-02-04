@@ -303,6 +303,7 @@ namespace STranslate.ViewModels
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+            IsShowHistory = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowHistory ?? false;
         }
 
         #region 显示图标
@@ -326,6 +327,9 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private bool isShowQRCode;
+
+        [ObservableProperty]
+        private bool isShowHistory;
         #endregion 显示图标
     }
 }

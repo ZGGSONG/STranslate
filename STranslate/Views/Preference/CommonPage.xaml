@@ -158,7 +158,7 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="主界面最大高度" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置[立即生效]" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
                                           ItemsSource="{Binding MaxHeightList}"
@@ -210,6 +210,12 @@
                                 <TextBlock Text="显示二维码图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示识别二维码图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowQRCode}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="显示历史记录图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示历史记录图标" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowHistory}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

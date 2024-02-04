@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using STranslate.Model;
+using STranslate.ViewModels;
+using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace STranslate.Views
 {
-    /// <summary>
-    /// PreferenceView.xaml 的交互逻辑
-    /// </summary>
     public partial class PreferenceView : Window
     {
         [DllImport("user32.dll")]
@@ -54,10 +43,11 @@ namespace STranslate.Views
         /// </summary>
         private const int WM_NULL = 0x0000;
 
-
-        public PreferenceView()
+        public PreferenceView(PerferenceType type = PerferenceType.Common)
         {
             InitializeComponent();
+
+            DataContext = new PreferenceViewModel(type);
 #if false
             Topmost = true;
 #endif

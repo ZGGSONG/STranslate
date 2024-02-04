@@ -130,6 +130,11 @@ public class ConfigModel
     public bool IsShowQRCode { get; set; } = false;
 
     /// <summary>
+    /// 是否显示历史记录图标
+    /// </summary>
+    public bool IsShowHistory { get; set; } = false;
+
+    /// <summary>
     /// 取词间隔
     /// </summary>
     /// <remarks>

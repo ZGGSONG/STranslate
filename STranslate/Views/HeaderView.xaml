@@ -71,6 +71,13 @@
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="识别二维码"
                     Visibility="{Binding IsShowQRCode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button HorizontalAlignment="Right"
+                    Command="{Binding NotifyIconVM.OpenHistoryCommand}"
+                    CommandParameter="header"
+                    Content="&#xe63f;"
+                    Style="{DynamicResource ButtonIconStyle}"
+                    ToolTip="历史记录"
+                    Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </UserControl>

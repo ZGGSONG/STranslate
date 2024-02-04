@@ -422,6 +422,15 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
+        private void OpenHistory()
+        {
+            PreferenceView? window = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+            window ??= new PreferenceView(PerferenceType.History);
+
+            ShowAndActive(window, false);
+        }
+
+        [RelayCommand]
         private void ForbiddenShortcuts(Window view)
         {
             IsForbiddenShortcuts = !IsForbiddenShortcuts;

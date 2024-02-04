@@ -163,6 +163,7 @@ public class ConfigHelper
         CurrentConfig.IsShowOCR = model.IsShowOCR;
         CurrentConfig.IsShowSilentOCR = model.IsShowSilentOCR;
         CurrentConfig.IsShowQRCode = model.IsShowQRCode;
+        CurrentConfig.IsShowHistory = model.IsShowHistory;
         CurrentConfig.WordPickingInterval = model.WordPickingInterval;
         CurrentConfig.IsHideOnStart = model.IsHideOnStart;
         CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
@@ -270,6 +271,7 @@ public class ConfigHelper
             IsShowOCR = false,
             IsShowSilentOCR = false,
             IsShowQRCode = false,
+            IsShowHistory = false,
             WordPickingInterval = 100,
             IsHideOnStart = false,
             ShowCopyOnHeader = false,

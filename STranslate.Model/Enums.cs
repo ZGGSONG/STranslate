@@ -284,12 +284,28 @@ namespace STranslate.Model
         北美地区_多伦多,
     }
 
+    /// <summary>
+    /// 主界面最大高度
+    /// </summary>
     public enum MaxHeight : int
     {
         Minimum = 328,
         Medium = 496,
         Maximum = 800,
         WorkAreaMaximum
+    }
+
+    /// <summary>
+    /// 设置页面导航
+    /// </summary>
+    public enum PerferenceType
+    {
+        Common,
+        Hotkey,
+        Service,
+        Favorite,
+        History,
+        About
     }
 
     /// <summary>

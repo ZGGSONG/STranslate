@@ -65,6 +65,7 @@ namespace STranslate.ViewModels.Preference
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+            IsShowHistory = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowHistory ?? false;
             WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 200;
             IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
             ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
@@ -296,6 +297,12 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool isShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+
+        /// <summary>
+        /// 是否显示历史记录图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowHistory = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowHistory ?? false;
 
         /// <summary>
         /// 取词时间间隔
