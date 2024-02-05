@@ -1,13 +1,14 @@
 ﻿using STranslate.Model;
 using STranslate.Util;
+using System;
 using System.Linq;
 using System.Windows;
 
 namespace STranslate.Helper
 {
-    public class ThemeHelper
+    public class ThemeHelper : IDisposable
     {
-        public static void StartListenRegistry()
+        public void StartListenRegistry()
         {
             if (registryMonitor.IsMonitoring)
                 return;
@@ -17,26 +18,28 @@ namespace STranslate.Helper
             InitialTheme();
         }
 
-        public static void StopListenRegistry()
+        public void StopListenRegistry()
         {
-            registryMonitor.Dispose();
+            registryMonitor.Stop();
             registryMonitor.RegChanged -= OnRegChanged;
         }
 
-        private static void InitialTheme()
+        private void InitialTheme()
         {
             var SystemUsesLightTheme = RegistryMonitor.GetRegistryValue(ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
             OnRegChanged(SystemUsesLightTheme);
         }
 
-        public static void LightTheme() => OnRegChanged("1");
+        public void LightTheme() => OnRegChanged("1");
 
-        public static void DarkTheme() => OnRegChanged("0");
+        public void DarkTheme() => OnRegChanged("0");
 
-        private static void OnRegChanged(string type)
+        private void OnRegChanged(string type)
         {
             Application.Current.Resources.MergedDictionaries.First().Source = type == "1" ? ConstStr.LIGHTURI : ConstStr.DARKURI;
         }
+
+        public void Dispose() => registryMonitor?.Dispose();
 
         private static readonly RegistryMonitor registryMonitor = new(ConstStr.REGISTRYHIVE, ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
     }

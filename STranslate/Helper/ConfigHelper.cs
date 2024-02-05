@@ -169,16 +169,16 @@ public class ConfigHelper
         switch (themeType)
         {
             case ThemeType.Auto:
-                ThemeHelper.StartListenRegistry();
+                Singleton<ThemeHelper>.Instance.StartListenRegistry();
                 break;
             case ThemeType.Light:
-                ThemeHelper.LightTheme();
+                Singleton<ThemeHelper>.Instance.LightTheme();
                 goto default;
             case ThemeType.Dark:
-                ThemeHelper.DarkTheme();
+                Singleton<ThemeHelper>.Instance.DarkTheme();
                 goto default;
             default:
-                ThemeHelper.StopListenRegistry();
+                Singleton<ThemeHelper>.Instance.StopListenRegistry();
                 break;
         }
     }

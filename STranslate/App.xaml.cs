@@ -64,6 +64,9 @@ namespace STranslate
             //释放监听系统代理资源
             ProxyUtil.UnLoadDynamicProxy();
 
+            //释放主题帮助类
+            Singleton<ThemeHelper>.Instance.Dispose();
+
             //打印退出日志并释放日志资源
             if (LogService.Logger != null)
             {
