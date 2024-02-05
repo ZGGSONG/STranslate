@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:STranslate.Views.Preference"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
              d:DataContext="{d:DesignInstance Type=vm:CommonViewModel}"
@@ -106,9 +105,12 @@
                     <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
                         <StackPanel>
                             <DockPanel Margin="20,10">
-                                <TextBlock Text="明暗主题" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题切换[立即生效]" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsBright}" />
+                                <TextBlock Text="主题选择" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、自动主题切换" />
+                                <ComboBox Height="30"
+                                          HorizontalAlignment="Right"
+                                          ItemsSource="{Binding ThemeList}"
+                                          SelectedValue="{Binding ThemeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -174,12 +176,6 @@
                                 <TextBlock Text="显示设置图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowPreference}" />
-                            </DockPanel>
-
-                            <DockPanel Margin="20,10">
-                                <TextBlock Text="显示主题图标" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示主题图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowSwitchTheme}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">

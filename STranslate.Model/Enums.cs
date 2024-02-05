@@ -316,6 +316,16 @@ namespace STranslate.Model
     }
 
     /// <summary>
+    /// 主题类型
+    /// </summary>
+    public enum ThemeType
+    {
+        Light,
+        Dark,
+        Auto,
+    }
+
+    /// <summary>
     /// 获取Description
     /// </summary>
     public static class EnumExtensions

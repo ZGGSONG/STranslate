@@ -26,13 +26,6 @@
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="偏好设置"
                     Visibility="{Binding IsShowPreference, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Button HorizontalAlignment="Right"
-                    Command="{Binding SwitchThemeCommand}"
-                    Content="&#xe994;"
-                    FontSize="17"
-                    Style="{DynamicResource ButtonIconStyle}"
-                    ToolTip="切换主题"
-                    Visibility="{Binding IsShowSwitchTheme, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button Width="30"
                     Height="30"
                     HorizontalAlignment="Right"

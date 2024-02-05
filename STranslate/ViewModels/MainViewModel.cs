@@ -282,22 +282,11 @@ namespace STranslate.ViewModels
         }
 
         /// <summary>
-        /// 切换主题
-        /// </summary>
-        /// <param name="obj"></param>
-        [RelayCommand]
-        private void SwitchTheme()
-        {
-            Singleton<CommonViewModel>.Instance.IsBright = !Singleton<CommonViewModel>.Instance.IsBright;
-        }
-
-        /// <summary>
         /// 更新主界面图标显示
         /// </summary>
         internal void UpdateMainViewIcons()
         {
             IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
-            IsShowSwitchTheme = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSwitchTheme ?? false;
             IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
             IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
@@ -309,9 +298,6 @@ namespace STranslate.ViewModels
         #region 显示图标
         [ObservableProperty]
         private bool isShowPreference;
-
-        [ObservableProperty]
-        private bool isShowSwitchTheme;
 
         [ObservableProperty]
         private bool isShowMousehook;

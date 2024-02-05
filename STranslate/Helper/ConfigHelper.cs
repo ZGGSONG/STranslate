@@ -44,21 +44,10 @@ public class ConfigHelper
     public void InitialOperate()
     {
         //初始化主题
-        Application.Current.Resources.MergedDictionaries.First().Source = CurrentConfig?.IsBright ?? true
-            ? ConstStr.LIGHTURI
-            : ConstStr.DARKURI;
+        ThemeOperate(CurrentConfig?.ThemeType ?? ThemeType.Light);
 
         //初始化字体
-        try
-        {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
-                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME] : new FontFamily(CurrentConfig!.CustomFont);
-        }
-        catch (Exception)
-        {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
-            CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
-        }
+        FontOperate();
 
         //初始化代理设置
         ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
@@ -145,7 +134,7 @@ public class ConfigHelper
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
         CurrentConfig.HistorySize = model.HistorySize;
         CurrentConfig.AutoScale = model.AutoScale;
-        CurrentConfig.IsBright = model.IsBright;
+        CurrentConfig.ThemeType = model.ThemeType;
         CurrentConfig.IsFollowMouse = model.IsFollowMouse;
         CurrentConfig.CloseUIOcrRetTranslate = model.CloseUIOcrRetTranslate;
         CurrentConfig.UnconventionalScreen = model.UnconventionalScreen;
@@ -157,7 +146,6 @@ public class ConfigHelper
         CurrentConfig.CustomFont = model.CustomFont;
         CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
         CurrentConfig.IsShowPreference = model.IsShowPreference;
-        CurrentConfig.IsShowSwitchTheme = model.IsShowSwitchTheme;
         CurrentConfig.IsShowMousehook = model.IsShowMousehook;
         CurrentConfig.IsShowScreenshot = model.IsShowScreenshot;
         CurrentConfig.IsShowOCR = model.IsShowOCR;
@@ -169,9 +157,45 @@ public class ConfigHelper
         CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
         CurrentConfig.MaxHeight = model.MaxHeight;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
+        ThemeOperate(CurrentConfig.ThemeType);
+
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
+    }
+
+    private void ThemeOperate(ThemeType themeType)
+    {
+        switch (themeType)
+        {
+            case ThemeType.Auto:
+                ThemeHelper.StartListenRegistry();
+                break;
+            case ThemeType.Light:
+                ThemeHelper.LightTheme();
+                goto default;
+            case ThemeType.Dark:
+                ThemeHelper.DarkTheme();
+                goto default;
+            default:
+                ThemeHelper.StopListenRegistry();
+                break;
+        }
+    }
+
+    //初始化字体
+    private void FontOperate()
+    {
+        try
+        {
+            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
+                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME] : new FontFamily(CurrentConfig!.CustomFont);
+        }
+        catch (Exception)
+        {
+            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
+            CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
+        }
     }
 
     #endregion 公共方法
@@ -252,7 +276,7 @@ public class ConfigHelper
             HistorySize = 100,
             AutoScale = 0.8,
             Hotkeys = hk,
-            IsBright = true,
+            ThemeType = ThemeType.Light,
             IsStartup = false,
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
@@ -265,7 +289,6 @@ public class ConfigHelper
             CustomFont = ConstStr.DEFAULTFONTNAME,
             IsKeepTopmostAfterMousehook = false,
             IsShowPreference = false,
-            IsShowSwitchTheme = false,
             IsShowMousehook = false,
             IsShowScreenshot = false,
             IsShowOCR = false,

@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Win32;
+
 namespace STranslate.Model
 {
     public static class ConstStr
@@ -40,5 +42,9 @@ namespace STranslate.Model
 
         public const string LOADING = "加载中...";
         public const string UNLOADING = "加载结束...";
+
+        public const RegistryHive REGISTRYHIVE = RegistryHive.CurrentUser;
+        public const string REGISTRY = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
+        public const string REGISTRYKEY = "SystemUsesLightTheme";
     }
 }

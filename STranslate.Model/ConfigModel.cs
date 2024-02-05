@@ -27,7 +27,7 @@ public class ConfigModel
     /// <summary>
     /// 是否亮色模式
     /// </summary>
-    public bool IsBright { get; set; }
+    public ThemeType ThemeType { get; set; }
 
     /// <summary>
     /// 是否跟随鼠标
@@ -98,11 +98,6 @@ public class ConfigModel
     /// 是否显示设置图标
     /// </summary>
     public bool IsShowPreference { get; set; } = true;
-
-    /// <summary>
-    /// 是否显示切换主题图标
-    /// </summary>
-    public bool IsShowSwitchTheme { get; set; } = true;
 
     /// <summary>
     /// 是否显示打开鼠标划词图标

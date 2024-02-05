@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -11,6 +13,7 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace STranslate.ViewModels.Preference
 {
@@ -49,7 +52,7 @@ namespace STranslate.ViewModels.Preference
             NeedAdmin = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
             HistorySize = Singleton<ConfigHelper>.Instance.CurrentConfig?.HistorySize ?? 100;
             AutoScale = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
-            IsBright = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsBright ?? false;
+            ThemeType = Singleton<ConfigHelper>.Instance.CurrentConfig?.ThemeType ?? ThemeType.Light;
             IsFollowMouse = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false;
             CloseUIOcrRetTranslate = Singleton<ConfigHelper>.Instance.CurrentConfig?.CloseUIOcrRetTranslate ?? false;
             UnconventionalScreen = Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false;
@@ -60,7 +63,6 @@ namespace STranslate.ViewModels.Preference
             CustomFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
             IsKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
             IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
-            IsShowSwitchTheme = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSwitchTheme ?? false;
             IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
             IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
@@ -97,6 +99,9 @@ namespace STranslate.ViewModels.Preference
 
             // 加载最大高度集合
             MaxHeightList = EnumExtensions.GetEnumList<MaxHeight>();
+
+            // 加载主题集合
+            ThemeList = EnumExtensions.GetEnumList<ThemeType>();
 
             // 加载历史记录类型
             LoadHistorySizeType();
@@ -165,25 +170,10 @@ namespace STranslate.ViewModels.Preference
         [ObservableProperty]
         private double autoScale = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
 
-        private bool isBright = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsBright ?? false;
+        public List<ThemeType> ThemeList { get; set; }
 
-        public bool IsBright
-        {
-            get => isBright;
-            set
-            {
-                if (isBright != value)
-                {
-                    OnPropertyChanging(nameof(IsBright));
-                    isBright = value;
-
-                    // 切换主题
-                    Application.Current.Resources.MergedDictionaries.First().Source = value ? ConstStr.LIGHTURI : ConstStr.DARKURI;
-
-                    OnPropertyChanged(nameof(IsBright));
-                }
-            }
-        }
+        [ObservableProperty]
+        private ThemeType themeType = Singleton<ConfigHelper>.Instance.CurrentConfig?.ThemeType ?? ThemeType.Light;
 
         [ObservableProperty]
         private bool isFollowMouse = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false;
@@ -269,12 +259,6 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool isShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
-
-        /// <summary>
-        /// 是否显示切换主题图标
-        /// </summary>
-        [ObservableProperty]
-        private bool isShowSwitchTheme = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSwitchTheme ?? false;
 
         /// <summary>
         /// 是否显示打开鼠标划词图标
