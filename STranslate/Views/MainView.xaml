@@ -20,6 +20,7 @@
         FontSize="{DynamicResource FontSize_Content}"
         Icon="{DynamicResource STranslate}"
         MouseLeftButtonDown="Mwin_MouseLeftButtonDown"
+        ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeChanged="Mwin_SizeChanged"
         SizeToContent="Height"
