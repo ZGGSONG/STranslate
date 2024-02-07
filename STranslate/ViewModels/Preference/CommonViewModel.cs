@@ -117,6 +117,7 @@ namespace STranslate.ViewModels.Preference
             var height = MaxHeight.GetHashCode() > workAreaHeight ? workAreaHeight : MaxHeight.ToInt();
             OnViewMaxHeightChanged?.Invoke(height);
         }
+
         private void LoadHistorySizeType()
         {
             HistorySizeType = HistorySize switch
@@ -127,6 +128,7 @@ namespace STranslate.ViewModels.Preference
                 500 => 3,
                 1000 => 4,
                 long.MaxValue => 5,
+                0 => 6,
                 _ => 1
             };
         }
@@ -157,6 +159,7 @@ namespace STranslate.ViewModels.Preference
                         3 => 500,
                         4 => 1000,
                         5 => long.MaxValue,
+                        6 => 0,
                         _ => 100
                     };
 
