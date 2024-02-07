@@ -16,6 +16,12 @@ namespace STranslate.ViewModels
         private BindingList<ITranslator> _translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
 
         [RelayCommand]
+        private void TTS(string content)
+        {
+            ToastHelper.Show("暂未实现");
+        }
+
+        [RelayCommand]
         private void CopyResult(object obj)
         {
             if (obj is string str && !string.IsNullOrEmpty(str))

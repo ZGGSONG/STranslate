@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
 using STranslate.Model;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,21 +16,14 @@ namespace STranslate.Helper
         /// <returns></returns>
         public static async Task<EcdictModel?> GetECDICTAsync(string content, CancellationToken? token = null)
         {
-            try
-            {
-                using var connection = new SqliteConnection(ConnectionString);
-                await connection.OpenAsync(token ?? CancellationToken.None);
+            using var connection = new SqliteConnection(ConnectionString);
+            await connection.OpenAsync(token ?? CancellationToken.None);
 
-                // 构造查询语句
-                var query = $"SELECT * FROM stardict WHERE word = '{content.ToLower()}'";
-                // 使用 Dapper 执行查询数据的 SQL 语句
-                // https://stackoverflow.com/questions/25540793/cancellationtoken-with-async-dapper-methods
-                return await connection.QueryFirstOrDefaultAsync<EcdictModel>(new CommandDefinition(query, cancellationToken: token ?? CancellationToken.None));
-            }
-            catch (Exception)
-            {
-                throw new Exception("简明英汉词典资源包不存在");
-            }
+            // 构造查询语句
+            var query = $"SELECT * FROM stardict WHERE word = '{content.ToLower()}'";
+            // 使用 Dapper 执行查询数据的 SQL 语句
+            // https://stackoverflow.com/questions/25540793/cancellationtoken-with-async-dapper-methods
+            return await connection.QueryFirstOrDefaultAsync<EcdictModel>(new CommandDefinition(query, cancellationToken: token ?? CancellationToken.None));
         }
 
         private static string _connectionString = $"Data Source={ConstStr.ECDICTPath}";
