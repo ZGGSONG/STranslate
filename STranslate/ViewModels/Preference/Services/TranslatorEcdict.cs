@@ -43,6 +43,12 @@ namespace STranslate.ViewModels.Preference.Services
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
+
+            HasDB = File.Exists(ConstStr.ECDICTPath);
+            if (HasDB)
+            {
+                DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
+            }
         }
 
         [ObservableProperty]
@@ -122,25 +128,49 @@ namespace STranslate.ViewModels.Preference.Services
         public string Tips { get; set; } = "本地服务，需下载词典文件";
 
         [ObservableProperty]
+        [JsonIgnore]
+        [property: JsonIgnore]
         private double _processValue;
 
         [ObservableProperty]
-        private bool isShowProcessBar;
+        [JsonIgnore]
+        [property: JsonIgnore]
+        private bool _isShowProcessBar;
+
+        private static readonly string CurrentPath = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string SourceFile = Path.Combine(CurrentPath, "ecdict-sqlite-28.zip");
+
+        [ObservableProperty]
+        [JsonIgnore]
+        [property: JsonIgnore]
+        private bool _hasDB;
+
+        [ObservableProperty]
+        [JsonIgnore]
+        [property: JsonIgnore]
+        private string _dbFileSize = "";
 
         [RelayCommand]
         private async Task DownloadResource()
         {
+            ProcessValue = 0;
             IsShowProcessBar = true;
 
             var url = "https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip";
             var httpClient = new HttpClient(new SocketsHttpHandler());
 
-            ToastHelper.Show("开始下载", WindowType.Preference);
             try
             {
+                if (File.Exists(SourceFile))
+                {
+                    ProcessValue = 100;
+                    goto extract;
+                }
+
+                ToastHelper.Show("开始下载", WindowType.Preference);
                 using (var response = await httpClient.GetAsync(new Uri(url), HttpCompletionOption.ResponseHeadersRead))
                 using (var stream = await response.Content.ReadAsStreamAsync())
-                using (var fileStream = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ecdict-sqlite-28.zip"), FileMode.Create))
+                using (var fileStream = new FileStream(SourceFile, FileMode.Create))
                 {
                     long totalBytes = response.Content.Headers.ContentLength ?? -1;
                     long totalDownloadedByte = 0;
@@ -156,15 +186,18 @@ namespace STranslate.ViewModels.Preference.Services
                         ProcessValue = process;
                     }
                 }
+
+                extract:
                 IsShowProcessBar = false;
+                ToastHelper.Show("下载完成", WindowType.Preference);
 
                 // 下载完成后的处理
-                await ProcessDownloadedFile();
+                ProcessDownloadedFile();
             }
             catch (Exception)
             {
                 // 下载发生异常
-                ToastHelper.Show("下载时发生异常，请重试。", WindowType.Preference);
+                ToastHelper.Show("下载时发生异常", WindowType.Preference);
             }
             finally
             {
@@ -172,28 +205,51 @@ namespace STranslate.ViewModels.Preference.Services
             }
         }
 
-        private async Task ProcessDownloadedFile()
+        private void ProcessDownloadedFile()
         {
-            string unpath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)!.Parent!.FullName;
+            ToastHelper.Show("解压资源包", WindowType.Preference);
 
-            var unresult = await Task.Run(async () =>
-            {
-                await Task.Delay(3000);
-                return Unzip.ExtractZipFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ecdict-sqlite-28.zip"), unpath);
-            });
+            var unresult = Unzip.ExtractZipFile(SourceFile, ConstStr.AppData);
 
             if (unresult)
             {
-                ToastHelper.Show("下载资源包完成！", WindowType.Preference);
+                ToastHelper.Show("加载资源包成功", WindowType.Preference);
+
+                File.Delete(SourceFile);
+
+                HasDB = true;
+                DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
             }
             else
             {
-                ToastHelper.Show("解压文件时发生异常，请重试！", WindowType.Preference);
+                ToastHelper.Show("解压文件时发生异常", WindowType.Preference);
+            }
+        }
+
+        [RelayCommand]
+        private void DeleteResource()
+        {
+            try
+            {
+                File.Delete(ConstStr.ECDICTPath);
+
+                ToastHelper.Show("删除成功", WindowType.Preference);
+
+                HasDB = false;
+            }
+            catch (Exception)
+            {
+                ToastHelper.Show("文件被占用删除失败", WindowType.Preference);
             }
         }
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
+            if (!File.Exists(ConstStr.ECDICTPath))
+            {
+                return TranslationResult.Fail("简明英汉词典资源不存在");
+            }
+
             if (request is RequestModel req)
             {
                 var source = req.SourceLang;
@@ -202,19 +258,20 @@ namespace STranslate.ViewModels.Preference.Services
 
                 var isWord = StringUtil.IsWord(content);
                 var isAutoToZhOrEn = source.Equals("AUTO") && (target.Equals("ZH") || target.Equals("EN"));
-                if (!(isWord && isAutoToZhOrEn)) goto Empty;
+                if (!(isWord && isAutoToZhOrEn))
+                    goto Empty;
 
                 var result = await EcdictHelper.GetECDICTAsync(content, token);
 
-                if (result is null) goto Empty;
-
+                if (result is null)
+                    goto Empty;
 
                 return TranslationResult.Success(result.ToString());
             }
 
             throw new Exception($"请求数据出错: {request}");
 
-        Empty:
+            Empty:
             return TranslationResult.Fail("");
         }
 

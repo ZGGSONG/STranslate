@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.Win32;
+using System.Reflection;
+using System;
 
 namespace STranslate.Model
 {
@@ -46,5 +48,10 @@ namespace STranslate.Model
         public const RegistryHive REGISTRYHIVE = RegistryHive.CurrentUser;
         public const string REGISTRY = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
         public const string REGISTRYKEY = "SystemUsesLightTheme";
+
+        public static string AppName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location);
+        public static string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
+        public static string CnfName = $"{AppData}\\{AppName.ToLower()}.json";
+        public static string ECDICTPath = System.IO.Path.Combine(AppData, "stardict.db");
     }
 }

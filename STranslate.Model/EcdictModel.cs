@@ -114,9 +114,9 @@ namespace STranslate.Model
             var sb = new StringBuilder();
             sb.AppendLine($"{Word}\n");
             if (!string.IsNullOrEmpty(Phonetic))
-                sb.AppendLine($"音 [{Phonetic}]");
+                sb.AppendLine($"[{Phonetic}]\n");
             if (!string.IsNullOrEmpty(Translation))
-                sb.AppendLine(Translation);
+                sb.AppendLine($"{Translation}\n");
             if (!string.IsNullOrEmpty(Exchange))
                 sb.AppendLine(ExchangeConverter(Exchange));
 

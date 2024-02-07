@@ -22,14 +22,14 @@ public class ConfigHelper
 
     public ConfigHelper()
     {
-        if (!Directory.Exists(ApplicationData)) //判断是否存在
+        if (!Directory.Exists(ConstStr.AppData)) //判断是否存在
         {
-            Directory.CreateDirectory(ApplicationData); //创建新路径
+            Directory.CreateDirectory(ConstStr.AppData); //创建新路径
             ShortcutUtil.SetDesktopShortcut(); //创建桌面快捷方式
         }
-        if (!File.Exists(CnfName)) //文件不存在
+        if (!File.Exists(ConstStr.CnfName)) //文件不存在
         {
-            FileStream fs = new(CnfName, FileMode.Create, FileAccess.ReadWrite);
+            FileStream fs = new(ConstStr.CnfName, FileMode.Create, FileAccess.ReadWrite);
             fs.Close();
             WriteConfig(InitialConfig());
         }
@@ -207,7 +207,7 @@ public class ConfigHelper
         try
         {
             var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter() } };
-            var content = File.ReadAllText(CnfName);
+            var content = File.ReadAllText(ConstStr.CnfName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
             // 读取时解密AppID、AppKey
             config.Services?.ToList().ForEach(service =>
@@ -232,8 +232,8 @@ public class ConfigHelper
     /// </summary>
     private string BackupCurrentConfig()
     {
-        var backupFilePath = $"{ApplicationData}\\{_appName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
-        File.Copy(CnfName, backupFilePath, true );
+        var backupFilePath = $"{ConstStr.AppData}\\{ConstStr.AppName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
+        File.Copy(ConstStr.CnfName, backupFilePath, true );
         return backupFilePath;
     }
 
@@ -246,7 +246,7 @@ public class ConfigHelper
             service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
             service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
         });
-        File.WriteAllText(CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
+        File.WriteAllText(ConstStr.CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
 
     #endregion 私有方法
@@ -312,19 +312,6 @@ public class ConfigHelper
     }
 
     public ConfigModel? CurrentConfig { get; private set; }
-
-    /// <summary>
-    /// 配置文件
-    /// </summary>
-    private string CnfName => $"{ApplicationData}\\{_appName.ToLower()}.json";
-
-    /// <summary>
-    /// C:\Users\user\AppData\Local\STranslate
-    /// </summary>
-    private string ApplicationData => $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{_appName}";
-
-
-    private readonly string _appName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location);
 
     #endregion 字段 && 属性
 }

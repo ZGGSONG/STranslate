@@ -34,7 +34,8 @@ namespace STranslate.Helper
             }
         }
 
-        private static string _connectionString = "Data Source=stardict.db";
+        private static string _connectionString = $"Data Source={ConstStr.ECDICTPath}";
+
         public static string ConnectionString
         {
             get => _connectionString;
