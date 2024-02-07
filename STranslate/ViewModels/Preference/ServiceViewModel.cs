@@ -34,6 +34,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorYoudao());
             TransServices.Add(new TranslatorCaiyun());
             TransServices.Add(new TranslatorVolcengine());
+            TransServices.Add(new TranslatorEcdict());
 
             ResetView();
         }
@@ -103,6 +104,7 @@ namespace STranslate.ViewModels.Preference
                     ServiceType.NiutransService => string.Format("{0}TextNiutransServicesPage", head),
                     ServiceType.CaiyunService => string.Format("{0}TextCaiyunServicesPage", head),
                     ServiceType.VolcengineService => string.Format("{0}TextVolcengineServicesPage", head),
+                    ServiceType.EcdictService => string.Format("{0}TextEcdictServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -135,6 +137,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorNiutrans niutrans => niutrans.DeepClone(),
                     TranslatorCaiyun caiyun => caiyun.DeepClone(),
                     TranslatorVolcengine volcengine => volcengine.DeepClone(),
+                    TranslatorEcdict ecdict => ecdict.DeepClone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 

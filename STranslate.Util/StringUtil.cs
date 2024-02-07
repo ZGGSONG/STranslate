@@ -134,9 +134,10 @@ namespace STranslate.Util
         {
             //1. 首先去除所有数字、标点及特殊符号
             //https://www.techiedelight.com/zh/strip-punctuations-from-a-string-in-csharp/
-            text = Regex.Replace(text,
-                "[1234567890!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~，。、《》？；‘’：“”【】、{}|·！@#￥%……&*（）——+~\\\\]",
-                string.Empty).Replace(Environment.NewLine, "").Replace(" ", "");
+            text = Regex
+                .Replace(text, "[1234567890!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~，。、《》？；‘’：“”【】、{}|·！@#￥%……&*（）——+~\\\\]", string.Empty)
+                .Replace(Environment.NewLine, "")
+                .Replace(" ", "");
 
             //2. 取出上一步中所有英文字符
             var engStr = ExtractEngString(text);
@@ -167,5 +168,22 @@ namespace STranslate.Util
         /// <param name="content"></param>
         /// <returns></returns>
         public static string RemoveSpace(string content) => content.Replace(" ", "");
+
+        /// <summary>
+        /// 检查是否为单词
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static bool IsWord(string input)
+        {
+            foreach (char c in input)
+            {
+                if (!char.IsLetter(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

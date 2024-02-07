@@ -40,6 +40,9 @@
     <Resource Include="Resources\deepl.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\ecdict.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\favicon.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

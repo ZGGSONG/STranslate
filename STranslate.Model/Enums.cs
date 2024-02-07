@@ -113,6 +113,7 @@ namespace STranslate.Model
         CaiyunService,
         VolcengineService,
         STranslateService,
+        EcdictService,
     }
 
     /// <summary>
@@ -135,6 +136,7 @@ namespace STranslate.Model
         Caiyun,
         Microsoft,
         Volcengine,
+        Ecdict,
     }
 
     /// <summary>

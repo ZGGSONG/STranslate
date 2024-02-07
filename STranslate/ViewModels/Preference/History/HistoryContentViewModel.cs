@@ -90,6 +90,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.NiutransService => new TranslatorNiutrans(),
             (int)ServiceType.CaiyunService => new TranslatorCaiyun(),
             (int)ServiceType.VolcengineService => new TranslatorVolcengine(),
+            (int)ServiceType.EcdictService => new TranslatorEcdict(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
@@ -101,7 +102,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            translator.Data = string.IsNullOrEmpty(data?.Result)
+            translator.Data = string.IsNullOrEmpty(data?.Result?.ToString())
                 ? TranslationResult.Fail(ConstStr.HISTORYERRORCONTENT)
                 : data;
         }

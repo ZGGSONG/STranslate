@@ -476,6 +476,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.NiutransService => new TranslatorNiutrans(),
                 (int)ServiceType.CaiyunService => new TranslatorCaiyun(),
                 (int)ServiceType.VolcengineService => new TranslatorVolcengine(),
+                (int)ServiceType.EcdictService => new TranslatorEcdict(),
                 _ => new TranslatorApi()
             };
 
@@ -484,7 +485,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            translator.Data = string.IsNullOrEmpty(data?.Result) ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT) : data;
+            translator.Data = string.IsNullOrEmpty(data?.Result?.ToString()) ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT) : data;
         }
         catch (Exception)
         {

@@ -9,7 +9,7 @@ public partial class TranslationResult : ObservableObject
     private bool _isSuccess = true;
 
     [ObservableProperty]
-    private string _result = string.Empty;
+    private object? _result;
 
     public Exception? Exception { get; } // 可选，如果你想保留异常的详细信息
 
@@ -18,7 +18,7 @@ public partial class TranslationResult : ObservableObject
     /// </summary>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static TranslationResult Success(string result)
+    public static TranslationResult Success(object result)
     {
         return new TranslationResult(result);
     }
@@ -44,7 +44,7 @@ public partial class TranslationResult : ObservableObject
     /// 成功时使用的构造函数
     /// </summary>
     /// <param name="result"></param>
-    private TranslationResult(string result)
+    private TranslationResult(object result)
     {
         IsSuccess = true;
         Result = result;
