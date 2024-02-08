@@ -38,13 +38,14 @@
 
                     <!-- // Services // -->
                     <Border Margin="10"
+                            Background="{DynamicResource BorderBackground}"
                             BorderBrush="{DynamicResource BorderBrushColor}"
                             BorderThickness="1"
                             CornerRadius="6">
                         <ListBox x:Name="CurrentServiceListBox"
                                  AllowDrop="True"
-                                 Background="{DynamicResource BorderBackground}"
                                  BorderThickness="0"
+                                 Background="Transparent"
                                  ItemsSource="{Binding CurTransServiceList}"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -102,7 +103,7 @@
                     </Border>
 
                     <!-- // Content // -->
-                    <ContentControl Grid.Column="1" Margin="0,10" Content="{Binding ServiceContent}" />
+                    <ContentControl Grid.Column="1" Margin="0,10,10,10" Content="{Binding ServiceContent}" />
                 </Grid>
 
                 <!-- // Footer // -->
