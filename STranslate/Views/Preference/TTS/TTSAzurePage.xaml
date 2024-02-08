@@ -69,21 +69,11 @@
                 <TextBlock Text="声音: " />
 
                 <ComboBox Grid.Column="1"
-                          Width="120"
+                          MinWidth="120"
                           HorizontalAlignment="Left"
                           BorderThickness="1"
-                          SelectedValue="{Binding VoiceName}">
-                    <ComboBoxItem Content="zh-CN-liaoning-XiaobeiNeural" IsSelected="True" />
-                    <ComboBoxItem Content="zh-CN-liaoning-YunbiaoNeural" />
-                    <ComboBoxItem Content="zh-CN-henan-YundengNeural" />
-                    <ComboBoxItem Content="zh-CN-shaanxi-XiaoniNeural" />
-                    <ComboBoxItem Content="zh-CN-shandong-YunxiangNeural" />
-                    <ComboBoxItem Content="zh-CN-XiaoxiaoNeural" />
-                    <ComboBoxItem Content="zh-CN-YunxiNeural" />
-                    <ComboBoxItem Content="zh-CN-YunjianNeural" />
-                    <ComboBoxItem Content="zh-CN-XiaoyiNeural" />
-                    <ComboBoxItem Content="zh-CN-YunyangNeural" />
-                </ComboBox>
+                          ItemsSource="{Binding VoiceList}"
+                          SelectedValue="{Binding VoiceName}" />
             </Grid>
 
             <Grid Margin="0,10,0,0">

@@ -6,6 +6,7 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -89,7 +90,45 @@ namespace STranslate.ViewModels.Preference.TTS
         #endregion Show/Hide Encrypt Info
 
         [ObservableProperty]
-        private string _voiceName = "zh-CN-liaoning-XiaobeiNeural";
+        private string _voiceName = "zh-CN-XiaohanNeural";
+
+        [JsonIgnore]
+        public List<string> VoiceList { get; set; } =
+        [
+            "zh-CN-liaoning-XiaobeiNeural",
+            "zh-CN-liaoning-YunbiaoNeural",
+            "zh-CN-henan-YundengNeural",
+            "zh-CN-shaanxi-XiaoniNeural",
+            "zh-CN-shandong-YunxiangNeural",
+            "zh-CN-XiaoxiaoNeural",
+            "zh-CN-YunxiNeural",
+            "zh-CN-YunjianNeural",
+            "zh-CN-XiaoyiNeural",
+            "zh-CN-YunyangNeural",
+            "zh-CN-XiaochenNeural",
+            "zh-CN-XiaohanNeural",
+            "zh-CN-XiaomengNeural",
+            "zh-CN-XiaomoNeural",
+            "zh-CN-XiaoqiuNeural",
+            "zh-CN-XiaoruiNeural",
+            "zh-CN-XiaoshuangNeural",
+            "zh-CN-XiaoxuanNeural",
+            "zh-CN-XiaoyanNeural",
+            "zh-CN-XiaoyouNeural",
+            "zh-CN-XiaozhenNeural",
+            "zh-CN-YunfengNeural",
+            "zh-CN-YunhaoNeural",
+            "zh-CN-YunxiaNeural",
+            "zh-CN-YunyeNeural",
+            "zh-CN-YunzeNeural",
+            "zh-CN-XiaochenMultilingualNeural",
+            "zh-CN-XiaorouNeural",
+            "zh-CN-XiaoxiaoDialectsNeural",
+            "zh-CN-XiaoxiaoMultilingualNeural",
+            "zh-CN-XiaoyuMultilingualNeural",
+            "zh-CN-YunjieNeural",
+            "zh-CN-sichuan-YunxiNeural",
+        ];
 
         public async Task SpeakTextAsync(string text, CancellationToken token)
         {

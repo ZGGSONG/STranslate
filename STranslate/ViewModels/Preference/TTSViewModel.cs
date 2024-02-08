@@ -40,7 +40,7 @@ namespace STranslate.ViewModels.Preference
             //TODO: 新TTS服务需要适配
             TtsServices.Add(new TTSAzure());
 
-            ActivedTTS = CurTTSServiceList.First();
+            ActivedTTS = CurTTSServiceList.FirstOrDefault();
 
             ResetView();
         }

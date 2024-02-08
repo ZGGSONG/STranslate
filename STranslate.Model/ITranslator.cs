@@ -10,7 +10,7 @@ namespace STranslate.Model
 
         ServiceType Type { get; set; }
 
-        public bool IsEnabled { get; set; }
+        bool IsEnabled { get; set; }
 
         IconType Icon { get; set; }
 
