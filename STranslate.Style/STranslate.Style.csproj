@@ -28,6 +28,9 @@
     <Resource Include="Resources\ali.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\azure.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\baidu.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

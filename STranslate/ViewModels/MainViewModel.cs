@@ -279,6 +279,10 @@ namespace STranslate.ViewModels
             TopMostContent = ConstStr.UNTOPMOSTCONTENT;
             win.Hide();
             InputVM.TranslateCancelCommand.Execute(null);
+
+            //取消语音播放
+            InputVM.TTSCancelCommand.Execute(null);
+            OutputVM.TTSCancelCommand.Execute(null);
         }
 
         /// <summary>

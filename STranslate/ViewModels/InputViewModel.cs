@@ -62,6 +62,11 @@ public partial class InputViewModel : ObservableObject
     #endregion 属性、字段
 
     #region 命令
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task TTS(string text, CancellationToken token)
+    {
+        await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, token);
+    }
 
     #region Translatehandle
 

@@ -107,6 +107,10 @@
                     <menu:Btn Command="{Binding ServicePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="服务设置" />
                     </menu:Btn>
+
+                    <menu:Btn Command="{Binding TTSPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=TTS}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="语音设置" />
+                    </menu:Btn>
                     <!-- //  分隔符号  // -->
                     <!--<Separator Background="DarkGray" Margin="10,20"/>-->
 

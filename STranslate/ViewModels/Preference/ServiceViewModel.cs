@@ -237,12 +237,18 @@ namespace STranslate.ViewModels.Preference
         private UIElement? _serviceContent;
 
         [ObservableProperty]
-        private BindingList<ITranslator> _transServices = new();
-
-        [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(DeleteCommand))]
         private int _serviceCounter;
 
+        /// <summary>
+        /// 支持的服务
+        /// </summary>
+        [ObservableProperty]
+        private BindingList<ITranslator> _transServices = [];
+
+        /// <summary>
+        /// 当前已添加的服务列表
+        /// </summary>
         [ObservableProperty]
         private BindingList<ITranslator> _curTransServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
     }

@@ -17,4 +17,5 @@
     <BitmapImage x:Key="Microsoft" UriSource="pack://application:,,,/STranslate.Style;component/Resources/microsoft.png" />
     <BitmapImage x:Key="Volcengine" UriSource="pack://application:,,,/STranslate.Style;component/Resources/volcengine.png" />
     <BitmapImage x:Key="Ecdict" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ecdict.png" />
+    <BitmapImage x:Key="Azure" UriSource="pack://application:,,,/STranslate.Style;component/Resources/azure.png" />
 </ResourceDictionary>

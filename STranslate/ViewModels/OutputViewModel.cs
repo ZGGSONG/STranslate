@@ -6,6 +6,8 @@ using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace STranslate.ViewModels
@@ -15,10 +17,10 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private BindingList<ITranslator> _translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
 
-        [RelayCommand]
-        private void TTS(string content)
+        [RelayCommand(IncludeCancelCommand = true)]
+        private async Task TTS(string text, CancellationToken token)
         {
-            ToastHelper.Show("暂未实现");
+            await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, token);
         }
 
         [RelayCommand]

@@ -9,9 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tea;
-using TencentCloud.Tmt.V20180321.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Task = System.Threading.Tasks.Task;
 
 namespace STranslate.ViewModels.Preference.Services

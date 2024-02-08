@@ -4,13 +4,13 @@ using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
 using STranslate.ViewModels.Preference;
-using System.Threading.Tasks;
 
 namespace STranslate.ViewModels
 {
     public partial class PreferenceViewModel : WindowVMBase
     {
         private PerferenceType _pType;
+
         //手动重写取消判断value是否更新，每次都触发避免手动点击切换导航（convertback-donothing）
         //再进入设置首页（convert）导航选中UI不更新的问题
         public PerferenceType PType
@@ -33,16 +33,24 @@ namespace STranslate.ViewModels
                 case PerferenceType.Hotkey:
                     HotkeyPage();
                     break;
+
                 case PerferenceType.Service:
                     ServicePage();
                     break;
+
+                case PerferenceType.TTS:
+                    TTSPage();
+                    break;
+
                 case PerferenceType.Favorite:
                 case PerferenceType.History:
                     HistoryPage();
                     break;
+
                 case PerferenceType.About:
                     AboutPage();
                     break;
+
                 default:
                     CommonPage();
                     break;
@@ -57,6 +65,9 @@ namespace STranslate.ViewModels
 
         [RelayCommand]
         private void ServicePage() => CurrentView = Singleton<ServiceViewModel>.Instance;
+
+        [RelayCommand]
+        private void TTSPage() => CurrentView = Singleton<TTSViewModel>.Instance;
 
         [RelayCommand]
         private void FavoritePage() => CurrentView = Singleton<FavoriteViewModel>.Instance;

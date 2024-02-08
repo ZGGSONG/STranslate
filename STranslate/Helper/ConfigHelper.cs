@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using Newtonsoft.Json;
@@ -13,6 +12,7 @@ using STranslate.Util;
 using STranslate.ViewModels;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.Services;
+using STranslate.ViewModels.Preference.TTS;
 
 namespace STranslate.Helper;
 
@@ -84,6 +84,21 @@ public class ConfigHelper
         var isSuccess = false;
         if (CurrentConfig is null) return isSuccess;
         CurrentConfig.Services = services;
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
+        return isSuccess;
+    }
+
+    /// <summary>
+    /// 写入TTS服务到配置
+    /// </summary>
+    /// <param name="tts"></param>
+    /// <returns></returns>
+    public bool WriteConfig(BindingList<ITTS> tts)
+    {
+        var isSuccess = false;
+        if (CurrentConfig is null) return isSuccess;
+        CurrentConfig.TTSList = tts;
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
@@ -206,7 +221,7 @@ public class ConfigHelper
     {
         try
         {
-            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter() } };
+            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new TTSConverter() } };
             var content = File.ReadAllText(ConstStr.CnfName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
             // 读取时解密AppID、AppKey
@@ -214,6 +229,11 @@ public class ConfigHelper
             {
                 service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
                 service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
+            });
+            config.TTSList?.ToList().ForEach(tts =>
+            {
+                tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
+                tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
             });
             return config;
         }
@@ -240,11 +260,17 @@ public class ConfigHelper
     private void WriteConfig(ConfigModel conf)
     {
         var copy = conf.ServiceDeepClone();
-        // 写入时加密AppID、AppKey
+        // Translate Service加密
         copy.Services?.ToList().ForEach(service =>
         {
             service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
             service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
+        });
+        // TTS加密
+        copy.TTSList?.ToList().ForEach(tts =>
+        {
+            tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesEncrypt(tts.AppID);
+            tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesEncrypt(tts.AppKey);
         });
         File.WriteAllText(ConstStr.CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
@@ -318,15 +344,34 @@ public class ConfigHelper
 
 #region JsonConvert
 
+public class TTSConverter : JsonConverter<ITTS>
+{
+    public override ITTS? ReadJson(JsonReader reader, Type objectType, ITTS? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JObject jsonObject = JObject.Load(reader);
+
+        // 根据Type字段的值来决定具体实现类
+        var type = jsonObject["Type"]!.Value<int>();
+        ITTS tts = type switch
+        {
+            (int)TTSType.AzureTTS => new TTSAzure(),
+            //TODO: 新TTS服务需要适配
+            _ => throw new NotSupportedException($"Unsupported TTSServiceType: {type}")
+        };
+
+        serializer.Populate(jsonObject.CreateReader(), tts);
+        return tts;
+    }
+
+    public override void WriteJson(JsonWriter writer, ITTS? value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public class TranslatorConverter : JsonConverter<ITranslator>
 {
-    public override ITranslator ReadJson(
-        JsonReader reader,
-        Type objectType,
-        ITranslator? existingValue,
-        bool hasExistingValue,
-        JsonSerializer serializer
-    )
+    public override ITranslator ReadJson(JsonReader reader,Type objectType,ITranslator? existingValue,bool hasExistingValue,JsonSerializer serializer)
     {
         JObject jsonObject = JObject.Load(reader);
 
@@ -370,7 +415,7 @@ public static class ObjectExtensions
             return default!;
 
         var json = JsonConvert.SerializeObject(source);
-        var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter() } };
+        var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new TTSConverter() } };
         return JsonConvert.DeserializeObject<T>(json, settings)!;
     }
 }

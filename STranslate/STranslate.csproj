@@ -34,6 +34,7 @@
     <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.35.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -54,6 +55,9 @@
 
   <ItemGroup>
     <Compile Update="Views\Preference\AboutPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\TTSPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Preference\HotkeyPage.xaml.cs">

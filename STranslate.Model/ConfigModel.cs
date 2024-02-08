@@ -162,4 +162,9 @@ public class ConfigModel
     /// 服务
     /// </summary>
     public BindingList<ITranslator>? Services { get; set; }
+
+    /// <summary>
+    /// TTS
+    /// </summary>
+    public BindingList<ITTS>? TTSList { get; set; }
 }

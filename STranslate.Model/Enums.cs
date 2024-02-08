@@ -116,6 +116,11 @@ namespace STranslate.Model
         EcdictService,
     }
 
+    public enum TTSType
+    {
+        AzureTTS,
+    }
+
     /// <summary>
     /// 图标类型
     /// </summary>
@@ -137,6 +142,7 @@ namespace STranslate.Model
         Microsoft,
         Volcengine,
         Ecdict,
+        Azure,
     }
 
     /// <summary>
@@ -312,6 +318,7 @@ namespace STranslate.Model
         Common,
         Hotkey,
         Service,
+        TTS,
         Favorite,
         History,
         About

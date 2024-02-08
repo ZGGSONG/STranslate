@@ -19,8 +19,8 @@
         <Grid>
             <common:PlaceholderTextBox x:Name="InputTb"
                                        FontSize="{DynamicResource FontSize_TextBox}"
-                                       PreviewMouseWheel="InputTb_PreviewMouseWheel"
                                        Placeholder="Enter 翻译/缓存&#10;Ctrl+Enter 强制翻译&#10;Shift+Enter 换行"
+                                       PreviewMouseWheel="InputTb_PreviewMouseWheel"
                                        Style="{DynamicResource TextBoxInputStyle}"
                                        Text="{Binding InputContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <common:PlaceholderTextBox.InputBindings>
@@ -56,6 +56,14 @@
                 </common:PlaceholderTextBox.ContextMenu>
             </common:PlaceholderTextBox>
             <StackPanel Margin="10,5" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <!-- TTS -->
+                <Button Margin="5,0,0,0"
+                        Command="{Binding TTSCommand}"
+                        CommandParameter="{Binding InputContent}"
+                        Content="&#xe610;"
+                        Style="{DynamicResource ButtonCopyIconStyle}"
+                        ToolTip="TTS"
+                        Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}" />
                 <Button Command="{Binding CopyContentCommand}"
                         CommandParameter="{Binding InputContent}"
                         Content="&#xe692;"
