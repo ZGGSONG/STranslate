@@ -110,7 +110,10 @@
                     <!-- //  分隔符号  // -->
                     <!--<Separator Background="DarkGray" Margin="10,20"/>-->
 
-                    <menu:Btn Command="{Binding FavoritePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Favorite}" Style="{StaticResource BtnStyle}" Visibility="Collapsed">
+                    <menu:Btn Command="{Binding FavoritePageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Favorite}"
+                              Style="{StaticResource BtnStyle}"
+                              Visibility="Collapsed">
                         <TextBlock Style="{StaticResource Text_Style}" Text="收藏夹" />
                     </menu:Btn>
 
