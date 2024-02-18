@@ -490,13 +490,13 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            translator.Data = string.IsNullOrEmpty(data?.Result?.ToString()) ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT) : data;
+            translator.Data = data?.Result is null ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT) : data;
         }
         catch (Exception)
         {
             //兼容旧版结果
             var data = jsonObject["Data"]?.Value<string>();
-            translator.Data.Result = string.IsNullOrEmpty(data) ? ConstStr.INPUTERRORCONTENT : data;
+            translator.Data.Result = data is null ? ConstStr.INPUTERRORCONTENT : data;
         }
 
         // 返回构建好的 translator 对象

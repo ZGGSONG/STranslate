@@ -31,8 +31,7 @@ public partial class HistoryContentViewModel : ObservableObject
         SourceLang = history.SourceLang;
         TargetLang = history.TargetLang;
 
-        OutputContents = outputs
-            ?.Select(x => new Tuple<string, IconType, TranslationResult>(x.Name, x.Icon, x.Data)).ToList();
+        OutputContents = outputs?.Select(x => new Tuple<string, IconType, TranslationResult>(x.Name, x.Icon, x.Data)).ToList();
     }
 
     [RelayCommand]
@@ -54,21 +53,25 @@ public partial class HistoryContentViewModel : ObservableObject
         }
     }
 
-    [ObservableProperty] private string _inputContent = "";
+    [ObservableProperty]
+    private string _inputContent = "";
 
-    [ObservableProperty] private DateTime _time;
+    [ObservableProperty]
+    private DateTime _time;
 
-    [ObservableProperty] private string _sourceLang = "";
+    [ObservableProperty]
+    private string _sourceLang = "";
 
-    [ObservableProperty] private string _targetLang = "";
+    [ObservableProperty]
+    private string _targetLang = "";
 
-    [ObservableProperty] private List<Tuple<string, IconType, TranslationResult>>? _outputContents;
+    [ObservableProperty]
+    private List<Tuple<string, IconType, TranslationResult>>? _outputContents;
 }
 
 public class HistoryTranslatorConverter : JsonConverter<ITranslator>
 {
-    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue,
-        bool hasExistingValue, JsonSerializer serializer)
+    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         // 从 JSON 数据中加载一个 JObject
         var jsonObject = JObject.Load(reader);
@@ -102,15 +105,13 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            translator.Data = string.IsNullOrEmpty(data?.Result?.ToString())
-                ? TranslationResult.Fail(ConstStr.HISTORYERRORCONTENT)
-                : data;
+            translator.Data = data?.Result is null ? TranslationResult.Fail(ConstStr.HISTORYERRORCONTENT) : data;
         }
         catch (Exception)
         {
             //兼容旧版结果
             var data = jsonObject["Data"]?.Value<string>();
-            translator.Data.Result = string.IsNullOrEmpty(data) ? ConstStr.HISTORYERRORCONTENT : data;
+            translator.Data.Result = data is null ? ConstStr.HISTORYERRORCONTENT : data;
         }
 
         // 返回构建好的 translator 对象

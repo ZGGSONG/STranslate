@@ -247,7 +247,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (!File.Exists(ConstStr.ECDICTPath))
             {
-                return TranslationResult.Fail("简明英汉词典资源不存在");
+                return TranslationResult.Success("");
             }
 
             if (request is RequestModel req)
@@ -272,7 +272,7 @@ namespace STranslate.ViewModels.Preference.Services
             throw new Exception($"请求数据出错: {request}");
 
             Empty:
-            return TranslationResult.Fail("");
+            return TranslationResult.Success("");
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
