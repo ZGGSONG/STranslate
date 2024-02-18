@@ -132,6 +132,8 @@ namespace STranslate.ViewModels.Preference.TTS
 
         public async Task SpeakTextAsync(string text, CancellationToken token)
         {
+            var hasDone = false;
+
             var speechConfig = SpeechConfig.FromSubscription(AppKey, AppID);
 
             // The language of the voice that speaks.
@@ -140,7 +142,7 @@ namespace STranslate.ViewModels.Preference.TTS
             using var speechSynthesizer = new SpeechSynthesizer(speechConfig);
             _ = Task.Run(async () =>
             {
-                while (!token.IsCancellationRequested)
+                while (!token.IsCancellationRequested && !hasDone)
                 {
                     // 使用小睡眠来减少CPU使用，这里的时间可以根据需要调整
                     Task.Delay(100).Wait();
@@ -149,6 +151,9 @@ namespace STranslate.ViewModels.Preference.TTS
             });
             var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(text);
             OutputSpeechSynthesisResult(speechSynthesisResult, text);
+
+            // 手动跳出循环
+            hasDone = true;
         }
 
         private static void OutputSpeechSynthesisResult(SpeechSynthesisResult speechSynthesisResult, string text)
