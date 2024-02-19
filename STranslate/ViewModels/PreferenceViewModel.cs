@@ -4,6 +4,9 @@ using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
 using STranslate.ViewModels.Preference;
+using STranslate.ViewModels.Preference.History;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -87,6 +90,15 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private object? _currentView;
 
-        private readonly System.Windows.Controls.ScrollViewer view = new();
+        private readonly ScrollViewer view = new();
+
+        public override void Close(Window win)
+        {
+            if (Singleton<HistoryViewModel>.Instance.HistoryDetailContent is UserControl view && view.DataContext is HistoryContentViewModel vm)
+            {
+                vm.TTSCancelCommand.Execute(null);
+            }
+            base.Close(win);
+        }
     }
 }

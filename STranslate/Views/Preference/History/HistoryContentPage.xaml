@@ -27,10 +27,10 @@
                            Text="{Binding Time, StringFormat=yyyy年MM月dd日 HH:mm:ss}" />
 
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="&#xe74b;"
+                    <Button Command="{Binding DeleteCommand}"
+                            Content="&#xe74b;"
                             FontSize="{DynamicResource FontSize_Identify}"
                             FontWeight="Black"
-                            Command="{Binding DeleteCommand}"
                             Style="{DynamicResource ButtonIconStyle}" />
 
                     <!-- // TODO: 收藏 // -->
@@ -50,16 +50,22 @@
                                  Style="{DynamicResource TextBoxOutputStyle}"
                                  Text="{Binding InputContent, Mode=OneWay}" />
 
-                        <Grid Margin="5" VerticalAlignment="Bottom">
+                        <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
                             <Button Margin="5,0"
-                                    HorizontalAlignment="Left"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                    CommandParameter="{Binding InputContent}"
+                                    Content="&#xe610;"
+                                    FontSize="{DynamicResource FontSize_Identify}"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="TTS" />
+                            <Button Margin="5,0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
                                     CommandParameter="{Binding InputContent}"
                                     Content="&#xe692;"
                                     FontSize="{DynamicResource FontSize_Identify}"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="复制" />
-                        </Grid>
+                        </StackPanel>
                     </Grid>
                 </Border>
 
@@ -72,9 +78,9 @@
                         <TextBlock Margin="5" FontSize="{DynamicResource FontSize_Identify}" Text="{Binding TargetLang}" />
                     </Border>
                 </StackPanel>
-                <ListBox BorderThickness="0"
+                <ListBox Background="Transparent"
+                         BorderThickness="0"
                          ItemsSource="{Binding OutputContents}"
-                         Background="Transparent"
                          PreviewMouseWheel="ListBox_PreviewMouseWheel"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemTemplate>
@@ -88,15 +94,45 @@
                                              Text="{Binding Item3.Result, Mode=OneWay}" />
 
                                     <Grid Margin="5" VerticalAlignment="Bottom">
-                                        <Button Margin="5,0"
-                                                HorizontalAlignment="Left"
-                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
-                                                CommandParameter="{Binding Item3}"
-                                                Content="&#xe692;"
-                                                FontSize="{DynamicResource FontSize_Identify}"
-                                                Style="{DynamicResource ButtonCopyIconStyle}"
-                                                ToolTip="复制" />
-                                        <StackPanel Margin="5,0" HorizontalAlignment="Right" Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Margin="5,0,0,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                                    CommandParameter="{Binding Item3.Result}"
+                                                    Content="&#xe610;"
+                                                    FontSize="{DynamicResource FontSize_Identify}"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="TTS" />
+                                            <Button Margin="5,0,0,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                                    CommandParameter="{Binding Item3.Result}"
+                                                    Content="&#xe692;"
+                                                    FontSize="{DynamicResource FontSize_Identify}"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="普通复制" />
+                                            <Button Margin="5,0,0,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
+                                                    CommandParameter="{Binding Item3.Result}"
+                                                    Content="&#xe600;"
+                                                    FontSize="{DynamicResource FontSize_Identify}"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="复制为蛇形字符串" />
+                                            <Button Margin="5,0,0,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
+                                                    CommandParameter="{Binding Item3.Result}"
+                                                    Content="&#xe602;"
+                                                    FontSize="{DynamicResource FontSize_Identify}"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="复制为小驼峰字符串" />
+                                            <Button Margin="5,0,0,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
+                                                    CommandParameter="{Binding Item3.Result}"
+                                                    Content="&#xe601;"
+                                                    FontSize="{DynamicResource FontSize_Identify}"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="复制为大驼峰字符串" />
+                                        </StackPanel>
+
+                                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                             <TextBlock Margin="10,0" Text="{Binding Item1}" />
                                             <Image Width="20" Source="{Binding Item2, Converter={StaticResource String2IconConverter}}" />
                                         </StackPanel>

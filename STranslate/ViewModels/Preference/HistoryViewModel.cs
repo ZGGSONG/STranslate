@@ -178,6 +178,9 @@ namespace STranslate.ViewModels.Preference
 
             _isSelectionChanging = true;
 
+            // 取消TTS
+            ((HistoryDetailContent as UserControl)?.DataContext as HistoryContentViewModel)?.TTSCancelCommand?.Execute(null);
+
             try
             {
                 var method = typeof(HistoryContentPage).GetMethod("UpdateVM");
