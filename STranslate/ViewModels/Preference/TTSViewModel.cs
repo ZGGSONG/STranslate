@@ -40,9 +40,18 @@ namespace STranslate.ViewModels.Preference
             //TODO: 新TTS服务需要适配
             TtsServices.Add(new TTSAzure());
 
-            ActivedTTS = CurTTSServiceList.FirstOrDefault();
+            CurTTSServiceList.OnActiveTTSChanged += CurTTSServiceList_OnActiveTTSChanged;
 
             ResetView();
+        }
+
+        private void CurTTSServiceList_OnActiveTTSChanged(ITTS obj)
+        {
+            if (obj.IsEnabled)
+            {
+                ActivedTTS = obj;
+                LogService.Logger.Debug($"Change Actived TTS Service: {obj.Identify} {obj.Name}");
+            }
         }
 
         /// <summary>
@@ -227,6 +236,6 @@ namespace STranslate.ViewModels.Preference
         private BindingList<ITTS> _ttsServices = [];
 
         [ObservableProperty]
-        private BindingList<ITTS> _curTTSServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? [];
+        private TTSCollection<ITTS> _curTTSServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? [];
     }
 }

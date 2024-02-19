@@ -94,7 +94,7 @@ public class ConfigHelper
     /// </summary>
     /// <param name="tts"></param>
     /// <returns></returns>
-    public bool WriteConfig(BindingList<ITTS> tts)
+    public bool WriteConfig(TTSCollection<ITTS> tts)
     {
         var isSuccess = false;
         if (CurrentConfig is null) return isSuccess;

@@ -166,5 +166,5 @@ public class ConfigModel
     /// <summary>
     /// TTS
     /// </summary>
-    public BindingList<ITTS>? TTSList { get; set; }
+    public TTSCollection<ITTS>? TTSList { get; set; }
 }

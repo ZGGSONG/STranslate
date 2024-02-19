@@ -17,7 +17,7 @@ namespace STranslate.ViewModels.Preference.TTS
         public TTSAzure()
             : this(Guid.NewGuid(), "https://eastasia.api.cognitive.microsoft.com/", "微软TTS") { }
 
-        public TTSAzure(Guid guid, string url, string name = "", IconType icon = IconType.Azure, string appID = "", string appKey = "", TTSType type = TTSType.AzureTTS)
+        public TTSAzure(Guid guid, string url, string name = "", IconType icon = IconType.Azure, string appID = "", string appKey = "", bool isEnabled = true, TTSType type = TTSType.AzureTTS)
         {
             Identify = guid;
             Url = url;
@@ -25,6 +25,7 @@ namespace STranslate.ViewModels.Preference.TTS
             Icon = icon;
             AppID = appID;
             AppKey = appKey;
+            IsEnabled = isEnabled;
             Type = type;
         }
 
@@ -34,6 +35,10 @@ namespace STranslate.ViewModels.Preference.TTS
         [JsonIgnore]
         [ObservableProperty]
         private TTSType _type = TTSType.AzureTTS;
+
+        [JsonIgnore]
+        [ObservableProperty]
+        public bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]
