@@ -91,14 +91,6 @@
                                                     <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
-                                            <!-- TTS -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe610;"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="TTS"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                             <!-- 大驼峰复制 -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
@@ -130,6 +122,14 @@
                                                     Content="&#xe692;"
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                                     ToolTip="直接复制结果"
+                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!-- TTS -->
+                                            <Button Margin="2,2,0,2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                                    CommandParameter="{Binding Data.Result}"
+                                                    Content="&#xe610;"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="TTS"
                                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                         </StackPanel>
                                     </StackPanel>
