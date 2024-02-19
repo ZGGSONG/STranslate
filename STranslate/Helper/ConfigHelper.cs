@@ -49,6 +49,9 @@ public class ConfigHelper
         //初始化字体
         FontOperate();
 
+        //初始化TTS
+        TTSOperate();
+
         //初始化代理设置
         ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
 
@@ -211,6 +214,12 @@ public class ConfigHelper
             Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
             CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
         }
+    }
+
+    //初始化文本转语音服务
+    private void TTSOperate()
+    {
+        Singleton<TTSViewModel>.Instance.ActivedTTS = CurrentConfig?.TTSList?.FirstOrDefault(x => x.IsEnabled);
     }
 
     #endregion 公共方法
