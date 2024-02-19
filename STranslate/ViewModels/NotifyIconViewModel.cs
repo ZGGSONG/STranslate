@@ -399,8 +399,12 @@ namespace STranslate.ViewModels
                 view.Top = mouseLocation.Y;
             }
             //TODO: 发现当前已经存在子窗口时,无法active
-            view.Topmost = true;
-            view.Topmost = false;
+            //如果当前是置顶状态则会取消置顶导致出现问题
+            if (!view.Topmost)
+            {
+                view.Topmost = true;
+                view.Topmost = false;
+            }
             //显示主界面
             view.Show();
             view.Activate();
