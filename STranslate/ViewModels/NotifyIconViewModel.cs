@@ -103,6 +103,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void InputTranslate(Window view)
         {
+            //如果重复执行先取消上一步操作
+            Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
             Clear();
             ShowAndActive(view);
         }
