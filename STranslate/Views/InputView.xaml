@@ -57,8 +57,7 @@
             </common:PlaceholderTextBox>
             <StackPanel Margin="10,5" VerticalAlignment="Bottom" Orientation="Horizontal">
                 <!-- TTS -->
-                <Button Margin="5,0,0,0"
-                        Command="{Binding TTSCommand}"
+                <Button Command="{Binding TTSCommand}"
                         CommandParameter="{Binding InputContent}"
                         Content="&#xe610;"
                         Style="{DynamicResource ButtonCopyIconStyle}"

@@ -85,7 +85,8 @@ public class ConfigHelper
     public bool WriteConfig(BindingList<ITranslator> services)
     {
         var isSuccess = false;
-        if (CurrentConfig is null) return isSuccess;
+        if (CurrentConfig is null)
+            return isSuccess;
         CurrentConfig.Services = services;
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -100,7 +101,8 @@ public class ConfigHelper
     public bool WriteConfig(TTSCollection<ITTS> tts)
     {
         var isSuccess = false;
-        if (CurrentConfig is null) return isSuccess;
+        if (CurrentConfig is null)
+            return isSuccess;
         CurrentConfig.TTSList = tts;
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -116,7 +118,8 @@ public class ConfigHelper
     public bool WriteConfig(string source, string target)
     {
         var isSuccess = false;
-        if (CurrentConfig is null) return isSuccess;
+        if (CurrentConfig is null)
+            return isSuccess;
         CurrentConfig.SourceLanguage = source;
         CurrentConfig.TargetLanguage = target;
         WriteConfig(CurrentConfig);
@@ -132,7 +135,8 @@ public class ConfigHelper
     public bool WriteConfig(Hotkeys hotkeys)
     {
         var isSuccess = false;
-        if (CurrentConfig is null) return isSuccess;
+        if (CurrentConfig is null)
+            return isSuccess;
         CurrentConfig.Hotkeys = hotkeys;
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -147,7 +151,8 @@ public class ConfigHelper
     public bool WriteConfig(CommonViewModel model)
     {
         var isSuccess = false;
-        if (CurrentConfig is null) return isSuccess;
+        if (CurrentConfig is null)
+            return isSuccess;
         CurrentConfig.IsStartup = model.IsStartup;
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -207,7 +212,8 @@ public class ConfigHelper
         try
         {
             Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
-                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME] : new FontFamily(CurrentConfig!.CustomFont);
+                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+                : new FontFamily(CurrentConfig!.CustomFont);
         }
         catch (Exception)
         {
@@ -234,16 +240,20 @@ public class ConfigHelper
             var content = File.ReadAllText(ConstStr.CnfName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
             // 读取时解密AppID、AppKey
-            config.Services?.ToList().ForEach(service =>
-            {
-                service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
-                service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
-            });
-            config.TTSList?.ToList().ForEach(tts =>
-            {
-                tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
-                tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
-            });
+            config
+                .Services?.ToList()
+                .ForEach(service =>
+                {
+                    service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
+                    service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
+                });
+            config
+                .TTSList?.ToList()
+                .ForEach(tts =>
+                {
+                    tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
+                    tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
+                });
             return config;
         }
         catch (Exception ex)
@@ -262,7 +272,7 @@ public class ConfigHelper
     private string BackupCurrentConfig()
     {
         var backupFilePath = $"{ConstStr.AppData}\\{ConstStr.AppName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
-        File.Copy(ConstStr.CnfName, backupFilePath, true );
+        File.Copy(ConstStr.CnfName, backupFilePath, true);
         return backupFilePath;
     }
 
@@ -270,17 +280,19 @@ public class ConfigHelper
     {
         var copy = conf.ServiceDeepClone();
         // Translate Service加密
-        copy.Services?.ToList().ForEach(service =>
-        {
-            service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
-            service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
-        });
+        copy.Services?.ToList()
+            .ForEach(service =>
+            {
+                service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
+                service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
+            });
         // TTS加密
-        copy.TTSList?.ToList().ForEach(tts =>
-        {
-            tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesEncrypt(tts.AppID);
-            tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesEncrypt(tts.AppKey);
-        });
+        copy.TTSList?.ToList()
+            .ForEach(tts =>
+            {
+                tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesEncrypt(tts.AppID);
+                tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesEncrypt(tts.AppKey);
+            });
         File.WriteAllText(ConstStr.CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
 
@@ -342,7 +354,8 @@ public class ConfigHelper
                 new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
                 new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", IconType.DeepL),
                 new TranslatorApi(Guid.NewGuid(), "https://iciba.deno.dev/translate", "爱词霸", IconType.Iciba, isEnabled: false)
-            ]
+            ],
+            TTSList = [new TTSOffline()]
         };
     }
 
@@ -381,7 +394,7 @@ public class TTSConverter : JsonConverter<ITTS>
 
 public class TranslatorConverter : JsonConverter<ITranslator>
 {
-    public override ITranslator ReadJson(JsonReader reader,Type objectType,ITranslator? existingValue,bool hasExistingValue,JsonSerializer serializer)
+    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         JObject jsonObject = JObject.Load(reader);
 

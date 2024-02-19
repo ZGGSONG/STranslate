@@ -62,7 +62,7 @@
                           SelectedValue="{Binding Icon}" />
             </Grid>
 
-            <Grid Margin="0,10,0,0" Visibility="Collapsed">
+            <!--<Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
@@ -75,7 +75,7 @@
                           BorderThickness="1"
                           ItemsSource="{Binding VoiceList}"
                           SelectedValue="{Binding VoiceName}" />
-            </Grid>
+            </Grid>-->
         </StackPanel>
     </Border>
 </UserControl>
