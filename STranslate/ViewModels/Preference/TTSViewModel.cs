@@ -53,8 +53,13 @@ namespace STranslate.ViewModels.Preference
         {
             TtsCounter = CurTTSServiceList.Count;
 
+            //当全部删除时则清空view绑定属性
             if (TtsCounter < 1)
+            {
+                SelectedIndex = 0;
+                TtsServiceContent = null;
                 return;
+            }
 
             switch (type)
             {
@@ -62,21 +67,21 @@ namespace STranslate.ViewModels.Preference
                     {
                         //不允许小于0
                         SelectedIndex = Math.Max(tmpIndex - 1, 0);
-                        TogglePageCommand.Execute(CurTTSServiceList[SelectedIndex]);
+                        TogglePage(CurTTSServiceList[SelectedIndex]);
                         break;
                     }
                 case ActionType.Add:
                     {
                         //选中最后一项
                         SelectedIndex = TtsCounter - 1;
-                        TogglePageCommand.Execute(CurTTSServiceList[SelectedIndex]);
+                        TogglePage(CurTTSServiceList[SelectedIndex]);
                         break;
                     }
                 default:
                     {
                         //初始化默认执行选中第一条
                         SelectedIndex = 0;
-                        TogglePageCommand.Execute(CurTTSServiceList.First());
+                        TogglePage(CurTTSServiceList.First());
                         break;
                     }
             }
@@ -127,9 +132,7 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
-        private bool CanDelete => TtsCounter > 1;
-
-        [RelayCommand(CanExecute = nameof(CanDelete))]
+        [RelayCommand]
         private void Delete(ITTS tts)
         {
             if (tts != null)

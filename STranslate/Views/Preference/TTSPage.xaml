@@ -187,7 +187,7 @@
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
                                 Command="{Binding DeleteCommand}"
-                                CommandParameter="{Binding ElementName=TTSServiceListBox, Path=SelectedItem}"
+                                CommandParameter="{Binding ElementName=TTSListBox, Path=SelectedItem}"
                                 Content="-" />
                     </Grid>
 
