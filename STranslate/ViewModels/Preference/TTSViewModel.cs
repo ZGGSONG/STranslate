@@ -39,6 +39,7 @@ namespace STranslate.ViewModels.Preference
             //添加默认支持TTS
             //TODO: 新TTS服务需要适配
             TtsServices.Add(new TTSAzure());
+            TtsServices.Add(new TTSOffline());
 
             CurTTSServiceList.OnActiveTTSChanged += CurTTSServiceList_OnActiveTTSChanged;
 
@@ -111,6 +112,7 @@ namespace STranslate.ViewModels.Preference
                 var name = tts.Type switch
                 {
                     TTSType.AzureTTS => string.Format("{0}TTSAzurePage", head),
+                    TTSType.OfflineTTS => string.Format("{0}TTSOfflinePage", head),
                     _ => string.Format("{0}TTSAzurePage", head)
                 };
 
@@ -132,6 +134,7 @@ namespace STranslate.ViewModels.Preference
                 CurTTSServiceList.Add(tts switch
                 {
                     TTSAzure azure => azure.DeepClone(),
+                    TTSOffline offline => offline.DeepClone(),
                     _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
                 });
 

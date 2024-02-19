@@ -119,6 +119,7 @@ namespace STranslate.Model
     public enum TTSType
     {
         AzureTTS,
+        OfflineTTS,
     }
 
     /// <summary>
