@@ -34,6 +34,18 @@
                     CommandParameter="{Binding ElementName=Mwin}"
                     Modifiers="Ctrl+Shift" />
         <KeyBinding Key="Esc" Command="{Binding EscCommand}" CommandParameter="{Binding ElementName=Mwin, Mode=OneWay}" />
+
+        <!-- // 输出框快捷键复制 // -->
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="0" Gesture="Ctrl+1" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="1" Gesture="Ctrl+2" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="2" Gesture="Ctrl+3" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="3" Gesture="Ctrl+4" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="4" Gesture="Ctrl+5" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="5" Gesture="Ctrl+6" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="6" Gesture="Ctrl+7" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="7" Gesture="Ctrl+8" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="8" Gesture="Ctrl+9" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="9" Gesture="Ctrl+0" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
