@@ -178,6 +178,7 @@ public class ConfigHelper
         CurrentConfig.WordPickingInterval = model.WordPickingInterval;
         CurrentConfig.IsHideOnStart = model.IsHideOnStart;
         CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
+        CurrentConfig.IsCaretLast = model.IsCaretLast;
         CurrentConfig.MaxHeight = model.MaxHeight;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
@@ -345,6 +346,7 @@ public class ConfigHelper
             WordPickingInterval = 100,
             IsHideOnStart = false,
             ShowCopyOnHeader = false,
+            IsCaretLast = false,
             MaxHeight = MaxHeight.Maximum,
             SourceLanguage = LanguageEnum.AUTO.GetDescription(),
             TargetLanguage = LanguageEnum.AUTO.GetDescription(),

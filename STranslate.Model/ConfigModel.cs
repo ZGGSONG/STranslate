@@ -149,6 +149,11 @@ public class ConfigModel
     public bool ShowCopyOnHeader { get; set; } = false;
 
     /// <summary>
+    /// 激活窗口时光标移动至末尾
+    /// </summary>
+    public bool IsCaretLast { get; set; } = false;
+
+    /// <summary>
     /// 最大高度
     /// </summary>
     public MaxHeight MaxHeight { get; set; } = MaxHeight.Maximum;

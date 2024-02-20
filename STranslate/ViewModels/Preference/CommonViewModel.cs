@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace STranslate.ViewModels.Preference
 {
@@ -72,6 +68,7 @@ namespace STranslate.ViewModels.Preference
             WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 200;
             IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
             ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
+            IsCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
             MaxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
 
             LoadHistorySizeType();
@@ -316,6 +313,12 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool showCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
+
+        /// <summary>
+        /// 激活窗口时光标移动至末尾
+        /// </summary>
+        [ObservableProperty]
+        private bool isCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
 
         /// <summary>
         /// View最大高度
