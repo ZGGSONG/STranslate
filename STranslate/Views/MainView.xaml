@@ -45,7 +45,9 @@
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="6" Gesture="Ctrl+7" />
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="7" Gesture="Ctrl+8" />
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="8" Gesture="Ctrl+9" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="9" Gesture="Ctrl+0" />
+        
+        <!-- // 重置字体大小 // -->
+        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+0" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

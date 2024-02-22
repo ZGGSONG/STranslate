@@ -81,19 +81,27 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void HotkeyCopy(string str)
         {
-            if (int.TryParse(str, out var index))
+            if (!int.TryParse(str, out var index))
             {
-                var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
-                if (index >= 0 && index < enabledTranslators.Count)
-                {
-                    var translator = enabledTranslators[index];
-                    if (!string.IsNullOrEmpty(translator.Data?.Result?.ToString()))
-                    {
-                        Clipboard.SetDataObject(translator.Data.Result);
-                        ToastHelper.Show($"复制{translator.Name}结果");
-                    }
-                }
+                return;
             }
+
+            var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
+            var translator = index == 8 ? enabledTranslators.LastOrDefault() : enabledTranslators.ElementAtOrDefault(index);
+
+            if (translator == null)
+            {
+                return;
+            }
+
+            var result = translator.Data?.Result?.ToString();
+            if (string.IsNullOrEmpty(result))
+            {
+                return;
+            }
+
+            Clipboard.SetDataObject(result);
+            ToastHelper.Show($"复制{translator.Name}结果");
         }
     }
 }

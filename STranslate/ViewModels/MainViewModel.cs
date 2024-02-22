@@ -286,6 +286,12 @@ namespace STranslate.ViewModels
         }
 
         /// <summary>
+        /// 重置字体大小
+        /// </summary>
+        [RelayCommand]
+        private void ResetFontsize() => Application.Current.Resources["FontSize_TextBox"] = 18.0;
+
+        /// <summary>
         /// 更新主界面图标显示
         /// </summary>
         internal void UpdateMainViewIcons()
