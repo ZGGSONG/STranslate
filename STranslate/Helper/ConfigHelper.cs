@@ -180,6 +180,7 @@ public class ConfigHelper
         CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
         CurrentConfig.IsCaretLast = model.IsCaretLast;
         CurrentConfig.MaxHeight = model.MaxHeight;
+        CurrentConfig.Width = model.Width;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
 
@@ -348,6 +349,7 @@ public class ConfigHelper
             ShowCopyOnHeader = false,
             IsCaretLast = false,
             MaxHeight = MaxHeight.Maximum,
+            Width = WidthEnum.Minimum,
             SourceLanguage = LanguageEnum.AUTO.GetDescription(),
             TargetLanguage = LanguageEnum.AUTO.GetDescription(),
             Services =

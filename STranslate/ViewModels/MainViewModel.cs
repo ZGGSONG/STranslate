@@ -291,6 +291,85 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void ResetFontsize() => Application.Current.Resources["FontSize_TextBox"] = 18.0;
 
+        #region 宽、最大高度
+
+        [RelayCommand]
+        private void ViewWidthMaxHeightPlus(Window view)
+        {
+            ViewWidthPlus(view);
+            ViewMaxHeightPlus();
+        }
+
+        [RelayCommand]
+        private void ViewWidthMaxHeightMinus(Window view)
+        {
+            ViewWidthMinus(view);
+            ViewMaxHeightMinus();
+        }
+
+        private double left;
+        private double top;
+
+        [RelayCommand]
+        private void ViewWidthPlus(Window view)
+        {
+            var width = CommonSettingVM.Width.Increment();
+            if (width == CommonSettingVM.Width) return;
+
+            left = view.Left;
+            top = view.Top;
+            if (width == WidthEnum.WorkAreaMaximum)
+            {
+                //TODO: 优化原始位置缓存，优化多显示器最大化后位置问题
+                view.Left = 0;
+                view.Top = 0;
+            }
+            CommonSettingVM.Width = width;
+        }
+
+        [RelayCommand]
+        private void ViewMaxHeightPlus()
+        {
+            var height = CommonSettingVM.MaxHeight.Increment();
+            if (height == CommonSettingVM.MaxHeight) return;
+
+            CommonSettingVM.MaxHeight = height;
+        }
+        [RelayCommand]
+        private void ViewWidthMinus(Window view)
+        {
+            var width = CommonSettingVM.Width.Decrement();
+            if (width == CommonSettingVM.Width) return;
+
+            view.Left = left;
+            view.Top = top;
+            CommonSettingVM.Width = width;
+        }
+
+        [RelayCommand]
+        private void ViewMaxHeightMinus()
+        {
+            var height = CommonSettingVM.MaxHeight.Decrement();
+            if (height == CommonSettingVM.MaxHeight) return;
+
+            CommonSettingVM.MaxHeight = height;
+        }
+        [RelayCommand]
+        private void ResetMaxHeightWidth(Window view)
+        {
+            var height = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
+            var width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
+            if (height != CommonSettingVM.MaxHeight || width != CommonSettingVM.Width)
+            {
+                view.Left = left;
+                view.Top = top;
+                CommonSettingVM.Width = width;
+                CommonSettingVM.MaxHeight = height;
+            }
+        }
+
+        #endregion 宽、最大高度
+
         /// <summary>
         /// 更新主界面图标显示
         /// </summary>
@@ -306,6 +385,7 @@ namespace STranslate.ViewModels
         }
 
         #region 显示图标
+
         [ObservableProperty]
         private bool isShowPreference;
 
@@ -326,6 +406,7 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private bool isShowHistory;
+
         #endregion 显示图标
     }
 }

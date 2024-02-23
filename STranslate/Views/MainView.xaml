@@ -10,8 +10,7 @@
         xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
         x:Name="Mwin"
         Title="STranslate"
-        Width="480"
-        MinWidth="450"
+        MinWidth="480"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         AllowsTransparency="True"
         Background="Transparent"
@@ -45,9 +44,18 @@
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="6" Gesture="Ctrl+7" />
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="7" Gesture="Ctrl+8" />
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="8" Gesture="Ctrl+9" />
-        
+
         <!-- // 重置字体大小 // -->
-        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+0" />
+        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
+
+        <!-- // 宽、最大高快捷键调整 // -->
+        <KeyBinding Command="{Binding ViewWidthMaxHeightPlusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+OemPlus" />
+        <KeyBinding Command="{Binding ViewWidthPlusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+Shift+OemPlus" />
+        <KeyBinding Command="{Binding ViewMaxHeightPlusCommand}" Gesture="Ctrl+Alt+OemPlus" />
+        <KeyBinding Command="{Binding ViewWidthMaxHeightMinusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+OemMinus" />
+        <KeyBinding Command="{Binding ViewWidthMinusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+Shift+OemMinus" />
+        <KeyBinding Command="{Binding ViewMaxHeightMinusCommand}" Gesture="Ctrl+Alt+OemMinus" />
+        <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+0" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

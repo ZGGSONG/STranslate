@@ -159,6 +159,11 @@ public class ConfigModel
     public MaxHeight MaxHeight { get; set; } = MaxHeight.Maximum;
 
     /// <summary>
+    /// 最大宽度
+    /// </summary>
+    public WidthEnum Width { get; set; } = WidthEnum.Minimum;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }

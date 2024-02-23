@@ -312,6 +312,24 @@ namespace STranslate.Model
     }
 
     /// <summary>
+    /// 主界面最大高度
+    /// </summary>
+    public enum WidthEnum : int
+    {
+        [Description("最小宽度")]
+        Minimum = 480,
+
+        [Description("中等宽度")]
+        Medium = 600,
+
+        [Description("最大宽度")]
+        Maximum = 1200,
+
+        [Description("工作区高度")]
+        WorkAreaMaximum = 9999
+    }
+
+    /// <summary>
     /// 设置页面导航
     /// </summary>
     public enum PerferenceType
@@ -386,6 +404,34 @@ namespace STranslate.Model
         public static List<T> GetEnumList<T>() where T : Enum
         {
             return Enum.GetValues(typeof(T)).OfType<T>().ToList();
+        }
+
+        public static T Increment<T>(this T value) where T : Enum
+        {
+            T[] enumValues = (T[])Enum.GetValues(typeof(T));
+            int index = Array.IndexOf(enumValues, value);
+            if (index < enumValues.Length - 1)
+            {
+                return enumValues[index + 1];
+            }
+            else
+            {
+                return value;
+            }
+        }
+
+        public static T Decrement<T>(this T value) where T : Enum
+        {
+            T[] enumValues = (T[])Enum.GetValues(typeof(T));
+            int index = Array.IndexOf(enumValues, value);
+            if (index > 0)
+            {
+                return enumValues[index - 1];
+            }
+            else
+            {
+                return value;
+            }
         }
     }
 }

@@ -123,6 +123,15 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="主界面最大宽度[立即生效]" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大宽度设置[立即生效]" />
+                                <ComboBox Height="30"
+                                          HorizontalAlignment="Right"
+                                          ItemsSource="{Binding WidthList}"
+                                          SelectedValue="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="主界面最大高度[立即生效]" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置[立即生效]" />
                                 <ComboBox Height="30"

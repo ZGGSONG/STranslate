@@ -24,7 +24,9 @@ namespace STranslate.Views
             vm.NotifyIconVM.OnExit += UnLoadPosition;
 
             vm.CommonSettingVM.OnViewMaxHeightChanged += Vm_OnMaxHeightChanged;
+            vm.CommonSettingVM.OnViewWidthChanged += Vm_OnWidthChanged;
             vm.CommonSettingVM.TriggerMaxHeight();
+            vm.CommonSettingVM.TriggerWidth();
 
             InitializeComponent();
 
@@ -41,6 +43,7 @@ namespace STranslate.Views
         {
             vm.NotifyIconVM.OnExit -= UnLoadPosition;
             vm.CommonSettingVM.OnViewMaxHeightChanged -= Vm_OnMaxHeightChanged;
+            vm.CommonSettingVM.OnViewWidthChanged -= Vm_OnWidthChanged;
             SystemParameters.StaticPropertyChanged -= SystemParameters_StaticPropertyChanged;
 
             base.OnClosing(e);
@@ -62,6 +65,7 @@ namespace STranslate.Views
                     if (!Enum.IsDefined(typeof(MaxHeight), Convert.ToInt32(MaxHeight)))
                     {
                         MaxHeight = SystemParameters.WorkArea.Height;
+                        Width = SystemParameters.WorkArea.Width;
                         Mwin_SizeChanged(null, null);
                     }
                 });
@@ -72,6 +76,12 @@ namespace STranslate.Views
         {
             // 更新最大高度
             MaxHeight = height;
+        }
+
+        private void Vm_OnWidthChanged(int width)
+        {
+            // 更新宽度
+            Width = width;
         }
 
         /// <summary>

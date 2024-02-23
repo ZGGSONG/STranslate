@@ -16,6 +16,7 @@ namespace STranslate.ViewModels.Preference
     public partial class CommonViewModel : ObservableObject
     {
         public Action<int>? OnViewMaxHeightChanged;
+        public Action<int>? OnViewWidthChanged;
 
         [RelayCommand]
         private void Save()
@@ -70,6 +71,7 @@ namespace STranslate.ViewModels.Preference
             ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
             IsCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
             MaxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
+            Width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -96,6 +98,7 @@ namespace STranslate.ViewModels.Preference
 
             // 加载最大高度集合
             MaxHeightList = EnumExtensions.GetEnumList<MaxHeight>();
+            WidthList = EnumExtensions.GetEnumList<WidthEnum>();
 
             // 加载主题集合
             ThemeList = EnumExtensions.GetEnumList<ThemeType>();
@@ -113,6 +116,17 @@ namespace STranslate.ViewModels.Preference
             // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
             var height = MaxHeight.GetHashCode() > workAreaHeight ? workAreaHeight : MaxHeight.ToInt();
             OnViewMaxHeightChanged?.Invoke(height);
+        }
+
+        /// <summary>
+        /// 触发最大宽度信息到View
+        /// </summary>
+        public void TriggerWidth()
+        {
+            var workAreaWidth = Convert.ToInt32(SystemParameters.WorkArea.Width);
+            // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
+            var width = Width.GetHashCode() > workAreaWidth ? workAreaWidth : Width.ToInt();
+            OnViewWidthChanged?.Invoke(width);
         }
 
         private void LoadHistorySizeType()
@@ -321,7 +335,7 @@ namespace STranslate.ViewModels.Preference
         private bool isCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
 
         /// <summary>
-        /// View最大高度
+        /// View 最大高度
         /// </summary>
         private MaxHeight _maxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
 
@@ -340,6 +354,28 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
+        /// <summary>
+        /// View 最大宽度
+        /// </summary>
+        private WidthEnum _width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
+
+        public WidthEnum Width
+        {
+            get => _width;
+            set
+            {
+                if (_width != value)
+                {
+                    OnPropertyChanging();
+                    _width = value;
+                    TriggerWidth();
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public List<MaxHeight> MaxHeightList { get; set; }
+
+        public List<WidthEnum> WidthList { get; set; }
     }
 }

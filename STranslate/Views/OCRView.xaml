@@ -31,7 +31,7 @@
                     Modifiers="Ctrl+Shift" />
         
         <!-- // 重置字体大小 // -->
-        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+0" />
+        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="StateChanged">
