@@ -9,6 +9,7 @@ using STranslate.ViewModels.Preference;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -44,6 +45,9 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
+
+        [ObservableProperty]
+        private bool _isOnlyShowRet = false;
 
         public MainViewModel()
         {
@@ -284,6 +288,9 @@ namespace STranslate.ViewModels
             InputVM.TTSCancelCommand.Execute(null);
             OutputVM.TTSCancelCommand.Execute(null);
         }
+
+        [RelayCommand]
+        private void ShowHideInput() => IsOnlyShowRet = !IsOnlyShowRet;
 
         /// <summary>
         /// 重置字体大小

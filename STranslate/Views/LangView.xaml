@@ -17,9 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- // SourceLang // -->
-        <ComboBox Grid.Column="0"
-                  ItemsSource="{Binding SourceLanguageList}"
-                  SelectedItem="{Binding SelectedSourceLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <ComboBox Grid.Column="0" ItemsSource="{Binding SourceLanguageList}" SelectedItem="{Binding SelectedSourceLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding LangChangedCommand}" />
@@ -34,9 +32,7 @@
                 Style="{DynamicResource ButtonIconStyle}" />
 
         <!-- // TargetLang // -->
-        <ComboBox Grid.Column="2"
-                  ItemsSource="{Binding TargetLanguageList}"
-                  SelectedItem="{Binding SelectedTargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <ComboBox Grid.Column="2" ItemsSource="{Binding TargetLanguageList}" SelectedItem="{Binding SelectedTargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding LangChangedCommand}" />

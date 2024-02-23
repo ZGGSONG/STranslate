@@ -68,9 +68,9 @@
                     Command="{Binding NotifyIconVM.OpenHistoryCommand}"
                     CommandParameter="header"
                     Content="&#xe63f;"
+                    FontSize="20"
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="历史记录"
-                    FontSize="20"
                     Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>

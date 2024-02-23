@@ -34,6 +34,8 @@
                     Modifiers="Ctrl+Shift" />
         <KeyBinding Key="Esc" Command="{Binding EscCommand}" CommandParameter="{Binding ElementName=Mwin, Mode=OneWay}" />
 
+        <KeyBinding Key="A" Command="{Binding ShowHideInputCommand}" Modifiers="Ctrl+Shift" />
+
         <!-- // 输出框快捷键复制 // -->
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="0" Gesture="Ctrl+1" />
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="1" Gesture="Ctrl+2" />
@@ -81,16 +83,20 @@
                               Focusable="False"
                               WindowChrome.IsHitTestVisibleInChrome="True" />
 
-            <ScrollViewer Grid.Row="1">
+            <ScrollViewer Grid.Row="1" Focusable="False">
                 <StackPanel>
                     <!-- // Input // -->
                     <local:InputView x:Name="InputView"
                                      Margin="10,0"
                                      DataContext="{Binding InputVM}"
-                                     FontSize="{DynamicResource FontSize_TextBox}" />
+                                     FontSize="{DynamicResource FontSize_TextBox}"
+                                     Visibility="{Binding ElementName=Mwin, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!-- // Mid // -->
-                    <local:LangView Margin="60,0" DataContext="{Binding ElementName=Mwin, Path=DataContext}" Focusable="False" />
+                    <local:LangView Margin="60,0"
+                                    DataContext="{Binding ElementName=Mwin, Path=DataContext}"
+                                    Focusable="False"
+                                    Visibility="{Binding IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!-- // Output // -->
                     <local:OutputView Margin="10,0,10,10"

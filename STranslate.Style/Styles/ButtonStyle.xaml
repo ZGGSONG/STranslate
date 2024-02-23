@@ -8,6 +8,7 @@
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Height" Value="30" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Width" Value="30" />
         <Setter Property="Margin" Value="3" />
         <Setter Property="Padding" Value="0" />
@@ -48,6 +49,7 @@
     <Style x:Key="ButtonCopyIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -80,10 +82,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- // 划词按钮 // -->
     <Style x:Key="ButtonCrosswordsIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Height" Value="35" />
@@ -129,6 +132,7 @@
     <!-- // 置顶Style // -->
     <Style x:Key="ButtonStickyIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Height" Value="30" />

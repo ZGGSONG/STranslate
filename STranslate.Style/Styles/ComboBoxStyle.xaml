@@ -5,6 +5,7 @@
         <Setter Property="Background" Value="{DynamicResource ComboBoxBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <!-- ComBoxItem -->
@@ -40,8 +41,8 @@
                     <Border Height="30"
                             MinWidth="120"
                             Background="{DynamicResource ComboBoxBackground}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="5">
                         <Grid MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}">
                             <Grid.ColumnDefinitions>
@@ -60,6 +61,7 @@
                                               BorderThickness="0"
                                               ClickMode="Press"
                                               Content="{TemplateBinding Text}"
+                                              Focusable="False"
                                               Foreground="{TemplateBinding Foreground}"
                                               IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ToggleButton.Style>
@@ -84,7 +86,11 @@
                             </Grid>
 
                             <Grid Grid.Column="1">
-                                <ToggleButton x:Name="toggleBtn" ClickMode="Press" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton x:Name="toggleBtn"
+                                              ClickMode="Press"
+                                              Focusable="False"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ToggleButton.Style>
                                         <Style TargetType="ToggleButton">
                                             <Setter Property="Background" Value="{DynamicResource ComboBoxBackground}" />
