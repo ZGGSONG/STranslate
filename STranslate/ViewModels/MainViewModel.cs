@@ -307,8 +307,8 @@ namespace STranslate.ViewModels
             ViewMaxHeightMinus();
         }
 
-        private double left;
-        private double top;
+        //private double left;
+        //private double top;
 
         [RelayCommand]
         private void ViewWidthPlus(Window view)
@@ -316,14 +316,14 @@ namespace STranslate.ViewModels
             var width = CommonSettingVM.Width.Increment();
             if (width == CommonSettingVM.Width) return;
 
-            left = view.Left;
-            top = view.Top;
-            if (width == WidthEnum.WorkAreaMaximum)
-            {
-                //TODO: 优化原始位置缓存，优化多显示器最大化后位置问题
-                view.Left = 0;
-                view.Top = 0;
-            }
+            //left = view.Left;
+            //top = view.Top;
+            //if (width == WidthEnum.WorkAreaMaximum)
+            //{
+            //    //TODO: 优化原始位置缓存，优化多显示器最大化后位置问题
+            //    view.Left = 0;
+            //    view.Top = 0;
+            //}
             CommonSettingVM.Width = width;
         }
 
@@ -341,8 +341,8 @@ namespace STranslate.ViewModels
             var width = CommonSettingVM.Width.Decrement();
             if (width == CommonSettingVM.Width) return;
 
-            view.Left = left;
-            view.Top = top;
+            //view.Left = left;
+            //view.Top = top;
             CommonSettingVM.Width = width;
         }
 
@@ -361,8 +361,8 @@ namespace STranslate.ViewModels
             var width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
             if (height != CommonSettingVM.MaxHeight || width != CommonSettingVM.Width)
             {
-                view.Left = left;
-                view.Top = top;
+                //view.Left = left;
+                //view.Top = top;
                 CommonSettingVM.Width = width;
                 CommonSettingVM.MaxHeight = height;
             }
