@@ -14,8 +14,7 @@ namespace STranslate.Views
         {
             InitializeComponent();
 
-            Singleton<NotifyIconViewModel>.Instance.OnShowBalloonTip += (msg)
-                => TrayIcon.ShowBalloonTip("", msg, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.None);
+            Singleton<NotifyIconViewModel>.Instance.OnShowBalloonTip += msg => TrayIcon.ShowBalloonTip("", msg, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.None);
         }
 
         /// <summary>

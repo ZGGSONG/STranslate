@@ -269,10 +269,8 @@ namespace STranslate.ViewModels
                         var getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
 
                         //取词前移除换行
-                        getText =
-                            Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
-                                ? StringUtil.RemoveLineBreaks(getText)
-                                : getText;
+                        getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false
+                                ? StringUtil.RemoveLineBreaks(getText) : getText;
 
                         //写入剪贴板
                         Clipboard.SetDataObject(getText, true);
