@@ -4,7 +4,6 @@ using Microsoft.Win32;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
-using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
 using STranslate.Views;
@@ -12,12 +11,10 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using ZXing;
 
 namespace STranslate.ViewModels
 {
@@ -272,8 +269,7 @@ namespace STranslate.ViewModels
 
                     //取词前移除换行
                     getText =
-                        Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords
-                        ?? false && !string.IsNullOrEmpty(getText)
+                        Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
                             ? StringUtil.RemoveLineBreaks(getText)
                             : getText;
 

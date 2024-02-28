@@ -1,8 +1,7 @@
-﻿using System.Diagnostics;
+﻿using STranslate.Model;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using STranslate.Model;
 
 namespace STranslate.Views.Preference.Service
 {
@@ -26,6 +25,5 @@ namespace STranslate.Views.Preference.Service
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) =>
             Process.Start(new ProcessStartInfo { FileName = "https://www.aliyun.com/product/ai/base_alimt", UseShellExecute = true });
-
     }
 }
