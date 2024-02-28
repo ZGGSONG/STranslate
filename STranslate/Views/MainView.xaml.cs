@@ -10,6 +10,8 @@ using System.Windows.Interop;
 using STranslate.Helper;
 using System.ComponentModel;
 using STranslate.Model;
+using System.Windows.Media.Animation;
+using System.Linq;
 
 namespace STranslate.Views
 {
@@ -25,10 +27,11 @@ namespace STranslate.Views
 
             vm.CommonSettingVM.OnViewMaxHeightChanged += Vm_OnMaxHeightChanged;
             vm.CommonSettingVM.OnViewWidthChanged += Vm_OnWidthChanged;
-            vm.CommonSettingVM.TriggerMaxHeight();
-            vm.CommonSettingVM.TriggerWidth();
 
             InitializeComponent();
+
+            vm.CommonSettingVM.TriggerMaxHeight();
+            vm.CommonSettingVM.TriggerWidth();
 
             LoadPosition();
 
@@ -76,12 +79,32 @@ namespace STranslate.Views
         {
             // 更新最大高度
             MaxHeight = height;
+            HAnimation(Height, height);
         }
 
         private void Vm_OnWidthChanged(int width)
         {
             // 更新宽度
             Width = width;
+            WAnimation(Width, width);
+        }
+
+        internal void WAnimation(double oValue, double nValue)
+        {
+            var wAnimation = FindResource("WAnimation") as Storyboard;
+            var doubleAnimation = wAnimation?.Children.FirstOrDefault() as DoubleAnimation;
+            doubleAnimation!.From = double.IsNaN(oValue) ? 480 : oValue;
+            doubleAnimation!.To = nValue;
+            wAnimation?.Begin();
+        }
+
+        internal void HAnimation(double oValue, double nValue)
+        {
+            var hAnimation = FindResource("HAnimation") as Storyboard;
+            var doubleAnimation = hAnimation?.Children.FirstOrDefault() as DoubleAnimation;
+            doubleAnimation!.From = double.IsNaN(oValue) ? 800 : oValue;
+            doubleAnimation!.To = nValue;
+            hAnimation?.Begin();
         }
 
         /// <summary>

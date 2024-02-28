@@ -59,6 +59,14 @@
         <KeyBinding Command="{Binding ViewMaxHeightMinusCommand}" Gesture="Ctrl+Shift+OemMinus" />
         <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+0" />
     </Window.InputBindings>
+    <Window.Resources>
+        <Storyboard x:Key="WAnimation">
+            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="Width" Duration="0:0:0.15" />
+        </Storyboard>
+        <Storyboard x:Key="HAnimation">
+            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="MaxHeight" Duration="0:0:0.15" />
+        </Storyboard>
+    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=Mwin}" />

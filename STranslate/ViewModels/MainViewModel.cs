@@ -9,7 +9,6 @@ using STranslate.ViewModels.Preference;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -342,6 +341,7 @@ namespace STranslate.ViewModels
 
             CommonSettingVM.MaxHeight = height;
         }
+
         [RelayCommand]
         private void ViewWidthMinus(Window view)
         {
@@ -361,6 +361,7 @@ namespace STranslate.ViewModels
 
             CommonSettingVM.MaxHeight = height;
         }
+
         [RelayCommand]
         private void ResetMaxHeightWidth(Window view)
         {
