@@ -45,11 +45,6 @@ public class ConfigModel
     public bool UnconventionalScreen { get; set; }
 
     /// <summary>
-    /// 禁用系统代理
-    /// </summary>
-    public bool IsDisableSystemProxy { get; set; }
-
-    /// <summary>
     /// OCR时是否自动复制文本
     /// </summary>
     public bool IsOcrAutoCopyText { get; set; }
@@ -162,6 +157,21 @@ public class ConfigModel
     /// 最大宽度
     /// </summary>
     public WidthEnum Width { get; set; } = WidthEnum.Minimum;
+
+    /// <summary>
+    /// 网络代理方式
+    /// </summary>
+    public ProxyMethodEnum ProxyMethod { get; set; } = ProxyMethodEnum.系统代理;
+
+    /// <summary>
+    /// 代理IP
+    /// </summary>
+    public string ProxyIp { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 代理端口
+    /// </summary>
+    public int? ProxyPort { get; set; }
 
     /// <summary>
     /// 热键

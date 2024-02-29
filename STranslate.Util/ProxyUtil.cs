@@ -1,4 +1,6 @@
-﻿using STranslate.Util.Proxy;
+﻿using STranslate.Model;
+using STranslate.Util.Proxy;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,6 +30,17 @@ namespace STranslate.Helper
         public static void UpdateDynamicProxy(bool flag)
         {
             HttpClient.DefaultProxy = flag ? new HttpNoProxy() : _dynamicProxy;
+        }
+
+        public static void UpdateProxy(ProxyMethodEnum proxyMethod, string ip = "", int port = 0)
+        {
+            HttpClient.DefaultProxy = proxyMethod switch
+            {
+                ProxyMethodEnum.系统代理 => _dynamicProxy,
+                ProxyMethodEnum.HTTP => new WebProxy($"{ip}:{port}", false),
+                ProxyMethodEnum.SOCKS5 => new WebProxy($"{ip}:{port}", false),
+                _ => new HttpNoProxy()
+            };
         }
 
         /// <summary>

@@ -53,7 +53,8 @@ public class ConfigHelper
         TTSOperate();
 
         //初始化代理设置
-        ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
+        ProxyOperate(CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理, CurrentConfig?.ProxyIp ?? "", CurrentConfig?.ProxyPort ?? 0);
+        //ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
 
         //初始化首页图标
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
@@ -161,7 +162,6 @@ public class ConfigHelper
         CurrentConfig.IsFollowMouse = model.IsFollowMouse;
         CurrentConfig.CloseUIOcrRetTranslate = model.CloseUIOcrRetTranslate;
         CurrentConfig.UnconventionalScreen = model.UnconventionalScreen;
-        CurrentConfig.IsDisableSystemProxy = model.IsDisableSystemProxy;
         CurrentConfig.IsOcrAutoCopyText = model.IsOcrAutoCopyText;
         CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
         CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
@@ -181,53 +181,16 @@ public class ConfigHelper
         CurrentConfig.IsCaretLast = model.IsCaretLast;
         CurrentConfig.MaxHeight = model.MaxHeight;
         CurrentConfig.Width = model.Width;
+        CurrentConfig.ProxyMethod = model.ProxyMethod;
+        CurrentConfig.ProxyIp = model.ProxyIp;
+        CurrentConfig.ProxyPort = model.ProxyPort;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
+        ProxyOperate(CurrentConfig.ProxyMethod, CurrentConfig.ProxyIp, CurrentConfig.ProxyPort ?? 0);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
-    }
-
-    private void ThemeOperate(ThemeType themeType)
-    {
-        switch (themeType)
-        {
-            case ThemeType.Auto:
-                Singleton<ThemeHelper>.Instance.StartListenRegistry();
-                break;
-            case ThemeType.Light:
-                Singleton<ThemeHelper>.Instance.LightTheme();
-                goto default;
-            case ThemeType.Dark:
-                Singleton<ThemeHelper>.Instance.DarkTheme();
-                goto default;
-            default:
-                Singleton<ThemeHelper>.Instance.StopListenRegistry();
-                break;
-        }
-    }
-
-    //初始化字体
-    private void FontOperate()
-    {
-        try
-        {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
-                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
-                : new FontFamily(CurrentConfig!.CustomFont);
-        }
-        catch (Exception)
-        {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
-            CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
-        }
-    }
-
-    //初始化文本转语音服务
-    private void TTSOperate()
-    {
-        Singleton<TTSViewModel>.Instance.ActivedTTS = CurrentConfig?.TTSList?.FirstOrDefault(x => x.IsEnabled);
     }
 
     #endregion 公共方法
@@ -298,6 +261,53 @@ public class ConfigHelper
         File.WriteAllText(ConstStr.CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
 
+    private void ThemeOperate(ThemeType themeType)
+    {
+        switch (themeType)
+        {
+            case ThemeType.Auto:
+                Singleton<ThemeHelper>.Instance.StartListenRegistry();
+                break;
+            case ThemeType.Light:
+                Singleton<ThemeHelper>.Instance.LightTheme();
+                goto default;
+            case ThemeType.Dark:
+                Singleton<ThemeHelper>.Instance.DarkTheme();
+                goto default;
+            default:
+                Singleton<ThemeHelper>.Instance.StopListenRegistry();
+                break;
+        }
+    }
+
+    //初始化字体
+    private void FontOperate()
+    {
+        try
+        {
+            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
+                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+                : new FontFamily(CurrentConfig!.CustomFont);
+        }
+        catch (Exception)
+        {
+            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
+            CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
+        }
+    }
+
+    //初始化文本转语音服务
+    private void TTSOperate()
+    {
+        Singleton<TTSViewModel>.Instance.ActivedTTS = CurrentConfig?.TTSList?.FirstOrDefault(x => x.IsEnabled);
+    }
+
+    // 代理操作
+    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port)
+    {
+        ProxyUtil.UpdateProxy(proxyMethod, ip, port);
+    }
+
     #endregion 私有方法
 
     #region 字段 && 属性
@@ -330,7 +340,6 @@ public class ConfigHelper
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
             UnconventionalScreen = false,
-            IsDisableSystemProxy = false,
             CloseUIOcrRetTranslate = false,
             IsAdjustContentTranslate = false,
             IsRemoveLineBreakGettingWords = false,
@@ -350,6 +359,9 @@ public class ConfigHelper
             IsCaretLast = false,
             MaxHeight = MaxHeight.Maximum,
             Width = WidthEnum.Minimum,
+            ProxyMethod = ProxyMethodEnum.系统代理,
+            ProxyIp = string.Empty,
+            ProxyPort = null,
             SourceLanguage = LanguageEnum.AUTO.GetDescription(),
             TargetLanguage = LanguageEnum.AUTO.GetDescription(),
             Services =

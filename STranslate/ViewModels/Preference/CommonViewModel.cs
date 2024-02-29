@@ -72,6 +72,9 @@ namespace STranslate.ViewModels.Preference
             IsCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
             MaxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
             Width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
+            ProxyMethod = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+            ProxyIp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyIp ?? string.Empty;
+            ProxyPort = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPort ?? 0;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -102,6 +105,9 @@ namespace STranslate.ViewModels.Preference
 
             // 加载主题集合
             ThemeList = EnumExtensions.GetEnumList<ThemeType>();
+
+            // 代理方式集合
+            ProxyMethodList = EnumExtensions.GetEnumList<ProxyMethodEnum>();
 
             // 加载历史记录类型
             LoadHistorySizeType();
@@ -197,23 +203,6 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private bool unconventionalScreen = Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false;
-
-        private bool isDisableSystemProxy = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsDisableSystemProxy ?? false;
-
-        public bool IsDisableSystemProxy
-        {
-            get => isDisableSystemProxy;
-            set
-            {
-                if (isDisableSystemProxy != value)
-                {
-                    OnPropertyChanging(nameof(IsDisableSystemProxy));
-                    isDisableSystemProxy = value;
-                    ProxyUtil.UpdateDynamicProxy(value);
-                    OnPropertyChanged(nameof(IsDisableSystemProxy));
-                }
-            }
-        }
 
         [ObservableProperty]
         private bool isOcrAutoCopyText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false;
@@ -377,5 +366,17 @@ namespace STranslate.ViewModels.Preference
         public List<MaxHeight> MaxHeightList { get; set; }
 
         public List<WidthEnum> WidthList { get; set; }
+
+        [ObservableProperty]
+        private List<ProxyMethodEnum> _proxyMethodList;
+
+        [ObservableProperty]
+        private ProxyMethodEnum _proxyMethod = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+
+        [ObservableProperty]
+        private string _proxyIp = "";
+
+        [ObservableProperty]
+        private int? _proxyPort;
     }
 }

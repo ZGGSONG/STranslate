@@ -354,6 +354,17 @@ namespace STranslate.Model
     }
 
     /// <summary>
+    /// 网络代理方式
+    /// </summary>
+    public enum ProxyMethodEnum
+    {
+        不使用代理,
+        系统代理,
+        HTTP,
+        SOCKS5
+    }
+
+    /// <summary>
     /// 获取Description
     /// </summary>
     public static class EnumExtensions
