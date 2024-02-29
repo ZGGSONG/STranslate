@@ -32,14 +32,14 @@ namespace STranslate.Helper
             HttpClient.DefaultProxy = flag ? new HttpNoProxy() : _dynamicProxy;
         }
 
-        public static void UpdateProxy(ProxyMethodEnum proxyMethod, string ip = "", int port = 0)
+        public static void UpdateProxy(ProxyMethodEnum proxyMethod, string ip = "", int port = 0, bool isAuth = false, string username = "", string pwd = "")
         {
+            //Socks5方式参考: https://github.com/MihaZupan/HttpToSocks5Proxy
             HttpClient.DefaultProxy = proxyMethod switch
             {
+                ProxyMethodEnum.不使用代理 => new HttpNoProxy(),
                 ProxyMethodEnum.系统代理 => _dynamicProxy,
-                ProxyMethodEnum.HTTP => new WebProxy($"{ip}:{port}", false),
-                ProxyMethodEnum.SOCKS5 => new WebProxy($"{ip}:{port}", false),
-                _ => new HttpNoProxy()
+                _ => new WebProxy($"{proxyMethod.ToString().ToLower()}://{ip}:{port}", true, null, isAuth ? new NetworkCredential(username, pwd) : null), //当设置为 true 时，如果请求的目标地址是本地地址（比如 localhost 或 127.0.0.1），将不会使用代理而是直接连接。
             };
         }
 

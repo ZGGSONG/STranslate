@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Updater;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,8 @@ namespace STranslate.ViewModels.Preference
             ProxyMethod = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
             ProxyIp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyIp ?? string.Empty;
             ProxyPort = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPort ?? 0;
+            ProxyUsername = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyUsername ?? string.Empty;
+            ProxyPassword = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPassword ?? string.Empty;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -374,9 +377,35 @@ namespace STranslate.ViewModels.Preference
         private ProxyMethodEnum _proxyMethod = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
 
         [ObservableProperty]
-        private string _proxyIp = "";
+        private string _proxyIp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyIp ?? string.Empty;
 
         [ObservableProperty]
-        private int? _proxyPort;
+        private int? _proxyPort = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPort;
+
+        [ObservableProperty]
+        private bool _isProxyAuthentication = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsProxyAuthentication ?? false;
+
+        [ObservableProperty]
+        private string _proxyUsername = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyUsername ?? string.Empty;
+
+        [ObservableProperty]
+        private string _proxyPassword = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPassword ?? string.Empty;
+
+        [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private bool _isProxyPasswordHide = true;
+
+        private RelayCommand<string>? showEncryptInfoCommand;
+        [JsonIgnore]
+        public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
+
+        private void ShowEncryptInfo(string? obj)
+        {
+            if (obj != null && obj.Equals(nameof(ProxyPassword)))
+            {
+                IsProxyPasswordHide = !IsProxyPasswordHide;
+            }
+        }
     }
 }

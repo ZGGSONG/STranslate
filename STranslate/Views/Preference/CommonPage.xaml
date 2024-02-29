@@ -101,7 +101,7 @@
                         <StackPanel Orientation="Vertical">
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="代理设置" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置网络代理方式" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置网络代理方式&#13;本地地址直连" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
                                           ItemsSource="{Binding ProxyMethodList}"
@@ -128,6 +128,47 @@
                                                            PreviewKeyDown="AcceptOnlyNumber"
                                                            Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource ProxyMethodToVisibilityConverter}}">
+                                <TextBlock Text="代理服务器验证" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器需要身份验证" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsProxyAuthentication}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10" Visibility="{Binding IsProxyAuthentication, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="用户名" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器用户名" />
+                                <common:PlaceholderTextBox MinWidth="120"
+                                                           HorizontalAlignment="Right"
+                                                           Placeholder="请输入用户名"
+                                                           Text="{Binding ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10" Visibility="{Binding IsProxyAuthentication, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="密码" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器密码" />
+                                <common:PlaceholderTextBox MinWidth="120"
+                                                           HorizontalAlignment="Right"
+                                                           DockPanel.Dock="Right"
+                                                           Placeholder="请输入密码"
+                                                           Text="{Binding ProxyPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                           Visibility="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                                <PasswordBox MinWidth="120"
+                                             HorizontalAlignment="Right"
+                                             common:BoundPasswordBox.Attach="True"
+                                             common:BoundPasswordBox.Password="{Binding ProxyPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             DockPanel.Dock="Right"
+                                             Tag="请输入密码"
+                                             ToolTip="{Binding ProxyPassword}"
+                                             Visibility="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Button HorizontalAlignment="Right"
+                                        Command="{Binding ShowEncryptInfoCommand}"
+                                        CommandParameter="ProxyPassword"
+                                        Content="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                                        DockPanel.Dock="Right"
+                                        Style="{DynamicResource ButtonIconStyle}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

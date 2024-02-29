@@ -174,6 +174,21 @@ public class ConfigModel
     public int? ProxyPort { get; set; }
 
     /// <summary>
+    /// 代理是否需要验证
+    /// </summary>
+    public bool IsProxyAuthentication { get; set; }
+
+    /// <summary>
+    /// 代理用户名
+    /// </summary>
+    public string ProxyUsername { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 代理密码
+    /// </summary>
+    public string ProxyPassword { get; set; } = string.Empty;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }

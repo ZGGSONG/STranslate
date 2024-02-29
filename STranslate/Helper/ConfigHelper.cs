@@ -53,7 +53,7 @@ public class ConfigHelper
         TTSOperate();
 
         //初始化代理设置
-        ProxyOperate(CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理, CurrentConfig?.ProxyIp ?? "", CurrentConfig?.ProxyPort ?? 0);
+        ProxyOperate(CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理, CurrentConfig?.ProxyIp ?? "", CurrentConfig?.ProxyPort ?? 0, CurrentConfig?.IsProxyAuthentication ?? false, CurrentConfig?.ProxyUsername ?? "", CurrentConfig?.ProxyPassword ?? "");
         //ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
 
         //初始化首页图标
@@ -184,9 +184,12 @@ public class ConfigHelper
         CurrentConfig.ProxyMethod = model.ProxyMethod;
         CurrentConfig.ProxyIp = model.ProxyIp;
         CurrentConfig.ProxyPort = model.ProxyPort;
+        CurrentConfig.IsProxyAuthentication = model.IsProxyAuthentication;
+        CurrentConfig.ProxyUsername = model.ProxyUsername;
+        CurrentConfig.ProxyPassword = model.ProxyPassword;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
-        ProxyOperate(CurrentConfig.ProxyMethod, CurrentConfig.ProxyIp, CurrentConfig.ProxyPort ?? 0);
+        ProxyOperate(CurrentConfig.ProxyMethod, CurrentConfig.ProxyIp, CurrentConfig.ProxyPort ?? 0, CurrentConfig.IsProxyAuthentication, CurrentConfig.ProxyUsername, CurrentConfig.ProxyPassword);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -303,9 +306,9 @@ public class ConfigHelper
     }
 
     // 代理操作
-    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port)
+    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username, string pwd)
     {
-        ProxyUtil.UpdateProxy(proxyMethod, ip, port);
+        ProxyUtil.UpdateProxy(proxyMethod, ip, port, isAuth, username, pwd);
     }
 
     #endregion 私有方法
@@ -362,6 +365,9 @@ public class ConfigHelper
             ProxyMethod = ProxyMethodEnum.系统代理,
             ProxyIp = string.Empty,
             ProxyPort = null,
+            IsProxyAuthentication = false,
+            ProxyUsername = string.Empty,
+            ProxyPassword = string.Empty,
             SourceLanguage = LanguageEnum.AUTO.GetDescription(),
             TargetLanguage = LanguageEnum.AUTO.GetDescription(),
             Services =
