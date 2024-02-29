@@ -398,12 +398,14 @@ namespace STranslate.ViewModels
                 view.Left = mouseLocation.X;
                 view.Top = mouseLocation.Y;
             }
-            //TODO: 发现当前已经存在子窗口时,无法active
-            //如果当前是置顶状态则会取消置顶导致出现问题
-            if (!view.Topmost)
+            if (view.WindowState == WindowState.Minimized)
             {
-                view.Topmost = true;
-                view.Topmost = false;
+                view.WindowState = WindowState.Normal; // Restore the window if it was minimized.
+            }
+            if (!view.Topmost) // Ensure the window is topmost if it's not already.
+            {
+                view.Topmost = true;  // Temporarily make the window topmost.
+                view.Topmost = false; // Then set it back to normal state, this is a trick to bring it to the front.
             }
             //显示主界面
             view.Show();
