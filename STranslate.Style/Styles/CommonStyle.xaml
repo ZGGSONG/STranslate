@@ -14,4 +14,5 @@
     <converter:BooleanToContentConverter x:Key="BooleanToContentConverter" />
     <converter:PreferenceType2BooleanConverter x:Key="PreferenceType2BooleanConverter" />
     <converter:ProxyMethodToVisibilityConverter x:Key="ProxyMethodToVisibilityConverter" />
+    <converter:MultiProxyParam2VisibilityConverter x:Key="MultiProxyParam2VisibilityConverter" />
 </ResourceDictionary>

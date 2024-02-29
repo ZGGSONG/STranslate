@@ -136,7 +136,7 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsProxyAuthentication}" />
                             </DockPanel>
 
-                            <DockPanel Margin="20,10" Visibility="{Binding IsProxyAuthentication, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="用户名" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器用户名" />
                                 <common:PlaceholderTextBox MinWidth="120"
@@ -144,9 +144,16 @@
                                                            Placeholder="请输入用户名"
                                                            Text="{Binding ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
+                                <DockPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource MultiProxyParam2VisibilityConverter}">
+                                        <Binding Path="ProxyMethod" />
+                                        <Binding Path="IsProxyAuthentication" />
+                                    </MultiBinding>
+                                </DockPanel.Visibility>
+
                             </DockPanel>
 
-                            <DockPanel Margin="20,10" Visibility="{Binding IsProxyAuthentication, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="密码" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器密码" />
                                 <common:PlaceholderTextBox MinWidth="120"
@@ -169,6 +176,13 @@
                                         Content="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                                         DockPanel.Dock="Right"
                                         Style="{DynamicResource ButtonIconStyle}" />
+
+                                <DockPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource MultiProxyParam2VisibilityConverter}">
+                                        <Binding Path="ProxyMethod" />
+                                        <Binding Path="IsProxyAuthentication" />
+                                    </MultiBinding>
+                                </DockPanel.Visibility>
                             </DockPanel>
                         </StackPanel>
                     </Border>
