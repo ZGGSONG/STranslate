@@ -43,6 +43,8 @@
 
 1. 全局快捷键
 
+> 可自行修改
+
 | 快捷键 | 功能 | 演示 |
 | :-- | :-- | :-- |
 | `Alt` + `A` | 打开软件界面，输入内容按`回车`翻译 | ![](./img/input.gif) |
@@ -55,11 +57,22 @@
 
 
 2. 软件内快捷键
+
+> 暂不可修改
+
 - `ESC` 隐藏界面(含取消请求)
 - `Ctrl` + `,` 打开设置
 - `Ctrl` + `Shift` + `Q` 退出程序
-- `Ctrl` + `Shift` + `R` 切换主题
 - `Ctrl` + `Shift` + `T` 置顶/取消置顶
+- `Ctrl` + `+` 放大界面(宽度、最大高度)
+- `Ctrl` + `-` 缩小界面(宽度、最大高度)
+- `Ctrl` + `0` 界面恢复配置大小(宽度、最大高度)
+- `Ctrl` + `Alt` + `+` 宽度增加
+- `Ctrl` + `Alt` + `-` 宽度减少
+- `Ctrl` + `Shift` + `+` 最大高度增加
+- `Ctrl` + `Shift` + `-` 最大高度减少
+- `Ctrl` + `1...8` 按顺序复制翻译服务结果
+- `Ctrl` + `9` 复制最后一个翻译服务结果
 
 3. 软件集成缓存功能，默认翻译一次则会缓存住，再次翻译或默认查询缓存，如果缓存存在则返回缓存结果，如需强制翻译只需要输入内容后按 `Ctrl` + `Enter` 即可
 
@@ -123,6 +136,12 @@
 8. [小牛翻译](https://niutrans.com/trans?type=text)
 9. [彩云小译](https://dashboard.caiyunapp.com/user/sign_in/)
 10. [火山引擎](https://www.volcengine.com/)
+11. [简明英汉词典](https://github.com/skywind3000/ECDICT)([官方-离线资源包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip)、[国内-离线资源包](https://www.123pan.com/s/AxlRjv-u5VmA.html))
+
+## TTS
+
+1. [离线TTS](https://learn.microsoft.com/zh-cn/dotnet/api/system.speech.synthesis.speechsynthesizer?view=dotnet-plat-ext-8.0)
+2. [Azure TTS](https://azure.microsoft.com/zh-cn/products/ai-services/text-to-speech)
 
 
 ## 疑问
