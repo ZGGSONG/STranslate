@@ -341,7 +341,7 @@ namespace STranslate.ViewModels
 
             //获取主窗口
             MainView window = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
-            window.Show();
+            window.ViewAnimation();
             window.Activate();
 
             //获取文本

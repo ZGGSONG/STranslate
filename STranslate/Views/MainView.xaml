@@ -66,6 +66,10 @@
         <Storyboard x:Key="HAnimation">
             <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="MaxHeight" Duration="0:0:0.15" />
         </Storyboard>
+
+        <Storyboard x:Key="ViewAnimation">
+            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+        </Storyboard>
     </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

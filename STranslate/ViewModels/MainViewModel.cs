@@ -6,6 +6,7 @@ using STranslate.Model;
 using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
+using STranslate.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -269,7 +270,7 @@ namespace STranslate.ViewModels
         /// </summary>
         /// <param name="obj"></param>
         [RelayCommand]
-        private void Esc(Window win)
+        private void Esc(MainView win)
         {
             if (isMouseHook)
             {
@@ -280,7 +281,7 @@ namespace STranslate.ViewModels
             win.Topmost = false;
             IsTopMost = ConstStr.TAGFALSE;
             TopMostContent = ConstStr.UNTOPMOSTCONTENT;
-            win.Hide();
+            win.ViewAnimation(false);
             InputVM.TranslateCancelCommand.Execute(null);
 
             //取消语音播放

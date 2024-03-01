@@ -107,6 +107,36 @@ namespace STranslate.Views
             hAnimation?.Begin();
         }
 
+        public void ViewAnimation(bool show = true)
+        {
+            var viewAnimation = (FindResource("ViewAnimation") as Storyboard)!;
+            var doubleAnimation = (viewAnimation.Children.FirstOrDefault() as DoubleAnimation)!;
+            // 注销之前可能添加的Completed事件
+            viewAnimation.Completed -= AnimationCompleted;
+            if (show)
+            {
+                // 在开始动画之前，确保窗口是可见的
+                Mwin.Visibility = Visibility.Visible;
+                doubleAnimation.From = 0;
+                doubleAnimation!.To = 1;
+            }
+            else
+            {
+                doubleAnimation.From = 1;
+                doubleAnimation.To = 0;
+                // 在动画完成时注册一个事件，隐藏窗口
+                viewAnimation.Completed += AnimationCompleted;
+            }
+
+            viewAnimation?.Begin();
+        }
+
+        private void AnimationCompleted(object? sender, EventArgs e)
+        {
+            // 动画完成后隐藏窗口
+            Mwin.Visibility = Visibility.Hidden;
+        }
+
         /// <summary>
         /// 刷新最大高度并刷新界面
         /// </summary>
@@ -169,7 +199,6 @@ namespace STranslate.Views
             }
         }
 
-
         private void Mwin_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // 开始拖动窗体
@@ -180,7 +209,7 @@ namespace STranslate.Views
         {
             if (!Topmost)
             {
-                Hide();
+                ViewAnimation(false);
             }
         }
 

@@ -269,8 +269,7 @@ namespace STranslate.ViewModels
                         var getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
 
                         //取词前移除换行
-                        getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false
-                                ? StringUtil.RemoveLineBreaks(getText) : getText;
+                        getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
 
                         //写入剪贴板
                         Clipboard.SetDataObject(getText, true);
@@ -372,7 +371,7 @@ namespace STranslate.ViewModels
             var view = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
             if (!view.Topmost)
             {
-                view.Hide();
+                view.ViewAnimation(false);
             }
         }
 
@@ -404,11 +403,17 @@ namespace STranslate.ViewModels
             }
             if (!view.Topmost) // Ensure the window is topmost if it's not already.
             {
-                view.Topmost = true;  // Temporarily make the window topmost.
+                view.Topmost = true; // Temporarily make the window topmost.
                 view.Topmost = false; // Then set it back to normal state, this is a trick to bring it to the front.
             }
-            //显示主界面
-            view.Show();
+            if (view is MainView mview)
+            {
+                mview.ViewAnimation();
+            }
+            else
+            {
+                view.Show();
+            }
             view.Activate();
 
             //激活输入框

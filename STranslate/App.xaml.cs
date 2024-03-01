@@ -121,7 +121,7 @@ namespace STranslate
         private void StartProgram()
         {
             LogService.Logger.Info($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} Opened...");
-            new MainView()!.Show();
+            new MainView().Show();
         }
 
         /// <summary>
