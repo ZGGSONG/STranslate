@@ -115,10 +115,14 @@ namespace STranslate.Views
             viewAnimation.Completed -= AnimationCompleted;
             if (show)
             {
+                // 如果当前已经显示了，则不执行动画
+                if (Mwin.Visibility == Visibility.Visible)
+                    return;
+
                 // 在开始动画之前，确保窗口是可见的
                 Mwin.Visibility = Visibility.Visible;
                 doubleAnimation.From = 0;
-                doubleAnimation!.To = 1;
+                doubleAnimation.To = 1;
             }
             else
             {
