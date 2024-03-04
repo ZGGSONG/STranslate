@@ -325,8 +325,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void Translate(System.Collections.Generic.List<object> obj)
         {
-            string content = (obj.FirstOrDefault() as string) ?? "";
-            Window? ocrView = (obj.LastOrDefault() as Window);
+            var content = obj.FirstOrDefault() as string ?? "";
+            var ocrView = obj.LastOrDefault() as Window;
 
             //OCR结果翻译关闭界面
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.CloseUIOcrRetTranslate ?? false)
@@ -350,6 +350,15 @@ namespace STranslate.ViewModels
                 .InputContent = content;
             //执行翻译
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+        }
+
+        [RelayCommand]
+        private void HotkeyCopy()
+        {
+            if (string.IsNullOrEmpty(GetContent)) return;
+            
+            Clipboard.SetDataObject(GetContent, true);
+            ToastHelper.Show("复制成功", WindowType.OCR);
         }
 
         #region ContextMenu

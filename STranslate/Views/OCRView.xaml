@@ -29,7 +29,8 @@
                     Command="{Binding StickyCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                     Modifiers="Ctrl+Shift" />
-        
+        <!-- // 快捷键复制 // -->
+        <KeyBinding Command="{Binding HotkeyCopyCommand}" Gesture="Ctrl+1" />
         <!-- // 重置字体大小 // -->
         <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
     </Window.InputBindings>
