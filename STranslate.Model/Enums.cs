@@ -308,10 +308,10 @@ namespace STranslate.Model
         Medium = 600,
 
         [Description("较大高度")]
-        Maximum = 700,
+        Larger = 700,
 
         [Description("最大高度")]
-        Larger = 800,
+        Maximum = 800,
 
         [Description("工作区高度")]
         WorkAreaMaximum = 9999
