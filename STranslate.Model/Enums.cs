@@ -301,11 +301,17 @@ namespace STranslate.Model
         [Description("最小高度")]
         Minimum = 328,
 
+        [Description("较小高度")]
+        Smaller = 496,
+
         [Description("中等高度")]
-        Medium = 496,
+        Medium = 600,
+
+        [Description("较大高度")]
+        Maximum = 700,
 
         [Description("最大高度")]
-        Maximum = 800,
+        Larger = 800,
 
         [Description("工作区高度")]
         WorkAreaMaximum = 9999
@@ -319,8 +325,14 @@ namespace STranslate.Model
         [Description("最小宽度")]
         Minimum = 480,
 
+        [Description("较小宽度")]
+        Smaller = 600,
+
         [Description("中等宽度")]
-        Medium = 600,
+        Medium = 800,
+
+        [Description("较大宽度")]
+        Larger = 1000,
 
         [Description("最大宽度")]
         Maximum = 1200,
