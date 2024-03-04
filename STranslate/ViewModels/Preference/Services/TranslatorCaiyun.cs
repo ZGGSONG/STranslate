@@ -6,6 +6,7 @@ using STranslate.Model;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -59,14 +60,20 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
         [JsonIgnore]
@@ -123,10 +130,7 @@ namespace STranslate.ViewModels.Preference.Services
                     detect = true
                 };
 
-                var headers = new Dictionary<string, string>
-                {
-                    { "X-Authorization", $"token {AppKey}" },
-                };
+                var headers = new Dictionary<string, string> { { "X-Authorization", $"token {AppKey}" }, };
 
                 string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(body), null, headers, token);
                 if (string.IsNullOrEmpty(resp))

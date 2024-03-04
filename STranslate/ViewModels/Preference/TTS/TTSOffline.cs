@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Threading;
@@ -58,14 +59,20 @@ namespace STranslate.ViewModels.Preference.TTS
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
         [JsonIgnore]

@@ -4,6 +4,7 @@ using STranslate.Model;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,14 +58,20 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
         [JsonIgnore]
@@ -76,7 +83,8 @@ namespace STranslate.ViewModels.Preference.Services
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
 
         [JsonIgnore]
-        public string Tips { get; set; } = @"请求:
+        public string Tips { get; set; } =
+            @"请求:
 {
     ""text"": ""test"",
     ""source_lang"": ""auto"",

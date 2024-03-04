@@ -7,6 +7,7 @@ using STranslate.Updater;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -68,14 +69,20 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
         [JsonIgnore]
@@ -147,6 +154,7 @@ namespace STranslate.ViewModels.Preference.Services
         private string _dbFileSize = "";
 
         [RelayCommand]
+        [property: JsonIgnore]
         private async Task DownloadResource()
         {
             ProcessValue = 0;
@@ -223,6 +231,7 @@ namespace STranslate.ViewModels.Preference.Services
         }
 
         [RelayCommand]
+        [property: JsonIgnore]
         private void DeleteResource()
         {
             try

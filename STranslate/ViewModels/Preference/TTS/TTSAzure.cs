@@ -7,6 +7,7 @@ using STranslate.Log;
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,14 +51,20 @@ namespace STranslate.ViewModels.Preference.TTS
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
         #region Show/Hide Encrypt Info

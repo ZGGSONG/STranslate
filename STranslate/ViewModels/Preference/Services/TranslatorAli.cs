@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,14 +61,20 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _AppID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
         [JsonIgnore]
@@ -120,6 +127,7 @@ namespace STranslate.ViewModels.Preference.Services
          * @return Client
          * @throws Exception
          */
+
         public static Client CreateClient(string accessKeyId, string accessKeySecret, string url)
         {
             if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
