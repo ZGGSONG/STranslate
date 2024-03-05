@@ -9,6 +9,7 @@
     <sys:Double x:Key="FontSize_About">30</sys:Double>
     <sys:Double x:Key="FontSize_Title">20</sys:Double>
     <sys:Double x:Key="FontSize_Content">18</sys:Double>
+    <sys:Double x:Key="FontSize_Prompt">16</sys:Double>
     <sys:Double x:Key="FontSize_Identify">14</sys:Double>
     <sys:Double x:Key="FontSize_TextBox">18</sys:Double>
 </ResourceDictionary>

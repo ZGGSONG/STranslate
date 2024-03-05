@@ -15,19 +15,11 @@ namespace STranslate.ViewModels.Preference.Services
 {
     public partial class TranslatorOpenAI : ObservableObject, ITranslator
     {
-        public TranslatorOpenAI()
-            : this(Guid.NewGuid(), "https://api.openai.com", "OpenAI") { }
+        public TranslatorOpenAI() : this(Guid.NewGuid(), "https://api.openai.com", "OpenAI")
+        {
+        }
 
-        public TranslatorOpenAI(
-            Guid guid,
-            string url,
-            string name = "",
-            IconType icon = IconType.OpenAI,
-            string appID = "",
-            string appKey = "",
-            bool isEnabled = true,
-            ServiceType type = ServiceType.OpenAIService
-        )
+        public TranslatorOpenAI(Guid guid, string url, string name = "", IconType icon = IconType.OpenAI, string appID = "", string appKey = "", bool isEnabled = true, ServiceType type = ServiceType.OpenAIService)
         {
             Identify = guid;
             Url = url;
@@ -106,6 +98,35 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        [JsonIgnore]
+        [ObservableProperty]
+        private BindingList<OpenaiMessage> openaiMessages =
+        [
+            new OpenaiMessage("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
+            new OpenaiMessage("user", "Translate the following text to $target: $content")
+        ];
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void DeletePrompt(OpenaiMessage openaiMsg)
+        {
+            OpenaiMessages.Remove(openaiMsg);
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void AddPrompt()
+        {
+            var last = OpenaiMessages.LastOrDefault()?.Role ?? "";
+            var newOne = last switch
+            {
+                "" => new OpenaiMessage("system"),
+                "user" => new OpenaiMessage("assistant"),
+                _ => new OpenaiMessage("user")
+            };
+            OpenaiMessages.Add(newOne);
+        }
+
         public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
         {
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
@@ -130,16 +151,15 @@ namespace STranslate.ViewModels.Preference.Services
                 a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
 
                 // 组织语言
-                var a_content = source.Equals("auto", StringComparison.CurrentCultureIgnoreCase)
-                    ? $"Translate the following text to {target}: {content}"
-                    : $"Translate the following text from {source} to {target}: {content}";
+                var a_messages = OpenaiMessages.DeepClone();
+                a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 
                 // 构建请求数据
                 var reqData = new
                 {
                     model = a_model,
-                    messages = new[] { new { role = "user", content = a_content } },
-                    temperature = 1.0,
+                    messages = a_messages,
+                    //temperature = 1.0,
                     stream = true
                 };
 

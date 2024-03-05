@@ -445,6 +445,11 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
 
+        if (translator is TranslatorOpenAI openai)
+        {
+            openai.OpenaiMessages.Clear();
+        }
+
         serializer.Populate(jsonObject.CreateReader(), translator);
         return translator;
     }
