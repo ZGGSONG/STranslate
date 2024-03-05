@@ -57,6 +57,17 @@
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="静默OCR"
                     Visibility="{Binding IsShowSilentOCR, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button Width="30"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Command="{Binding NotifyIconVM.ClipboardMonitorCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Content="&#xeabc;"
+                    FontWeight="Bold"
+                    Style="{DynamicResource ButtonCrosswordsIconStyle}"
+                    Tag="{Binding NotifyIconVM.IsEnabledClipboardMonitor}"
+                    ToolTip="监听剪贴板"
+                    Visibility="{Binding IsShowClipboardMonitor, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button HorizontalAlignment="Right"
                     Command="{Binding NotifyIconVM.QRCodeCommand}"
                     CommandParameter="header"

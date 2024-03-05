@@ -2,19 +2,21 @@
 {
     public class Hotkeys
     {
-        public InputTranslate InputTranslate { get; set; } = new InputTranslate();
+        public InputTranslate InputTranslate { get; set; } = new();
 
-        public CrosswordTranslate CrosswordTranslate { get; set; } = new CrosswordTranslate();
+        public CrosswordTranslate CrosswordTranslate { get; set; } = new();
 
-        public ScreenShotTranslate ScreenShotTranslate { get; set; } = new ScreenShotTranslate();
+        public ScreenShotTranslate ScreenShotTranslate { get; set; } = new();
 
-        public OpenMainWindow OpenMainWindow { get; set; } = new OpenMainWindow();
+        public OpenMainWindow OpenMainWindow { get; set; } = new();
 
-        public MousehookTranslate MousehookTranslate { get; set; } = new MousehookTranslate();
+        public MousehookTranslate MousehookTranslate { get; set; } = new();
 
-        public OCR OCR { get; set; } = new OCR();
+        public OCR OCR { get; set; } = new();
 
-        public SilentOCR SilentOCR { get; set; } = new SilentOCR();
+        public SilentOCR SilentOCR { get; set; } = new();
+
+        public ClipboardMonitor ClipboardMonitor { get; set; } = new();
     }
 
     public class InputTranslate : HotkeyBase { }
@@ -30,6 +32,8 @@
     public class OCR : HotkeyBase { }
 
     public class SilentOCR : HotkeyBase { }
+
+    public class ClipboardMonitor : HotkeyBase { }
 
     public class HotkeyBase
     {

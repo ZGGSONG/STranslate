@@ -16,7 +16,7 @@
     <Border CornerRadius="5">
         <Border Margin="8" Background="{DynamicResource BorderBackground}" CornerRadius="5">
             <StackPanel Margin="20">
-                <Grid>
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -50,7 +50,7 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid Margin="0,20">
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -84,7 +84,7 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid>
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -118,7 +118,7 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid Margin="0,20">
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -152,7 +152,7 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid>
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -186,7 +186,7 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid Margin="0,20">
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -220,7 +220,7 @@
                            Visibility="Hidden" />
                 </Grid>
 
-                <Grid>
+                <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="1.5*" />
@@ -243,6 +243,40 @@
                              KeyUp="SilentOCR_KeyUp"
                              PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
                     <Label x:Name="SilentOCRHotKeyConflictLabel"
+                           Grid.Column="2"
+                           Margin="20,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Content="热键冲突"
+                           DockPanel.Dock="Right"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
+                           Visibility="Hidden" />
+                </Grid>
+
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           Margin="20,0"
+                           VerticalAlignment="Center"
+                           HorizontalContentAlignment="Right"
+                           Content="监听剪贴板" />
+                    <TextBox x:Name="ClipboardMonitorTextBox"
+                             Grid.Column="1"
+                             MinWidth="180"
+                             Margin="20,2"
+                             HorizontalAlignment="Left"
+                             VerticalContentAlignment="Center"
+                             CaretBrush="Transparent"
+                             Cursor="Hand"
+                             InputMethod.IsInputMethodEnabled="False"
+                             KeyUp="ClipboardMonitor_KeyUp"
+                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
+                    <Label x:Name="ClipboardMonitorHotKeyConflictLabel"
                            Grid.Column="2"
                            Margin="20,0"
                            HorizontalAlignment="Left"

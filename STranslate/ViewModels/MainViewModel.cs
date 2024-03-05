@@ -136,13 +136,19 @@ namespace STranslate.ViewModels
                     NotifyIconVM.SilentOCRCommand.Execute(null);
                 });
 
+                HotkeyHelper.Register(HotkeyHelper.ClipboardMonitorId, () =>
+                {
+                    NotifyIconVM.ClipboardMonitorCommand.Execute(view);
+                });
+
                 if (HotkeyHelper.Hotkeys!.InputTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.ScreenShotTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.OpenMainWindow.Conflict
                     || HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.OCR.Conflict
-                    || HotkeyHelper.Hotkeys!.SilentOCR.Conflict)
+                    || HotkeyHelper.Hotkeys!.SilentOCR.Conflict
+                    || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict)
                 {
                     MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
                 }
@@ -161,6 +167,8 @@ namespace STranslate.ViewModels
                     msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
                 if (!HotkeyHelper.Hotkeys.SilentOCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentOCR.Text))
                     msg += $"静默: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
+                if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
+                    msg += $"剪贴板: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
                 NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
             }
             catch (Exception)
@@ -195,22 +203,19 @@ namespace STranslate.ViewModels
             }
         }
 
-        private bool isMouseHook = false;
-
         [RelayCommand]
         private void MouseHook(Window view)
         {
-            isMouseHook = !isMouseHook;
-            IsEnableMosehook = isMouseHook ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+            NotifyIconVM.IsMousehook = !NotifyIconVM.IsMousehook;
+            IsEnableMosehook = NotifyIconVM.IsMousehook ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
 
-            if (isMouseHook)
+            if (NotifyIconVM.IsMousehook)
             {
                 view.Topmost = true;
                 IsTopMost = ConstStr.TAGTRUE;
                 TopMostContent = ConstStr.TOPMOSTCONTENT;
                 Singleton<MouseHookHelper>.Instance.MouseHookStart();
                 Singleton<MouseHookHelper>.Instance.OnGetwordsHandler += OnGetwordsHandlerChanged;
-                NotifyIconVM.IsMousehook = true;
                 ToastHelper.Show("启用鼠标划词");
             }
             else
@@ -223,7 +228,6 @@ namespace STranslate.ViewModels
                 }
                 Singleton<MouseHookHelper>.Instance.MouseHookStop();
                 Singleton<MouseHookHelper>.Instance.OnGetwordsHandler -= OnGetwordsHandlerChanged;
-                NotifyIconVM.IsMousehook = false;
                 ToastHelper.Show("关闭鼠标划词");
             }
         }
@@ -247,7 +251,7 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void Sticky(Window win)
         {
-            if (isMouseHook)
+            if (NotifyIconVM.IsMousehook)
             {
                 MessageBox_S.Show("当前监听鼠标划词中，请先解除监听...");
                 return;
@@ -274,7 +278,7 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void Esc(MainView win)
         {
-            if (isMouseHook)
+            if (NotifyIconVM.IsMousehook)
             {
                 MessageBox_S.Show("当前监听鼠标划词中，请先解除监听...");
                 return;
@@ -391,6 +395,7 @@ namespace STranslate.ViewModels
             IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
+            IsShowClipboardMonitor = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowClipboardMonitor ?? false;
             IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
             IsShowHistory = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowHistory ?? false;
         }
@@ -411,6 +416,9 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private bool isShowSilentOCR;
+
+        [ObservableProperty]
+        private bool isShowClipboardMonitor;
 
         [ObservableProperty]
         private bool isShowQRCode;

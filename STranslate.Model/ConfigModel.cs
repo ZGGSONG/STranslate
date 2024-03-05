@@ -115,6 +115,11 @@ public class ConfigModel
     public bool IsShowSilentOCR { get; set; } = false;
 
     /// <summary>
+    /// 是否显示监听剪贴板
+    /// </summary>
+    public bool IsShowClipboardMonitor { get; set; } = false;
+
+    /// <summary>
     /// 是否显示识别二维码图标
     /// </summary>
     public bool IsShowQRCode { get; set; } = false;

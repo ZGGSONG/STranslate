@@ -173,6 +173,7 @@ public class ConfigHelper
         CurrentConfig.IsShowScreenshot = model.IsShowScreenshot;
         CurrentConfig.IsShowOCR = model.IsShowOCR;
         CurrentConfig.IsShowSilentOCR = model.IsShowSilentOCR;
+        CurrentConfig.IsShowClipboardMonitor = model.IsShowClipboardMonitor;
         CurrentConfig.IsShowQRCode = model.IsShowQRCode;
         CurrentConfig.IsShowHistory = model.IsShowHistory;
         CurrentConfig.WordPickingInterval = model.WordPickingInterval;
@@ -333,6 +334,7 @@ public class ConfigHelper
         hk.MousehookTranslate.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.D, ConstStr.DEFAULTMOUSEHOOKHOTKEY);
         hk.OCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.S, ConstStr.DEFAULTOCRHOTKEY);
         hk.SilentOCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.F, ConstStr.DEFAULTSILENTOCRHOTKEY);
+        hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A, ConstStr.DEFAULTCLIPBOARDMONITORHOTKEY);
         return new ConfigModel
         {
             HistorySize = 100,
@@ -354,6 +356,7 @@ public class ConfigHelper
             IsShowScreenshot = false,
             IsShowOCR = false,
             IsShowSilentOCR = false,
+            IsShowClipboardMonitor = false,
             IsShowQRCode = false,
             IsShowHistory = false,
             WordPickingInterval = 100,

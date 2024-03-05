@@ -47,7 +47,10 @@ namespace STranslate.ViewModels
         private bool _isForbiddenShortcuts = false;
 
         [ObservableProperty]
-        private bool _isListeningClipboard = false;
+        private bool _isClipboardMonitor = false;
+
+        [ObservableProperty]
+        private string _isEnabledClipboardMonitor = ConstStr.TAGFALSE;
 
         public NotifyIconViewModel()
         {
@@ -469,15 +472,17 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void ClipboardMonitor(Window view)
         {
-            if (!IsListeningClipboard)
+            IsClipboardMonitor = !IsClipboardMonitor;
+            IsEnabledClipboardMonitor = IsClipboardMonitor ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+            
+            if (IsClipboardMonitor)
             {
                 // 开始监听剪贴板变化
                 if (ClipboardHelper.Start(out string error))
                 {
-                    IsListeningClipboard = true;
                     ClipboardHelper.ClipboardChanged += (c) => ClipboardChanged(c, view);
 
-                    //ShowBalloonTip("已启用监听剪贴板");
+                    ShowBalloonTip("已启用监听剪贴板");
                 }
                 else
                 {
@@ -488,10 +493,9 @@ namespace STranslate.ViewModels
             {
                 if (ClipboardHelper.Stop(out string error))
                 {
-                    IsListeningClipboard = false;
                     ClipboardHelper.ClipboardChanged -= (c) => ClipboardChanged(c, view);
 
-                    //ShowBalloonTip("已关闭监听剪贴板");
+                    ShowBalloonTip("已关闭监听剪贴板");
                 }
                 else
                 {

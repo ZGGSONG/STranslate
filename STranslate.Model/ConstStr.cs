@@ -35,6 +35,7 @@ namespace STranslate.Model
         public const string DEFAULTMOUSEHOOKHOTKEY = "Alt + Shift + D";
         public const string DEFAULTOCRHOTKEY = "Alt + Shift + S";
         public const string DEFAULTSILENTOCRHOTKEY = "Alt + Shift + F";
+        public const string DEFAULTCLIPBOARDMONITORHOTKEY = "Alt + Shift + A";
 
         public const string USERDEFINEFONTKEY = "UserFont";
         public const string DEFAULTFONTNAME = "LXGW WenKai";

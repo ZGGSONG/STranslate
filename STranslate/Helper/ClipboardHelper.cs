@@ -25,6 +25,10 @@ namespace STranslate.Helper
                 goto End;
             }
 
+            // 开启时添加一条空字符串到剪贴板
+            // 避免第一条为文本信息而在开启功能时触发
+            Clipboard.SetDataObject("", false);
+
             _source.AddHook(WndProc);
 
             // 设置当前窗口为剪贴板的下一个观察者
@@ -32,9 +36,6 @@ namespace STranslate.Helper
 
             error = "";
             result = true;
-            // 开启时添加一条空字符串到剪贴板
-            // 避免第一条为文本信息而在开启功能时触发
-            Clipboard.SetDataObject("", false);
             End:
             return result;
         }

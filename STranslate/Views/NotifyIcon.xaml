@@ -50,7 +50,7 @@
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
                           Header="监听剪贴板"
                           Icon="&#xeabc;"
-                          IsCheckable="{Binding IsListeningClipboard}" />
+                          IsCheckable="{Binding IsClipboardMonitor}" />
 
                 <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
 

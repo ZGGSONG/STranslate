@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
-using STranslate.Updater;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private void Save()
         {
-            if (Singleton<ConfigHelper>.Instance.WriteConfig(this))
+            if (configHelper.WriteConfig(this))
             {
                 ToastHelper.Show("保存常规配置成功", WindowType.Preference);
 
@@ -46,38 +45,39 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private void Reset()
         {
-            IsStartup = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsStartup ?? false;
-            NeedAdmin = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
-            HistorySize = Singleton<ConfigHelper>.Instance.CurrentConfig?.HistorySize ?? 100;
-            AutoScale = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
-            ThemeType = Singleton<ConfigHelper>.Instance.CurrentConfig?.ThemeType ?? ThemeType.Light;
-            IsFollowMouse = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false;
-            CloseUIOcrRetTranslate = Singleton<ConfigHelper>.Instance.CurrentConfig?.CloseUIOcrRetTranslate ?? false;
-            UnconventionalScreen = Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false;
-            IsOcrAutoCopyText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false;
-            IsAdjustContentTranslate = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false;
-            IsRemoveLineBreakGettingWords = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
-            DoubleTapTrayFunc = Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
-            CustomFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
-            IsKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
-            IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
-            IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
-            IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
-            IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
-            IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
-            IsShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
-            IsShowHistory = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowHistory ?? false;
-            WordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 200;
-            IsHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
-            ShowCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
-            IsCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
-            MaxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
-            Width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
-            ProxyMethod = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
-            ProxyIp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyIp ?? string.Empty;
-            ProxyPort = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPort ?? 0;
-            ProxyUsername = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyUsername ?? string.Empty;
-            ProxyPassword = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPassword ?? string.Empty;
+            IsStartup = curConfig?.IsStartup ?? false;
+            NeedAdmin = curConfig?.NeedAdministrator ?? false;
+            HistorySize = curConfig?.HistorySize ?? 100;
+            AutoScale = curConfig?.AutoScale ?? 0.8;
+            ThemeType = curConfig?.ThemeType ?? ThemeType.Light;
+            IsFollowMouse = curConfig?.IsFollowMouse ?? false;
+            CloseUIOcrRetTranslate = curConfig?.CloseUIOcrRetTranslate ?? false;
+            UnconventionalScreen = curConfig?.UnconventionalScreen ?? false;
+            IsOcrAutoCopyText = curConfig?.IsOcrAutoCopyText ?? false;
+            IsAdjustContentTranslate = curConfig?.IsAdjustContentTranslate ?? false;
+            IsRemoveLineBreakGettingWords = curConfig?.IsRemoveLineBreakGettingWords ?? false;
+            DoubleTapTrayFunc = curConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+            CustomFont = curConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
+            IsKeepTopmostAfterMousehook = curConfig?.IsKeepTopmostAfterMousehook ?? false;
+            IsShowPreference = curConfig?.IsShowPreference ?? false;
+            IsShowMousehook = curConfig?.IsShowMousehook ?? false;
+            IsShowScreenshot = curConfig?.IsShowScreenshot ?? false;
+            IsShowOCR = curConfig?.IsShowOCR ?? false;
+            IsShowSilentOCR = curConfig?.IsShowSilentOCR ?? false;
+            IsShowClipboardMonitor = curConfig?.IsShowClipboardMonitor ?? false;
+            IsShowQRCode = curConfig?.IsShowQRCode ?? false;
+            IsShowHistory = curConfig?.IsShowHistory ?? false;
+            WordPickingInterval = curConfig?.WordPickingInterval ?? 200;
+            IsHideOnStart = curConfig?.IsHideOnStart ?? false;
+            ShowCopyOnHeader = curConfig?.ShowCopyOnHeader ?? false;
+            IsCaretLast = curConfig?.IsCaretLast ?? false;
+            MaxHeight = curConfig?.MaxHeight ?? MaxHeight.Maximum;
+            Width = curConfig?.Width ?? WidthEnum.Minimum;
+            ProxyMethod = curConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+            ProxyIp = curConfig?.ProxyIp ?? string.Empty;
+            ProxyPort = curConfig?.ProxyPort ?? 0;
+            ProxyUsername = curConfig?.ProxyUsername ?? string.Empty;
+            ProxyPassword = curConfig?.ProxyPassword ?? string.Empty;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -153,11 +153,14 @@ namespace STranslate.ViewModels.Preference
             };
         }
 
-        [ObservableProperty]
-        private bool isStartup = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsStartup ?? false;
+        private static ConfigHelper configHelper = Singleton<ConfigHelper>.Instance;
+        private static ConfigModel? curConfig = configHelper.CurrentConfig;
 
         [ObservableProperty]
-        private bool needAdmin = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
+        private bool isStartup = curConfig?.IsStartup ?? false;
+
+        [ObservableProperty]
+        private bool needAdmin = curConfig?.NeedAdministrator ?? false;
 
         private long historySizeType = 1;
 
@@ -188,33 +191,33 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
-        public long HistorySize = Singleton<ConfigHelper>.Instance.CurrentConfig?.HistorySize ?? 100;
+        public long HistorySize = curConfig?.HistorySize ?? 100;
 
         [ObservableProperty]
-        private double autoScale = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
+        private double autoScale = curConfig?.AutoScale ?? 0.8;
 
         public List<ThemeType> ThemeList { get; set; }
 
         [ObservableProperty]
-        private ThemeType themeType = Singleton<ConfigHelper>.Instance.CurrentConfig?.ThemeType ?? ThemeType.Light;
+        private ThemeType themeType = curConfig?.ThemeType ?? ThemeType.Light;
 
         [ObservableProperty]
-        private bool isFollowMouse = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false;
+        private bool isFollowMouse = curConfig?.IsFollowMouse ?? false;
 
         [ObservableProperty]
-        private bool closeUIOcrRetTranslate = Singleton<ConfigHelper>.Instance.CurrentConfig?.CloseUIOcrRetTranslate ?? false;
+        private bool closeUIOcrRetTranslate = curConfig?.CloseUIOcrRetTranslate ?? false;
 
         [ObservableProperty]
-        private bool unconventionalScreen = Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false;
+        private bool unconventionalScreen = curConfig?.UnconventionalScreen ?? false;
 
         [ObservableProperty]
-        private bool isOcrAutoCopyText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false;
+        private bool isOcrAutoCopyText = curConfig?.IsOcrAutoCopyText ?? false;
 
         [ObservableProperty]
-        private bool isAdjustContentTranslate = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false;
+        private bool isAdjustContentTranslate = curConfig?.IsAdjustContentTranslate ?? false;
 
         [ObservableProperty]
-        private bool isRemoveLineBreakGettingWords = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
+        private bool isRemoveLineBreakGettingWords = curConfig?.IsRemoveLineBreakGettingWords ?? false;
 
         public Dictionary<string, DoubleTapFuncEnum> FuncDict
         {
@@ -222,12 +225,12 @@ namespace STranslate.ViewModels.Preference
         }
 
         [ObservableProperty]
-        private DoubleTapFuncEnum doubleTapTrayFunc = Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+        private DoubleTapFuncEnum doubleTapTrayFunc = curConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
 
         [ObservableProperty]
         private List<string> _getFontFamilys;
 
-        private string _customFont = Singleton<ConfigHelper>.Instance.CurrentConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
+        private string _customFont = curConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
 
         public string CustomFont
         {
@@ -258,78 +261,84 @@ namespace STranslate.ViewModels.Preference
         }
 
         [ObservableProperty]
-        private bool isKeepTopmostAfterMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
+        private bool isKeepTopmostAfterMousehook = curConfig?.IsKeepTopmostAfterMousehook ?? false;
 
         /// <summary>
         /// 是否显示设置图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
+        private bool isShowPreference = curConfig?.IsShowPreference ?? false;
 
         /// <summary>
         /// 是否显示打开鼠标划词图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
+        private bool isShowMousehook = curConfig?.IsShowMousehook ?? false;
 
         /// <summary>
         /// 是否显示截图翻译图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
+        private bool isShowScreenshot = curConfig?.IsShowScreenshot ?? false;
 
         /// <summary>
         /// 是否显示OCR图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
+        private bool isShowOCR = curConfig?.IsShowOCR ?? false;
 
         /// <summary>
         /// 是否显示静默OCR图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
+        private bool isShowSilentOCR = curConfig?.IsShowSilentOCR ?? false;
+
+        /// <summary>
+        /// 是否显示监听剪贴板
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowClipboardMonitor = curConfig?.IsShowClipboardMonitor ?? false;
 
         /// <summary>
         /// 是否显示识别二维码图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowQRCode = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowQRCode ?? false;
+        private bool isShowQRCode = curConfig?.IsShowQRCode ?? false;
 
         /// <summary>
         /// 是否显示历史记录图标
         /// </summary>
         [ObservableProperty]
-        private bool isShowHistory = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowHistory ?? false;
+        private bool isShowHistory = curConfig?.IsShowHistory ?? false;
 
         /// <summary>
         /// 取词时间间隔
         /// </summary>
         [ObservableProperty]
-        private int wordPickingInterval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
+        private int wordPickingInterval = curConfig?.WordPickingInterval ?? 100;
 
         /// <summary>
         /// 启动时隐藏主界面
         /// </summary>
         [ObservableProperty]
-        private bool isHideOnStart = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false;
+        private bool isHideOnStart = curConfig?.IsHideOnStart ?? false;
 
         /// <summary>
         /// 收缩框是否显示复制按钮
         /// </summary>
         [ObservableProperty]
-        private bool showCopyOnHeader = Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowCopyOnHeader ?? false;
+        private bool showCopyOnHeader = curConfig?.ShowCopyOnHeader ?? false;
 
         /// <summary>
         /// 激活窗口时光标移动至末尾
         /// </summary>
         [ObservableProperty]
-        private bool isCaretLast = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false;
+        private bool isCaretLast = curConfig?.IsCaretLast ?? false;
 
         /// <summary>
         /// View 最大高度
         /// </summary>
-        private MaxHeight _maxHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
+        private MaxHeight _maxHeight = curConfig?.MaxHeight ?? MaxHeight.Maximum;
 
         public MaxHeight MaxHeight
         {
@@ -349,7 +358,7 @@ namespace STranslate.ViewModels.Preference
         /// <summary>
         /// View 最大宽度
         /// </summary>
-        private WidthEnum _width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
+        private WidthEnum _width = curConfig?.Width ?? WidthEnum.Minimum;
 
         public WidthEnum Width
         {
@@ -374,22 +383,22 @@ namespace STranslate.ViewModels.Preference
         private List<ProxyMethodEnum> _proxyMethodList;
 
         [ObservableProperty]
-        private ProxyMethodEnum _proxyMethod = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+        private ProxyMethodEnum _proxyMethod = curConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
 
         [ObservableProperty]
-        private string _proxyIp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyIp ?? string.Empty;
+        private string _proxyIp = curConfig?.ProxyIp ?? string.Empty;
 
         [ObservableProperty]
-        private int? _proxyPort = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPort;
+        private int? _proxyPort = curConfig?.ProxyPort;
 
         [ObservableProperty]
-        private bool _isProxyAuthentication = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsProxyAuthentication ?? false;
+        private bool _isProxyAuthentication = curConfig?.IsProxyAuthentication ?? false;
 
         [ObservableProperty]
-        private string _proxyUsername = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyUsername ?? string.Empty;
+        private string _proxyUsername = curConfig?.ProxyUsername ?? string.Empty;
 
         [ObservableProperty]
-        private string _proxyPassword = Singleton<ConfigHelper>.Instance.CurrentConfig?.ProxyPassword ?? string.Empty;
+        private string _proxyPassword = curConfig?.ProxyPassword ?? string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -397,6 +406,7 @@ namespace STranslate.ViewModels.Preference
         private bool _isProxyPasswordHide = true;
 
         private RelayCommand<string>? showEncryptInfoCommand;
+
         [JsonIgnore]
         public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 

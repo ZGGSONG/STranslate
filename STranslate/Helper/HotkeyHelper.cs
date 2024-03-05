@@ -41,9 +41,13 @@ namespace STranslate.Helper
         public static KeyModifiers SilentOCRModifiers;
         public static KeyCodes SilentOCRKey;
 
+        public static int ClipboardMonitorId = 861;
+        public static KeyModifiers ClipboardMonitorModifiers;
+        public static KeyCodes ClipboardMonitorKey;
+
         public delegate void HotKeyCallBackHanlder();
 
-        private static readonly Dictionary<int, HotKeyCallBackHanlder> keymap = new();
+        private static readonly Dictionary<int, HotKeyCallBackHanlder> keymap = [];
 
         private static HwndSource? _hwndSource;
 
@@ -132,6 +136,9 @@ namespace STranslate.Helper
             SilentOCRModifiers = Hotkeys!.SilentOCR.Modifiers;
             SilentOCRKey = Hotkeys!.SilentOCR.Key;
 
+            ClipboardMonitorModifiers = Hotkeys!.ClipboardMonitor.Modifiers;
+            ClipboardMonitorKey = Hotkeys!.ClipboardMonitor.Key;
+
             if (Hotkeys!.InputTranslate.Key != 0)
             {
                 Hotkeys!.InputTranslate.Conflict = !CommonUtil.RegisterHotKey(handle, InputTranslateId, (byte)Hotkeys!.InputTranslate.Modifiers, (int)Hotkeys!.InputTranslate.Key);
@@ -139,22 +146,12 @@ namespace STranslate.Helper
 
             if (Hotkeys!.CrosswordTranslate.Key != 0)
             {
-                Hotkeys!.CrosswordTranslate.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    CrosswordTranslateId,
-                    (byte)Hotkeys!.CrosswordTranslate.Modifiers,
-                    (int)Hotkeys!.CrosswordTranslate.Key
-                );
+                Hotkeys!.CrosswordTranslate.Conflict = !CommonUtil.RegisterHotKey(handle, CrosswordTranslateId, (byte)Hotkeys!.CrosswordTranslate.Modifiers, (int)Hotkeys!.CrosswordTranslate.Key);
             }
 
             if (Hotkeys!.ScreenShotTranslate.Key != 0)
             {
-                Hotkeys!.ScreenShotTranslate.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    ScreenShotTranslateId,
-                    (byte)Hotkeys!.ScreenShotTranslate.Modifiers,
-                    (int)Hotkeys!.ScreenShotTranslate.Key
-                );
+                Hotkeys!.ScreenShotTranslate.Conflict = !CommonUtil.RegisterHotKey(handle, ScreenShotTranslateId, (byte)Hotkeys!.ScreenShotTranslate.Modifiers, (int)Hotkeys!.ScreenShotTranslate.Key);
             }
 
             if (Hotkeys!.OpenMainWindow.Key != 0)
@@ -164,21 +161,22 @@ namespace STranslate.Helper
 
             if (Hotkeys!.MousehookTranslate.Key != 0)
             {
-                Hotkeys!.MousehookTranslate.Conflict = !CommonUtil.RegisterHotKey(
-                    handle,
-                    MousehookTranslateId,
-                    (byte)Hotkeys!.MousehookTranslate.Modifiers,
-                    (int)Hotkeys!.MousehookTranslate.Key
-                );
+                Hotkeys!.MousehookTranslate.Conflict = !CommonUtil.RegisterHotKey(handle, MousehookTranslateId, (byte)Hotkeys!.MousehookTranslate.Modifiers, (int)Hotkeys!.MousehookTranslate.Key);
             }
 
             if (Hotkeys!.OCR.Key != 0)
             {
                 Hotkeys!.OCR.Conflict = !CommonUtil.RegisterHotKey(handle, OCRId, (byte)Hotkeys!.OCR.Modifiers, (int)Hotkeys!.OCR.Key);
             }
+
             if (Hotkeys!.SilentOCR.Key != 0)
             {
                 Hotkeys!.SilentOCR.Conflict = !CommonUtil.RegisterHotKey(handle, SilentOCRId, (byte)Hotkeys!.SilentOCR.Modifiers, (int)Hotkeys!.SilentOCR.Key);
+            }
+
+            if (Hotkeys!.ClipboardMonitor.Key != 0)
+            {
+                Hotkeys!.ClipboardMonitor.Conflict = !CommonUtil.RegisterHotKey(handle, ClipboardMonitorId, (byte)Hotkeys!.ClipboardMonitor.Modifiers, (int)Hotkeys!.ClipboardMonitor.Key);
             }
         }
 
@@ -299,6 +297,18 @@ namespace STranslate.Helper
             }
             SilentOCRModifiers = Hotkeys!.SilentOCR.Modifiers;
             SilentOCRKey = Hotkeys!.SilentOCR.Key;
+
+            if (Hotkeys!.ClipboardMonitor.Key == 0)
+            {
+                CommonUtil.UnregisterHotKey(MainIntPtr, ClipboardMonitorId);
+            }
+            else if (ClipboardMonitorModifiers != Hotkeys!.ClipboardMonitor.Modifiers || ClipboardMonitorKey != Hotkeys!.ClipboardMonitor.Key)
+            {
+                CommonUtil.UnregisterHotKey(MainIntPtr, ClipboardMonitorId);
+                Hotkeys!.ClipboardMonitor.Conflict = !CommonUtil.RegisterHotKey(MainIntPtr, ClipboardMonitorId, (byte)Hotkeys!.ClipboardMonitor.Modifiers, (int)Hotkeys!.ClipboardMonitor.Key);
+            }
+            ClipboardMonitorModifiers = Hotkeys!.ClipboardMonitor.Modifiers;
+            ClipboardMonitorKey = Hotkeys!.ClipboardMonitor.Key;
         }
 
         /// <summary>
@@ -313,6 +323,7 @@ namespace STranslate.Helper
             CommonUtil.UnregisterHotKey(MainIntPtr, MousehookTranslateId);
             CommonUtil.UnregisterHotKey(MainIntPtr, OCRId);
             CommonUtil.UnregisterHotKey(MainIntPtr, SilentOCRId);
+            CommonUtil.UnregisterHotKey(MainIntPtr, ClipboardMonitorId);
             var hwnd = new WindowInteropHelper(window).Handle;
             _hwndSource = HwndSource.FromHwnd(hwnd);
             _hwndSource.RemoveHook(WndProc);

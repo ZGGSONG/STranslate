@@ -304,6 +304,12 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="显示监听剪贴板图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示监听剪贴板图标" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowClipboardMonitor}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="显示二维码图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示识别二维码图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowQRCode}" />

@@ -38,6 +38,7 @@ namespace STranslate.Views.Preference
             MousehookTextBox.Text = conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text;
             OCRTextBox.Text = conf.CurrentConfig!.Hotkeys!.OCR.Text;
             SilentOCRTextBox.Text = conf.CurrentConfig!.Hotkeys!.SilentOCR.Text;
+            ClipboardMonitorTextBox.Text = conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text;
             HotKeyConflictCheck();
         }
 
@@ -257,6 +258,30 @@ namespace STranslate.Views.Preference
             RefreshNotifyToolTip();
         }
 
+        private void ClipboardMonitor_KeyUp(object sender, KeyEventArgs e)
+        {
+            Key key = (e.Key == Key.System ? e.SystemKey : e.Key);
+            if (
+                key == Key.LeftShift
+                || key == Key.RightShift
+                || key == Key.LeftCtrl
+                || key == Key.RightCtrl
+                || key == Key.LeftAlt
+                || key == Key.RightAlt
+                || key == Key.LWin
+                || key == Key.RWin
+            )
+            {
+                return;
+            }
+            conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Modifiers = _hotkeysModifiers;
+            conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Key = _hotkeysKey;
+            conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text = _hotkeysText.ToString();
+            HotkeyHelper.ReRegisterHotKey();
+            HotKeyConflictCheck();
+            RefreshNotifyToolTip();
+        }
+
         private void HotKeyConflictCheck()
         {
             InputHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict
@@ -280,6 +305,9 @@ namespace STranslate.Views.Preference
             SilentOCRHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict
                 ? Visibility.Visible
                 : Visibility.Hidden;
+            ClipboardMonitorHotKeyConflictLabel.Visibility = conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict
+                ? Visibility.Visible
+                : Visibility.Hidden;
         }
 
         private void RefreshNotifyToolTip()
@@ -299,6 +327,8 @@ namespace STranslate.Views.Preference
                 msg += $"识字: {conf.CurrentConfig!.Hotkeys!.OCR.Text}\r\n";
             if (!conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.SilentOCR.Text))
                 msg += $"静默: {conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
+            if (!conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict && !string.IsNullOrEmpty(conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text))
+                msg += $"剪贴板: {conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\r\n";
             Singleton<NotifyIconViewModel>.Instance.UpdateToolTip(msg.TrimEnd(['\r', '\n']));
         }
 
