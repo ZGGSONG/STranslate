@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4294789 */
-  src: url('iconfont.woff2?t=1705999487315') format('woff2'),
-       url('iconfont.woff?t=1705999487315') format('woff'),
-       url('iconfont.ttf?t=1705999487315') format('truetype');
+  src: url('iconfont.woff2?t=1709607636773') format('woff2'),
+       url('iconfont.woff?t=1709607636773') format('woff'),
+       url('iconfont.ttf?t=1709607636773') format('truetype');
 }
 
 .iconfont {
@@ -13,8 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-sousuo:before {
-  content: "\e752";
+.icon-24gl-clipboardEmpty:before {
+  content: "\eabb";
+}
+
+.icon-24gl-clipboardText:before {
+  content: "\eabc";
+}
+
+.icon-clipboard:before {
+  content: "\e65d";
 }
 
 .icon-sousuo1:before {

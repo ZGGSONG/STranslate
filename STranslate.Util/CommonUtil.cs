@@ -224,6 +224,20 @@ namespace STranslate.Util
         [DllImport("gdi32")]
         public static extern int DeleteObject(IntPtr obj);
 
+        //监听剪贴板变化
+        public const int WM_DRAWCLIPBOARD = 0x0308;
+        public const int WM_CHANGECBCHAIN = 0x030D;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        //监听剪贴板变化
+
         #endregion NativeMethod
 
         #region FindControl

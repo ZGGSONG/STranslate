@@ -43,7 +43,14 @@
                 <MenuItem Command="{Binding MousehookTranslateCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
                           Header="鼠标划词"
-                          Icon="&#xeb94;" />
+                          Icon="&#xeb94;"
+                          IsCheckable="{Binding IsMousehook}" />
+
+                <MenuItem Command="{Binding ClipboardMonitorCommand}"
+                          CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
+                          Header="监听剪贴板"
+                          Icon="&#xeabc;"
+                          IsCheckable="{Binding IsListeningClipboard}" />
 
                 <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
 

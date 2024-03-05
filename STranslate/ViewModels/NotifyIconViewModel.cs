@@ -41,7 +41,13 @@ namespace STranslate.ViewModels
         public NotifyIconModel NIModel { get; } = new();
 
         [ObservableProperty]
+        private bool _isMousehook = false;
+
+        [ObservableProperty]
         private bool _isForbiddenShortcuts = false;
+
+        [ObservableProperty]
+        private bool _isListeningClipboard = false;
 
         public NotifyIconViewModel()
         {
@@ -458,6 +464,56 @@ namespace STranslate.ViewModels
                 NIModel.IconSource = ConstStr.ICON;
 
             OnForbiddenShortcuts?.Invoke(view, IsForbiddenShortcuts);
+        }
+
+        [RelayCommand]
+        private void ClipboardMonitor(Window view)
+        {
+            if (!IsListeningClipboard)
+            {
+                // 开始监听剪贴板变化
+                if (ClipboardHelper.Start(out string error))
+                {
+                    IsListeningClipboard = true;
+                    ClipboardHelper.ClipboardChanged += (c) => ClipboardChanged(c, view);
+
+                    //ShowBalloonTip("已启用监听剪贴板");
+                }
+                else
+                {
+                    ShowBalloonTip(error);
+                }
+            }
+            else
+            {
+                if (ClipboardHelper.Stop(out string error))
+                {
+                    IsListeningClipboard = false;
+                    ClipboardHelper.ClipboardChanged -= (c) => ClipboardChanged(c, view);
+
+                    //ShowBalloonTip("已关闭监听剪贴板");
+                }
+                else
+                {
+                    ShowBalloonTip(error);
+                }
+            }
+        }
+
+        private void ClipboardChanged(string content, Window view)
+        {
+            //取词前移除换行
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+                content = StringUtil.RemoveLineBreaks(content);
+
+            //如果重复执行先取消上一步操作
+            Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+            Clear();
+
+            Singleton<InputViewModel>.Instance.InputContent = content;
+            ShowAndActive(view);
+
+            Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
         }
 
         private void SaveSelectedLang()

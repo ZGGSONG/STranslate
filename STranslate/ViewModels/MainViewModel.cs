@@ -210,6 +210,7 @@ namespace STranslate.ViewModels
                 TopMostContent = ConstStr.TOPMOSTCONTENT;
                 Singleton<MouseHookHelper>.Instance.MouseHookStart();
                 Singleton<MouseHookHelper>.Instance.OnGetwordsHandler += OnGetwordsHandlerChanged;
+                NotifyIconVM.IsMousehook = true;
                 ToastHelper.Show("启用鼠标划词");
             }
             else
@@ -222,6 +223,7 @@ namespace STranslate.ViewModels
                 }
                 Singleton<MouseHookHelper>.Instance.MouseHookStop();
                 Singleton<MouseHookHelper>.Instance.OnGetwordsHandler -= OnGetwordsHandlerChanged;
+                NotifyIconVM.IsMousehook = false;
                 ToastHelper.Show("关闭鼠标划词");
             }
         }
