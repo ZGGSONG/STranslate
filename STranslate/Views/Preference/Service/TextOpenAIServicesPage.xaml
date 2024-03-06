@@ -139,13 +139,14 @@
                                                     Style="{DynamicResource ButtonIconStyle}"
                                                     ToolTip="删除Prompt" />
                                         </Grid>
-                                        <TextBox MinWidth="200"
-                                                 MinHeight="60"
-                                                 Margin="5,0"
-                                                 AcceptsReturn="True"
-                                                 FontSize="{DynamicResource FontSize_Prompt}"
-                                                 Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 TextWrapping="Wrap" />
+                                        <common:PlaceholderTextBox MinWidth="200"
+                                                                   MinHeight="60"
+                                                                   Margin="5,0"
+                                                                   AcceptsReturn="True"
+                                                                   FontSize="{DynamicResource FontSize_Prompt}"
+                                                                   Placeholder="Input your prompt..."
+                                                                   Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                   TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

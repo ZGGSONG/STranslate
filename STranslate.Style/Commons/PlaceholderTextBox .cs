@@ -51,15 +51,15 @@ namespace STranslate.Style.Commons
 
         public PlaceholderTextBox()
         {
-            var binding = new Binding { Source = this, Path = new PropertyPath("Placeholder") };
-            _placeholderTextBlock.SetBinding(TextProperty, binding);
-            //_placeholderTextBlock.FontStyle = FontStyles.Italic;
+            var plcaeholderBinding = new Binding { Source = this, Path = new PropertyPath("Placeholder") };
+            _placeholderTextBlock.SetBinding(TextProperty, plcaeholderBinding);
             _placeholderTextBlock.FontWeight = FontWeights.Thin;
-            _placeholderTextBlock.Padding = new Thickness(3,0,3,0);
+            _placeholderTextBlock.Padding = new Thickness(3, 0, 3, 0);
             _placeholderTextBlock.BorderThickness = new Thickness(0);
             _placeholderTextBlock.Foreground = Brushes.Gray;
 
             _placeholderVisualBrush.AlignmentX = AlignmentX.Left;
+            _placeholderVisualBrush.AlignmentY = AlignmentY.Top;
             _placeholderVisualBrush.Stretch = Stretch.None;
             _placeholderVisualBrush.Visual = _placeholderTextBlock;
 
