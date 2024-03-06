@@ -103,7 +103,7 @@ namespace STranslate.ViewModels.Preference.Services
         private BindingList<OpenaiMessage> openaiMessages =
         [
             new OpenaiMessage("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
-            new OpenaiMessage("user", "Translate the following text to $target: $content")
+            new OpenaiMessage("user", "Translate the following text from $source to $target: $content")
         ];
 
         [RelayCommand]

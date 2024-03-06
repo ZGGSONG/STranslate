@@ -17,7 +17,6 @@ using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.Services;
-using ZXing.Aztec.Internal;
 
 namespace STranslate.ViewModels;
 
@@ -171,8 +170,13 @@ public partial class InputViewModel : ObservableObject
                     {
                         case ServiceType.GeminiService:
                         case ServiceType.OpenAIService:
+                        {
+                            //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                            //Auto则转换为识别语种
+                            sourceStr = sourceStr == "AUTO" ? LangDict[IdentifyLanguage].ToString() : sourceStr;
                             await StreamHandlerAsync(service, InputContent, sourceStr, targetStr, cancellationToken);
                             break;
+                        }
 
                         default:
                             await NonStreamHandlerAsync(service, InputContent, sourceStr, targetStr, cancellationToken);
