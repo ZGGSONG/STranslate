@@ -44,8 +44,8 @@
                             CornerRadius="6">
                         <ListBox x:Name="CurrentServiceListBox"
                                  AllowDrop="True"
-                                 BorderThickness="0"
                                  Background="Transparent"
+                                 BorderThickness="0"
                                  ItemsSource="{Binding CurTransServiceList}"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -123,6 +123,7 @@
                         <Popup x:Name="Popup_Add"
                                MinWidth="80"
                                MinHeight="30"
+                               MaxHeight="400"
                                AllowsTransparency="True"
                                Placement="Bottom"
                                PlacementTarget="{Binding ElementName=BTN_Add}"
@@ -137,47 +138,48 @@
                                         <DropShadowEffect ShadowDepth="0" Color="{DynamicResource PopupDropShadowEffectColor}" />
                                     </Rectangle.Effect>
                                 </Rectangle>
-                                <ListBox Name="ServiceListBox"
-                                         Margin="5"
-                                         Background="Transparent"
-                                         BorderThickness="0"
-                                         ItemsSource="{Binding TransServices}"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                            <i:InvokeCommandAction Command="{Binding AddCommand}">
-                                                <i:InvokeCommandAction.CommandParameter>
-                                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                        <Binding ElementName="ServiceListBox" Path="SelectedItem" />
-                                                        <Binding ElementName="Popup_Add" />
-                                                    </MultiBinding>
-                                                </i:InvokeCommandAction.CommandParameter>
-                                            </i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border x:Name="ServiceControl" Style="{DynamicResource BorderPopupStyle}">
-                                                <Grid Margin="10,5">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="40" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
+                                <ScrollViewer Margin="0,5" HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox Name="ServiceListBox"
+                                             Margin="5"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             ItemsSource="{Binding TransServices}"
+                                             PreviewMouseWheel="ServiceListBox_PreviewMouseWheel">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                <i:InvokeCommandAction Command="{Binding AddCommand}">
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                            <Binding ElementName="ServiceListBox" Path="SelectedItem" />
+                                                            <Binding ElementName="Popup_Add" />
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border x:Name="ServiceControl" Style="{DynamicResource BorderPopupStyle}">
+                                                    <Grid Margin="10,5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="40" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
 
-                                                    <Image Width="20" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                                        <Image Width="20" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
 
-                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Name}" />
-                                                </Grid>
-                                            </Border>
-                                            <DataTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
-                                                </Trigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Name}" />
+                                                    </Grid>
+                                                </Border>
+                                                <DataTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                    </Trigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </ScrollViewer>
                             </Grid>
                         </Popup>
 
