@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorOpenAI : ObservableObject, ITranslator
+    public partial class TranslatorOpenAI : ObservableObject, ITranslatorAI
     {
         public TranslatorOpenAI() : this(Guid.NewGuid(), "https://api.openai.com", "OpenAI")
         {
@@ -100,31 +100,31 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        private BindingList<OpenaiMessage> openaiMessages =
+        private BindingList<Prompt> prompts =
         [
-            new OpenaiMessage("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
-            new OpenaiMessage("user", "Translate the following text from $source to $target: $content")
+            new Prompt("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
+            new Prompt("user", "Translate the following text from $source to $target: $content")
         ];
 
         [RelayCommand]
         [property: JsonIgnore]
-        private void DeletePrompt(OpenaiMessage msg)
+        private void DeletePrompt(Prompt msg)
         {
-            OpenaiMessages.Remove(msg);
+            Prompts.Remove(msg);
         }
 
         [RelayCommand]
         [property: JsonIgnore]
         private void AddPrompt()
         {
-            var last = OpenaiMessages.LastOrDefault()?.Role ?? "";
+            var last = Prompts.LastOrDefault()?.Role ?? "";
             var newOne = last switch
             {
-                "" => new OpenaiMessage("system"),
-                "user" => new OpenaiMessage("assistant"),
-                _ => new OpenaiMessage("user")
+                "" => new Prompt("system"),
+                "user" => new Prompt("assistant"),
+                _ => new Prompt("user")
             };
-            OpenaiMessages.Add(newOne);
+            Prompts.Add(newOne);
         }
 
         public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
@@ -151,7 +151,7 @@ namespace STranslate.ViewModels.Preference.Services
                 a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
 
                 // 替换Prompt关键字
-                var a_messages = OpenaiMessages.Clone();
+                var a_messages = Prompts.Clone();
                 a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 
                 // 构建请求数据
@@ -223,7 +223,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AppKey = this.AppKey,
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
-                OpenaiMessages = this.OpenaiMessages,
+                Prompts = this.Prompts,
             };
         }
     }

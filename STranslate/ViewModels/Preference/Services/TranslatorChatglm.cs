@@ -1,33 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorGemini : ObservableObject, ITranslatorAI
+    public partial class TranslatorChatglm : ObservableObject, ITranslatorAI
     {
-        public TranslatorGemini()
-            : this(Guid.NewGuid(), "https://generativelanguage.googleapis.com", "Gemini") { }
+        public TranslatorChatglm() : this(Guid.NewGuid(), "https://open.bigmodel.cn/api/paas/v4/chat/completions", "智谱AI")
+        {
+        }
 
-        public TranslatorGemini(
-            Guid guid,
-            string url,
-            string name = "",
-            IconType icon = IconType.Gemini,
-            string appID = "",
-            string appKey = "",
-            bool isEnabled = true,
-            ServiceType type = ServiceType.GeminiService
-        )
+        public TranslatorChatglm(Guid guid, string url, string name = "", IconType icon = IconType.Chatglm, string appID = "", string appKey = "", bool isEnabled = true, ServiceType type = ServiceType.ChatglmService)
         {
             Identify = guid;
             Url = url;
@@ -56,7 +48,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        private IconType _icon = IconType.Gemini;
+        private IconType _icon = IconType.Chatglm;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -78,7 +70,9 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        public int _timeOut = 10;
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        private string _model = "glm-4";
 
         [JsonIgnore]
         [ObservableProperty]
@@ -109,10 +103,10 @@ namespace STranslate.ViewModels.Preference.Services
         private BindingList<Prompt> prompts =
         [
             new Prompt("user", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
-            new Prompt("model", "Ok, I will only translate the text content, never interpret it"),
+            new Prompt("assistant", "Ok, I will only translate the text content, never interpret it."),
             new Prompt("user", "Translate the following text from en to zh: hello world"),
-            new Prompt("model", "你好，世界"),
-            new Prompt("user", "Translate the following text from $source to $target: $content"),
+            new Prompt("assistant", "你好，世界"),
+            new Prompt("user", "Translate the following text from $source to $target: $content")
         ];
 
         [RelayCommand]
@@ -129,7 +123,7 @@ namespace STranslate.ViewModels.Preference.Services
             var last = Prompts.LastOrDefault()?.Role ?? "";
             var newOne = last switch
             {
-                "user" => new Prompt("model"),
+                "user" => new Prompt("assistant"),
                 _ => new Prompt("user")
             };
             Prompts.Add(newOne);
@@ -148,12 +142,15 @@ namespace STranslate.ViewModels.Preference.Services
 
                 UriBuilder uriBuilder = new(Url);
 
-                if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
+                // 兼容旧版API: https://open.bigmodel.cn/dev/api#glm-4
+                if (!uriBuilder.Path.EndsWith("/api/paas/v4/chat/completions"))
                 {
-                    uriBuilder.Path = "/v1beta/models/gemini-pro:streamGenerateContent";
+                    uriBuilder.Path = "/api/paas/v4/chat/completions";
                 }
 
-                uriBuilder.Query = $"key={AppKey}";
+                // 选择模型
+                var a_model = Model;
+                a_model = string.IsNullOrEmpty(a_model) ? "glm-4" : a_model;
 
                 // 替换Prompt关键字
                 var a_messages = Prompts.Clone();
@@ -162,37 +159,45 @@ namespace STranslate.ViewModels.Preference.Services
                 // 构建请求数据
                 var reqData = new
                 {
-                    contents = a_messages.Select(e => new
-                    {
-                        role = e.Role,
-                        parts = new[]
-                        {
-                            new { text = e.Content }
-                        }
-                    })
+                    model = a_model,
+                    messages = a_messages,
+                    stream = true
                 };
 
-                // 为了流式输出与MVVM还是放这里吧
                 var jsonData = JsonConvert.SerializeObject(reqData);
+
+                var auth = ChatglmAuthenicationUtil.GenerateToken(AppKey, 60);
 
                 await HttpUtil.PostAsync(
                     uriBuilder.Uri,
                     jsonData,
-                    null,
+                    auth,
                     msg =>
                     {
-                        // 使用正则表达式提取目标字符串
-                        string pattern = "(?<=\"text\": \")[^\"]+(?=\")";
+                        if (string.IsNullOrEmpty(msg?.Trim()))
+                            return;
 
-                        var match = Regex.Match(msg, pattern);
+                        var preprocessString = msg.Replace("data:", "").Trim();
 
-                        if (match.Success)
-                        {
-                            OnDataReceived?.Invoke(match.Value.Replace("\\n", "\n"));
-                        }
+                        // 结束标记
+                        if (preprocessString.Equals("[DONE]"))
+                            return;
+
+                        // 解析JSON数据
+                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+
+                        if (parsedData is null)
+                            return;
+
+                        // 提取content的值
+                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
+
+                        if (string.IsNullOrEmpty(contentValue))
+                            return;
+
+                        OnDataReceived?.Invoke(contentValue);
                     },
-                    token,
-                    TimeOut
+                    token
                 );
 
                 return;
@@ -208,7 +213,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         public ITranslator Clone()
         {
-            return new TranslatorGemini
+            return new TranslatorChatglm
             {
                 Identify = this.Identify,
                 Type = this.Type,

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="STranslate.Views.Preference.Service.TextOpenAIServicesPage"
+﻿<UserControl x:Class="STranslate.Views.Preference.Service.TextChatglmServicesPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
-             d:DataContext="{d:DesignInstance Type=vm:TranslatorOpenAI}"
+             d:DataContext="{d:DesignInstance Type=vm:TranslatorChatglm}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Transparent"
@@ -44,7 +44,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="160"
                                                HorizontalAlignment="Left"
-                                               Placeholder="OpenAI"
+                                               Placeholder="智谱AI"
                                                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
@@ -58,7 +58,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
-                                               Placeholder="https://api.openai.com"
+                                               Placeholder="https://open.bigmodel.cn"
                                                Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
@@ -72,7 +72,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
-                                               Placeholder="gpt-3.5-turbo"
+                                               Placeholder="glm-4"
                                                Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
@@ -113,7 +113,7 @@
                     <TextBlock VerticalAlignment="Top" Text="Prompts: " />
                     <TextBlock Grid.Column="1"
                                FontSize="{DynamicResource FontSize_Identify}"
-                               Text="通过自定义Prompt自定义OpenAI行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。"
+                               Text="通过自定义Prompt自定义智谱AI行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。"
                                TextWrapping="Wrap" />
                 </Grid>
 

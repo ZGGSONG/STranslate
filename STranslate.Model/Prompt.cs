@@ -5,9 +5,9 @@ using System;
 namespace STranslate.Model
 {
     /// <summary>
-    /// OpenAI Prompt Definition
+    /// Prompt Definition
     /// </summary>
-    public partial class OpenaiMessage : ObservableObject, ICloneable
+    public partial class Prompt : ObservableObject, ICloneable
     {
         [JsonIgnore]
         [ObservableProperty]
@@ -19,15 +19,15 @@ namespace STranslate.Model
         [property: JsonProperty("content")]
         private string _content = "";
 
-        public OpenaiMessage() { }
+        public Prompt() { }
 
-        public OpenaiMessage(string role)
+        public Prompt(string role)
         {
             Role = role;
             Content = "";
         }
 
-        public OpenaiMessage(string role, string content)
+        public Prompt(string role, string content)
         {
             Role = role;
             Content = content;
@@ -35,41 +35,7 @@ namespace STranslate.Model
 
         public object Clone()
         {
-            return new OpenaiMessage(this.Role, this.Content);
-        }
-    }
-
-    /// <summary>
-    /// Gemini Prompt Definition
-    /// </summary>
-    public partial class GeminiMessage : ObservableObject, ICloneable
-    {
-        [JsonIgnore]
-        [ObservableProperty]
-        [property: JsonProperty("role")]
-        private string _role = "";
-
-        [JsonIgnore]
-        [ObservableProperty]
-        [property: JsonProperty("text")]
-        private string _text = "";
-
-        public GeminiMessage() { }
-
-        public GeminiMessage(string role)
-        {
-            Role = role;
-        }
-
-        public GeminiMessage(string role, string text)
-        {
-            Role = role;
-            Text = text;
-        }
-
-        public object Clone()
-        {
-            return new GeminiMessage(this.Role, this.Text);
+            return new Prompt(this.Role, this.Content);
         }
     }
 }

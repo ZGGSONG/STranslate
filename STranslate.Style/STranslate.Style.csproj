@@ -40,6 +40,9 @@
     <Resource Include="Resources\caiyun.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\chatglm.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\deepl.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

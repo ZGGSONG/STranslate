@@ -114,6 +114,7 @@ namespace STranslate.Model
         VolcengineService,
         STranslateService,
         EcdictService,
+        ChatglmService,
     }
 
     public enum TTSType
@@ -144,6 +145,7 @@ namespace STranslate.Model
         Volcengine,
         Ecdict,
         Azure,
+        Chatglm,
     }
 
     /// <summary>

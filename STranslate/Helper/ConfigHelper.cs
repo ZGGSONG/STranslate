@@ -442,17 +442,14 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.CaiyunService => new TranslatorCaiyun(),
             (int)ServiceType.VolcengineService => new TranslatorVolcengine(),
             (int)ServiceType.EcdictService => new TranslatorEcdict(),
+            (int)ServiceType.ChatglmService => new TranslatorChatglm(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
 
-        if (translator is TranslatorOpenAI openai)
+        if (translator is ITranslatorAI ai)
         {
-            openai.OpenaiMessages.Clear();
-        }
-        else if (translator is TranslatorGemini gemini)
-        {
-            gemini.GeminiMessages.Clear();
+            ai.Prompts.Clear();
         }
 
         serializer.Populate(jsonObject.CreateReader(), translator);

@@ -124,7 +124,7 @@
                 <StackPanel Margin="0,0,0,20" VerticalAlignment="Top">
                     <ListBox Background="Transparent"
                              BorderThickness="0"
-                             ItemsSource="{Binding GeminiMessages}"
+                             ItemsSource="{Binding Prompts}"
                              PreviewMouseWheel="ListBox_PreviewMouseWheel"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
@@ -149,7 +149,7 @@
                                                                    AcceptsReturn="True"
                                                                    FontSize="{DynamicResource FontSize_Prompt}"
                                                                    Placeholder="Input your prompt..."
-                                                                   Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                   Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                    TextWrapping="Wrap" />
                                     </StackPanel>
                                 </Border>
