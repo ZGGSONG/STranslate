@@ -108,9 +108,9 @@ namespace STranslate.ViewModels.Preference.Services
 
         [RelayCommand]
         [property: JsonIgnore]
-        private void DeletePrompt(OpenaiMessage openaiMsg)
+        private void DeletePrompt(OpenaiMessage msg)
         {
-            OpenaiMessages.Remove(openaiMsg);
+            OpenaiMessages.Remove(msg);
         }
 
         [RelayCommand]
@@ -150,7 +150,7 @@ namespace STranslate.ViewModels.Preference.Services
                 var a_model = Model;
                 a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
 
-                // 组织语言
+                // 替换Prompt关键字
                 var a_messages = OpenaiMessages.Clone();
                 a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 

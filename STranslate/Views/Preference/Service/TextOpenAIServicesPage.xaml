@@ -113,7 +113,7 @@
                     <TextBlock VerticalAlignment="Top" Text="Prompts: " />
                     <TextBlock Grid.Column="1"
                                FontSize="{DynamicResource FontSize_Identify}"
-                               Text="通过自定义Prompt自定义OpenAI行为, $source $target $content 将会被替换为 原始语言，目标语言和待翻译的文本。"
+                               Text="通过自定义Prompt自定义OpenAI行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。"
                                TextWrapping="Wrap" />
                 </Grid>
 

@@ -15,122 +15,159 @@
             BorderBrush="{DynamicResource BorderBrushColor}"
             BorderThickness="1"
             CornerRadius="4">
-        <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="类型: " />
+        <ScrollViewer>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="类型: " />
 
-                <Border Grid.Column="1"
-                        Width="88"
-                        HorizontalAlignment="Left"
-                        BorderBrush="{DynamicResource OfficialServiceColor}"
-                        BorderThickness="2"
-                        CornerRadius="5">
-                    <TextBlock Padding="5,2" FontWeight="Black" Text="官方服务" />
-                </Border>
-            </Grid>
+                    <Border Grid.Column="1"
+                            Width="88"
+                            HorizontalAlignment="Left"
+                            BorderBrush="{DynamicResource OfficialServiceColor}"
+                            BorderThickness="2"
+                            CornerRadius="5">
+                        <TextBlock Padding="5,2" FontWeight="Black" Text="官方服务" />
+                    </Border>
+                </Grid>
 
-            <Grid Margin="0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="名称: " />
+                <Grid Margin="0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="名称: " />
 
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="160"
-                                           HorizontalAlignment="Left"
-                                           Placeholder="Gemini"
-                                           Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="160"
+                                               HorizontalAlignment="Left"
+                                               Placeholder="Gemini"
+                                               Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="接口: " />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="接口: " />
 
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="206"
-                                           HorizontalAlignment="Left"
-                                           Placeholder="https://generativelanguage.googleapis.com"
-                                           Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="206"
+                                               HorizontalAlignment="Left"
+                                               Placeholder="https://generativelanguage.googleapis.com"
+                                               Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
 
-            <Grid Margin="0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="38" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Key: " />
+                <Grid Margin="0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Key: " />
 
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="160"
-                                           HorizontalAlignment="Left"
-                                           Placeholder="API Key"
-                                           Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <PasswordBox Grid.Column="1"
-                             MinWidth="160"
-                             HorizontalAlignment="Left"
-                             common:BoundPasswordBox.Attach="True"
-                             common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Tag="API Key"
-                             ToolTip="{Binding AppKey}"
-                             Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="160"
+                                               HorizontalAlignment="Left"
+                                               Placeholder="API Key"
+                                               Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                    <PasswordBox Grid.Column="1"
+                                 MinWidth="160"
+                                 HorizontalAlignment="Left"
+                                 common:BoundPasswordBox.Attach="True"
+                                 common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Tag="API Key"
+                                 ToolTip="{Binding AppKey}"
+                                 Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <Button Grid.Column="2"
-                        Command="{Binding ShowEncryptInfoCommand}"
-                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
-                        Style="{DynamicResource ButtonIconStyle}" />
-            </Grid>
+                    <Button Grid.Column="2"
+                            Command="{Binding ShowEncryptInfoCommand}"
+                            Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="超时: " />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="超时: " />
 
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="80"
-                                           HorizontalAlignment="Left"
-                                           InputMethod.IsInputMethodEnabled="False"
-                                           Placeholder="10"
-                                           PreviewKeyDown="AcceptOnlyNumber"
-                                           Text="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <TextBlock Grid.Column="2" Margin="10,0" Text="秒" />
-            </Grid>
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="80"
+                                               HorizontalAlignment="Left"
+                                               InputMethod.IsInputMethodEnabled="False"
+                                               Placeholder="10"
+                                               PreviewKeyDown="AcceptOnlyNumber"
+                                               Text="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Margin="10,0" Text="秒" />
+                </Grid>
 
-            <Grid Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="图标: " />
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Top" Text="Prompts: " />
+                    <TextBlock Grid.Column="1"
+                               FontSize="{DynamicResource FontSize_Identify}"
+                               Text="通过自定义Prompt自定义Gemini行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。"
+                               TextWrapping="Wrap" />
+                </Grid>
 
-                <ComboBox Grid.Column="1"
-                          Width="120"
-                          HorizontalAlignment="Left"
-                          BorderThickness="1"
-                          ItemsSource="{Binding Icons}"
-                          SelectedValue="{Binding Icon}" />
-            </Grid>
+                <StackPanel Margin="0,0,0,20" VerticalAlignment="Top">
+                    <ListBox Background="Transparent"
+                             BorderThickness="0"
+                             ItemsSource="{Binding GeminiMessages}"
+                             PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}" Margin="0,5" Style="{DynamicResource BorderInOutputStyle}">
+                                    <StackPanel>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <TextBlock Margin="5,2,0,0"
+                                                       VerticalAlignment="Top"
+                                                       FontWeight="Bold"
+                                                       Text="{Binding Role}" />
+                                            <Button HorizontalAlignment="Right"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeletePromptCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Content="&#xe74b;"
+                                                    Style="{DynamicResource ButtonIconStyle}"
+                                                    ToolTip="删除Prompt" />
+                                        </Grid>
+                                        <common:PlaceholderTextBox MinWidth="200"
+                                                                   MinHeight="60"
+                                                                   Margin="5,0"
+                                                                   AcceptsReturn="True"
+                                                                   FontSize="{DynamicResource FontSize_Prompt}"
+                                                                   Placeholder="Input your prompt..."
+                                                                   Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Command="{Binding AddPromptCommand}" Content="添加Prompt" FontWeight="Bold" />
+                </StackPanel>
 
-            <Grid Margin="0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Other: " />
-                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
-            </Grid>
-        </StackPanel>
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Other: " />
+                    <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Border>
 </UserControl>

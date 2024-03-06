@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -448,6 +449,10 @@ public class TranslatorConverter : JsonConverter<ITranslator>
         if (translator is TranslatorOpenAI openai)
         {
             openai.OpenaiMessages.Clear();
+        }
+        else if (translator is TranslatorGemini gemini)
+        {
+            gemini.GeminiMessages.Clear();
         }
 
         serializer.Populate(jsonObject.CreateReader(), translator);

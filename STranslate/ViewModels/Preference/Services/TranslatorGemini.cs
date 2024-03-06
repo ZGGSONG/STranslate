@@ -104,6 +104,37 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        [JsonIgnore]
+        [ObservableProperty]
+        private BindingList<GeminiMessage> geminiMessages =
+        [
+            new GeminiMessage("user", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
+            new GeminiMessage("model", "Ok, I will only translate the text content, never interpret it"),
+            new GeminiMessage("user", "Translate the following text from en to zh: hello world"),
+            new GeminiMessage("model", "你好，世界"),
+            new GeminiMessage("user", "Translate the following text from $source to $target: $content"),
+        ];
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void DeletePrompt(GeminiMessage msg)
+        {
+            GeminiMessages.Remove(msg);
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void AddPrompt()
+        {
+            var last = GeminiMessages.LastOrDefault()?.Role ?? "";
+            var newOne = last switch
+            {
+                "user" => new GeminiMessage("model"),
+                _ => new GeminiMessage("user")
+            };
+            GeminiMessages.Add(newOne);
+        }
+
         public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
         {
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
@@ -124,13 +155,22 @@ namespace STranslate.ViewModels.Preference.Services
 
                 uriBuilder.Query = $"key={AppKey}";
 
-                // 组织语言
-                var a_content = source.Equals("auto", StringComparison.CurrentCultureIgnoreCase)
-                    ? $"Translate the following text to {target}: {content}"
-                    : $"Translate the following text from {source} to {target}: {content}";
+                // 替换Prompt关键字
+                var a_messages = GeminiMessages.Clone();
+                a_messages.ToList().ForEach(item => item.Text = item.Text.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 
                 // 构建请求数据
-                var reqData = new { contents = new[] { new { parts = new[] { new { text = a_content } } } } };
+                var reqData = new
+                {
+                    contents = a_messages.Select(e => new
+                    {
+                        role = e.Role,
+                        parts = new[]
+                        {
+                            new { text = e.Text }
+                        }
+                    })
+                };
 
                 // 为了流式输出与MVVM还是放这里吧
                 var jsonData = JsonConvert.SerializeObject(reqData);
@@ -181,6 +221,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AppKey = this.AppKey,
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
+                GeminiMessages = this.GeminiMessages,
             };
         }
     }

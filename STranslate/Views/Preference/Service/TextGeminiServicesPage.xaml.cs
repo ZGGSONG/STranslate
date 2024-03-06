@@ -44,5 +44,25 @@ namespace STranslate.Views.Preference.Service
         {
             return (key >= Key.D0 && key <= Key.D9) || (key >= Key.NumPad0 && key <= Key.NumPad9) || key == Key.Back || key == Key.Delete || key == Key.Left || key == Key.Right;
         }
+
+        /// <summary>
+        /// ListBox鼠标滚轮事件处理函数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            //按住Ctrl滚动时不将滚动冒泡给上一层级的控件
+            if (!e.Handled && !Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                // ListBox拦截鼠标滚轮事件
+                e.Handled = true;
+
+                // 激发一个鼠标滚轮事件，冒泡给外层ListBox接收到
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) { RoutedEvent = MouseWheelEvent, Source = sender };
+                var parent = ((Control)sender).Parent as UIElement;
+                parent!.RaiseEvent(eventArg);
+            }
+        }
     }
 }
