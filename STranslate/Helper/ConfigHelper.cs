@@ -247,7 +247,7 @@ public class ConfigHelper
 
     private void WriteConfig(ConfigModel conf)
     {
-        var copy = conf.ServiceDeepClone();
+        var copy = conf.Clone();
         // Translate Service加密
         copy.Services?.ToList()
             .ForEach(service =>
@@ -459,18 +459,4 @@ public class TranslatorConverter : JsonConverter<ITranslator>
         throw new NotImplementedException();
     }
 }
-
-public static class ObjectExtensions
-{
-    public static T ServiceDeepClone<T>(this T source)
-    {
-        if (source == null)
-            return default!;
-
-        var json = JsonConvert.SerializeObject(source);
-        var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new TTSConverter() } };
-        return JsonConvert.DeserializeObject<T>(json, settings)!;
-    }
-}
-
 #endregion JsonConvert

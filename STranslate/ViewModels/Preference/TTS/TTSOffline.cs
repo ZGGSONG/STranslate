@@ -67,7 +67,7 @@ namespace STranslate.ViewModels.Preference.TTS
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _AppID = string.Empty;
+        public string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -77,40 +77,6 @@ namespace STranslate.ViewModels.Preference.TTS
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
-
-        #region Show/Hide Encrypt Info
-
-        [JsonIgnore]
-        [ObservableProperty]
-        [property: JsonIgnore]
-        private bool _idHide = true;
-
-        [JsonIgnore]
-        [ObservableProperty]
-        [property: JsonIgnore]
-        private bool _keyHide = true;
-
-        private void ShowEncryptInfo(string? obj)
-        {
-            if (obj == null)
-                return;
-
-            if (obj.Equals(nameof(AppID)))
-            {
-                IdHide = !IdHide;
-            }
-            else if (obj.Equals(nameof(AppKey)))
-            {
-                KeyHide = !KeyHide;
-            }
-        }
-
-        private RelayCommand<string>? showEncryptInfoCommand;
-
-        [JsonIgnore]
-        public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
-
-        #endregion Show/Hide Encrypt Info
 
         public async Task SpeakTextAsync(string text, CancellationToken token)
         {
@@ -141,6 +107,22 @@ namespace STranslate.ViewModels.Preference.TTS
                 }
                 catch (Exception) { }
             });
+        }
+
+        public ITTS Clone()
+        {
+            return new TTSOffline
+            {
+                Identify = this.Identify,
+                Type = this.Type,
+                IsEnabled = this.IsEnabled,
+                Icon = this.Icon,
+                Name = this.Name,
+                Url = this.Url,
+                AppID = this.AppID,
+                AppKey = this.AppKey,
+                Icons = this.Icons,
+            };
         }
     }
 }

@@ -133,8 +133,8 @@ namespace STranslate.ViewModels.Preference
                 //TODO: 新TTS服务需要适配
                 CurTTSServiceList.Add(tts switch
                 {
-                    TTSAzure azure => azure.DeepClone(),
-                    TTSOffline offline => offline.DeepClone(),
+                    TTSAzure azure => azure.Clone(),
+                    TTSOffline offline => offline.Clone(),
                     _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
                 });
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace STranslate.Model
 {
-    public interface ITTS : INotifyPropertyChanged//需要继承INotifyPropertyChanged，否则切换属性时无法通知
+    public interface ITTS : INotifyPropertyChanged //需要继承INotifyPropertyChanged，否则切换属性时无法通知
     {
         Guid Identify { get; set; }
 
@@ -22,9 +22,12 @@ namespace STranslate.Model
         string AppKey { get; set; }
 
         Task SpeakTextAsync(string text, CancellationToken token);
+
+        ITTS Clone();
     }
 
-    public class TTSCollection<T> : BindingList<T> where T : ITTS
+    public class TTSCollection<T> : BindingList<T>
+        where T : ITTS
     {
         public event Action<T>? OnActiveTTSChanged;
 
@@ -49,6 +52,25 @@ namespace STranslate.Model
                     }
                 }
             }
+        }
+
+        public TTSCollection<T> DeepCopy()
+        {
+            var copiedList = new TTSCollection<T>();
+            foreach (var item in this)
+            {
+                T newItem = (T)Activator.CreateInstance(item.GetType())!;
+                var properties = typeof(T).GetProperties();
+                foreach (var property in properties)
+                {
+                    if (property.CanWrite)
+                    {
+                        property.SetValue(newItem, property.GetValue(item));
+                    }
+                }
+                copiedList.Add(newItem);
+            }
+            return copiedList;
         }
     }
 }

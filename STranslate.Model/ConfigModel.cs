@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 
 namespace STranslate.Model;
 
@@ -207,4 +208,64 @@ public class ConfigModel
     /// TTS
     /// </summary>
     public TTSCollection<ITTS>? TTSList { get; set; }
+
+    /// <summary>
+    /// Copy
+    /// </summary>
+    /// <returns></returns>
+    public ConfigModel Clone()
+    {
+        return new ConfigModel
+        {
+            IsStartup = IsStartup,
+            NeedAdministrator = NeedAdministrator,
+            HistorySize = HistorySize,
+            AutoScale = AutoScale,
+            ThemeType = ThemeType,
+            IsFollowMouse = IsFollowMouse,
+            CloseUIOcrRetTranslate = CloseUIOcrRetTranslate,
+            UnconventionalScreen = UnconventionalScreen,
+            IsOcrAutoCopyText = IsOcrAutoCopyText,
+            IsAdjustContentTranslate = IsAdjustContentTranslate,
+            IsRemoveLineBreakGettingWords = IsRemoveLineBreakGettingWords,
+            DoubleTapTrayFunc = DoubleTapTrayFunc,
+            SourceLanguage = SourceLanguage,
+            TargetLanguage = TargetLanguage,
+            Position = Position,
+            CustomFont = CustomFont,
+            IsKeepTopmostAfterMousehook = IsKeepTopmostAfterMousehook,
+            IsShowPreference = IsShowPreference,
+            IsShowMousehook = IsShowMousehook,
+            IsShowScreenshot = IsShowScreenshot,
+            IsShowOCR = IsShowOCR,
+            IsShowSilentOCR = IsShowSilentOCR,
+            IsShowClipboardMonitor = IsShowClipboardMonitor,
+            IsShowQRCode = IsShowQRCode,
+            IsShowHistory = IsShowHistory,
+            WordPickingInterval = WordPickingInterval,
+            IsHideOnStart = IsHideOnStart,
+            ShowCopyOnHeader = ShowCopyOnHeader,
+            IsCaretLast = IsCaretLast,
+            MaxHeight = MaxHeight,
+            Width = Width,
+            ProxyMethod = ProxyMethod,
+            ProxyIp = ProxyIp,
+            ProxyPort = ProxyPort,
+            IsProxyAuthentication = IsProxyAuthentication,
+            ProxyUsername = ProxyUsername,
+            ProxyPassword = ProxyPassword,
+            Hotkeys = Hotkeys?.Clone(),
+            Services = Services?.Clone(),
+            TTSList = TTSList?.DeepCopy()
+        };
+    }
+}
+
+internal static class Extensions
+{
+    public static BindingList<T> Clone<T>(this BindingList<T> listToClone)
+        where T : ITranslator
+    {
+        return new BindingList<T>(listToClone.Select(item => (T)item.Clone()).ToList());
+    }
 }

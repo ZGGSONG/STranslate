@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.ViewModels.Preference.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -59,7 +60,7 @@ namespace STranslate.ViewModels.Preference.TTS
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _AppID = string.Empty;
+        public string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -194,6 +195,25 @@ namespace STranslate.ViewModels.Preference.TTS
                 default:
                     break;
             }
+        }
+        
+        public ITTS Clone()
+        {
+            return new TTSAzure
+            {
+                Identify = this.Identify,
+                Type = this.Type,
+                IsEnabled = this.IsEnabled,
+                Icon = this.Icon,
+                Name = this.Name,
+                Url = this.Url,
+                AppID = this.AppID,
+                AppKey = this.AppKey,
+                IdHide = this.IdHide,
+                KeyHide = this.KeyHide,
+                VoiceName = this.VoiceName,
+                VoiceList = this.VoiceList,
+            };
         }
     }
 }

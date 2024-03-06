@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
+using System;
 
 namespace STranslate.Model
 {
-    public partial class OpenaiMessage : ObservableObject
+    public partial class OpenaiMessage : ObservableObject, ICloneable
     {
         [JsonIgnore]
         [ObservableProperty]
@@ -27,6 +28,11 @@ namespace STranslate.Model
         {
             Role = role;
             Content = content;
+        }
+
+        public object Clone()
+        {
+            return new OpenaiMessage(this.Role, this.Content);
         }
     }
 }

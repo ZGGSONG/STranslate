@@ -71,7 +71,7 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _AppID = string.Empty;
+        public string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -176,6 +176,27 @@ namespace STranslate.ViewModels.Preference.Services
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
         {
             throw new NotImplementedException();
+        }
+        public ITranslator Clone()
+        {
+            return new TranslatorTencent
+            {
+                Identify = this.Identify,
+                Type = this.Type,
+                IsEnabled = this.IsEnabled,
+                Icon = this.Icon,
+                Name = this.Name,
+                Url = this.Url,
+                Data = TranslationResult.Reset,
+                AppID = this.AppID,
+                AppKey = this.AppKey,
+                Icons = this.Icons,
+                Region = TencentRegionEnum.华东地区_上海,
+                Resiongs = this.Resiongs,
+                ProjectId = this.ProjectId,
+                IdHide = this.IdHide,
+                KeyHide = this.KeyHide,
+            };
         }
     }
 }

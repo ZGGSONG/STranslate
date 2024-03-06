@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +8,21 @@ namespace STranslate.Util
 {
     public static class ObjectExtensions
     {
+        public static BindingList<T> Clone<T>(this BindingList<T> source) where T : ICloneable
+        {
+            if (source == null)
+                return [];
+
+            var newList = new BindingList<T>();
+            foreach (var item in source)
+            {
+                var clonedItem = (T)item.Clone();
+                newList.Add(clonedItem);
+            }
+
+            return newList;
+        }
+
         public static T DeepClone<T>(this T source)
         {
             if (source == null)

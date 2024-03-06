@@ -77,7 +77,7 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _AppID = string.Empty;
+        public string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -92,40 +92,6 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
-
-        #region Show/Hide Encrypt Info
-
-        [JsonIgnore]
-        [ObservableProperty]
-        [property: JsonIgnore]
-        private bool _idHide = true;
-
-        [JsonIgnore]
-        [ObservableProperty]
-        [property: JsonIgnore]
-        private bool _keyHide = true;
-
-        private void ShowEncryptInfo(string? obj)
-        {
-            if (obj == null)
-                return;
-
-            if (obj.Equals(nameof(AppID)))
-            {
-                IdHide = !IdHide;
-            }
-            else if (obj.Equals(nameof(AppKey)))
-            {
-                KeyHide = !KeyHide;
-            }
-        }
-
-        private RelayCommand<string>? showEncryptInfoCommand;
-
-        [JsonIgnore]
-        public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
-
-        #endregion Show/Hide Encrypt Info
 
         [JsonIgnore]
         public string Tips { get; set; } = "本地服务，需下载词典文件";
@@ -283,6 +249,28 @@ namespace STranslate.ViewModels.Preference.Services
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
         {
             throw new NotImplementedException();
+        }
+        
+        public ITranslator Clone()
+        {
+            return new TranslatorEcdict
+            {
+                Identify = this.Identify,
+                Type = this.Type,
+                IsEnabled = this.IsEnabled,
+                Icon = this.Icon,
+                Name = this.Name,
+                Url = this.Url,
+                Data = TranslationResult.Reset,
+                AppID = this.AppID,
+                AppKey = this.AppKey,
+                Icons = this.Icons,
+                Tips = this.Tips,
+                ProcessValue = this.ProcessValue,
+                IsShowProcessBar = this.IsShowProcessBar,
+                HasDB = this.HasDB,
+                DbFileSize = this.DbFileSize,
+            };
         }
     }
 }

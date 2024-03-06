@@ -3,20 +3,28 @@
     public class Hotkeys
     {
         public InputTranslate InputTranslate { get; set; } = new();
-
         public CrosswordTranslate CrosswordTranslate { get; set; } = new();
-
         public ScreenShotTranslate ScreenShotTranslate { get; set; } = new();
-
         public OpenMainWindow OpenMainWindow { get; set; } = new();
-
         public MousehookTranslate MousehookTranslate { get; set; } = new();
-
         public OCR OCR { get; set; } = new();
-
         public SilentOCR SilentOCR { get; set; } = new();
-
         public ClipboardMonitor ClipboardMonitor { get; set; } = new();
+
+        public Hotkeys Clone()
+        {
+            return new Hotkeys
+            {
+                InputTranslate = InputTranslate.Clone(),
+                CrosswordTranslate = CrosswordTranslate.Clone(),
+                ScreenShotTranslate = ScreenShotTranslate.Clone(),
+                OpenMainWindow = OpenMainWindow.Clone(),
+                MousehookTranslate = MousehookTranslate.Clone(),
+                OCR = OCR.Clone(),
+                SilentOCR = SilentOCR.Clone(),
+                ClipboardMonitor = ClipboardMonitor.Clone()
+            };
+        }
     }
 
     public class InputTranslate : HotkeyBase { }
@@ -38,11 +46,8 @@
     public class HotkeyBase
     {
         public KeyModifiers Modifiers { get; set; }
-
         public KeyCodes Key { get; set; }
-
         public string? Text { get; set; }
-
         public bool Conflict { get; set; }
     }
 
@@ -56,6 +61,18 @@
             t.Text = text;
             t.Conflict = conflict;
             return t;
+        }
+
+        public static T Clone<T>(this T t)
+            where T : HotkeyBase, new()
+        {
+            return new T
+            {
+                Modifiers = t.Modifiers,
+                Key = t.Key,
+                Text = t.Text,
+                Conflict = t.Conflict
+            };
         }
     }
 }

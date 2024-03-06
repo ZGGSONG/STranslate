@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
-using STranslate.ViewModels.Preference.Services;
 using STranslate.Util;
+using STranslate.ViewModels.Preference.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,8 +13,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using Newtonsoft.Json;
-using STranslate.Helper;
 
 namespace STranslate.ViewModels.Preference
 {
@@ -53,29 +53,27 @@ namespace STranslate.ViewModels.Preference
             switch (type)
             {
                 case ActionType.Delete:
-                {
-                    //不允许小于0
-                    SelectedIndex = Math.Max(tmpIndex - 1, 0);
-                    TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
-                    break;
-                }
+                    {
+                        //不允许小于0
+                        SelectedIndex = Math.Max(tmpIndex - 1, 0);
+                        TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
+                        break;
+                    }
                 case ActionType.Add:
-                {
-                    //选中最后一项
-                    SelectedIndex = ServiceCounter - 1;
-                    TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
-                    break;
-                }
+                    {
+                        //选中最后一项
+                        SelectedIndex = ServiceCounter - 1;
+                        TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
+                        break;
+                    }
                 default:
-                {
-                    //初始化默认执行选中第一条
-                    SelectedIndex = 0;
-                    TogglePageCommand.Execute(CurTransServiceList.First());
-                    break;
-                }
+                    {
+                        //初始化默认执行选中第一条
+                        SelectedIndex = 0;
+                        TogglePageCommand.Execute(CurTransServiceList.First());
+                        break;
+                    }
             }
-
-
         }
 
         private int tmpIndex;
@@ -125,19 +123,19 @@ namespace STranslate.ViewModels.Preference
                 //TODO: 新接口需要适配
                 CurTransServiceList.Add(service switch
                 {
-                    TranslatorSTranslate stranslate => stranslate.DeepClone(),
-                    TranslatorApi api => api.DeepClone(),
-                    TranslatorBaidu baidu => baidu.DeepClone(),
-                    TranslatorMicrosoft bing => bing.DeepClone(),
-                    TranslatorOpenAI openAI => openAI.DeepClone(),
-                    TranslatorGemini gemini => gemini.DeepClone(),
-                    TranslatorTencent tencent => tencent.DeepClone(),
-                    TranslatorAli ali => ali.DeepClone(),
-                    TranslatorYoudao youdao => youdao.DeepClone(),
-                    TranslatorNiutrans niutrans => niutrans.DeepClone(),
-                    TranslatorCaiyun caiyun => caiyun.DeepClone(),
-                    TranslatorVolcengine volcengine => volcengine.DeepClone(),
-                    TranslatorEcdict ecdict => ecdict.DeepClone(),
+                    TranslatorSTranslate stranslate => stranslate.Clone(),
+                    TranslatorApi api => api.Clone(),
+                    TranslatorBaidu baidu => baidu.Clone(),
+                    TranslatorMicrosoft bing => bing.Clone(),
+                    TranslatorOpenAI openAI => openAI.Clone(),
+                    TranslatorGemini gemini => gemini.Clone(),
+                    TranslatorTencent tencent => tencent.Clone(),
+                    TranslatorAli ali => ali.Clone(),
+                    TranslatorYoudao youdao => youdao.Clone(),
+                    TranslatorNiutrans niutrans => niutrans.Clone(),
+                    TranslatorCaiyun caiyun => caiyun.Clone(),
+                    TranslatorVolcengine volcengine => volcengine.Clone(),
+                    TranslatorEcdict ecdict => ecdict.Clone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 

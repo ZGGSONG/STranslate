@@ -60,7 +60,7 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _AppID = string.Empty;
+        public string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -151,7 +151,7 @@ namespace STranslate.ViewModels.Preference.Services
                 a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
 
                 // 组织语言
-                var a_messages = OpenaiMessages.DeepClone();
+                var a_messages = OpenaiMessages.Clone();
                 a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 
                 // 构建请求数据
@@ -206,6 +206,25 @@ namespace STranslate.ViewModels.Preference.Services
         public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             throw new NotImplementedException();
+        }
+
+        public ITranslator Clone()
+        {
+            return new TranslatorOpenAI
+            {
+                Identify = this.Identify,
+                Type = this.Type,
+                IsEnabled = this.IsEnabled,
+                Icon = this.Icon,
+                Name = this.Name,
+                Url = this.Url,
+                Data = TranslationResult.Reset,
+                AppID = this.AppID,
+                AppKey = this.AppKey,
+                Icons = this.Icons,
+                KeyHide = this.KeyHide,
+                OpenaiMessages = this.OpenaiMessages,
+            };
         }
     }
 }
