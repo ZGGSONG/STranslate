@@ -45,10 +45,7 @@
             <StackPanel>
                 <Border Margin="6.5" Style="{DynamicResource BorderInOutputStyle}">
                     <Grid>
-                        <TextBox ContextMenu="{x:Null}"
-                                 FontSize="{DynamicResource FontSize_TextBox}"
-                                 Style="{DynamicResource TextBoxOutputStyle}"
-                                 Text="{Binding InputContent, Mode=OneWay}" />
+                        <TextBox Style="{DynamicResource TextBoxOutputStyle}" Text="{Binding InputContent, Mode=OneWay}" />
 
                         <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
                             <Button Margin="5,0"
@@ -87,11 +84,7 @@
                         <DataTemplate>
                             <Border Style="{DynamicResource BorderInOutputStyle}">
                                 <Grid>
-                                    <TextBox ContextMenu="{x:Null}"
-                                             FontSize="{DynamicResource FontSize_TextBox}"
-                                             Style="{DynamicResource TextBoxOutputStyle}"
-                                             Tag="{Binding Item3.IsSuccess}"
-                                             Text="{Binding Item3.Result, Mode=OneWay}" />
+                                    <TextBox Style="{DynamicResource TextBoxOutputStyle}" Tag="{Binding Item3.IsSuccess}" Text="{Binding Item3.Result, Mode=OneWay}" />
 
                                     <Grid Margin="5" VerticalAlignment="Bottom">
                                         <StackPanel Orientation="Horizontal">

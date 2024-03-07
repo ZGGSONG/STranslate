@@ -18,7 +18,6 @@
     <Border Style="{DynamicResource BorderInOutputStyle}">
         <Grid>
             <common:PlaceholderTextBox x:Name="InputTb"
-                                       FontSize="{DynamicResource FontSize_TextBox}"
                                        Placeholder="Enter 翻译/缓存&#10;Ctrl+Enter 强制翻译&#10;Shift+Enter 换行"
                                        PreviewMouseWheel="InputTb_PreviewMouseWheel"
                                        Style="{DynamicResource TextBoxInputStyle}"

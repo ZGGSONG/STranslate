@@ -136,9 +136,7 @@
                                 </Grid>
                             </Expander.Header>
                             <Grid>
-                                <TextBox ContextMenu="{x:Null}"
-                                         FontSize="{DynamicResource FontSize_TextBox}"
-                                         PreviewMouseWheel="TextBox_PreviewMouseWheel"
+                                <TextBox PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                          Style="{DynamicResource TextBoxOutputStyle}"
                                          Tag="{Binding Data.IsSuccess}"
                                          Text="{Binding Data.Result}" />
