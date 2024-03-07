@@ -78,14 +78,13 @@ public partial class InputViewModel : ObservableObject
         var target = Singleton<MainViewModel>.Instance.SelectedTargetLanguage ?? LanguageEnum.AUTO.GetDescription();
         var size = Singleton<ConfigHelper>.Instance.CurrentConfig?.HistorySize ?? 100;
         var dbTarget = target;
-        HistoryModel? history = null;
 
         if (!PreviousHandle())
             return;
 
         try
         {
-            history = await TranslateServiceAsync(obj, source, dbTarget, target, size, token);
+            var history = await TranslateServiceAsync(obj, source, dbTarget, target, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
             await HandleHistoryAsync(obj, history, source, dbTarget, size);

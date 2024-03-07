@@ -140,7 +140,10 @@
 8. [小牛翻译](https://niutrans.com/trans?type=text)
 9. [彩云小译](https://dashboard.caiyunapp.com/user/sign_in/)
 10. [火山引擎](https://www.volcengine.com/)
-11. [简明英汉词典](https://github.com/skywind3000/ECDICT)([官方-离线资源包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip)、[国内-离线资源包](https://www.123pan.com/s/AxlRjv-u5VmA.html))
+11. [简明英汉词典](https://github.com/skywind3000/ECDICT)
+12. [智谱AI](https://open.bigmodel.cn/)
+
+> 简明英汉词典在Github上，下载慢的可以手动点击下载离线资源包([官方-离线资源包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip)、[国内-离线资源包](https://www.123pan.com/s/AxlRjv-u5VmA.html))，放在软件根目录后再次点击下载后即可立即使用
 
 ## TTS
 
@@ -154,6 +157,7 @@
 2. 问：公共接口挂了怎么办？答：用的人越来越多，公共接口在官方认为是一个ip疯狂请求，会被限制请求，最好的是自己建一个，下面免费接口里面任选一种方式，在软件中修改或添加你的本地接口(如: `http://127.0.0.1:8080/translate`，具体ip、端口以实际为准) 注: [1.0.6.201](https://github.com/ZGGSONG/STranslate/releases/tag/1.0.6.201) 开始有本地服务，直接开启后可替代自建免费服务
 3. 问：有没有别的官方接口？答：提`Feature Issue`，有空的话我会优先适配
 4. 问：存在BUG？提[Issue](https://github.com/ZGGSONG/STranslate/issues)，最好带上所运行`软件版本`、`系统版本`、`复现条件`，有条件可以带上`视频`或`GIF`
+5. 问：软件设置不生效？答：软件设置页面基本需要修改完配置，点击保存后生效，部分配置修改完立即生效的也在配置说明处标注了 `[立即生效]`
 
 ## 卸载
 
@@ -169,6 +173,8 @@ rd /s /q "%localappdata%\stranslate"
 
 <details>
 <summary>详细内容</summary>
+
+- 2024-03-07 1.0.8.307 优化使用体验、添加智谱AI、添加自定义Prompt、添加监听剪贴板功能
 
 - 2024-03-04 1.0.7.304 优化使用体验，添加TTS，添加简明英汉词典等...
 
