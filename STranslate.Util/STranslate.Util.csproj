@@ -38,11 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.0" />
-    <PackageReference Include="System.Management" Version="8.0.0" />
-    <PackageReference Include="WpfScreenHelper" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.Drawing.Common" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="WpfScreenHelper" />
   </ItemGroup>
 
   <ItemGroup>

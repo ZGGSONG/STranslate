@@ -29,21 +29,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AlibabaCloud.SDK.Alimt20181012" Version="2.2.0" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Dapper" Version="2.1.28" />
-    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-    <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.35.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PaddleOCRSharp" Version="4.1.0" />
-    <PackageReference Include="System.Speech" Version="8.0.0" />
-    <PackageReference Include="TencentCloudSDK.Tmt" Version="3.0.953" />
-    <PackageReference Include="WpfScreenHelper" Version="2.1.0" />
-    <PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
-    <PackageReference Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" Version="0.16.7" />
+    <PackageReference Include="AlibabaCloud.SDK.Alimt20181012" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Dapper.Contrib" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="PaddleOCRSharp" />
+    <PackageReference Include="System.Speech" />
+    <PackageReference Include="TencentCloudSDK.Tmt" />
+    <PackageReference Include="WpfScreenHelper" />
+    <PackageReference Include="XamlFlair.WPF" />
+    <PackageReference Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" />
   </ItemGroup>
 
   <ItemGroup>
