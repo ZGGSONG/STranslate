@@ -333,6 +333,7 @@ namespace STranslate.ViewModels
                 ocrView?.Close();
 
             //如果重复执行先取消上一步操作
+            Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
             //清空输入相关
             Singleton<InputViewModel>.Instance.Clear();

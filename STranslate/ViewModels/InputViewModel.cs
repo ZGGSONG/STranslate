@@ -30,7 +30,7 @@ public partial class InputViewModel : ObservableObject
     [ObservableProperty]
     private string _identifyLanguage = string.Empty;
 
-    private static Dictionary<string, LanguageEnum> LangDict => CommonUtil.GetEnumList<LanguageEnum>();
+    public static Dictionary<string, LanguageEnum> LangDict => CommonUtil.GetEnumList<LanguageEnum>();
 
     /// <summary>
     /// 输入内容
@@ -262,7 +262,7 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    private async Task NonStreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token) =>
+    public async Task NonStreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token) =>
         service.Data = await service.TranslateAsync(new RequestModel(content, source, target), token);
 
     /// <summary>
@@ -274,7 +274,7 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    private async Task StreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
+    public async Task StreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
     {
         //先清空
         service.Data = TranslationResult.Reset;
@@ -316,11 +316,8 @@ public partial class InputViewModel : ObservableObject
             return;
 
         ToastHelper.Show("移除换行");
-        if (!Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false)
-            return;
 
-        TranslateCancelCommand.Execute(null);
-        TranslateCommand.Execute(null);
+        RemoveHandler();
     }
 
     [RelayCommand]
@@ -333,9 +330,15 @@ public partial class InputViewModel : ObservableObject
 
         ToastHelper.Show("移除空格");
 
+        RemoveHandler();
+    }
+
+    internal void RemoveHandler()
+    {
         if (!Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false)
             return;
 
+        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
         TranslateCommand.Execute(null);
     }

@@ -18,6 +18,46 @@ namespace STranslate.ViewModels
         private BindingList<ITranslator> _translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
 
         [RelayCommand(IncludeCancelCommand = true)]
+        private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
+        {
+            var inputVM = Singleton<InputViewModel>.Instance;
+            var source = Singleton<MainViewModel>.Instance.SelectedSourceLanguage ?? LanguageEnum.AUTO.GetDescription();
+            var target = Singleton<MainViewModel>.Instance.SelectedTargetLanguage ?? LanguageEnum.AUTO.GetDescription();
+
+            var idetify = "";
+            //如果是自动则获取自动识别后的目标语种
+            if (target == LanguageEnum.AUTO.GetDescription())
+            {
+                var autoRet = StringUtil.AutomaticLanguageRecognition(inputVM.InputContent);
+                idetify = autoRet.Item1;
+                target = autoRet.Item2;
+            }
+
+            var sourceStr = InputViewModel.LangDict[source].ToString();
+            var targetStr = InputViewModel.LangDict[target].ToString();
+
+            //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
+            //TODO: 新接口需要适配
+            switch (service.Type)
+            {
+                case ServiceType.GeminiService:
+                case ServiceType.OpenAIService:
+                case ServiceType.ChatglmService:
+                    {
+                        //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                        //Auto则转换为识别语种
+                        sourceStr = sourceStr == "AUTO" ? InputViewModel.LangDict[idetify].ToString() : sourceStr;
+                        await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
+                        break;
+                    }
+
+                default:
+                    await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
+                    break;
+            }
+        }
+
+        [RelayCommand(IncludeCancelCommand = true)]
         private async Task TTS(string text, CancellationToken token)
         {
             await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, token);

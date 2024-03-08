@@ -113,6 +113,7 @@ namespace STranslate.ViewModels
         private void InputTranslate(Window view)
         {
             //如果重复执行先取消上一步操作
+            Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
             Clear();
             ShowAndActive(view);
@@ -133,6 +134,7 @@ namespace STranslate.ViewModels
                 content = StringUtil.RemoveLineBreaks(content);
 
             //如果重复执行先取消上一步操作
+            Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
             Clear();
 
@@ -329,6 +331,7 @@ namespace STranslate.ViewModels
                     //var getText = TesseractHelper.TesseractOCR(bitmap, OcrType).Trim();
 
                     //如果重复执行先取消上一步操作
+                    Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
                     Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
 
                     Clear();
@@ -511,6 +514,7 @@ namespace STranslate.ViewModels
                 content = StringUtil.RemoveLineBreaks(content);
 
             //如果重复执行先取消上一步操作
+            Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
             Clear();
 

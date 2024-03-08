@@ -198,6 +198,7 @@ namespace STranslate.ViewModels
             {
                 (SelectedSourceLanguage, SelectedTargetLanguage) = (SelectedTargetLanguage, SelectedSourceLanguage);
 
+                OutputVM.SingleTranslateCancelCommand.Execute(null);
                 InputVM.TranslateCancelCommand.Execute(null);
                 InputVM.TranslateCommand.Execute(null);
             }
@@ -239,6 +240,7 @@ namespace STranslate.ViewModels
             InputVM.InputContent = content;
 
             //如果重复执行先取消上一步操作
+            OutputVM.SingleTranslateCancelCommand.Execute(null);
             InputVM.TranslateCancelCommand.Execute(null);
 
             InputVM.TranslateCommand.Execute(null);
@@ -288,6 +290,7 @@ namespace STranslate.ViewModels
             IsTopMost = ConstStr.TAGFALSE;
             TopMostContent = ConstStr.UNTOPMOSTCONTENT;
             win.ViewAnimation(false);
+            OutputVM.SingleTranslateCancelCommand.Execute(null);
             InputVM.TranslateCancelCommand.Execute(null);
 
             //取消语音播放

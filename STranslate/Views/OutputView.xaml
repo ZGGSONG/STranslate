@@ -77,11 +77,13 @@
                                         <!-- // TODO: 单服务重试 // -->
                                         <Button Margin="2,2,0,2"
                                                 HorizontalAlignment="Right"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
+                                                CommandParameter="{Binding}"
                                                 Content="&#xe60f;"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
                                                 ToolTip="重试"
-                                                Visibility="Collapsed" />
-                                        <!-- Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" /> -->
+                                                Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                                        <!-- Visibility="Collapsed" /> -->
 
                                         <!-- // 复制按钮到Expander上 Expander收起时显示// -->
                                         <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
