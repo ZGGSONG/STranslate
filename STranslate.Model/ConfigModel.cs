@@ -195,6 +195,11 @@ public class ConfigModel
     public string ProxyPassword { get; set; } = string.Empty;
 
     /// <summary>
+    /// 翻译后自动复制结果
+    /// </summary>
+    public int CopyResultAfterTranslateIndex { get; set; } = 0;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -254,6 +259,7 @@ public class ConfigModel
             IsProxyAuthentication = IsProxyAuthentication,
             ProxyUsername = ProxyUsername,
             ProxyPassword = ProxyPassword,
+            CopyResultAfterTranslateIndex = CopyResultAfterTranslateIndex,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             TTSList = TTSList?.DeepCopy()

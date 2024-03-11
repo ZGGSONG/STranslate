@@ -78,6 +78,7 @@ namespace STranslate.ViewModels.Preference
             ProxyPort = curConfig?.ProxyPort ?? 0;
             ProxyUsername = curConfig?.ProxyUsername ?? string.Empty;
             ProxyPassword = curConfig?.ProxyPassword ?? string.Empty;
+            CopyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -417,5 +418,8 @@ namespace STranslate.ViewModels.Preference
                 IsProxyPasswordHide = !IsProxyPasswordHide;
             }
         }
+
+        [ObservableProperty]
+        private int _copyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
     }
 }

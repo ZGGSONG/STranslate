@@ -55,7 +55,6 @@ public class ConfigHelper
 
         //初始化代理设置
         ProxyOperate(CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理, CurrentConfig?.ProxyIp ?? "", CurrentConfig?.ProxyPort ?? 0, CurrentConfig?.IsProxyAuthentication ?? false, CurrentConfig?.ProxyUsername ?? "", CurrentConfig?.ProxyPassword ?? "");
-        //ProxyUtil.UpdateDynamicProxy(CurrentConfig?.IsDisableSystemProxy ?? false);
 
         //初始化首页图标
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
@@ -189,6 +188,7 @@ public class ConfigHelper
         CurrentConfig.IsProxyAuthentication = model.IsProxyAuthentication;
         CurrentConfig.ProxyUsername = model.ProxyUsername;
         CurrentConfig.ProxyPassword = model.ProxyPassword;
+        CurrentConfig.CopyResultAfterTranslateIndex = model.CopyResultAfterTranslateIndex;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
         ProxyOperate(CurrentConfig.ProxyMethod, CurrentConfig.ProxyIp, CurrentConfig.ProxyPort ?? 0, CurrentConfig.IsProxyAuthentication, CurrentConfig.ProxyUsername, CurrentConfig.ProxyPassword);
@@ -307,7 +307,7 @@ public class ConfigHelper
         Singleton<TTSViewModel>.Instance.ActivedTTS = CurrentConfig?.TTSList?.FirstOrDefault(x => x.IsEnabled);
     }
 
-    // 代理操作
+    //代理操作
     private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username, string pwd)
     {
         ProxyUtil.UpdateProxy(proxyMethod, ip, port, isAuth, username, pwd);
@@ -372,6 +372,7 @@ public class ConfigHelper
             IsProxyAuthentication = false,
             ProxyUsername = string.Empty,
             ProxyPassword = string.Empty,
+            CopyResultAfterTranslateIndex = 0,
             SourceLanguage = LanguageEnum.AUTO.GetDescription(),
             TargetLanguage = LanguageEnum.AUTO.GetDescription(),
             Services =

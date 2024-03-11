@@ -343,6 +343,23 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="取词时移除所有换行" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsRemoveLineBreakGettingWords}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="翻译后复制操作" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行复制结果操作&#13;Ctrl+1..8复制第一..八个翻译结果&#13;Ctrl+9复制最后一个翻译结果" />
+                                <ComboBox Height="30" HorizontalAlignment="Right" SelectedIndex="{Binding CopyResultAfterTranslateIndex}">
+                                    <ComboBoxItem Content="无操作" />
+                                    <ComboBoxItem Content="Ctrl + 1" />
+                                    <ComboBoxItem Content="Ctrl + 2" />
+                                    <ComboBoxItem Content="Ctrl + 3" />
+                                    <ComboBoxItem Content="Ctrl + 4" />
+                                    <ComboBoxItem Content="Ctrl + 5" />
+                                    <ComboBoxItem Content="Ctrl + 6" />
+                                    <ComboBoxItem Content="Ctrl + 7" />
+                                    <ComboBoxItem Content="Ctrl + 8" />
+                                    <ComboBoxItem Content="Ctrl + 9" />
+                                </ComboBox>
+                            </DockPanel>
                         </StackPanel>
                     </Border>
                 </StackPanel>

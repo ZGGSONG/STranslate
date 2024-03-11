@@ -111,9 +111,11 @@ public partial class InputViewModel : ObservableObject
 
     private async Task<HistoryModel?> TranslateServiceAsync(object? obj, string source, string dbTarget, string target, long size, CancellationToken token)
     {
-        var services = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
+        var services = Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
         HistoryModel? history = null;
         List<ITranslator>? translatorList = null;
+        //读取配置翻译后复制服务索引
+        var copyIndex = Singleton<ConfigHelper>.Instance.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
 
         //如果数据库限制大小为0则跳过检查数据库
         if (size == 0)
@@ -139,10 +141,6 @@ public partial class InputViewModel : ObservableObject
             token,
             async (service, cancellationToken) =>
             {
-                //检查是否启用
-                if (!service.IsEnabled)
-                    return;
-
                 try
                 {
                     if (translatorList != null)
@@ -181,6 +179,13 @@ public partial class InputViewModel : ObservableObject
                         default:
                             await NonStreamHandlerAsync(service, InputContent, sourceStr, targetStr, cancellationToken);
                             break;
+                    }
+
+                    //翻译后复制结果
+                    var currentServiceIndex = services.IndexOf(service) + 1;
+                    if (currentServiceIndex == copyIndex)
+                    {
+                        CommonUtil.InvokeOnUIThread(() => Singleton<OutputViewModel>.Instance.HotkeyCopyCommand.Execute(copyIndex.ToString()));
                     }
                 }
                 catch (TaskCanceledException ex)

@@ -37,15 +37,15 @@
         <KeyBinding Key="A" Command="{Binding ShowHideInputCommand}" Modifiers="Ctrl+Shift" />
 
         <!-- // 输出框快捷键复制 // -->
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="0" Gesture="Ctrl+1" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="1" Gesture="Ctrl+2" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="2" Gesture="Ctrl+3" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="3" Gesture="Ctrl+4" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="4" Gesture="Ctrl+5" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="5" Gesture="Ctrl+6" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="6" Gesture="Ctrl+7" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="7" Gesture="Ctrl+8" />
-        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="8" Gesture="Ctrl+9" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="1" Gesture="Ctrl+1" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="2" Gesture="Ctrl+2" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="3" Gesture="Ctrl+3" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="4" Gesture="Ctrl+4" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="5" Gesture="Ctrl+5" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="6" Gesture="Ctrl+6" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="7" Gesture="Ctrl+7" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="8" Gesture="Ctrl+8" />
+        <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="9" Gesture="Ctrl+9" />
 
         <!-- // 重置字体大小 // -->
         <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
@@ -68,7 +68,7 @@
         </Storyboard>
 
         <Storyboard x:Key="ViewAnimation">
-            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" />
         </Storyboard>
     </Window.Resources>
     <i:Interaction.Triggers>

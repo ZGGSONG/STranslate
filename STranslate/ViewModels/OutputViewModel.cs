@@ -43,13 +43,13 @@ namespace STranslate.ViewModels
                 case ServiceType.GeminiService:
                 case ServiceType.OpenAIService:
                 case ServiceType.ChatglmService:
-                    {
-                        //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                        //Auto则转换为识别语种
-                        sourceStr = sourceStr == "AUTO" ? InputViewModel.LangDict[idetify].ToString() : sourceStr;
-                        await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
-                        break;
-                    }
+                {
+                    //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                    //Auto则转换为识别语种
+                    sourceStr = sourceStr == "AUTO" ? InputViewModel.LangDict[idetify].ToString() : sourceStr;
+                    await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
+                    break;
+                }
 
                 default:
                     await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
@@ -110,24 +110,20 @@ namespace STranslate.ViewModels
             }
         }
 
-        public void Clear()
-        {
-            foreach (var item in Translators)
-            {
-                item.Data = TranslationResult.Reset;
-            }
-        }
-
+        /// <summary>
+        /// 软件热键复制翻译结果
+        /// </summary>
+        /// <param name="param">1-9</param>
         [RelayCommand]
-        private void HotkeyCopy(string str)
+        private void HotkeyCopy(string param)
         {
-            if (!int.TryParse(str, out var index))
+            if (!int.TryParse(param, out var index))
             {
                 return;
             }
 
             var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
-            var translator = index == 8 ? enabledTranslators.LastOrDefault() : enabledTranslators.ElementAtOrDefault(index);
+            var translator = index == 9 ? enabledTranslators.LastOrDefault() : enabledTranslators.ElementAtOrDefault(index-1);
 
             if (translator == null)
             {
@@ -142,6 +138,14 @@ namespace STranslate.ViewModels
 
             Clipboard.SetDataObject(result);
             ToastHelper.Show($"复制{translator.Name}结果");
+        }
+
+        public void Clear()
+        {
+            foreach (var item in Translators)
+            {
+                item.Data = TranslationResult.Reset;
+            }
         }
     }
 }
