@@ -55,14 +55,13 @@
                             <Expander.Header>
                                 <Grid Height="30">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*" />
-                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
                                         <Image Width="18" Margin="10,0,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
-                                        <TextBlock MaxWidth="200"
-                                                   Margin="10,0,0,0"
-                                                   FontSize="14"
+                                        <TextBlock Margin="10,0,0,0"
+                                                   FontSize="{DynamicResource FontSize_Identify}"
                                                    Foreground="{DynamicResource TextForeground}"
                                                    Text="{Binding Name}"
                                                    TextTrimming="CharacterEllipsis" />
@@ -74,16 +73,15 @@
                                                 VerticalAlignment="Center"
                                                 FlowDirection="RightToLeft"
                                                 Orientation="Horizontal">
-                                        <!-- // TODO: 单服务重试 // -->
                                         <Button Margin="2,2,0,2"
                                                 HorizontalAlignment="Right"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
                                                 CommandParameter="{Binding}"
                                                 Content="&#xe60f;"
+                                                FontSize="17"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
                                                 ToolTip="重试"
                                                 Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                                        <!-- Visibility="Collapsed" /> -->
 
                                         <!-- // 复制按钮到Expander上 Expander收起时显示// -->
                                         <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
@@ -91,6 +89,7 @@
                                                 <MultiBinding Converter="{StaticResource MultiValue2VisibilityConverter}">
                                                     <Binding Path="IsExpanded" RelativeSource="{RelativeSource AncestorType=Expander}" />
                                                     <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                    <Binding Path="Data.IsSuccess" />
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
                                             <!-- 大驼峰复制 -->

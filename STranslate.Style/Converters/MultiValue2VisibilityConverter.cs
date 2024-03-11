@@ -16,8 +16,9 @@ namespace STranslate.Style.Converters
             {
                 var isExpander = (bool)values[0];
                 var isConfOpen = (bool)values[1];
+                var isSuccess = (bool)values[2];
 
-                return isConfOpen && !isExpander ? Visibility.Visible : Visibility.Collapsed;
+                return isConfOpen && !isExpander && isSuccess ? Visibility.Visible : Visibility.Collapsed;
             }
             catch (Exception)
             {
