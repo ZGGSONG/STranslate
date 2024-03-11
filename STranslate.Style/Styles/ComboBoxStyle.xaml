@@ -44,46 +44,37 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="5">
-                        <Grid MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid x:Name="grid" Grid.Column="0">
-                                <ToggleButton Width="{Binding ElementName=grid, Path=Width}"
-                                              Height="{Binding ElementName=grid, Path=Height}"
-                                              MinWidth="{Binding ElementName=grid, Path=MinWidth}"
-                                              MaxWidth="{Binding ElementName=grid, Path=MaxWidth}"
-                                              Margin="5,0,0,0"
-                                              HorizontalAlignment="Left"
-                                              VerticalAlignment="Center"
-                                              Background="{TemplateBinding Background}"
-                                              BorderThickness="0"
-                                              ClickMode="Press"
-                                              Content="{TemplateBinding Text}"
-                                              Focusable="False"
-                                              Foreground="{TemplateBinding Foreground}"
-                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <ToggleButton.Style>
-                                        <Style TargetType="ToggleButton">
-                                            <Setter Property="Background" Value="{DynamicResource ComboBoxBackground}" />
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ToggleButton">
-                                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                            <TextBlock Margin="4,0,0,0"
-                                                                       HorizontalAlignment="Left"
-                                                                       VerticalAlignment="Center"
-                                                                       Foreground="{TemplateBinding Foreground}"
-                                                                       Text="{TemplateBinding Content}" />
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ToggleButton.Style>
-                                </ToggleButton>
-                            </Grid>
+                            <ToggleButton Background="{TemplateBinding Background}" Content="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Margin" Value="5,0,0,0" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="ClickMode" Value="Press" />
+                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="IsChecked" Value="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                        <TextBlock Margin="4,0,0,0"
+                                                                   HorizontalAlignment="Left"
+                                                                   VerticalAlignment="Center"
+                                                                   Foreground="{TemplateBinding Foreground}"
+                                                                   Text="{TemplateBinding Content}" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
 
                             <Grid Grid.Column="1">
                                 <ToggleButton x:Name="toggleBtn"
@@ -119,7 +110,6 @@
                                                         </Border>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsChecked" Value="True">
-
                                                             </Trigger>
                                                             <EventTrigger RoutedEvent="Checked">
                                                                 <BeginStoryboard>
