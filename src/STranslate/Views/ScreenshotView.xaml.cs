@@ -1,69 +1,56 @@
-﻿using STranslate.Util;
+﻿using STranslate.Helper;
+using STranslate.Util;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using STranslate.Helper;
 using Point = System.Windows.Point;
 
 namespace STranslate.Views
 {
-    /// <summary>
-    /// ScreenshotView.xaml 的交互逻辑
-    /// </summary>
     public partial class ScreenshotView : Window
     {
         public ScreenshotView()
         {
-            // 初始化
-            _rectangle = new();
-
-            // 获取鼠标所在屏幕
-            System.Drawing.Point ms = System.Windows.Forms.Control.MousePosition;
-            Rect bounds = new Rect();
-            int x = 0;
-            int y = 0;
-            int width = 0;
-            int height = 0;
-
-            foreach (WpfScreenHelper.Screen screen in WpfScreenHelper.Screen.AllScreens)
-            {
-                bounds = screen.WpfBounds;
-                _dpiScale = screen.ScaleFactor;
-                x = (int)(bounds.X * _dpiScale);
-                y = (int)(bounds.Y * _dpiScale);
-                width = (int)(bounds.Width * _dpiScale);
-                height = (int)(bounds.Height * _dpiScale);
-
-                //目前就发现在非16:9的多显示器上出现该问题，尝试解决该问题
-                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false)
-                    bounds = new Rect(x, y, width, height);
-                if (x <= ms.X && ms.X < x + width && y <= ms.Y && ms.Y < y + height)
-                {
-                    break;
-                }
-            }
-
             InitializeComponent();
 
-            // 设置窗体位置、大小（实际宽高，单位unit）
+            _rectangle = new();
+            var ms = System.Windows.Forms.Control.MousePosition;
+            var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(screen => screen.WpfBounds.Contains(new Point(ms.X, ms.Y)));
+            if (screen == null)
+            {
+                Log.LogService.Logger.Error("恶性BUG，未获取到屏幕数据");
+                return;
+            }
+
+            Rect bounds = screen.WpfBounds;
+            _dpiScale = screen.ScaleFactor;
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false)
+                bounds = new Rect((int)(bounds.X * _dpiScale), (int)(bounds.Y * _dpiScale), (int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale));
+
             Top = bounds.X;
             Left = bounds.Y;
             Width = bounds.Width;
             Height = bounds.Height;
 
-            // 设置遮罩
             Canvas.SetLeft(this, bounds.X);
             Canvas.SetTop(this, bounds.Y);
             LeftMask.Width = bounds.Width;
             LeftMask.Height = bounds.Height;
 
-            // 设置窗体背景（像素宽高，单位px）
-            _bitmap = new Bitmap(width, height);
+            _bitmap = new Bitmap((int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale));
             using (Graphics g = Graphics.FromImage(_bitmap))
             {
-                g.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(width, height), CopyPixelOperation.SourceCopy);
+                g.CopyFromScreen(
+                    (int)(bounds.X * _dpiScale),
+                    (int)(bounds.Y * _dpiScale),
+                    0,
+                    0,
+                    new System.Drawing.Size((int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale)),
+                    CopyPixelOperation.SourceCopy
+                );
             }
             Background = BitmapUtil.ConvertBitmap2ImageBrush(_bitmap);
         }
@@ -80,7 +67,7 @@ namespace STranslate.Views
             {
                 return;
             }
-            Bitmap bmpOut = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmpOut = new(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(bmpOut);
             if (_bitmap != null)
                 g.DrawImage(_bitmap, new Rectangle(0, 0, width, height), new Rectangle(x, y, width, height), GraphicsUnit.Pixel);
@@ -106,7 +93,7 @@ namespace STranslate.Views
                 Canvas.SetLeft(LeftMask, 0);
                 Canvas.SetTop(LeftMask, 0);
                 LeftMask.Width = _rectangle.X;
-                LeftMask.Height = _bitmap.Height;
+                LeftMask.Height = _bitmap!.Height;
 
                 Canvas.SetLeft(RightMask, _rectangle.Left + _rectangle.Width);
                 Canvas.SetTop(RightMask, 0);
@@ -147,7 +134,7 @@ namespace STranslate.Views
         private Rect _rectangle; //保存的矩形
         private Point _startPoint; //鼠标按下的点
         private bool _isMouseDown; //鼠标是否被按下
-        private Bitmap _bitmap; // 截屏图片
+        private Bitmap? _bitmap; // 截屏图片
         private double _dpiScale = 1; //缩放比例
     }
 }

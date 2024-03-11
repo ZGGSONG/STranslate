@@ -133,7 +133,7 @@ namespace STranslate.Util.Proxy
         #region Private member variables
 
         private IntPtr _registryHive;
-        private string _registrySubName;
+        private string _registrySubName = "";
         private readonly object _threadLock = new object();
         private Thread? _thread;
         private bool _disposed = false;

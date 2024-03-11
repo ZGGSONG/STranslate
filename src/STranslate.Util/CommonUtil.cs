@@ -226,6 +226,7 @@ namespace STranslate.Util
 
         //监听剪贴板变化
         public const int WM_DRAWCLIPBOARD = 0x0308;
+
         public const int WM_CHANGECBCHAIN = 0x030D;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -236,6 +237,7 @@ namespace STranslate.Util
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+
         //监听剪贴板变化
 
         #endregion NativeMethod
@@ -387,30 +389,18 @@ namespace STranslate.Util
         /// 获取鼠标位置
         /// </summary>
         /// <returns></returns>
-        public static System.Windows.Point GetMousePositionWindowsForms()
+        public static Point GetMousePositionWindowsForms()
         {
-            // 获取鼠标所在屏幕
-            System.Drawing.Point ms = System.Windows.Forms.Control.MousePosition;
-            Rect bounds = new Rect();
-            double dpiScale = 1;
-            int x = 0,
-                y = 0,
-                width = 0,
-                height = 0;
-            foreach (WpfScreenHelper.Screen screen in WpfScreenHelper.Screen.AllScreens)
+            var ms = System.Windows.Forms.Control.MousePosition;
+            var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(s => s.WpfBounds.Contains(new Point(ms.X, ms.Y)));
+
+            if (screen != null)
             {
-                bounds = screen.WpfBounds;
-                dpiScale = screen.ScaleFactor;
-                x = (int)(bounds.X * dpiScale);
-                y = (int)(bounds.Y * dpiScale);
-                width = (int)(bounds.Width * dpiScale);
-                height = (int)(bounds.Height * dpiScale);
-                if (x <= ms.X && ms.X < x + width && y <= ms.Y && ms.Y < y + height)
-                {
-                    break;
-                }
+                double dpiScale = screen.ScaleFactor;
+                return new Point(ms.X / dpiScale, ms.Y / dpiScale);
             }
-            return new System.Windows.Point(ms.X / dpiScale, ms.Y / dpiScale);
+
+            return new Point(ms.X, ms.Y);
         }
 
         /// <summary>
