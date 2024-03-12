@@ -1,9 +1,34 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 
 namespace STranslate.Model
 {
+    public partial class UserDefinePrompt : ObservableObject, ICloneable
+    {
+        [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonProperty("name")]
+        private string _name;
+
+        [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonProperty("prompts")]
+        private BindingList<Prompt> _prompts;
+
+        public UserDefinePrompt(string name, BindingList<Prompt> prompts)
+        {
+            Name = name;
+            Prompts = prompts;
+        }
+
+        public object Clone()
+        {
+            return new UserDefinePrompt(Name, Prompts);
+        }
+    }
+
     /// <summary>
     /// Prompt Definition
     /// </summary>

@@ -232,7 +232,6 @@ namespace STranslate.ViewModels.Preference
         private UIElement? _ttsServiceContent;
 
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(DeleteCommand))]
         private int _ttsCounter;
 
         [ObservableProperty]

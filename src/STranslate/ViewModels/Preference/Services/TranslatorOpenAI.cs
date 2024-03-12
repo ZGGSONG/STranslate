@@ -15,6 +15,8 @@ namespace STranslate.ViewModels.Preference.Services
 {
     public partial class TranslatorOpenAI : ObservableObject, ITranslatorAI
     {
+        #region Constructor
+
         public TranslatorOpenAI() : this(Guid.NewGuid(), "https://api.openai.com", "OpenAI")
         {
         }
@@ -29,7 +31,13 @@ namespace STranslate.ViewModels.Preference.Services
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
+
+            PromptCounter = Prompts.Count;
         }
+
+        #endregion Constructor
+
+        #region Properties
 
         [ObservableProperty]
         private Guid _identify = Guid.Empty;
@@ -98,19 +106,66 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        #region Prompt
+
         [JsonIgnore]
         [ObservableProperty]
+        private BindingList<UserDefinePrompt> _userDefinePrompts =
+        [
+            new UserDefinePrompt("翻译", [new Prompt("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."), new Prompt("user", "Translate the following text from $source to $target: $content")]),
+            new UserDefinePrompt("润色", [new Prompt("system", "You are a text embellisher, you can only embellish the text, never interpret it."), new Prompt("user", "Embellish the following text in $source: $content")]),
+            new UserDefinePrompt("总结", [new Prompt("system", "You are a text summarizer, you can only summarize the text, never interpret it."), new Prompt("user", "Summarize the following text in $source: $content")]),
+        ];
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void PresetPrompt(BindingList<Prompt> prompts)
+        {
+            Prompts = prompts.Clone();
+            PromptCounter = Prompts.Count;
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void EditPresetPrompt(UserDefinePrompt userDefinePrompt)
+        {
+            var dialog = new Views.Preference.Service.PromptDialog(ServiceType.OpenAIService, (UserDefinePrompt)userDefinePrompt.Clone());
+            if (dialog.ShowDialog() ?? false)
+            {
+                var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
+                userDefinePrompt.Name = tmp.Name;
+                userDefinePrompt.Prompts = tmp.Prompts;
+            }
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private void DelPresetPrompt(UserDefinePrompt userDefinePrompt)
+        {
+            UserDefinePrompts.Remove(userDefinePrompt);
+        }
+
+        [JsonIgnore]
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SavePromptCommand))]
         private BindingList<Prompt> prompts =
         [
             new Prompt("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
             new Prompt("user", "Translate the following text from $source to $target: $content")
         ];
 
+        [JsonIgnore]
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SavePromptCommand))]
+        [property: JsonIgnore]
+        private int promptCounter;
+
         [RelayCommand]
         [property: JsonIgnore]
-        private void DeletePrompt(Prompt msg)
+        private void DelPrompt(Prompt msg)
         {
             Prompts.Remove(msg);
+            PromptCounter--;
         }
 
         [RelayCommand]
@@ -125,7 +180,23 @@ namespace STranslate.ViewModels.Preference.Services
                 _ => new Prompt("user")
             };
             Prompts.Add(newOne);
+            PromptCounter++;
         }
+
+        [property: JsonIgnore]
+        [RelayCommand(CanExecute = nameof(CanSavePrompt))]
+        private void SavePrompt(BindingList<Prompt> prompts)
+        {
+            UserDefinePrompts.Add(new UserDefinePrompt("UnDefined", prompts));
+        }
+
+        private bool CanSavePrompt => PromptCounter > 0;
+
+        #endregion Prompt
+
+        #endregion Properties
+
+        #region Interface Implementation
 
         public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
         {
@@ -224,7 +295,10 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
                 Prompts = this.Prompts,
+                UserDefinePrompts = this.UserDefinePrompts,
             };
         }
+
+        #endregion Interface Implementation
     }
 }
