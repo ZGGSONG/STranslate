@@ -106,6 +106,10 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        private BindingList<UserDefinePrompt> userDefinePrompts = [];
+
+        [JsonIgnore]
+        [ObservableProperty]
         private BindingList<Prompt> prompts =
         [
             new Prompt("user", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),

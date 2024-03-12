@@ -202,8 +202,7 @@ namespace STranslate.ViewModels.Preference
                 if (string.IsNullOrWhiteSpace(name))
                     throw new ArgumentException("param name is null or empty", nameof(name));
 
-                if (translator == null)
-                    throw new ArgumentNullException(nameof(translator));
+                ArgumentNullException.ThrowIfNull(translator);
 
                 Type? type = Type.GetType(name) ?? throw new Exception($"{nameof(NavigationPage)} get {name} exception");
 

@@ -4,13 +4,18 @@
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:proxy="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
+             x:Name="openAIServicesPage"
              d:DataContext="{d:DesignInstance Type=vm:TranslatorOpenAI}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Transparent"
              FontSize="{DynamicResource FontSize_Content}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <proxy:BindingProxy x:Key="vm" Data="{Binding ElementName=openAIServicesPage, Path=DataContext}" />
+    </UserControl.Resources>
     <Border Padding="10,20"
             BorderBrush="{DynamicResource BorderBrushColor}"
             BorderThickness="1"
@@ -118,6 +123,79 @@
                 </Grid>
 
                 <StackPanel Margin="0,0,0,20" VerticalAlignment="Top">
+                    <!-- // Preset Prompts // -->
+                    <Border Style="{DynamicResource BorderMainStyle}">
+                        <ListBox Background="Transparent"
+                                 BorderThickness="0"
+                                 ItemsSource="{Binding UserDefinePrompts}"
+                                 PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="{TemplateBinding Width}"
+                                            Height="{TemplateBinding Height}"
+                                            Margin="2"
+                                            CornerRadius="5"
+                                            SnapsToDevicePixels="true">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button Margin="5,0,0,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.PresetPromptCommand}"
+                                                    CommandParameter="{Binding Prompts}"
+                                                    Content="{Binding Name}"
+                                                    FontWeight="Bold" />
+                                            <Button Grid.Column="1"
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.EditPresetPromptCommand}"
+                                                    CommandParameter="{Binding Path=.}"
+                                                    Content="&#xe74b;"
+                                                    Style="{DynamicResource ButtonIconStyle}" />
+                                            <Button Grid.Column="2"
+                                                    Margin="0,0,5,0"
+                                                    Padding="0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DelPresetPromptCommand}"
+                                                    CommandParameter="{Binding Path=.}"
+                                                    Content="&#xe74b;"
+                                                    Style="{DynamicResource ButtonIconStyle}" />
+                                        </Grid>
+                                    </Border>
+                                    <!--<Button Name="Item"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.PresetPromptCommand}"
+                                            CommandParameter="{Binding Prompts}"
+                                            Content="{Binding Name}"
+                                            FontWeight="Bold">
+                                        <Button.Resources>
+                                            <proxy:BindingProxy x:Key="item" Data="{Binding ElementName=Item}" />
+                                        </Button.Resources>
+                                        <Button.ContextMenu>
+                                            <ContextMenu Width="90">
+                                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.EditPresetPromptCommand}"
+                                                          CommandParameter="{Binding Source={StaticResource item}}"
+                                                          Header="编辑"
+                                                          Icon="&#xe74b;" />
+                                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.DelPresetPromptCommand}"
+                                                          CommandParameter="{Binding Source={StaticResource item}}"
+                                                          Header="删除"
+                                                          Icon="&#xe74b;" />
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>-->
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+
+                    <!-- // Current Pormpts // -->
                     <ListBox Background="Transparent"
                              BorderThickness="0"
                              ItemsSource="{Binding Prompts}"
@@ -133,7 +211,7 @@
                                                        FontWeight="Bold"
                                                        Text="{Binding Role}" />
                                             <Button HorizontalAlignment="Right"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeletePromptCommand}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DelPromptCommand}"
                                                     CommandParameter="{Binding .}"
                                                     Content="&#xe74b;"
                                                     Style="{DynamicResource ButtonIconStyle}"
@@ -153,6 +231,10 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     <Button Command="{Binding AddPromptCommand}" Content="添加Prompt" FontWeight="Bold" />
+                    <Button Command="{Binding SavePromptCommand}"
+                            CommandParameter="{Binding Prompts}"
+                            Content="保存Prompt"
+                            FontWeight="Bold" />
                 </StackPanel>
 
                 <Grid Margin="0,20">
@@ -164,7 +246,6 @@
                     <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
                 </Grid>
             </StackPanel>
-
         </ScrollViewer>
     </Border>
 </UserControl>

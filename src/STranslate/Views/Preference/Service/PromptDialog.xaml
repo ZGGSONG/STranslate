@@ -1,0 +1,107 @@
+﻿<Window x:Class="STranslate.Views.Preference.Service.PromptDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
+        Width="400"
+        MaxHeight="600"
+        d:DataContext="{d:DesignInstance Type=vm:PromptViewModel}"
+        Background="{DynamicResource NavigationBackground}"
+        BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        FontFamily="{DynamicResource UserFont}"
+        Icon="{DynamicResource Icon}"
+        SizeToContent="Height"
+        Topmost="True"
+        WindowChrome.IsHitTestVisibleInChrome="True"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome />
+    </WindowChrome.WindowChrome>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource NavigationBackground}" MouseDown="Header_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="36" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="28" />
+                <ColumnDefinition Width="28" />
+                <ColumnDefinition Width="36" />
+                <ColumnDefinition Width="36" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0"
+                   Width="24"
+                   Margin="10,3"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="{DynamicResource STranslate}" />
+            <TextBlock x:Name="TitleTxt"
+                       Grid.Column="1"
+                       FontSize="{DynamicResource FontSize_Title}"
+                       Foreground="{DynamicResource NavigationForeground}"
+                       Text="编辑Prompt" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" FontSize="{DynamicResource FontSize_Content}">
+            <StackPanel>
+                <common:PlaceholderTextBox MinWidth="200"
+                                           Margin="5,0"
+                                           Placeholder="Input your prompt name"
+                                           Text="{Binding UserDefinePrompt.Name, UpdateSourceTrigger=PropertyChanged}" />
+                <ListBox x:Name="listbox"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ItemsSource="{Binding UserDefinePrompt.Prompts}"
+                         PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{DynamicResource BorderInOutputStyle}">
+                                <StackPanel>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <TextBlock Margin="5,2,0,0"
+                                                   VerticalAlignment="Top"
+                                                   FontWeight="Bold"
+                                                   Text="{Binding Role}" />
+                                        <Button HorizontalAlignment="Right"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DelCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Content="&#xe74b;"
+                                                Style="{DynamicResource ButtonIconStyle}"
+                                                ToolTip="删除Prompt" />
+                                    </Grid>
+                                    <common:PlaceholderTextBox MinWidth="200"
+                                                               MinHeight="60"
+                                                               Margin="5,0"
+                                                               AcceptsReturn="True"
+                                                               Placeholder="Input your prompt..."
+                                                               Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                               TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button x:Name="Add"
+                        Command="{Binding AddCommand}"
+                        Content="添加Prompt"
+                        FontWeight="Bold" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right">
+            <Button Click="Save_Click" Content="保存" IsDefault="True" />
+            <Button Content="取消" IsCancel="True" />
+        </WrapPanel>
+    </Grid>
+</Window>
