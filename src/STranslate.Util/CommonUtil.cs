@@ -389,18 +389,24 @@ namespace STranslate.Util
         /// 获取鼠标位置
         /// </summary>
         /// <returns></returns>
-        public static Point GetMousePositionWindowsForms()
+        public static Tuple<Point, Rect> GetPositionInfos()
         {
+            //获取未进行缩放的position信息
             var ms = System.Windows.Forms.Control.MousePosition;
-            var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(s => s.WpfBounds.Contains(new Point(ms.X, ms.Y)));
+            //原始数据是否在原始分辨率的屏幕内
+            var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(s => s.Bounds.Contains(new Point(ms.X, ms.Y)));
 
             if (screen != null)
             {
+                //获取缩放比例
                 double dpiScale = screen.ScaleFactor;
-                return new Point(ms.X / dpiScale, ms.Y / dpiScale);
+                //获取处理后的屏幕数据
+                var bounds = screen.WpfBounds;
+                //返回处理后的数据
+                return new(new Point(ms.X / dpiScale, ms.Y / dpiScale), bounds);
             }
 
-            return new Point(ms.X, ms.Y);
+            throw new ArgumentNullException();
         }
 
         /// <summary>

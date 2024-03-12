@@ -106,7 +106,6 @@
                                           HorizontalAlignment="Right"
                                           ItemsSource="{Binding ProxyMethodList}"
                                           SelectedValue="{Binding ProxyMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                             </DockPanel>
 
                             <!-- // 代理配置 // -->
@@ -117,7 +116,6 @@
                                                            HorizontalAlignment="Right"
                                                            Placeholder="请输入IP地址"
                                                            Text="{Binding ProxyIp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-
                             </DockPanel>
                             <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource ProxyMethodToVisibilityConverter}}">
                                 <TextBlock Text="端口" />
@@ -127,7 +125,6 @@
                                                            Placeholder="请输入端口号"
                                                            PreviewKeyDown="AcceptOnlyNumber"
                                                            Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-
                             </DockPanel>
 
                             <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource ProxyMethodToVisibilityConverter}}">
@@ -150,7 +147,6 @@
                                         <Binding Path="IsProxyAuthentication" />
                                     </MultiBinding>
                                 </DockPanel.Visibility>
-
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -227,8 +223,8 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock Text="窗口跟随鼠标" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主窗口弹出位置跟随鼠标位置" />
+                                <TextBlock Text="窗口跟随鼠标(输入、截图、划词和监听剪贴板)" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsFollowMouse}" />
                             </DockPanel>
 

@@ -116,7 +116,7 @@ namespace STranslate.ViewModels
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
             Clear();
-            ShowAndActive(view);
+            ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
         }
 
         [RelayCommand]
@@ -139,7 +139,7 @@ namespace STranslate.ViewModels
             Clear();
 
             Singleton<InputViewModel>.Instance.InputContent = content;
-            ShowAndActive(view);
+            ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
         }
@@ -177,7 +177,7 @@ namespace STranslate.ViewModels
         internal void QRCodeHandler()
         {
             ScreenshotView view = new();
-            ShowAndActive(view, false);
+            ShowAndActive(view);
 
             view.BitmapCallback += (
                 bitmap =>
@@ -185,7 +185,7 @@ namespace STranslate.ViewModels
                     //显示OCR窗口
                     OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
                     view ??= new OCRView();
-                    ShowAndActive(view, false);
+                    ShowAndActive(view);
 
                     //显示截图
                     var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
@@ -223,7 +223,7 @@ namespace STranslate.ViewModels
         internal void OCRHandler()
         {
             ScreenshotView view = new();
-            ShowAndActive(view, false);
+            ShowAndActive(view);
 
             view.BitmapCallback += (
                 bitmap =>
@@ -231,7 +231,7 @@ namespace STranslate.ViewModels
                     //显示OCR窗口
                     OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
                     view ??= new OCRView();
-                    ShowAndActive(view, false);
+                    ShowAndActive(view);
 
                     //显示截图
                     var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
@@ -269,7 +269,7 @@ namespace STranslate.ViewModels
         internal void SilentOCRHandler()
         {
             ScreenshotView view = new();
-            ShowAndActive(view, false);
+            ShowAndActive(view);
 
             view.BitmapCallback += (
                 bitmap =>
@@ -323,7 +323,7 @@ namespace STranslate.ViewModels
         internal void ScreenShotHandler()
         {
             ScreenshotView view = new();
-            ShowAndActive(view, false);
+            ShowAndActive(view);
 
             view.BitmapCallback += (
                 bitmap =>
@@ -337,7 +337,7 @@ namespace STranslate.ViewModels
                     Clear();
 
                     MainView view = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
-                    ShowAndActive(view);
+                    ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
                     var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
 
@@ -401,23 +401,18 @@ namespace STranslate.ViewModels
             Singleton<OutputViewModel>.Instance.Clear();
         }
 
-        private void ShowAndActive(Window view, bool canFollowMouse = true)
+        private void ShowAndActive(Window view, bool canFollowMouse = false)
         {
-            if ((Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false) && canFollowMouse)
+            if (canFollowMouse)
             {
-                Point mouseLocation = CommonUtil.GetMousePositionWindowsForms();
-                view.Left = mouseLocation.X;
-                view.Top = mouseLocation.Y;
+                var position = FollowMouseHandler(view);
+
+                view.Left = position.Item1;
+                view.Top = position.Item2;
             }
-            if (view.WindowState == WindowState.Minimized)
-            {
-                view.WindowState = WindowState.Normal; // Restore the window if it was minimized.
-            }
-            if (!view.Topmost) // Ensure the window is topmost if it's not already.
-            {
-                view.Topmost = true; // Temporarily make the window topmost.
-                view.Topmost = false; // Then set it back to normal state, this is a trick to bring it to the front.
-            }
+
+            SpecialWindowActiveHandler(view);
+
             if (view is MainView mview)
             {
                 mview.ViewAnimation();
@@ -443,21 +438,21 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void OpenPreference()
         {
-            PreferenceView? window = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
-            window ??= new PreferenceView();
-            window.UpdateNavigation();
+            PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+            view ??= new PreferenceView();
+            view.UpdateNavigation();
 
-            ShowAndActive(window, false);
+            ShowAndActive(view);
         }
 
         [RelayCommand]
         private void OpenHistory()
         {
-            PreferenceView? window = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
-            window ??= new PreferenceView();
-            window.UpdateNavigation(PerferenceType.History);
+            PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+            view ??= new PreferenceView();
+            view.UpdateNavigation(PerferenceType.History);
 
-            ShowAndActive(window, false);
+            ShowAndActive(view);
         }
 
         [RelayCommand]
@@ -477,7 +472,7 @@ namespace STranslate.ViewModels
         {
             IsClipboardMonitor = !IsClipboardMonitor;
             IsEnabledClipboardMonitor = IsClipboardMonitor ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
-            
+
             if (IsClipboardMonitor)
             {
                 // 开始监听剪贴板变化
@@ -519,7 +514,7 @@ namespace STranslate.ViewModels
             Clear();
 
             Singleton<InputViewModel>.Instance.InputContent = content;
-            ShowAndActive(view);
+            ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
         }
@@ -562,6 +557,58 @@ namespace STranslate.ViewModels
             SaveSelectedLang();
 
             Application.Current.Shutdown();
+        }
+
+        /// <summary>
+        /// 跟随鼠标处理
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        private Tuple<double, double> FollowMouseHandler(Window view)
+        {
+            var infos = CommonUtil.GetPositionInfos();
+            var position = infos.Item1;
+            var bounds = infos.Item2;
+            var left = position.X;
+            var top = position.Y;
+
+            //保持页面在屏幕上方三分之一处
+            if ((top - bounds.Top) * 3 > bounds.Height)
+            {
+                top = bounds.Height / 3 + bounds.Top;
+            }
+
+            //如果当前高度不足以容纳最大高度的内容，则使用最大高度为窗口Top值
+            if (bounds.Height - top + bounds.Top < view.MaxHeight)
+            {
+                top = bounds.Height - view.MaxHeight + bounds.Top - 48;
+            }
+
+            //右侧不超出当前屏幕区域
+            if (left + view.Width > (bounds.Left + bounds.Width))
+            {
+                left = bounds.Left + bounds.Width - view.Width;
+            }
+            return new Tuple<double, double>(left, top);
+        }
+
+        /// <summary>
+        /// 特定情况下窗口无法激活的问题
+        /// 1. 主窗口非置顶并且设置页面已经存在时激活设置页面
+        /// 2. 设置页面最小化再激活
+        /// </summary>
+        /// <param name="view"></param>
+        private void SpecialWindowActiveHandler(Window view)
+        {
+            if (view.WindowState == WindowState.Minimized)
+            {
+                view.WindowState = WindowState.Normal; // Restore the window if it was minimized.
+            }
+            if (!view.Topmost) // Ensure the window is topmost if it's not already.
+            {
+                view.Topmost = true; // Temporarily make the window topmost.
+                view.Topmost = false; // Then set it back to normal state, this is a trick to bring it to the front.
+            }
         }
     }
 }

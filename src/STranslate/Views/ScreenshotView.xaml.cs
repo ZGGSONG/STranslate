@@ -18,10 +18,10 @@ namespace STranslate.Views
 
             _rectangle = new();
             var ms = System.Windows.Forms.Control.MousePosition;
-            var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(screen => screen.WpfBounds.Contains(new Point(ms.X, ms.Y)));
+            var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(screen => screen.Bounds.Contains(new Point(ms.X, ms.Y)));
             if (screen == null)
             {
-                Log.LogService.Logger.Error("恶性BUG，未获取到屏幕数据");
+                Log.LogService.Logger.Error("未获取到屏幕数据");
                 return;
             }
 
