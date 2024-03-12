@@ -345,19 +345,19 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock Text="翻译后复制操作" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行复制结果操作&#13;Ctrl+1..8复制第一..八个翻译结果&#13;Ctrl+9复制最后一个翻译结果" />
+                                <TextBlock Text="翻译后复制结果" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行第几个翻译结果的复制操作" />
                                 <ComboBox Height="30" HorizontalAlignment="Right" SelectedIndex="{Binding CopyResultAfterTranslateIndex}">
                                     <ComboBoxItem Content="无操作" />
-                                    <ComboBoxItem Content="Ctrl + 1" />
-                                    <ComboBoxItem Content="Ctrl + 2" />
-                                    <ComboBoxItem Content="Ctrl + 3" />
-                                    <ComboBoxItem Content="Ctrl + 4" />
-                                    <ComboBoxItem Content="Ctrl + 5" />
-                                    <ComboBoxItem Content="Ctrl + 6" />
-                                    <ComboBoxItem Content="Ctrl + 7" />
-                                    <ComboBoxItem Content="Ctrl + 8" />
-                                    <ComboBoxItem Content="Ctrl + 9" />
+                                    <ComboBoxItem Content="第一个" />
+                                    <ComboBoxItem Content="第二个" />
+                                    <ComboBoxItem Content="第三个" />
+                                    <ComboBoxItem Content="第四个" />
+                                    <ComboBoxItem Content="第五个" />
+                                    <ComboBoxItem Content="第六个" />
+                                    <ComboBoxItem Content="第七个" />
+                                    <ComboBoxItem Content="第八个" />
+                                    <ComboBoxItem Content="最后一个" />
                                 </ComboBox>
                             </DockPanel>
                         </StackPanel>
