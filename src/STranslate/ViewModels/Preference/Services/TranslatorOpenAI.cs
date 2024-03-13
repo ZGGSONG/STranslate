@@ -154,12 +154,6 @@ namespace STranslate.ViewModels.Preference.Services
             new Prompt("user", "Translate the following text from $source to $target: $content")
         ];
 
-        [JsonIgnore]
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SavePromptCommand))]
-        [property: JsonIgnore]
-        private int promptCounter;
-
         [RelayCommand]
         [property: JsonIgnore]
         private void DelPrompt(Prompt msg)
@@ -191,6 +185,12 @@ namespace STranslate.ViewModels.Preference.Services
         }
 
         private bool CanSavePrompt => PromptCounter > 0;
+
+        [JsonIgnore]
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SavePromptCommand))]
+        [property: JsonIgnore]
+        private int promptCounter;
 
         #endregion Prompt
 
