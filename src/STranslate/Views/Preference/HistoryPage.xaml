@@ -23,8 +23,8 @@
     <Border CornerRadius="5">
         <Grid Margin="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" MaxWidth="300" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
             <Grid>
