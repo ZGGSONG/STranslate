@@ -220,6 +220,7 @@ rd /s /q "%localappdata%\stranslate"
 - 感谢 [WpfTool](https://github.com/NPCDW/WpfTool) 截图功能
 - 感谢 [Tai](https://github.com/Planshit/Tai) 升级功能
 - 感谢 ChatGPT
+- 感谢 [pot-desktop](https://pot-app.com/) 参考prompt设计
 - 感谢 JetBrains 提供开源项目免费License
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
