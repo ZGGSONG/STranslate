@@ -41,11 +41,6 @@ namespace STranslate.Views.Preference.Service
             DataContext = vm;
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
-
         /// <summary>
         /// ListBox鼠标滚轮事件处理函数
         /// </summary>

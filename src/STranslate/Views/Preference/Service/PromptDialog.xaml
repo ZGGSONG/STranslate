@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
+        x:Name="promptDialog"
         Width="400"
         MaxHeight="600"
         d:DataContext="{d:DesignInstance Type=vm:PromptViewModel}"
@@ -18,6 +19,12 @@
         WindowChrome.IsHitTestVisibleInChrome="True"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="S"
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding ElementName=promptDialog}"
+                    Modifiers="Ctrl" />
+    </Window.InputBindings>
     <WindowChrome.WindowChrome>
         <WindowChrome />
     </WindowChrome.WindowChrome>
@@ -48,8 +55,10 @@
             <TextBlock x:Name="TitleTxt"
                        Grid.Column="1"
                        FontSize="{DynamicResource FontSize_Title}"
-                       Foreground="{DynamicResource NavigationForeground}"
-                       Text="编辑Prompt" />
+                       Foreground="{DynamicResource NavigationForeground}">
+                <Run Text="编辑Prompt: " />
+                <Run Text="{Binding UserDefinePrompt.Name}" />
+            </TextBlock>
         </Grid>
 
         <ScrollViewer Grid.Row="1" FontSize="{DynamicResource FontSize_Content}">
@@ -100,7 +109,10 @@
         </ScrollViewer>
 
         <WrapPanel Grid.Row="2" HorizontalAlignment="Right">
-            <Button Click="Save_Click" Content="保存" IsDefault="True" />
+            <Button Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding ElementName=promptDialog}"
+                    Content="保存"
+                    IsDefault="True" />
             <Button Content="取消" IsCancel="True" />
         </WrapPanel>
     </Grid>

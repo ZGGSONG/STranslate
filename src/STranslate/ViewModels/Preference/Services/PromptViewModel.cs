@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using STranslate.Model;
 using System.Linq;
+using System.Windows;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -51,6 +52,12 @@ namespace STranslate.ViewModels.Preference.Services
         private void Del(Prompt prompt)
         {
             UserDefinePrompt.Prompts.Remove(prompt);
+        }
+
+        [RelayCommand]
+        private void Save(Window window)
+        {
+            window.DialogResult = true;
         }
     }
 }
