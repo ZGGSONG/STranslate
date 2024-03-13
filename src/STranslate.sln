@@ -8,10 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{8B472084-6B63-44BA-9D4A-B97576810AD2}"
 	ProjectSection(SolutionItems) = preProject
 		.csharpierrc.json = .csharpierrc.json
-		.gitignore = .gitignore
+		..\.gitignore = ..\.gitignore
 		Directory.Packages.props = Directory.Packages.props
-		LICENSE = LICENSE
-		README.md = README.md
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Style", "STranslate.Style\STranslate.Style.csproj", "{420EAA87-5CA1-4117-94E0-B070FCCD06C2}"

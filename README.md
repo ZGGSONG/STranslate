@@ -51,6 +51,7 @@
 | `Alt` + `D` | 复制当前鼠标选中内容并翻译 | ![](./img/crossword.gif) |
 | `Alt` + `S` | 截图选中区域内容并翻译 | ![](./img/screenshot.gif) |
 | `Alt` + `G` | 打开主界面 | ![](./img/open.gif) |
+| `Alt` + `Shift` + `A` | 打开监听剪贴板，复制文字后立即翻译 | 暂无 |
 | `Alt` + `Shift` + `D` | 打开监听鼠标划词，鼠标滑动选中文字立即翻译 | ![](./img/mousehook.gif) |
 | `Alt` + `Shift` + `S` | 完全离线文字识别(基于PaddleOCR) | ![](./img/ocr.gif) |
 | `Alt` + `Shift` + `F` | 静默OCR(OCR后自动复制到剪贴板) | ![](./img/silentocr.gif) |
@@ -174,7 +175,7 @@ rd /s /q "%localappdata%\stranslate"
 <details>
 <summary>详细内容</summary>
 
-- 2024-03-07 1.0.8.307 优化使用体验、添加智谱AI、添加自定义Prompt、添加监听剪贴板功能
+- 2024-03-07 1.0.8.313 优化使用体验、添加智谱AI、添加自定义Prompt、添加Prompts管理、添加监听剪贴板功能、新增单个服务翻译失败后重试...
 
 - 2024-03-04 1.0.7.304 优化使用体验，添加TTS，添加简明英汉词典等...
 
