@@ -269,4 +269,122 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- // Preset Prompt Start // -->
+    <ControlTemplate x:Key="lbtnt" TargetType="Button">
+        <Border x:Name="border"
+                MinHeight="20"
+                Background="{TemplateBinding Background}"
+                CornerRadius="5,0,0,5"
+                SnapsToDevicePixels="true">
+            <TextBlock x:Name="tb"
+                       Padding="3"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="{TemplateBinding FontFamily}"
+                       FontSize="{TemplateBinding FontSize}"
+                       Foreground="{TemplateBinding Foreground}"
+                       Text="{TemplateBinding Content}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="tb" Property="Foreground" Value="{DynamicResource TextBlockDisabledForeground}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="rbtnt" TargetType="Button">
+        <Border x:Name="border"
+                MinHeight="20"
+                Background="{TemplateBinding Background}"
+                CornerRadius="0,5,5,0"
+                SnapsToDevicePixels="true">
+            <TextBlock x:Name="tb"
+                       Padding="3"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="{TemplateBinding FontFamily}"
+                       FontSize="{TemplateBinding FontSize}"
+                       Foreground="{TemplateBinding Foreground}"
+                       Text="{TemplateBinding Content}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="tb" Property="Foreground" Value="{DynamicResource TextBlockDisabledForeground}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="btnt" TargetType="Button">
+        <Border x:Name="border"
+                MinHeight="20"
+                Background="{TemplateBinding Background}"
+                SnapsToDevicePixels="true">
+            <TextBlock x:Name="tb"
+                       Padding="3"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="{TemplateBinding FontFamily}"
+                       FontSize="{TemplateBinding FontSize}"
+                       Foreground="{TemplateBinding Foreground}"
+                       Text="{TemplateBinding Content}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="tb" Property="Foreground" Value="{DynamicResource TextBlockDisabledForeground}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="promptbase" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="btn" BasedOn="{StaticResource promptbase}" TargetType="Button">
+        <Setter Property="Template" Value="{DynamicResource btnt}" />
+    </Style>
+    <Style x:Key="lbtn" BasedOn="{StaticResource promptbase}" TargetType="Button">
+        <Setter Property="Template" Value="{DynamicResource lbtnt}" />
+    </Style>
+    <Style x:Key="rbtn" BasedOn="{StaticResource promptbase}" TargetType="Button">
+        <Setter Property="Template" Value="{DynamicResource rbtnt}" />
+    </Style>
+    <Style x:Key="verSep" TargetType="Separator">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <RotateTransform Angle="90" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- // Preset Prompt End // -->
 </ResourceDictionary>

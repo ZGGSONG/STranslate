@@ -31,6 +31,8 @@ namespace STranslate.ViewModels.Preference.Services
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
+
+            PromptCounter = Prompts.Count;
         }
 
         #endregion Constructor
@@ -120,6 +122,7 @@ namespace STranslate.ViewModels.Preference.Services
         private void PresetPrompt(BindingList<Prompt> prompts)
         {
             Prompts = prompts.Clone();
+            PromptCounter = Prompts.Count;
         }
 
         [RelayCommand]
@@ -142,20 +145,27 @@ namespace STranslate.ViewModels.Preference.Services
             UserDefinePrompts.Remove(userDefinePrompt);
         }
 
-
         [JsonIgnore]
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SavePromptCommand))]
         private BindingList<Prompt> prompts =
         [
             new Prompt("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."),
             new Prompt("user", "Translate the following text from $source to $target: $content")
         ];
 
+        [JsonIgnore]
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SavePromptCommand))]
+        [property: JsonIgnore]
+        private int promptCounter;
+
         [RelayCommand]
         [property: JsonIgnore]
         private void DelPrompt(Prompt msg)
         {
             Prompts.Remove(msg);
+            PromptCounter--;
         }
 
         [RelayCommand]
@@ -170,14 +180,17 @@ namespace STranslate.ViewModels.Preference.Services
                 _ => new Prompt("user")
             };
             Prompts.Add(newOne);
+            PromptCounter++;
         }
 
-        [RelayCommand]
         [property: JsonIgnore]
+        [RelayCommand(CanExecute = nameof(CanSavePrompt))]
         private void SavePrompt(BindingList<Prompt> prompts)
         {
             UserDefinePrompts.Add(new UserDefinePrompt("UnDefined", prompts));
         }
+
+        private bool CanSavePrompt => PromptCounter > 0;
 
         #endregion Prompt
 

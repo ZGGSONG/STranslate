@@ -16,7 +16,6 @@
         Icon="{DynamicResource Icon}"
         SizeToContent="Height"
         Topmost="True"
-        WindowChrome.IsHitTestVisibleInChrome="True"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.InputBindings>
@@ -34,7 +33,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{DynamicResource NavigationBackground}" MouseDown="Header_MouseDown">
+        <Grid Background="{DynamicResource NavigationBackground}" MouseDown="Header_MouseDown" WindowChrome.IsHitTestVisibleInChrome="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="Auto" />
