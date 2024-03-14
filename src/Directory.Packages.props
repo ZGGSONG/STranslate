@@ -7,6 +7,7 @@
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="Dapper.Contrib" Version="2.0.78" />
+    <PackageVersion Include="gong-wpf-dragdrop" Version="3.2.1" />
     <PackageVersion Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageVersion Include="Microsoft.CognitiveServices.Speech" Version="1.36.0" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.2" />

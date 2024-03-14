@@ -33,6 +33,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="Dapper.Contrib" />
+    <PackageReference Include="gong-wpf-dragdrop" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" />
     <PackageReference Include="Microsoft.Data.Sqlite" />
