@@ -178,7 +178,11 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private void Reset()
         {
-            CurTransServiceList = Singleton<ConfigHelper>.Instance.ResetConfig.Services ?? [];
+            CurTransServiceList.Clear();
+            foreach (var item in Singleton<ConfigHelper>.Instance.ResetConfig.Services ?? [])
+            {
+                CurTransServiceList.Add(item);
+            }
             ResetView(ActionType.Initialize);
             ToastHelper.Show("重置配置", WindowType.Preference);
         }

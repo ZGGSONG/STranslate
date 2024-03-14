@@ -3,7 +3,6 @@
                     xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF">
 
     <!-- // 出处: https://www.cnblogs.com/zh7791/p/9008823.html // -->
-    <!-- // 动画: https://stackoverflow.com/questions/64684121/animating-wpf-expander-with-xamlflair // -->
     <Style TargetType="{x:Type Expander}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="Transparent" />
@@ -106,29 +105,26 @@
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              xf:Animations.CombinedBinding="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                              xf:Animations.Primary="{xf:Animate BasedOn={StaticResource ScaleFromTop},
+                                                                                 Event=None,
+                                                                                 Duration=300,
+                                                                                 TransformOn=Layout}"
+                                              xf:Animations.Secondary="{xf:Animate BasedOn={StaticResource ScaleToTop},
+                                                                                   Event=None,
+                                                                                   Duration=300,
+                                                                                   TransformOn=Layout}"
                                               Content="{TemplateBinding Content}"
                                               ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
                                               DockPanel.Dock="Bottom"
                                               Focusable="False">
                                 <ContentPresenter.LayoutTransform>
-                                    <ScaleTransform ScaleX="1" ScaleY="0" />
+                                    <ScaleTransform ScaleX="1" ScaleY="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Expander2ScaleYConverter}}" />
                                 </ContentPresenter.LayoutTransform>
                             </ContentPresenter>
                         </DockPanel>
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsExpanded" Value="True">
-                            <Setter TargetName="ExpandSite" Property="xf:Animations.CombinedBinding" Value="True" />
-                            <Setter TargetName="ExpandSite" Property="xf:Animations.Primary" Value="{xf:Animate BasedOn={StaticResource ScaleFromTop}, Event=None, Duration=300, TransformOn=Layout}" />
-                            <Setter TargetName="ExpandSite" Property="xf:Animations.Secondary" Value="{xf:Animate BasedOn={StaticResource ScaleToTop}, Event=None, Duration=300, TransformOn=Layout}" />
-                        </Trigger>
-                        <Trigger Property="IsExpanded" Value="False">
-                            <Setter TargetName="ExpandSite" Property="xf:Animations.CombinedBinding" Value="False" />
-                            <Setter TargetName="ExpandSite" Property="xf:Animations.Primary" Value="{xf:Animate BasedOn={StaticResource ScaleFromBottom}, Event=None, Duration=300, TransformOn=Layout}" />
-                            <Setter TargetName="ExpandSite" Property="xf:Animations.Secondary" Value="{xf:Animate BasedOn={StaticResource ScaleToBottom}, Event=None, Duration=300, TransformOn=Layout}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

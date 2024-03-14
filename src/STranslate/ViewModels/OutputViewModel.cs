@@ -15,7 +15,7 @@ namespace STranslate.ViewModels
     public partial class OutputViewModel : ObservableObject
     {
         [ObservableProperty]
-        private BindingList<ITranslator> _translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
+        private BindingList<ITranslator> _translators = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
 
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
