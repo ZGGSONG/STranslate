@@ -65,6 +65,19 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="Token: " />
+                <common:PlaceholderTextBox Grid.Column="1"
+                                           MinWidth="282"
+                                           HorizontalAlignment="Left"
+                                           Placeholder="没有则无需配置"
+                                           Text="{Binding Token, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="图标: " />
 
                 <ComboBox Grid.Column="1"

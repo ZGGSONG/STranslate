@@ -96,13 +96,21 @@ namespace STranslate.ViewModels.Preference.Services
     ""data"": ""测试""
 }";
 
-        public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
+        [JsonIgnore]
+        [ObservableProperty]
+        [property: DefaultValue("")]
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        private string _token = string.Empty;
+
+        public async Task<TranslationResult> TranslateAsync(object request, CancellationToken canceltoken)
         {
             if (request is RequestModel)
             {
                 var req = JsonConvert.SerializeObject(request);
 
-                string resp = await HttpUtil.PostAsync(Url, req, token);
+                var authToken = string.IsNullOrEmpty(Token) ? [] : new Dictionary<string, string> { { "Authorization", $"Bearer {Token}" } };
+
+                string resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken);
                 if (string.IsNullOrEmpty(resp))
                     throw new Exception("请求结果为空");
 
@@ -123,6 +131,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             throw new NotImplementedException();
         }
+
         public ITranslator Clone()
         {
             return new TranslatorApi
@@ -138,6 +147,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AppKey = this.AppKey,
                 Icons = this.Icons,
                 Tips = this.Tips,
+                Token = this.Token,
             };
         }
     }
