@@ -76,7 +76,7 @@ namespace STranslate.ViewModels.Preference.TTS
         public string _appKey = string.Empty;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         public async Task SpeakTextAsync(string text, CancellationToken token)
         {

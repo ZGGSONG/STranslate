@@ -14,6 +14,8 @@ namespace STranslate.ViewModels.Preference.Services
 {
     public partial class TranslatorMicrosoft : ObservableObject, ITranslator
     {
+        #region Constructor
+
         public TranslatorMicrosoft()
             : this(Guid.NewGuid(), "https://api.cognitive.microsofttranslator.com", "微软翻译") { }
 
@@ -37,6 +39,10 @@ namespace STranslate.ViewModels.Preference.Services
             IsEnabled = isEnabled;
             Type = type;
         }
+
+        #endregion Constructor
+
+        #region Properties
 
         [ObservableProperty]
         private Guid _identify = Guid.Empty;
@@ -81,7 +87,7 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         #region Show/Hide Encrypt Info
 
@@ -116,6 +122,10 @@ namespace STranslate.ViewModels.Preference.Services
         public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 
         #endregion Show/Hide Encrypt Info
+
+        #endregion Properties
+
+        #region Interface Implementation
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
@@ -160,6 +170,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             throw new NotImplementedException();
         }
+
         public ITranslator Clone()
         {
             return new TranslatorMicrosoft
@@ -178,5 +189,7 @@ namespace STranslate.ViewModels.Preference.Services
                 KeyHide = this.KeyHide,
             };
         }
+
+        #endregion Interface Implementation
     }
 }

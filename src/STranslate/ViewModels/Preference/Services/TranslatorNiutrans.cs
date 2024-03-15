@@ -15,6 +15,8 @@ namespace STranslate.ViewModels.Preference.Services
 {
     public partial class TranslatorNiutrans : ObservableObject, ITranslator
     {
+        #region Constructor
+
         public TranslatorNiutrans()
             : this(Guid.NewGuid(), "http://api.niutrans.com/NiuTransServer/translation", "小牛翻译") { }
 
@@ -38,6 +40,10 @@ namespace STranslate.ViewModels.Preference.Services
             IsEnabled = isEnabled;
             Type = type;
         }
+
+        #endregion Constructor
+
+        #region Properties
 
         [ObservableProperty]
         private Guid _identify = Guid.Empty;
@@ -82,7 +88,7 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         #region Show/Hide Encrypt Info
 
@@ -118,6 +124,10 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        #endregion Properties
+
+        #region Interface Implementation
+
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             if (request is RequestModel req)
@@ -140,7 +150,7 @@ namespace STranslate.ViewModels.Preference.Services
                 // 提取content的值
                 var data = parsedData["tgt_text"]?.ToString() ?? throw new Exception("未获取到结果");
 
-                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") :TranslationResult.Success(data);
+                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
             }
 
             throw new Exception($"请求数据出错: {request}");
@@ -150,6 +160,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             throw new NotImplementedException();
         }
+
         public ITranslator Clone()
         {
             return new TranslatorNiutrans
@@ -168,5 +179,7 @@ namespace STranslate.ViewModels.Preference.Services
                 KeyHide = this.KeyHide,
             };
         }
+
+        #endregion Interface Implementation
     }
 }

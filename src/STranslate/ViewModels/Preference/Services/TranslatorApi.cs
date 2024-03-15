@@ -5,7 +5,6 @@ using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +12,8 @@ namespace STranslate.ViewModels.Preference.Services
 {
     public partial class TranslatorApi : ObservableObject, ITranslator
     {
+        #region Constructor
+
         public TranslatorApi()
             : this(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "自建服务") { }
 
@@ -36,6 +37,10 @@ namespace STranslate.ViewModels.Preference.Services
             IsEnabled = isEnabled;
             Type = type;
         }
+
+        #endregion Constructor
+
+        #region Properties
 
         [ObservableProperty]
         private Guid _identify = Guid.Empty;
@@ -80,7 +85,7 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
         public string Tips { get; set; } =
@@ -101,6 +106,10 @@ namespace STranslate.ViewModels.Preference.Services
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         private string _token = string.Empty;
+
+        #endregion Properties
+
+        #region Interface Implementation
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken canceltoken)
         {
@@ -150,5 +159,7 @@ namespace STranslate.ViewModels.Preference.Services
                 Token = this.Token,
             };
         }
+
+        #endregion Interface Implementation
     }
 }

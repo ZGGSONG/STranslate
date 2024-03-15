@@ -94,7 +94,7 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         #region Show/Hide Encrypt Info
 

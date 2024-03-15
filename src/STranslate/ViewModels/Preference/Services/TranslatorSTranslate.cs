@@ -16,6 +16,8 @@ namespace STranslate.ViewModels.Preference.Services
 {
     public partial class TranslatorSTranslate : ObservableObject, ITranslator
     {
+        #region Constructor
+
         public TranslatorSTranslate()
             : this(Guid.NewGuid(), "", "STranslate") { }
 
@@ -39,6 +41,10 @@ namespace STranslate.ViewModels.Preference.Services
             IsEnabled = isEnabled;
             Type = type;
         }
+
+        #endregion Constructor
+
+        #region Properties
 
         [ObservableProperty]
         private Guid _identify = Guid.Empty;
@@ -83,10 +89,14 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
         public string Tips { get; set; } = "本地服务，无需配置";
+
+        #endregion Properties
+
+        #region Interface Implementation
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
@@ -117,6 +127,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             throw new NotImplementedException();
         }
+
         public ITranslator Clone()
         {
             return new TranslatorSTranslate
@@ -134,5 +145,7 @@ namespace STranslate.ViewModels.Preference.Services
                 Tips = this.Tips,
             };
         }
+
+        #endregion Interface Implementation
     }
 }

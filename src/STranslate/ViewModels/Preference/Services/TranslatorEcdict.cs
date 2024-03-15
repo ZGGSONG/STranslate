@@ -9,13 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
+    #region Constructor
+
     public partial class TranslatorEcdict : ObservableObject, ITranslator
     {
         public TranslatorEcdict()
@@ -47,6 +48,10 @@ namespace STranslate.ViewModels.Preference.Services
                 DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
             }
         }
+
+    #endregion Constructor
+
+        #region Properties
 
         [ObservableProperty]
         private Guid _identify = Guid.Empty;
@@ -91,7 +96,7 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
         public string Tips { get; set; } = "本地服务，需下载词典文件";
@@ -118,6 +123,10 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [property: JsonIgnore]
         private string _dbFileSize = "";
+
+        #endregion Properties
+
+        #region Methods
 
         [RelayCommand]
         [property: JsonIgnore]
@@ -214,6 +223,10 @@ namespace STranslate.ViewModels.Preference.Services
             }
         }
 
+        #endregion Methods
+
+        #region Interface Implementation
+
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
             if (!File.Exists(ConstStr.ECDICTPath))
@@ -250,7 +263,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             throw new NotImplementedException();
         }
-        
+
         public ITranslator Clone()
         {
             return new TranslatorEcdict
@@ -272,5 +285,7 @@ namespace STranslate.ViewModels.Preference.Services
                 DbFileSize = this.DbFileSize,
             };
         }
+
+        #endregion Interface Implementation
     }
 }

@@ -68,6 +68,9 @@ namespace STranslate.ViewModels.Preference.TTS
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _appKey = string.Empty;
 
+        [JsonIgnore]
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
+
         #region Show/Hide Encrypt Info
 
         [JsonIgnore]

@@ -2,6 +2,8 @@
 using Microsoft.Win32;
 using System.Reflection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace STranslate.Model
 {
@@ -54,5 +56,13 @@ namespace STranslate.Model
         public static string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
         public static string CnfName = $"{AppData}\\{AppName.ToLower()}.json";
         public static string ECDICTPath = System.IO.Path.Combine(AppData, "stardict.db");
+
+        public static Dictionary<IconType, string> ICONDICT = System.Windows.Application.Current.Resources.MergedDictionaries
+                .FirstOrDefault(x => x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml", UriKind.Absolute))
+                !.OfType<System.Collections.DictionaryEntry>()
+                .ToDictionary(
+                    entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
+                    entry => entry.Value!.ToString() ?? ICON
+                ) ?? [];
     }
 }

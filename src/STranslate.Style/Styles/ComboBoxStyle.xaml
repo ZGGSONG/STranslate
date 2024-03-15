@@ -171,4 +171,176 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <Style x:Key="IconComboBoxStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="Background" Value="{DynamicResource ComboBoxBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <!-- ComBoxItem -->
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="MinHeight" Value="22" />
+                    <Setter Property="MinWidth" Value="40" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ComboBoxItem">
+                                <Border Name="Back"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        CornerRadius="3">
+                                    <StackPanel Margin="5,0" Orientation="Horizontal">
+                                        <Image Width="15" Height="15" Source="{Binding Value}" />
+                                        <TextBlock Margin="5,0,0,0" FontSize="{DynamicResource FontSize_Prompt}" Text="{Binding Key}" />
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Back" Property="Background" Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
+                                    </Trigger>
+                                    <Trigger Property="IsHighlighted" Value="True">
+                                        <Setter TargetName="Back" Property="Background" Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Border Height="30"
+                            MinWidth="120"
+                            Background="{DynamicResource ComboBoxBackground}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Background="{TemplateBinding Background}" Content="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Margin" Value="5,0" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="ClickMode" Value="Press" />
+                                        <Setter Property="Focusable" Value="False" />
+                                        <Setter Property="IsChecked" Value="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <StackPanel Background="{TemplateBinding Background}" Orientation="Horizontal">
+                                                        <Image Width="16" Height="16" Source="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=0}" />
+                                                        <TextBlock Margin="5,0,0,0" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=1}" />
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <Grid Grid.Column="1">
+                                <ToggleButton x:Name="toggleBtn"
+                                              ClickMode="Press"
+                                              Focusable="False"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton">
+                                            <Setter Property="Background" Value="{DynamicResource ComboBoxBackground}" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ToggleButton">
+                                                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <Grid>
+                                                                <TextBlock x:Name="arrow_tb"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontFamily="{DynamicResource IconFont}"
+                                                                           Foreground="{TemplateBinding Foreground}"
+                                                                           RenderTransformOrigin="0.5,0.5"
+                                                                           Text="&#xe61d;">
+                                                                    <TextBlock.RenderTransform>
+                                                                        <TransformGroup>
+                                                                            <ScaleTransform />
+                                                                            <SkewTransform />
+                                                                            <RotateTransform />
+                                                                            <TranslateTransform />
+                                                                        </TransformGroup>
+                                                                    </TextBlock.RenderTransform>
+                                                                </TextBlock>
+                                                            </Grid>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                            </Trigger>
+                                                            <EventTrigger RoutedEvent="Checked">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="arrow_tb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0" />
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="180" />
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+
+                                                            <EventTrigger RoutedEvent="Unchecked">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="arrow_tb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="180" />
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0" />
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                </ToggleButton>
+                            </Grid>
+                            <Popup x:Name="Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Bottom"
+                                   PopupAnimation="Slide">
+                                <Border x:Name="DropDown"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        Background="{DynamicResource ComboBoxBackground}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="5"
+                                        SnapsToDevicePixels="True">
+                                    <ScrollViewer MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                                  Margin="4,6,4,6"
+                                                  CanContentScroll="True"
+                                                  HorizontalScrollBarVisibility="Hidden"
+                                                  SnapsToDevicePixels="True"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <!-- StackPanel 用于显示子级，方法是将 IsItemsHost 设置为 True -->
+                                        <StackPanel Background="Transparent" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

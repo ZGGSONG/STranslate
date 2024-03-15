@@ -17,7 +17,7 @@
             CornerRadius="4">
         <ScrollViewer>
             <StackPanel>
-                <Grid>
+                <Grid Margin="0,0,0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -34,7 +34,7 @@
                     </Border>
                 </Grid>
 
-                <Grid Margin="0,20">
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -48,7 +48,23 @@
                                                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
-                <Grid>
+                <Grid Margin="0,10" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="图标: " />
+
+                    <ComboBox Grid.Column="1"
+                              HorizontalAlignment="Left"
+                              BorderThickness="1"
+                              ItemsSource="{Binding Icons}"
+                              SelectedValue="{Binding Icon}"
+                              SelectedValuePath="Key"
+                              Style="{DynamicResource IconComboBoxStyle}" />
+                </Grid>
+
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -62,7 +78,7 @@
                                                Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
-                <Grid Margin="0,20">
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -76,7 +92,7 @@
                                                Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
-                <Grid>
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -105,7 +121,7 @@
                             Style="{DynamicResource ButtonIconStyle}" />
                 </Grid>
 
-                <Grid Margin="0,20,0,0">
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -117,7 +133,7 @@
                                TextWrapping="Wrap" />
                 </Grid>
 
-                <StackPanel Margin="0,0,0,20" VerticalAlignment="Top">
+                <StackPanel Margin="0,10" VerticalAlignment="Top">
                     <!-- // Preset Prompts // -->
                     <Border Style="{DynamicResource BorderMainStyle}">
                         <ListBox Background="Transparent"
@@ -214,7 +230,7 @@
                     </Grid>
                 </StackPanel>
 
-                <Grid Margin="0,20">
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />

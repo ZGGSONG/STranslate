@@ -16,4 +16,5 @@
     <converter:ProxyMethodToVisibilityConverter x:Key="ProxyMethodToVisibilityConverter" />
     <converter:MultiProxyParam2VisibilityConverter x:Key="MultiProxyParam2VisibilityConverter" />
     <converter:Expander2ScaleYConverter x:Key="Expander2ScaleYConverter" />
+    <converter:ComboBoxIconConverter x:Key="ComboBoxIconConverter" />
 </ResourceDictionary>

@@ -88,7 +88,7 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public List<IconType> Icons { get; private set; } = Enum.GetValues(typeof(IconType)).OfType<IconType>().ToList();
+        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         #region Show/Hide Encrypt Info
 
@@ -219,7 +219,7 @@ namespace STranslate.ViewModels.Preference.Services
                 }
 
                 // 选择模型
-                var a_model = Model;
+                var a_model = Model.Trim();
                 a_model = string.IsNullOrEmpty(a_model) ? "glm-4" : a_model;
 
                 // 替换Prompt关键字
@@ -298,6 +298,7 @@ namespace STranslate.ViewModels.Preference.Services
                 KeyHide = this.KeyHide,
                 Prompts = this.Prompts,
                 UserDefinePrompts = this.UserDefinePrompts,
+                Model = this.Model,
             };
         }
 
