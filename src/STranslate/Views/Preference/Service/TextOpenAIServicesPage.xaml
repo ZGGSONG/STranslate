@@ -18,23 +18,6 @@
             CornerRadius="4">
         <ScrollViewer>
             <StackPanel>
-                <Grid Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="类型: " />
-
-                    <Border Grid.Column="1"
-                            Width="88"
-                            HorizontalAlignment="Left"
-                            BorderBrush="{DynamicResource OfficialServiceColor}"
-                            BorderThickness="2"
-                            CornerRadius="5">
-                        <TextBlock Padding="5,2" FontWeight="Black" Text="官方服务" />
-                    </Border>
-                </Grid>
-
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />

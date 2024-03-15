@@ -19,7 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Button.xaml" />
                 
                 <!-- // Styles // -->
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/CommonStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ConverterStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/BorderStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ComboBoxStyle.xaml" />

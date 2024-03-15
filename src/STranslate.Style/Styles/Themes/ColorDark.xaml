@@ -79,6 +79,6 @@
     <Color x:Key="PopupDropShadowEffectColor">#FFB6B6B6</Color>
 
     <!-- // Other // -->
-    <SolidColorBrush x:Key="OfficialServiceColor">#e6c619</SolidColorBrush>
-    <SolidColorBrush x:Key="UnOfficialServiceColor">#7CCD7C</SolidColorBrush>
+    <SolidColorBrush x:Key="OfficialServiceColor">#7E4A35</SolidColorBrush>
+    <SolidColorBrush x:Key="UnOfficialServiceColor">#3D5C5C</SolidColorBrush>
 </ResourceDictionary>

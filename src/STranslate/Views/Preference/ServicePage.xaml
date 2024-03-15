@@ -65,6 +65,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="40" />
                                                 <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="40" />
                                                 <ColumnDefinition Width="50" />
                                             </Grid.ColumnDefinitions>
 
@@ -75,7 +76,16 @@
                                                        Text="{Binding Name}"
                                                        TextTrimming="CharacterEllipsis" />
 
-                                            <ToggleButton Grid.Column="2" IsChecked="{Binding IsEnabled}" />
+                                            <Border Grid.Column="2"
+                                                    Margin="0,0,6,0"
+                                                    Padding="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
+                                                    CornerRadius="6">
+                                                <TextBlock Padding="2,0" FontSize="{DynamicResource FontSize_Service}" Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                                            </Border>
+                                            <ToggleButton Grid.Column="3" IsChecked="{Binding IsEnabled}" />
                                         </Grid>
                                     </Border>
                                     <DataTemplate.Triggers>

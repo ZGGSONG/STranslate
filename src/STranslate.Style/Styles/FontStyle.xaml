@@ -12,4 +12,5 @@
     <sys:Double x:Key="FontSize_Prompt">16</sys:Double>
     <sys:Double x:Key="FontSize_Identify">14</sys:Double>
     <sys:Double x:Key="FontSize_TextBox">18</sys:Double>
+    <sys:Double x:Key="FontSize_Service">12</sys:Double>
 </ResourceDictionary>
