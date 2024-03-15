@@ -26,7 +26,6 @@
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="5"
                                               Direction="0"
-                                              Opacity="0.1"
                                               ShadowDepth="0"
                                               Color="{DynamicResource ContextMenuDropShadowEffectColor}" />
                         </Border.Effect>
