@@ -2,9 +2,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace STranslate.Style.Converters
 {
@@ -16,9 +14,13 @@ namespace STranslate.Style.Converters
             {
                 var str = pkv.TrimStart('[').TrimEnd(']');
                 char separator = ',';
-                string type = new(str.TakeWhile(c => c != separator).ToArray());
+                IconType type = (IconType)Enum.Parse(typeof(IconType), new(str.TakeWhile(c => c != separator).ToArray()));
                 string icon = new(str.SkipWhile(c => c != separator).Skip(1).ToArray());
-                return param == "0" ? icon : type;
+                return param == "0" ? icon : type.GetDescription();
+            }
+            else if (value is IconType type)
+            {
+                return type.GetDescription();
             }
 
             return "";

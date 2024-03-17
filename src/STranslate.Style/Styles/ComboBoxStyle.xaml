@@ -193,7 +193,7 @@
                                         CornerRadius="3">
                                     <StackPanel Margin="5,0" Orientation="Horizontal">
                                         <Image Width="15" Height="15" Source="{Binding Value}" />
-                                        <TextBlock Margin="5,0,0,0" FontSize="{DynamicResource FontSize_Prompt}" Text="{Binding Key}" />
+                                        <TextBlock Margin="5,0,0,0" FontSize="{DynamicResource FontSize_Prompt}" Text="{Binding Key, Converter={StaticResource ComboBoxIconConverter}}" />
                                     </StackPanel>
                                 </Border>
                                 <ControlTemplate.Triggers>
