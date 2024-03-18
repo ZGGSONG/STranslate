@@ -23,6 +23,7 @@ namespace STranslate.ViewModels.Preference
             //添加默认支持服务
             //TODO: 新接口需要适配
             TransServices.Add(new TranslatorSTranslate());
+            TransServices.Add(new TranslatorEcdict());
             TransServices.Add(new TranslatorApi());
             TransServices.Add(new TranslatorOpenAI());
             TransServices.Add(new TranslatorGemini());
@@ -34,7 +35,6 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorYoudao());
             TransServices.Add(new TranslatorCaiyun());
             TransServices.Add(new TranslatorVolcengine());
-            TransServices.Add(new TranslatorEcdict());
             TransServices.Add(new TranslatorChatglm());
 
             ResetView();
