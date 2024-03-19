@@ -19,4 +19,5 @@
     <BitmapImage x:Key="Ecdict" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ecdict.png" />
     <BitmapImage x:Key="Azure" UriSource="pack://application:,,,/STranslate.Style;component/Resources/azure.png" />
     <BitmapImage x:Key="Chatglm" UriSource="pack://application:,,,/STranslate.Style;component/Resources/chatglm.png" />
+    <BitmapImage x:Key="Linyi" UriSource="pack://application:,,,/STranslate.Style;component/Resources/linyi.png" />
 </ResourceDictionary>

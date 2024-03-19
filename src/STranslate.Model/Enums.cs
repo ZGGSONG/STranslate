@@ -164,6 +164,8 @@ namespace STranslate.Model
         Azure,
         [Description("智谱清言")]
         Chatglm,
+        [Description("零一万物")]
+        Linyi,
     }
 
     /// <summary>
