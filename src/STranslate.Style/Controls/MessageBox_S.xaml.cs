@@ -62,21 +62,21 @@ namespace STranslate.Style.Controls
             switch (CurrentButton)
             {
                 case MessageBoxButton.OK:
-                    OkBTN.Content = "OK";
+                    OkBTN.Content = "确认";
                     CancelBTN.Visibility = Visibility.Collapsed;
                     OkBTN.Click += OkBTN_Click;
                     break;
 
                 case MessageBoxButton.OKCancel:
-                    OkBTN.Content = "OK";
-                    CancelBTN.Content = "Cancel";
+                    OkBTN.Content = "确认";
+                    CancelBTN.Content = "取消";
                     OkBTN.Click += OkBTN_Click;
                     CancelBTN.Click += CancelBTN_Click;
                     break;
 
                 case MessageBoxButton.YesNo:
-                    OkBTN.Content = "Yes";
-                    CancelBTN.Content = "No";
+                    OkBTN.Content = "是";
+                    CancelBTN.Content = "否";
                     OkBTN.Click += OkBTN_Click;
                     CancelBTN.Click += CancelBTN_Click;
                     break;

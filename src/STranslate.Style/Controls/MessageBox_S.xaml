@@ -6,13 +6,13 @@
         Title="MessageBox"
         Width="380"
         MinHeight="200"
-        SizeToContent="Height"
         Background="{DynamicResource NavigationBackground}"
         BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         FontFamily="{DynamicResource UserFont}"
         Icon="{DynamicResource Icon}"
         ResizeMode="NoResize"
+        SizeToContent="Height"
         Topmost="True"
         WindowChrome.IsHitTestVisibleInChrome="True"
         WindowStartupLocation="CenterScreen"
@@ -63,16 +63,17 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
             <Button x:Name="OkBTN"
+                    MinWidth="60"
                     Height="30"
-                    Margin="20,0"
-                    Padding="10,0"
+                    Margin="20,0,0,0"
                     Content="确认"
                     IsDefault="True" />
             <Button x:Name="CancelBTN"
+                    MinWidth="60"
                     Height="30"
-                    Margin="20,0"
-                    Padding="10,0"
-                    Content="取消" />
+                    Margin="10,0,20,0"
+                    Content="取消"
+                    IsCancel="True" />
             <!-- Content="{DynamicResource CancelStr}" -->
         </StackPanel>
     </Grid>

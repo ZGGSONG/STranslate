@@ -2,6 +2,7 @@
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels;
 using STranslate.ViewModels.Preference;
@@ -83,7 +84,12 @@ namespace STranslate.Views.Preference
                 _hotkeysKey = 0;
                 shortcutText.Clear();
                 ((TextBox)sender).Text = _hotkeysText = "";
-                return;
+
+                //决定权给用户是否继续
+                if (MessageBox_S.Show("设置单个字符可能会影响日常使用", "是否确认?", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
             }
             _hotkeysKey = (KeyCodes)KeyInterop.VirtualKeyFromKey(key);
             shortcutText.Append(key.ToString());
