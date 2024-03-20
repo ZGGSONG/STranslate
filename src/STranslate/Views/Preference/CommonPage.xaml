@@ -274,6 +274,12 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowPreference}" />
                             </DockPanel>
+                            
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="显示服务配置图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示服务配置图标" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowConfigureService}" />
+                            </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示鼠标划词图标" />

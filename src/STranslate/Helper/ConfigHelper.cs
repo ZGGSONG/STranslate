@@ -169,6 +169,7 @@ public class ConfigHelper
         CurrentConfig.CustomFont = model.CustomFont;
         CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
         CurrentConfig.IsShowPreference = model.IsShowPreference;
+        CurrentConfig.IsShowConfigureService = model.IsShowConfigureService;
         CurrentConfig.IsShowMousehook = model.IsShowMousehook;
         CurrentConfig.IsShowScreenshot = model.IsShowScreenshot;
         CurrentConfig.IsShowOCR = model.IsShowOCR;

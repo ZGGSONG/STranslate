@@ -67,6 +67,7 @@ namespace STranslate.ViewModels.Preference
             IsShowClipboardMonitor = curConfig?.IsShowClipboardMonitor ?? false;
             IsShowQRCode = curConfig?.IsShowQRCode ?? false;
             IsShowHistory = curConfig?.IsShowHistory ?? false;
+            IsShowConfigureService = curConfig?.IsShowConfigureService ?? false;
             WordPickingInterval = curConfig?.WordPickingInterval ?? 200;
             IsHideOnStart = curConfig?.IsHideOnStart ?? false;
             ShowCopyOnHeader = curConfig?.ShowCopyOnHeader ?? false;
@@ -154,15 +155,31 @@ namespace STranslate.ViewModels.Preference
             };
         }
 
+        /// <summary>
+        /// ConfigHelper单例
+        /// </summary>
         private static ConfigHelper configHelper = Singleton<ConfigHelper>.Instance;
+
+        /// <summary>
+        /// 当前配置实例
+        /// </summary>
         private static ConfigModel? curConfig = configHelper.CurrentConfig;
 
+        /// <summary>
+        /// 是否开机启动
+        /// </summary>
         [ObservableProperty]
         private bool isStartup = curConfig?.IsStartup ?? false;
 
+        /// <summary>
+        /// 是否默认管理员启动
+        /// </summary>
         [ObservableProperty]
         private bool needAdmin = curConfig?.NeedAdministrator ?? false;
 
+        /// <summary>
+        /// 历史记录大小
+        /// </summary>
         private long historySizeType = 1;
 
         public long HistorySizeType
@@ -199,6 +216,9 @@ namespace STranslate.ViewModels.Preference
 
         public List<ThemeType> ThemeList { get; set; }
 
+        /// <summary>
+        /// 主题类型
+        /// </summary>
         [ObservableProperty]
         private ThemeType themeType = curConfig?.ThemeType ?? ThemeType.Light;
 
@@ -269,6 +289,12 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool isShowPreference = curConfig?.IsShowPreference ?? false;
+
+        /// <summary>
+        /// 是否显示快速配置服务
+        /// </summary>
+        [ObservableProperty]
+        private bool _isShowConfigureService = curConfig?.IsShowConfigureService ?? false;
 
         /// <summary>
         /// 是否显示打开鼠标划词图标
@@ -357,7 +383,7 @@ namespace STranslate.ViewModels.Preference
         }
 
         /// <summary>
-        /// View 最大宽度
+        /// View 宽度
         /// </summary>
         private WidthEnum _width = curConfig?.Width ?? WidthEnum.Minimum;
 
@@ -376,38 +402,71 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
+        /// <summary>
+        /// 最大高度列表
+        /// </summary>
         public List<MaxHeight> MaxHeightList { get; set; }
 
+        /// <summary>
+        /// 宽度列表
+        /// </summary>
         public List<WidthEnum> WidthList { get; set; }
 
+        /// <summary>
+        /// 代理方式列表
+        /// </summary>
         [ObservableProperty]
         private List<ProxyMethodEnum> _proxyMethodList;
 
+        /// <summary>
+        /// 所选代理方式
+        /// </summary>
         [ObservableProperty]
         private ProxyMethodEnum _proxyMethod = curConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
-
+        
+        /// <summary>
+        /// 代理服务器IP
+        /// </summary>
         [ObservableProperty]
         private string _proxyIp = curConfig?.ProxyIp ?? string.Empty;
 
+        /// <summary>
+        /// 代理服务器端口
+        /// </summary>
         [ObservableProperty]
         private int? _proxyPort = curConfig?.ProxyPort;
 
+        /// <summary>
+        /// 是否启用代理认证
+        /// </summary>
         [ObservableProperty]
         private bool _isProxyAuthentication = curConfig?.IsProxyAuthentication ?? false;
 
+        /// <summary>
+        /// 代理认证用户名
+        /// </summary>
         [ObservableProperty]
         private string _proxyUsername = curConfig?.ProxyUsername ?? string.Empty;
 
+        /// <summary>
+        /// 代理认证密码
+        /// </summary>
         [ObservableProperty]
         private string _proxyPassword = curConfig?.ProxyPassword ?? string.Empty;
 
+        /// <summary>
+        /// 显示/隐藏密码
+        /// </summary>
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
         private bool _isProxyPasswordHide = true;
 
         private RelayCommand<string>? showEncryptInfoCommand;
-
+        
+        /// <summary>
+        /// 显示/隐藏密码Command
+        /// </summary>
         [JsonIgnore]
         public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 
@@ -419,6 +478,9 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
+        /// <summary>
+        /// 翻译后执行自动复制动作(Ctrl+1...9)
+        /// </summary>
         [ObservableProperty]
         private int _copyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
     }

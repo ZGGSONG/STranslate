@@ -96,6 +96,11 @@ public class ConfigModel
     public bool IsShowPreference { get; set; } = true;
 
     /// <summary>
+    /// 是否显示配置服务图标
+    /// </summary>
+    public bool IsShowConfigureService { get; set; } = false;
+
+    /// <summary>
     /// 是否显示打开鼠标划词图标
     /// </summary>
     public bool IsShowMousehook { get; set; } = false;
@@ -240,6 +245,7 @@ public class ConfigModel
             CustomFont = CustomFont,
             IsKeepTopmostAfterMousehook = IsKeepTopmostAfterMousehook,
             IsShowPreference = IsShowPreference,
+            IsShowConfigureService = IsShowConfigureService,
             IsShowMousehook = IsShowMousehook,
             IsShowScreenshot = IsShowScreenshot,
             IsShowOCR = IsShowOCR,

@@ -9,7 +9,9 @@ using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace STranslate.ViewModels
 {
@@ -394,6 +396,7 @@ namespace STranslate.ViewModels
         internal void UpdateMainViewIcons()
         {
             IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
+            IsShowConfigureService = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowConfigureService ?? false;
             IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
             IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
@@ -407,6 +410,9 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private bool isShowPreference;
+
+        [ObservableProperty]
+        private bool isShowConfigureService;
 
         [ObservableProperty]
         private bool isShowMousehook;
@@ -430,5 +436,17 @@ namespace STranslate.ViewModels
         private bool isShowHistory;
 
         #endregion 显示图标
+
+        [RelayCommand]
+        private void PopupService(Popup control) => control.IsOpen = true;
+
+        [RelayCommand]
+        private void SelectedService(List<object> list)
+        {
+            var service = (list.First() as ITranslator)!;
+            var control = (list.Last() as Popup)!;
+            service.IsEnabled = !service.IsEnabled;
+            control.IsOpen = false;
+        }
     }
 }
