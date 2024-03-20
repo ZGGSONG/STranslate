@@ -113,9 +113,6 @@ namespace STranslate.ViewModels.Preference
         }
 
         [RelayCommand]
-        private void Popup(Popup control) => control.IsOpen = true;
-
-        [RelayCommand]
         private void Add(List<object> list)
         {
             if (list?.Count == 2)
@@ -142,7 +139,7 @@ namespace STranslate.ViewModels.Preference
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 
-                (list.Last() as Popup)!.IsOpen = false;
+                (list.Last() as ToggleButton)!.IsChecked = false;
 
                 ResetView(ActionType.Add);
             }

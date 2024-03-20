@@ -438,15 +438,15 @@ namespace STranslate.ViewModels
         #endregion 显示图标
 
         [RelayCommand]
-        private void PopupService(Popup control) => control.IsOpen = true;
-
-        [RelayCommand]
         private void SelectedService(List<object> list)
         {
             var service = (list.First() as ITranslator)!;
-            var control = (list.Last() as Popup)!;
+            var control = (list.Last() as ToggleButton)!;
             service.IsEnabled = !service.IsEnabled;
-            control.IsOpen = false;
+            control.IsChecked = !control.IsChecked;
+
+            //保存配置
+            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
         }
     }
 }

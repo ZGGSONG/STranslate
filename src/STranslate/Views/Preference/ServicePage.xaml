@@ -113,20 +113,20 @@
 
                     <!-- // Add Service // -->
                     <Grid>
-                        <Button x:Name="BTN_Add"
-                                Width="50"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                Command="{Binding PopupCommand}"
-                                CommandParameter="{Binding ElementName=Popup_Add}"
-                                Content="+" />
+                        <ToggleButton x:Name="BTN_Add"
+                                      Width="50"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      Content="+"
+                                      Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup x:Name="Popup_Add"
                                MinWidth="80"
                                MinHeight="30"
                                MaxHeight="400"
                                AllowsTransparency="True"
+                               IsOpen="{Binding ElementName=BTN_Add, Path=IsChecked}"
                                Placement="Bottom"
                                PlacementTarget="{Binding ElementName=BTN_Add}"
                                PopupAnimation="Slide"
@@ -153,7 +153,7 @@
                                                     <i:InvokeCommandAction.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                             <Binding ElementName="ServiceListBox" Path="SelectedItem" />
-                                                            <Binding ElementName="Popup_Add" />
+                                                            <Binding ElementName="BTN_Add" />
                                                         </MultiBinding>
                                                     </i:InvokeCommandAction.CommandParameter>
                                                 </i:InvokeCommandAction>
@@ -207,7 +207,8 @@
                                 VerticalContentAlignment="Center"
                                 Command="{Binding DeleteCommand}"
                                 CommandParameter="{Binding ElementName=CurrentServiceListBox, Path=SelectedItem}"
-                                Content="-" />
+                                Content="-"
+                                Style="{DynamicResource ButtonIconStyle}" />
                     </Grid>
 
                     <!-- // Save // -->

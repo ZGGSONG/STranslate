@@ -27,20 +27,19 @@
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="偏好设置"
                     Visibility="{Binding IsShowPreference, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Button x:Name="BTN_Service"
-                    HorizontalAlignment="Right"
-                    Command="{Binding PopupServiceCommand}"
-                    CommandParameter="{Binding ElementName=Popup_Service}"
-                    Content="&#xe726;"
-                    FontSize="19"
-                    Style="{DynamicResource ButtonIconStyle}"
-                    ToolTip="配置服务"
-                    Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ToggleButton x:Name="BTN_Service"
+                          HorizontalAlignment="Right"
+                          Content="&#xe726;"
+                          FontSize="19"
+                          Style="{DynamicResource ToggleButtonIconStyle}"
+                          ToolTip="配置服务"
+                          Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Popup x:Name="Popup_Service"
                    MinWidth="80"
                    MinHeight="30"
                    MaxHeight="400"
                    AllowsTransparency="True"
+                   IsOpen="{Binding ElementName=BTN_Service, Path=IsChecked}"
                    Placement="Bottom"
                    PlacementTarget="{Binding ElementName=BTN_Service}"
                    PopupAnimation="Slide"
@@ -70,7 +69,7 @@
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="ServiceListBox" Path="SelectedItem" />
-                                                <Binding ElementName="Popup_Service" />
+                                                <Binding ElementName="BTN_Service" />
                                             </MultiBinding>
                                         </i:InvokeCommandAction.CommandParameter>
                                     </i:InvokeCommandAction>
@@ -83,8 +82,8 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="30" />
                                                 <ColumnDefinition Width="20" />
-                                                <ColumnDefinition Width="60" />
-                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="30" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label HorizontalAlignment="Left"
