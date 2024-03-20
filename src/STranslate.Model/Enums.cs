@@ -344,6 +344,9 @@ namespace STranslate.Model
     /// </summary>
     public enum WidthEnum : int
     {
+        [Description("最最小宽度")]
+        UltraMinimum = 400,
+
         [Description("最小宽度")]
         Minimum = 480,
 
@@ -359,7 +362,7 @@ namespace STranslate.Model
         [Description("最大宽度")]
         Maximum = 1200,
 
-        [Description("工作区高度")]
+        [Description("工作区宽度")]
         WorkAreaMaximum = 9999
     }
 

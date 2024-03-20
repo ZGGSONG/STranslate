@@ -10,7 +10,7 @@
         xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
         x:Name="Mwin"
         Title="STranslate"
-        MinWidth="480"
+        MinWidth="400"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         AllowsTransparency="True"
         Background="Transparent"
