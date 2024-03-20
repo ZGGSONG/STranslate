@@ -197,12 +197,14 @@
                                     ToolTip="复制"
                                     Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
                             <Button Command="{Binding RemoveLineBreaksCommand}"
+                                    CommandParameter="{Binding ElementName=TB}"
                                     Content="&#xe6b2;"
                                     FontWeight="Bold"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="移除换行"
                                     Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
                             <Button Command="{Binding RemoveSpaceCommand}"
+                                    CommandParameter="{Binding ElementName=TB}"
                                     Content="&#xe6ab;"
                                     FontSize="20"
                                     FontWeight="Bold"

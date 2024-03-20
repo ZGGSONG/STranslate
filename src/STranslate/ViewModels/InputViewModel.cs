@@ -14,6 +14,7 @@ using Newtonsoft.Json.Serialization;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Commons;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.Services;
@@ -52,7 +53,9 @@ public partial class InputViewModel : ObservableObject
             if (!string.IsNullOrEmpty(IdentifyLanguage))
                 IdentifyLanguage = string.Empty;
 
-            TranslateCommand.NotifyCanExecuteChanged();
+            //输入框中有值时才可以执行翻译
+            if (value != "")
+                TranslateCommand.NotifyCanExecuteChanged();
         }
     }
 
@@ -313,33 +316,37 @@ public partial class InputViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void RemoveLineBreaks()
+    private void RemoveLineBreaks(PlaceholderTextBox textBox)
     {
-        var tmp = InputContent;
-        InputContent = StringUtil.RemoveLineBreaks(InputContent);
-        if (string.Equals(tmp, InputContent))
+        var oldTxt = textBox.Text;
+        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+        if (string.Equals(oldTxt, newTxt))
             return;
 
         ToastHelper.Show("移除换行");
 
-        RemoveHandler();
+        RemoveHandler(textBox, newTxt);
     }
 
     [RelayCommand]
-    private void RemoveSpace()
+    private void RemoveSpace(PlaceholderTextBox textBox)
     {
-        var tmp = InputContent;
-        InputContent = StringUtil.RemoveSpace(InputContent);
-        if (string.Equals(tmp, InputContent))
+        var oldTxt = textBox.Text;
+        var newTxt = StringUtil.RemoveSpace(oldTxt);
+        if (string.Equals(oldTxt, newTxt))
             return;
 
         ToastHelper.Show("移除空格");
 
-        RemoveHandler();
+        RemoveHandler(textBox, newTxt);
     }
 
-    internal void RemoveHandler()
+    internal void RemoveHandler(PlaceholderTextBox textBox, string newTxt)
     {
+        //https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding
+        textBox.SelectAll();
+        textBox.SelectedText = newTxt;
+
         if (!Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false)
             return;
 

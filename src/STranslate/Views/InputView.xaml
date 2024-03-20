@@ -69,12 +69,14 @@
                         ToolTip="复制输入内容"
                         Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}" />
                 <Button Command="{Binding RemoveLineBreaksCommand}"
+                        CommandParameter="{Binding ElementName=InputTb}"
                         Content="&#xe6b2;"
                         FontWeight="Bold"
                         Style="{DynamicResource ButtonCopyIconStyle}"
                         ToolTip="移除换行"
                         Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}" />
                 <Button Command="{Binding RemoveSpaceCommand}"
+                        CommandParameter="{Binding ElementName=InputTb}"
                         Content="&#xe6ab;"
                         FontSize="20"
                         FontWeight="Bold"

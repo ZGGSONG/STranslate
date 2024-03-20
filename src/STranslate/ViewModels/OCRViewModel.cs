@@ -143,25 +143,32 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void RemoveLineBreaks()
+        private void RemoveLineBreaks(TextBox textBox)
         {
-            var tmp = GetContent;
-            GetContent = StringUtil.RemoveLineBreaks(GetContent);
-            if (string.Equals(tmp, GetContent))
+            var oldTxt = textBox.Text;
+            var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+            if (string.Equals(oldTxt, newTxt))
                 return;
 
             ToastHelper.Show("移除换行", WindowType.OCR);
+
+            textBox.SelectAll();
+            textBox.SelectedText = newTxt;
         }
 
         [RelayCommand]
-        private void RemoveSpace()
+        private void RemoveSpace(TextBox textBox)
         {
-            var tmp = GetContent;
-            GetContent = StringUtil.RemoveSpace(GetContent);
-            if (string.Equals(tmp, GetContent))
+            var oldTxt = textBox.Text;
+            var newTxt = StringUtil.RemoveSpace(oldTxt);
+            if (string.Equals(oldTxt, newTxt))
                 return;
 
             ToastHelper.Show("移除空格", WindowType.OCR);
+
+            //https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding
+            textBox.SelectAll();
+            textBox.SelectedText = newTxt;
         }
 
         [RelayCommand]
@@ -356,8 +363,9 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void HotkeyCopy()
         {
-            if (string.IsNullOrEmpty(GetContent)) return;
-            
+            if (string.IsNullOrEmpty(GetContent))
+                return;
+
             Clipboard.SetDataObject(GetContent, true);
             ToastHelper.Show("复制成功", WindowType.OCR);
         }
