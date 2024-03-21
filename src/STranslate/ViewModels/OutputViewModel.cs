@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GongSolutions.Wpf.DragDrop;
 using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
@@ -12,7 +13,7 @@ using System.Windows;
 
 namespace STranslate.ViewModels
 {
-    public partial class OutputViewModel : ObservableObject
+    public partial class OutputViewModel : ObservableObject, IDropTarget
     {
         [ObservableProperty]
         private BindingList<ITranslator> _translators = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
@@ -43,13 +44,13 @@ namespace STranslate.ViewModels
                 case ServiceType.GeminiService:
                 case ServiceType.OpenAIService:
                 case ServiceType.ChatglmService:
-                {
-                    //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                    //Auto则转换为识别语种
-                    sourceStr = sourceStr == "AUTO" ? InputViewModel.LangDict[idetify].ToString() : sourceStr;
-                    await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
-                    break;
-                }
+                    {
+                        //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                        //Auto则转换为识别语种
+                        sourceStr = sourceStr == "AUTO" ? InputViewModel.LangDict[idetify].ToString() : sourceStr;
+                        await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
+                        break;
+                    }
 
                 default:
                     await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
@@ -123,7 +124,7 @@ namespace STranslate.ViewModels
             }
 
             var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
-            var translator = index == 9 ? enabledTranslators.LastOrDefault() : enabledTranslators.ElementAtOrDefault(index-1);
+            var translator = index == 9 ? enabledTranslators.LastOrDefault() : enabledTranslators.ElementAtOrDefault(index - 1);
 
             if (translator == null)
             {
@@ -147,5 +148,29 @@ namespace STranslate.ViewModels
                 item.Data = TranslationResult.Reset;
             }
         }
+
+        #region gong-wpf-dragdrop interface implementation
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.Data is ITranslator && dropInfo.TargetItem is ITranslator)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                dropInfo.Effects = DragDropEffects.Copy;
+            }
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            var sourceItem = (ITranslator)dropInfo.Data;
+
+            Translators.Remove(sourceItem);
+            Translators.Insert(dropInfo.InsertIndex - 1, sourceItem);
+
+            // Save Configuration
+            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+        }
+
+        #endregion gong-wpf-dragdrop interface implementation
     }
 }

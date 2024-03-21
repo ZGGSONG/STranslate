@@ -30,7 +30,8 @@ public class ToastHelper
     {
         EnsureInitialized(type);
 
-        var toastInfo = ToastDictionary[type];
+        if (!ToastDictionary.TryGetValue(type, out ToastInfo? value)) return;
+        var toastInfo = value;
         toastInfo.ToastControl.ToastText = message;
         toastInfo.ToastControl.Visibility = Visibility.Visible;
 
@@ -51,8 +52,8 @@ public class ToastHelper
     private static void EnsureInitialized(WindowType type)
     {
         DispatcherTimer t;
-        ToastView tv;
-        if (!ToastDictionary.ContainsKey(type))
+        ToastView? tv;
+        if (!ToastDictionary.TryGetValue(type, out ToastInfo? value))
         {
             t = new DispatcherTimer { Interval = TimeSpan.FromSeconds(Timeout) };
             t.Tick += (_, _) => Timer_Tick(type);
@@ -60,14 +61,18 @@ public class ToastHelper
             // 根据窗口类型将通知控件添加到对应的窗口
             tv = GetNotifyControlForWindowType(type);
 
+            if (tv is null) return;
+
             // 将通知信息添加到字典中
             ToastDictionary.Add(type, new ToastInfo(tv, t));
         }
         else
         {
-            t = ToastDictionary[type].Timer;
+            t = value.Timer;
             // 根据窗口类型将通知控件添加到对应的窗口
             tv = GetNotifyControlForWindowType(type);
+
+            if (tv is null) return;
 
             ToastDictionary[type] = new ToastInfo(tv, t);
         }
@@ -78,11 +83,11 @@ public class ToastHelper
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static ToastView GetNotifyControlForWindowType(WindowType type) => type switch
+    private static ToastView? GetNotifyControlForWindowType(WindowType type) => type switch
     {
-        WindowType.Preference => Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault()!.notify,
-        WindowType.OCR => Application.Current.Windows.OfType<OCRView>().FirstOrDefault()!.notify,
-        _ => Application.Current.Windows.OfType<MainView>().FirstOrDefault()!.notify
+        WindowType.Preference => Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault()?.notify,
+        WindowType.OCR => Application.Current.Windows.OfType<OCRView>().FirstOrDefault()?.notify,
+        _ => Application.Current.Windows.OfType<MainView>().FirstOrDefault()?.notify
     };
 
     /// <summary>

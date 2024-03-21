@@ -26,7 +26,8 @@
         </Storyboard>
     </UserControl.Resources>
     <StackPanel>
-        <ListBox dd:DragDrop.IsDragSource="True"
+        <ListBox dd:DragDrop.DropHandler="{Binding}"
+                 dd:DragDrop.IsDragSource="True"
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.UseDefaultDragAdorner="True"
                  Background="Transparent"
