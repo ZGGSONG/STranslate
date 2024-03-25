@@ -163,9 +163,10 @@ namespace STranslate.ViewModels
         public void Drop(IDropInfo dropInfo)
         {
             var sourceItem = (ITranslator)dropInfo.Data;
+            var targetIndex = dropInfo.InsertIndex > 0 ? dropInfo.InsertIndex - 1 : 0;
 
             Translators.Remove(sourceItem);
-            Translators.Insert(dropInfo.InsertIndex - 1, sourceItem);
+            Translators.Insert(targetIndex, sourceItem);
 
             // Save Configuration
             Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
