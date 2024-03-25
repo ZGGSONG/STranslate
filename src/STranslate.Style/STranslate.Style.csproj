@@ -46,6 +46,7 @@
     <Resource Include="Resources\deepl.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\deepseek.png" />
     <Resource Include="Resources\ecdict.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

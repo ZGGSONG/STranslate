@@ -20,4 +20,5 @@
     <BitmapImage x:Key="Azure" UriSource="pack://application:,,,/STranslate.Style;component/Resources/azure.png" />
     <BitmapImage x:Key="Chatglm" UriSource="pack://application:,,,/STranslate.Style;component/Resources/chatglm.png" />
     <BitmapImage x:Key="Linyi" UriSource="pack://application:,,,/STranslate.Style;component/Resources/linyi.png" />
+    <BitmapImage x:Key="DeepSeek" UriSource="pack://application:,,,/STranslate.Style;component/Resources/deepseek.png" />
 </ResourceDictionary>

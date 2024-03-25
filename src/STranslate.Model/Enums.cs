@@ -166,6 +166,8 @@ namespace STranslate.Model
         Chatglm,
         [Description("零一万物")]
         Linyi,
+        [Description("DeepSeek")]
+        DeepSeek,
     }
 
     /// <summary>
