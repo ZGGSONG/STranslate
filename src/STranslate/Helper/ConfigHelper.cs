@@ -190,6 +190,7 @@ public class ConfigHelper
         CurrentConfig.ProxyUsername = model.ProxyUsername;
         CurrentConfig.ProxyPassword = model.ProxyPassword;
         CurrentConfig.CopyResultAfterTranslateIndex = model.CopyResultAfterTranslateIndex;
+        CurrentConfig.IncrementalTranslation = model.IncrementalTranslation;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
         ProxyOperate(CurrentConfig.ProxyMethod, CurrentConfig.ProxyIp, CurrentConfig.ProxyPort ?? 0, CurrentConfig.IsProxyAuthentication, CurrentConfig.ProxyUsername, CurrentConfig.ProxyPassword);

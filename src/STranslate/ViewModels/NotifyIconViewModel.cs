@@ -117,7 +117,7 @@ namespace STranslate.ViewModels
             //如果重复执行先取消上一步操作
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
-            Clear();
+            ClearAll();
             ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
         }
 
@@ -138,9 +138,20 @@ namespace STranslate.ViewModels
             //如果重复执行先取消上一步操作
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
-            Clear();
 
-            Singleton<InputViewModel>.Instance.InputContent = content;
+            //增量翻译
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+            {
+                ClearOutput();
+                var input = Singleton<InputViewModel>.Instance.InputContent;
+                Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            }
+            else
+            {
+                ClearAll();
+            }
+
+            Singleton<InputViewModel>.Instance.InputContent += content;
             ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
@@ -336,14 +347,23 @@ namespace STranslate.ViewModels
                     Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
                     Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
 
-                    Clear();
+                    //增量翻译
+                    if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+                    {
+                        ClearOutput();
+                        var input = Singleton<InputViewModel>.Instance.InputContent;
+                        Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+                    }
+                    else
+                    {
+                        ClearAll();
+                    }
 
                     MainView view = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
                     ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
                     var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
 
-                    Singleton<InputViewModel>.Instance.InputContent = "识别中...";
                     Thread thread = new Thread(() =>
                     {
                         string getText = "";
@@ -361,7 +381,7 @@ namespace STranslate.ViewModels
 
                             CommonUtil.InvokeOnUIThread(() =>
                             {
-                                Singleton<InputViewModel>.Instance.InputContent = getText;
+                                Singleton<InputViewModel>.Instance.InputContent += getText;
                                 Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
                             });
                         }
@@ -395,12 +415,17 @@ namespace STranslate.ViewModels
             ShowAndActive(view);
         }
 
-        internal void Clear()
+        internal void ClearOutput()
         {
-            //清空输入相关
-            Singleton<InputViewModel>.Instance.Clear();
             //清空输出相关
             Singleton<OutputViewModel>.Instance.Clear();
+        }
+
+        internal void ClearAll()
+        {
+            ClearOutput();
+            //清空输入相关
+            Singleton<InputViewModel>.Instance.Clear();
         }
 
         private void ShowAndActive(Window view, bool canFollowMouse = false)
@@ -431,9 +456,13 @@ namespace STranslate.ViewModels
                 // 获取焦点
                 inputTextBox.Focus();
 
+                System.Diagnostics.Debug.WriteLine(inputTextBox.Text + inputTextBox.CaretIndex);
+
                 // 光标移动至末尾
                 if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false)
                     inputTextBox.CaretIndex = inputTextBox.Text.Length;
+
+                System.Diagnostics.Debug.WriteLine(inputTextBox.Text + inputTextBox.CaretIndex);
             }
         }
 
@@ -524,9 +553,19 @@ namespace STranslate.ViewModels
             //如果重复执行先取消上一步操作
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
-            Clear();
+            //增量翻译
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+            {
+                ClearOutput();
+                var input = Singleton<InputViewModel>.Instance.InputContent;
+                Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            }
+            else
+            {
+                ClearAll();
+            }
 
-            Singleton<InputViewModel>.Instance.InputContent = content;
+            Singleton<InputViewModel>.Instance.InputContent += content;
             ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);

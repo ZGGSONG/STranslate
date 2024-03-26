@@ -342,8 +342,16 @@ namespace STranslate.ViewModels
             //如果重复执行先取消上一步操作
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
-            //清空输入相关
-            Singleton<InputViewModel>.Instance.Clear();
+            //增量翻译
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+            {
+                var input = Singleton<InputViewModel>.Instance.InputContent;
+                Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            }
+            else
+            {
+                Singleton<InputViewModel>.Instance.Clear();
+            }
             //清空输出相关
             Singleton<OutputViewModel>.Instance.Clear();
 
@@ -353,9 +361,7 @@ namespace STranslate.ViewModels
             window.Activate();
 
             //获取文本
-            Singleton<InputViewModel>
-                .Instance
-                .InputContent = content;
+            Singleton<InputViewModel>.Instance.InputContent += content;
             //执行翻译
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
         }

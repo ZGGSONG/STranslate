@@ -205,6 +205,11 @@ public class ConfigModel
     public int CopyResultAfterTranslateIndex { get; set; } = 0;
 
     /// <summary>
+    /// 是否增量翻译
+    /// </summary>
+    public bool IncrementalTranslation { get; set; } = false;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -266,6 +271,7 @@ public class ConfigModel
             ProxyUsername = ProxyUsername,
             ProxyPassword = ProxyPassword,
             CopyResultAfterTranslateIndex = CopyResultAfterTranslateIndex,
+            IncrementalTranslation = IncrementalTranslation,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             TTSList = TTSList?.DeepCopy()

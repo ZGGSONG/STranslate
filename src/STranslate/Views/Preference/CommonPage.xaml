@@ -347,6 +347,12 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="增量翻译" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="开启后增量添加文本进行翻译" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IncrementalTranslation}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="翻译后复制结果" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行第几个翻译结果的复制操作" />
                                 <ComboBox Height="30" HorizontalAlignment="Right" SelectedIndex="{Binding CopyResultAfterTranslateIndex}">

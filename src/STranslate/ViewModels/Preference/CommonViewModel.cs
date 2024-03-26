@@ -80,6 +80,7 @@ namespace STranslate.ViewModels.Preference
             ProxyUsername = curConfig?.ProxyUsername ?? string.Empty;
             ProxyPassword = curConfig?.ProxyPassword ?? string.Empty;
             CopyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
+            IncrementalTranslation = curConfig?.IncrementalTranslation ?? false;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -483,5 +484,8 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private int _copyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
+
+        [ObservableProperty]
+        private bool _incrementalTranslation = curConfig?.IncrementalTranslation ?? false;
     }
 }
