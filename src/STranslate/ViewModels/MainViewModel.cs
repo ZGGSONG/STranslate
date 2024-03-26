@@ -76,6 +76,7 @@ namespace STranslate.ViewModels
 
                 NotifyIconVM.OnMousehook += MouseHook;
                 NotifyIconVM.OnForbiddenShortcuts += OnForbiddenShortcutsChanged;
+                CommonSettingVM.OnIncrementalChanged += OnIncrementalChanged;
                 RegisterHotkeys(view);
             }
             catch (Exception ex)
@@ -89,6 +90,7 @@ namespace STranslate.ViewModels
         {
             NotifyIconVM.OnMousehook -= MouseHook;
             NotifyIconVM.OnForbiddenShortcuts -= OnForbiddenShortcutsChanged;
+            CommonSettingVM.OnIncrementalChanged -= OnIncrementalChanged;
             UnRegisterHotkeys(view);
         }
 
@@ -104,6 +106,16 @@ namespace STranslate.ViewModels
             else
                 RegisterHotkeys(view);
         }
+
+        /// <summary>
+        /// 监听增量翻译更新
+        /// </summary>
+        /// <param name="value"></param>
+        private void OnIncrementalChanged(bool value)
+        {
+            IsEnableIncrementalTranslation = value ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        }
+
 
         private void RegisterHotkeys(Window view)
         {

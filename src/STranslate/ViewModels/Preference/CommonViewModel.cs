@@ -15,14 +15,17 @@ namespace STranslate.ViewModels.Preference
 {
     public partial class CommonViewModel : ObservableObject
     {
-        public Action<int>? OnViewMaxHeightChanged;
-        public Action<int>? OnViewWidthChanged;
+        public event Action<int>? OnViewMaxHeightChanged;
+        public event Action<int>? OnViewWidthChanged;
+        public event Action<bool>? OnIncrementalChanged;
 
         [RelayCommand]
         private void Save()
         {
             if (configHelper.WriteConfig(this))
             {
+                //通知增量翻译配置到主界面
+                OnIncrementalChanged?.Invoke(IncrementalTranslation);
                 ToastHelper.Show("保存常规配置成功", WindowType.Preference);
 
                 if (IsStartup)
