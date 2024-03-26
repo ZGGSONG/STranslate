@@ -138,6 +138,16 @@
                     Tag="{Binding IsEnableMosehook}"
                     ToolTip="监听鼠标划词"
                     Visibility="{Binding IsShowMousehook, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button Width="30"
+                    Height="30"
+                    HorizontalAlignment="Right"
+                    Command="{Binding IncrementalTranslationCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Content="&#xeb78;"
+                    Style="{DynamicResource ButtonCrosswordsIconStyle}"
+                    Tag="{Binding IsEnableIncrementalTranslation}"
+                    ToolTip="增量翻译"
+                    Visibility="{Binding IsShowIncrementalTranslation, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button HorizontalAlignment="Right"
                     Command="{Binding NotifyIconVM.ScreenShotTranslateCommand}"
                     CommandParameter="header"

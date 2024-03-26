@@ -288,6 +288,12 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="显示增量翻译图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示增量翻译图标" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowIncrementalTranslation}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="显示截图翻译图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示截图翻译图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowScreenshot}" />

@@ -106,6 +106,11 @@ public class ConfigModel
     public bool IsShowMousehook { get; set; } = false;
 
     /// <summary>
+    /// 是否显示打开增量翻译图标
+    /// </summary>
+    public bool IsShowIncrementalTranslation { get; set; } = false;
+
+    /// <summary>
     /// 是否显示截图翻译图标
     /// </summary>
     public bool IsShowScreenshot { get; set; } = false;
@@ -252,6 +257,7 @@ public class ConfigModel
             IsShowPreference = IsShowPreference,
             IsShowConfigureService = IsShowConfigureService,
             IsShowMousehook = IsShowMousehook,
+            IsShowIncrementalTranslation = IsShowIncrementalTranslation,
             IsShowScreenshot = IsShowScreenshot,
             IsShowOCR = IsShowOCR,
             IsShowSilentOCR = IsShowSilentOCR,

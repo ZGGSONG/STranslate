@@ -61,6 +61,7 @@ namespace STranslate.ViewModels.Preference
             IsKeepTopmostAfterMousehook = curConfig?.IsKeepTopmostAfterMousehook ?? false;
             IsShowPreference = curConfig?.IsShowPreference ?? false;
             IsShowMousehook = curConfig?.IsShowMousehook ?? false;
+            IsShowIncrementalTranslation = curConfig?.IsShowIncrementalTranslation ?? false;
             IsShowScreenshot = curConfig?.IsShowScreenshot ?? false;
             IsShowOCR = curConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = curConfig?.IsShowSilentOCR ?? false;
@@ -302,6 +303,12 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool isShowMousehook = curConfig?.IsShowMousehook ?? false;
+
+        /// <summary>
+        /// 是否显示打开增量翻译图标
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowIncrementalTranslation = curConfig?.IsShowIncrementalTranslation ?? false;
 
         /// <summary>
         /// 是否显示截图翻译图标

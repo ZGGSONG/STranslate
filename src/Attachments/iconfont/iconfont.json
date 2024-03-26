@@ -6,6 +6,13 @@
   "description": "基于.Net 6 开发的新款翻译工具",
   "glyphs": [
     {
+      "icon_id": "6185520",
+      "name": "累计计时",
+      "font_class": "leijijishi",
+      "unicode": "eb78",
+      "unicode_decimal": 60280
+    },
+    {
       "icon_id": "11833219",
       "name": "编辑",
       "font_class": "bianji",

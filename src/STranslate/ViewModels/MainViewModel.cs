@@ -46,6 +46,9 @@ namespace STranslate.ViewModels
         private string _isEnableMosehook = ConstStr.TAGFALSE;
 
         [ObservableProperty]
+        private string _isEnableIncrementalTranslation = ConstStr.TAGFALSE;
+
+        [ObservableProperty]
         private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
 
         [ObservableProperty]
@@ -56,6 +59,8 @@ namespace STranslate.ViewModels
         public MainViewModel()
         {
             SqlHelper.InitializeDB();
+            // 加载是否启用增量更新
+            IsEnableIncrementalTranslation = (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
             // 加载语言选择
             SelectedSourceLanguage = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLanguage ?? LanguageEnum.AUTO.GetDescription();
             SelectedTargetLanguage = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLanguage ?? LanguageEnum.AUTO.GetDescription();
@@ -237,6 +242,23 @@ namespace STranslate.ViewModels
             }
         }
 
+        [RelayCommand]
+        private void IncrementalTranslation()
+        {
+            var conf = Singleton<ConfigHelper>.Instance.CurrentConfig;
+            var common = Singleton<CommonViewModel>.Instance;
+            if (conf is null) return;
+
+            conf.IncrementalTranslation = !conf.IncrementalTranslation;
+            IsEnableIncrementalTranslation = (conf?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+
+            common.IncrementalTranslation = !common.IncrementalTranslation;
+            common.SaveCommand.Execute(null);
+
+            string msg = (common.IncrementalTranslation ? "打开" : "关闭") + "增量翻译";
+            ToastHelper.Show(msg);
+        }
+
         private void OnGetwordsHandlerChanged(string content)
         {
             if (string.IsNullOrEmpty(content))
@@ -400,6 +422,7 @@ namespace STranslate.ViewModels
             IsShowPreference = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowPreference ?? false;
             IsShowConfigureService = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowConfigureService ?? false;
             IsShowMousehook = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowMousehook ?? false;
+            IsShowIncrementalTranslation = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowIncrementalTranslation ?? false;
             IsShowScreenshot = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowScreenshot ?? false;
             IsShowOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowOCR ?? false;
             IsShowSilentOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsShowSilentOCR ?? false;
@@ -418,6 +441,9 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private bool isShowMousehook;
+
+        [ObservableProperty]
+        private bool isShowIncrementalTranslation;
 
         [ObservableProperty]
         private bool isShowScreenshot;
