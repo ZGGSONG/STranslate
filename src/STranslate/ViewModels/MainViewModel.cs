@@ -51,6 +51,8 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private bool _isOnlyShowRet = false;
 
+        public bool IsHotkeyCopy = false;
+
         public MainViewModel()
         {
             SqlHelper.InitializeDB();

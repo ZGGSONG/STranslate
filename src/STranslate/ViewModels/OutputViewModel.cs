@@ -123,6 +123,8 @@ namespace STranslate.ViewModels
                 return;
             }
 
+            Singleton<MainViewModel>.Instance.IsHotkeyCopy = true;
+
             var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
             var translator = index == 9 ? enabledTranslators.LastOrDefault() : enabledTranslators.ElementAtOrDefault(index - 1);
 

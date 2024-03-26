@@ -52,6 +52,8 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private string _isEnabledClipboardMonitor = ConstStr.TAGFALSE;
 
+        private ClipboardHelper? _clipboardHelper;
+
         public NotifyIconViewModel()
         {
             UpdateToolTip();
@@ -475,10 +477,13 @@ namespace STranslate.ViewModels
 
             if (IsClipboardMonitor)
             {
+                _clipboardHelper ??= new ClipboardHelper();
                 // 开始监听剪贴板变化
-                if (ClipboardHelper.Start(out string error))
+                if (_clipboardHelper.Start(out string error))
                 {
-                    ClipboardHelper.ClipboardChanged += (c) => ClipboardChanged(c, view);
+                    // 清除热键复制标记
+                    Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
+                    _clipboardHelper.OnClipboardChanged += (c) => ClipboardChanged(c, view);
 
                     ShowBalloonTip("已启用监听剪贴板");
                 }
@@ -489,10 +494,12 @@ namespace STranslate.ViewModels
             }
             else
             {
-                if (ClipboardHelper.Stop(out string error))
-                {
-                    ClipboardHelper.ClipboardChanged -= (c) => ClipboardChanged(c, view);
+                if (_clipboardHelper == null) return;
 
+                else if (_clipboardHelper.Stop(out string error))
+                {
+                    _clipboardHelper.OnClipboardChanged -= (c) => ClipboardChanged(c, view);
+                    _clipboardHelper = null;
                     ShowBalloonTip("已关闭监听剪贴板");
                 }
                 else
@@ -504,6 +511,12 @@ namespace STranslate.ViewModels
 
         private void ClipboardChanged(string content, Window view)
         {
+            //热键复制时略过
+            if (Singleton<MainViewModel>.Instance.IsHotkeyCopy == true)
+            {
+                Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
+                return;
+            }
             //取词前移除换行
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
                 content = StringUtil.RemoveLineBreaks(content);

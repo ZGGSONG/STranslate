@@ -150,7 +150,7 @@ public partial class InputViewModel : ObservableObject
                     {
                         IdentifyLanguage = "缓存";
                         service.Data = translatorList.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
-                        return;
+                        goto copy;
                     }
 
                     //如果是自动则获取自动识别后的目标语种
@@ -184,6 +184,7 @@ public partial class InputViewModel : ObservableObject
                             break;
                     }
 
+                    copy:
                     //翻译后复制结果
                     var currentServiceIndex = services.IndexOf(service) + 1;
                     if (currentServiceIndex == copyIndex)

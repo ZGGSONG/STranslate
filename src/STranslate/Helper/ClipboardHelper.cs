@@ -7,14 +7,14 @@ using System.Windows.Interop;
 
 namespace STranslate.Helper
 {
-    public static class ClipboardHelper
+    public class ClipboardHelper
     {
-        private static HwndSource? _source;
-        private static IntPtr _nextClipboardViewer;
+        private HwndSource? _source;
+        private IntPtr _nextClipboardViewer;
 
-        public static event Action<string>? ClipboardChanged;
+        public event Action<string>? OnClipboardChanged;
 
-        public static bool Start(out string error)
+        public bool Start(out string error)
         {
             bool result = false;
             _source = PresentationSource.FromVisual(Application.Current.Windows.Cast<Window>().FirstOrDefault()) as HwndSource;
@@ -40,7 +40,7 @@ namespace STranslate.Helper
             return result;
         }
 
-        public static bool Stop(out string error)
+        public bool Stop(out string error)
         {
             bool result = false;
             if (_source == null)
@@ -52,6 +52,7 @@ namespace STranslate.Helper
             // 移除窗口作为剪贴板的观察者
             CommonUtil.ChangeClipboardChain(_source.Handle, _nextClipboardViewer);
             _source.RemoveHook(WndProc);
+            _source = null;
 
             error = "";
             result = true;
@@ -59,14 +60,16 @@ namespace STranslate.Helper
             return result;
         }
 
-        private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == CommonUtil.WM_DRAWCLIPBOARD)
             {
                 // 剪贴板内容变化事件发生
                 string content = Clipboard.GetText();
                 if (!string.IsNullOrEmpty(content))
-                    ClipboardChanged?.Invoke(content);
+                {
+                    OnClipboardChanged?.Invoke(content);
+                }
             }
             else if (msg == CommonUtil.WM_CHANGECBCHAIN)
             {
