@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 
 namespace STranslate.Model
 {
@@ -14,18 +14,24 @@ namespace STranslate.Model
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: JsonProperty("enabled")]
+        private bool _enabled = false;
+
+        [JsonIgnore]
+        [ObservableProperty]
         [property: JsonProperty("prompts")]
         private BindingList<Prompt> _prompts;
 
-        public UserDefinePrompt(string name, BindingList<Prompt> prompts)
+        public UserDefinePrompt(string name, BindingList<Prompt> prompts, bool enabled = false)
         {
             Name = name;
             Prompts = prompts;
+            Enabled = enabled;
         }
 
         public object Clone()
         {
-            return new UserDefinePrompt(Name, Prompts);
+            return new UserDefinePrompt(Name, Prompts, Enabled);
         }
     }
 

@@ -4,6 +4,7 @@
     <!-- // Border // -->
     <SolidColorBrush x:Key="BorderBackground">#2e323a</SolidColorBrush>
     <SolidColorBrush x:Key="BorderBrushColor">#393c43</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderBrushColorEnabled">#7dc172</SolidColorBrush>
     <SolidColorBrush x:Key="BorderContentBackground">#282c34</SolidColorBrush>
     <SolidColorBrush x:Key="BorderLangBackground">#404856</SolidColorBrush>
 

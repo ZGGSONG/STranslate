@@ -453,7 +453,6 @@ public class TranslatorConverter : JsonConverter<ITranslator>
 
         if (translator is ITranslatorAI ai)
         {
-            ai.Prompts.Clear();
             ai.UserDefinePrompts.Clear();
         }
 

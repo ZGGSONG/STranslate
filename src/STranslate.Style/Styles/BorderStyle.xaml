@@ -32,4 +32,23 @@
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="Margin" Value="5" />
     </Style>
+
+    <!-- // Prompt Border // -->
+    <Style x:Key="BorderPromptStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Enabled}" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColorEnabled}" />
+                <Setter Property="BorderThickness" Value="3" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+                <Setter Property="BorderThickness" Value="1" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

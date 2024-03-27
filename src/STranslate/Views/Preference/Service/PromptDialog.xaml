@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
         x:Name="promptDialog"
@@ -67,6 +68,9 @@
                                            Placeholder="Input your prompt name"
                                            Text="{Binding UserDefinePrompt.Name, UpdateSourceTrigger=PropertyChanged}" />
                 <ListBox x:Name="listbox"
+                         dd:DragDrop.IsDragSource="True"
+                         dd:DragDrop.IsDropTarget="True"
+                         dd:DragDrop.UseDefaultDragAdorner="True"
                          Background="Transparent"
                          BorderThickness="0"
                          ItemsSource="{Binding UserDefinePrompt.Prompts}"
