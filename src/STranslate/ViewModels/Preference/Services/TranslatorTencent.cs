@@ -86,6 +86,13 @@ namespace STranslate.ViewModels.Preference.Services
         public string _appKey = string.Empty;
 
         [JsonIgnore]
+        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
+
+        [JsonIgnore]
+        [ObservableProperty]
+        private bool _autoExpander = true;
+
+        [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
         public TranslationResult _data = TranslationResult.Reset;
@@ -99,7 +106,6 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         public List<TencentRegionEnum> Resiongs { get; set; } = Enum.GetValues(typeof(TencentRegionEnum)).OfType<TencentRegionEnum>().ToList();
-        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
 
         [JsonIgnore]
         [ObservableProperty]
@@ -197,6 +203,7 @@ namespace STranslate.ViewModels.Preference.Services
                 Data = TranslationResult.Reset,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
+                AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
                 Region = TencentRegionEnum.华东地区_上海,
                 Resiongs = this.Resiongs,

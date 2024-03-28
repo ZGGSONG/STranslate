@@ -19,6 +19,8 @@ namespace STranslate.Model
 
         string Url { get; set; }
 
+        bool AutoExpander { get; set; }
+
         TranslationResult Data { get; set; }
 
         BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }

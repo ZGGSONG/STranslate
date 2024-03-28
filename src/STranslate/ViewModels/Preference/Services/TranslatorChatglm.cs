@@ -76,6 +76,10 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        private bool _autoExpander = true;
+
+        [JsonIgnore]
+        [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         private string _model = "glm-4";
@@ -265,9 +269,10 @@ namespace STranslate.ViewModels.Preference.Services
                 Data = TranslationResult.Reset,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
+                UserDefinePrompts = this.UserDefinePrompts,
+                AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
-                UserDefinePrompts = this.UserDefinePrompts,
                 Model = this.Model,
             };
         }

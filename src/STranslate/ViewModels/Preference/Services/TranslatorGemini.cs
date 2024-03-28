@@ -84,6 +84,10 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        private bool _autoExpander = true;
+
+        [JsonIgnore]
+        [ObservableProperty]
         public int _timeOut = 10;
 
         [JsonIgnore]
@@ -260,9 +264,10 @@ namespace STranslate.ViewModels.Preference.Services
                 Data = TranslationResult.Reset,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
+                UserDefinePrompts = this.UserDefinePrompts,
+                AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
-                UserDefinePrompts = this.UserDefinePrompts,
             };
         }
 

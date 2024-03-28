@@ -83,10 +83,16 @@ namespace STranslate.ViewModels.Preference.Services
         public string _appKey = string.Empty;
 
         [JsonIgnore]
+        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
+
+        [JsonIgnore]
+        [ObservableProperty]
+        private bool _autoExpander = true;
+
+        [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
         public TranslationResult _data = TranslationResult.Reset;
-        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
 
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
@@ -179,6 +185,7 @@ namespace STranslate.ViewModels.Preference.Services
                 Data = TranslationResult.Reset,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
+                AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
