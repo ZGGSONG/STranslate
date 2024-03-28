@@ -24,10 +24,14 @@
 
 ## 访问
 
-| 国外 | 国内 |
+| 国外 | 国内(仅作同步代码用) |
 | :--: | :--: |
 | **[Github](https://github.com/ZGGSONG/STranslate)** | **[Gitee](https://gitee.com/zggsong/STranslate)** |
 
+
+## 讨论
+
+有疑问优先移步 [Discussions](https://github.com/ZGGSONG/STranslate/discussions) 进行讨论
 
 ## 安装
 
