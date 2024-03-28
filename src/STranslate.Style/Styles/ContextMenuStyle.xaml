@@ -54,21 +54,15 @@
                 Background="Transparent"
                 ClipToBounds="True"
                 CornerRadius="5">
-            <Grid Margin="0,0,10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
+            <StackPanel Margin="0,0,10,0" Orientation="Horizontal">
+                <TextBlock Width="26"
                            Margin="10,0,0,0"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource IconFont}"
                            FontSize="16"
                            Foreground="{DynamicResource BtnForeground}"
                            Text="{TemplateBinding Icon}" />
-                <TextBlock Grid.Column="1"
-                           MaxWidth="120"
+                <TextBlock MaxWidth="120"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"
                            FontSize="14"
@@ -77,14 +71,13 @@
                            TextTrimming="CharacterEllipsis"
                            ToolTip="{TemplateBinding Header}" />
                 <TextBlock x:Name="Checkabled"
-                           Grid.Column="2"
                            Margin="10,0,0,0"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource IconFont}"
                            FontSize="14"
                            Text="&#xec9e;"
                            Visibility="Collapsed" />
-            </Grid>
+            </StackPanel>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">

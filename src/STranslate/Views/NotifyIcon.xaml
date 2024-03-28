@@ -25,7 +25,6 @@
         <tb:TaskbarIcon.ContextMenu>
             <!-- // 编译出来似乎有点显示Bug，再手动指定一下DataContext // -->
             <ContextMenu x:Name="TrayIconContextMenu"
-                         Width="150"
                          d:DataContext="{d:DesignInstance Type=vm:NotifyIconViewModel}"
                          DataContext="{Binding Source={StaticResource NotifyIcon}, Path=Data.DataContext}"
                          FontFamily="{DynamicResource UserFont}">
