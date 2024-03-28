@@ -39,6 +39,7 @@
                 <common:PlaceholderTextBox x:Name="SearchTb"
                                            Height="32"
                                            Margin="8,0"
+                                           ContextMenu="{x:Null}"
                                            Placeholder="请输入搜索内容"
                                            Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
@@ -63,7 +64,6 @@
                             <ContextMenu Width="120">
                                 <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
                                           CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
-                                          FontFamily="{DynamicResource IconFont}"
                                           Header="刷新记录"
                                           Icon="&#xe60f;" />
                             </ContextMenu>
@@ -79,18 +79,15 @@
                                     <TextBlock Margin="5,0" Text="{Binding SourceText}" TextTrimming="CharacterEllipsis" />
                                     <Border.ContextMenu>
                                         <ContextMenu Width="120">
-                                            <MenuItem FontFamily="{DynamicResource IconFont}"
-                                                      Header="添加收藏"
+                                            <MenuItem Header="添加收藏"
                                                       Icon="&#xe8b9;"
                                                       Visibility="Collapsed" />
                                             <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
                                                       CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
-                                                      FontFamily="{DynamicResource IconFont}"
                                                       Header="刷新记录"
                                                       Icon="&#xe60f;" />
                                             <Separator />
                                             <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.DeleteHistoryCommand}"
-                                                      FontFamily="{DynamicResource IconFont}"
                                                       Header="删除记录"
                                                       Icon="&#xe74b;" />
                                         </ContextMenu>

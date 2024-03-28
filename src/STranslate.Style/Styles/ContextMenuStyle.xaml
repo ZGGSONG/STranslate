@@ -18,6 +18,7 @@
 
     <!-- // Outer menu // -->
     <Style TargetType="{x:Type ContextMenu}">
+        <Setter Property="FontFamily" Value="{DynamicResource UserFont}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">

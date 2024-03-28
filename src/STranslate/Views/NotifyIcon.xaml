@@ -26,8 +26,7 @@
             <!-- // 编译出来似乎有点显示Bug，再手动指定一下DataContext // -->
             <ContextMenu x:Name="TrayIconContextMenu"
                          d:DataContext="{d:DesignInstance Type=vm:NotifyIconViewModel}"
-                         DataContext="{Binding Source={StaticResource NotifyIcon}, Path=Data.DataContext}"
-                         FontFamily="{DynamicResource UserFont}">
+                         DataContext="{Binding Source={StaticResource NotifyIcon}, Path=Data.DataContext}">
 
                 <MenuItem Command="{Binding InputTranslateCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
