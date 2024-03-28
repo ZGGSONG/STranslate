@@ -36,12 +36,18 @@
                                                 <Style TargetType="MenuItem">
                                                     <Setter Property="Header" Value="{Binding Name}" />
                                                     <Setter Property="FontFamily" Value="{DynamicResource UserFont}" />
-                                                    <Setter Property="MinWidth" Value="100" />
                                                     <Setter Property="Height" Value="30" />
                                                     <Setter Property="Icon" Value="&#xe60b;" />
                                                     <Setter Property="IsCheckable" Value="{Binding Enabled}" />
                                                     <Setter Property="Command" Value="{Binding Source={StaticResource proxy}, Path=Data.SelectedPromptCommand}"/>
-                                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                                    <Setter Property="CommandParameter">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                <Binding Path="." />
+                                                                <Binding Path="" />
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
                                                 </Style>
                                             </ContextMenu.ItemContainerStyle>
                                         </ContextMenu>

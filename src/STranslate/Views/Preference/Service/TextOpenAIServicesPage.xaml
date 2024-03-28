@@ -23,9 +23,14 @@
             <Border Style="{DynamicResource BorderPromptStyle}">
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.SelectedPromptCommand}"
-                            CommandParameter="{Binding Path=.}"
                             Content="{Binding Name}"
-                            Style="{DynamicResource lbtn}" />
+                            Style="{DynamicResource lbtn}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                <Binding Path="." />
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
                     <Separator Style="{DynamicResource verSep}" />
                     <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdatePromptCommand}"
                             CommandParameter="{Binding Path=.}"

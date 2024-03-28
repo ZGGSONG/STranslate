@@ -123,13 +123,16 @@ namespace STranslate.ViewModels.Preference.Services
 
         [RelayCommand]
         [property: JsonIgnore]
-        private void SelectedPrompt(UserDefinePrompt userDefinePrompt)
+        private void SelectedPrompt(List<object> obj)
         {
+            var userDefinePrompt = (UserDefinePrompt)obj.First();
             foreach (var item in UserDefinePrompts)
             {
                 item.Enabled = false;
             }
             userDefinePrompt.Enabled = true;
+
+            if (obj.Count == 2) Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
         }
 
         [RelayCommand]
