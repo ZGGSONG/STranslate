@@ -32,7 +32,7 @@
 
                 <!-- // 右键菜单 // -->
                 <common:PlaceholderTextBox.ContextMenu>
-                    <ContextMenu Width="120">
+                    <ContextMenu>
                         <MenuItem Command="{Binding TbSelectAllCommand}"
                                   CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                   Header="全选"
