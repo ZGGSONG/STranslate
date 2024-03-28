@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorOpenAI : ObservableObject, ITranslatorAI
+    public partial class TranslatorOpenAI : ObservableObject, ITranslator
     {
         #region Constructor
 

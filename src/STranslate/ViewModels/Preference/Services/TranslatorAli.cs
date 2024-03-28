@@ -88,6 +88,8 @@ namespace STranslate.ViewModels.Preference.Services
         [property: JsonIgnore]
         public TranslationResult _data = TranslationResult.Reset;
 
+        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
+
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 

@@ -163,6 +163,7 @@
                                     <Button Width="40"
                                             Command="{Binding AddPromptCommand}"
                                             Content="&#xe710;"
+                                            FontWeight="Bold"
                                             Style="{DynamicResource ButtonIconStyle}" />
                                 </ListBoxItem>
                             </CompositeCollection>

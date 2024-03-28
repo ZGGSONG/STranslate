@@ -451,10 +451,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
 
-        if (translator is ITranslatorAI ai)
-        {
-            ai.UserDefinePrompts.Clear();
-        }
+        translator.UserDefinePrompts.Clear();
 
         serializer.Populate(jsonObject.CreateReader(), translator);
         return translator;

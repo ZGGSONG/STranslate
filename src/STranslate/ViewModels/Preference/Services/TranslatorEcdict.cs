@@ -1,24 +1,24 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using STranslate.Helper;
-using STranslate.Model;
-using STranslate.Updater;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using STranslate.Helper;
+using STranslate.Model;
+using STranslate.Updater;
+using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    #region Constructor
-
     public partial class TranslatorEcdict : ObservableObject, ITranslator
     {
+        #region Constructor
+
         public TranslatorEcdict()
             : this(Guid.NewGuid(), "", "简明英汉词典") { }
 
@@ -49,7 +49,7 @@ namespace STranslate.ViewModels.Preference.Services
             }
         }
 
-    #endregion Constructor
+        #endregion Constructor
 
         #region Properties
 
@@ -94,6 +94,8 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: JsonIgnore]
         public TranslationResult _data = TranslationResult.Reset;
+
+        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
 
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;

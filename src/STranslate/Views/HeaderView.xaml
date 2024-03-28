@@ -4,11 +4,99 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+             xmlns:proxy="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:vm="clr-namespace:STranslate.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="scvpopup" DataType="{x:Type model:ITranslator}">
+            <Border x:Name="ServiceControl"
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    Background="{DynamicResource BorderBackground}"
+                    BorderBrush="{x:Null}"
+                    CornerRadius="5">
+                <Border.Resources>
+                    <proxy:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </Border.Resources>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Type, Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="false">
+                                <Setter Property="ContextMenu" Value="{x:Null}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type, Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="true">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu ItemsSource="{Binding Source={StaticResource proxy}, Path=Data.UserDefinePrompts}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="MenuItem">
+                                                    <Setter Property="Header" Value="{Binding Name}" />
+                                                    <Setter Property="FontFamily" Value="{DynamicResource UserFont}" />
+                                                    <Setter Property="MinWidth" Value="100" />
+                                                    <Setter Property="Height" Value="30" />
+                                                    <Setter Property="Icon" Value="&#xe60b;" />
+                                                    <Setter Property="IsCheckable" Value="{Binding Enabled}" />
+                                                    <Setter Property="Command" Value="{Binding Source={StaticResource proxy}, Path=Data.SelectedPromptCommand}"/>
+                                                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="30" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label HorizontalAlignment="Left"
+                           Content="&#xec9e;"
+                           FontFamily="{DynamicResource IconFont}"
+                           FontSize="{DynamicResource FontSize_Identify}"
+                           FontWeight="Bold"
+                           Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <Image Grid.Column="1"
+                           Width="14"
+                           HorizontalAlignment="Left"
+                           Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+
+                    <TextBlock Grid.Column="2"
+                               HorizontalAlignment="Left"
+                               FontSize="{DynamicResource FontSize_Identify}"
+                               Text="{Binding Name}"
+                               TextTrimming="CharacterEllipsis" />
+
+                    <Border Grid.Column="3"
+                            Padding="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
+                            CornerRadius="6">
+                        <TextBlock Padding="2,0"
+                                   FontSize="{DynamicResource FontSize_Service}"
+                                   Foreground="{DynamicResource ServiceTypeForeground}"
+                                   Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                    </Border>
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                </Trigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid x:Name="Header">
         <Button x:Name="TopmostBtn"
                 Margin="10,5,0,0"
@@ -61,6 +149,7 @@
                                  Margin="5"
                                  Background="Transparent"
                                  BorderThickness="0"
+                                 ItemTemplate="{StaticResource scvpopup}"
                                  ItemsSource="{Binding OutputVM.Translators}"
                                  PreviewMouseWheel="ServiceListBox_PreviewMouseWheel">
                             <i:Interaction.Triggers>
@@ -75,55 +164,6 @@
                                     </i:InvokeCommandAction>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border x:Name="ServiceControl" HorizontalAlignment="Center" Style="{DynamicResource BorderPopupStyle}">
-                                        <Grid Margin="0,5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="20" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="30" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <Label HorizontalAlignment="Left"
-                                                   Content="&#xec9e;"
-                                                   FontFamily="{DynamicResource IconFont}"
-                                                   FontSize="{DynamicResource FontSize_Identify}"
-                                                   FontWeight="Bold"
-                                                   Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
-                                            <Image Grid.Column="1"
-                                                   Width="14"
-                                                   HorizontalAlignment="Left"
-                                                   Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
-
-                                            <TextBlock Grid.Column="2"
-                                                       HorizontalAlignment="Left"
-                                                       FontSize="{DynamicResource FontSize_Identify}"
-                                                       Text="{Binding Name}"
-                                                       TextTrimming="CharacterEllipsis" />
-
-                                            <Border Grid.Column="3"
-                                                    Padding="1"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
-                                                    CornerRadius="6">
-                                                <TextBlock Padding="2,0"
-                                                           FontSize="{DynamicResource FontSize_Service}"
-                                                           Foreground="{DynamicResource ServiceTypeForeground}"
-                                                           Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
-                                            </Border>
-                                        </Grid>
-                                    </Border>
-                                    <DataTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
-                                        </Trigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
                         </ListBox>
                     </ScrollViewer>
                 </Grid>

@@ -99,6 +99,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         public List<TencentRegionEnum> Resiongs { get; set; } = Enum.GetValues(typeof(TencentRegionEnum)).OfType<TencentRegionEnum>().ToList();
+        public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
 
         [JsonIgnore]
         [ObservableProperty]

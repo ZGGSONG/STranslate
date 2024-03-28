@@ -9,6 +9,16 @@ namespace STranslate.Style.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter is string str && str == "prompt" && value is ServiceType svcType)
+            {
+                return svcType switch
+                {
+                    ServiceType.OpenAIService => "true",
+                    ServiceType.GeminiService => "true",
+                    ServiceType.ChatglmService => "true",
+                    _ => "false"
+                };
+            }
             if (value is ServiceType sType)
             {
                 return sType switch
