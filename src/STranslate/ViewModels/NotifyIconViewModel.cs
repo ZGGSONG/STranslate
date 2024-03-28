@@ -456,13 +456,9 @@ namespace STranslate.ViewModels
                 // 获取焦点
                 inputTextBox.Focus();
 
-                System.Diagnostics.Debug.WriteLine(inputTextBox.Text + inputTextBox.CaretIndex);
-
                 // 光标移动至末尾
                 if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false)
                     inputTextBox.CaretIndex = inputTextBox.Text.Length;
-
-                System.Diagnostics.Debug.WriteLine(inputTextBox.Text + inputTextBox.CaretIndex);
             }
         }
 

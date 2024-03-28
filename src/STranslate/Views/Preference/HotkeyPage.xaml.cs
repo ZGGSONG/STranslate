@@ -85,11 +85,7 @@ namespace STranslate.Views.Preference
                 shortcutText.Clear();
                 ((TextBox)sender).Text = _hotkeysText = "";
 
-                //决定权给用户是否继续
-                if (MessageBox_S.Show("设置单个字符可能会影响日常使用", "是否确认?", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
-                {
-                    return;
-                }
+                ToastHelper.Show("单字符可能会影响使用", WindowType.Preference);
             }
             _hotkeysKey = (KeyCodes)KeyInterop.VirtualKeyFromKey(key);
             shortcutText.Append(key.ToString());
