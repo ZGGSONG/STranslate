@@ -104,7 +104,6 @@ public partial class InputViewModel : ObservableObject
     /// <returns></returns>
     private bool PreviousHandle()
     {
-        InputContent = InputContent.Trim();
         if (!string.IsNullOrWhiteSpace(InputContent))
             return true;
 
