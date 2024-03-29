@@ -76,4 +76,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Preference\OCR\" />
+  </ItemGroup>
+
 </Project>

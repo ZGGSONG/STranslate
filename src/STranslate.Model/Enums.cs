@@ -123,6 +123,11 @@ namespace STranslate.Model
         OfflineTTS,
     }
 
+    public enum OCRType
+    {
+        PaddleOCR,
+    }
+
     /// <summary>
     /// 图标类型
     /// </summary>
@@ -212,12 +217,6 @@ namespace STranslate.Model
         X,
         Y,
         Z
-    }
-
-    public enum OCRType
-    {
-        Chinese,
-        English
     }
 
     /// <summary>

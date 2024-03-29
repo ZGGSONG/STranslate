@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Model;
 using System;
+using System.Speech.Synthesis;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Speech.Synthesis;
 using System.Threading;
 using System.Threading.Tasks;
 

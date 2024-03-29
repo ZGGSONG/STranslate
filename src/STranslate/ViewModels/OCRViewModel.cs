@@ -27,12 +27,6 @@ namespace STranslate.ViewModels
         private string _getContent = "";
 
         [ObservableProperty]
-        private BindingList<OCRType> _ocrTypes = new();
-
-        [ObservableProperty]
-        private OCRType _ocrType = OCRType.Chinese;
-
-        [ObservableProperty]
         private string _isTopMost = ConstStr.TAGFALSE;
 
         [ObservableProperty]
