@@ -175,8 +175,6 @@ namespace STranslate.ViewModels
             if (obj.Equals("header"))
             {
                 HideMainView();
-
-                goto Last;
             }
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
@@ -221,8 +219,6 @@ namespace STranslate.ViewModels
             if (obj.Equals("header"))
             {
                 HideMainView();
-
-                goto Last;
             }
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
@@ -267,8 +263,6 @@ namespace STranslate.ViewModels
             if (obj.Equals("header"))
             {
                 HideMainView();
-
-                goto Last;
             }
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
@@ -321,8 +315,6 @@ namespace STranslate.ViewModels
             if (obj.Equals("header"))
             {
                 HideMainView();
-
-                goto Last;
             }
 
             System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
