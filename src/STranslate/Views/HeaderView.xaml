@@ -127,8 +127,7 @@
                           Style="{DynamicResource ToggleButtonIconStyle}"
                           ToolTip="配置服务"
                           Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Popup x:Name="Popup_Service"
-                   MinWidth="80"
+            <Popup MinWidth="80"
                    MinHeight="30"
                    MaxHeight="400"
                    AllowsTransparency="True"

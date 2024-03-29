@@ -30,6 +30,16 @@
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="自动展开: " />
+
+                <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding AutoExpander}" />
+            </Grid>
+
             <Grid Margin="0,10" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />

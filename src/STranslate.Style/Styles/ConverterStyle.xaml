@@ -3,7 +3,7 @@
                     xmlns:converter="clr-namespace:STranslate.Style.Converters">
     <!-- // 转换器 // -->
     <converter:VisibilityConverter x:Key="VisibilityConverter" />
-    <converter:String2IsExpandedConverter x:Key="String2IsExpandedConverter" />
+    <converter:MultiValue2ExpandedConverter x:Key="MultiValue2ExpandedConverter" />
     <converter:String2IconConverter x:Key="String2IconConverter" />
     <converter:MultiValue2ListConverter x:Key="MultiValue2ListConverter" />
     <converter:MultiValue2VisibilityConverter x:Key="MultiValue2VisibilityConverter" />

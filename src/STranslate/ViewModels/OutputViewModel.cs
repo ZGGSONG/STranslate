@@ -143,6 +143,22 @@ namespace STranslate.ViewModels
             ToastHelper.Show($"复制{translator.Name}结果");
         }
 
+        [RelayCommand]
+        private void UpdateAutoExpander(ITranslator param)
+        {
+            param.AutoExpander = !param.AutoExpander;
+
+            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+        }
+
+        [RelayCommand]
+        private void CloseService(ITranslator param)
+        {
+            param.IsEnabled = false;
+
+            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+        }
+
         public void Clear()
         {
             foreach (var item in Translators)
