@@ -126,6 +126,7 @@ namespace STranslate.Model
     public enum OCRType
     {
         PaddleOCR,
+        TencentOCR,
     }
 
     /// <summary>
@@ -375,6 +376,7 @@ namespace STranslate.Model
         Common,
         Hotkey,
         Service,
+        OCR,
         TTS,
         Favorite,
         History,

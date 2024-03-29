@@ -37,6 +37,14 @@ namespace STranslate.Style.Converters
                     _ => "官方",
                 };
             }
+            if (value is OCRType oType)
+            {
+                return oType switch
+                {
+                    OCRType.PaddleOCR => "内置",
+                    _ => "官方",
+                };
+            }
             return "自建";
         }
 

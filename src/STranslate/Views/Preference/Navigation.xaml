@@ -14,6 +14,10 @@
         <view:ServicePage/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:OCRViewModel}">
+        <view:OCRPage/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:TTSViewModel}">
         <view:TTSPage/>
     </DataTemplate>

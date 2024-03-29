@@ -12,6 +12,7 @@ using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels;
 using STranslate.ViewModels.Preference;
+using STranslate.ViewModels.Preference.OCR;
 using STranslate.ViewModels.Preference.Services;
 using STranslate.ViewModels.Preference.TTS;
 
@@ -54,7 +55,14 @@ public class ConfigHelper
         TTSOperate();
 
         //初始化代理设置
-        ProxyOperate(CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理, CurrentConfig?.ProxyIp ?? "", CurrentConfig?.ProxyPort ?? 0, CurrentConfig?.IsProxyAuthentication ?? false, CurrentConfig?.ProxyUsername ?? "", CurrentConfig?.ProxyPassword ?? "");
+        ProxyOperate(
+            CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理,
+            CurrentConfig?.ProxyIp ?? "",
+            CurrentConfig?.ProxyPort ?? 0,
+            CurrentConfig?.IsProxyAuthentication ?? false,
+            CurrentConfig?.ProxyUsername ?? "",
+            CurrentConfig?.ProxyPassword ?? ""
+        );
 
         //初始化首页图标
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
@@ -95,16 +103,32 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入TTS服务到配置
+    /// 写入OCR服务到配置
     /// </summary>
-    /// <param name="tts"></param>
+    /// <param name="ocrList"></param>
     /// <returns></returns>
-    public bool WriteConfig(TTSCollection<ITTS> tts)
+    public bool WriteConfig(OCRCollection<IOCR> ocrList)
     {
         var isSuccess = false;
         if (CurrentConfig is null)
             return isSuccess;
-        CurrentConfig.TTSList = tts;
+        CurrentConfig.OCRList = ocrList;
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
+        return isSuccess;
+    }
+
+    /// <summary>
+    /// 写入TTS服务到配置
+    /// </summary>
+    /// <param name="ttsList"></param>
+    /// <returns></returns>
+    public bool WriteConfig(TTSCollection<ITTS> ttsList)
+    {
+        var isSuccess = false;
+        if (CurrentConfig is null)
+            return isSuccess;
+        CurrentConfig.TTSList = ttsList;
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
@@ -194,7 +218,14 @@ public class ConfigHelper
         CurrentConfig.IncrementalTranslation = model.IncrementalTranslation;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
-        ProxyOperate(CurrentConfig.ProxyMethod, CurrentConfig.ProxyIp, CurrentConfig.ProxyPort ?? 0, CurrentConfig.IsProxyAuthentication, CurrentConfig.ProxyUsername, CurrentConfig.ProxyPassword);
+        ProxyOperate(
+            CurrentConfig.ProxyMethod,
+            CurrentConfig.ProxyIp,
+            CurrentConfig.ProxyPort ?? 0,
+            CurrentConfig.IsProxyAuthentication,
+            CurrentConfig.ProxyUsername,
+            CurrentConfig.ProxyPassword
+        );
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -209,7 +240,7 @@ public class ConfigHelper
     {
         try
         {
-            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new TTSConverter() } };
+            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
             var content = File.ReadAllText(ConstStr.CnfName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
             // 读取时解密AppID、AppKey
@@ -219,6 +250,13 @@ public class ConfigHelper
                 {
                     service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
                     service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
+                });
+            config
+                .OCRList?.ToList()
+                .ForEach(ocr =>
+                {
+                    ocr.AppID = string.IsNullOrEmpty(ocr.AppID) ? ocr.AppID : DESUtil.DesDecrypt(ocr.AppID);
+                    ocr.AppKey = string.IsNullOrEmpty(ocr.AppKey) ? ocr.AppKey : DESUtil.DesDecrypt(ocr.AppKey);
                 });
             config
                 .TTSList?.ToList()
@@ -258,6 +296,13 @@ public class ConfigHelper
             {
                 service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
                 service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
+            });
+        // OCR加密
+        copy.OCRList?.ToList()
+            .ForEach(ocr =>
+            {
+                ocr.AppID = string.IsNullOrEmpty(ocr.AppID) ? ocr.AppID : DESUtil.DesEncrypt(ocr.AppID);
+                ocr.AppKey = string.IsNullOrEmpty(ocr.AppKey) ? ocr.AppKey : DESUtil.DesEncrypt(ocr.AppKey);
             });
         // TTS加密
         copy.TTSList?.ToList()
@@ -395,6 +440,32 @@ public class ConfigHelper
 }
 
 #region JsonConvert
+
+public class OCRConverter : JsonConverter<IOCR>
+{
+    public override IOCR? ReadJson(JsonReader reader, Type objectType, IOCR? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JObject jsonObject = JObject.Load(reader);
+
+        // 根据Type字段的值来决定具体实现类
+        var type = jsonObject["Type"]!.Value<int>();
+        IOCR ocr = type switch
+        {
+            (int)OCRType.PaddleOCR => new PaddleOCR(),
+            (int)OCRType.TencentOCR => new TencentOCR(),
+            //TODO: 新OCR服务需要适配
+            _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
+        };
+
+        serializer.Populate(jsonObject.CreateReader(), ocr);
+        return ocr;
+    }
+
+    public override void WriteJson(JsonWriter writer, IOCR? value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
+}
 
 public class TTSConverter : JsonConverter<ITTS>
 {

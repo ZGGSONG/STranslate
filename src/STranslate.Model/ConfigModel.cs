@@ -225,6 +225,11 @@ public class ConfigModel
     public BindingList<ITranslator>? Services { get; set; }
 
     /// <summary>
+    /// OCR
+    /// </summary>
+    public OCRCollection<IOCR>? OCRList { get; set; }
+
+    /// <summary>
     /// TTS
     /// </summary>
     public TTSCollection<ITTS>? TTSList { get; set; }
@@ -280,6 +285,7 @@ public class ConfigModel
             IncrementalTranslation = IncrementalTranslation,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
+            OCRList = OCRList?.DeepCopy(),
             TTSList = TTSList?.DeepCopy()
         };
     }

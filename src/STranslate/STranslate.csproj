@@ -62,6 +62,9 @@
     <Compile Update="Views\Preference\Service\PromptDialog.xaml.cs">
 	  <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Preference\OCRPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Preference\TTSPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -74,10 +77,6 @@
     <Compile Update="Views\Preference\HistoryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Preference\OCR\" />
   </ItemGroup>
 
 </Project>

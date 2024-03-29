@@ -41,6 +41,10 @@ namespace STranslate.ViewModels
                     ServicePage();
                     break;
 
+                case PerferenceType.OCR:
+                    OCRPage();
+                    break;
+
                 case PerferenceType.TTS:
                     TTSPage();
                     break;
@@ -68,6 +72,9 @@ namespace STranslate.ViewModels
 
         [RelayCommand]
         private void ServicePage() => CurrentView = Singleton<ServiceViewModel>.Instance;
+
+        [RelayCommand]
+        private void OCRPage() => CurrentView = Singleton<Preference.OCRViewModel>.Instance;
 
         [RelayCommand]
         private void TTSPage() => CurrentView = Singleton<TTSViewModel>.Instance;

@@ -111,9 +111,9 @@ namespace STranslate.ViewModels.Preference
                 //TODO: 新TTS服务需要适配
                 var name = tts.Type switch
                 {
-                    TTSType.AzureTTS => string.Format("{0}TTSAzurePage", head),
                     TTSType.OfflineTTS => string.Format("{0}TTSOfflinePage", head),
-                    _ => string.Format("{0}TTSAzurePage", head)
+                    TTSType.AzureTTS => string.Format("{0}TTSAzurePage", head),
+                    _ => string.Format("{0}TTSOfflinePage", head)
                 };
 
                 NavigationPage(name, tts);
