@@ -6,6 +6,7 @@ using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace STranslate.ViewModels.Preference.OCR
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Tencent,
+            IconType icon = IconType.Tencent2,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
@@ -119,6 +120,13 @@ namespace STranslate.ViewModels.Preference.OCR
 
         #endregion Show/Hide Encrypt Info
 
+        [JsonIgnore]
+        [ObservableProperty]
+        private TencentOCRAction _ocrAction = TencentOCRAction.GeneralBasicOCR;
+
+        [JsonIgnore]
+        public List<TencentOCRAction> OcrActions { get; set; } = Enum.GetValues(typeof(TencentOCRAction)).OfType<TencentOCRAction>().ToList();
+
         #endregion Properties
 
         #region Interface Implementation
@@ -129,7 +137,7 @@ namespace STranslate.ViewModels.Preference.OCR
             var secretKey = AppKey;
             var token = "";
             var version = "2018-11-19";
-            var action = "GeneralBasicOCR";//普通OCR
+            var action = OcrAction.ToString();//普通OCR
             //var action = "GeneralAccurateOCR";//高精度版OCR
             var region = "ap-shanghai";
 
@@ -181,6 +189,7 @@ namespace STranslate.ViewModels.Preference.OCR
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 Icons = this.Icons,
+                OcrAction = this.OcrAction,
             };
         }
 

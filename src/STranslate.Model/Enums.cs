@@ -174,6 +174,12 @@ namespace STranslate.Model
         Linyi,
         [Description("DeepSeek")]
         DeepSeek,
+        [Description("PaddleOCR")]
+        PaddleOCR,
+        [Description("腾讯OCR")]
+        Tencent2,
+        [Description("百度OCR")]
+        Baidu2,
     }
 
     /// <summary>
@@ -402,6 +408,15 @@ namespace STranslate.Model
         系统代理,
         HTTP,
         SOCKS5
+    }
+
+    /// <summary>
+    /// 腾讯OCR精度枚举
+    /// </summary>
+    public enum TencentOCRAction
+    {
+        GeneralBasicOCR,//普通精度OCR
+        GeneralAccurateOCR,//高精度OCR
     }
 
     /// <summary>

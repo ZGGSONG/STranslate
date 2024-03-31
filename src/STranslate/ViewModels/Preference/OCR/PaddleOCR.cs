@@ -58,7 +58,7 @@ namespace STranslate.ViewModels.Preference.OCR
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.STranslate,
+            IconType icon = IconType.PaddleOCR,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
