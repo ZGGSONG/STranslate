@@ -22,6 +22,15 @@ namespace STranslate.ViewModels
 {
     public partial class OCRViewModel : WindowVMBase
     {
+        /// <summary>
+        /// 原始数据
+        /// </summary>
+        [ObservableProperty]
+        private BitmapSource? _bs;
+
+        /// <summary>
+        /// 显示数据
+        /// </summary>
         [ObservableProperty]
         private BitmapSource? _getImg;
 
@@ -71,20 +80,20 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void CopyImg(BitmapSource? source)
+        private void CopyImg()
         {
-            if (source is not null)
+            if (Bs is not null)
             {
-                Clipboard.SetImage(source);
+                Clipboard.SetImage(Bs);
 
                 ToastHelper.Show("复制图片", WindowType.OCR);
             }
         }
 
         [RelayCommand]
-        private void SaveImg(BitmapSource? source)
+        private void SaveImg()
         {
-            if (source is not null)
+            if (Bs is not null)
             {
                 // 创建一个 SaveFileDialog
                 SaveFileDialog saveFileDialog =
@@ -112,7 +121,7 @@ namespace STranslate.ViewModels
                     }
 
                     // 将 BitmapSource 添加到 BitmapEncoder
-                    encoder.Frames.Add(BitmapFrame.Create(source));
+                    encoder.Frames.Add(BitmapFrame.Create(Bs));
 
                     // 使用 FileStream 保存到文件
                     using FileStream fs = new(fileName, FileMode.Create);
@@ -226,7 +235,8 @@ namespace STranslate.ViewModels
                 var bytes = BitmapUtil.ConvertBitmapSource2Bytes(img);
 
                 //TODO: 很奇怪的现象，获取出来直接赋值给前台绑定的Img不显示，转成Byte再转回来就可以显示了
-                GetImg = BitmapUtil.ConvertBytes2BitmapSource(bytes);
+                Bs = BitmapUtil.ConvertBytes2BitmapSource(bytes);
+                GetImg = Bs.Clone();
 
                 await OCRHandler(bytes);
 
@@ -236,24 +246,27 @@ namespace STranslate.ViewModels
             ToastHelper.Show("剪贴板最近无图片", WindowType.OCR);
         }
 
-        /// <summary>
-        /// 重新识别
-        /// </summary>
-        [RelayCommand]
-        private async Task RecertificationAsync(BitmapSource bs)
-        {
-            var bytes = BitmapUtil.ConvertBitmapSource2Bytes(bs);
-
-            await OCRHandler(bytes);
-        }
-
         private async Task ImgFileHandlerAsync(string file)
         {
             using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
             var bytes = new byte[fs.Length];
             fs.Read(bytes, 0, bytes.Length);
 
-            GetImg = BitmapUtil.ConvertBytes2BitmapSource(bytes);
+            Bs = BitmapUtil.ConvertBytes2BitmapSource(bytes);
+            GetImg = Bs.Clone();
+
+            await OCRHandler(bytes);
+        }
+
+        /// <summary>
+        /// 重新识别
+        /// </summary>
+        [RelayCommand]
+        private async Task RecertificationAsync()
+        {
+            if (Bs == null) return;
+
+            var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs);
 
             await OCRHandler(bytes);
         }
@@ -267,6 +280,31 @@ namespace STranslate.ViewModels
                 ToastHelper.Show("识别中...", WindowType.OCR);
                 var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR);
                 var getText = ocrResult.Text;
+                //更新图片
+                // 创建一个WritableBitmap，用于绘制
+                var writableBitmap = new WriteableBitmap(Bs!);
+                // 使用锁定位图来确保线程安全
+                writableBitmap.Lock();
+
+                try
+                {
+                    var backBitmap = new System.Drawing.Bitmap((int)Bs!.Width, (int)Bs!.Height, writableBitmap.BackBufferStride, System.Drawing.Imaging.PixelFormat.Format32bppArgb, writableBitmap.BackBuffer);
+                    // 在这里你可以直接通过指针操作位图的像素数据
+                    using var g = System.Drawing.Graphics.FromImage(backBitmap);
+                    foreach (var item in ocrResult.OcrContents)
+                    {
+                        g.DrawPolygon(new System.Drawing.Pen(System.Drawing.Brushes.Red, 2), item.BoxPoints.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray());
+                    }
+                }
+                finally
+                {
+                    // 确保释放位图
+                    writableBitmap.Unlock();
+                }
+
+                // 更新UI
+                GetImg = writableBitmap;
+
                 //取词前移除换行
                 getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
                         ? StringUtil.RemoveLineBreaks(getText)
@@ -289,13 +327,14 @@ namespace STranslate.ViewModels
         /// 识别二维码
         /// </summary>
         [RelayCommand]
-        private void QRCode(BitmapSource bs)
+        private void QRCode()
         {
+            if (Bs == null) return;
             var reader = new ZXing.ZKWeb.BarcodeReader();
             reader.Options.CharacterSet = "UTF-8";
             using var stream = new MemoryStream();
             var encoder = new BmpBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(bs));
+            encoder.Frames.Add(BitmapFrame.Create(Bs));
             encoder.Save(stream);
             var map = new System.DrawingCore.Bitmap(stream);
             var readerResult = reader.Decode(map);

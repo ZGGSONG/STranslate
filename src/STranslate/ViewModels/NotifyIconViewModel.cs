@@ -254,6 +254,7 @@ namespace STranslate.ViewModels
                     var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
 
                     Singleton<OCRViewModel>.Instance.GetImg = bs;
+                    Singleton<OCRViewModel>.Instance.Bs = bs.Clone();
 
                     await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(bs);
                 }

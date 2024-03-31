@@ -134,17 +134,15 @@
                                     VerticalAlignment="Bottom"
                                     Orientation="Horizontal">
                             <Button Command="{Binding CopyImgCommand}"
-                                    CommandParameter="{Binding GetImg}"
                                     Content="&#xe692;"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="复制图片"
-                                    Visibility="{Binding GetImg, Converter={StaticResource VisibilityConverter}}" />
+                                    Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                             <Button Command="{Binding SaveImgCommand}"
-                                    CommandParameter="{Binding GetImg}"
                                     Content="&#xe63b;"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="保存图片"
-                                    Visibility="{Binding GetImg, Converter={StaticResource VisibilityConverter}}" />
+                                    Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -250,13 +248,11 @@
                     Margin="20,0,10,10"
                     HorizontalAlignment="Left"
                     Command="{Binding RecertificationCommand}"
-                    CommandParameter="{Binding GetImg}"
                     Content="识别" />
             <Button Grid.Column="1"
                     Margin="90,0,10,10"
                     HorizontalAlignment="Left"
                     Command="{Binding QRCodeCommand}"
-                    CommandParameter="{Binding GetImg}"
                     Content="二维码" />
             <Button Grid.Column="1"
                     Margin="10,0,20,10"
