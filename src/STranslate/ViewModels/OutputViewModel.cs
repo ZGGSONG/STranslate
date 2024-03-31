@@ -154,6 +154,11 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void CloseService(ITranslator param)
         {
+            if (Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).Count() < 2)
+            {
+                ToastHelper.Show("至少保留一个服务", WindowType.Main);
+                return;
+            }
             param.IsEnabled = false;
 
             Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);

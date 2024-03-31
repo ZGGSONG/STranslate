@@ -215,8 +215,10 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private async Task OCRAsync(object obj)
+        private void OCR(object obj)
         {
+            if (!CanOpenScreenshot) return;
+
             if (obj == null)
             {
                 goto Last;
@@ -227,7 +229,7 @@ namespace STranslate.ViewModels
                 HideMainView();
             }
 
-            await Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
+            Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
 
             return;
 
@@ -241,7 +243,7 @@ namespace STranslate.ViewModels
             ShowAndActive(view);
 
             view.BitmapCallback += (
-                bitmap =>
+                async bitmap =>
                 {
                     //显示OCR窗口
                     OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
@@ -253,7 +255,7 @@ namespace STranslate.ViewModels
 
                     Singleton<OCRViewModel>.Instance.GetImg = bs;
 
-                    Singleton<OCRViewModel>.Instance.RecertificationCommand.Execute(bs);
+                    await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(bs);
                 }
             );
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
