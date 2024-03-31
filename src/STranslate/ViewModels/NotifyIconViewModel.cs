@@ -169,6 +169,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void QRCode(object obj)
         {
+            if (!CanOpenScreenshot) return;
+
             if (obj is null)
             {
                 goto Last;
@@ -208,6 +210,8 @@ namespace STranslate.ViewModels
                     Singleton<OCRViewModel>.Instance.QRCodeCommand.Execute(bs);
                 }
             );
+            view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+            view.Execute();
         }
 
         [RelayCommand]
@@ -252,11 +256,15 @@ namespace STranslate.ViewModels
                     Singleton<OCRViewModel>.Instance.RecertificationCommand.Execute(bs);
                 }
             );
+            view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+            view.Execute();
         }
 
         [RelayCommand]
         private void SilentOCR(object? obj)
         {
+            if (!CanOpenScreenshot) return;
+
             if (obj == null)
             {
                 goto Last;
@@ -305,11 +313,15 @@ namespace STranslate.ViewModels
                     }
                 }
             );
+            view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+            view.Execute();
         }
 
         [RelayCommand]
         private void ScreenShotTranslate(object obj)
         {
+            if (!CanOpenScreenshot) return;
+
             if (obj == null)
             {
                 goto Last;
@@ -332,7 +344,6 @@ namespace STranslate.ViewModels
         {
             ScreenshotView view = new();
             ShowAndActive(view);
-
             view.BitmapCallback += (
                 async bitmap =>
                 {
@@ -375,7 +386,14 @@ namespace STranslate.ViewModels
                     }
                 }
             );
+            view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+            view.Execute();
         }
+
+        /// <summary>
+        /// 是否可以调用截图View
+        /// </summary>
+        public bool CanOpenScreenshot { get; set; } = true;
 
         /// <summary>
         /// 隐藏主窗口

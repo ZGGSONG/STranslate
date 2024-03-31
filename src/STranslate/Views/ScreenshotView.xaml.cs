@@ -15,7 +15,11 @@ namespace STranslate.Views
         public ScreenshotView()
         {
             InitializeComponent();
+        }
 
+        public void Execute()
+        {
+            OnViewVisibilityChanged?.Invoke(false);
             _rectangle = new();
             var ms = System.Windows.Forms.Control.MousePosition;
             var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(screen => screen.Bounds.Contains(new Point(ms.X, ms.Y)));
@@ -72,6 +76,7 @@ namespace STranslate.Views
             if (_bitmap != null)
                 g.DrawImage(_bitmap, new Rectangle(0, 0, width, height), new Rectangle(x, y, width, height), GraphicsUnit.Pixel);
 
+            OnViewVisibilityChanged?.Invoke(true);
             Close();
 
             BitmapCallback?.Invoke(bmpOut);
@@ -114,6 +119,7 @@ namespace STranslate.Views
 
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            OnViewVisibilityChanged?.Invoke(true);
             Close();
         }
 
@@ -121,6 +127,7 @@ namespace STranslate.Views
         {
             if (e.Key == Key.Escape || e.Key == Key.Enter)
             {
+                OnViewVisibilityChanged?.Invoke(true);
                 Close();
             }
         }
@@ -130,7 +137,8 @@ namespace STranslate.Views
             MemoUtil.FlushMemory();
         }
 
-        public Action<Bitmap>? BitmapCallback;
+        public event Action<bool>? OnViewVisibilityChanged;
+        public event Action<Bitmap>? BitmapCallback;
         private Rect _rectangle; //保存的矩形
         private Point _startPoint; //鼠标按下的点
         private bool _isMouseDown; //鼠标是否被按下
