@@ -31,8 +31,7 @@ namespace STranslate.ViewModels.Preference
             await ActivedTTS.SpeakTextAsync(content, token);
         }
 
-        [ObservableProperty]
-        private ITTS? _activedTTS;
+        private ITTS? ActivedTTS => CurTTSServiceList.FirstOrDefault(x => x.IsEnabled);
 
         public TTSViewModel()
         {
@@ -41,18 +40,7 @@ namespace STranslate.ViewModels.Preference
             TtsServices.Add(new TTSAzure());
             TtsServices.Add(new TTSOffline());
 
-            CurTTSServiceList.OnActiveTTSChanged += CurTTSServiceList_OnActiveTTSChanged;
-
             ResetView();
-        }
-
-        private void CurTTSServiceList_OnActiveTTSChanged(ITTS obj)
-        {
-            if (obj.IsEnabled)
-            {
-                ActivedTTS = obj;
-                LogService.Logger.Debug($"Change Actived TTS Service: {obj.Identify} {obj.Name}");
-            }
         }
 
         /// <summary>

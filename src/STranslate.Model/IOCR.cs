@@ -29,8 +29,6 @@ namespace STranslate.Model
     public class OCRCollection<T> : BindingList<T>
         where T : IOCR
     {
-        public event Action<T>? OnActiveOCRChanged;
-
         protected override void OnListChanged(ListChangedEventArgs e)
         {
             base.OnListChanged(e);
@@ -41,7 +39,6 @@ namespace STranslate.Model
                 T changedItem = this[e.NewIndex];
                 if (changedItem.IsEnabled)
                 {
-                    OnActiveOCRChanged?.Invoke(changedItem);
                     // 设置其他所有项的 IsEnabled 为 false
                     foreach (T item in this)
                     {

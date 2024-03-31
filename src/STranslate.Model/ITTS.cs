@@ -29,8 +29,6 @@ namespace STranslate.Model
     public class TTSCollection<T> : BindingList<T>
         where T : ITTS
     {
-        public event Action<T>? OnActiveTTSChanged;
-
         protected override void OnListChanged(ListChangedEventArgs e)
         {
             base.OnListChanged(e);
@@ -41,7 +39,6 @@ namespace STranslate.Model
                 T changedItem = this[e.NewIndex];
                 if (changedItem.IsEnabled)
                 {
-                    OnActiveTTSChanged?.Invoke(changedItem);
                     // 设置其他所有项的 IsEnabled 为 false
                     foreach (T item in this)
                     {

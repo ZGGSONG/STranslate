@@ -239,12 +239,12 @@
                         Content="剪贴板"
                         ToolTip="剪贴板获取图片文字识别(如果最新一条为图片的话)" />
             </StackPanel>
-            <ComboBox Margin="10,10,20,10"
+            <!--<ComboBox Margin="10,10,20,10"
                       HorizontalAlignment="Right"
                       ItemsSource="{Binding OcrTypes}"
                       SelectedItem="{Binding OcrType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Visibility="Collapsed">
-            </ComboBox>
+            </ComboBox>-->
 
             <Button Grid.Column="1"
                     Margin="20,0,10,10"

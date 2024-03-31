@@ -18,41 +18,36 @@ using STranslate.ViewModels.Preference.OCR;
 
 namespace STranslate.ViewModels.Preference
 {
-    public partial class OCRViewModel : ObservableObject
+    public partial class OCRScvViewModel : ObservableObject
     {
-        public async Task SpeakTextAsync(byte[] bytes, CancellationToken token)
+        /// <summary>
+        /// 执行OCR
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="showErrorToast">当OCR未启用时错误显示的窗口</param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<OcrResult> ExecuteAsync(byte[] bytes, WindowType showErrorToast, CancellationToken? token = null)
         {
             if (ActivedOCR is null)
             {
-                ToastHelper.Show("未启用OCR服务", WindowType.Main);
-                return;
+                ToastHelper.Show("未启用OCR服务", showErrorToast);
+                return await Task.FromResult(OcrResult.Empty);
             }
 
-            await ActivedOCR.ExecuteAsync(bytes, token);
+            return await ActivedOCR.ExecuteAsync(bytes, token ?? CancellationToken.None);
         }
 
-        [ObservableProperty]
-        private IOCR? _activedOCR;
+        private IOCR? ActivedOCR => CurOCRServiceList.FirstOrDefault(x => x.IsEnabled);
 
-        public OCRViewModel()
+        public OCRScvViewModel()
         {
             //添加默认支持OCR
             //TODO: 新OCR服务需要适配
             OcrServices.Add(new PaddleOCR());
             OcrServices.Add(new TencentOCR());
 
-            CurOCRServiceList.OnActiveOCRChanged += CurOCRServiceList_OnActiveOCRChanged;
-
             ResetView();
-        }
-
-        private void CurOCRServiceList_OnActiveOCRChanged(IOCR obj)
-        {
-            if (obj.IsEnabled)
-            {
-                ActivedOCR = obj;
-                LogService.Logger.Debug($"Change Actived OCR Service: {obj.Identify} {obj.Name}");
-            }
         }
 
         /// <summary>

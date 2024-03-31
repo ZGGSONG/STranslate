@@ -6,12 +6,14 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
+using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -166,7 +168,7 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void Drop(DragEventArgs e)
+        private async Task DropAsync(DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -178,7 +180,7 @@ namespace STranslate.ViewModels
                 // 检查文件类型，确保是图片文件
                 if (BitmapUtil.IsImageFile(filePath))
                 {
-                    ImgFileHandler(filePath);
+                    await ImgFileHandlerAsync(filePath);
                 }
                 else
                 {
@@ -189,7 +191,7 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void Openfile()
+        private async Task OpenfileAsync()
         {
             var openfileDialog = new OpenFileDialog()
             {
@@ -199,7 +201,7 @@ namespace STranslate.ViewModels
             };
             if (openfileDialog.ShowDialog() == true)
             {
-                ImgFileHandler(openfileDialog.FileName);
+                await ImgFileHandlerAsync(openfileDialog.FileName);
             }
         }
 
@@ -216,7 +218,7 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void ClipboardImg()
+        private async Task ClipboardImgAsync()
         {
             var img = Clipboard.GetImage();
             if (img != null)
@@ -226,7 +228,7 @@ namespace STranslate.ViewModels
                 //TODO: 很奇怪的现象，获取出来直接赋值给前台绑定的Img不显示，转成Byte再转回来就可以显示了
                 GetImg = BitmapUtil.ConvertBytes2BitmapSource(bytes);
 
-                OCRHandler(bytes);
+                await OCRHandler(bytes);
 
                 return;
             }
@@ -238,14 +240,14 @@ namespace STranslate.ViewModels
         /// 重新识别
         /// </summary>
         [RelayCommand]
-        private void Recertification(BitmapSource bs)
+        private async Task RecertificationAsync(BitmapSource bs)
         {
             var bytes = BitmapUtil.ConvertBitmapSource2Bytes(bs);
 
-            OCRHandler(bytes);
+            await OCRHandler(bytes);
         }
 
-        private void ImgFileHandler(string file)
+        private async Task ImgFileHandlerAsync(string file)
         {
             using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
             var bytes = new byte[fs.Length];
@@ -253,46 +255,34 @@ namespace STranslate.ViewModels
 
             GetImg = BitmapUtil.ConvertBytes2BitmapSource(bytes);
 
-            OCRHandler(bytes);
+            await OCRHandler(bytes);
         }
 
-        private void OCRHandler(byte[] bytes)
+        private async Task OCRHandler(byte[] bytes)
         {
-            //ToastHelper.Show("识别中...", WindowType.OCR);
-            string getText = "";
-
-            Thread thread = new Thread(() =>
+            try
             {
-                CommonUtil.InvokeOnUIThread(() => GetContent = "识别中...");
-                try
-                {
-                    getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
+                //清空
+                GetContent = "";
+                ToastHelper.Show("识别中...", WindowType.OCR);
+                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR);
+                var getText = ocrResult.Text;
+                //取词前移除换行
+                getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
+                        ? StringUtil.RemoveLineBreaks(getText)
+                        : getText;
+                //OCR后自动复制
+                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
+                    Clipboard.SetDataObject(getText, true);
 
-                    //取词前移除换行
-                    getText =
-                        Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
-                            ? StringUtil.RemoveLineBreaks(getText)
-                            : getText;
-
-                    //OCR后自动复制
-                    if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
-                        Clipboard.SetDataObject(getText, true);
-                }
-                catch (Exception ex)
-                {
-                    getText = ex.Message;
-                    LogService.Logger.Error("OCR失败", ex);
-                }
-                CommonUtil.InvokeOnUIThread(() =>
-                {
-                    GetContent = getText;
-
-                    //ToastHelper.Show("识别成功", WindowType.OCR);
-                });
-            });
-            thread.IsBackground = true;
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
+                GetContent = getText;
+                ToastHelper.Show("识别成功", WindowType.OCR);
+            }
+            catch (Exception ex)
+            {
+                GetContent = ex.Message;
+                LogService.Logger.Error("OCR失败", ex);
+            }
         }
 
         /// <summary>

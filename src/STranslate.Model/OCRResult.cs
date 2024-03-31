@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace STranslate.Model
@@ -7,17 +8,18 @@ namespace STranslate.Model
     {
         public List<OcrContent> OcrContents { get; set; } = [];
 
-        public string Text => ToString();
+        /// <summary>
+        /// 精简版文本通过换行组合
+        /// </summary>
+        public string Text => string.Join(Environment.NewLine, OcrContents.Select((OcrContent x) => x.Text).ToArray()).Trim();
 
-        public override string ToString()
-        {
-            if (OcrContents == null)
-            {
-                return "";
-            }
+        /// <summary>
+        /// 重写ToString方法,以空格组合结果
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => string.Join(" ", OcrContents.Select((OcrContent x) => x.Text).ToArray()).Trim();
 
-            return string.Join("", OcrContents.Select((OcrContent x) => x.Text).ToArray());
-        }
+        public static OcrResult Empty => new();
     }
 
     public class OcrContent

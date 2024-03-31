@@ -4,10 +4,12 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
+using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -177,7 +179,7 @@ namespace STranslate.ViewModels
                 HideMainView();
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
+            Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
 
             return;
 
@@ -209,7 +211,7 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void OCR(object obj)
+        private async Task OCRAsync(object obj)
         {
             if (obj == null)
             {
@@ -221,7 +223,7 @@ namespace STranslate.ViewModels
                 HideMainView();
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
+            await Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
 
             return;
 
@@ -265,7 +267,7 @@ namespace STranslate.ViewModels
                 HideMainView();
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
+            Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
 
             return;
 
@@ -279,12 +281,13 @@ namespace STranslate.ViewModels
             ShowAndActive(view);
 
             view.BitmapCallback += (
-                bitmap =>
+                async bitmap =>
                 {
                     try
                     {
                         var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
-                        var getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
+                        var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
+                        var getText = ocrResult.Text;
 
                         //取词前移除换行
                         getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
@@ -317,7 +320,7 @@ namespace STranslate.ViewModels
                 HideMainView();
             }
 
-            System.Threading.Tasks.Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
+            Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
 
             return;
 
@@ -331,10 +334,8 @@ namespace STranslate.ViewModels
             ShowAndActive(view);
 
             view.BitmapCallback += (
-                bitmap =>
+                async bitmap =>
                 {
-                    //var getText = TesseractHelper.TesseractOCR(bitmap, OcrType).Trim();
-
                     //如果重复执行先取消上一步操作
                     Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
                     Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
@@ -355,36 +356,23 @@ namespace STranslate.ViewModels
                     ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
                     var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
-
-                    Thread thread = new Thread(() =>
+                    try
                     {
-                        string getText = "";
-                        try
-                        {
-                            getText = Singleton<PaddleOCRHelper>.Instance.Execute(bytes).Trim();
-
-                            //取词前移除换行
-                            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
-                                getText = StringUtil.RemoveLineBreaks(getText);
-
-                            //OCR后自动复制
-                            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
-                                Clipboard.SetDataObject(getText, true);
-
-                            CommonUtil.InvokeOnUIThread(() =>
-                            {
-                                Singleton<InputViewModel>.Instance.InputContent += getText;
-                                Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            CommonUtil.InvokeOnUIThread(() => Singleton<InputViewModel>.Instance.InputContent = ex.Message);
-                        }
-                    });
-                    thread.IsBackground = true;
-                    thread.SetApartmentState(ApartmentState.STA);
-                    thread.Start();
+                        var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
+                        var getText = ocrResult.Text;
+                        //取词前移除换行
+                        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
+                            getText = StringUtil.RemoveLineBreaks(getText);
+                        //OCR后自动复制
+                        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
+                            Clipboard.SetDataObject(getText, true);
+                        Singleton<InputViewModel>.Instance.InputContent += getText;
+                        Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        Singleton<InputViewModel>.Instance.InputContent = ex.Message;
+                    }
                 }
             );
         }
@@ -499,7 +487,9 @@ namespace STranslate.ViewModels
                 if (_clipboardHelper.Start(out string error))
                 {
                     // 清除热键复制标记
-                    Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
+                    Singleton<MainViewModel>
+                        .Instance
+                        .IsHotkeyCopy = false;
                     _clipboardHelper.OnClipboardChanged += (c) => ClipboardChanged(c, view);
 
                     ShowBalloonTip("已启用监听剪贴板");
@@ -511,8 +501,8 @@ namespace STranslate.ViewModels
             }
             else
             {
-                if (_clipboardHelper == null) return;
-
+                if (_clipboardHelper == null)
+                    return;
                 else if (_clipboardHelper.Stop(out string error))
                 {
                     _clipboardHelper.OnClipboardChanged -= (c) => ClipboardChanged(c, view);

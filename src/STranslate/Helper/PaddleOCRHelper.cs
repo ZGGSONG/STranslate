@@ -71,6 +71,7 @@ using System.Text;
 
 namespace STranslate.Helper
 {
+    [Obsolete("使用OCRSvcViewModel管理")]
     public class PaddleOCRHelper : IDisposable
     {
         private readonly Architecture _architecture;

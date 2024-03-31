@@ -6,12 +6,12 @@ using System.Windows.Media;
 
 namespace STranslate.Views.Preference
 {
-    public partial class OCRPage : UserControl
+    public partial class OCRScvPage : UserControl
     {
-        public OCRPage()
+        public OCRScvPage()
         {
             InitializeComponent();
-            DataContext = Singleton<OCRViewModel>.Instance;
+            DataContext = Singleton<OCRScvViewModel>.Instance;
         }
 
         public static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
