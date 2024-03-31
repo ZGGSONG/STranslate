@@ -135,6 +135,44 @@ namespace STranslate.Util
         }
 
         /// <summary>
+        /// Tencent OCR
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="req"></param>
+        /// <param name="headers"></param>
+        /// <param name="token"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, string? req, Dictionary<string, string> headers, CancellationToken token, int timeout = 10)
+        {
+            using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
+            
+            using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
+
+            if (!string.IsNullOrEmpty(req))
+            {
+                request.Content = new StringContent(req, Encoding.UTF8, "application/json");
+            }
+
+            // 添加请求头
+            foreach (var header in headers)
+            {
+                if(header.Key == "Authorization")
+                    request.Headers.TryAddWithoutValidation("Authorization", header.Value);
+                else
+                    request.Headers.Add(header.Key, header.Value);
+            }
+
+            // Send the request and get response.
+            HttpResponseMessage response = await client.SendAsync(request, token);
+
+            // Read response as a string.
+            string result = await response.Content.ReadAsStringAsync(token);
+
+            return result;
+        }
+
+        /// <summary>
         /// 异步Post请求(Authorization) 回调返回流数据结果
         /// </summary>
         /// <param name="uri"></param>

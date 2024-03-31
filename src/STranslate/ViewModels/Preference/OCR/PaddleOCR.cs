@@ -125,9 +125,10 @@ namespace STranslate.ViewModels.Preference.OCR
 
         #region Interface Implementation
 
-        public Task<string> ExecuteAsync(byte[] bytes, CancellationToken token)
+        public Task<OcrResult> ExecuteAsync(byte[] bytes, CancellationToken token)
         {
-            var tcs = new TaskCompletionSource<string>();
+            var result = new OcrResult();
+            var tcs = new TaskCompletionSource<OcrResult>();
 
             // 新建线程执行OCR操作
             var thread = new Thread(() =>
@@ -141,16 +142,20 @@ namespace STranslate.ViewModels.Preference.OCR
                         throw new NotSupportedException($"CPU架构不支持({_architecture})");
                     }
 
-                    var sb = new StringBuilder();
                     var ocrResult = _paddleOCREngine.DetectText(bytes);
 
                     // 在耗时操作后再次检查取消标志
                     token.ThrowIfCancellationRequested();
 
-                    ocrResult?.TextBlocks.ForEach(x => sb.AppendLine(x.Text));
+                    ocrResult?.TextBlocks.ForEach(tb =>
+                    {
+                        var ocrContent = new OcrContent(tb.Text);
+                        tb.BoxPoints.ForEach(bp => ocrContent.BoxPoints.Add(new BoxPoint(bp.X, bp.Y)));
+                        result.OcrContents.Add(ocrContent);
+                    });
 
                     // 设置任务结果
-                    tcs.SetResult(sb.ToString());
+                    tcs.SetResult(result);
                 }
                 catch (OperationCanceledException)
                 {

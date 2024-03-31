@@ -21,7 +21,7 @@ namespace STranslate.Model
 
         string AppKey { get; set; }
 
-        Task<string> ExecuteAsync(byte[] bytes, CancellationToken token);
+        Task<OcrResult> ExecuteAsync(byte[] bytes, CancellationToken token);
 
         IOCR Clone();
     }

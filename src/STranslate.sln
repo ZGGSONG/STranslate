@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Log", "STranslat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Updater", "STranslate.Updater\STranslate.Updater.csproj", "{409A6A79-30E0-42EF-B4AF-C409980FC4AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STranslate.Tests", "STranslate.Tests\STranslate.Tests.csproj", "{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{409A6A79-30E0-42EF-B4AF-C409980FC4AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{409A6A79-30E0-42EF-B4AF-C409980FC4AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{409A6A79-30E0-42EF-B4AF-C409980FC4AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
