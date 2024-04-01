@@ -4,6 +4,7 @@
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
              d:DataContext="{d:DesignInstance Type=vm:CommonViewModel}"
              d:DesignHeight="450"
@@ -88,8 +89,8 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标左键双击头盘程序功能选择" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
-                                          DisplayMemberPath="Key"
-                                          ItemsSource="{Binding FuncDict}"
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:DoubleTapFuncEnum}}}"
                                           SelectedValue="{Binding DoubleTapTrayFunc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="Value" />
                             </DockPanel>
@@ -104,8 +105,10 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置网络代理方式&#13;本地地址直连" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
-                                          ItemsSource="{Binding ProxyMethodList}"
-                                          SelectedValue="{Binding ProxyMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                          DisplayMemberPath="Value"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:ProxyMethodEnum}}}"
+                                          SelectedValue="{Binding ProxyMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
                             </DockPanel>
 
                             <!-- // 代理配置 // -->
@@ -191,8 +194,10 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、自动主题切换" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
-                                          ItemsSource="{Binding ThemeList}"
-                                          SelectedValue="{Binding ThemeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:ThemeType}}}"
+                                          SelectedValue="{Binding ThemeType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -209,8 +214,10 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面宽度设置[立即生效]" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
-                                          ItemsSource="{Binding WidthList}"
-                                          SelectedValue="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:WidthEnum}}}"
+                                          SelectedValue="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -218,8 +225,10 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置[立即生效]" />
                                 <ComboBox Height="30"
                                           HorizontalAlignment="Right"
-                                          ItemsSource="{Binding MaxHeightList}"
-                                          SelectedValue="{Binding MaxHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:MaxHeight}}}"
+                                          SelectedValue="{Binding MaxHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -274,7 +283,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowPreference}" />
                             </DockPanel>
-                            
+
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示服务配置图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示服务配置图标" />

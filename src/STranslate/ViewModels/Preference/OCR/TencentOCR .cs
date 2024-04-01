@@ -134,9 +134,8 @@ namespace STranslate.ViewModels.Preference.OCR
             var secretKey = AppKey;
             var token = "";
             var version = "2018-11-19";
-            var action = OcrAction.ToString();//普通OCR
-            //var action = "GeneralAccurateOCR";//高精度版OCR
-            var region = "ap-shanghai";
+            var action = OcrAction.ToString();
+            var region = TencentRegionEnum.ap_shanghai.ToString().Replace("_", "-");
 
             var base64Str = Convert.ToBase64String(bytes);
             var body = "{\"ImageBase64\":\"" + base64Str + "\"}";

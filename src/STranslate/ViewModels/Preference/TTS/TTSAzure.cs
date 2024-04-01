@@ -105,46 +105,11 @@ namespace STranslate.ViewModels.Preference.TTS
 
         #endregion Show/Hide Encrypt Info
 
+        /// <summary>
+        /// 声音名称
+        /// </summary>
         [ObservableProperty]
-        private string _voiceName = "zh-CN-XiaohanNeural";
-
-        [JsonIgnore]
-        public List<string> VoiceList { get; set; } =
-        [
-            "zh-CN-liaoning-XiaobeiNeural",
-            "zh-CN-liaoning-YunbiaoNeural",
-            "zh-CN-henan-YundengNeural",
-            "zh-CN-shaanxi-XiaoniNeural",
-            "zh-CN-shandong-YunxiangNeural",
-            "zh-CN-XiaoxiaoNeural",
-            "zh-CN-YunxiNeural",
-            "zh-CN-YunjianNeural",
-            "zh-CN-XiaoyiNeural",
-            "zh-CN-YunyangNeural",
-            "zh-CN-XiaochenNeural",
-            "zh-CN-XiaohanNeural",
-            "zh-CN-XiaomengNeural",
-            "zh-CN-XiaomoNeural",
-            "zh-CN-XiaoqiuNeural",
-            "zh-CN-XiaoruiNeural",
-            "zh-CN-XiaoshuangNeural",
-            "zh-CN-XiaoxuanNeural",
-            "zh-CN-XiaoyanNeural",
-            "zh-CN-XiaoyouNeural",
-            "zh-CN-XiaozhenNeural",
-            "zh-CN-YunfengNeural",
-            "zh-CN-YunhaoNeural",
-            "zh-CN-YunxiaNeural",
-            "zh-CN-YunyeNeural",
-            "zh-CN-YunzeNeural",
-            "zh-CN-XiaochenMultilingualNeural",
-            "zh-CN-XiaorouNeural",
-            "zh-CN-XiaoxiaoDialectsNeural",
-            "zh-CN-XiaoxiaoMultilingualNeural",
-            "zh-CN-XiaoyuMultilingualNeural",
-            "zh-CN-YunjieNeural",
-            "zh-CN-sichuan-YunxiNeural",
-        ];
+        private AzureVoiceEnum _voice;
 
         public async Task SpeakTextAsync(string text, CancellationToken token)
         {
@@ -153,7 +118,7 @@ namespace STranslate.ViewModels.Preference.TTS
             var speechConfig = SpeechConfig.FromSubscription(AppKey, AppID);
 
             // The language of the voice that speaks.
-            speechConfig.SpeechSynthesisVoiceName = VoiceName;
+            speechConfig.SpeechSynthesisVoiceName = Voice.ToString().Replace("_", "-");
 
             using var speechSynthesizer = new SpeechSynthesizer(speechConfig);
             _ = Task.Run(async () =>
@@ -214,8 +179,7 @@ namespace STranslate.ViewModels.Preference.TTS
                 AppKey = this.AppKey,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
-                VoiceName = this.VoiceName,
-                VoiceList = this.VoiceList,
+                Voice = this.Voice,
             };
         }
     }

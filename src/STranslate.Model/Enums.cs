@@ -271,56 +271,40 @@ namespace STranslate.Model
     /// </summary>
     public enum TencentRegionEnum
     {
-        [Description("ap-bangkok")]
-        亚太东南_曼谷,
-
-        [Description("ap-beijing")]
-        华北地区_北京,
-
-        [Description("ap-chengdu")]
-        西南地区_成都,
-
-        [Description("ap-chongqing")]
-        西南地区_重庆,
-
-        [Description("ap-guangzhou")]
-        华南地区_广州,
-
-        [Description("ap-hongkong")]
-        港澳台地区_中国香港,
-
-        [Description("ap-mumbai")]
-        亚太南部_孟买,
-
-        [Description("ap-seoul")]
-        亚太东北_首尔,
-
-        [Description("ap-shanghai")]
-        华东地区_上海,
-
-        [Description("ap-shanghai-fsi")]
-        华东地区_上海金融,
-
-        [Description("ap-shenzhen-fsi")]
-        华南地区_深圳金融,
-
-        [Description("ap-singapore")]
-        亚太东南_新加坡,
-
-        [Description("ap-tokyo")]
-        亚太东北_东京,
-
-        [Description("eu-frankfurt")]
-        欧洲地区_法兰克福,
-
-        [Description("na-ashburn")]
-        美国东部_弗吉尼亚,
-
-        [Description("na-siliconvalley")]
-        美国西部_硅谷,
-
-        [Description("na-toronto")]
-        北美地区_多伦多,
+        [Description("亚太东南_曼谷")]
+        ap_bangkok,
+        [Description("华北地区_北京")]
+        ap_beijing,
+        [Description("西南地区_成都")]
+        ap_chengdu,
+        [Description("西南地区_重庆")]
+        ap_chongqing,
+        [Description("华南地区_广州")]
+        ap_guangzhou,
+        [Description("港澳台地区_中国香港")]
+        ap_hongkong,
+        [Description("亚太南部_孟买")]
+        ap_mumbai,
+        [Description("亚太东北_首尔")]
+        ap_seoul,
+        [Description("华东地区_上海")]
+        ap_shanghai,
+        [Description("华东地区_上海金融")]
+        ap_shanghai_fsi,
+        [Description("华南地区_深圳金融")]
+        ap_shenzhen_fsi,
+        [Description("亚太东南_新加坡")]
+        ap_singapore,
+        [Description("亚太东北_东京")]
+        ap_tokyo,
+        [Description("欧洲地区_法兰克福")]
+        eu_frankfurt,
+        [Description("美国东部_弗吉尼亚")]
+        na_ashburn,
+        [Description("美国西部_硅谷")]
+        na_siliconvalley,
+        [Description("北美地区_多伦多")]
+        na_toronto,
     }
 
     /// <summary>
@@ -394,8 +378,11 @@ namespace STranslate.Model
     /// </summary>
     public enum ThemeType
     {
+        [Description("明亮主题")]
         Light,
+        [Description("黑暗主题")]
         Dark,
+        [Description("跟随系统")]
         Auto,
     }
 
@@ -419,6 +406,73 @@ namespace STranslate.Model
         GeneralBasicOCR,//普通精度OCR
         [Description("通用印刷体识别（高精度版）")]
         GeneralAccurateOCR,//高精度OCR
+    }
+
+    /// <summary>
+    /// Azure TTS 语音
+    /// </summary>
+    public enum AzureVoiceEnum
+    {
+        [Description("晓北-女-东北官话")]
+        zh_CN_liaoning_XiaobeiNeural,
+        [Description("云登-男-中原官话河南")]
+        zh_CN_henan_YundengNeural,
+        [Description("晓妮-女-中原官话陕西")]
+        zh_CN_shaanxi_XiaoniNeural,
+        [Description("云翔-男-冀鲁官话")]
+        zh_CN_shandong_YunxiangNeural,
+        [Description("晓晓-女-普通话")]
+        zh_CN_XiaoxiaoNeural,
+        [Description("云希-男-普通话")]
+        zh_CN_YunxiNeural,
+        [Description("云建-男-普通话")]
+        zh_CN_YunjianNeural,
+        [Description("晓伊-女-普通话")]
+        zh_CN_XiaoyiNeural,
+        [Description("云扬-男-普通话")]
+        zh_CN_YunyangNeural,
+        [Description("晓辰-男-普通话")]
+        zh_CN_XiaochenNeural,
+        [Description("晓涵-男-普通话")]
+        zh_CN_XiaohanNeural,
+        [Description("晓梦-女-普通话")]
+        zh_CN_XiaomengNeural,
+        [Description("晓墨-女-普通话")]
+        zh_CN_XiaomoNeural,
+        [Description("晓秋-女-普通话")]
+        zh_CN_XiaoqiuNeural,
+        [Description("晓睿-女-普通话")]
+        zh_CN_XiaoruiNeural,
+        [Description("晓双-女-普通话")]
+        zh_CN_XiaoshuangNeural,
+        [Description("晓颜-女-普通话")]
+        zh_CN_XiaoyanNeural,
+        [Description("晓悠-女-普通话")]
+        zh_CN_XiaoyouNeural,
+        [Description("晓甄-女-普通话")]
+        zh_CN_XiaozhenNeural,
+        [Description("云枫-男-普通话")]
+        zh_CN_YunfengNeural,
+        [Description("云皓-男-普通话")]
+        zh_CN_YunhaoNeural,
+        [Description("云夏-男-普通话")]
+        zh_CN_YunxiaNeural,
+        [Description("云野-男-普通话")]
+        zh_CN_YunyeNeural,
+        [Description("云泽-男-普通话")]
+        zh_CN_YunzeNeural,
+        [Description("小晨-女-普通话")]
+        zh_CN_XiaochenMultilingualNeural,
+        [Description("晓柔-女-普通话")]
+        zh_CN_XiaorouNeural,
+        [Description("晓晓方言-女-普通话")]
+        zh_CN_XiaoxiaoDialectsNeural,
+        [Description("云杰-男-普通话")]
+        zh_CN_YunjieNeural,
+        [Description("晓萱-女-普通话")]
+        zh_CN_XiaoxuanNeural,
+        [Description("云希-男-西南官话")]
+        zh_CN_sichuan_YunxiNeural,
     }
 
     /// <summary>

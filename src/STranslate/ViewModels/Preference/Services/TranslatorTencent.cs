@@ -102,10 +102,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        private TencentRegionEnum _region = TencentRegionEnum.华东地区_上海;
-
-        [JsonIgnore]
-        public List<TencentRegionEnum> Resiongs { get; set; } = Enum.GetValues(typeof(TencentRegionEnum)).OfType<TencentRegionEnum>().ToList();
+        private TencentRegionEnum _region = TencentRegionEnum.ap_shanghai;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -160,11 +157,14 @@ namespace STranslate.ViewModels.Preference.Services
                 // 实例化一个client选项，可选的，没有特殊需求可以跳过
                 ClientProfile clientProfile = new();
                 // 实例化一个http选项，可选的，没有特殊需求可以跳过
-                HttpProfile httpProfile = new() { Endpoint = ("tmt.tencentcloudapi.com") };
+                var url = Url.Replace("https://", "");
+                HttpProfile httpProfile = new() { Endpoint = (url) };
                 clientProfile.HttpProfile = httpProfile;
 
+                //Region
+                var region = Region.ToString().Replace("_", "-");
                 // 实例化要请求产品的client对象,clientProfile是可选的
-                TmtClient client = new(cred, Region.GetDescription(), clientProfile);
+                TmtClient client = new(cred, region, clientProfile);
                 // 实例化一个请求对象,每个接口都会对应一个request对象
                 TextTranslateRequest req =
                     new()
@@ -205,8 +205,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AppKey = this.AppKey,
                 AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
-                Region = TencentRegionEnum.华东地区_上海,
-                Resiongs = this.Resiongs,
+                Region = TencentRegionEnum.ap_shanghai,
                 ProjectId = this.ProjectId,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,

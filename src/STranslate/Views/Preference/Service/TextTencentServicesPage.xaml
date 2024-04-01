@@ -4,6 +4,7 @@
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Services"
              d:DataContext="{d:DesignInstance Type=vm:TranslatorTencent}"
              d:DesignHeight="450"
@@ -80,8 +81,10 @@
                           MinWidth="120"
                           HorizontalAlignment="Left"
                           BorderThickness="1"
-                          ItemsSource="{Binding Resiongs}"
-                          SelectedValue="{Binding Region}" />
+                          DisplayMemberPath="Description"
+                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:TencentRegionEnum}}}"
+                          SelectedValue="{Binding Region, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          SelectedValuePath="Value" />
             </Grid>
 
             <Grid Margin="0,10">

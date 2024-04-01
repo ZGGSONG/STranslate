@@ -109,16 +109,6 @@ namespace STranslate.ViewModels.Preference
                 GetFontFamilys.Insert(0, ConstStr.DEFAULTFONTNAME);
             }
 
-            // 加载最大高度集合
-            MaxHeightList = EnumExtensions.GetEnumList<MaxHeight>();
-            WidthList = EnumExtensions.GetEnumList<WidthEnum>();
-
-            // 加载主题集合
-            ThemeList = EnumExtensions.GetEnumList<ThemeType>();
-
-            // 代理方式集合
-            ProxyMethodList = EnumExtensions.GetEnumList<ProxyMethodEnum>();
-
             // 加载历史记录类型
             LoadHistorySizeType();
         }
@@ -219,8 +209,6 @@ namespace STranslate.ViewModels.Preference
         [ObservableProperty]
         private double autoScale = curConfig?.AutoScale ?? 0.8;
 
-        public List<ThemeType> ThemeList { get; set; }
-
         /// <summary>
         /// 主题类型
         /// </summary>
@@ -244,11 +232,6 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private bool isRemoveLineBreakGettingWords = curConfig?.IsRemoveLineBreakGettingWords ?? false;
-
-        public Dictionary<string, DoubleTapFuncEnum> FuncDict
-        {
-            get => CommonUtil.GetEnumList<DoubleTapFuncEnum>();
-        }
 
         [ObservableProperty]
         private DoubleTapFuncEnum doubleTapTrayFunc = curConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
@@ -412,22 +395,6 @@ namespace STranslate.ViewModels.Preference
                 }
             }
         }
-
-        /// <summary>
-        /// 最大高度列表
-        /// </summary>
-        public List<MaxHeight> MaxHeightList { get; set; }
-
-        /// <summary>
-        /// 宽度列表
-        /// </summary>
-        public List<WidthEnum> WidthList { get; set; }
-
-        /// <summary>
-        /// 代理方式列表
-        /// </summary>
-        [ObservableProperty]
-        private List<ProxyMethodEnum> _proxyMethodList;
 
         /// <summary>
         /// 所选代理方式

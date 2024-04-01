@@ -41,7 +41,7 @@
                 <ComboBox Grid.Column="1"
                           HorizontalAlignment="Left"
                           BorderThickness="1"
-                          SelectedValue="{Binding OcrAction}"
+                          SelectedValue="{Binding OcrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           DisplayMemberPath="Description"
                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:TencentOCRAction}}}"
                           SelectedValuePath="Value">
