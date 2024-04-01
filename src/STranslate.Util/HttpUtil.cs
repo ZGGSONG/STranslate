@@ -226,7 +226,7 @@ namespace STranslate.Util
         /// <param name="token"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static async Task<string> PostAsync(string url, Dictionary<string, string[]> headers, Dictionary<string, string[]> parameters, CancellationToken token, int timeout = 10)
+        public static async Task<string> PostAsync(string url, Dictionary<string, string[]>? headers, Dictionary<string, string[]> parameters, CancellationToken token, int timeout = 10)
         {
             using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
 

@@ -24,7 +24,15 @@ namespace STranslate.Style.Converters
                     _ => official,
                 };
             }
-            if (value is TTSType tType)
+            else if (value is OCRType oType)
+            {
+                return oType switch
+                {
+                    OCRType.PaddleOCR => selfBuild,
+                    _ => official,
+                };
+            }
+            else if (value is TTSType tType)
             {
                 return tType switch
                 {

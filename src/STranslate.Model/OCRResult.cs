@@ -20,6 +20,12 @@ namespace STranslate.Model
         public override string ToString() => string.Join(" ", OcrContents.Select((OcrContent x) => x.Text).ToArray()).Trim();
 
         public static OcrResult Empty => new();
+
+        public bool Success { get; set; } = true;
+
+        public string ErrorMsg { get; set; } = string.Empty;
+
+        public static OcrResult Fail(string msg) => new() { Success = false, ErrorMsg = msg };
     }
 
     public class OcrContent

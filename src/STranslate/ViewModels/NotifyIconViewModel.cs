@@ -296,9 +296,15 @@ namespace STranslate.ViewModels
                 {
                     try
                     {
+                        string getText = "";
                         var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
                         var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
-                        var getText = ocrResult.Text;
+                        //判断结果
+                        if (!ocrResult.Success)
+                        {
+                            throw new Exception(ocrResult.ErrorMsg);
+                        }
+                        getText = ocrResult.Text;
 
                         //取词前移除换行
                         getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
@@ -372,8 +378,14 @@ namespace STranslate.ViewModels
                     var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
                     try
                     {
+                        string getText = "";
                         var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
-                        var getText = ocrResult.Text;
+                        //判断结果
+                        if (!ocrResult.Success)
+                        {
+                            throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
+                        }
+                        getText = ocrResult.Text;
                         //取词前移除换行
                         if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
                             getText = StringUtil.RemoveLineBreaks(getText);

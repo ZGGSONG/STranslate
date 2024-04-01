@@ -279,6 +279,13 @@ namespace STranslate.ViewModels
                 GetContent = "";
                 ToastHelper.Show("识别中...", WindowType.OCR);
                 var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR);
+                //判断结果
+                if (!ocrResult.Success)
+                {
+                    GetContent = "OCR失败: " + ocrResult.ErrorMsg;
+                    return;
+                }
+
                 var getText = ocrResult.Text;
                 //更新图片
                 // 创建一个WritableBitmap，用于绘制

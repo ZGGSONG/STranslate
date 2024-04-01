@@ -127,6 +127,7 @@ namespace STranslate.Model
     {
         PaddleOCR,
         TencentOCR,
+        BaiduOCR,
     }
 
     /// <summary>

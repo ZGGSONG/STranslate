@@ -46,6 +46,7 @@ namespace STranslate.ViewModels.Preference
             //TODO: 新OCR服务需要适配
             OcrServices.Add(new PaddleOCR());
             OcrServices.Add(new TencentOCR());
+            OcrServices.Add(new BaiduOCR());
 
             ResetView();
         }
@@ -103,11 +104,12 @@ namespace STranslate.ViewModels.Preference
                     tmpIndex = SelectedIndex;
 
                 string head = "STranslate.Views.Preference.OCR.";
-                //TODO: 新TTS服务需要适配
+                //TODO: 新OCR服务需要适配
                 var name = ocr.Type switch
                 {
                     OCRType.PaddleOCR => string.Format("{0}PaddleOCRPage", head),
                     OCRType.TencentOCR => string.Format("{0}TencentOCRPage", head),
+                    OCRType.BaiduOCR => string.Format("{0}BaiduOCRPage", head),
                     _ => string.Format("{0}PaddleOCRPage", head)
                 };
 
@@ -131,6 +133,7 @@ namespace STranslate.ViewModels.Preference
                     {
                         PaddleOCR paddleocr => paddleocr.Clone(),
                         TencentOCR tencentocr => tencentocr.Clone(),
+                        BaiduOCR baiduocr => baiduocr.Clone(),
                         _ => throw new InvalidOperationException($"Unsupported ocr type: {ocr.GetType().Name}")
                     }
                 );

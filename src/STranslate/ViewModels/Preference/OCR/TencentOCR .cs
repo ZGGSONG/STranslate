@@ -6,7 +6,6 @@ using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -161,6 +160,9 @@ namespace STranslate.ViewModels.Preference.OCR
 
             // 解析JSON数据
             var parsedData = JsonConvert.DeserializeObject<Root>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+
+            // 判断是否出错
+            if (parsedData.Response.Error != null) return OcrResult.Fail(parsedData.Response.Error.Message);
             // 提取content的值
             var ocrResult = new OcrResult();
             foreach (var item in parsedData.Response.TextDetections)
@@ -293,6 +295,15 @@ namespace STranslate.ViewModels.Preference.OCR
             ///
             /// </summary>
             public List<TextDetectionsItem> TextDetections { get; set; } = [];
+
+            public Error? Error { get; set; }
+        }
+
+        public class Error
+        {
+            public string Code { get; set; } = string.Empty;
+
+            public string Message { get; set; } = string.Empty;
         }
 
         protected class Root
