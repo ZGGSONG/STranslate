@@ -122,10 +122,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        private TencentOCRAction _ocrAction = TencentOCRAction.GeneralBasicOCR;
-
-        [JsonIgnore]
-        public List<TencentOCRAction> OcrActions { get; set; } = Enum.GetValues(typeof(TencentOCRAction)).OfType<TencentOCRAction>().ToList();
+        private TencentOCRAction _ocrAction;
 
         #endregion Properties
 

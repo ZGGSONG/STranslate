@@ -415,7 +415,9 @@ namespace STranslate.Model
     /// </summary>
     public enum TencentOCRAction
     {
+        [Description("通用印刷体识别")]
         GeneralBasicOCR,//普通精度OCR
+        [Description("通用印刷体识别（高精度版）")]
         GeneralAccurateOCR,//高精度OCR
     }
 

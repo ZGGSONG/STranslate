@@ -4,6 +4,7 @@
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
              d:DataContext="{d:DesignInstance Type=vm:TencentOCR}"
              d:DesignHeight="450"
@@ -40,8 +41,11 @@
                 <ComboBox Grid.Column="1"
                           HorizontalAlignment="Left"
                           BorderThickness="1"
-                          ItemsSource="{Binding OcrActions}"
-                          SelectedValue="{Binding OcrAction}" />
+                          SelectedValue="{Binding OcrAction}"
+                          DisplayMemberPath="Description"
+                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:TencentOCRAction}}}"
+                          SelectedValuePath="Value">
+                </ComboBox>
             </Grid>
 
             <Grid Margin="0,10" Visibility="Collapsed">
