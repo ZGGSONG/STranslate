@@ -8,7 +8,7 @@
         xmlns:view="clr-namespace:STranslate.Views"
         xmlns:vm="clr-namespace:STranslate.ViewModels"
         Title="STranslate OCR"
-        Width="900"
+        Width="1000"
         Height="400"
         MinWidth="700"
         MinHeight="300"
@@ -116,19 +116,38 @@
 
                 <!-- // img // -->
                 <Border Margin="10" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
-                    <Grid>
-                        <Image Margin="5,5,5,24"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch"
-                               AllowDrop="True"
-                               Source="{Binding GetImg}"
-                               Stretch="Uniform">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Drop">
-                                    <i:InvokeCommandAction Command="{Binding DropCommand}" PassEventArgsToCommand="True" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Image>
+                    <Grid Name="IMG">
+                        <Grid.Resources>
+                            <TransformGroup x:Key="Imageview">
+                                <ScaleTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Grid.Resources>
+                        <ScrollViewer Margin="5,5,5,24"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Disabled">
+                            <ContentControl MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"
+                                            MouseLeftButtonUp="ContentControl_MouseLeftButtonUp"
+                                            MouseMove="ContentControl_MouseMove"
+                                            MouseWheel="ContentControl_MouseWheel">
+                                <Image Name="ImgCtl"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       AllowDrop="True"
+                                       Cursor="SizeAll"
+                                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                       RenderTransform="{StaticResource Imageview}"
+                                       Source="{Binding GetImg}"
+                                       Stretch="Uniform">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Drop">
+                                            <i:InvokeCommandAction Command="{Binding DropCommand}" PassEventArgsToCommand="True" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Image>
+                            </ContentControl>
+                        </ScrollViewer>
                         <StackPanel Margin="3,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
