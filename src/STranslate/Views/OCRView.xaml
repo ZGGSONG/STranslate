@@ -148,6 +148,12 @@
                                 </Image>
                             </ContentControl>
                         </ScrollViewer>
+                        <TextBlock Name="RateTB"
+                                   Margin="5"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Text="100%"
+                                   Visibility="Collapsed" />
                         <StackPanel Margin="3,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
@@ -255,6 +261,18 @@
                         Command="{Binding ClipboardImgCommand}"
                         Content="剪贴板"
                         ToolTip="剪贴板获取图片文字识别(如果最新一条为图片的话)" />
+
+                <Separator Width="20" Margin="10,0,10,10" Visibility="Collapsed">
+                    <Separator.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </Separator.LayoutTransform>
+                </Separator>
+
+                <Button Margin="10,0,10,10"
+                        Command=""
+                        Content="转换"
+                        ToolTip="原图/标注图转换"
+                        Visibility="Collapsed" />
             </StackPanel>
             <!--<ComboBox Margin="10,10,20,10"
                       HorizontalAlignment="Right"
