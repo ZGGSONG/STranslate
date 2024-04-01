@@ -137,13 +137,13 @@ public class ConfigHelper
     /// <param name="source"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public bool WriteConfig(string source, string target)
+    public bool WriteConfig(LanguageEnum source, LanguageEnum target)
     {
         var isSuccess = false;
         if (CurrentConfig is null)
             return isSuccess;
-        CurrentConfig.SourceLanguage = source;
-        CurrentConfig.TargetLanguage = target;
+        CurrentConfig.SourceLang = source;
+        CurrentConfig.TargetLang = target;
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
@@ -412,8 +412,8 @@ public class ConfigHelper
             ProxyUsername = string.Empty,
             ProxyPassword = string.Empty,
             CopyResultAfterTranslateIndex = 0,
-            SourceLanguage = LanguageEnum.AUTO.GetDescription(),
-            TargetLanguage = LanguageEnum.AUTO.GetDescription(),
+            SourceLang = LanguageEnum.AUTO,
+            TargetLang = LanguageEnum.AUTO,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),
@@ -421,7 +421,8 @@ public class ConfigHelper
                 new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", IconType.DeepL, isEnabled: false),
                 new TranslatorApi(Guid.NewGuid(), "https://iciba.deno.dev/translate", "爱词霸", IconType.Iciba, isEnabled: false)
             ],
-            TTSList = [new TTSOffline()]
+            OCRList = [ new PaddleOCR() ],
+            TTSList = [ new TTSOffline() ]
         };
     }
 

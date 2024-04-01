@@ -1,9 +1,10 @@
 ﻿<UserControl x:Class="STranslate.Views.LangView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
              d:DesignHeight="450"
@@ -17,13 +18,11 @@
         </Grid.ColumnDefinitions>
 
         <!-- // SourceLang // -->
-        <ComboBox Grid.Column="0" ItemsSource="{Binding SourceLanguageList}" SelectedItem="{Binding SelectedSourceLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding LangChangedCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ComboBox>
+        <ComboBox Grid.Column="0"
+                  DisplayMemberPath="Description"
+                  ItemsSource="{Binding Source={common:Enumeration {x:Type model:LanguageEnum}}}"
+                  SelectedValue="{Binding SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValuePath="Value" />
 
         <!-- // Exchange Button // -->
         <Button Grid.Column="1"
@@ -32,12 +31,10 @@
                 Style="{DynamicResource ButtonIconStyle}" />
 
         <!-- // TargetLang // -->
-        <ComboBox Grid.Column="2" ItemsSource="{Binding TargetLanguageList}" SelectedItem="{Binding SelectedTargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding LangChangedCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ComboBox>
+        <ComboBox Grid.Column="2"
+                  DisplayMemberPath="Description"
+                  ItemsSource="{Binding Source={common:Enumeration {x:Type model:LanguageEnum}}}"
+                  SelectedValue="{Binding TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValuePath="Value" />
     </Grid>
 </UserControl>

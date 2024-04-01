@@ -23,21 +23,44 @@ namespace STranslate.ViewModels
         public CommonViewModel CommonSettingVM { get; } = Singleton<CommonViewModel>.Instance;
 
         /// <summary>
-        /// 语言字典
+        /// 原始语言
         /// </summary>
-        private static Dictionary<string, LanguageEnum> Languages => CommonUtil.GetEnumList<LanguageEnum>();
+        private LanguageEnum _sourceLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLang ?? LanguageEnum.AUTO;
 
-        [ObservableProperty]
-        private List<string>? _sourceLanguageList = [.. Languages.Keys];
+        public LanguageEnum SourceLang
+        {
+            get => _sourceLang;
+            set
+            {
+                if (_sourceLang == value)
+                    return;
+                OnPropertyChanging();
+                _sourceLang = value;
+                OnPropertyChanged();
+                //清空识别缓存
+                InputVM.IdentifyLanguage = string.Empty;
+            }
+        }
 
-        [ObservableProperty]
-        private List<string>? _targetLanguageList = [.. Languages.Keys];
+        /// <summary>
+        /// 目标语言
+        /// </summary>
+        private LanguageEnum _targetLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLang ?? LanguageEnum.AUTO;
 
-        [ObservableProperty]
-        private string? _selectedSourceLanguage = LanguageEnum.AUTO.GetDescription();
-
-        [ObservableProperty]
-        private string? _selectedTargetLanguage = LanguageEnum.AUTO.GetDescription();
+        public LanguageEnum TargetLang
+        {
+            get => _targetLang;
+            set
+            {
+                if (_targetLang == value)
+                    return;
+                OnPropertyChanging();
+                _targetLang = value;
+                OnPropertyChanged();
+                //清空识别缓存
+                InputVM.IdentifyLanguage = string.Empty;
+            }
+        }
 
         [ObservableProperty]
         private string _isTopMost = ConstStr.TAGFALSE;
@@ -61,9 +84,6 @@ namespace STranslate.ViewModels
             SqlHelper.InitializeDB();
             // 加载是否启用增量更新
             IsEnableIncrementalTranslation = (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
-            // 加载语言选择
-            SelectedSourceLanguage = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLanguage ?? LanguageEnum.AUTO.GetDescription();
-            SelectedTargetLanguage = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLanguage ?? LanguageEnum.AUTO.GetDescription();
         }
 
         [RelayCommand]
@@ -71,8 +91,7 @@ namespace STranslate.ViewModels
         {
             try
             {
-                HotkeyHelper.Hotkeys = Singleton<ConfigHelper>.Instance.CurrentConfig?.Hotkeys ??
-                    throw new Exception("快捷键配置出错，请检查配置后重启...");
+                HotkeyHelper.Hotkeys = Singleton<ConfigHelper>.Instance.CurrentConfig?.Hotkeys ?? throw new Exception("快捷键配置出错，请检查配置后重启...");
 
                 NotifyIconVM.OnMousehook += MouseHook;
                 NotifyIconVM.OnForbiddenShortcuts += OnForbiddenShortcutsChanged;
@@ -116,60 +135,85 @@ namespace STranslate.ViewModels
             IsEnableIncrementalTranslation = value ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
         }
 
-
         private void RegisterHotkeys(Window view)
         {
             try
             {
                 HotkeyHelper.InitialHook(view);
-                HotkeyHelper.Register(HotkeyHelper.InputTranslateId, () =>
-                {
-                    NotifyIconVM.InputTranslateCommand.Execute(view);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.InputTranslateId,
+                    () =>
+                    {
+                        NotifyIconVM.InputTranslateCommand.Execute(view);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.CrosswordTranslateId, () =>
-                {
-                    NotifyIconVM.CrossWordTranslateCommand.Execute(view);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.CrosswordTranslateId,
+                    () =>
+                    {
+                        NotifyIconVM.CrossWordTranslateCommand.Execute(view);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.ScreenShotTranslateId, () =>
-                {
-                    NotifyIconVM.ScreenShotTranslateCommand.Execute(null);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.ScreenShotTranslateId,
+                    () =>
+                    {
+                        NotifyIconVM.ScreenShotTranslateCommand.Execute(null);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.OpenMainWindowId, () =>
-                {
-                    NotifyIconVM.OpenMainWindowCommand.Execute(view);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.OpenMainWindowId,
+                    () =>
+                    {
+                        NotifyIconVM.OpenMainWindowCommand.Execute(view);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.MousehookTranslateId, () =>
-                {
-                    NotifyIconVM.MousehookTranslateCommand.Execute(view);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.MousehookTranslateId,
+                    () =>
+                    {
+                        NotifyIconVM.MousehookTranslateCommand.Execute(view);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.OCRId, () =>
-                {
-                    NotifyIconVM.OCRCommand.Execute(null);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.OCRId,
+                    () =>
+                    {
+                        NotifyIconVM.OCRCommand.Execute(null);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.SilentOCRId, () =>
-                {
-                    NotifyIconVM.SilentOCRCommand.Execute(null);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.SilentOCRId,
+                    () =>
+                    {
+                        NotifyIconVM.SilentOCRCommand.Execute(null);
+                    }
+                );
 
-                HotkeyHelper.Register(HotkeyHelper.ClipboardMonitorId, () =>
-                {
-                    NotifyIconVM.ClipboardMonitorCommand.Execute(view);
-                });
+                HotkeyHelper.Register(
+                    HotkeyHelper.ClipboardMonitorId,
+                    () =>
+                    {
+                        NotifyIconVM.ClipboardMonitorCommand.Execute(view);
+                    }
+                );
 
-                if (HotkeyHelper.Hotkeys!.InputTranslate.Conflict
+                if (
+                    HotkeyHelper.Hotkeys!.InputTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.ScreenShotTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.OpenMainWindow.Conflict
                     || HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict
                     || HotkeyHelper.Hotkeys!.OCR.Conflict
                     || HotkeyHelper.Hotkeys!.SilentOCR.Conflict
-                    || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict)
+                    || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict
+                )
                 {
                     MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
                 }
@@ -206,18 +250,11 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void LangChanged()
-        {
-            //清空识别缓存
-            InputVM.IdentifyLanguage = string.Empty;
-        }
-
-        [RelayCommand]
         private void ExchangeSourceTarget()
         {
-            if (SelectedSourceLanguage != SelectedTargetLanguage && !string.IsNullOrEmpty(InputVM.InputContent))
+            if (SourceLang != TargetLang && !string.IsNullOrEmpty(InputVM.InputContent))
             {
-                (SelectedSourceLanguage, SelectedTargetLanguage) = (SelectedTargetLanguage, SelectedSourceLanguage);
+                (SourceLang, SourceLang) = (SourceLang, SourceLang);
 
                 OutputVM.SingleTranslateCancelCommand.Execute(null);
                 InputVM.TranslateCancelCommand.Execute(null);
@@ -259,7 +296,8 @@ namespace STranslate.ViewModels
         {
             var conf = Singleton<ConfigHelper>.Instance.CurrentConfig;
             var common = Singleton<CommonViewModel>.Instance;
-            if (conf is null) return;
+            if (conf is null)
+                return;
 
             conf.IncrementalTranslation = !conf.IncrementalTranslation;
             IsEnableIncrementalTranslation = (conf?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
@@ -368,7 +406,8 @@ namespace STranslate.ViewModels
         private void ViewWidthPlus(Window view)
         {
             var width = CommonSettingVM.Width.Increment();
-            if (width == CommonSettingVM.Width) return;
+            if (width == CommonSettingVM.Width)
+                return;
 
             //left = view.Left;
             //top = view.Top;
@@ -385,7 +424,8 @@ namespace STranslate.ViewModels
         private void ViewMaxHeightPlus()
         {
             var height = CommonSettingVM.MaxHeight.Increment();
-            if (height == CommonSettingVM.MaxHeight) return;
+            if (height == CommonSettingVM.MaxHeight)
+                return;
 
             CommonSettingVM.MaxHeight = height;
         }
@@ -394,7 +434,8 @@ namespace STranslate.ViewModels
         private void ViewWidthMinus(Window view)
         {
             var width = CommonSettingVM.Width.Decrement();
-            if (width == CommonSettingVM.Width) return;
+            if (width == CommonSettingVM.Width)
+                return;
 
             //view.Left = left;
             //view.Top = top;
@@ -405,7 +446,8 @@ namespace STranslate.ViewModels
         private void ViewMaxHeightMinus()
         {
             var height = CommonSettingVM.MaxHeight.Decrement();
-            if (height == CommonSettingVM.MaxHeight) return;
+            if (height == CommonSettingVM.MaxHeight)
+                return;
 
             CommonSettingVM.MaxHeight = height;
         }

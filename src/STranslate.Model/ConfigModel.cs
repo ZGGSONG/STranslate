@@ -68,12 +68,12 @@ public class ConfigModel
     /// <summary>
     /// 原始语言
     /// </summary>
-    public string SourceLanguage { get; set; } = string.Empty;
+    public LanguageEnum SourceLang { get; set; } = LanguageEnum.AUTO;
 
     /// <summary>
     /// 目标语言
     /// </summary>
-    public string TargetLanguage { get; set; } = string.Empty;
+    public LanguageEnum TargetLang { get; set; } = LanguageEnum.AUTO;
 
     /// <summary>
     /// 退出时的位置
@@ -254,8 +254,8 @@ public class ConfigModel
             IsAdjustContentTranslate = IsAdjustContentTranslate,
             IsRemoveLineBreakGettingWords = IsRemoveLineBreakGettingWords,
             DoubleTapTrayFunc = DoubleTapTrayFunc,
-            SourceLanguage = SourceLanguage,
-            TargetLanguage = TargetLanguage,
+            SourceLang = SourceLang,
+            TargetLang = TargetLang,
             Position = Position,
             CustomFont = CustomFont,
             IsKeepTopmostAfterMousehook = IsKeepTopmostAfterMousehook,

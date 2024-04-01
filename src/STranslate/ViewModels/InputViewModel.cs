@@ -31,8 +31,6 @@ public partial class InputViewModel : ObservableObject
     [ObservableProperty]
     private string _identifyLanguage = string.Empty;
 
-    public static Dictionary<string, LanguageEnum> LangDict => CommonUtil.GetEnumList<LanguageEnum>();
-
     /// <summary>
     /// 输入内容
     /// </summary>
@@ -77,20 +75,20 @@ public partial class InputViewModel : ObservableObject
     {
         //翻译前清空旧数据
         Singleton<OutputViewModel>.Instance.Clear();
-        var source = Singleton<MainViewModel>.Instance.SelectedSourceLanguage ?? LanguageEnum.AUTO.GetDescription();
-        var target = Singleton<MainViewModel>.Instance.SelectedTargetLanguage ?? LanguageEnum.AUTO.GetDescription();
+        var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
+        var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
         var size = Singleton<ConfigHelper>.Instance.CurrentConfig?.HistorySize ?? 100;
-        var dbTarget = target;
+        var dbTarget = targetLang;
 
         if (!PreviousHandle())
             return;
 
         try
         {
-            var history = await TranslateServiceAsync(obj, source, dbTarget, target, size, token);
+            var history = await TranslateServiceAsync(obj, sourceLang, dbTarget, targetLang, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
-            await HandleHistoryAsync(obj, history, source, dbTarget, size);
+            await HandleHistoryAsync(obj, history, sourceLang, dbTarget, size);
         }
         catch (Exception ex)
         {
@@ -111,7 +109,7 @@ public partial class InputViewModel : ObservableObject
         return false;
     }
 
-    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, string source, string dbTarget, string target, long size, CancellationToken token)
+    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LanguageEnum source, LanguageEnum dbTarget, LanguageEnum target, long size, CancellationToken token)
     {
         var services = Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
         HistoryModel? history = null;
@@ -127,7 +125,7 @@ public partial class InputViewModel : ObservableObject
         var isCheckCacheFirst = obj == null;
         if (isCheckCacheFirst)
         {
-            history = await SqlHelper.GetDataAsync(InputContent, source, dbTarget);
+            history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), dbTarget.GetDescription());
 
             if (history != null)
             {
@@ -152,16 +150,16 @@ public partial class InputViewModel : ObservableObject
                         goto copy;
                     }
 
+                    var identify = LanguageEnum.AUTO;
+
                     //如果是自动则获取自动识别后的目标语种
-                    if (target == LanguageEnum.AUTO.GetDescription())
+                    if (target == LanguageEnum.AUTO)
                     {
                         var autoRet = StringUtil.AutomaticLanguageRecognition(InputContent);
-                        IdentifyLanguage = autoRet.Item1;
+                        identify = autoRet.Item1;
                         target = autoRet.Item2;
+                        IdentifyLanguage = identify.GetDescription();
                     }
-
-                    var sourceStr = LangDict[source].ToString();
-                    var targetStr = LangDict[target].ToString();
 
                     //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
                     //TODO: 新接口需要适配
@@ -173,13 +171,13 @@ public partial class InputViewModel : ObservableObject
                         {
                             //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
                             //Auto则转换为识别语种
-                            sourceStr = sourceStr == "AUTO" ? LangDict[IdentifyLanguage].ToString() : sourceStr;
-                            await StreamHandlerAsync(service, InputContent, sourceStr, targetStr, cancellationToken);
+                            source = source == LanguageEnum.AUTO ? identify : source;
+                            await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
                             break;
                         }
 
                         default:
-                            await NonStreamHandlerAsync(service, InputContent, sourceStr, targetStr, cancellationToken);
+                            await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
                             break;
                     }
 
@@ -240,7 +238,7 @@ public partial class InputViewModel : ObservableObject
     /// <param name="dbTarget"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    private async Task HandleHistoryAsync(object? obj, HistoryModel? history, string source, string dbTarget, long size)
+    private async Task HandleHistoryAsync(object? obj, HistoryModel? history, LanguageEnum source, LanguageEnum dbTarget, long size)
     {
         if (history is null && size > 0)
         {
@@ -250,8 +248,8 @@ public partial class InputViewModel : ObservableObject
             var data = new HistoryModel
             {
                 Time = DateTime.Now,
-                SourceLang = source,
-                TargetLang = dbTarget,
+                SourceLang = source.GetDescription(),
+                TargetLang = dbTarget.GetDescription(),
                 SourceText = InputContent,
                 Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
             };
@@ -270,8 +268,8 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public async Task NonStreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token) =>
-        service.Data = await service.TranslateAsync(new RequestModel(content, source, target), token);
+    public async Task NonStreamHandlerAsync(ITranslator service, string content, LanguageEnum source, LanguageEnum target, CancellationToken token) =>
+        service.Data = await service.TranslateAsync(new RequestModel(content, source.ToString(), target.ToString()), token);
 
     /// <summary>
     /// 流式数据处理
@@ -282,13 +280,13 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public async Task StreamHandlerAsync(ITranslator service, string content, string source, string target, CancellationToken token)
+    public async Task StreamHandlerAsync(ITranslator service, string content, LanguageEnum source, LanguageEnum target, CancellationToken token)
     {
         //先清空
         service.Data = TranslationResult.Reset;
 
         await service.TranslateAsync(
-            new RequestModel(content, source, target),
+            new RequestModel(content, source.ToString(), target.ToString()),
             msg =>
             {
                 service.Data.IsSuccess = true;

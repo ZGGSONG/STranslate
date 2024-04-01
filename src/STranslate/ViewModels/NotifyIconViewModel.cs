@@ -574,11 +574,9 @@ namespace STranslate.ViewModels
         {
             //写入配置
             var vm = Singleton<MainViewModel>.Instance;
-            var source = vm.SelectedSourceLanguage ?? "自动选择";
-            var target = vm.SelectedTargetLanguage ?? "自动选择";
-            if (!Singleton<ConfigHelper>.Instance.WriteConfig(source, target))
+            if (!Singleton<ConfigHelper>.Instance.WriteConfig(vm.SourceLang, vm.TargetLang))
             {
-                LogService.Logger.Debug($"保存源语言({source})、目标语言({target})配置失败...");
+                LogService.Logger.Debug($"保存源语言({vm.SourceLang.GetDescription()})、目标语言({vm.TargetLang.GetDescription()})配置失败...");
             }
         }
 

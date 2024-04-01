@@ -22,20 +22,17 @@ namespace STranslate.ViewModels
         private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
         {
             var inputVM = Singleton<InputViewModel>.Instance;
-            var source = Singleton<MainViewModel>.Instance.SelectedSourceLanguage ?? LanguageEnum.AUTO.GetDescription();
-            var target = Singleton<MainViewModel>.Instance.SelectedTargetLanguage ?? LanguageEnum.AUTO.GetDescription();
+            var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
+            var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
 
-            var idetify = "";
+            var idetify = LanguageEnum.AUTO;
             //如果是自动则获取自动识别后的目标语种
-            if (target == LanguageEnum.AUTO.GetDescription())
+            if (targetLang == LanguageEnum.AUTO)
             {
                 var autoRet = StringUtil.AutomaticLanguageRecognition(inputVM.InputContent);
                 idetify = autoRet.Item1;
-                target = autoRet.Item2;
+                targetLang = autoRet.Item2;
             }
-
-            var sourceStr = InputViewModel.LangDict[source].ToString();
-            var targetStr = InputViewModel.LangDict[target].ToString();
 
             //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
             //TODO: 新接口需要适配
@@ -47,13 +44,13 @@ namespace STranslate.ViewModels
                     {
                         //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
                         //Auto则转换为识别语种
-                        sourceStr = sourceStr == "AUTO" ? InputViewModel.LangDict[idetify].ToString() : sourceStr;
-                        await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
+                        sourceLang = sourceLang == LanguageEnum.AUTO ? idetify : sourceLang;
+                        await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
                         break;
                     }
 
                 default:
-                    await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceStr, targetStr, token);
+                    await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
                     break;
             }
         }
