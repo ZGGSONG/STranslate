@@ -64,5 +64,7 @@ namespace STranslate.Model
                     entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
                     entry => entry.Value!.ToString() ?? ICON
                 ) ?? [];
+
+        public const string MAINVIEWPLACEHOLDER = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
     }
 }

@@ -199,7 +199,7 @@ namespace STranslate.Views
             if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false))
             {
                 // 第一次加载页面激活输入框
-                (InputView.FindName("InputTb") as TextBox)?.Focus();
+                (InputView.FindName("InputTB") as TextBox)?.Focus();
             }
         }
 

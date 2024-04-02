@@ -61,8 +61,11 @@ public class ConfigHelper
             CurrentConfig?.ProxyPassword ?? ""
         );
 
+        //初始化主窗口提示词
+        PlaceholderOperate(CurrentConfig?.IsShowMainPlaceholder ?? true);
+
         //初始化首页图标
-        Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
+        MainViewIconOperate();
     }
 
     /// <summary>
@@ -214,7 +217,9 @@ public class ConfigHelper
         CurrentConfig.CopyResultAfterTranslateIndex = model.CopyResultAfterTranslateIndex;
         CurrentConfig.IncrementalTranslation = model.IncrementalTranslation;
         CurrentConfig.IsTriggerShowHide = model.IsTriggerShowHide;
-        Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
+        CurrentConfig.IsShowMainPlaceholder = model.IsShowMainPlaceholder;
+        
+        //重新执行必要操作
         ThemeOperate(CurrentConfig.ThemeType);
         ProxyOperate(
             CurrentConfig.ProxyMethod,
@@ -224,6 +229,8 @@ public class ConfigHelper
             CurrentConfig.ProxyUsername,
             CurrentConfig.ProxyPassword
         );
+        PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
+        MainViewIconOperate();
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -348,10 +355,15 @@ public class ConfigHelper
     }
 
     //代理操作
-    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username, string pwd)
-    {
+    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username, string pwd) =>
         ProxyUtil.UpdateProxy(proxyMethod, ip, port, isAuth, username, pwd);
-    }
+
+    //主窗口提示词
+    private void PlaceholderOperate(bool isShowMainPlaceholder) =>
+        Singleton<InputViewModel>.Instance.Placeholder = isShowMainPlaceholder ? ConstStr.MAINVIEWPLACEHOLDER : string.Empty;
+
+    //刷新主窗口图标
+    private void MainViewIconOperate() => Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
 
     #endregion 私有方法
 
@@ -415,6 +427,7 @@ public class ConfigHelper
             CopyResultAfterTranslateIndex = 0,
             IncrementalTranslation = false,
             IsTriggerShowHide = false,
+            IsShowMainPlaceholder = true,
             SourceLang = LanguageEnum.AUTO,
             TargetLang = LanguageEnum.AUTO,
             Services =

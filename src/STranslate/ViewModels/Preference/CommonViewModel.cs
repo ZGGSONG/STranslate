@@ -86,6 +86,7 @@ namespace STranslate.ViewModels.Preference
             CopyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
             IncrementalTranslation = curConfig?.IncrementalTranslation ?? false;
             IsTriggerShowHide = curConfig?.IsTriggerShowHide ?? false;
+            IsShowMainPlaceholder = curConfig?.IsShowMainPlaceholder ?? true;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -474,5 +475,12 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool _isTriggerShowHide = curConfig?.IsTriggerShowHide ?? false;
+
+
+        /// <summary>
+        /// 是否显示主窗口提示词
+        /// </summary>
+        [ObservableProperty]
+        private bool _isShowMainPlaceholder = curConfig?.IsShowMainPlaceholder ?? true;
     }
 }

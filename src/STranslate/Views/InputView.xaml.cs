@@ -11,7 +11,7 @@ public partial class InputView
         InitializeComponent();
     }
 
-    private void InputTb_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    private void InputTB_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         var textBox = (TextBox)sender;
 

@@ -59,6 +59,9 @@ public partial class InputViewModel : ObservableObject
 
     private bool CanTranslate => !string.IsNullOrEmpty(InputContent);
 
+    [ObservableProperty]
+    private string _placeholder = ConstStr.MAINVIEWPLACEHOLDER;
+
     #endregion 属性、字段
 
     #region 命令

@@ -278,6 +278,12 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="激活窗口时光标移动至末尾[立即生效]" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsCaretLast}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="显示主窗口提示词" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否显示主窗口提示词" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowMainPlaceholder}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

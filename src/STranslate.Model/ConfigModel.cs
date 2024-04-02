@@ -220,6 +220,11 @@ public class ConfigModel
     public bool IsTriggerShowHide { get; set; } = false;
 
     /// <summary>
+    /// 是否显示主窗口提示词
+    /// </summary>
+    public bool IsShowMainPlaceholder { get; set; } = true;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -289,6 +294,7 @@ public class ConfigModel
             CopyResultAfterTranslateIndex = CopyResultAfterTranslateIndex,
             IncrementalTranslation = IncrementalTranslation,
             IsTriggerShowHide = IsTriggerShowHide,
+            IsShowMainPlaceholder = IsShowMainPlaceholder,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

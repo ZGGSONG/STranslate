@@ -11,15 +11,15 @@
              Background="Transparent"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference InputTb}" />
+        <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference InputTB}" />
     </UserControl.Resources>
 
     <!-- // 输入框 // -->
     <Border Style="{DynamicResource BorderInOutputStyle}">
         <Grid>
-            <common:PlaceholderTextBox x:Name="InputTb"
-                                       Placeholder="Enter 翻译/缓存&#10;Ctrl+Enter 强制翻译&#10;Shift+Enter 换行"
-                                       PreviewMouseWheel="InputTb_PreviewMouseWheel"
+            <common:PlaceholderTextBox x:Name="InputTB"
+                                       Placeholder="{Binding Placeholder}"
+                                       PreviewMouseWheel="InputTB_PreviewMouseWheel"
                                        Style="{DynamicResource TextBoxInputStyle}"
                                        Text="{Binding InputContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <common:PlaceholderTextBox.InputBindings>
@@ -69,14 +69,14 @@
                         ToolTip="复制输入内容"
                         Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}" />
                 <Button Command="{Binding RemoveLineBreaksCommand}"
-                        CommandParameter="{Binding ElementName=InputTb}"
+                        CommandParameter="{Binding ElementName=InputTB}"
                         Content="&#xe6b2;"
                         FontWeight="Bold"
                         Style="{DynamicResource ButtonCopyIconStyle}"
                         ToolTip="移除换行"
                         Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}" />
                 <Button Command="{Binding RemoveSpaceCommand}"
-                        CommandParameter="{Binding ElementName=InputTb}"
+                        CommandParameter="{Binding ElementName=InputTB}"
                         Content="&#xe6ab;"
                         FontSize="20"
                         FontWeight="Bold"
