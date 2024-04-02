@@ -213,6 +213,7 @@ public class ConfigHelper
         CurrentConfig.ProxyPassword = model.ProxyPassword;
         CurrentConfig.CopyResultAfterTranslateIndex = model.CopyResultAfterTranslateIndex;
         CurrentConfig.IncrementalTranslation = model.IncrementalTranslation;
+        CurrentConfig.IsTriggerShowHide = model.IsTriggerShowHide;
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
         ThemeOperate(CurrentConfig.ThemeType);
         ProxyOperate(
@@ -412,6 +413,8 @@ public class ConfigHelper
             ProxyUsername = string.Empty,
             ProxyPassword = string.Empty,
             CopyResultAfterTranslateIndex = 0,
+            IncrementalTranslation = false,
+            IsTriggerShowHide = false,
             SourceLang = LanguageEnum.AUTO,
             TargetLang = LanguageEnum.AUTO,
             Services =

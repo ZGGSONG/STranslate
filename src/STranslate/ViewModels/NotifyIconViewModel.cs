@@ -8,7 +8,6 @@ using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -169,7 +168,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void QRCode(object obj)
         {
-            if (!CanOpenScreenshot) return;
+            if (!CanOpenScreenshot)
+                return;
 
             if (obj is null)
             {
@@ -217,7 +217,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void OCR(object obj)
         {
-            if (!CanOpenScreenshot) return;
+            if (!CanOpenScreenshot)
+                return;
 
             if (obj == null)
             {
@@ -266,7 +267,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void SilentOCR(object? obj)
         {
-            if (!CanOpenScreenshot) return;
+            if (!CanOpenScreenshot)
+                return;
 
             if (obj == null)
             {
@@ -329,7 +331,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void ScreenShotTranslate(object obj)
         {
-            if (!CanOpenScreenshot) return;
+            if (!CanOpenScreenshot)
+                return;
 
             if (obj == null)
             {
@@ -372,7 +375,7 @@ namespace STranslate.ViewModels
                         ClearAll();
                     }
 
-                    MainView view = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
+                    MainView view = Application.Current.Windows.OfType<MainView>().First();
                     ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
                     var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
@@ -415,7 +418,8 @@ namespace STranslate.ViewModels
         /// </summary>
         internal void HideMainView()
         {
-            var view = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
+            var view = Application.Current.Windows.OfType<MainView>().First();
+            // 判断是否置顶，置顶的话则不隐藏
             if (!view.Topmost)
             {
                 view.ViewAnimation(false);
@@ -425,7 +429,10 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void OpenMainWindow(Window view)
         {
-            ShowAndActive(view);
+            if ((Singleton<ConfigHelper>.Instance.CurrentConfig?.IsTriggerShowHide ?? false) && view.IsActive)
+                HideMainView();
+            else
+                ShowAndActive(view);
         }
 
         internal void ClearOutput()

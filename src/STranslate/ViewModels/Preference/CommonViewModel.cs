@@ -85,6 +85,7 @@ namespace STranslate.ViewModels.Preference
             ProxyPassword = curConfig?.ProxyPassword ?? string.Empty;
             CopyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
             IncrementalTranslation = curConfig?.IncrementalTranslation ?? false;
+            IsTriggerShowHide = curConfig?.IsTriggerShowHide ?? false;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -462,7 +463,16 @@ namespace STranslate.ViewModels.Preference
         [ObservableProperty]
         private int _copyResultAfterTranslateIndex = curConfig?.CopyResultAfterTranslateIndex ?? 0;
 
+        /// <summary>
+        /// 是否开启增量翻译
+        /// </summary>
         [ObservableProperty]
         private bool _incrementalTranslation = curConfig?.IncrementalTranslation ?? false;
+
+        /// <summary>
+        /// 是否开启重复触发显示界面为显示/隐藏
+        /// </summary>
+        [ObservableProperty]
+        private bool _isTriggerShowHide = curConfig?.IsTriggerShowHide ?? false;
     }
 }

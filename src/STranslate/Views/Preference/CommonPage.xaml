@@ -94,6 +94,12 @@
                                           SelectedValue="{Binding DoubleTapTrayFunc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SelectedValuePath="Value" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="显示界面重复触发显/隐" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsTriggerShowHide}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

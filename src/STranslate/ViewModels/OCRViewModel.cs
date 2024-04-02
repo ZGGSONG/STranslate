@@ -399,7 +399,7 @@ namespace STranslate.ViewModels
             Singleton<OutputViewModel>.Instance.Clear();
 
             //获取主窗口
-            MainView window = Application.Current.Windows.OfType<MainView>().FirstOrDefault()!;
+            MainView window = Application.Current.Windows.OfType<MainView>().First();
             window.ViewAnimation();
             window.Activate();
 

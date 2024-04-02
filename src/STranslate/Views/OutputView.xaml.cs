@@ -69,7 +69,7 @@ namespace STranslate.Views
 
         private void OutputView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Application.Current.Windows.OfType<MainView>().FirstOrDefault()!.UpdateDefaultStyle();
+            Application.Current.Windows.OfType<MainView>().First().UpdateDefaultStyle();
         }
     }
 }

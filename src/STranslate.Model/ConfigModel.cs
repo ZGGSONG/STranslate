@@ -215,6 +215,11 @@ public class ConfigModel
     public bool IncrementalTranslation { get; set; } = false;
 
     /// <summary>
+    /// 是否开启重复触发显示界面为显示/隐藏
+    /// </summary>
+    public bool IsTriggerShowHide { get; set; } = false;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -283,6 +288,7 @@ public class ConfigModel
             ProxyPassword = ProxyPassword,
             CopyResultAfterTranslateIndex = CopyResultAfterTranslateIndex,
             IncrementalTranslation = IncrementalTranslation,
+            IsTriggerShowHide = IsTriggerShowHide,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),
