@@ -26,5 +26,9 @@
         <Rectangle x:Name="RightMask" Fill="#FF000000" Opacity="0.3" />
         <Rectangle x:Name="UpMask" Fill="#FF000000" Opacity="0.3" />
         <Rectangle x:Name="DownMask" Fill="#FF000000" Opacity="0.3" />
+        <!-- Horizontal Line -->
+        <Line x:Name="HorizontalLine" Stroke="#92caf4" StrokeThickness="1" />
+        <!-- Vertical Line -->
+        <Line x:Name="VerticalLine" Stroke="#92caf4" StrokeThickness="1" />
     </Canvas>
 </Window>

@@ -218,6 +218,7 @@ public class ConfigHelper
         CurrentConfig.IncrementalTranslation = model.IncrementalTranslation;
         CurrentConfig.IsTriggerShowHide = model.IsTriggerShowHide;
         CurrentConfig.IsShowMainPlaceholder = model.IsShowMainPlaceholder;
+        CurrentConfig.ShowAuxiliaryLine = model.ShowAuxiliaryLine;
         
         //重新执行必要操作
         ThemeOperate(CurrentConfig.ThemeType);
@@ -428,6 +429,7 @@ public class ConfigHelper
             IncrementalTranslation = false,
             IsTriggerShowHide = false,
             IsShowMainPlaceholder = true,
+            ShowAuxiliaryLine = true,
             SourceLang = LanguageEnum.AUTO,
             TargetLang = LanguageEnum.AUTO,
             Services =

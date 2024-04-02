@@ -225,6 +225,11 @@ public class ConfigModel
     public bool IsShowMainPlaceholder { get; set; } = true;
 
     /// <summary>
+    /// 截图是否显示辅助线
+    /// </summary>
+    public bool ShowAuxiliaryLine { get; set; } = true;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -295,6 +300,7 @@ public class ConfigModel
             IncrementalTranslation = IncrementalTranslation,
             IsTriggerShowHide = IsTriggerShowHide,
             IsShowMainPlaceholder = IsShowMainPlaceholder,
+            ShowAuxiliaryLine = ShowAuxiliaryLine,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

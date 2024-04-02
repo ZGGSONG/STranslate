@@ -280,9 +280,15 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="显示主窗口提示词" />
+                                <TextBlock HorizontalAlignment="Left" Text="主窗口提示词" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否显示主窗口提示词" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowMainPlaceholder}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="截图辅助线" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图时是否显示辅助线" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ShowAuxiliaryLine}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

@@ -30,6 +30,16 @@ namespace STranslate.Views
             }
 
             Rect bounds = screen.WpfBounds;
+
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowAuxiliaryLine ?? true)
+            {
+                //设置辅助线宽高
+                HorizontalLine.X1 = 0;
+                HorizontalLine.X2 = bounds.Width;
+                VerticalLine.Y1 = 0;
+                VerticalLine.Y2 = bounds.Height;
+            }
+
             _dpiScale = screen.ScaleFactor;
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false)
                 bounds = new Rect((int)(bounds.X * _dpiScale), (int)(bounds.Y * _dpiScale), (int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale));
@@ -90,9 +100,24 @@ namespace STranslate.Views
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isMouseDown)
+            // Get the current mouse position relative to the canvas
+            var CurrentPoint = e.GetPosition(this);
+
+            if (!_isMouseDown)
             {
-                Point CurrentPoint = Mouse.GetPosition(this);
+                // Update the horizontal line to match the mouse Y position
+                HorizontalLine.Y1 = CurrentPoint.Y;
+                HorizontalLine.Y2 = CurrentPoint.Y;
+
+                // Update the vertical line to match the mouse X position
+                VerticalLine.X1 = CurrentPoint.X;
+                VerticalLine.X2 = CurrentPoint.X;
+            }
+            else
+            {
+                HorizontalLine.Visibility = Visibility.Collapsed;
+                VerticalLine.Visibility = Visibility.Collapsed;
+
                 _rectangle = new Rect(_startPoint, CurrentPoint);
 
                 Canvas.SetLeft(LeftMask, 0);
