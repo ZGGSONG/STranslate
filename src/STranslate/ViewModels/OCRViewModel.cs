@@ -9,13 +9,17 @@ using STranslate.ViewModels.Base;
 using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace STranslate.ViewModels
@@ -264,7 +268,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private async Task RecertificationAsync()
         {
-            if (Bs == null) return;
+            if (Bs == null)
+                return;
 
             var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs);
 
@@ -295,7 +300,13 @@ namespace STranslate.ViewModels
 
                 try
                 {
-                    var backBitmap = new System.Drawing.Bitmap((int)Bs!.Width, (int)Bs!.Height, writableBitmap.BackBufferStride, System.Drawing.Imaging.PixelFormat.Format32bppArgb, writableBitmap.BackBuffer);
+                    var backBitmap = new System.Drawing.Bitmap(
+                        (int)Bs!.Width,
+                        (int)Bs!.Height,
+                        writableBitmap.BackBufferStride,
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb,
+                        writableBitmap.BackBuffer
+                    );
                     // 在这里你可以直接通过指针操作位图的像素数据
                     using var g = System.Drawing.Graphics.FromImage(backBitmap);
                     foreach (var item in ocrResult.OcrContents)
@@ -313,7 +324,8 @@ namespace STranslate.ViewModels
                 GetImg = writableBitmap;
 
                 //取词前移除换行
-                getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
+                getText =
+                    Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
                         ? StringUtil.RemoveLineBreaks(getText)
                         : getText;
                 //OCR后自动复制
@@ -336,7 +348,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void QRCode()
         {
-            if (Bs == null) return;
+            if (Bs == null)
+                return;
             var reader = new ZXing.ZKWeb.BarcodeReader();
             reader.Options.CharacterSet = "UTF-8";
             using var stream = new MemoryStream();
@@ -360,7 +373,7 @@ namespace STranslate.ViewModels
         /// 翻译
         /// </summary>
         [RelayCommand]
-        private void Translate(System.Collections.Generic.List<object> obj)
+        private void Translate(List<object> obj)
         {
             var content = obj.FirstOrDefault() as string ?? "";
             var ocrView = obj.LastOrDefault() as Window;
@@ -391,7 +404,9 @@ namespace STranslate.ViewModels
             window.Activate();
 
             //获取文本
-            Singleton<InputViewModel>.Instance.InputContent += content;
+            Singleton<InputViewModel>
+                .Instance
+                .InputContent += content;
             //执行翻译
             Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
         }
@@ -405,6 +420,95 @@ namespace STranslate.ViewModels
             Clipboard.SetDataObject(GetContent, true);
             ToastHelper.Show("复制成功", WindowType.OCR);
         }
+
+        #region 鼠标缩放、拖拽
+
+        [ObservableProperty]
+        private double _imgScale = 100;
+
+        [RelayCommand]
+        private void ResetImg(Image img)
+        {
+            var group = (TransformGroup)img.RenderTransform;
+            var scaleTransform = (ScaleTransform)group.Children[0];
+            var translateTransform = (TranslateTransform)group.Children[1];
+            // 执行缩放操作
+            scaleTransform.ScaleX = 1;
+            scaleTransform.ScaleY = 1;
+            // 计算平移值并应用
+            translateTransform.X = 0;
+            translateTransform.Y = 0;
+
+            ImgScale = scaleTransform.ScaleX;
+        }
+
+        // https://www.cnblogs.com/snake-hand/archive/2012/08/13/2636227.html
+        private bool mouseDown;
+        private Point mouseXY;
+        private readonly double min = 0.1, max = 3.0;//最小/最大放大倍数
+
+        public void MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not ContentControl content)
+                return;
+            content.CaptureMouse();
+            mouseDown = true;
+            mouseXY = e.GetPosition(content);
+        }
+
+        public void MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not ContentControl content)
+                return;
+            content.ReleaseMouseCapture();
+            mouseDown = false;
+        }
+
+        public void MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!mouseDown || sender is not ContentControl content || content.Content is not Image img)
+                return;
+
+            var group = (TransformGroup)img.RenderTransform;
+            var transform = (TranslateTransform)group.Children[1];
+            var position = e.GetPosition(content);
+            transform.X -= mouseXY.X - position.X;
+            transform.Y -= mouseXY.Y - position.Y;
+            mouseXY = position;
+        }
+
+        public void MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is not ContentControl content || content.Content is not Image img)
+                return;
+            var point = e.GetPosition(content);
+            var group = (TransformGroup)img.RenderTransform;
+            var delta = e.Delta * 0.001;
+            DowheelZoom(group, point, delta);
+        }
+
+        private void DowheelZoom(TransformGroup group, Point point, double delta)
+        {
+            // 将 point 转换为 group 的逆变换后的坐标系中的坐标
+            var pointToContent = group.Inverse.Transform(point);
+            // 获取 ScaleTransform
+            var scaleTransform = (ScaleTransform)group.Children[0];
+            // 检查缩放是否超出范围
+            if (scaleTransform.ScaleX + delta < min) return;
+            if (scaleTransform.ScaleX + delta > max) return;
+            // 执行缩放操作
+            scaleTransform.ScaleX += delta;
+            scaleTransform.ScaleY += delta;
+            // 获取 TranslateTransform
+            var translateTransform = (TranslateTransform)group.Children[1];
+            // 计算平移值并应用
+            translateTransform.X = -1 * ((pointToContent.X * scaleTransform.ScaleX) - point.X);
+            translateTransform.Y = -1 * ((pointToContent.Y * scaleTransform.ScaleY) - point.Y);
+
+            ImgScale = scaleTransform.ScaleX;
+        }
+
+        #endregion 鼠标缩放、拖拽
 
         #region ContextMenu
 

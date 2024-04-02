@@ -31,6 +31,8 @@
                     Modifiers="Ctrl+Shift" />
         <!-- // 快捷键复制 // -->
         <KeyBinding Command="{Binding HotkeyCopyCommand}" Gesture="Ctrl+1" />
+        <!-- // 重置图片大小及位置 // -->
+        <KeyBinding Command="{Binding ResetImgCommand}" CommandParameter="{Binding ElementName=ImgCtl}" Gesture="Ctrl+0" />
         <!-- // 重置字体大小 // -->
         <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
     </Window.InputBindings>
@@ -116,30 +118,40 @@
 
                 <!-- // img // -->
                 <Border Margin="10" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
-                    <Grid Name="IMG">
-                        <Grid.Resources>
-                            <TransformGroup x:Key="Imageview">
-                                <ScaleTransform />
-                                <TranslateTransform />
-                            </TransformGroup>
-                        </Grid.Resources>
-                        <ScrollViewer Margin="5,5,5,24"
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <ScrollViewer Margin="5"
                                       Focusable="False"
                                       HorizontalScrollBarVisibility="Disabled"
                                       VerticalScrollBarVisibility="Disabled">
-                            <ContentControl MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"
-                                            MouseLeftButtonUp="ContentControl_MouseLeftButtonUp"
-                                            MouseMove="ContentControl_MouseMove"
-                                            MouseWheel="ContentControl_MouseWheel">
+                            <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="SizeAll">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:CallMethodAction MethodName="MouseDown" TargetObject="{Binding}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                                        <i:CallMethodAction MethodName="MouseUp" TargetObject="{Binding}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseMove">
+                                        <i:CallMethodAction MethodName="MouseMove" TargetObject="{Binding}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseWheel">
+                                        <i:CallMethodAction MethodName="MouseWheel" TargetObject="{Binding}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                                 <Image Name="ImgCtl"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch"
                                        AllowDrop="True"
-                                       Cursor="SizeAll"
                                        RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                       RenderTransform="{StaticResource Imageview}"
-                                       Source="{Binding GetImg}"
-                                       Stretch="Uniform">
+                                       Source="{Binding GetImg}">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <TranslateTransform X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Drop">
                                             <i:InvokeCommandAction Command="{Binding DropCommand}" PassEventArgsToCommand="True" />
@@ -148,27 +160,44 @@
                                 </Image>
                             </ContentControl>
                         </ScrollViewer>
-                        <TextBlock Name="RateTB"
-                                   Margin="5"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Top"
-                                   Text="100%"
-                                   Visibility="Collapsed" />
-                        <StackPanel Margin="3,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
-                                    Orientation="Horizontal">
-                            <Button Command="{Binding CopyImgCommand}"
-                                    Content="&#xe692;"
-                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="复制图片"
-                                    Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
-                            <Button Command="{Binding SaveImgCommand}"
-                                    Content="&#xe63b;"
-                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="保存图片"
-                                    Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
-                        </StackPanel>
+                        <Grid Grid.Row="1" Margin="3,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                <Button Command="{Binding CopyImgCommand}"
+                                        Content="&#xe692;"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="复制图片"
+                                        Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
+                                <Button Command="{Binding SaveImgCommand}"
+                                        Content="&#xe63b;"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="保存图片"
+                                        Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        FlowDirection="RightToLeft"
+                                        Orientation="Horizontal">
+                                <TextBlock Name="RateTB"
+                                           Margin="5"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Top"
+                                           FlowDirection="LeftToRight"
+                                           Text="{Binding ImgScale, StringFormat={}{0:P0}}" />
+                                <Button Command="{Binding ResetImgCommand}"
+                                        CommandParameter="{Binding ElementName=ImgCtl}"
+                                        Content="&#xe64f;"
+                                        FontSize="21"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="适应窗口"
+                                        Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </Border>
 
