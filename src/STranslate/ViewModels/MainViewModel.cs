@@ -17,10 +17,12 @@ namespace STranslate.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-        public InputViewModel InputVM { get; } = Singleton<InputViewModel>.Instance;
-        public OutputViewModel OutputVM { get; set; } = Singleton<OutputViewModel>.Instance;
-        public NotifyIconViewModel NotifyIconVM { get; } = Singleton<NotifyIconViewModel>.Instance;
-        public CommonViewModel CommonSettingVM { get; } = Singleton<CommonViewModel>.Instance;
+        public InputViewModel InputVM => Singleton<InputViewModel>.Instance;
+        public OutputViewModel OutputVM => Singleton<OutputViewModel>.Instance;
+        public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
+        public CommonViewModel CommonSettingVM => Singleton<CommonViewModel>.Instance;
+        public OCRScvViewModel OCRVM => Singleton<OCRScvViewModel>.Instance;
+        public TTSViewModel TTSVM => Singleton<TTSViewModel>.Instance;
 
         /// <summary>
         /// 原始语言
@@ -522,13 +524,28 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void SelectedService(List<object> list)
         {
-            var service = (list.First() as ITranslator)!;
-            var control = (list.Last() as ToggleButton)!;
-            service.IsEnabled = !service.IsEnabled;
-            control.IsChecked = !control.IsChecked;
+            if (list.Last() is ToggleButton control)
+                control.IsChecked = !control.IsChecked;
 
-            //保存配置
-            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            var service = list.First();
+            if (service is ITranslator it)
+            {
+                it.IsEnabled = !it.IsEnabled;
+
+                Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            }
+            else if (service is IOCR io)
+            {
+                io.IsEnabled = !io.IsEnabled;
+
+                Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
+            }
+            else if (service is ITTS its)
+            {
+                its.IsEnabled = !its.IsEnabled;
+
+                Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
+            }
         }
     }
 }

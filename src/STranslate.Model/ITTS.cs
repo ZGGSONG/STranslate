@@ -11,6 +11,8 @@ namespace STranslate.Model
 
         TTSType Type { get; set; }
 
+        IconType Icon { get; set; }
+
         bool IsEnabled { get; set; }
 
         string Name { get; set; }
