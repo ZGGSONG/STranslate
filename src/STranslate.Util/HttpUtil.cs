@@ -203,7 +203,9 @@ namespace STranslate.Util
             using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(response.ReasonPhrase);
+                // 默认抛出原因短语，否则抛出整个结果
+                var msg = string.IsNullOrEmpty(response.ReasonPhrase) ? response.Content.ReadAsStringAsync(token).Result : response.ReasonPhrase;
+                throw new Exception(msg);
             }
             using var responseStream = await response.Content.ReadAsStreamAsync(token);
             using var reader = new System.IO.StreamReader(responseStream);
