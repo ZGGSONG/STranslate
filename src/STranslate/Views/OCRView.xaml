@@ -219,7 +219,7 @@
                                     <MenuItem Command="{Binding TBSelectAllCommand}"
                                               CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                               Header="全选"
-                                              Icon="&#xe692;" />
+                                              Icon="&#xe658;" />
                                     <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
                                     <MenuItem Command="{Binding TBCopyCommand}"
                                               CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
@@ -228,12 +228,12 @@
                                     <MenuItem Command="{Binding TBPasteCommand}"
                                               CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                               Header="粘贴"
-                                              Icon="&#xe692;" />
+                                              Icon="&#xe652;" />
                                     <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
                                     <MenuItem Command="{Binding TBClearCommand}"
                                               CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
                                               Header="清空"
-                                              Icon="&#xe692;" />
+                                              Icon="&#xe6cb;" />
                                 </ContextMenu>
                             </TextBox.ContextMenu>
                         </TextBox>
