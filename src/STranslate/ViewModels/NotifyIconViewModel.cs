@@ -211,7 +211,7 @@ namespace STranslate.ViewModels
                 }
             );
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
-            view.Execute();
+            view.InvokeCanOpen();
         }
 
         [RelayCommand]
@@ -261,7 +261,7 @@ namespace STranslate.ViewModels
                 }
             );
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
-            view.Execute();
+            view.InvokeCanOpen();
         }
 
         [RelayCommand]
@@ -325,7 +325,7 @@ namespace STranslate.ViewModels
                 }
             );
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
-            view.Execute();
+            view.InvokeCanOpen();
         }
 
         [RelayCommand]
@@ -405,7 +405,7 @@ namespace STranslate.ViewModels
                 }
             );
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
-            view.Execute();
+            view.InvokeCanOpen();
         }
 
         /// <summary>

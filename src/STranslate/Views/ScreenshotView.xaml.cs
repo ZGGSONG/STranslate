@@ -15,11 +15,6 @@ namespace STranslate.Views
         public ScreenshotView()
         {
             InitializeComponent();
-        }
-
-        public void Execute()
-        {
-            OnViewVisibilityChanged?.Invoke(false);
             _rectangle = new();
             var ms = System.Windows.Forms.Control.MousePosition;
             var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(screen => screen.Bounds.Contains(new Point(ms.X, ms.Y)));
@@ -68,6 +63,11 @@ namespace STranslate.Views
             }
             Background = BitmapUtil.ConvertBitmap2ImageBrush(_bitmap);
         }
+
+        /// <summary>
+        /// 打开时手动打调用触发事件
+        /// </summary>
+        public void InvokeCanOpen() => OnViewVisibilityChanged?.Invoke(false);
 
         private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
