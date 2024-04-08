@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
         xmlns:view="clr-namespace:STranslate.Views"
         xmlns:vm="clr-namespace:STranslate.ViewModels"
         Title="STranslate OCR"
@@ -276,26 +277,33 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                <Button Margin="10,0,10,10"
+            <StackPanel Margin="10,0,10,10" HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Margin="10,0"
                         Command="{Binding OpenfileCommand}"
                         Content="文件"
                         ToolTip="选中图片文件进行文字识别" />
-                <Button Margin="10,0,10,10"
+                <Button Margin="10,0"
                         Command="{Binding ScreenshotCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         Content="截图"
                         ToolTip="截图进行文字识别" />
-                <Button Margin="10,0,10,10"
+                <Button Margin="10,0"
                         Command="{Binding ClipboardImgCommand}"
                         Content="剪贴板"
                         ToolTip="剪贴板获取图片文字识别(如果最新一条为图片的话)" />
 
-                <Separator Width="20" Margin="10,0,10,10" Visibility="Collapsed">
+                <Separator Width="20" Margin="10,0">
                     <Separator.LayoutTransform>
                         <RotateTransform Angle="90" />
                     </Separator.LayoutTransform>
                 </Separator>
+
+                <ComboBox Margin="10,0"
+                          DisplayMemberPath="Description"
+                          FontSize="{DynamicResource FontSize_Content}"
+                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
+                          SelectedValue="{Binding Lang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValuePath="Value" />
 
                 <Button Margin="10,0,10,10"
                         Command=""

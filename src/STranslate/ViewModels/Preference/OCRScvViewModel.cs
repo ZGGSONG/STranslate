@@ -27,7 +27,7 @@ namespace STranslate.ViewModels.Preference
         /// <param name="showErrorToast">当OCR未启用时错误显示的窗口</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<OcrResult> ExecuteAsync(byte[] bytes, WindowType showErrorToast, CancellationToken? token = null)
+        public async Task<OcrResult> ExecuteAsync(byte[] bytes, WindowType showErrorToast, CancellationToken? token = null, LangEnum lang = LangEnum.auto)
         {
             if (ActivedOCR is null)
             {
@@ -35,7 +35,7 @@ namespace STranslate.ViewModels.Preference
                 return await Task.FromResult(OcrResult.Fail("未启用OCR服务"));
             }
 
-            return await ActivedOCR.ExecuteAsync(bytes, token ?? CancellationToken.None);
+            return await ActivedOCR.ExecuteAsync(bytes, lang, token ?? CancellationToken.None);
         }
 
         /// <summary>
@@ -73,6 +73,8 @@ namespace STranslate.ViewModels.Preference
             ResetView();
 
             CurOCRServiceList.OnActiveOCRChanged += ActiveOcrChanged;
+            //首次加载获取激活的OCR服务
+            ActivedOCR = CurOCRServiceList.First(x => x.IsEnabled);
         }
 
         private void ActiveOcrChanged(IOCR iOCR)

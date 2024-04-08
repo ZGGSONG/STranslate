@@ -23,7 +23,9 @@ namespace STranslate.Model
 
         string AppKey { get; set; }
 
-        Task<OcrResult> ExecuteAsync(byte[] bytes, CancellationToken token);
+        string? LangConverter(LangEnum lang);
+
+        Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken token);
 
         IOCR Clone();
     }

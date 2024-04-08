@@ -27,6 +27,12 @@ namespace STranslate.ViewModels
         public OCRScvViewModel OCRScvVM => Singleton<OCRScvViewModel>.Instance;
 
         /// <summary>
+        /// 语言类型
+        /// </summary>
+        [ObservableProperty]
+        private LangEnum _lang = LangEnum.auto;
+
+        /// <summary>
         /// 原始数据
         /// </summary>
         [ObservableProperty]
@@ -283,7 +289,7 @@ namespace STranslate.ViewModels
                 //清空
                 GetContent = "";
                 ToastHelper.Show("识别中...", WindowType.OCR);
-                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR);
+                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR, lang: Lang);
                 //判断结果
                 if (!ocrResult.Success)
                 {

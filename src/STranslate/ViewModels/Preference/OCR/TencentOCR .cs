@@ -18,7 +18,7 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public TencentOCR()
-            : this(Guid.NewGuid(), "https://ocr.tencentcloudapi.com", "腾讯OCR") { }
+            : this(Guid.NewGuid(), "https://ocr.tencentcloudapi.com", "腾讯OCR(通用印刷体识别)") { }
 
         public TencentOCR(
             Guid guid,
@@ -119,25 +119,23 @@ namespace STranslate.ViewModels.Preference.OCR
 
         #endregion Show/Hide Encrypt Info
 
-        [JsonIgnore]
-        [ObservableProperty]
-        private TencentOCRAction _ocrAction;
-
         #endregion Properties
 
         #region Interface Implementation
 
-        public async Task<OcrResult> ExecuteAsync(byte[] bytes, CancellationToken cancelToken)
+        public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
         {
             var secretId = AppID;
             var secretKey = AppKey;
             var token = "";
             var version = "2018-11-19";
-            var action = OcrAction.ToString();
+            var action = "GeneralBasicOCR";
             var region = TencentRegionEnum.ap_shanghai.ToString().Replace("_", "-");
 
             var base64Str = Convert.ToBase64String(bytes);
-            var body = "{\"ImageBase64\":\"" + base64Str + "\"}";
+            var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
+            var body = "{\"ImageBase64\":\"" + base64Str + "\",\"LanguageType\":\"" + target + "\"}";
+            
             var url = Url;
             var host = url.Replace("https://", "");
             var contentType = "application/json; charset=utf-8";
@@ -187,7 +185,50 @@ namespace STranslate.ViewModels.Preference.OCR
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 Icons = this.Icons,
-                OcrAction = this.OcrAction,
+            };
+        }
+
+        /// <summary>
+        ///https://cloud.tencent.com/document/product/866/33526
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh",
+                LangEnum.zh_tw => "zh_rare",
+                LangEnum.yue => "zh_rare",
+                LangEnum.en => "auto",
+                LangEnum.ja => "jap",
+                LangEnum.ko => "kor",
+                LangEnum.fr => "fre",
+                LangEnum.es => "spa",
+                LangEnum.ru => "rus",
+                LangEnum.de => "ger",
+                LangEnum.it => "ita",
+                LangEnum.tr => null,
+                LangEnum.pt_pt => "por",
+                LangEnum.pt_br => "por",
+                LangEnum.vi => "vie",
+                LangEnum.th => "tha",
+                LangEnum.ms => "may",
+                LangEnum.ar => "ara",
+                LangEnum.hi => "hi",
+                LangEnum.id => null,
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => "nor",
+                LangEnum.nn_no => "nor",
+                LangEnum.fa => null,
+                LangEnum.sv => "swe",
+                LangEnum.pl => null,
+                LangEnum.nl => "hol",
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 

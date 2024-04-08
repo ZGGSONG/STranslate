@@ -52,12 +52,12 @@ namespace STranslate.Model
         ar,
         [Description("印地语")]
         hi,
-        [Description("高棉语")]
-        km,
         [Description("蒙古语(西里尔)")]
         mn_cy,
         [Description("蒙古语")]
         mn_mo,
+        [Description("高棉语")]
+        km,
         [Description("书面挪威语")]
         nb_no,
         [Description("新挪威语")]

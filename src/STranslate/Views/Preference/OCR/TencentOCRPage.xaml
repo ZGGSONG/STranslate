@@ -31,23 +31,6 @@
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="版本: " />
-
-                <ComboBox Grid.Column="1"
-                          HorizontalAlignment="Left"
-                          BorderThickness="1"
-                          SelectedValue="{Binding OcrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          DisplayMemberPath="Description"
-                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:TencentOCRAction}}}"
-                          SelectedValuePath="Value">
-                </ComboBox>
-            </Grid>
-
             <Grid Margin="0,10" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />

@@ -203,7 +203,7 @@ namespace STranslate.ViewModels.Preference.Services
         }
 
         /// <summary>
-        /// https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support
+        /// https://learn.microsoft.com/zh-cn/azure/ai-services/translator/language-support
         /// </summary>
         /// <param name="lang"></param>
         /// <returns></returns>

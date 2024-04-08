@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using PaddleOCRSharp;
+using STranslate.Helper;
 using STranslate.Model;
 using System;
 using System.Collections.Generic;
@@ -125,8 +126,11 @@ namespace STranslate.ViewModels.Preference.OCR
 
         #region Interface Implementation
 
-        public Task<OcrResult> ExecuteAsync(byte[] bytes, CancellationToken token)
+        public Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang,  CancellationToken token)
         {
+            if (lang != LangEnum.auto)
+                ToastHelper.Show("该服务不支持指定语种", WindowType.OCR);
+
             var result = new OcrResult();
             var tcs = new TaskCompletionSource<OcrResult>();
 
@@ -205,6 +209,8 @@ namespace STranslate.ViewModels.Preference.OCR
                 Icons = this.Icons,
             };
         }
+
+        public string? LangConverter(LangEnum lang) => null;
 
         #endregion Interface Implementation
     }

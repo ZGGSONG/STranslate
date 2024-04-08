@@ -17,7 +17,7 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public BaiduOCR()
-            : this(Guid.NewGuid(), "https://aip.baidubce.com", "百度OCR") { }
+            : this(Guid.NewGuid(), "https://aip.baidubce.com", "百度OCR(高精度含位置版)") { }
 
         public BaiduOCR(
             Guid guid,
@@ -122,10 +122,10 @@ namespace STranslate.ViewModels.Preference.OCR
 
         #region Interface Implementation
 
-        public async Task<OcrResult> ExecuteAsync(byte[] bytes, CancellationToken cancelToken)
+        public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
         {
             var token = await GetAccessTokenAsync(AppID, AppKey, cancelToken);
-            var suffix = $"/rest/2.0/ocr/v1/general?access_token={token}";
+            var suffix = $"/rest/2.0/ocr/v1/accurate?access_token={token}";
             var url = Url.TrimEnd('/') + suffix;
             var headers = new Dictionary<string, string[]>
             {
@@ -133,14 +133,16 @@ namespace STranslate.ViewModels.Preference.OCR
                 { "Accept", ["application/json"]}
             };
             var base64Str = Convert.ToBase64String(bytes);
+            var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
             var queryParams = new Dictionary<string, string[]>
             {
-                {"image", [ base64Str ] },
-                {"detect_direction", ["false"] },
-                {"detect_language", ["false"] },
-                {"vertexes_location", ["false"] },
-                {"paragraph", ["false"] },
-                { "probability", ["false"] },
+                { "image", [ base64Str ] },
+                { "language_type", [ target ] },
+                { "detect_direction", [ "false" ] },
+                { "detect_language", [ "false" ] },
+                { "vertexes_location", [ "false" ] },
+                { "paragraph", [ "false" ] },
+                { "probability", [ "false" ] },
             };
             var resp = await HttpUtil.PostAsync(url, headers, queryParams, cancelToken);
             if (string.IsNullOrEmpty(resp))
@@ -176,6 +178,50 @@ namespace STranslate.ViewModels.Preference.OCR
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 Icons = this.Icons,
+            };
+        }
+
+        /// <summary>
+        /// https://ai.baidu.com/ai-doc/OCR/1k3h7y3db
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto_detect",
+                LangEnum.zh_cn => "CHN_ENG",
+                LangEnum.zh_tw => "CHN_ENG",
+                LangEnum.yue => "CHN_ENG",
+                LangEnum.en => "ENG",
+                LangEnum.ja => "JAP",
+                LangEnum.ko => "KOR",
+                LangEnum.fr => "FRE",
+                LangEnum.es => "SPA",
+                LangEnum.ru => "RUS",
+                LangEnum.de => "GER",
+                LangEnum.it => "ITA",
+                LangEnum.tr => "TUR",
+                LangEnum.pt_pt => "POR",
+                LangEnum.pt_br => "POR",
+                LangEnum.vi => "VIE",
+                LangEnum.id => "IND",
+                LangEnum.th => "THA",
+                LangEnum.ms => "MAL",
+                LangEnum.ar => "ARA",
+                LangEnum.hi => "HIN",
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => null,
+                LangEnum.nn_no => null,
+                LangEnum.fa => null,
+                LangEnum.sv => "SWE",
+                LangEnum.pl => "POL",
+                LangEnum.nl => "DUT",
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 
