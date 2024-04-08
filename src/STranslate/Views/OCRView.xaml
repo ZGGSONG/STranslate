@@ -303,35 +303,27 @@
                         ToolTip="原图/标注图转换"
                         Visibility="Collapsed" />
             </StackPanel>
-            <!--<ComboBox Margin="10,10,20,10"
-                      HorizontalAlignment="Right"
-                      ItemsSource="{Binding OcrTypes}"
-                      SelectedItem="{Binding OcrType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Visibility="Collapsed">
-            </ComboBox>-->
 
-            <Button Grid.Column="1"
-                    Margin="20,0,10,10"
-                    HorizontalAlignment="Left"
-                    Command="{Binding RecertificationCommand}"
-                    Content="识别" />
-            <Button Grid.Column="1"
-                    Margin="90,0,10,10"
-                    HorizontalAlignment="Left"
-                    Command="{Binding QRCodeCommand}"
-                    Content="二维码" />
-            <Button Grid.Column="1"
-                    Margin="10,0,20,10"
-                    HorizontalAlignment="Right"
-                    Command="{Binding TranslateCommand}"
-                    Content="翻译">
-                <Button.CommandParameter>
-                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                        <Binding Path="GetContent" />
-                        <Binding RelativeSource="{RelativeSource AncestorType=Window}" />
-                    </MultiBinding>
-                </Button.CommandParameter>
-            </Button>
+            <StackPanel Grid.Column="1" Margin="10,0,10,10" Orientation="Horizontal">
+                <ComboBox Margin="10,0"
+                          DisplayMemberPath="Name"
+                          FontSize="{DynamicResource FontSize_Content}"
+                          ItemsSource="{Binding OCRScvVM.CurOCRServiceList}"
+                          SelectedValue="{Binding OCRScvVM.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Margin="10,0" Command="{Binding RecertificationCommand}" Content="识别" />
+                <Button Margin="10,0" Command="{Binding QRCodeCommand}" Content="二维码" />
+                <Button Margin="10,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding TranslateCommand}"
+                        Content="翻译">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                            <Binding Path="GetContent" />
+                            <Binding RelativeSource="{RelativeSource AncestorType=Window}" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
         </Grid>
 
         <!-- // Notify // -->

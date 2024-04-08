@@ -1,4 +1,12 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Model;
+using STranslate.Util;
+using STranslate.ViewModels.Preference.OCR;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,14 +15,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using STranslate.Helper;
-using STranslate.Log;
-using STranslate.Model;
-using STranslate.Util;
-using STranslate.ViewModels.Preference.OCR;
 
 namespace STranslate.ViewModels.Preference
 {
@@ -38,7 +38,29 @@ namespace STranslate.ViewModels.Preference
             return await ActivedOCR.ExecuteAsync(bytes, token ?? CancellationToken.None);
         }
 
-        private IOCR? ActivedOCR => CurOCRServiceList.FirstOrDefault(x => x.IsEnabled);
+        /// <summary>
+        /// 当前激活的OCR服务
+        /// </summary>
+        private IOCR? _activeOCR;
+
+        public IOCR? ActivedOCR
+        {
+            get
+            {
+                //LogService.Logger.Debug("GET " + DateTime.Now.ToLongTimeString() + " " + _activeOCR);
+                return _activeOCR;
+            }
+            set
+            {
+                //LogService.Logger.Debug("SET " + DateTime.Now.ToLongTimeString() + " " + value);
+                if (_activeOCR == value) return;
+                OnPropertyChanging(nameof(ActivedOCR));
+                _activeOCR = value;
+                OnPropertyChanged(nameof(ActivedOCR));
+
+                CurOCRServiceList.First(x => x == value).IsEnabled = true;
+            }
+        }
 
         public OCRScvViewModel()
         {
@@ -49,6 +71,17 @@ namespace STranslate.ViewModels.Preference
             OcrServices.Add(new BaiduOCR());
 
             ResetView();
+
+            CurOCRServiceList.OnActiveOCRChanged += ActiveOcrChanged;
+        }
+
+        private void ActiveOcrChanged(IOCR iOCR)
+        {
+            if (iOCR.IsEnabled)
+            {
+                ActivedOCR = iOCR;
+                LogService.Logger.Debug($"Change Actived OCR Service: {iOCR.Identify} {iOCR.Name}");
+            }
         }
 
         /// <summary>
@@ -70,26 +103,26 @@ namespace STranslate.ViewModels.Preference
             switch (type)
             {
                 case ActionType.Delete:
-                {
-                    //不允许小于0
-                    SelectedIndex = Math.Max(tmpIndex - 1, 0);
-                    TogglePage(CurOCRServiceList[SelectedIndex]);
-                    break;
-                }
+                    {
+                        //不允许小于0
+                        SelectedIndex = Math.Max(tmpIndex - 1, 0);
+                        TogglePage(CurOCRServiceList[SelectedIndex]);
+                        break;
+                    }
                 case ActionType.Add:
-                {
-                    //选中最后一项
-                    SelectedIndex = OcrCounter - 1;
-                    TogglePage(CurOCRServiceList[SelectedIndex]);
-                    break;
-                }
+                    {
+                        //选中最后一项
+                        SelectedIndex = OcrCounter - 1;
+                        TogglePage(CurOCRServiceList[SelectedIndex]);
+                        break;
+                    }
                 default:
-                {
-                    //初始化默认执行选中第一条
-                    SelectedIndex = 0;
-                    TogglePage(CurOCRServiceList.First());
-                    break;
-                }
+                    {
+                        //初始化默认执行选中第一条
+                        SelectedIndex = 0;
+                        TogglePage(CurOCRServiceList.First());
+                        break;
+                    }
             }
         }
 

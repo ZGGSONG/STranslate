@@ -10,10 +10,8 @@ using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.Xml;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +24,8 @@ namespace STranslate.ViewModels
 {
     public partial class OCRViewModel : WindowVMBase
     {
+        public OCRScvViewModel OCRScvVM => Singleton<OCRScvViewModel>.Instance;
+
         /// <summary>
         /// 原始数据
         /// </summary>
@@ -444,8 +444,10 @@ namespace STranslate.ViewModels
 
         // https://www.cnblogs.com/snake-hand/archive/2012/08/13/2636227.html
         private bool mouseDown;
+
         private Point mouseXY;
-        private readonly double min = 0.1, max = 3.0;//最小/最大放大倍数
+        private readonly double min = 0.1,
+            max = 3.0; //最小/最大放大倍数
 
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -494,8 +496,10 @@ namespace STranslate.ViewModels
             // 获取 ScaleTransform
             var scaleTransform = (ScaleTransform)group.Children[0];
             // 检查缩放是否超出范围
-            if (scaleTransform.ScaleX + delta < min) return;
-            if (scaleTransform.ScaleX + delta > max) return;
+            if (scaleTransform.ScaleX + delta < min)
+                return;
+            if (scaleTransform.ScaleX + delta > max)
+                return;
             // 执行缩放操作
             scaleTransform.ScaleX += delta;
             scaleTransform.ScaleY += delta;
