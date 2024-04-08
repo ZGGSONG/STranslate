@@ -32,7 +32,7 @@ namespace STranslate.ViewModels.Preference
             if (ActivedOCR is null)
             {
                 ToastHelper.Show("未启用OCR服务", showErrorToast);
-                return await Task.FromResult(OcrResult.Empty);
+                return await Task.FromResult(OcrResult.Fail("未启用OCR服务"));
             }
 
             return await ActivedOCR.ExecuteAsync(bytes, token ?? CancellationToken.None);
