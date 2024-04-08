@@ -27,9 +27,9 @@ namespace STranslate.ViewModels
         /// <summary>
         /// 原始语言
         /// </summary>
-        private LanguageEnum _sourceLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLang ?? LanguageEnum.AUTO;
+        private LangEnum _sourceLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLang ?? LangEnum.auto;
 
-        public LanguageEnum SourceLang
+        public LangEnum SourceLang
         {
             get => _sourceLang;
             set
@@ -47,9 +47,9 @@ namespace STranslate.ViewModels
         /// <summary>
         /// 目标语言
         /// </summary>
-        private LanguageEnum _targetLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLang ?? LanguageEnum.AUTO;
+        private LangEnum _targetLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLang ?? LangEnum.auto;
 
-        public LanguageEnum TargetLang
+        public LangEnum TargetLang
         {
             get => _targetLang;
             set

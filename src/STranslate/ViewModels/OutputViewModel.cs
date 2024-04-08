@@ -25,9 +25,9 @@ namespace STranslate.ViewModels
             var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
             var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
 
-            var idetify = LanguageEnum.AUTO;
+            var idetify = LangEnum.auto;
             //如果是自动则获取自动识别后的目标语种
-            if (targetLang == LanguageEnum.AUTO)
+            if (targetLang == LangEnum.auto)
             {
                 var autoRet = StringUtil.AutomaticLanguageRecognition(inputVM.InputContent);
                 idetify = autoRet.Item1;
@@ -44,7 +44,7 @@ namespace STranslate.ViewModels
                     {
                         //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
                         //Auto则转换为识别语种
-                        sourceLang = sourceLang == LanguageEnum.AUTO ? idetify : sourceLang;
+                        sourceLang = sourceLang == LangEnum.auto ? idetify : sourceLang;
                         await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
                         break;
                     }

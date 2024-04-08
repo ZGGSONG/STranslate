@@ -143,11 +143,15 @@ namespace STranslate.ViewModels.Preference.Services
 
             if (request is RequestModel req)
             {
-                var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", req.TargetLang.ToLower() } };
+                //检查语种
+                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-                if (!string.Equals(req.SourceLang, "auto", StringComparison.CurrentCultureIgnoreCase))
+                var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", target } };
+
+                if (!string.Equals(source, "auto", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    query.Add("from", req.SourceLang.ToLower());
+                    query.Add("from", source);
                 }
 
                 var headers = new Dictionary<string, string> { { "Ocp-Apim-Subscription-Key", AppKey }, { "Ocp-Apim-Subscription-Region", AppID }, };
@@ -195,6 +199,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh-Hans",
+                LangEnum.zh_tw => "zh-Hant",
+                LangEnum.yue => "yue",
+                LangEnum.en => "en",
+                LangEnum.ja => "ja",
+                LangEnum.ko => "ko",
+                LangEnum.fr => "fr",
+                LangEnum.es => "es",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt-pt",
+                LangEnum.pt_br => "pt",
+                LangEnum.vi => "vi",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "ms",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+                LangEnum.mn_cy => "mn-Cyrl",
+                LangEnum.mn_mo => "mn-Mong",
+                LangEnum.km => "km",
+                LangEnum.nb_no => "nb",
+                LangEnum.nn_no => "nb",
+                LangEnum.fa => "fa",
+                LangEnum.sv => "sv",
+                LangEnum.pl => "pl",
+                LangEnum.nl => "nl",
+                LangEnum.uk => "uk",
+                _ => "auto"
             };
         }
 

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
@@ -7,7 +6,6 @@ using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -109,11 +107,15 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
+                //检查语种
+                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
                 //https://github.com/Baozisoftware/go-dll/wiki/C%23%E8%B0%83%E7%94%A8Go%E7%89%88DLL#%E5%85%B3%E4%BA%8Ego%E7%9A%84%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E8%BF%94%E5%9B%9E%E9%97%AE%E9%A2%98
                 //加入这个就不崩溃了
                 Environment.SetEnvironmentVariable("GODEBUG", "cgocheck=0");
-                var sourceBytes = Encoding.UTF8.GetBytes(req.SourceLang);
-                var targetBytes = Encoding.UTF8.GetBytes(req.TargetLang);
+                var sourceBytes = Encoding.UTF8.GetBytes(source);
+                var targetBytes = Encoding.UTF8.GetBytes(target);
                 var contentBytes = Encoding.UTF8.GetBytes(req.Text);
                 var result = await Task.Run(() => GoUtil.Execute(sourceBytes, targetBytes, contentBytes));
                 var resp = GoUtil.GoStringToCSharpString(result);
@@ -151,6 +153,50 @@ namespace STranslate.ViewModels.Preference.Services
                 AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
                 Tips = this.Tips,
+            };
+        }
+
+        /// <summary>
+        /// https://github.com/ZGGSONG/deepl-api#Languages
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "ZH",
+                LangEnum.zh_tw => "ZH",
+                LangEnum.yue => "ZH",
+                LangEnum.en => "EN",
+                LangEnum.ja => "JA",
+                LangEnum.ko => "KO",
+                LangEnum.fr => "FR",
+                LangEnum.es => "ES",
+                LangEnum.ru => "RU",
+                LangEnum.de => "DE",
+                LangEnum.it => "IT",
+                LangEnum.tr => "TR",
+                LangEnum.pt_pt => "PT-PT",
+                LangEnum.pt_br => "PT-BR",
+                LangEnum.vi => null,
+                LangEnum.id => "ID",
+                LangEnum.th => null,
+                LangEnum.ms => null,
+                LangEnum.ar => "AR",
+                LangEnum.hi => null,
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => "NB",
+                LangEnum.nn_no => "NB",
+                LangEnum.fa => null,
+                LangEnum.sv => "SV",
+                LangEnum.pl => "PL",
+                LangEnum.nl => "NL",
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 

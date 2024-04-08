@@ -139,11 +139,14 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
+                //检查语种
+                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
                 var paramsMap = new Dictionary<string, string[]>
                 {
                     { "q", new string[] { req.Text } },
-                    { "from", new string[] { req.SourceLang.ToLower() } },
-                    { "to", new string[] { req.TargetLang.ToLower() } },
+                    { "from", new string[] { source } },
+                    { "to", new string[] { target } },
                 };
                 // 添加鉴权相关参数
                 AuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
@@ -185,6 +188,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh-CHS",
+                LangEnum.zh_tw => "zh-CHT",
+                LangEnum.yue => "yue",
+                LangEnum.en => "en",
+                LangEnum.ja => "jp",
+                LangEnum.ko => "kor",
+                LangEnum.fr => "fra",
+                LangEnum.es => "spa",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt",
+                LangEnum.pt_br => "pt",
+                LangEnum.vi => "vie",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "may",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+                LangEnum.mn_cy => "mn",
+                LangEnum.mn_mo => "mn",
+                LangEnum.km => "km",
+                LangEnum.nb_no => "no",
+                LangEnum.nn_no => "no",
+                LangEnum.fa => "fa",
+                LangEnum.sv => "sv",
+                LangEnum.pl => "pl",
+                LangEnum.nl => "nl",
+                LangEnum.uk => "uk",
+                _ => "auto"
             };
         }
 

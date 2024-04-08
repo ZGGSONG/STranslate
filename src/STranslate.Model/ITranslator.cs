@@ -29,6 +29,8 @@ namespace STranslate.Model
 
         string AppKey { get; set; }
 
+        string? LangConverter(LangEnum lang);
+
         Task<TranslationResult> TranslateAsync(object request, CancellationToken token);
 
         Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token);

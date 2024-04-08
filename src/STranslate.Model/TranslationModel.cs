@@ -4,16 +4,16 @@ namespace STranslate.Model
 {
     #region Request
 
-    public class RequestModel(string text, string source, string target)
+    public class RequestModel(string text, LangEnum source, LangEnum target)
     {
         [JsonProperty("text")]
         public string Text { get; set; } = text;
 
         [JsonProperty("source_lang")]
-        public string SourceLang { get; set; } = source;
+        public LangEnum SourceLang { get; set; } = source;
 
         [JsonProperty("target_lang")]
-        public string TargetLang { get; set; } = target;
+        public LangEnum TargetLang { get; set; } = target;
     }
 
     #endregion Request

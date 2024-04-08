@@ -5,13 +5,12 @@ using STranslate.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using TencentCloud.Common.Profile;
 using TencentCloud.Common;
-using TencentCloud.Tmt.V20180321.Models;
+using TencentCloud.Common.Profile;
 using TencentCloud.Tmt.V20180321;
+using TencentCloud.Tmt.V20180321.Models;
 using Task = System.Threading.Tasks.Task;
 
 namespace STranslate.ViewModels.Preference.Services
@@ -150,6 +149,10 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel reqModel)
             {
+                //检查语种
+                var source = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
+                var target = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+
                 // 实例化一个认证对象，入参需要传入腾讯云账户 SecretId 和 SecretKey，此处还需注意密钥对的保密
                 // 代码泄露可能会导致 SecretId 和 SecretKey 泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议采用更安全的方式来使用密钥，请参见：https://cloud.tencent.com/document/product/1278/85305
                 // 密钥可前往官网控制台 https://console.cloud.tencent.com/cam/capi 进行获取
@@ -170,8 +173,8 @@ namespace STranslate.ViewModels.Preference.Services
                     new()
                     {
                         SourceText = reqModel.Text,
-                        Source = reqModel.SourceLang.ToLower(),
-                        Target = reqModel.TargetLang.ToLower(),
+                        Source = source,
+                        Target = target,
                         ProjectId = Convert.ToInt64(ProjectId)
                     };
                 // 返回的resp是一个TextTranslateResponse的实例，与请求对象对应
@@ -209,6 +212,51 @@ namespace STranslate.ViewModels.Preference.Services
                 ProjectId = this.ProjectId,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://cloud.tencent.com/document/product/551/15619
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh",
+                LangEnum.zh_tw => "zh-TW",
+                LangEnum.yue => null,
+                LangEnum.en => "en",
+                LangEnum.ja => "ja",
+                LangEnum.ko => "ko",
+                LangEnum.fr => "fr",
+                LangEnum.es => "es",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt",
+                LangEnum.pt_br => "pt",
+                LangEnum.vi => "vi",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "ms",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => null,
+                LangEnum.nn_no => null,
+                LangEnum.fa => null,
+                LangEnum.sv => null,
+                LangEnum.pl => null,
+                LangEnum.nl => null,
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 

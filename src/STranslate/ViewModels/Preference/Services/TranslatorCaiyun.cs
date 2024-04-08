@@ -139,10 +139,14 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
+                //检查语种
+                var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
                 var body = new
                 {
                     source = req.Text.Split(Environment.NewLine),
-                    trans_type = $"{req.SourceLang.ToLower()}2{req.TargetLang.ToLower()}",
+                    trans_type = $"{convSource}2{convTarget}",
                     request_id = "demo",
                     detect = true
                 };
@@ -189,6 +193,49 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://docs.caiyunapp.com/blog/2018/09/03/lingocloud-api/#%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%AD%E8%A8%80
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh",
+                LangEnum.zh_tw => "zh",
+                LangEnum.yue => "zh",
+                LangEnum.en => "en",
+                LangEnum.ja => "ja",
+
+                LangEnum.ko => null,
+                LangEnum.fr => null,
+                LangEnum.es => null,
+                LangEnum.ru => null,
+                LangEnum.de => null,
+                LangEnum.it => null,
+                LangEnum.tr => null,
+                LangEnum.pt_pt => null,
+                LangEnum.pt_br => null,
+                LangEnum.vi => null,
+                LangEnum.id => null,
+                LangEnum.th => null,
+                LangEnum.ms => null,
+                LangEnum.ar => null,
+                LangEnum.hi => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => null,
+                LangEnum.nn_no => null,
+                LangEnum.fa => null,
+                LangEnum.sv => null,
+                LangEnum.pl => null,
+                LangEnum.nl => null,
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 

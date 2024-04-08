@@ -181,8 +181,9 @@ namespace STranslate.ViewModels.Preference.Services
 
             if (request is RequestModel req)
             {
-                var source = req.SourceLang.ToLower();
-                var target = req.TargetLang.ToLower();
+                //检查语种
+                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
                 var content = req.Text;
 
                 UriBuilder uriBuilder = new(Url);
@@ -274,6 +275,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
                 Model = this.Model,
+            };
+        }
+
+        /// <summary>
+        /// https://zh.wikipedia.org/wiki/ISO_639-1%E4%BB%A3%E7%A0%81%E5%88%97%E8%A1%A8
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh-cn",
+                LangEnum.zh_tw => "zh-tw",
+                LangEnum.yue => "yue",
+                LangEnum.ja => "ja",
+                LangEnum.en => "en",
+                LangEnum.ko => "ko",
+                LangEnum.fr => "fr",
+                LangEnum.es => "es",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt_pt",
+                LangEnum.pt_br => "pt_br",
+                LangEnum.vi => "vi",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "ms",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+                LangEnum.mn_cy => "mn_cy",
+                LangEnum.mn_mo => "mn_mo",
+                LangEnum.km => "km",
+                LangEnum.nb_no => "nb_no",
+                LangEnum.nn_no => "nn_no",
+                LangEnum.fa => "fa",
+                LangEnum.sv => "sv",
+                LangEnum.pl => "pl",
+                LangEnum.nl => "nl",
+                LangEnum.uk => "uk",
+                _ => "auto"
             };
         }
 

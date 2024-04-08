@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
@@ -140,14 +141,18 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
+                //检查语种
+                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
                 //https://github.com/Baozisoftware/go-dll/wiki/C%23%E8%B0%83%E7%94%A8Go%E7%89%88DLL#%E5%85%B3%E4%BA%8Ego%E7%9A%84%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E8%BF%94%E5%9B%9E%E9%97%AE%E9%A2%98
                 //加入这个就不崩溃了
                 Environment.SetEnvironmentVariable("GODEBUG", "cgocheck=0");
 
                 var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
                 var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
-                var sourceBytes = Encoding.UTF8.GetBytes(req.SourceLang.ToLower());
-                var targetBytes = Encoding.UTF8.GetBytes(req.TargetLang.ToLower());
+                var sourceBytes = Encoding.UTF8.GetBytes(source);
+                var targetBytes = Encoding.UTF8.GetBytes(target);
                 var contentBytes = Encoding.UTF8.GetBytes(req.Text);
                 var result = await Task.Run(() => GoUtil.Execute(accessKeyBytes, secretKeyBytes, sourceBytes, targetBytes, contentBytes));
                 var tuple = GoUtil.GoTupleToCSharpTuple(result);
@@ -158,10 +163,18 @@ namespace STranslate.ViewModels.Preference.Services
                 // 解析JSON数据
                 var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
 
+                var data = "";
+                if (string.IsNullOrEmpty(parsedData["TranslationList"]?.ToString()))
+                {
+                    data = parsedData["ResponseMetadata"]?["Error"]?["Message"]?.ToString() ?? parsedData["ResponseMetadata"]?.ToString();
+                    return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取错误信息为空") : TranslationResult.Fail(data);
+                }
                 // 提取content的值
-                var data = parsedData["TranslationList"]?.FirstOrDefault()?["Translation"]?.ToString() ?? throw new Exception("未获取到结果");
-
-                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
+                else
+                {
+                    data = parsedData["TranslationList"]?.FirstOrDefault()?["Translation"]?.ToString();
+                    return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
+                }
             }
 
             throw new Exception($"请求数据出错: {request}");
@@ -189,6 +202,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://www.volcengine.com/docs/4640/35107
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh",
+                LangEnum.zh_tw => "zh-Hant",
+                LangEnum.yue => "yue",
+                LangEnum.en => "en",
+                LangEnum.ja => "ja",
+                LangEnum.ko => "ko",
+                LangEnum.fr => "fr",
+                LangEnum.es => "es",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt",
+                LangEnum.pt_br => "pt",
+                LangEnum.vi => "vi",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "ms",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+                LangEnum.mn_cy => "mn",
+                LangEnum.mn_mo => "mn",
+                LangEnum.km => "km",
+                LangEnum.nb_no => "nb",
+                LangEnum.nn_no => "no",
+                LangEnum.fa => "fa",
+                LangEnum.sv => "sv",
+                LangEnum.pl => "pl",
+                LangEnum.nl => "nl",
+                LangEnum.uk => "uk",
+                _ => "auto"
             };
         }
 

@@ -170,6 +170,10 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel reqModel)
             {
+                //检查语种
+                var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
+                var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+
                 // 请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
                 // 工程代码泄露可能会导致 AccessKey 泄露，并威胁账号下所有资源的安全性。以下代码示例使用环境变量获取 AccessKey 的方式进行调用，仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378671.html
                 Client client = CreateClient(AppID, AppKey, Url);
@@ -177,8 +181,8 @@ namespace STranslate.ViewModels.Preference.Services
                     new()
                     {
                         FormatType = "text",
-                        SourceLanguage = reqModel.SourceLang.ToLower(),
-                        TargetLanguage = reqModel.TargetLang.ToLower(),
+                        SourceLanguage = convSource,
+                        TargetLanguage = convTarget,
                         SourceText = reqModel.Text,
                         Scene = "general",
                     };
@@ -217,6 +221,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://help.aliyun.com/zh/machine-translation/support/supported-languages-and-codes?spm=a2c4g.158269.0.0.ddfc4f62vEpa38
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh",
+                LangEnum.zh_tw => "zh-tw",
+                LangEnum.yue => "yue",
+                LangEnum.en => "en",
+                LangEnum.ja => "ja",
+                LangEnum.ko => "ko",
+                LangEnum.fr => "fr",
+                LangEnum.es => "es",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt",
+                LangEnum.pt_br => "pt",
+                LangEnum.vi => "vi",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "ms",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+                LangEnum.mn_cy => "mn",
+                LangEnum.mn_mo => "mn",
+                LangEnum.km => "km",
+                LangEnum.nb_no => "no",
+                LangEnum.nn_no => "no",
+                LangEnum.fa => "fa",
+                LangEnum.sv => "sv",
+                LangEnum.pl => "pl",
+                LangEnum.nl => "nl",
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 

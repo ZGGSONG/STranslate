@@ -5,6 +5,77 @@ using System.Linq;
 
 namespace STranslate.Model
 {
+    /// <summary>
+    /// 支持的语种 https://zh.wikipedia.org/wiki/ISO_639-1%E4%BB%A3%E7%A0%81%E5%88%97%E8%A1%A8
+    /// </summary>
+    public enum LangEnum
+    {
+        [Description("自动选择")]
+        auto,
+        [Description("中文")]
+        zh_cn,
+        [Description("中文繁体")]
+        zh_tw,
+        [Description("中文粤语")]
+        yue,
+        [Description("英语")]
+        en,
+        [Description("日语")]
+        ja,
+        [Description("韩语")]
+        ko,
+        [Description("法语")]
+        fr,
+        [Description("西班牙语")]
+        es,
+        [Description("俄语")]
+        ru,
+        [Description("德语")]
+        de,
+        [Description("意大利语")]
+        it,
+        [Description("土耳其语")]
+        tr,
+        [Description("葡萄牙语")]
+        pt_pt,
+        [Description("布列塔尼语")]
+        pt_br,
+        [Description("越南语")]
+        vi,
+        [Description("印度尼西亚语")]
+        id,
+        [Description("泰语")]
+        th,
+        [Description("马来语")]
+        ms,
+        [Description("阿拉伯语")]
+        ar,
+        [Description("印地语")]
+        hi,
+        [Description("高棉语")]
+        km,
+        [Description("蒙古语(西里尔)")]
+        mn_cy,
+        [Description("蒙古语")]
+        mn_mo,
+        [Description("书面挪威语")]
+        nb_no,
+        [Description("新挪威语")]
+        nn_no,
+        [Description("波斯语")]
+        fa,
+        [Description("瑞典语")]
+        sv,
+        [Description("波兰语")]
+        pl,
+        [Description("荷兰语")]
+        nl,
+        [Description("乌克兰语")]
+        uk,
+    }
+
+
+    [Obsolete("过期")]
     public enum LanguageEnum
     {
         [Description("自动选择")]

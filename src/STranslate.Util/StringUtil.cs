@@ -130,7 +130,7 @@ namespace STranslate.Util
         ///     Item1: SourceLang
         ///     Item2: TargetLang
         /// </returns>
-        public static Tuple<LanguageEnum, LanguageEnum> AutomaticLanguageRecognition(string text, double scale = 0.8)
+        public static Tuple<LangEnum, LangEnum> AutomaticLanguageRecognition(string text, double scale = 0.8)
         {
             //1. 首先去除所有数字、标点及特殊符号
             //https://www.techiedelight.com/zh/strip-punctuations-from-a-string-in-csharp/
@@ -147,11 +147,11 @@ namespace STranslate.Util
             //3. 判断英文字符个数占第一步所有字符个数比例，若超过一定比例则判定原字符串为英文字符串，否则为中文字符串
             if (ratio > scale)
             {
-                return new Tuple<LanguageEnum, LanguageEnum>(LanguageEnum.EN, LanguageEnum.ZH);
+                return new Tuple<LangEnum, LangEnum>(LangEnum.en, LangEnum.zh_cn);
             }
             else
             {
-                return new Tuple<LanguageEnum, LanguageEnum>(LanguageEnum.ZH, LanguageEnum.EN);
+                return new Tuple<LangEnum, LangEnum>(LangEnum.zh_cn, LangEnum.en);
             }
         }
 

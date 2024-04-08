@@ -68,12 +68,12 @@ public class ConfigModel
     /// <summary>
     /// 原始语言
     /// </summary>
-    public LanguageEnum SourceLang { get; set; } = LanguageEnum.AUTO;
+    public LangEnum SourceLang { get; set; } = LangEnum.auto;
 
     /// <summary>
     /// 目标语言
     /// </summary>
-    public LanguageEnum TargetLang { get; set; } = LanguageEnum.AUTO;
+    public LangEnum TargetLang { get; set; } = LangEnum.auto;
 
     /// <summary>
     /// 退出时的位置

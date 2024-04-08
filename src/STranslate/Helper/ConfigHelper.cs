@@ -140,7 +140,7 @@ public class ConfigHelper
     /// <param name="source"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public bool WriteConfig(LanguageEnum source, LanguageEnum target)
+    public bool WriteConfig(LangEnum source, LangEnum target)
     {
         var isSuccess = false;
         if (CurrentConfig is null)
@@ -430,8 +430,8 @@ public class ConfigHelper
             IsTriggerShowHide = false,
             IsShowMainPlaceholder = true,
             ShowAuxiliaryLine = true,
-            SourceLang = LanguageEnum.AUTO,
-            TargetLang = LanguageEnum.AUTO,
+            SourceLang = LangEnum.auto,
+            TargetLang = LangEnum.auto,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),

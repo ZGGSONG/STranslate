@@ -137,14 +137,18 @@ namespace STranslate.ViewModels.Preference.Services
         {
             if (request is RequestModel req)
             {
+                //检查语种
+                var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+                var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
                 string salt = new Random().Next(100000).ToString();
                 string sign = StringUtil.EncryptString(AppID + req.Text + salt + AppKey);
 
                 var queryparams = new Dictionary<string, string>
                 {
                     { "q", req.Text },
-                    { "from", req.SourceLang.ToLower() },
-                    { "to", req.TargetLang.ToLower() },
+                    { "from", convSource},
+                    { "to", convTarget },
                     { "appid", AppID },
                     { "salt", salt },
                     { "sign", sign }
@@ -194,6 +198,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+            };
+        }
+
+        /// <summary>
+        /// https://fanyi-api.baidu.com/product/113
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "zh",
+                LangEnum.zh_tw => "cht",
+                LangEnum.yue => "yue",
+                LangEnum.en => "en",
+                LangEnum.ja => "jp",
+                LangEnum.ko => "kor",
+                LangEnum.fr => "fra",
+                LangEnum.es => "spa",
+                LangEnum.ru => "ru",
+                LangEnum.de => "de",
+                LangEnum.it => "it",
+                LangEnum.tr => "tr",
+                LangEnum.pt_pt => "pt",
+                LangEnum.pt_br => "pot",
+                LangEnum.vi => "vie",
+                LangEnum.id => "id",
+                LangEnum.th => "th",
+                LangEnum.ms => "may",
+                LangEnum.ar => "ar",
+                LangEnum.hi => "hi",
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => "hkm",
+                LangEnum.nb_no => "nob",
+                LangEnum.nn_no => "nno",
+                LangEnum.fa => "per",
+                LangEnum.sv => "swe",
+                LangEnum.pl => "pl",
+                LangEnum.nl => "nl",
+                LangEnum.uk => "ukr",
+                _ => "auto"
             };
         }
 

@@ -248,7 +248,9 @@ namespace STranslate.ViewModels.Preference.Services
                 var content = req.Text;
 
                 var isWord = StringUtil.IsWord(content);
-                var isAutoToZhOrEn = source.Equals("AUTO") && (target.Equals("ZH") || target.Equals("EN"));
+
+                //是否为自动转到中/英文
+                var isAutoToZhOrEn = source == LangEnum.auto && (target == LangEnum.zh_cn || target == LangEnum.zh_tw || target == LangEnum.yue || target == LangEnum.en);
                 if (!(isWord && isAutoToZhOrEn))
                     goto Empty;
 
@@ -293,6 +295,8 @@ namespace STranslate.ViewModels.Preference.Services
                 DbFileSize = this.DbFileSize,
             };
         }
+
+        public string? LangConverter(LangEnum lang) => null;
 
         #endregion Interface Implementation
     }

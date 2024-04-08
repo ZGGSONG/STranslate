@@ -120,9 +120,19 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken canceltoken)
         {
-            if (request is RequestModel)
+            if (request is RequestModel reqModel)
             {
-                var req = JsonConvert.SerializeObject(request);
+                var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
+                var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+
+                var preReq = new
+                {
+                    text = reqModel.Text,
+                    source_lang = convSource,
+                    target_lang = convTarget,
+                };
+
+                var req = JsonConvert.SerializeObject(preReq);
 
                 var authToken = string.IsNullOrEmpty(Token) ? [] : new Dictionary<string, string> { { "Authorization", $"Bearer {Token}" } };
 
@@ -165,6 +175,50 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 Tips = this.Tips,
                 Token = this.Token,
+            };
+        }
+
+        /// <summary>
+        /// https://github.com/ZGGSONG/deepl-api#Languages
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        public string? LangConverter(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "auto",
+                LangEnum.zh_cn => "ZH",
+                LangEnum.zh_tw => "ZH",
+                LangEnum.yue => "ZH",
+                LangEnum.en => "EN",
+                LangEnum.ja => "JA",
+                LangEnum.ko => "KO",
+                LangEnum.fr => "FR",
+                LangEnum.es => "ES",
+                LangEnum.ru => "RU",
+                LangEnum.de => "DE",
+                LangEnum.it => "IT",
+                LangEnum.tr => "TR",
+                LangEnum.pt_pt => "PT-PT",
+                LangEnum.pt_br => "PT-BR",
+                LangEnum.vi => null,
+                LangEnum.id => "ID",
+                LangEnum.th => null,
+                LangEnum.ms => null,
+                LangEnum.ar => "AR",
+                LangEnum.hi => null,
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => "NB",
+                LangEnum.nn_no => "NB",
+                LangEnum.fa => null,
+                LangEnum.sv => "SV",
+                LangEnum.pl => "PL",
+                LangEnum.nl => "NL",
+                LangEnum.uk => null,
+                _ => "auto"
             };
         }
 
