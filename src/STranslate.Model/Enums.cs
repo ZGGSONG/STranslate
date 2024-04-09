@@ -442,6 +442,7 @@ namespace STranslate.Model
         TTS,
         Favorite,
         History,
+        Backup,
         About
     }
 
@@ -534,6 +535,17 @@ namespace STranslate.Model
         zh_CN_XiaoxuanNeural,
         [Description("云希-男-西南官话")]
         zh_CN_sichuan_YunxiNeural,
+    }
+
+    /// <summary>
+    /// 备份方式
+    /// </summary>
+    public enum BackupType
+    {
+        [Description("本地")]
+        Local,
+        [Description("WebDav")]
+        WebDav,
     }
 
     /// <summary>

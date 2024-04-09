@@ -29,6 +29,10 @@
     <DataTemplate DataType="{x:Type vm:HistoryViewModel}">
         <view:HistoryPage/>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:BackupViewModel}">
+        <view:BackupPage/>
+    </DataTemplate>
     
     <DataTemplate DataType="{x:Type vm:AboutViewModel}">
         <view:AboutPage/>

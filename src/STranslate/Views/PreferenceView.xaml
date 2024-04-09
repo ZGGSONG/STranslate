@@ -129,6 +129,10 @@
                         <TextBlock Style="{StaticResource Text_Style}" Text="历史记录" />
                     </menu:Btn>
 
+                    <menu:Btn Command="{Binding BackupPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Backup}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="备份恢复" />
+                    </menu:Btn>
+
                     <menu:Btn Command="{Binding AboutPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=About}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="关于软件" />
                     </menu:Btn>
