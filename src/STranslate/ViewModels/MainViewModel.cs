@@ -536,9 +536,7 @@ namespace STranslate.ViewModels
             }
             else if (service is IOCR io)
             {
-                io.IsEnabled = !io.IsEnabled;
-
-                Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
+                Singleton<OCRScvViewModel>.Instance.ActivedOCR = io;
             }
             else if (service is ITTS its)
             {

@@ -301,7 +301,7 @@
                         <RotateTransform Angle="90" />
                     </Separator.LayoutTransform>
                 </Separator>
-                
+
                 <Button Margin="10,0" Command="{Binding OCRPreferenceCommand}" Content="设置" />
 
                 <ComboBox MaxWidth="280"
@@ -310,11 +310,6 @@
                           FontSize="{DynamicResource FontSize_Content}"
                           ItemsSource="{Binding OCRScvVM.CurOCRServiceList}"
                           SelectedValue="{Binding OCRScvVM.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding OCRScvVM.SelectedOCRCommand}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </ComboBox>
 
                 <ComboBox Margin="10,0"

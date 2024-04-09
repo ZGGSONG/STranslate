@@ -89,7 +89,10 @@
                                                            Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                                             </Border>
 
-                                            <ToggleButton Grid.Column="3" IsChecked="{Binding IsEnabled}" />
+                                            <ToggleButton Grid.Column="3"
+                                                          Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.SelectedOCRCommand}"
+                                                          CommandParameter="{Binding}"
+                                                          IsChecked="{Binding IsEnabled}" />
                                         </Grid>
                                     </Border>
                                     <DataTemplate.Triggers>

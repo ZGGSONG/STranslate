@@ -50,10 +50,11 @@ namespace STranslate.ViewModels.Preference
         }
 
         [RelayCommand]
-        private void SelectedOCR(SelectionChangedEventArgs e)
+        private void SelectedOCR(IOCR ocr)
         {
-            CurOCRServiceList.First(x => x == e.AddedItems[0]).IsEnabled = true;
-            Save();
+            _isPreferenceOperate = true;
+            ActivedOCR = ocr;
+            _isPreferenceOperate = false;
         }
 
         /// <summary>
@@ -244,10 +245,27 @@ namespace STranslate.ViewModels.Preference
         [ObservableProperty]
         private OCRCollection<IOCR> _curOCRServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? [];
 
+
+        private bool _isPreferenceOperate = false;
         /// <summary>
         /// 当前激活的OCR服务
         /// </summary>
-        [ObservableProperty]
         private IOCR? _activedOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList?.FirstOrDefault(x => x.IsEnabled);
+        public IOCR? ActivedOCR
+        {
+            get => _activedOCR;
+            set
+            {
+                if (_activedOCR != value)
+                {
+                    _activedOCR = value;
+                    OnPropertyChanged(nameof(ActivedOCR));
+
+                    CurOCRServiceList.First(x => x == value).IsEnabled = true;
+                    
+                    if (!_isPreferenceOperate) Save();
+                }
+            }
+        }
     }
 }
