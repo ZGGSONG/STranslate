@@ -470,17 +470,6 @@ namespace STranslate.Model
     }
 
     /// <summary>
-    /// 腾讯OCR精度枚举
-    /// </summary>
-    public enum TencentOCRAction
-    {
-        [Description("通用印刷体识别")]
-        GeneralBasicOCR,//普通精度OCR
-        [Description("通用印刷体识别（高精度版）")]
-        GeneralAccurateOCR,//高精度OCR
-    }
-
-    /// <summary>
     /// Azure TTS 语音
     /// </summary>
     public enum AzureVoiceEnum

@@ -38,30 +38,6 @@ namespace STranslate.ViewModels.Preference
             return await ActivedOCR.ExecuteAsync(bytes, lang, token ?? CancellationToken.None);
         }
 
-        /// <summary>
-        /// 当前激活的OCR服务
-        /// </summary>
-        private IOCR? _activeOCR;
-
-        public IOCR? ActivedOCR
-        {
-            get
-            {
-                //LogService.Logger.Debug("GET " + DateTime.Now.ToLongTimeString() + " " + _activeOCR);
-                return _activeOCR;
-            }
-            set
-            {
-                //LogService.Logger.Debug("SET " + DateTime.Now.ToLongTimeString() + " " + value);
-                if (_activeOCR == value) return;
-                OnPropertyChanging(nameof(ActivedOCR));
-                _activeOCR = value;
-                OnPropertyChanged(nameof(ActivedOCR));
-
-                CurOCRServiceList.First(x => x == value).IsEnabled = true;
-            }
-        }
-
         public OCRScvViewModel()
         {
             //添加默认支持OCR
@@ -71,19 +47,13 @@ namespace STranslate.ViewModels.Preference
             OcrServices.Add(new BaiduOCR());
 
             ResetView();
-
-            CurOCRServiceList.OnActiveOCRChanged += ActiveOcrChanged;
-            //首次加载获取激活的OCR服务
-            ActivedOCR = CurOCRServiceList.First(x => x.IsEnabled);
         }
 
-        private void ActiveOcrChanged(IOCR iOCR)
+        [RelayCommand]
+        private void SelectedOCR(SelectionChangedEventArgs e)
         {
-            if (iOCR.IsEnabled)
-            {
-                ActivedOCR = iOCR;
-                LogService.Logger.Debug($"Change Actived OCR Service: {iOCR.Identify} {iOCR.Name}");
-            }
+            CurOCRServiceList.First(x => x == e.AddedItems[0]).IsEnabled = true;
+            Save();
         }
 
         /// <summary>
@@ -273,5 +243,11 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private OCRCollection<IOCR> _curOCRServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? [];
+
+        /// <summary>
+        /// 当前激活的OCR服务
+        /// </summary>
+        [ObservableProperty]
+        private IOCR? _activedOCR = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList?.FirstOrDefault(x => x.IsEnabled);
     }
 }

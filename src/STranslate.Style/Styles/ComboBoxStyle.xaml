@@ -67,7 +67,8 @@
                                                                    HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
                                                                    Foreground="{TemplateBinding Foreground}"
-                                                                   Text="{TemplateBinding Content}" />
+                                                                   Text="{TemplateBinding Content}"
+                                                                   TextTrimming="CharacterEllipsis" />
                                                     </Border>
                                                 </ControlTemplate>
                                             </Setter.Value>

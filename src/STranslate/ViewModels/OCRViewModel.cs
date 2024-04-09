@@ -427,6 +427,16 @@ namespace STranslate.ViewModels
             ToastHelper.Show("复制成功", WindowType.OCR);
         }
 
+        [RelayCommand]
+        private void OCRPreference()
+        {
+            PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+            view ??= new PreferenceView();
+            view.UpdateNavigation(PerferenceType.OCR);
+            view.Show();
+            view.Activate();
+        }
+
         #region 鼠标缩放、拖拽
 
         [ObservableProperty]

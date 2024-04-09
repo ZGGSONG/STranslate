@@ -26,6 +26,7 @@
     </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="OemComma" Command="{Binding OCRPreferenceCommand}" Modifiers="Ctrl" />
         <KeyBinding Key="T"
                     Command="{Binding StickyCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
@@ -277,7 +278,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="10,0,10,10" HorizontalAlignment="Left" Orientation="Horizontal">
+            <StackPanel Grid.ColumnSpan="2"
+                        Margin="10,0,10,10"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
                 <Button Margin="10,0"
                         Command="{Binding OpenfileCommand}"
                         Content="文件"
@@ -297,6 +301,21 @@
                         <RotateTransform Angle="90" />
                     </Separator.LayoutTransform>
                 </Separator>
+                
+                <Button Margin="10,0" Command="{Binding OCRPreferenceCommand}" Content="设置" />
+
+                <ComboBox MaxWidth="280"
+                          Margin="10,0"
+                          DisplayMemberPath="Name"
+                          FontSize="{DynamicResource FontSize_Content}"
+                          ItemsSource="{Binding OCRScvVM.CurOCRServiceList}"
+                          SelectedValue="{Binding OCRScvVM.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding OCRScvVM.SelectedOCRCommand}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
 
                 <ComboBox Margin="10,0"
                           DisplayMemberPath="Description"
@@ -312,14 +331,11 @@
                         Visibility="Collapsed" />
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Margin="10,0,10,10" Orientation="Horizontal">
-                <ComboBox Margin="10,0"
-                          DisplayMemberPath="Name"
-                          FontSize="{DynamicResource FontSize_Content}"
-                          ItemsSource="{Binding OCRScvVM.CurOCRServiceList}"
-                          SelectedValue="{Binding OCRScvVM.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Margin="10,0" Command="{Binding RecertificationCommand}" Content="识别" />
-                <Button Margin="10,0" Command="{Binding QRCodeCommand}" Content="二维码" />
+            <StackPanel Grid.Column="1"
+                        Margin="10,0,10,10"
+                        HorizontalAlignment="Right"
+                        FlowDirection="RightToLeft"
+                        Orientation="Horizontal">
                 <Button Margin="10,0"
                         HorizontalAlignment="Right"
                         Command="{Binding TranslateCommand}"
@@ -331,6 +347,8 @@
                         </MultiBinding>
                     </Button.CommandParameter>
                 </Button>
+                <Button Margin="10,0" Command="{Binding QRCodeCommand}" Content="二维码" />
+                <Button Margin="10,0" Command="{Binding RecertificationCommand}" Content="识别" />
             </StackPanel>
         </Grid>
 
