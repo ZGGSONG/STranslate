@@ -230,6 +230,26 @@ public class ConfigModel
     public bool ShowAuxiliaryLine { get; set; } = true;
 
     /// <summary>
+    /// WebDav Type
+    /// </summary>
+    public BackupType BackupType { get; set; } = BackupType.Local;
+
+    /// <summary>
+    /// WebDavUrl
+    /// </summary>
+    public string WebDavUrl { get; set; } = string.Empty;
+
+    /// <summary>
+    /// WebDav用户名
+    /// </summary>
+    public string WebDavUsername { get; set; } = string.Empty;
+
+    /// <summary>
+    /// WebDav密码
+    /// </summary>
+    public string WebDavPassword { get; set; } = string.Empty;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -301,6 +321,10 @@ public class ConfigModel
             IsTriggerShowHide = IsTriggerShowHide,
             IsShowMainPlaceholder = IsShowMainPlaceholder,
             ShowAuxiliaryLine = ShowAuxiliaryLine,
+            BackupType = BackupType,
+            WebDavUrl = WebDavUrl,
+            WebDavUsername = WebDavUsername,
+            WebDavPassword = WebDavPassword,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

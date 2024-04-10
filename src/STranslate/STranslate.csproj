@@ -42,6 +42,7 @@
     <PackageReference Include="PaddleOCRSharp" />
     <PackageReference Include="System.Speech" />
     <PackageReference Include="TencentCloudSDK.Tmt" />
+    <PackageReference Include="WebDav.Client" />
     <PackageReference Include="WpfScreenHelper" />
     <PackageReference Include="XamlFlair.WPF" />
     <PackageReference Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" />

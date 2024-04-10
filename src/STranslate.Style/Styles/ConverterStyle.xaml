@@ -13,7 +13,7 @@
     <converter:BooleanToVisibilityReverseConverter x:Key="BooleanToVisibilityReverseConverter" />
     <converter:BooleanToContentConverter x:Key="BooleanToContentConverter" />
     <converter:PreferenceType2BooleanConverter x:Key="PreferenceType2BooleanConverter" />
-    <converter:ProxyMethodToVisibilityConverter x:Key="ProxyMethodToVisibilityConverter" />
+    <converter:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
     <converter:MultiProxyParam2VisibilityConverter x:Key="MultiProxyParam2VisibilityConverter" />
     <converter:Expander2ScaleYConverter x:Key="Expander2ScaleYConverter" />
     <converter:ComboBoxIconConverter x:Key="ComboBoxIconConverter" />

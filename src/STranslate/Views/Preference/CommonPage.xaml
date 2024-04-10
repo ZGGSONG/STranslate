@@ -118,25 +118,25 @@
                             </DockPanel>
 
                             <!-- // 代理配置 // -->
-                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource ProxyMethodToVisibilityConverter}}">
+                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
                                 <TextBlock Text="服务器" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器IP地址" />
-                                <common:PlaceholderTextBox MinWidth="120"
+                                <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
                                                            Placeholder="请输入IP地址"
                                                            Text="{Binding ProxyIp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             </DockPanel>
-                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource ProxyMethodToVisibilityConverter}}">
+                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
                                 <TextBlock Text="端口" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器端口" />
-                                <common:PlaceholderTextBox MinWidth="120"
+                                <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
                                                            Placeholder="请输入端口号"
                                                            PreviewKeyDown="AcceptOnlyNumber"
                                                            Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             </DockPanel>
 
-                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource ProxyMethodToVisibilityConverter}}">
+                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
                                 <TextBlock Text="代理服务器验证" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器需要身份验证" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsProxyAuthentication}" />
@@ -145,7 +145,7 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="用户名" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器用户名" />
-                                <common:PlaceholderTextBox MinWidth="120"
+                                <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
                                                            Placeholder="请输入用户名"
                                                            Text="{Binding ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -161,13 +161,13 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="密码" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器密码" />
-                                <common:PlaceholderTextBox MinWidth="120"
+                                <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
                                                            DockPanel.Dock="Right"
                                                            Placeholder="请输入密码"
                                                            Text="{Binding ProxyPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                            Visibility="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                                <PasswordBox MinWidth="120"
+                                <PasswordBox MinWidth="200"
                                              HorizontalAlignment="Right"
                                              common:BoundPasswordBox.Attach="True"
                                              common:BoundPasswordBox.Password="{Binding ProxyPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

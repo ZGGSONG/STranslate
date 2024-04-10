@@ -169,6 +169,15 @@ namespace STranslate.ViewModels
             }
         }
 
+        public void Reset()
+        {
+            Translators.Clear();
+            foreach (var item in Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [])
+            {
+                Translators.Add(item);
+            }
+        }
+
         #region gong-wpf-dragdrop interface implementation
 
         public void DragOver(IDropInfo dropInfo)

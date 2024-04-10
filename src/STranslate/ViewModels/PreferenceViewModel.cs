@@ -12,8 +12,20 @@ namespace STranslate.ViewModels
 {
     public partial class PreferenceViewModel : WindowVMBase
     {
-        [ObservableProperty]
         private PerferenceType _pType;
+
+        //手动重写取消判断value是否更新，每次都触发避免手动点击切换导航（convertback-donothing）
+        //再进入设置首页（convert）导航选中UI不更新的问题
+        public PerferenceType PType
+        {
+            get => _pType;
+            set
+            {
+                OnPropertyChanging();
+                _pType = value;
+                OnPropertyChanged();
+            }
+        }
 
         public void UpdateNavigation(PerferenceType type = PerferenceType.Common)
         {

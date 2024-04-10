@@ -27,7 +27,7 @@ namespace STranslate.ViewModels
         /// <summary>
         /// 原始语言
         /// </summary>
-        private LangEnum _sourceLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLang ?? LangEnum.auto;
+        private LangEnum _sourceLang;
 
         public LangEnum SourceLang
         {
@@ -47,7 +47,7 @@ namespace STranslate.ViewModels
         /// <summary>
         /// 目标语言
         /// </summary>
-        private LangEnum _targetLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLang ?? LangEnum.auto;
+        private LangEnum _targetLang;
 
         public LangEnum TargetLang
         {
@@ -84,6 +84,14 @@ namespace STranslate.ViewModels
         public MainViewModel()
         {
             SqlHelper.InitializeDB();
+
+            Reset();
+        }
+
+        public void Reset()
+        {
+            SourceLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLang ?? LangEnum.auto;
+            TargetLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLang ?? LangEnum.auto;
             // 加载是否启用增量更新
             IsEnableIncrementalTranslation = (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
         }
@@ -455,14 +463,12 @@ namespace STranslate.ViewModels
         }
 
         [RelayCommand]
-        private void ResetMaxHeightWidth(Window view)
+        private void ResetMaxHeightWidth()
         {
             var height = Singleton<ConfigHelper>.Instance.CurrentConfig?.MaxHeight ?? MaxHeight.Maximum;
             var width = Singleton<ConfigHelper>.Instance.CurrentConfig?.Width ?? WidthEnum.Minimum;
             if (height != CommonSettingVM.MaxHeight || width != CommonSettingVM.Width)
             {
-                //view.Left = left;
-                //view.Top = top;
                 CommonSettingVM.Width = width;
                 CommonSettingVM.MaxHeight = height;
             }

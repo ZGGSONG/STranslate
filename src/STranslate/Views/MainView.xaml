@@ -58,7 +58,7 @@
         <KeyBinding Command="{Binding ViewWidthMaxHeightMinusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+OemMinus" />
         <KeyBinding Command="{Binding ViewWidthMinusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+Alt+OemMinus" />
         <KeyBinding Command="{Binding ViewMaxHeightMinusCommand}" Gesture="Ctrl+Shift+OemMinus" />
-        <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+0" />
+        <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" Gesture="Ctrl+0" />
     </Window.InputBindings>
     <Window.Resources>
         <Storyboard x:Key="WAnimation">

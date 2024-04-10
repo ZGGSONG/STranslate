@@ -54,8 +54,12 @@ namespace STranslate.Model
 
         public static string AppName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location);
         public static string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
-        public static string CnfName = $"{AppData}\\{AppName.ToLower()}.json";
+        public static string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
+        public static string DbFullName = $"{AppData}\\{AppName.ToLower()}.db";
+        public static string DbConnectionString = $"Data Source={DbFullName}";
         public static string ECDICTPath = System.IO.Path.Combine(AppData, "stardict.db");
+
+        public static string ExecutePath = Environment.CurrentDirectory;
 
         public static Dictionary<IconType, string> ICONDICT = System.Windows.Application.Current.Resources.MergedDictionaries
                 .FirstOrDefault(x => x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml", UriKind.Absolute))
@@ -66,5 +70,8 @@ namespace STranslate.Model
                 ) ?? [];
 
         public const string MAINVIEWPLACEHOLDER = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
+
+        public const string CNFEXTENSION = ".json";
+        public const string CNFNAME = "stranslate";
     }
 }

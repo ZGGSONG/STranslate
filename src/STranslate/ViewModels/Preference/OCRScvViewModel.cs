@@ -179,6 +179,7 @@ namespace STranslate.ViewModels.Preference
         private void Reset()
         {
             CurOCRServiceList = Singleton<ConfigHelper>.Instance.ResetConfig.OCRList ?? [];
+            ActivedOCR = CurOCRServiceList.FirstOrDefault(x => x.IsEnabled);
             ResetView(ActionType.Initialize);
             ToastHelper.Show("重置配置", WindowType.Preference);
         }
@@ -256,7 +257,7 @@ namespace STranslate.ViewModels.Preference
             get => _activedOCR;
             set
             {
-                if (_activedOCR != value)
+                if (value != null && _activedOCR != value)
                 {
                     _activedOCR = value;
                     OnPropertyChanged(nameof(ActivedOCR));

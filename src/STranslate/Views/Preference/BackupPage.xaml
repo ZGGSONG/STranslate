@@ -31,33 +31,71 @@
                     </DockPanel>
 
 
-
-                    <DockPanel Margin="20,10">
-                        <TextBlock Text="双击托盘功能" />
-                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标左键双击头盘程序功能选择" />
-                        <ComboBox Height="30"
-                                  HorizontalAlignment="Right"
-                                  DisplayMemberPath="Description"
-                                  ItemsSource="{Binding Source={common:Enumeration {x:Type model:DoubleTapFuncEnum}}}"
-                                  SelectedValue="{Binding DoubleTapTrayFunc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedValuePath="Value" />
+                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                        <TextBlock Text="地址" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器地址" />
+                        <common:PlaceholderTextBox MinWidth="200"
+                                                   MaxWidth="400"
+                                                   HorizontalAlignment="Right"
+                                                   Placeholder="请输入WebDav地址"
+                                                   Text="{Binding WebDavUrl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
 
-                    <DockPanel Margin="20,10">
-                        <TextBlock Text="显示界面重复触发显/隐" />
-                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
-                        <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsTriggerShowHide}" />
+                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                        <TextBlock Text="用户名" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器用户名" />
+                        <common:PlaceholderTextBox MinWidth="200"
+                                                   MaxWidth="400"
+                                                   HorizontalAlignment="Right"
+                                                   Placeholder="请输入用户名"
+                                                   Text="{Binding WebDavUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </DockPanel>
+
+                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                        <TextBlock Text="密码" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器密码" />
+                        <common:PlaceholderTextBox MinWidth="200"
+                                                   MaxWidth="400"
+                                                   HorizontalAlignment="Right"
+                                                   DockPanel.Dock="Right"
+                                                   Placeholder="请输入密码"
+                                                   Text="{Binding WebDavPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Visibility="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                        <PasswordBox MinWidth="200"
+                                     MaxWidth="400"
+                                     HorizontalAlignment="Right"
+                                     common:BoundPasswordBox.Attach="True"
+                                     common:BoundPasswordBox.Password="{Binding WebDavPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     DockPanel.Dock="Right"
+                                     Tag="请输入密码"
+                                     ToolTip="{Binding WebDavPassword}"
+                                     Visibility="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Button HorizontalAlignment="Right"
+                                Command="{Binding ShowEncryptInfoCommand}"
+                                CommandParameter="WebDavPassword"
+                                Content="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                                DockPanel.Dock="Right"
+                                Style="{DynamicResource ButtonIconStyle}" />
                     </DockPanel>
                 </StackPanel>
             </Border>
 
-            <Grid Margin="0,40,0,0">
+            <Grid Margin="0,30,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
-                
+
+                <Button Margin="40,0"
+                        Command="{Binding BackupCommand}"
+                        Content="导出配置"
+                        FontSize="{DynamicResource FontSize_Backup}" />
+
+                <Button Grid.Column="1"
+                        Margin="40,0"
+                        Command="{Binding RestoreCommand}"
+                        Content="导入配置"
+                        FontSize="{DynamicResource FontSize_Backup}" />
             </Grid>
         </StackPanel>
     </Border>

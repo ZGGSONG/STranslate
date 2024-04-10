@@ -105,15 +105,15 @@
                     </menu:Btn>
 
                     <menu:Btn Command="{Binding ServicePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}" Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="服务设置" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="翻译服务" />
                     </menu:Btn>
 
                     <menu:Btn Command="{Binding OCRPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=OCR}" Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="OCR设置" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="OCR服务" />
                     </menu:Btn>
 
                     <menu:Btn Command="{Binding TTSPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=TTS}" Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="语音设置" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="语音服务" />
                     </menu:Btn>
                     <!-- //  分隔符号  // -->
                     <!--<Separator Background="DarkGray" Margin="10,20"/>-->
@@ -130,7 +130,7 @@
                     </menu:Btn>
 
                     <menu:Btn Command="{Binding BackupPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Backup}" Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="备份恢复" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="导入导出" />
                     </menu:Btn>
 
                     <menu:Btn Command="{Binding AboutPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=About}" Style="{StaticResource BtnStyle}">

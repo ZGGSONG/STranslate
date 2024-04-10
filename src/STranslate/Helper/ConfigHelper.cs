@@ -29,13 +29,20 @@ public class ConfigHelper
             Directory.CreateDirectory(ConstStr.AppData); //创建新路径
             ShortcutUtil.SetDesktopShortcut(); //创建桌面快捷方式
         }
-        if (!File.Exists(ConstStr.CnfName)) //文件不存在
+        if (!File.Exists(ConstStr.CnfFullName)) //文件不存在
         {
-            FileStream fs = new(ConstStr.CnfName, FileMode.Create, FileAccess.ReadWrite);
+            FileStream fs = new(ConstStr.CnfFullName, FileMode.Create, FileAccess.ReadWrite);
             fs.Close();
             WriteConfig(InitialConfig());
         }
+        InitialCurntCnf();
+    }
 
+    /// <summary>
+    /// 读取配置文件到缓存
+    /// </summary>
+    public void InitialCurntCnf()
+    {
         //初始化时将初始值赋给Config属性
         CurrentConfig = ResetConfig;
     }
@@ -66,6 +73,9 @@ public class ConfigHelper
 
         //初始化首页图标
         MainViewIconOperate();
+
+        //初始化宽高
+        HeightWidthOperate();
     }
 
     /// <summary>
@@ -238,6 +248,48 @@ public class ConfigHelper
         return isSuccess;
     }
 
+
+    /// <summary>
+    /// 写入备份到配置
+    /// </summary>
+    /// <param name="hotkeys"></param>
+    /// <returns></returns>
+    public bool WriteConfig(BackupViewModel model)
+    {
+        var isSuccess = false;
+        if (CurrentConfig is null)
+            return isSuccess;
+        CurrentConfig.BackupType = model.BackupType;
+        CurrentConfig.WebDavUrl = model.WebDavUrl;
+        CurrentConfig.WebDavUsername = model.WebDavUsername;
+        CurrentConfig.WebDavPassword = model.WebDavPassword;
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
+        return isSuccess;
+    }
+
+    /// <summary>
+    /// 校验配置
+    /// </summary>
+    /// <param name="configPath"></param>
+    /// <returns></returns>
+    public bool VerificateConfig(string configPath)
+    {
+        try
+        {
+            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
+            var content = File.ReadAllText(configPath);
+            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
+            Decryption(config);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Warn($"读取配置({configPath})出错，{ex.Message}");
+            return false;
+        }
+    }
+
     #endregion 公共方法
 
     #region 私有方法
@@ -247,30 +299,9 @@ public class ConfigHelper
         try
         {
             var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
-            var content = File.ReadAllText(ConstStr.CnfName);
+            var content = File.ReadAllText(ConstStr.CnfFullName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
-            // 读取时解密AppID、AppKey
-            config
-                .Services?.ToList()
-                .ForEach(service =>
-                {
-                    service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
-                    service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
-                });
-            config
-                .OCRList?.ToList()
-                .ForEach(ocr =>
-                {
-                    ocr.AppID = string.IsNullOrEmpty(ocr.AppID) ? ocr.AppID : DESUtil.DesDecrypt(ocr.AppID);
-                    ocr.AppKey = string.IsNullOrEmpty(ocr.AppKey) ? ocr.AppKey : DESUtil.DesDecrypt(ocr.AppKey);
-                });
-            config
-                .TTSList?.ToList()
-                .ForEach(tts =>
-                {
-                    tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
-                    tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
-                });
+            Decryption(config);
             return config;
         }
         catch (Exception ex)
@@ -282,42 +313,91 @@ public class ConfigHelper
             return InitialConfig();
         }
     }
-
+    
     /// <summary>
     /// 备份当前配置文件
     /// </summary>
     private string BackupCurrentConfig()
     {
         var backupFilePath = $"{ConstStr.AppData}\\{ConstStr.AppName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
-        File.Copy(ConstStr.CnfName, backupFilePath, true);
+        File.Copy(ConstStr.CnfFullName, backupFilePath, true);
         return backupFilePath;
     }
 
     private void WriteConfig(ConfigModel conf)
     {
         var copy = conf.Clone();
+        Encryption(copy);
+        File.WriteAllText(ConstStr.CnfFullName, JsonConvert.SerializeObject(copy, Formatting.Indented));
+    }
+
+    /// <summary>
+    /// 加密
+    /// </summary>
+    /// <param name="conf"></param>
+    private void Encryption(ConfigModel conf)
+    {
+        // proxy pwd
+        conf.ProxyPassword = string.IsNullOrEmpty(conf.ProxyPassword) ? conf.ProxyPassword : DESUtil.DesEncrypt(conf.ProxyPassword);
+
+        // webdav pwd
+        conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword) ? conf.WebDavPassword : DESUtil.DesEncrypt(conf.WebDavPassword);
+
         // Translate Service加密
-        copy.Services?.ToList()
+        conf.Services?.ToList()
             .ForEach(service =>
             {
                 service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
                 service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
             });
         // OCR加密
-        copy.OCRList?.ToList()
+        conf.OCRList?.ToList()
             .ForEach(ocr =>
             {
                 ocr.AppID = string.IsNullOrEmpty(ocr.AppID) ? ocr.AppID : DESUtil.DesEncrypt(ocr.AppID);
                 ocr.AppKey = string.IsNullOrEmpty(ocr.AppKey) ? ocr.AppKey : DESUtil.DesEncrypt(ocr.AppKey);
             });
         // TTS加密
-        copy.TTSList?.ToList()
+        conf.TTSList?.ToList()
             .ForEach(tts =>
             {
                 tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesEncrypt(tts.AppID);
                 tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesEncrypt(tts.AppKey);
             });
-        File.WriteAllText(ConstStr.CnfName, JsonConvert.SerializeObject(copy, Formatting.Indented));
+    }
+
+    /// <summary>
+    /// 解密
+    /// </summary>
+    /// <param name="conf"></param>
+    private void Decryption(ConfigModel conf)
+    {
+        // 读取时解密 proxy webdav 密码
+        conf.ProxyPassword = string.IsNullOrEmpty(conf.ProxyPassword) ? conf.ProxyPassword : DESUtil.DesDecrypt(conf.ProxyPassword);
+        conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword) ? conf.WebDavPassword : DESUtil.DesDecrypt(conf.WebDavPassword);
+
+        // 读取时解密AppID、AppKey
+        conf
+            .Services?.ToList()
+            .ForEach(service =>
+            {
+                service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
+                service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
+            });
+        conf
+            .OCRList?.ToList()
+            .ForEach(ocr =>
+            {
+                ocr.AppID = string.IsNullOrEmpty(ocr.AppID) ? ocr.AppID : DESUtil.DesDecrypt(ocr.AppID);
+                ocr.AppKey = string.IsNullOrEmpty(ocr.AppKey) ? ocr.AppKey : DESUtil.DesDecrypt(ocr.AppKey);
+            });
+        conf
+            .TTSList?.ToList()
+            .ForEach(tts =>
+            {
+                tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
+                tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
+            });
     }
 
     private void ThemeOperate(ThemeType themeType)
@@ -365,6 +445,9 @@ public class ConfigHelper
 
     //刷新主窗口图标
     private void MainViewIconOperate() => Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
+
+    //重置窗口大小
+    private void HeightWidthOperate() => Singleton<MainViewModel>.Instance.ResetMaxHeightWidthCommand.Execute(null);
 
     #endregion 私有方法
 
@@ -430,14 +513,16 @@ public class ConfigHelper
             IsTriggerShowHide = false,
             IsShowMainPlaceholder = true,
             ShowAuxiliaryLine = true,
+            WebDavUrl = string.Empty,
+            WebDavUsername = string.Empty,
+            WebDavPassword = string.Empty,
             SourceLang = LangEnum.auto,
             TargetLang = LangEnum.auto,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),
                 new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
-                new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", IconType.DeepL, isEnabled: false),
-                new TranslatorApi(Guid.NewGuid(), "https://iciba.deno.dev/translate", "爱词霸", IconType.Iciba, isEnabled: false)
+                new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", IconType.DeepL, isEnabled: false)
             ],
             OCRList = [ new PaddleOCR() ],
             TTSList = [ new TTSOffline() ]

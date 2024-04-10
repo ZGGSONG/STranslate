@@ -6,22 +6,25 @@ using System.Windows.Data;
 
 namespace STranslate.Style.Converters
 {
-    public sealed class ProxyMethodToVisibilityConverter : IValueConverter
+    public sealed class EnumToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ProxyMethodEnum proxyMethodEnum)
+            return value switch
             {
-                return proxyMethodEnum switch
+                ProxyMethodEnum proxyMethodEnum => proxyMethodEnum switch
                 {
                     ProxyMethodEnum.不使用代理 => Visibility.Collapsed,
                     ProxyMethodEnum.系统代理 => Visibility.Collapsed,
-                    ProxyMethodEnum.HTTP => Visibility.Visible,
-                    ProxyMethodEnum.SOCKS5 => Visibility.Visible,
-                    _ => Visibility.Collapsed
-                };
-            }
-            return Visibility.Collapsed;
+                    _ => Visibility.Visible
+                },
+                BackupType backupType => backupType switch
+                {
+                    BackupType.Local => Visibility.Collapsed,
+                    _ => Visibility.Visible
+                },
+                _ => Visibility.Collapsed
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

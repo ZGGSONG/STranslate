@@ -16,6 +16,7 @@
     <PackageVersion Include="PaddleOCRSharp" Version="4.1.0" />
     <PackageVersion Include="System.Speech" Version="8.0.0" />
     <PackageVersion Include="TencentCloudSDK.Tmt" Version="3.0.961" />
+    <PackageVersion Include="WebDav.Client" Version="2.8.0" />
     <PackageVersion Include="WpfScreenHelper" Version="2.1.0" />
     <PackageVersion Include="XamlFlair.WPF" Version="1.2.13" />
     <PackageVersion Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" Version="0.16.7" />
