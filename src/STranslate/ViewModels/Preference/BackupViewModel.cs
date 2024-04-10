@@ -183,7 +183,7 @@ namespace STranslate.ViewModels.Preference
                 var response = await client.PutFile($"{absolutePath}/{fn}", FileUtil.FileToStream(zipFilePath));
 
                 // 打印通知
-                if (response.IsSuccessful)
+                if (response.IsSuccessful && response.StatusCode == 201)
                 {
                     ToastHelper.Show("导出成功", WindowType.Preference);
                 }
@@ -254,6 +254,10 @@ namespace STranslate.ViewModels.Preference
             if (dialog.ShowDialog() == true)
             {
                 BackOperate(tmpPath);
+            }
+            else
+            {
+                Directory.Delete(tmpPath, true);
             }
             webDavVM.WebDavResultList.Clear();
         }
