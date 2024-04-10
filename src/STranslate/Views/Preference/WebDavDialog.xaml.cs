@@ -33,11 +33,11 @@ namespace STranslate.Views.Preference
 
         private readonly WebDavViewModel vm = Singleton<WebDavViewModel>.Instance;
 
-        public WebDavDialog(WebDavClient client, string absolutePath)
+        public WebDavDialog(WebDavClient client, string absolutePath, string tmpPath)
         {
             InitializeComponent();
 
-            vm.UpdateParam(client, absolutePath);
+            vm.UpdateParam(client, absolutePath, tmpPath);
             DataContext = vm;
         }
 

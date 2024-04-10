@@ -20,6 +20,9 @@
     <WindowChrome.WindowChrome>
         <WindowChrome />
     </WindowChrome.WindowChrome>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+    </Window.InputBindings>
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -87,15 +90,34 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Margin="20,0,0,0" Text="{Binding}" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Margin="20,0,0,0"
+                                           FontWeight="Bold"
+                                           Text="{Binding}"
+                                           TextTrimming="CharacterEllipsis" />
 
-                                <Button Grid.Column="1" Content="Down" />
+                                <Button Grid.Column="1"
+                                        Command="{Binding DataContext.DownloadCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        Content="&#xe6d5;"
+                                        FontWeight="Bold"
+                                        Style="{DynamicResource ButtonIconStyle}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="." RelativeSource="{RelativeSource AncestorType=Window}" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
 
-                                <Button Grid.Column="2" Content="Dele" />
+                                <Button Grid.Column="2"
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}"
+                                        Content="&#xe74b;"
+                                        FontWeight="Bold"
+                                        Style="{DynamicResource ButtonIconStyle}" />
                             </Grid>
                         </Border>
                     </DataTemplate>
