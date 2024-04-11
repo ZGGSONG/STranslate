@@ -338,7 +338,9 @@ namespace STranslate.ViewModels.Preference
             Singleton<ServiceViewModel>.Instance.ResetCommand.Execute(null);
             Singleton<OCRScvViewModel>.Instance.ResetCommand.Execute(null);
             Singleton<TTSViewModel>.Instance.ResetCommand.Execute(null);
-            //TODO: hotkey
+
+            //hotkey
+            Singleton<HotkeyViewModel>.Instance.ResetCommand.Execute(null);
 
             ToastHelper.Show("导入成功", WindowType.Preference);
         }

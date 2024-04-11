@@ -123,6 +123,38 @@ namespace STranslate.ViewModels.Preference
             conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Key = cHotkeys.ClipboardMonitor.Key;
             conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text = cHotkeys.ClipboardMonitor.Text;
 
+            HotkeyHelper.Hotkeys!.InputTranslate.Modifiers = cHotkeys.InputTranslate.Modifiers;
+            HotkeyHelper.Hotkeys!.InputTranslate.Key = cHotkeys.InputTranslate.Key;
+            HotkeyHelper.Hotkeys!.InputTranslate.Text = cHotkeys.InputTranslate.Text;
+
+            HotkeyHelper.Hotkeys!.CrosswordTranslate.Modifiers = cHotkeys.CrosswordTranslate.Modifiers;
+            HotkeyHelper.Hotkeys!.CrosswordTranslate.Key = cHotkeys.CrosswordTranslate.Key;
+            HotkeyHelper.Hotkeys!.CrosswordTranslate.Text = cHotkeys.CrosswordTranslate.Text;
+
+            HotkeyHelper.Hotkeys!.ScreenShotTranslate.Modifiers = cHotkeys.ScreenShotTranslate.Modifiers;
+            HotkeyHelper.Hotkeys!.ScreenShotTranslate.Key = cHotkeys.ScreenShotTranslate.Key;
+            HotkeyHelper.Hotkeys!.ScreenShotTranslate.Text = cHotkeys.ScreenShotTranslate.Text;
+
+            HotkeyHelper.Hotkeys!.OpenMainWindow.Modifiers = cHotkeys.OpenMainWindow.Modifiers;
+            HotkeyHelper.Hotkeys!.OpenMainWindow.Key = cHotkeys.OpenMainWindow.Key;
+            HotkeyHelper.Hotkeys!.OpenMainWindow.Text = cHotkeys.OpenMainWindow.Text;
+
+            HotkeyHelper.Hotkeys!.MousehookTranslate.Modifiers = cHotkeys.MousehookTranslate.Modifiers;
+            HotkeyHelper.Hotkeys!.MousehookTranslate.Key = cHotkeys.MousehookTranslate.Key;
+            HotkeyHelper.Hotkeys!.MousehookTranslate.Text = cHotkeys.MousehookTranslate.Text;
+
+            HotkeyHelper.Hotkeys!.OCR.Modifiers = cHotkeys.OCR.Modifiers;
+            HotkeyHelper.Hotkeys!.OCR.Key = cHotkeys.OCR.Key;
+            HotkeyHelper.Hotkeys!.OCR.Text = cHotkeys.OCR.Text;
+
+            HotkeyHelper.Hotkeys!.SilentOCR.Modifiers = cHotkeys.SilentOCR.Modifiers;
+            HotkeyHelper.Hotkeys!.SilentOCR.Key = cHotkeys.SilentOCR.Key;
+            HotkeyHelper.Hotkeys!.SilentOCR.Text = cHotkeys.SilentOCR.Text;
+
+            HotkeyHelper.Hotkeys!.ClipboardMonitor.Modifiers = cHotkeys.ClipboardMonitor.Modifiers;
+            HotkeyHelper.Hotkeys!.ClipboardMonitor.Key = cHotkeys.ClipboardMonitor.Key;
+            HotkeyHelper.Hotkeys!.ClipboardMonitor.Text = cHotkeys.ClipboardMonitor.Text;
+
             HotkeyHelper.ReRegisterHotKey();
             HotKeyConflictCheck();
             RefreshNotifyToolTip();
