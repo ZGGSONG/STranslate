@@ -300,7 +300,6 @@ namespace STranslate.ViewModels.Preference
             Init();
             Singleton<MainViewModel>.Instance.Reset();
             Singleton<InputViewModel>.Instance.Clear();
-            Singleton<OutputViewModel>.Instance.Reset();
             Singleton<CommonViewModel>.Instance.ResetCommand.Execute(null);
             Singleton<ServiceViewModel>.Instance.ResetCommand.Execute(null);
             Singleton<OCRScvViewModel>.Instance.ResetCommand.Execute(null);

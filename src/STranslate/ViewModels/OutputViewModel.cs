@@ -16,7 +16,7 @@ namespace STranslate.ViewModels
     public partial class OutputViewModel : ObservableObject, IDropTarget
     {
         [ObservableProperty]
-        private BindingList<ITranslator> _translators = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
+        private BindingList<ITranslator> _translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList ?? [];
 
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
@@ -166,15 +166,6 @@ namespace STranslate.ViewModels
             foreach (var item in Translators)
             {
                 item.Data = TranslationResult.Reset;
-            }
-        }
-
-        public void Reset()
-        {
-            Translators.Clear();
-            foreach (var item in Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [])
-            {
-                Translators.Add(item);
             }
         }
 
