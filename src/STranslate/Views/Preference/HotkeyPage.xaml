@@ -1,293 +1,203 @@
 ﻿<UserControl x:Class="STranslate.Views.Preference.HotkeyPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
              d:DataContext="{d:DesignInstance Type=vm:HotkeyViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:FontFamily="{DynamicResource UserFont}"
              d:FontSize="{DynamicResource FontSize_Content}"
-             Loaded="UserControl_Loaded"
              Style="{StaticResource ResourceKey=Page_Style}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="20,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <Style BasedOn="{StaticResource CommonTB}" TargetType="TextBox">
+            <Setter Property="Margin" Value="20,2" />
+            <Setter Property="MinWidth" Value="180" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="CaretBrush" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="20,0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="DockPanel.Dock" Value="Right" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Visibility" Value="Hidden" />
+            <Setter Property="Text" Value="热键冲突" />
+            <Setter Property="Foreground" Value="{DynamicResource HotkeyCollisionForeground}" />
+        </Style>
+    </UserControl.Resources>
     <Border CornerRadius="5">
         <Border Margin="8" Background="{DynamicResource BorderBackground}" CornerRadius="5">
             <StackPanel Margin="20">
+                <!-- // 输入翻译 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="输入翻译" />
-                    <TextBox x:Name="InputTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="Input_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="InputHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="输入翻译" />
+                    <TextBox Grid.Column="1" Text="{Binding InputHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.InputHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding InputHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 划词翻译 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="划词翻译" />
-                    <TextBox x:Name="CrossWordTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="CrossWord_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="CrossWordHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="划词翻译" />
+                    <TextBox Grid.Column="1" Text="{Binding CrosswordHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.CrosswordHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding CrosswordHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 截图翻译 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="截图翻译" />
-                    <TextBox x:Name="ScreenshotTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="Screenshot_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="ScreenshotHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="截图翻译" />
+                    <TextBox Grid.Column="1" Text="{Binding ScreenshotHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.ScreenshotHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding ScreenshotHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 显示界面 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="显示界面" />
-                    <TextBox x:Name="OpenMainWindowTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="ShowMainwin_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="ShowMainwinHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="显示界面" />
+                    <TextBox Grid.Column="1" Text="{Binding OpenHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.OpenHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding OpenHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 鼠标滑动 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="鼠标滑动" />
-                    <TextBox x:Name="MousehookTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="Mousehook_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="MousehookHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="鼠标滑动" />
+                    <TextBox Grid.Column="1" Text="{Binding MousehookHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.MousehookHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding MousehookHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 文字识别 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="文字识别" />
-                    <TextBox x:Name="OCRTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="OCR_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="OCRHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="文字识别" />
+                    <TextBox Grid.Column="1" Text="{Binding OcrHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.OcrHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding OcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 静默OCR // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="静默OCR" />
-                    <TextBox x:Name="SilentOCRTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="SilentOCR_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="SilentOCRHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="静默OCR" />
+                    <TextBox Grid.Column="1" Text="{Binding SilentOcrHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.SilentOcrHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding SilentOcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 监听剪贴板 // -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="1.5*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Margin="20,0"
-                           VerticalAlignment="Center"
-                           HorizontalContentAlignment="Right"
-                           Content="监听剪贴板" />
-                    <TextBox x:Name="ClipboardMonitorTextBox"
-                             Grid.Column="1"
-                             MinWidth="180"
-                             Margin="20,2"
-                             HorizontalAlignment="Left"
-                             VerticalContentAlignment="Center"
-                             CaretBrush="Transparent"
-                             Cursor="Hand"
-                             InputMethod.IsInputMethodEnabled="False"
-                             KeyUp="ClipboardMonitor_KeyUp"
-                             PreviewKeyDown="HotKeyTextBox_PreviewKeyDown" />
-                    <Label x:Name="ClipboardMonitorHotKeyConflictLabel"
-                           Grid.Column="2"
-                           Margin="20,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
-                           Content="热键冲突"
-                           DockPanel.Dock="Right"
-                           FontWeight="Bold"
-                           Foreground="{DynamicResource LabelHotkeyCollisionForeground}"
-                           Visibility="Hidden" />
+                    <Label Grid.Column="0" Content="监听剪贴板" />
+                    <TextBox Grid.Column="1" Text="{Binding ClipboardMonitorHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.ClipboardMonitorHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding ClipboardMonitorHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 保存撤销 // -->
                 <Grid Margin="20,30,0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
@@ -298,12 +208,12 @@
                             MinWidth="160"
                             Margin="10,0"
                             HorizontalAlignment="Right"
-                            Click="SaveHotkeys"
+                            Command="{Binding SaveCommand}"
                             Content="保存配置" />
                     <Button Grid.Column="1"
                             MinWidth="160"
                             HorizontalAlignment="Left"
-                            Click="ResetHoskeys"
+                            Command="{Binding ResetCommand}"
                             Content="恢复默认" />
                 </Grid>
             </StackPanel>

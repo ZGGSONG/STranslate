@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,68 +13,97 @@ namespace STranslate.Model
     {
         [Description("自动选择")]
         auto,
+
         [Description("中文")]
         zh_cn,
+
         [Description("中文繁体")]
         zh_tw,
+
         [Description("中文粤语")]
         yue,
+
         [Description("英语")]
         en,
+
         [Description("日语")]
         ja,
+
         [Description("韩语")]
         ko,
+
         [Description("法语")]
         fr,
+
         [Description("西班牙语")]
         es,
+
         [Description("俄语")]
         ru,
+
         [Description("德语")]
         de,
+
         [Description("意大利语")]
         it,
+
         [Description("土耳其语")]
         tr,
+
         [Description("葡萄牙语")]
         pt_pt,
+
         [Description("布列塔尼语")]
         pt_br,
+
         [Description("越南语")]
         vi,
+
         [Description("印度尼西亚语")]
         id,
+
         [Description("泰语")]
         th,
+
         [Description("马来语")]
         ms,
+
         [Description("阿拉伯语")]
         ar,
+
         [Description("印地语")]
         hi,
+
         [Description("蒙古语(西里尔)")]
         mn_cy,
+
         [Description("蒙古语")]
         mn_mo,
+
         [Description("高棉语")]
         km,
+
         [Description("书面挪威语")]
         nb_no,
+
         [Description("新挪威语")]
         nn_no,
+
         [Description("波斯语")]
         fa,
+
         [Description("瑞典语")]
         sv,
+
         [Description("波兰语")]
         pl,
+
         [Description("荷兰语")]
         nl,
+
         [Description("乌克兰语")]
         uk,
     }
-
 
     [Obsolete("过期")]
     public enum LanguageEnum
@@ -208,48 +238,70 @@ namespace STranslate.Model
     {
         [Description("本地")]
         STranslate,
+
         [Description("DeepL")]
         DeepL,
+
         [Description("百度")]
         Baidu,
+
         [Description("谷歌")]
         Google,
+
         [Description("爱词霸")]
         Iciba,
+
         [Description("有道")]
         Youdao,
+
         [Description("必应")]
         Bing,
+
         [Description("OpenAI")]
         OpenAI,
+
         [Description("Gemini")]
         Gemini,
+
         [Description("腾讯")]
         Tencent,
+
         [Description("阿里")]
         Ali,
+
         [Description("小牛")]
         Niutrans,
+
         [Description("彩云")]
         Caiyun,
+
         [Description("微软")]
         Microsoft,
+
         [Description("火山")]
         Volcengine,
+
         [Description("简明汉字词典")]
         Ecdict,
+
         [Description("Azure")]
         Azure,
+
         [Description("智谱清言")]
         Chatglm,
+
         [Description("零一万物")]
         Linyi,
+
         [Description("DeepSeek")]
         DeepSeek,
+
         [Description("PaddleOCR")]
         PaddleOCR,
+
         [Description("腾讯OCR")]
         Tencent2,
+
         [Description("百度OCR")]
         Baidu2,
     }
@@ -345,36 +397,52 @@ namespace STranslate.Model
     {
         [Description("亚太东南_曼谷")]
         ap_bangkok,
+
         [Description("华北地区_北京")]
         ap_beijing,
+
         [Description("西南地区_成都")]
         ap_chengdu,
+
         [Description("西南地区_重庆")]
         ap_chongqing,
+
         [Description("华南地区_广州")]
         ap_guangzhou,
+
         [Description("港澳台地区_中国香港")]
         ap_hongkong,
+
         [Description("亚太南部_孟买")]
         ap_mumbai,
+
         [Description("亚太东北_首尔")]
         ap_seoul,
+
         [Description("华东地区_上海")]
         ap_shanghai,
+
         [Description("华东地区_上海金融")]
         ap_shanghai_fsi,
+
         [Description("华南地区_深圳金融")]
         ap_shenzhen_fsi,
+
         [Description("亚太东南_新加坡")]
         ap_singapore,
+
         [Description("亚太东北_东京")]
         ap_tokyo,
+
         [Description("欧洲地区_法兰克福")]
         eu_frankfurt,
+
         [Description("美国东部_弗吉尼亚")]
         na_ashburn,
+
         [Description("美国西部_硅谷")]
         na_siliconvalley,
+
         [Description("北美地区_多伦多")]
         na_toronto,
     }
@@ -453,8 +521,10 @@ namespace STranslate.Model
     {
         [Description("明亮主题")]
         Light,
+
         [Description("黑暗主题")]
         Dark,
+
         [Description("跟随系统")]
         Auto,
     }
@@ -477,62 +547,91 @@ namespace STranslate.Model
     {
         [Description("晓北-女-东北官话")]
         zh_CN_liaoning_XiaobeiNeural,
+
         [Description("云登-男-中原官话河南")]
         zh_CN_henan_YundengNeural,
+
         [Description("晓妮-女-中原官话陕西")]
         zh_CN_shaanxi_XiaoniNeural,
+
         [Description("云翔-男-冀鲁官话")]
         zh_CN_shandong_YunxiangNeural,
+
         [Description("晓晓-女-普通话")]
         zh_CN_XiaoxiaoNeural,
+
         [Description("云希-男-普通话")]
         zh_CN_YunxiNeural,
+
         [Description("云建-男-普通话")]
         zh_CN_YunjianNeural,
+
         [Description("晓伊-女-普通话")]
         zh_CN_XiaoyiNeural,
+
         [Description("云扬-男-普通话")]
         zh_CN_YunyangNeural,
+
         [Description("晓辰-男-普通话")]
         zh_CN_XiaochenNeural,
+
         [Description("晓涵-男-普通话")]
         zh_CN_XiaohanNeural,
+
         [Description("晓梦-女-普通话")]
         zh_CN_XiaomengNeural,
+
         [Description("晓墨-女-普通话")]
         zh_CN_XiaomoNeural,
+
         [Description("晓秋-女-普通话")]
         zh_CN_XiaoqiuNeural,
+
         [Description("晓睿-女-普通话")]
         zh_CN_XiaoruiNeural,
+
         [Description("晓双-女-普通话")]
         zh_CN_XiaoshuangNeural,
+
         [Description("晓颜-女-普通话")]
         zh_CN_XiaoyanNeural,
+
         [Description("晓悠-女-普通话")]
         zh_CN_XiaoyouNeural,
+
         [Description("晓甄-女-普通话")]
         zh_CN_XiaozhenNeural,
+
         [Description("云枫-男-普通话")]
         zh_CN_YunfengNeural,
+
         [Description("云皓-男-普通话")]
         zh_CN_YunhaoNeural,
+
         [Description("云夏-男-普通话")]
         zh_CN_YunxiaNeural,
+
         [Description("云野-男-普通话")]
         zh_CN_YunyeNeural,
+
         [Description("云泽-男-普通话")]
         zh_CN_YunzeNeural,
+
         [Description("小晨-女-普通话")]
         zh_CN_XiaochenMultilingualNeural,
+
         [Description("晓柔-女-普通话")]
         zh_CN_XiaorouNeural,
+
         [Description("晓晓方言-女-普通话")]
         zh_CN_XiaoxiaoDialectsNeural,
+
         [Description("云杰-男-普通话")]
         zh_CN_YunjieNeural,
+
         [Description("晓萱-女-普通话")]
         zh_CN_XiaoxuanNeural,
+
         [Description("云希-男-西南官话")]
         zh_CN_sichuan_YunxiNeural,
     }
@@ -544,8 +643,24 @@ namespace STranslate.Model
     {
         [Description("本地")]
         Local,
+
         [Description("WebDav")]
         WebDav,
+    }
+
+    /// <summary>
+    /// 全局热键类型
+    /// </summary>
+    public enum HotkeyEnum
+    {
+        InputHk,
+        CrosswordHk,
+        ScreenshotHk,
+        OpenHk,
+        MousehookHk,
+        OcrHk,
+        SilentOcrHk,
+        ClipboardMonitorHk,
     }
 
     /// <summary>
@@ -596,12 +711,14 @@ namespace STranslate.Model
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static List<T> GetEnumList<T>() where T : Enum
+        public static List<T> GetEnumList<T>()
+            where T : Enum
         {
             return Enum.GetValues(typeof(T)).OfType<T>().ToList();
         }
 
-        public static T Increment<T>(this T value) where T : Enum
+        public static T Increment<T>(this T value)
+            where T : Enum
         {
             T[] enumValues = (T[])Enum.GetValues(typeof(T));
             int index = Array.IndexOf(enumValues, value);
@@ -615,7 +732,8 @@ namespace STranslate.Model
             }
         }
 
-        public static T Decrement<T>(this T value) where T : Enum
+        public static T Decrement<T>(this T value)
+            where T : Enum
         {
             T[] enumValues = (T[])Enum.GetValues(typeof(T));
             int index = Array.IndexOf(enumValues, value);

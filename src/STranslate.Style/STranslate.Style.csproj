@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
     <PackageReference Include="XamlFlair.WPF" />
   </ItemGroup>
 

@@ -62,6 +62,7 @@
     <SolidColorBrush x:Key="TextBlockLangForeground">#999999</SolidColorBrush>
     <SolidColorBrush x:Key="TextBlockToastViewForeground">#ffffff</SolidColorBrush>
     <SolidColorBrush x:Key="TextBlockDisabledForeground">#bababa</SolidColorBrush>
+    <SolidColorBrush x:Key="HotkeyCollisionForeground">#ff0000</SolidColorBrush>
 
     <!-- // TextBox // -->
     <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
@@ -72,9 +73,6 @@
     <!-- // PasswordBox // -->
     <SolidColorBrush x:Key="PasswordBoxMouseOverBrushColor">#FF7EB4EA</SolidColorBrush>
     <SolidColorBrush x:Key="PasswordBoxKeyboardFocusedBrushColor">#FF569DE5</SolidColorBrush>
-
-    <!-- // Label // -->
-    <SolidColorBrush x:Key="LabelHotkeyCollisionForeground">#ff0000</SolidColorBrush>
 
     <!-- // Popup // -->
     <Color x:Key="PopupDropShadowEffectColor">#FFB6B6B6</Color>

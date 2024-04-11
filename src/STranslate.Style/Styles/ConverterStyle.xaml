@@ -19,4 +19,5 @@
     <converter:ComboBoxIconConverter x:Key="ComboBoxIconConverter" />
     <converter:ServiceType2StringConverter x:Key="ServiceType2StringConverter" />
     <converter:ServiceType2BrushConverter x:Key="ServiceType2BrushConverter" />
+    <converter:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter" />
 </ResourceDictionary>
