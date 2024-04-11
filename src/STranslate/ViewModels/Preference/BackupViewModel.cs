@@ -10,10 +10,7 @@ using STranslate.Views.Preference;
 using System;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Windows.Shell;
 using WebDav;
 
 namespace STranslate.ViewModels.Preference
@@ -126,8 +123,6 @@ namespace STranslate.ViewModels.Preference
             Save();
         }
 
-        #region 功能实现
-
         protected void Save()
         {
             if (!configHelper.WriteConfig(this))
@@ -136,13 +131,11 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
+        #region 导出
+
         private void LocalBackup()
         {
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = "zip(*.zip)|*.zip",
-                FileName = $"stranslate_backup_{DateTime.Now:yyyyMMddHHmmss}"
-            };
+            var saveFileDialog = new SaveFileDialog { Filter = "zip(*.zip)|*.zip", FileName = $"stranslate_backup_{DateTime.Now:yyyyMMddHHmmss}" };
 
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -165,6 +158,7 @@ namespace STranslate.ViewModels.Preference
             }
             var client = cRet.Item1;
             var absolutePath = cRet.Item2;
+
             // 压缩
             var fn = $"stranslate_backup_{DateTime.Now:yyyyMMddHHmmss}.zip";
             var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
@@ -176,6 +170,7 @@ namespace STranslate.ViewModels.Preference
             }
 
             var zipFilePath = Path.Combine(tmpPath, fn);
+            //先压缩文件到程序暂存目录
             ZipUtil.CompressFile(ConstStr.CnfFullName, zipFilePath);
             try
             {
@@ -194,26 +189,44 @@ namespace STranslate.ViewModels.Preference
             }
             finally
             {
+                // 最后都要删除目录
                 Directory.Delete(tmpPath, true);
             }
-
         }
+
+        #endregion 导出
+
+        #region 导入
 
         private void LocalRestore()
         {
-            var openFileDialog = new OpenFileDialog
-            {
-                Filter = "zip(*.zip)|*.zip"
-            };
+            var openFileDialog = new OpenFileDialog { Filter = "zip(*.zip)|*.zip" };
 
-            if (openFileDialog.ShowDialog() != true) return;
-            //文件内容读取
-            var zipFile = openFileDialog.FileName;
+            ///创建暂存目录
             var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             var tmpPath = Path.Combine(ConstStr.ExecutePath, rd);
-            ZipUtil.DecompressToDirectory(zipFile, tmpPath);
+            if (!Directory.Exists(tmpPath))
+            {
+                Directory.CreateDirectory(tmpPath);
+            }
+            try
+            {
+                if (openFileDialog.ShowDialog() != true)
+                    return;
+                //文件内容读取
+                var zipFile = openFileDialog.FileName;
 
-            BackOperate(tmpPath);
+                // 解压到程序暂存目录
+                if (ZipUtil.DecompressToDirectory(zipFile, tmpPath))
+                {
+                    // 执行恢复操作
+                    BackOperate(tmpPath);
+                }
+            }
+            finally
+            {
+                Directory.Delete(tmpPath, true);
+            }
         }
 
         private async Task WebDavRestoreAsync()
@@ -227,22 +240,6 @@ namespace STranslate.ViewModels.Preference
             var client = cRet.Item1;
             var absolutePath = cRet.Item2;
 
-            var ret = await client.Propfind(absolutePath);
-            if (!ret.IsSuccessful)
-            {
-                await client.Mkcol(absolutePath);
-            }
-            else
-            {
-                foreach (var res in ret.Resources)
-                {
-                    if (res.IsCollection || !res.Uri.Contains(ConstStr.CNFNAME)) continue;
-
-                    var name = res.Uri.Replace(absolutePath, "").Trim('/');
-                    webDavVM.WebDavResultList.Add(name);
-                }
-            }
-
             var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             var tmpPath = Path.Combine(ConstStr.ExecutePath, rd);
             //如果目录不存在则创建
@@ -250,18 +247,51 @@ namespace STranslate.ViewModels.Preference
             {
                 Directory.CreateDirectory(tmpPath);
             }
-            var dialog = new WebDavDialog(client, absolutePath, tmpPath);
-            if (dialog.ShowDialog() == true)
+
+            try
             {
-                BackOperate(tmpPath);
+                //检查该路径是否存在
+                var ret = await client.Propfind(absolutePath);
+                if (!ret.IsSuccessful)
+                {
+                    //不存在则创建目录
+                    await client.Mkcol(absolutePath);
+                }
+                else
+                {
+                    //添加结果到viewmodel
+                    foreach (var res in ret.Resources)
+                    {
+                        if (res.IsCollection || !res.Uri.Contains(ConstStr.CNFNAME))
+                            continue;
+
+                        var fullName = res.Uri.Replace(absolutePath, "").Trim('/');
+                        //html解码以显示中文
+                        var decodeFullName = System.Web.HttpUtility.UrlDecode(fullName);
+                        webDavVM.WebDavResultList.Add(new WebDavResult(decodeFullName));
+                    }
+                }
+                var dialog = new WebDavDialog(client, absolutePath, tmpPath);
+                if (dialog.ShowDialog() == true)
+                {
+                    BackOperate(tmpPath);
+                }
+                webDavVM.WebDavResultList.Clear();
             }
-            else
+            finally
             {
                 Directory.Delete(tmpPath, true);
             }
-            webDavVM.WebDavResultList.Clear();
         }
 
+        #endregion 导入
+
+        #region 共有操作
+
+        /// <summary>
+        /// 创建WebDavClient
+        /// </summary>
+        /// <returns></returns>
         private async Task<Tuple<WebDavClient, string, bool>> CreateClientAsync()
         {
             var uri = new Uri(WebDavUrl);
@@ -283,6 +313,10 @@ namespace STranslate.ViewModels.Preference
             return new(client, absolutePath, true);
         }
 
+        /// <summary>
+        /// 导入操作
+        /// </summary>
+        /// <param name="tmpPath"></param>
         private void BackOperate(string tmpPath)
         {
             //提取后进行校验
@@ -309,7 +343,11 @@ namespace STranslate.ViewModels.Preference
             ToastHelper.Show("导入成功", WindowType.Preference);
         }
 
-
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="tmpPath"></param>
+        /// <returns></returns>
         private bool Verification(string tmpPath)
         {
             var ret = false;
@@ -318,23 +356,23 @@ namespace STranslate.ViewModels.Preference
                 var root = new DirectoryInfo(tmpPath);
                 foreach (var info in root.GetFiles())
                 {
-                    if (info.Extension != ConstStr.CNFEXTENSION && info.Name != ConstStr.CNFNAME) continue;
+                    if (info.Extension != ConstStr.CNFEXTENSION && info.Name != ConstStr.CNFNAME)
+                        continue;
 
                     ret = Singleton<ConfigHelper>.Instance.VerificateConfig(info.FullName);
 
-                    if (!ret) return ret;
+                    if (!ret)
+                        return ret;
 
                     File.Move(info.FullName, ConstStr.CnfFullName, true);
 
                     return ret;
                 }
             }
-            finally
-            {
-                Directory.Delete(tmpPath, true);
-            }
+            catch { }
             return ret;
         }
-        #endregion 功能实现
+
+        #endregion 共有操作
     }
 }

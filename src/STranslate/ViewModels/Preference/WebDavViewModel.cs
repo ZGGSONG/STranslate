@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Model;
+using STranslate.Util;
+using STranslate.ViewModels.Base;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using STranslate.Helper;
-using STranslate.Model;
-using STranslate.Util;
-using STranslate.ViewModels.Base;
 using WebDav;
 
 namespace STranslate.ViewModels.Preference
@@ -17,7 +18,7 @@ namespace STranslate.ViewModels.Preference
     public partial class WebDavViewModel : WindowVMBase
     {
         [ObservableProperty]
-        private BindingList<string> _webDavResultList = [];
+        private BindingList<WebDavResult> _webDavResultList = [];
 
         private WebDavClient? _webDavClient;
 
@@ -38,14 +39,14 @@ namespace STranslate.ViewModels.Preference
             if (_absolutePath == null || _webDavClient == null || _tmpPath == null || objs.Count != 2)
                 return;
 
-            var name = (string)objs.First();
+            var fullName = (string)objs.First();
             var view = (Window)objs.Last();
 
-            string path = $"{_absolutePath.TrimEnd('/')}/{name}";
+            string path = $"{_absolutePath.TrimEnd('/')}/{fullName}";
             using var response = await _webDavClient.GetRawFile(path);
             if (response.IsSuccessful && response.StatusCode == 200)
             {
-                var zipFile = Path.Combine(_tmpPath, name);
+                var zipFile = Path.Combine(_tmpPath, fullName);
                 using (var fileStream = File.Create(zipFile))
                 {
                     await response.Stream.CopyToAsync(fileStream);
@@ -62,16 +63,16 @@ namespace STranslate.ViewModels.Preference
         }
 
         [RelayCommand]
-        private async Task Delete(string name)
+        private async Task Delete(string fullName)
         {
             if (_absolutePath == null || _webDavClient == null)
                 return;
 
-            string path = $"{_absolutePath.TrimEnd('/')}/{name}";
+            string path = $"{_absolutePath.TrimEnd('/')}/{fullName}";
             var response = await _webDavClient.Delete(path);
             if (response.IsSuccessful && response.StatusCode == 204)
             {
-                WebDavResultList.Remove(name);
+                WebDavResultList.Remove(Find(fullName));
             }
             else
             {
@@ -79,10 +80,81 @@ namespace STranslate.ViewModels.Preference
             }
         }
 
+        [RelayCommand]
+        private void Update(string fullName)
+        {
+            Find(fullName).IsEdit = true;
+        }
+
+        [RelayCommand]
+        private async Task ConfirmAsync(string fullName)
+        {
+            if (_absolutePath == null || _webDavClient == null || _tmpPath == null)
+                return;
+
+            //保存原始名
+            var originFullName = fullName;
+            var selectedValue = Find(fullName);
+            var targetFullname = selectedValue.Name + ConstStr.ZIP;
+
+            //webdav operate
+            string source = $"{_absolutePath.TrimEnd('/')}/{originFullName}";
+            string target = $"{_absolutePath.TrimEnd('/')}/{targetFullname}";
+
+            var response = await _webDavClient.Move(source, target);
+
+            if (response.IsSuccessful && response.StatusCode == 201)
+            {
+                selectedValue.IsEdit = false;
+                selectedValue.FullName = targetFullname;
+            }
+            else
+            {
+                ToastHelper.Show("修改名称失败", WindowType.Preference);
+                LogService.Logger.Warn($"WebDav 修改名称({originFullName}=>{selectedValue.FullName})失败, 原因描述: {response?.Description ?? "无返回描述"}");
+
+                Cancel(originFullName);
+            }
+
+        }
+
+        [RelayCommand]
+        private void Cancel(string fullName)
+        {
+            var selectedValue = Find(fullName);
+            selectedValue.Name = selectedValue.FullName.Replace(ConstStr.ZIP, string.Empty);
+            selectedValue.IsEdit = false;
+        }
+
         public override void Close(Window win)
         {
             win.DialogResult = false;
             base.Close(win);
+        }
+
+        private WebDavResult Find(string fullName) => WebDavResultList.First(x => x.FullName == fullName);
+    }
+
+    public partial class WebDavResult : ObservableObject
+    {
+        [ObservableProperty]
+        private string _fullName = string.Empty;
+
+        [ObservableProperty]
+        private string _name = string.Empty;
+
+        [ObservableProperty]
+        private bool _isEdit = false;
+
+        public WebDavResult()
+        {
+        }
+
+        public WebDavResult(string fullName, bool isEdit = false)
+        {
+            FullName = fullName;
+            Name = FullName.Replace(ConstStr.ZIP, string.Empty);
+            IsEdit = isEdit;
         }
     }
 }

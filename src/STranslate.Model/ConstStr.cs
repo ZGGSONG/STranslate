@@ -73,5 +73,7 @@ namespace STranslate.Model
 
         public const string CNFEXTENSION = ".json";
         public const string CNFNAME = "stranslate";
+
+        public const string ZIP = ".zip";
     }
 }

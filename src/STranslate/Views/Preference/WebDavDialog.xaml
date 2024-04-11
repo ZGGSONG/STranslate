@@ -1,6 +1,7 @@
 ﻿<Window x:Class="STranslate.Views.Preference.WebDavDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
@@ -92,32 +93,65 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="50" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Margin="20,0,0,0"
                                            FontWeight="Bold"
-                                           Text="{Binding}"
-                                           TextTrimming="CharacterEllipsis" />
+                                           Text="{Binding FullName}"
+                                           TextTrimming="CharacterEllipsis"
+                                           Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                                <TextBox Margin="20,0,0,0"
+                                         common:DisallowSpecialCharactersTextboxBehavior.DisallowSpecialCharacters="True"
+                                         FontWeight="Bold"
+                                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                 <Button Grid.Column="1"
                                         Command="{Binding DataContext.DownloadCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                         Content="&#xe6d5;"
                                         FontWeight="Bold"
-                                        Style="{DynamicResource ButtonIconStyle}">
+                                        Style="{DynamicResource ButtonIconStyle}"
+                                        Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityReverseConverter}}">
                                     <Button.CommandParameter>
                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                            <Binding Path="." />
+                                            <Binding Path="FullName" />
                                             <Binding Path="." RelativeSource="{RelativeSource AncestorType=Window}" />
                                         </MultiBinding>
                                     </Button.CommandParameter>
                                 </Button>
 
                                 <Button Grid.Column="2"
+                                        Command="{Binding DataContext.UpdateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding FullName}"
+                                        Content="&#xe61b;"
+                                        FontWeight="Bold"
+                                        Style="{DynamicResource ButtonIconStyle}"
+                                        Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+
+                                <Button Grid.Column="3"
                                         Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                        CommandParameter="{Binding}"
+                                        CommandParameter="{Binding FullName}"
                                         Content="&#xe74b;"
                                         FontWeight="Bold"
-                                        Style="{DynamicResource ButtonIconStyle}" />
+                                        Style="{DynamicResource ButtonIconStyle}"
+                                        Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+
+                                <Button Grid.Column="2"
+                                        Command="{Binding DataContext.ConfirmCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding FullName}"
+                                        Content="√"
+                                        FontWeight="Bold"
+                                        Style="{DynamicResource ButtonIconStyle}"
+                                        Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                <Button Grid.Column="3"
+                                        Command="{Binding DataContext.CancelCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding FullName}"
+                                        Content="×"
+                                        FontWeight="Bold"
+                                        Style="{DynamicResource ButtonIconStyle}"
+                                        Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Grid>
                         </Border>
                     </DataTemplate>

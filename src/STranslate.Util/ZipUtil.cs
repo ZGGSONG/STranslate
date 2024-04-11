@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 
 namespace STranslate.Util
@@ -13,24 +14,33 @@ namespace STranslate.Util
             archive.CreateEntryFromFile(filePath, entryName);
         }
 
-        public static void DecompressToDirectory(string zipFilePath, string extractPath)
+        public static bool DecompressToDirectory(string zipFilePath, string extractPath)
         {
-            using var archive = ZipFile.OpenRead(zipFilePath);
-            foreach (var entry in archive.Entries)
+            try
             {
-                //如果目录不存在则创建
-                if (!Directory.Exists(extractPath))
+                using var archive = ZipFile.OpenRead(zipFilePath);
+                foreach (var entry in archive.Entries)
                 {
-                    Directory.CreateDirectory(extractPath);
+                    //如果目录不存在则创建
+                    if (!Directory.Exists(extractPath))
+                    {
+                        Directory.CreateDirectory(extractPath);
+                    }
+                    if (entry.FullName[^1..] == "/")
+                    {
+                        //如果为目录则继续创建该目录但不解压
+                        Directory.CreateDirectory(Path.Combine(extractPath, entry.FullName));
+                        continue;
+                    }
+                    var entryDestination = Path.Combine(extractPath, entry.FullName);
+                    entry.ExtractToFile(entryDestination, true);
                 }
-                if (entry.FullName[^1..] == "/")
-                {
-                    //如果为目录则继续创建该目录但不解压
-                    Directory.CreateDirectory(Path.Combine(extractPath, entry.FullName));
-                    continue;
-                }
-                var entryDestination = Path.Combine(extractPath, entry.FullName);
-                entry.ExtractToFile(entryDestination, true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("[ZipUtil] DecompressToDirectory Error, {0}", ex);
+                return false;
             }
         }
     }
