@@ -50,7 +50,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        private OCRType _type = OCRType.PaddleOCR;
+        private OCRType _type = OCRType.TencentOCR;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -69,6 +69,12 @@ namespace STranslate.ViewModels.Preference.OCR
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
+
+        /// <summary>
+        /// 腾讯OCR版本(默认通用印刷体识别)
+        /// </summary>
+        [ObservableProperty]
+        private TencentOCRAction _tencentOcrAction = TencentOCRAction.GeneralBasicOCR;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -129,12 +135,20 @@ namespace STranslate.ViewModels.Preference.OCR
             var secretKey = AppKey;
             var token = "";
             var version = "2018-11-19";
-            var action = "GeneralBasicOCR";
+            var action = TencentOcrAction.ToString();
             var region = TencentRegionEnum.ap_shanghai.ToString().Replace("_", "-");
 
             var base64Str = Convert.ToBase64String(bytes);
-            var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
-            var body = "{\"ImageBase64\":\"" + base64Str + "\",\"LanguageType\":\"" + target + "\"}";
+            string body = "";
+            if (TencentOcrAction == TencentOCRAction.GeneralBasicOCR)
+            {
+                var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
+                body = "{\"ImageBase64\":\"" + base64Str + "\",\"LanguageType\":\"" + target + "\"}";
+            }
+            else
+            {
+                body = "{\"ImageBase64\":\"" + base64Str + "\"}";
+            }
             
             var url = Url;
             var host = url.Replace("https://", "");

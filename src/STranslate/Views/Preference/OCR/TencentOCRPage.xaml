@@ -63,6 +63,24 @@
 
             <Grid Margin="0,10">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="版本: " />
+                <TextBlock Grid.Column="1" Style="{DynamicResource InfoTextBlock}" ToolTip="高精度版不支持语种选择" />
+
+                <ComboBox Grid.Column="2"
+                          HorizontalAlignment="Left"
+                          BorderThickness="1"
+                          DisplayMemberPath="Description"
+                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:TencentOCRAction}}}"
+                          SelectedValue="{Binding TencentOcrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValuePath="Value" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="38" />

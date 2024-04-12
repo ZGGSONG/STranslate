@@ -105,7 +105,11 @@
                                          common:DisallowSpecialCharactersTextboxBehavior.DisallowSpecialCharacters="True"
                                          FontWeight="Bold"
                                          Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                         Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Enter" Command="{Binding DataContext.ConfirmCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding FullName}" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
 
                                 <Button Grid.Column="1"
                                         Command="{Binding DataContext.DownloadCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
@@ -158,5 +162,13 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
+        <Border Grid.Row="1" Style="{DynamicResource BorderInOutputStyle}" Visibility="{Binding WebDavResultList, Converter={StaticResource Collection2VisibilityConverter}}">
+            <TextBlock Margin="0,10"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="{DynamicResource FontSize_Title}"
+                       FontWeight="Bold"
+                       Text="当前路径下尚未找到备份内容..." />
+        </Border>
     </Grid>
 </Window>

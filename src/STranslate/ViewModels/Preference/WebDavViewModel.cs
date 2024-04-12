@@ -1,16 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using WebDav;
 
 namespace STranslate.ViewModels.Preference
@@ -115,7 +115,6 @@ namespace STranslate.ViewModels.Preference
 
                 Cancel(originFullName);
             }
-
         }
 
         [RelayCommand]
@@ -133,28 +132,5 @@ namespace STranslate.ViewModels.Preference
         }
 
         private WebDavResult Find(string fullName) => WebDavResultList.First(x => x.FullName == fullName);
-    }
-
-    public partial class WebDavResult : ObservableObject
-    {
-        [ObservableProperty]
-        private string _fullName = string.Empty;
-
-        [ObservableProperty]
-        private string _name = string.Empty;
-
-        [ObservableProperty]
-        private bool _isEdit = false;
-
-        public WebDavResult()
-        {
-        }
-
-        public WebDavResult(string fullName, bool isEdit = false)
-        {
-            FullName = fullName;
-            Name = FullName.Replace(ConstStr.ZIP, string.Empty);
-            IsEdit = isEdit;
-        }
     }
 }

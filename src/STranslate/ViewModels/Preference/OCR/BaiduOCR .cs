@@ -73,7 +73,7 @@ namespace STranslate.ViewModels.Preference.OCR
         /// 百度OCR版本(默认高精度含位置版)
         /// </summary>
         [ObservableProperty]
-        private BaiduOCRAction _baiduOCrAction = BaiduOCRAction.accurate;
+        private BaiduOCRAction _baiduOcrAction = BaiduOCRAction.accurate;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -131,7 +131,7 @@ namespace STranslate.ViewModels.Preference.OCR
         public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
         {
             var token = await GetAccessTokenAsync(AppID, AppKey, cancelToken);
-            var suffix = $"/rest/2.0/ocr/v1/{BaiduOCrAction}?access_token={token}";
+            var suffix = $"/rest/2.0/ocr/v1/{BaiduOcrAction}?access_token={token}";
             var url = Url.TrimEnd('/') + suffix;
             var headers = new Dictionary<string, string[]>
             {
@@ -199,7 +199,7 @@ namespace STranslate.ViewModels.Preference.OCR
         /// <returns></returns>
         public string? LangConverter(LangEnum lang)
         {
-            return BaiduOCrAction switch
+            return BaiduOcrAction switch
             {
                 BaiduOCRAction.accurate => AccurateType(lang),
                 BaiduOCRAction.accurate_basic => AccurateType(lang),

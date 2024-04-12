@@ -231,11 +231,7 @@ namespace STranslate.Model
         [Description("百度OCR")]
         BaiduOCR,
         [Description("腾讯OCR")]
-        TencentOCR,
-        [Description("腾讯通用印刷体识别(高精度版)")]
-        TencentGeneralAccurateOCR,
-        [Description("腾讯通用印刷体识别")]
-        TencentGeneralBasicOCR,
+        TencentOCR
     }
 
     public enum BaiduOCRAction
@@ -248,6 +244,14 @@ namespace STranslate.Model
         general,
         [Description("标准版")]
         general_basic
+    }
+
+    public enum TencentOCRAction
+    {
+        [Description("通用印刷体识别")]
+        GeneralBasicOCR,
+        [Description("通用印刷体识别(高精度版)")]
+        GeneralAccurateOCR,
     }
 
     /// <summary>

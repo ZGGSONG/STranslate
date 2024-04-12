@@ -73,7 +73,7 @@
                           BorderThickness="1"
                           DisplayMemberPath="Description"
                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:BaiduOCRAction}}}"
-                          SelectedValue="{Binding BaiduOCrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding BaiduOcrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedValuePath="Value" />
             </Grid>
 
