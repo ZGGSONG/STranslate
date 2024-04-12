@@ -305,13 +305,13 @@ namespace STranslate.ViewModels.Preference
         private void HotKeyConflictCheck()
         {
             InputHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            CrosswordHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            ScreenshotHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            OpenHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            MousehookHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            OcrHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            SilentOcrHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
-            ClipboardMonitorHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict;
+            CrosswordHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict;
+            ScreenshotHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict;
+            OpenHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict;
+            MousehookHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict;
+            OcrHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.OCR.Conflict;
+            SilentOcrHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict;
+            ClipboardMonitorHk.ContentVisible = conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict;
         }
 
         private void RefreshNotifyToolTip()
