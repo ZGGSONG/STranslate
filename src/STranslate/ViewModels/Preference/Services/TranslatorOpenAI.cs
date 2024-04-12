@@ -114,7 +114,7 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         private BindingList<UserDefinePrompt> _userDefinePrompts =
         [
-            new UserDefinePrompt("翻译", [new Prompt("system", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."), new Prompt("user", "Translate the following text from en to zh-cn: hello world"), new Prompt("assistant", "你好世界"), new Prompt("user", "Translate the following text from $source to $target: $content")], true),
+            new UserDefinePrompt("翻译", [new Prompt("system", "You are a professional, authentic translation engine. You only return the translated text, without any explanations."), new Prompt("user", "Please translate  into $target (avoid explaining the original text):\r\n\r\n$content")], true),
             new UserDefinePrompt("润色", [new Prompt("system", "You are a text embellisher, you can only embellish the text, never interpret it."), new Prompt("user", "Embellish the following text in $source: $content")]),
             new UserDefinePrompt("总结", [new Prompt("system", "You are a text summarizer, you can only summarize the text, never interpret it."), new Prompt("user", "Summarize the following text in $source: $content")]),
         ];
