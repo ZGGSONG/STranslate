@@ -226,9 +226,28 @@ namespace STranslate.Model
 
     public enum OCRType
     {
+        [Description("PaddleOCR")]
         PaddleOCR,
-        TencentOCR,
+        [Description("百度OCR")]
         BaiduOCR,
+        [Description("腾讯OCR")]
+        TencentOCR,
+        [Description("腾讯通用印刷体识别(高精度版)")]
+        TencentGeneralAccurateOCR,
+        [Description("腾讯通用印刷体识别")]
+        TencentGeneralBasicOCR,
+    }
+
+    public enum BaiduOCRAction
+    {
+        [Description("高精度含位置版")]
+        accurate,
+        [Description("高精度版")]
+        accurate_basic,
+        [Description("标准含位置版")]
+        general,
+        [Description("标准版")]
+        general_basic
     }
 
     /// <summary>
@@ -302,11 +321,11 @@ namespace STranslate.Model
         [Description("PaddleOCR")]
         PaddleOCR,
 
-        [Description("腾讯OCR")]
-        Tencent2,
-
         [Description("百度OCR")]
-        Baidu2,
+        BaiduOCR,
+
+        [Description("腾讯OCR")]
+        TencentOCR,
     }
 
     /// <summary>

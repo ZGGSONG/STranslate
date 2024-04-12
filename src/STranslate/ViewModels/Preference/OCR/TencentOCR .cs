@@ -18,13 +18,13 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public TencentOCR()
-            : this(Guid.NewGuid(), "https://ocr.tencentcloudapi.com", "腾讯OCR(通用印刷体识别)") { }
+            : this(Guid.NewGuid(), "https://ocr.tencentcloudapi.com", "腾讯OCR") { }
 
         public TencentOCR(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Tencent2,
+            IconType icon = IconType.TencentOCR,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
@@ -50,7 +50,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        private OCRType _type = OCRType.TencentOCR;
+        private OCRType _type = OCRType.PaddleOCR;
 
         [JsonIgnore]
         [ObservableProperty]

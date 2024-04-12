@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using PaddleOCRSharp;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -277,6 +278,9 @@ namespace STranslate.ViewModels
             if (Bs == null)
                 return;
 
+            //首先重置显示的内容为原始图片
+            GetImg = Bs;
+
             var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs);
 
             await OCRHandler(bytes);
@@ -296,38 +300,11 @@ namespace STranslate.ViewModels
                     GetContent = "OCR失败: " + ocrResult.ErrorMsg;
                     return;
                 }
-
+                //获取结果
                 var getText = ocrResult.Text;
+
                 //更新图片
-                // 创建一个WritableBitmap，用于绘制
-                var writableBitmap = new WriteableBitmap(Bs!);
-                // 使用锁定位图来确保线程安全
-                writableBitmap.Lock();
-
-                try
-                {
-                    var backBitmap = new System.Drawing.Bitmap(
-                        (int)Bs!.Width,
-                        (int)Bs!.Height,
-                        writableBitmap.BackBufferStride,
-                        System.Drawing.Imaging.PixelFormat.Format32bppArgb,
-                        writableBitmap.BackBuffer
-                    );
-                    // 在这里你可以直接通过指针操作位图的像素数据
-                    using var g = System.Drawing.Graphics.FromImage(backBitmap);
-                    foreach (var item in ocrResult.OcrContents)
-                    {
-                        g.DrawPolygon(new System.Drawing.Pen(System.Drawing.Brushes.Red, 2), item.BoxPoints.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray());
-                    }
-                }
-                finally
-                {
-                    // 确保释放位图
-                    writableBitmap.Unlock();
-                }
-
-                // 更新UI
-                GetImg = writableBitmap;
+                GetImg = GenerateImg(ocrResult, Bs!);
 
                 //取词前移除换行
                 getText =
@@ -346,6 +323,48 @@ namespace STranslate.ViewModels
                 GetContent = ex.Message;
                 LogService.Logger.Error("OCR失败", ex);
             }
+        }
+
+        /// <summary>
+        /// 图像上生成位置信息
+        /// </summary>
+        /// <param name="ocrResult"></param>
+        /// <param name="bitmapSource"></param>
+        /// <returns></returns>
+        private BitmapSource GenerateImg(OcrResult ocrResult, BitmapSource bitmapSource)
+        {
+            //没有位置信息的话返回原图
+            if (ocrResult!.OcrContents.All(x => x.BoxPoints.Count == 0))
+            {
+                return bitmapSource;
+            }
+            // 创建一个WritableBitmap，用于绘制
+            var writableBitmap = new WriteableBitmap(bitmapSource);
+            // 使用锁定位图来确保线程安全
+            writableBitmap.Lock();
+
+            try
+            {
+                var backBitmap = new System.Drawing.Bitmap(
+                    (int)Bs!.Width,
+                    (int)Bs!.Height,
+                    writableBitmap.BackBufferStride,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb,
+                    writableBitmap.BackBuffer
+                );
+                // 在这里你可以直接通过指针操作位图的像素数据
+                using var g = System.Drawing.Graphics.FromImage(backBitmap);
+                foreach (var item in ocrResult.OcrContents)
+                {
+                    g.DrawPolygon(new System.Drawing.Pen(System.Drawing.Brushes.Red, 2), item.BoxPoints.Select(x => new System.Drawing.PointF(x.X, x.Y)).ToArray());
+                }
+            }
+            finally
+            {
+                // 确保释放位图
+                writableBitmap.Unlock();
+            }
+            return writableBitmap;
         }
 
         /// <summary>
@@ -434,6 +453,7 @@ namespace STranslate.ViewModels
             view ??= new PreferenceView();
             view.UpdateNavigation(PerferenceType.OCR);
             view.Show();
+            view.WindowState = WindowState.Normal;
             view.Activate();
         }
 
@@ -462,6 +482,7 @@ namespace STranslate.ViewModels
         private bool mouseDown;
 
         private Point mouseXY;
+
         private readonly double min = 0.1,
             max = 3.0; //最小/最大放大倍数
 

@@ -17,13 +17,13 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public BaiduOCR()
-            : this(Guid.NewGuid(), "https://aip.baidubce.com", "百度OCR(高精度含位置版)") { }
+            : this(Guid.NewGuid(), "https://aip.baidubce.com", "百度OCR") { }
 
         public BaiduOCR(
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.Baidu2,
+            IconType icon = IconType.BaiduOCR,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
@@ -61,13 +61,19 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        private IconType _icon = IconType.Baidu2;
+        private IconType _icon = IconType.BaiduOCR;
 
         [JsonIgnore]
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string _url = string.Empty;
+
+        /// <summary>
+        /// 百度OCR版本(默认高精度含位置版)
+        /// </summary>
+        [ObservableProperty]
+        private BaiduOCRAction _baiduOCrAction = BaiduOCRAction.accurate;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -125,7 +131,7 @@ namespace STranslate.ViewModels.Preference.OCR
         public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
         {
             var token = await GetAccessTokenAsync(AppID, AppKey, cancelToken);
-            var suffix = $"/rest/2.0/ocr/v1/accurate?access_token={token}";
+            var suffix = $"/rest/2.0/ocr/v1/{BaiduOCrAction}?access_token={token}";
             var url = Url.TrimEnd('/') + suffix;
             var headers = new Dictionary<string, string[]>
             {
@@ -159,7 +165,12 @@ namespace STranslate.ViewModels.Preference.OCR
             foreach (var item in parsedData.words_result)
             {
                 var content = new OcrContent(item.words);
-                Converter(item.location).ForEach(pg => content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y)));
+                Converter(item.location).ForEach(pg =>
+                {
+                    //仅位置不全为0时添加
+                    if (pg.X != pg.Y || pg.X != 0)
+                        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                });
                 ocrResult.OcrContents.Add(content);
             }
             return ocrResult;
@@ -187,6 +198,22 @@ namespace STranslate.ViewModels.Preference.OCR
         /// <param name="lang"></param>
         /// <returns></returns>
         public string? LangConverter(LangEnum lang)
+        {
+            return BaiduOCrAction switch
+            {
+                BaiduOCRAction.accurate => AccurateType(lang),
+                BaiduOCRAction.accurate_basic => AccurateType(lang),
+                BaiduOCRAction.general => GeneralType(lang),
+                BaiduOCRAction.general_basic => GeneralType(lang),
+                _ => null
+            };
+        }
+
+        /// <summary>
+        /// 高精度版支持语言
+        /// </summary>
+        /// <param name="lang"></param>
+        private string? AccurateType(LangEnum lang)
         {
             return lang switch
             {
@@ -221,7 +248,51 @@ namespace STranslate.ViewModels.Preference.OCR
                 LangEnum.pl => "POL",
                 LangEnum.nl => "DUT",
                 LangEnum.uk => null,
-                _ => "auto"
+                _ => "auto_detect"
+            };
+        }
+
+        /// <summary>
+        /// 标准版支持语言
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        private string? GeneralType(LangEnum lang)
+        {
+            return lang switch
+            {
+                LangEnum.auto => "CHN_ENG",
+                LangEnum.zh_cn => "CHN_ENG",
+                LangEnum.zh_tw => "CHN_ENG",
+                LangEnum.yue => "CHN_ENG",
+                LangEnum.en => "ENG",
+                LangEnum.ja => "JAP",
+                LangEnum.ko => "KOR",
+                LangEnum.fr => "FRE",
+                LangEnum.es => "SPA",
+                LangEnum.ru => "RUS",
+                LangEnum.de => "GER",
+                LangEnum.it => "ITA",
+                LangEnum.tr => null,
+                LangEnum.pt_pt => "POR",
+                LangEnum.pt_br => "POR",
+                LangEnum.vi => null,
+                LangEnum.id => null,
+                LangEnum.th => null,
+                LangEnum.ms => null,
+                LangEnum.ar => null,
+                LangEnum.hi => null,
+                LangEnum.mn_cy => null,
+                LangEnum.mn_mo => null,
+                LangEnum.km => null,
+                LangEnum.nb_no => null,
+                LangEnum.nn_no => null,
+                LangEnum.fa => null,
+                LangEnum.sv => null,
+                LangEnum.pl => null,
+                LangEnum.nl => null,
+                LangEnum.uk => null,
+                _ => "CHN_ENG"
             };
         }
 

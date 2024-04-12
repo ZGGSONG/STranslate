@@ -63,6 +63,22 @@
 
             <Grid Margin="0,10">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="版本: " />
+
+                <ComboBox Grid.Column="1"
+                          HorizontalAlignment="Left"
+                          BorderThickness="1"
+                          DisplayMemberPath="Description"
+                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:BaiduOCRAction}}}"
+                          SelectedValue="{Binding BaiduOCrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValuePath="Value" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="38" />

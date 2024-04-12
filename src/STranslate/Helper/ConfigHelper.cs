@@ -547,8 +547,8 @@ public class OCRConverter : JsonConverter<IOCR>
         IOCR ocr = type switch
         {
             (int)OCRType.PaddleOCR => new PaddleOCR(),
-            (int)OCRType.TencentOCR => new TencentOCR(),
             (int)OCRType.BaiduOCR => new BaiduOCR(),
+            (int)OCRType.TencentOCR => new TencentOCR(),
             //TODO: 新OCR服务需要适配
             _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
         };
