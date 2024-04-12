@@ -296,6 +296,9 @@ namespace STranslate.Model
         [Description("DeepSeek")]
         DeepSeek,
 
+        [Description("Groq")]
+        Groq,
+
         [Description("PaddleOCR")]
         PaddleOCR,
 

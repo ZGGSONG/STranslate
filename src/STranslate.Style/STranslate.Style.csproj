@@ -66,6 +66,9 @@
     <Resource Include="Resources\google.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\groq.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\iciba.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
