@@ -100,6 +100,7 @@
                                            FontWeight="Bold"
                                            Text="{Binding FullName}"
                                            TextTrimming="CharacterEllipsis"
+                                           ToolTip="{Binding FullName}"
                                            Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                                 <TextBox Margin="20,0,0,0"
                                          common:DisallowSpecialCharactersTextboxBehavior.DisallowSpecialCharacters="True"
