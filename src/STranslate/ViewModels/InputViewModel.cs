@@ -171,6 +171,7 @@ public partial class InputViewModel : ObservableObject
                         case ServiceType.GeminiService:
                         case ServiceType.OpenAIService:
                         case ServiceType.ChatglmService:
+                        case ServiceType.OllamaService:
                         {
                             //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
                             //Auto则转换为识别语种
@@ -502,6 +503,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.VolcengineService => new TranslatorVolcengine(),
                 (int)ServiceType.EcdictService => new TranslatorEcdict(),
                 (int)ServiceType.ChatglmService => new TranslatorChatglm(),
+                (int)ServiceType.OllamaService => new TranslatorOllama(),
                 _ => new TranslatorApi()
             };
 

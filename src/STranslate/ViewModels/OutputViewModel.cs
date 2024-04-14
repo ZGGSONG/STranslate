@@ -2,11 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 using STranslate.Helper;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
+using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,37 +24,63 @@ namespace STranslate.ViewModels
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
         {
-            var inputVM = Singleton<InputViewModel>.Instance;
-            var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
-            var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
-
-            var idetify = LangEnum.auto;
-            //如果是自动则获取自动识别后的目标语种
-            if (targetLang == LangEnum.auto)
+            try
             {
-                var autoRet = StringUtil.AutomaticLanguageRecognition(inputVM.InputContent);
-                idetify = autoRet.Item1;
-                targetLang = autoRet.Item2;
-            }
+                var inputVM = Singleton<InputViewModel>.Instance;
+                var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
+                var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
 
-            //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
-            //TODO: 新接口需要适配
-            switch (service.Type)
-            {
-                case ServiceType.GeminiService:
-                case ServiceType.OpenAIService:
-                case ServiceType.ChatglmService:
-                    {
-                        //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                        //Auto则转换为识别语种
-                        sourceLang = sourceLang == LangEnum.auto ? idetify : sourceLang;
-                        await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
+                var idetify = LangEnum.auto;
+                //如果是自动则获取自动识别后的目标语种
+                if (targetLang == LangEnum.auto)
+                {
+                    var autoRet = StringUtil.AutomaticLanguageRecognition(inputVM.InputContent);
+                    idetify = autoRet.Item1;
+                    targetLang = autoRet.Item2;
+                }
+
+                //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
+                //TODO: 新接口需要适配
+                switch (service.Type)
+                {
+                    case ServiceType.GeminiService:
+                    case ServiceType.OpenAIService:
+                    case ServiceType.ChatglmService:
+                    case ServiceType.OllamaService:
+                        {
+                            //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                            //Auto则转换为识别语种
+                            sourceLang = sourceLang == LangEnum.auto ? idetify : sourceLang;
+                            await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
+                            break;
+                        }
+
+                    default:
+                        await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
                         break;
-                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                var errorMessage = "";
+                var isCancelMsg = false;
+                switch (exception)
+                {
+                    case TaskCanceledException:
+                        errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时";
+                        isCancelMsg = token.IsCancellationRequested;
+                        break;
+                    case HttpRequestException:
+                        errorMessage = "请求出错";
+                        break;
+                }
 
-                default:
-                    await inputVM.NonStreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
-                    break;
+                service.Data = TranslationResult.Fail($"{errorMessage}: {exception.Message}", exception);
+
+                if (isCancelMsg)
+                    LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+                else
+                    LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
             }
         }
 

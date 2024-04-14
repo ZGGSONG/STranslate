@@ -25,4 +25,5 @@
     <BitmapImage x:Key="PaddleOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/paddleocr.png" />
     <BitmapImage x:Key="BaiduOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/baidu2.png" />
     <BitmapImage x:Key="TencentOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/tencent2.png" />
+    <BitmapImage x:Key="Ollama" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ollama.png" />
 </ResourceDictionary>

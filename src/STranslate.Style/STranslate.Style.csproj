@@ -81,6 +81,9 @@
     <Resource Include="Resources\niutrans.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\ollama.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\openai.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

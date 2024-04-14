@@ -216,6 +216,7 @@ namespace STranslate.Model
         STranslateService,
         EcdictService,
         ChatglmService,
+        OllamaService,
     }
 
     public enum TTSType
@@ -330,6 +331,9 @@ namespace STranslate.Model
 
         [Description("腾讯OCR")]
         TencentOCR,
+
+        [Description("Ollama")]
+        Ollama,
     }
 
     /// <summary>

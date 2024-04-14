@@ -36,6 +36,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorCaiyun());
             TransServices.Add(new TranslatorVolcengine());
             TransServices.Add(new TranslatorChatglm());
+            TransServices.Add(new TranslatorOllama());
 
             ResetView();
         }
@@ -105,6 +106,7 @@ namespace STranslate.ViewModels.Preference
                     ServiceType.VolcengineService => string.Format("{0}TextVolcengineServicesPage", head),
                     ServiceType.EcdictService => string.Format("{0}TextEcdictServicesPage", head),
                     ServiceType.ChatglmService => string.Format("{0}TextChatglmServicesPage", head),
+                    ServiceType.OllamaService => string.Format("{0}TextOllamaServicesPage", head),
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -136,6 +138,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorVolcengine volcengine => volcengine.Clone(),
                     TranslatorEcdict ecdict => ecdict.Clone(),
                     TranslatorChatglm chatglm => chatglm.Clone(),
+                    TranslatorOllama ollama => ollama.Clone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 
