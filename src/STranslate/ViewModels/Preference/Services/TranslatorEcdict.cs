@@ -248,11 +248,13 @@ namespace STranslate.ViewModels.Preference.Services
                 var content = req.Text;
 
                 var isWord = StringUtil.IsWord(content);
-
-                //是否为自动转到中/英文
-                var isAutoToZhOrEn = source == LangEnum.auto && (target == LangEnum.zh_cn || target == LangEnum.zh_tw || target == LangEnum.yue || target == LangEnum.en);
-                if (!(isWord && isAutoToZhOrEn))
+                if (!isWord)
                     goto Empty;
+
+                //是否为自动转到中/英文??为了干嘛的？忘了
+                //var isAutoToZhOrEn = source == LangEnum.auto && (target == LangEnum.zh_cn || target == LangEnum.zh_tw || target == LangEnum.yue || target == LangEnum.en);
+                //if (!(isWord && isAutoToZhOrEn))
+                //    goto Empty;
 
                 var result = await EcdictHelper.GetECDICTAsync(content, token);
 
