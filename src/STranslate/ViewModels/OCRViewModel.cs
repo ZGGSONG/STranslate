@@ -306,11 +306,6 @@ namespace STranslate.ViewModels
                 //更新图片
                 GetImg = GenerateImg(ocrResult, Bs!);
 
-                //取词前移除换行
-                getText =
-                    Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText)
-                        ? StringUtil.RemoveLineBreaks(getText)
-                        : getText;
                 //OCR后自动复制
                 if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
                     Clipboard.SetDataObject(getText, true);
