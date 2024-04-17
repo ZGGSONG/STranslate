@@ -67,6 +67,7 @@
 
 - `ESC` 隐藏界面(含取消请求)
 - `Ctrl` + `,` 打开设置
+- `Ctrl` + `/` 打开历史记录
 - `Ctrl` + `Shift` + `A` 隐藏/显示输入框
 - `Ctrl` + `Shift` + `Q` 退出程序
 - `Ctrl` + `Shift` + `T` 置顶/取消置顶
@@ -116,7 +117,7 @@
 
 ![encrypt](./img/encrypt.gif)
 
-## 服务
+## 翻译
 
 ### !!!本地服务!!!
 
@@ -147,6 +148,11 @@
 10. [火山引擎](https://www.volcengine.com/)
 11. [简明英汉词典](https://github.com/skywind3000/ECDICT)
 12. [智谱AI](https://open.bigmodel.cn/)
+13. Ollama
+14. Linyi
+15. DeepSeek
+16. Groq
+> 理论上支持所有兼容OpanAI API的AI平台API
 
 > 简明英汉词典在Github上，下载慢的可以手动点击下载离线资源包([官方-离线资源包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip)、[国内-离线资源包](https://www.123pan.com/s/AxlRjv-u5VmA.html))，放在软件根目录后再次点击下载后即可立即使用
 
@@ -155,6 +161,11 @@
 1. [离线TTS](https://learn.microsoft.com/zh-cn/dotnet/api/system.speech.synthesis.speechsynthesizer?view=dotnet-plat-ext-8.0)
 2. [Azure TTS](https://azure.microsoft.com/zh-cn/products/ai-services/text-to-speech)
 
+## OCR
+
+1. PaddleOCR(完全离线)
+2. 百度通用文字识别
+3. 腾讯通用印刷体识别
 
 ## 疑问
 
@@ -181,6 +192,8 @@ rd /s /q "%localappdata%\stranslate"
 
 <details>
 <summary>详细内容</summary>
+
+- 2024-03-07 1.0.9.419 添加OCR服务、添加导入导出、优化使用体验...
 
 - 2024-03-07 1.0.8.313 优化使用体验、添加智谱AI、添加自定义Prompt、添加Prompts管理、添加监听剪贴板功能、新增单个服务翻译失败后重试...
 
