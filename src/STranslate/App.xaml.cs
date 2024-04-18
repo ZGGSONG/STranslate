@@ -33,7 +33,7 @@ namespace STranslate
                 if (TryRunAsAdministrator())
                 {
                     // 如果提升权限成功，关闭当前实例
-                    Application.Current.Shutdown();
+                    Current.Shutdown();
                     return;
                 }
             }
@@ -42,7 +42,7 @@ namespace STranslate
             if (IsAnotherInstanceRunning())
             {
                 MessageBox_S.Show($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} 应用程序已经在运行中。", "多开检测");
-                Application.Current.Shutdown();
+                Current.Shutdown();
                 return;
             }
 

@@ -196,10 +196,15 @@ namespace STranslate.Views
                 LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
             }
 
+            // 首次加载时是否隐藏界面
             if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false))
             {
                 // 第一次加载页面激活输入框
                 (InputView.FindName("InputTB") as TextBox)?.Focus();
+            }
+            else
+            {
+                Mwin.Visibility = Visibility.Hidden;
             }
         }
 
