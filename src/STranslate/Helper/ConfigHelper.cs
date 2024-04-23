@@ -229,6 +229,7 @@ public class ConfigHelper
         CurrentConfig.IsTriggerShowHide = model.IsTriggerShowHide;
         CurrentConfig.IsShowMainPlaceholder = model.IsShowMainPlaceholder;
         CurrentConfig.ShowAuxiliaryLine = model.ShowAuxiliaryLine;
+        CurrentConfig.ChangedLang2Execute = model.ChangedLang2Execute;
         
         //重新执行必要操作
         ThemeOperate(CurrentConfig.ThemeType);

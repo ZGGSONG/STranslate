@@ -88,6 +88,7 @@ namespace STranslate.ViewModels.Preference
             IsTriggerShowHide = curConfig?.IsTriggerShowHide ?? false;
             IsShowMainPlaceholder = curConfig?.IsShowMainPlaceholder ?? true;
             ShowAuxiliaryLine = curConfig?.ShowAuxiliaryLine ?? true;
+            ChangedLang2Execute = curConfig?.ChangedLang2Execute ?? false;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -488,5 +489,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool _showAuxiliaryLine = curConfig?.ShowAuxiliaryLine ?? true;
+
+        /// <summary>
+        /// 修改语言后立即翻译
+        /// </summary>
+        [ObservableProperty]
+        private bool _changedLang2Execute = curConfig?.ChangedLang2Execute ?? true;
     }
 }

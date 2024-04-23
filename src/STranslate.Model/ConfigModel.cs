@@ -250,6 +250,11 @@ public class ConfigModel
     public string WebDavPassword { get; set; } = string.Empty;
 
     /// <summary>
+    /// 切换语言时自动翻译
+    /// </summary>
+    public bool ChangedLang2Execute { get; set; } = false;
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -325,6 +330,7 @@ public class ConfigModel
             WebDavUrl = WebDavUrl,
             WebDavUsername = WebDavUsername,
             WebDavPassword = WebDavPassword,
+            ChangedLang2Execute = ChangedLang2Execute,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

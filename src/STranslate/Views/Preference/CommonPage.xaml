@@ -100,6 +100,12 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsTriggerShowHide}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="修改语种后立即翻译" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="修改选择语言后立即翻译" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ChangedLang2Execute}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

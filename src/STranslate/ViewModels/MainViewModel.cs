@@ -41,6 +41,12 @@ namespace STranslate.ViewModels
                 OnPropertyChanged();
                 //清空识别缓存
                 InputVM.IdentifyLanguage = string.Empty;
+
+                //是否立即翻译
+                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ChangedLang2Execute ?? false)
+                {
+                    CancelAndTranslate();
+                }
             }
         }
 
@@ -61,6 +67,12 @@ namespace STranslate.ViewModels
                 OnPropertyChanged();
                 //清空识别缓存
                 InputVM.IdentifyLanguage = string.Empty;
+
+                //是否立即翻译
+                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ChangedLang2Execute ?? false)
+                {
+                    CancelAndTranslate();
+                }
             }
         }
 
@@ -259,6 +271,13 @@ namespace STranslate.ViewModels
             NotifyIconVM.UpdateToolTip($"快捷键禁用");
         }
 
+        private void CancelAndTranslate()
+        {
+            OutputVM.SingleTranslateCancelCommand.Execute(null);
+            InputVM.TranslateCancelCommand.Execute(null);
+            InputVM.TranslateCommand.Execute(null);
+        }
+
         [RelayCommand]
         private void ExchangeSourceTarget()
         {
@@ -266,9 +285,7 @@ namespace STranslate.ViewModels
             {
                 (SourceLang, TargetLang) = (TargetLang, SourceLang);
 
-                OutputVM.SingleTranslateCancelCommand.Execute(null);
-                InputVM.TranslateCancelCommand.Execute(null);
-                InputVM.TranslateCommand.Execute(null);
+                CancelAndTranslate();
             }
         }
 
