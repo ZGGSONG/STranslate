@@ -264,7 +264,7 @@ namespace STranslate.ViewModels
         {
             if (SourceLang != TargetLang && !string.IsNullOrEmpty(InputVM.InputContent))
             {
-                (SourceLang, SourceLang) = (SourceLang, SourceLang);
+                (SourceLang, TargetLang) = (TargetLang, SourceLang);
 
                 OutputVM.SingleTranslateCancelCommand.Execute(null);
                 InputVM.TranslateCancelCommand.Execute(null);
