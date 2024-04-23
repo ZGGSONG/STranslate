@@ -24,7 +24,7 @@
 
 ## 访问
 
-| 国外 | 国内(仅作同步代码用) |
+| 国外 | 国内 |
 | :--: | :--: |
 | **[Github](https://github.com/ZGGSONG/STranslate)** | **[Gitee](https://gitee.com/zggsong/STranslate)** |
 
