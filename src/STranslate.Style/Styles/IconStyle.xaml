@@ -26,4 +26,5 @@
     <BitmapImage x:Key="BaiduOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/baidu2.png" />
     <BitmapImage x:Key="TencentOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/tencent2.png" />
     <BitmapImage x:Key="Ollama" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ollama.png" />
+    <BitmapImage x:Key="Kimi" UriSource="pack://application:,,,/STranslate.Style;component/Resources/kimi.png" />
 </ResourceDictionary>

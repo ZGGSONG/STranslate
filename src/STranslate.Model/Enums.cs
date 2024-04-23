@@ -334,6 +334,9 @@ namespace STranslate.Model
 
         [Description("Ollama")]
         Ollama,
+
+        [Description("Kimi")]
+        Kimi,
     }
 
     /// <summary>
