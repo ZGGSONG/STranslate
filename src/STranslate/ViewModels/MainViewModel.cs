@@ -43,7 +43,7 @@ namespace STranslate.ViewModels
                 InputVM.IdentifyLanguage = string.Empty;
 
                 //是否立即翻译
-                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ChangedLang2Execute ?? false)
+                if (!_isInitial && !string.IsNullOrEmpty(InputVM.InputContent) && (Singleton<ConfigHelper>.Instance.CurrentConfig?.ChangedLang2Execute ?? false))
                 {
                     CancelAndTranslate();
                 }
@@ -69,7 +69,7 @@ namespace STranslate.ViewModels
                 InputVM.IdentifyLanguage = string.Empty;
 
                 //是否立即翻译
-                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ChangedLang2Execute ?? false)
+                if (!_isInitial && !string.IsNullOrEmpty(InputVM.InputContent) && (Singleton<ConfigHelper>.Instance.CurrentConfig?.ChangedLang2Execute ?? false))
                 {
                     CancelAndTranslate();
                 }
@@ -93,6 +93,8 @@ namespace STranslate.ViewModels
 
         public bool IsHotkeyCopy = false;
 
+        private bool _isInitial = false;
+
         public MainViewModel()
         {
             SqlHelper.InitializeDB();
@@ -102,10 +104,12 @@ namespace STranslate.ViewModels
 
         public void Reset()
         {
+            _isInitial = true;
             SourceLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.SourceLang ?? LangEnum.auto;
             TargetLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.TargetLang ?? LangEnum.auto;
             // 加载是否启用增量更新
             IsEnableIncrementalTranslation = (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+            _isInitial = false;
         }
 
         [RelayCommand]
