@@ -344,6 +344,11 @@ namespace STranslate.ViewModels
         {
             if (string.IsNullOrEmpty(content))
                 return;
+
+            //取词前移除换行
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+                content = StringUtil.RemoveLineBreaks(content);
+
             InputVM.InputContent = content;
 
             //如果重复执行先取消上一步操作
