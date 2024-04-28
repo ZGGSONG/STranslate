@@ -4,8 +4,10 @@ using STranslate.Log;
 using STranslate.Model;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web;
 
 namespace STranslate.Helper;
 
@@ -46,9 +48,16 @@ public class ExternalCallHelper
 
         var uri = request.Url ?? throw new Exception("get url is null");
         var path = uri.AbsolutePath.TrimStart('/');
+        var ecAction = GetExternalCallAction(path);
 
-        var ecAction = GetExternalCallAction(request.RawUrl!.Trim('/'));
-        WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content));
+        var collection = HttpUtility.ParseQueryString(uri.Query);
+        string queryKey = "screenshot";
+        var internalScreenshot = true;
+        if (collection.AllKeys.Contains(queryKey))
+        {
+            internalScreenshot = !bool.TryParse(collection[queryKey], out internalScreenshot) || internalScreenshot;
+        }
+        WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content, internalScreenshot));
     }
 
     /// <summary>

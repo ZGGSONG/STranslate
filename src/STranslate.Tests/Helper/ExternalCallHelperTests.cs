@@ -18,7 +18,7 @@ public class ExternalCallHelperTests
 
         Assert.True(Singleton<ExternalCallHelper>.Instance.IsStarted);
 
-        Thread.Sleep(TimeSpan.FromSeconds(50));
+        while (true) { Thread.Sleep(200); }
 
         Singleton<ExternalCallHelper>.Instance.StopService();
         Assert.False(Singleton<ExternalCallHelper>.Instance.IsStarted);

@@ -5,4 +5,5 @@
 /// </summary>
 /// <param name="ECAction"></param>
 /// <param name="Content"></param>
-public record ExternalCallMessenger(ExternalCallAction ECAction, string Content);
+/// <param name="internalScreenshot"></param>
+public record ExternalCallMessenger(ExternalCallAction ECAction, string Content, bool internalScreenshot);
