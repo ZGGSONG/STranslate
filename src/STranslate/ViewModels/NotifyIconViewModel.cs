@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -7,6 +8,8 @@ using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,6 +62,47 @@ namespace STranslate.ViewModels
         {
             UpdateToolTip();
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
+            WeakReferenceMessenger.Default.Register<ExternalCallMessenger>(this, (o, e) => ExternalCallHandler(e));
+        }
+
+        private void ExternalCallHandler(ExternalCallMessenger e)
+        {
+            var actions = new Dictionary<ExternalCallAction, Action<Window, string>>
+            {
+                {
+                    ExternalCallAction.translate,
+                    (view, content) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(content))
+                        {
+                            OpenMainWindow(view);
+                        }
+                        else
+                        {
+                            TranslateHandler(view, content);
+                        }
+                    }
+                },
+                { ExternalCallAction.translate_input, (view, _) => InputTranslate(view) },
+                { ExternalCallAction.translate_ocr, (_, _) => ScreenShotHandler() },
+                { ExternalCallAction.translate_crossword, (view, _) => CrossWordTranslate(view) },
+                { ExternalCallAction.translate_mousehook, (view, _) => MousehookTranslate(view) },
+                { ExternalCallAction.listenclipboard, (view, _) => ClipboardMonitor(view) },
+                { ExternalCallAction.ocr, (_, _) => OCRHandler() },
+                { ExternalCallAction.ocr_silence, (_, _) => SilentOCRHandler() },
+                { ExternalCallAction.ocr_qrcode, (_, _) => QRCodeHandler() },
+                { ExternalCallAction.open_window, (view, _) => OpenMainWindow(view) },
+                { ExternalCallAction.open_preference, (_, _) => OpenPreference() },
+                { ExternalCallAction.open_history, (_, _) => OpenHistory() },
+                { ExternalCallAction.forbiddenhotkey, (view, _) => ForbiddenShortcuts(view) },
+            };
+
+            var view = Application.Current.Windows.OfType<MainView>().First();
+
+            if (actions.TryGetValue(e.ECAction, out var handler))
+            {
+                handler?.Invoke(view, e.Content);
+            }
         }
 
         public void UpdateToolTip(string msg = "")
@@ -136,6 +180,11 @@ namespace STranslate.ViewModels
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
                 content = StringUtil.RemoveLineBreaks(content);
 
+            TranslateHandler(view, content);
+        }
+
+        private void TranslateHandler(Window view, string content)
+        {
             //如果重复执行先取消上一步操作
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
             Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
@@ -312,7 +361,7 @@ namespace STranslate.ViewModels
                         getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
 
                         //写入剪贴板
-                        Clipboard.SetDataObject(getText, true);
+                        ClipboardHelper.Copy(getText);
 
                         var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
                         ShowBalloonTip($"OCR识别成功: {tmp}");
@@ -394,7 +443,7 @@ namespace STranslate.ViewModels
                             getText = StringUtil.RemoveLineBreaks(getText);
                         //OCR后自动复制
                         if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
-                            Clipboard.SetDataObject(getText, true);
+                            ClipboardHelper.Copy(getText);
                         Singleton<InputViewModel>.Instance.InputContent += getText;
                         Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
                     }

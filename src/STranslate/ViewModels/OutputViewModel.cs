@@ -95,7 +95,7 @@ namespace STranslate.ViewModels
         {
             if (obj is string str && !string.IsNullOrEmpty(str))
             {
-                Clipboard.SetDataObject(str);
+                ClipboardHelper.Copy(str);
 
                 ToastHelper.Show("复制成功");
             }
@@ -107,7 +107,7 @@ namespace STranslate.ViewModels
             if (obj is string str && !string.IsNullOrEmpty(str))
             {
                 var snakeRet = StringUtil.GenSnakeString(str.Split(' ').ToList());
-                Clipboard.SetDataObject(snakeRet);
+                ClipboardHelper.Copy(snakeRet);
 
                 ToastHelper.Show("蛇形复制成功");
             }
@@ -119,7 +119,7 @@ namespace STranslate.ViewModels
             if (obj is string str && !string.IsNullOrEmpty(str))
             {
                 var snakeRet = StringUtil.GenHumpString(str.Split(' ').ToList(), true);
-                Clipboard.SetDataObject(snakeRet);
+                ClipboardHelper.Copy(snakeRet);
 
                 ToastHelper.Show("小驼峰复制成功");
             }
@@ -131,7 +131,7 @@ namespace STranslate.ViewModels
             if (obj is string str && !string.IsNullOrEmpty(str))
             {
                 var snakeRet = StringUtil.GenHumpString(str.Split(' ').ToList(), false);
-                Clipboard.SetDataObject(snakeRet);
+                ClipboardHelper.Copy(snakeRet);
 
                 ToastHelper.Show("大驼峰复制成功");
             }
@@ -165,7 +165,7 @@ namespace STranslate.ViewModels
                 return;
             }
 
-            Clipboard.SetDataObject(result);
+            ClipboardHelper.Copy(result);
             ToastHelper.Show($"复制{translator.Name}结果");
         }
 

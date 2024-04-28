@@ -312,7 +312,7 @@ public partial class InputViewModel : ObservableObject
     {
         if (!string.IsNullOrEmpty(content))
         {
-            Clipboard.SetDataObject(content);
+            ClipboardHelper.Copy(content);
             ToastHelper.Show("复制成功");
         }
     }
@@ -375,7 +375,7 @@ public partial class InputViewModel : ObservableObject
         {
             var text = tb.SelectedText;
             if (!string.IsNullOrEmpty(text))
-                Clipboard.SetDataObject(text);
+                ClipboardHelper.Copy(text);
         }
     }
 

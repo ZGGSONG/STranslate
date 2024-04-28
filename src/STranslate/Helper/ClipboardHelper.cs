@@ -27,7 +27,7 @@ namespace STranslate.Helper
 
             // 开启时添加一条空字符串到剪贴板
             // 避免第一条为文本信息而在开启功能时触发
-            Clipboard.SetDataObject("", false);
+            Copy();
 
             _source.AddHook(WndProc);
 
@@ -86,6 +86,22 @@ namespace STranslate.Helper
             }
 
             return IntPtr.Zero;
+        }
+
+        /// <summary>
+        /// 复制
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="ifError">
+        /// 如果出现OpenClipboard失败(0x800401D0(CLIPBRD E CANT OPEN))尝试解决
+        /// https://stackoverflow.com/questions/68666/clipbrd-e-cant-open-error-when-setting-the-clipboard-from-net
+        /// </param>
+        public static void Copy(string content = "", bool ifError = false)
+        {
+            if (ifError)
+                System.Windows.Forms.Clipboard.SetDataObject(content);
+            else
+                Clipboard.SetDataObject(content);
         }
     }
 }

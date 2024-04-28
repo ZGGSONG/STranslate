@@ -22,7 +22,7 @@ namespace STranslate.ViewModels.Preference.Services
             string url,
             string name = "",
             IconType icon = IconType.DeepL,
-            string appID = "",
+            string appId = "",
             string appKey = "",
             bool isEnabled = true,
             ServiceType type = ServiceType.ApiService
@@ -32,7 +32,7 @@ namespace STranslate.ViewModels.Preference.Services
             Url = url;
             Name = name;
             Icon = icon;
-            AppID = appID;
+            AppID = appId;
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
@@ -51,7 +51,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -65,19 +65,19 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _url = string.Empty;
+        private string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _appID = string.Empty;
+        private string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _appKey = string.Empty;
+        private string _appKey = string.Empty;
 
         [JsonIgnore]
         public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
@@ -89,13 +89,13 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public TranslationResult _data = TranslationResult.Reset;
+        private TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
-        public string Tips { get; set; } =
+        public string Tips { get; private init; } =
             @"请求:
 {
     ""text"": ""test"",
@@ -153,7 +153,7 @@ namespace STranslate.ViewModels.Preference.Services
             throw new Exception($"请求数据出错: {request}");
         }
 
-        public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+        public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -162,19 +162,19 @@ namespace STranslate.ViewModels.Preference.Services
         {
             return new TranslatorApi
             {
-                Identify = this.Identify,
-                Type = this.Type,
-                IsEnabled = this.IsEnabled,
-                Icon = this.Icon,
-                Name = this.Name,
-                Url = this.Url,
+                Identify = Identify,
+                Type = Type,
+                IsEnabled = IsEnabled,
+                Icon = Icon,
+                Name = Name,
+                Url = Url,
                 Data = TranslationResult.Reset,
-                AppID = this.AppID,
-                AppKey = this.AppKey,
-                AutoExpander = this.AutoExpander,
-                Icons = this.Icons,
-                Tips = this.Tips,
-                Token = this.Token,
+                AppID = AppID,
+                AppKey = AppKey,
+                AutoExpander = AutoExpander,
+                Icons = Icons,
+                Tips = Tips,
+                Token = Token
             };
         }
 

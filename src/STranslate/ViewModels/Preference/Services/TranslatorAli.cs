@@ -26,7 +26,7 @@ namespace STranslate.ViewModels.Preference.Services
             string url,
             string name = "",
             IconType icon = IconType.Ali,
-            string appID = "",
+            string appId = "",
             string appKey = "",
             bool isEnabled = true,
             ServiceType type = ServiceType.AliService
@@ -36,7 +36,7 @@ namespace STranslate.ViewModels.Preference.Services
             Url = url;
             Name = name;
             Icon = icon;
-            AppID = appID;
+            AppID = appId;
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
@@ -55,7 +55,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -69,19 +69,19 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _url = string.Empty;
+        private string _url = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _appID = string.Empty;
+        private string _appID = string.Empty;
 
         [JsonIgnore]
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string _appKey = string.Empty;
+        private string _appKey = string.Empty;
 
         [JsonIgnore]
         public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
@@ -93,7 +93,7 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
-        public TranslationResult _data = TranslationResult.Reset;
+        private TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
@@ -112,36 +112,35 @@ namespace STranslate.ViewModels.Preference.Services
 
         private void ShowEncryptInfo(string? obj)
         {
-            if (obj == null)
-                return;
-
-            if (obj.Equals(nameof(AppID)))
+            switch (obj)
             {
-                IdHide = !IdHide;
-            }
-            else if (obj.Equals(nameof(AppKey)))
-            {
-                KeyHide = !KeyHide;
+                case null:
+                    return;
+                case nameof(AppID):
+                    IdHide = !IdHide;
+                    break;
+                case nameof(AppKey):
+                    KeyHide = !KeyHide;
+                    break;
             }
         }
 
-        private RelayCommand<string>? showEncryptInfoCommand;
+        private RelayCommand<string>? _showEncryptInfoCommand;
 
         [JsonIgnore]
-        public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
+        public IRelayCommand<string> ShowEncryptInfoCommand => _showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 
         #endregion Show/Hide Encrypt Info
 
         /**
-         * 使用AK&SK初始化账号Client
+         * 使用AK & SK初始化账号Client
          * @param accessKeyId
          * @param accessKeySecret
          * @param url
          * @return Client
          * @throws Exception
          */
-
-        public static Client CreateClient(string accessKeyId, string accessKeySecret, string url)
+        private static Client CreateClient(string accessKeyId, string accessKeySecret, string url)
         {
             if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
             {
@@ -176,7 +175,7 @@ namespace STranslate.ViewModels.Preference.Services
 
                 // 请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
                 // 工程代码泄露可能会导致 AccessKey 泄露，并威胁账号下所有资源的安全性。以下代码示例使用环境变量获取 AccessKey 的方式进行调用，仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378671.html
-                Client client = CreateClient(AppID, AppKey, Url);
+                var client = CreateClient(AppID, AppKey, Url);
                 TranslateGeneralRequest translateGeneralRequest =
                     new()
                     {
@@ -199,7 +198,7 @@ namespace STranslate.ViewModels.Preference.Services
             throw new Exception($"请求数据出错: {request}");
         }
 
-        public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+        public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -208,19 +207,19 @@ namespace STranslate.ViewModels.Preference.Services
         {
             return new TranslatorAli
             {
-                Identify = this.Identify,
-                Type = this.Type,
-                IsEnabled = this.IsEnabled,
-                Icon = this.Icon,
-                Name = this.Name,
-                Url = this.Url,
+                Identify = Identify,
+                Type = Type,
+                IsEnabled = IsEnabled,
+                Icon = Icon,
+                Name = Name,
+                Url = Url,
                 Data = TranslationResult.Reset,
-                AppID = this.AppID,
-                AppKey = this.AppKey,
-                AutoExpander = this.AutoExpander,
-                Icons = this.Icons,
-                IdHide = this.IdHide,
-                KeyHide = this.KeyHide,
+                AppID = AppID,
+                AppKey = AppKey,
+                AutoExpander = AutoExpander,
+                Icons = Icons,
+                IdHide = IdHide,
+                KeyHide = KeyHide,
             };
         }
 

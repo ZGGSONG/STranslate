@@ -58,7 +58,7 @@ public partial class HistoryContentViewModel : ObservableObject
     {
         if (obj is string str && !string.IsNullOrEmpty(str))
         {
-            Clipboard.SetDataObject(str);
+            ClipboardHelper.Copy(str);
 
             ToastHelper.Show("复制成功", WindowType.Preference);
         }
@@ -70,7 +70,7 @@ public partial class HistoryContentViewModel : ObservableObject
         if (obj is string str && !string.IsNullOrEmpty(str))
         {
             var snakeRet = StringUtil.GenSnakeString([.. str.Split(' ')]);
-            Clipboard.SetDataObject(snakeRet);
+            ClipboardHelper.Copy(snakeRet);
 
             ToastHelper.Show("蛇形复制成功", WindowType.Preference);
         }
@@ -82,7 +82,7 @@ public partial class HistoryContentViewModel : ObservableObject
         if (obj is string str && !string.IsNullOrEmpty(str))
         {
             var snakeRet = StringUtil.GenHumpString([.. str.Split(' ')], true);
-            Clipboard.SetDataObject(snakeRet);
+            ClipboardHelper.Copy(snakeRet);
 
             ToastHelper.Show("小驼峰复制成功", WindowType.Preference);
         }
@@ -94,7 +94,7 @@ public partial class HistoryContentViewModel : ObservableObject
         if (obj is string str && !string.IsNullOrEmpty(str))
         {
             var snakeRet = StringUtil.GenHumpString([.. str.Split(' ')], false);
-            Clipboard.SetDataObject(snakeRet);
+            ClipboardHelper.Copy(snakeRet);
 
             ToastHelper.Show("大驼峰复制成功", WindowType.Preference);
         }

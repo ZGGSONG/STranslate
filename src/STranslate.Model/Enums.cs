@@ -697,6 +697,26 @@ namespace STranslate.Model
     }
 
     /// <summary>
+    /// 外部调用功能
+    /// </summary>
+    public enum ExternalCallAction
+    {
+        translate,
+        translate_input,
+        translate_ocr,
+        translate_crossword,
+        translate_mousehook,
+        listenclipboard,
+        ocr,
+        ocr_silence,
+        ocr_qrcode,
+        open_window,
+        open_preference,
+        open_history,
+        forbiddenhotkey,
+    }
+
+    /// <summary>
     /// 获取Description
     /// </summary>
     public static class EnumExtensions

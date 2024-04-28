@@ -152,7 +152,7 @@ namespace STranslate.ViewModels
         {
             if (!string.IsNullOrEmpty(content))
             {
-                Clipboard.SetDataObject(content);
+                ClipboardHelper.Copy(content);
 
                 ToastHelper.Show("复制成功", WindowType.OCR);
             }
@@ -308,7 +308,7 @@ namespace STranslate.ViewModels
 
                 //OCR后自动复制
                 if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
-                    Clipboard.SetDataObject(getText, true);
+                    ClipboardHelper.Copy(getText);
 
                 GetContent = getText;
                 ToastHelper.Show("识别成功", WindowType.OCR);
@@ -437,7 +437,7 @@ namespace STranslate.ViewModels
             if (string.IsNullOrEmpty(GetContent))
                 return;
 
-            Clipboard.SetDataObject(GetContent, true);
+            ClipboardHelper.Copy(GetContent);
             ToastHelper.Show("复制成功", WindowType.OCR);
         }
 
@@ -564,7 +564,7 @@ namespace STranslate.ViewModels
             {
                 var text = tb.SelectedText;
                 if (!string.IsNullOrEmpty(text))
-                    Clipboard.SetDataObject(text);
+                    ClipboardHelper.Copy(text);
             }
         }
 

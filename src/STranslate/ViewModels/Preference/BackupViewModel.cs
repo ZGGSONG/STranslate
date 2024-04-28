@@ -17,12 +17,12 @@ namespace STranslate.ViewModels.Preference
 {
     public partial class BackupViewModel : ObservableObject
     {
-        private WebDavViewModel webDavVM = Singleton<WebDavViewModel>.Instance;
+        private readonly WebDavViewModel _webDavVm = Singleton<WebDavViewModel>.Instance;
 
         /// <summary>
         /// 当前配置实例
         /// </summary>
-        private readonly ConfigHelper configHelper = Singleton<ConfigHelper>.Instance;
+        private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
 
         private ConfigModel? _curConfig;
 
@@ -30,7 +30,7 @@ namespace STranslate.ViewModels.Preference
 
         private void Init()
         {
-            _curConfig = configHelper.CurrentConfig;
+            _curConfig = _configHelper.CurrentConfig;
             BackupType = _curConfig?.BackupType ?? BackupType.Local;
             WebDavUrl = _curConfig?.WebDavUrl ?? string.Empty;
             WebDavUsername = _curConfig?.WebDavUsername ?? string.Empty;
@@ -69,13 +69,13 @@ namespace STranslate.ViewModels.Preference
         [property: JsonIgnore]
         private bool _isWebDavPasswordHide = true;
 
-        private RelayCommand<string>? showEncryptInfoCommand;
+        private RelayCommand<string>? _showEncryptInfoCommand;
 
         /// <summary>
         /// 显示/隐藏密码Command
         /// </summary>
         [JsonIgnore]
-        public IRelayCommand<string> ShowEncryptInfoCommand => showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
+        public IRelayCommand<string> ShowEncryptInfoCommand => _showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
 
         private void ShowEncryptInfo(string? obj)
         {
@@ -97,9 +97,6 @@ namespace STranslate.ViewModels.Preference
                 case BackupType.WebDav:
                     await WebDavBackupAsync();
                     break;
-
-                default:
-                    break;
             }
             Save();
         }
@@ -116,16 +113,13 @@ namespace STranslate.ViewModels.Preference
                 case BackupType.WebDav:
                     await WebDavRestoreAsync();
                     break;
-
-                default:
-                    break;
             }
             Save();
         }
 
         protected void Save()
         {
-            if (!configHelper.WriteConfig(this))
+            if (!_configHelper.WriteConfig(this))
             {
                 LogService.Logger.Debug($"保存配置失败，{JsonConvert.SerializeObject(this)}");
             }
@@ -202,7 +196,7 @@ namespace STranslate.ViewModels.Preference
         {
             var openFileDialog = new OpenFileDialog { Filter = "zip(*.zip)|*.zip" };
 
-            ///创建暂存目录
+            //创建暂存目录
             var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             var tmpPath = Path.Combine(ConstStr.ExecutePath, rd);
             if (!Directory.Exists(tmpPath))
@@ -268,7 +262,7 @@ namespace STranslate.ViewModels.Preference
                         var fullName = res.Uri.Replace(absolutePath, "").Trim('/');
                         //html解码以显示中文
                         var decodeFullName = System.Web.HttpUtility.UrlDecode(fullName);
-                        webDavVM.WebDavResultList.Add(new WebDavResult(decodeFullName));
+                        _webDavVm.WebDavResultList.Add(new WebDavResult(decodeFullName));
                     }
                 }
                 var dialog = new WebDavDialog(client, absolutePath, tmpPath);
@@ -276,7 +270,7 @@ namespace STranslate.ViewModels.Preference
                 {
                     BackOperate(tmpPath);
                 }
-                webDavVM.WebDavResultList.Clear();
+                _webDavVm.WebDavResultList.Clear();
             }
             finally
             {
@@ -371,7 +365,11 @@ namespace STranslate.ViewModels.Preference
                     return ret;
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+
             return ret;
         }
 
