@@ -89,6 +89,7 @@ namespace STranslate.ViewModels.Preference
             IsShowMainPlaceholder = curConfig?.IsShowMainPlaceholder ?? true;
             ShowAuxiliaryLine = curConfig?.ShowAuxiliaryLine ?? true;
             ChangedLang2Execute = curConfig?.ChangedLang2Execute ?? false;
+            UseFormsCopy = curConfig?.UseFormsCopy ?? false;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -495,5 +496,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool _changedLang2Execute = curConfig?.ChangedLang2Execute ?? true;
+
+        /// <summary>
+        /// 使用windows forms库中的Clipboard尝试解决剪贴板占用问题
+        /// </summary>
+        [ObservableProperty]
+        private bool _useFormsCopy = curConfig?.UseFormsCopy ?? true;
     }
 }

@@ -92,13 +92,9 @@ namespace STranslate.Helper
         /// 复制
         /// </summary>
         /// <param name="content"></param>
-        /// <param name="ifError">
-        /// 如果出现OpenClipboard失败(0x800401D0(CLIPBRD E CANT OPEN))尝试解决
-        /// https://stackoverflow.com/questions/68666/clipbrd-e-cant-open-error-when-setting-the-clipboard-from-net
-        /// </param>
-        public static void Copy(string content = "", bool ifError = false)
+        public static void Copy(string content = "")
         {
-            if (ifError)
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UseFormsCopy ?? false)
                 System.Windows.Forms.Clipboard.SetDataObject(content);
             else
                 Clipboard.SetDataObject(content);

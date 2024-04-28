@@ -230,6 +230,7 @@ public class ConfigHelper
         CurrentConfig.IsShowMainPlaceholder = model.IsShowMainPlaceholder;
         CurrentConfig.ShowAuxiliaryLine = model.ShowAuxiliaryLine;
         CurrentConfig.ChangedLang2Execute = model.ChangedLang2Execute;
+        CurrentConfig.UseFormsCopy = model.UseFormsCopy;
         
         //重新执行必要操作
         ThemeOperate(CurrentConfig.ThemeType);
@@ -519,6 +520,8 @@ public class ConfigHelper
             WebDavPassword = string.Empty,
             SourceLang = LangEnum.auto,
             TargetLang = LangEnum.auto,
+            ChangedLang2Execute = false,
+            UseFormsCopy = false,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),

@@ -106,6 +106,12 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="修改选择语言后立即翻译" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ChangedLang2Execute}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="剪贴板占用问题" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果出现剪贴板被占用了，可尝试启用此配置" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding UseFormsCopy}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 
