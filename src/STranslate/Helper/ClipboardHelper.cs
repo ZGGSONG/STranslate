@@ -92,12 +92,16 @@ namespace STranslate.Helper
         /// 复制
         /// </summary>
         /// <param name="content"></param>
-        public static void Copy(string content = "")
+        /// <remarks>
+        public static void Copy(string content = "", bool copy = false)
         {
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UseFormsCopy ?? false)
-                System.Windows.Forms.Clipboard.SetDataObject(content);
+                //https://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/Clipboard.cs,c6184ddc7e88f288,references
+                //看了下源码，似乎只是Forms库下默认每隔100ms重试10次，如果都出错才抛出异常，而底层都是调用的 UnsafeNativeMethods.OleGetClipboard方法
+                System.Windows.Forms.Clipboard.SetDataObject(content, copy);
             else
-                Clipboard.SetDataObject(content);
+                //https://referencesource.microsoft.com/#PresentationCore/Core/CSharp/System/Windows/Clipboard.cs,68ca81bbc84f706a
+                Clipboard.SetDataObject(content, copy);
         }
     }
 }
