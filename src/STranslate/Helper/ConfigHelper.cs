@@ -76,6 +76,9 @@ public class ConfigHelper
 
         //初始化宽高
         HeightWidthOperate();
+
+        //初始化外部调用服务
+        ExternalCallOperate(CurrentConfig?.ExternalCallPort ?? 50020);
     }
 
     /// <summary>
@@ -231,19 +234,21 @@ public class ConfigHelper
         CurrentConfig.ShowAuxiliaryLine = model.ShowAuxiliaryLine;
         CurrentConfig.ChangedLang2Execute = model.ChangedLang2Execute;
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
+        CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         
         //重新执行必要操作
         ThemeOperate(CurrentConfig.ThemeType);
         ProxyOperate(
             CurrentConfig.ProxyMethod,
             CurrentConfig.ProxyIp,
-            CurrentConfig.ProxyPort ?? 0,
+            CurrentConfig.ProxyPort ?? 8089,
             CurrentConfig.IsProxyAuthentication,
             CurrentConfig.ProxyUsername,
             CurrentConfig.ProxyPassword
         );
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
+        ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -451,6 +456,8 @@ public class ConfigHelper
     //重置窗口大小
     private void HeightWidthOperate() => Singleton<MainViewModel>.Instance.ResetMaxHeightWidthCommand.Execute(null);
 
+    private void ExternalCallOperate(int port, bool isStop = false) => Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
+
     #endregion 私有方法
 
     #region 字段 && 属性
@@ -506,7 +513,7 @@ public class ConfigHelper
             Width = WidthEnum.Minimum,
             ProxyMethod = ProxyMethodEnum.系统代理,
             ProxyIp = string.Empty,
-            ProxyPort = null,
+            ProxyPort = 8089,
             IsProxyAuthentication = false,
             ProxyUsername = string.Empty,
             ProxyPassword = string.Empty,
@@ -522,6 +529,7 @@ public class ConfigHelper
             TargetLang = LangEnum.auto,
             ChangedLang2Execute = false,
             UseFormsCopy = false,
+            ExternalCallPort = 50020,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),

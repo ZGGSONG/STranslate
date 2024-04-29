@@ -119,6 +119,16 @@
                     <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
                         <StackPanel Orientation="Vertical">
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="服务端口" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置服务端口进行外部调用" />
+                                <common:PlaceholderTextBox MinWidth="100"
+                                                           HorizontalAlignment="Right"
+                                                           Placeholder="请输入端口号"
+                                                           PreviewKeyDown="AcceptOnlyNumber"
+                                                           Text="{Binding ExternalCallPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=50020}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="代理设置" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置网络代理方式&#13;本地地址直连" />
                                 <ComboBox Height="30"
@@ -145,7 +155,7 @@
                                                            HorizontalAlignment="Right"
                                                            Placeholder="请输入端口号"
                                                            PreviewKeyDown="AcceptOnlyNumber"
-                                                           Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                                           Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=8089}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">

@@ -261,6 +261,11 @@ public class ConfigModel
     public bool UseFormsCopy { get; set; } = false;
 
     /// <summary>
+    /// 外部调用端口
+    /// </summary>
+    public int? ExternalCallPort { get; set; }
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -338,6 +343,7 @@ public class ConfigModel
             WebDavPassword = WebDavPassword,
             ChangedLang2Execute = ChangedLang2Execute,
             UseFormsCopy = UseFormsCopy,
+            ExternalCallPort = ExternalCallPort,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

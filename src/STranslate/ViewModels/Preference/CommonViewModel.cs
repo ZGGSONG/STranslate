@@ -90,6 +90,7 @@ namespace STranslate.ViewModels.Preference
             ShowAuxiliaryLine = curConfig?.ShowAuxiliaryLine ?? true;
             ChangedLang2Execute = curConfig?.ChangedLang2Execute ?? false;
             UseFormsCopy = curConfig?.UseFormsCopy ?? false;
+            ExternalCallPort = curConfig?.ExternalCallPort ?? 50020;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -417,7 +418,7 @@ namespace STranslate.ViewModels.Preference
         /// 代理服务器端口
         /// </summary>
         [ObservableProperty]
-        private int? _proxyPort = curConfig?.ProxyPort;
+        private int? _proxyPort = curConfig?.ProxyPort ?? 8089;
 
         /// <summary>
         /// 是否启用代理认证
@@ -502,5 +503,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool _useFormsCopy = curConfig?.UseFormsCopy ?? true;
+
+        /// <summary>
+        /// 使用windows forms库中的Clipboard尝试解决剪贴板占用问题
+        /// </summary>
+        [ObservableProperty]
+        private int? _externalCallPort = curConfig?.ExternalCallPort ?? 50020;
     }
 }

@@ -21,4 +21,5 @@
     <converter:ServiceType2BrushConverter x:Key="ServiceType2BrushConverter" />
     <converter:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter" />
     <converter:Collection2VisibilityConverter x:Key="Collection2VisibilityConverter" />
+    <converter:TextBoxToIntConverter x:Key="TextBoxToIntConverter" />
 </ResourceDictionary>

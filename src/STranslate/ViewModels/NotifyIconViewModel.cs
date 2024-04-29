@@ -8,8 +8,8 @@ using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using STranslate.Views;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,6 +65,10 @@ namespace STranslate.ViewModels
             WeakReferenceMessenger.Default.Register<ExternalCallMessenger>(this, (o, e) => ExternalCallHandler(e));
         }
 
+        /// <summary>
+        /// 外部调用注册
+        /// </summary>
+        /// <param name="e"></param>
         private void ExternalCallHandler(ExternalCallMessenger e)
         {
             var actions = new Dictionary<ExternalCallAction, Action<Window, string>>
@@ -75,7 +79,7 @@ namespace STranslate.ViewModels
                     {
                         if (string.IsNullOrWhiteSpace(content))
                         {
-                            OpenMainWindow(view);
+                            InputTranslate(view);
                         }
                         else
                         {
@@ -83,26 +87,79 @@ namespace STranslate.ViewModels
                         }
                     }
                 },
+                {
+                    ExternalCallAction.translate_force,
+                    (view, content) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(content))
+                        {
+                            InputTranslate(view);
+                        }
+                        else
+                        {
+                            TranslateHandler(view, content, true);//表示对象非空，强制翻译
+                        }
+                    }
+                },
                 { ExternalCallAction.translate_input, (view, _) => InputTranslate(view) },
-                { ExternalCallAction.translate_ocr, (_, _) => ScreenShotHandler() },
+                {
+                    ExternalCallAction.translate_ocr,
+                    async (_, content) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(content))
+                            ScreenShotHandler();
+                        else
+                            await ScreenshotCallback(BitmapUtil.ReadImageFile(content));
+                    }
+                },
                 { ExternalCallAction.translate_crossword, (view, _) => CrossWordTranslate(view) },
                 { ExternalCallAction.translate_mousehook, (view, _) => MousehookTranslate(view) },
                 { ExternalCallAction.listenclipboard, (view, _) => ClipboardMonitor(view) },
-                { ExternalCallAction.ocr, (_, _) => OCRHandler() },
-                { ExternalCallAction.ocr_silence, (_, _) => SilentOCRHandler() },
-                { ExternalCallAction.ocr_qrcode, (_, _) => QRCodeHandler() },
+                {
+                    ExternalCallAction.ocr,
+                    async (_, content) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(content))
+                            OCRHandler();
+                        else
+                            await OCRCallback(BitmapUtil.ReadImageFile(content));
+                    }
+                },
+                {
+                    ExternalCallAction.ocr_silence,
+                    async (_, content) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(content))
+                            SilentOCRHandler();
+                        else
+                            await SilentOCRCallback(BitmapUtil.ReadImageFile(content));
+                    }
+                },
+                {
+                    ExternalCallAction.ocr_qrcode,
+                    (_, content) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(content))
+                            QRCodeHandler();
+                        else
+                            QRCodeCallback(BitmapUtil.ReadImageFile(content));
+                    }
+                },
                 { ExternalCallAction.open_window, (view, _) => OpenMainWindow(view) },
                 { ExternalCallAction.open_preference, (_, _) => OpenPreference() },
                 { ExternalCallAction.open_history, (_, _) => OpenHistory() },
                 { ExternalCallAction.forbiddenhotkey, (view, _) => ForbiddenShortcuts(view) },
             };
 
-            var view = Application.Current.Windows.OfType<MainView>().First();
-
-            if (actions.TryGetValue(e.ECAction, out var handler))
+            CommonUtil.InvokeOnUIThread(() =>
             {
-                handler?.Invoke(view, e.Content);
-            }
+                var view = Application.Current.Windows.OfType<MainView>().First();
+
+                if (actions.TryGetValue(e.ECAction, out var handler))
+                {
+                    handler?.Invoke(view, e.Content);
+                }
+            });
         }
 
         public void UpdateToolTip(string msg = "")
@@ -183,7 +240,7 @@ namespace STranslate.ViewModels
             TranslateHandler(view, content);
         }
 
-        private void TranslateHandler(Window view, string content)
+        internal void TranslateHandler(Window view, string content, object? obj = null)
         {
             //如果重复执行先取消上一步操作
             Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
@@ -204,7 +261,7 @@ namespace STranslate.ViewModels
             Singleton<InputViewModel>.Instance.InputContent += content;
             ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
-            Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+            Singleton<InputViewModel>.Instance.TranslateCommand.Execute(obj);
         }
 
         [RelayCommand]
@@ -243,24 +300,30 @@ namespace STranslate.ViewModels
             ScreenshotView view = new();
             ShowAndActive(view);
 
-            view.BitmapCallback += (
-                bitmap =>
-                {
-                    //显示OCR窗口
-                    OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
-                    view ??= new OCRView();
-                    ShowAndActive(view);
-
-                    //显示截图
-                    var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
-
-                    Singleton<OCRViewModel>.Instance.GetImg = bs;
-
-                    Singleton<OCRViewModel>.Instance.QRCodeCommand.Execute(bs);
-                }
-            );
+            view.BitmapCallback += (bitmap => QRCodeCallback(bitmap));
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
+        }
+
+        private void QRCodeCallback(Bitmap? bitmap)
+        {
+            if (bitmap == null)
+            {
+                ShowBalloonTip("图像不存在");
+                return;
+            }
+
+            //显示OCR窗口
+            OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
+            view ??= new OCRView();
+            ShowAndActive(view);
+
+            //显示截图
+            var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
+
+            Singleton<OCRViewModel>.Instance.GetImg = bs;
+
+            Singleton<OCRViewModel>.Instance.QRCodeCommand.Execute(bs);
         }
 
         [RelayCommand]
@@ -292,25 +355,31 @@ namespace STranslate.ViewModels
             ScreenshotView view = new();
             ShowAndActive(view);
 
-            view.BitmapCallback += (
-                async bitmap =>
-                {
-                    //显示OCR窗口
-                    OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
-                    view ??= new OCRView();
-                    ShowAndActive(view);
-
-                    //显示截图
-                    var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
-                    Singleton<OCRViewModel>.Instance.ResetImgCommand.Execute(view.FindName("ImgCtl"));
-                    Singleton<OCRViewModel>.Instance.GetImg = bs;
-                    Singleton<OCRViewModel>.Instance.Bs = bs.Clone();
-
-                    await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(bs);
-                }
-            );
+            view.BitmapCallback += async bitmap => await OCRCallback(bitmap);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
+        }
+
+        private async Task OCRCallback(Bitmap? bitmap)
+        {
+            if (bitmap == null)
+            {
+                ShowBalloonTip("图像不存在");
+                return;
+            }
+
+            //显示OCR窗口
+            OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
+            view ??= new OCRView();
+            ShowAndActive(view);
+
+            //显示截图
+            var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
+            Singleton<OCRViewModel>.Instance.ResetImgCommand.Execute(view.FindName("ImgCtl"));
+            Singleton<OCRViewModel>.Instance.GetImg = bs;
+            Singleton<OCRViewModel>.Instance.Bs = bs.Clone();
+
+            await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(bs);
         }
 
         [RelayCommand]
@@ -342,39 +411,45 @@ namespace STranslate.ViewModels
             ScreenshotView view = new();
             ShowAndActive(view);
 
-            view.BitmapCallback += (
-                async bitmap =>
-                {
-                    try
-                    {
-                        string getText = "";
-                        var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
-                        var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
-                        //判断结果
-                        if (!ocrResult.Success)
-                        {
-                            throw new Exception(ocrResult.ErrorMsg);
-                        }
-                        getText = ocrResult.Text;
-
-                        //取词前移除换行
-                        getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
-
-                        //写入剪贴板
-                        ClipboardHelper.Copy(getText);
-
-                        var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
-                        ShowBalloonTip($"OCR识别成功: {tmp}");
-                    }
-                    catch (Exception ex)
-                    {
-                        ShowBalloonTip($"OCR识别失败: {ex.Message}");
-                        LogService.Logger.Error("静默OCR失败", ex);
-                    }
-                }
-            );
+            view.BitmapCallback += async bitmap => await SilentOCRCallback(bitmap);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
+        }
+
+        private async Task SilentOCRCallback(Bitmap? bitmap)
+        {
+            try
+            {
+                if (bitmap == null)
+                {
+                    ShowBalloonTip("图像不存在");
+                    return;
+                }
+
+                string getText = "";
+                var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
+                //判断结果
+                if (!ocrResult.Success)
+                {
+                    throw new Exception(ocrResult.ErrorMsg);
+                }
+                getText = ocrResult.Text;
+
+                //取词前移除换行
+                getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
+
+                //写入剪贴板
+                ClipboardHelper.Copy(getText);
+
+                var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
+                ShowBalloonTip($"OCR识别成功: {tmp}");
+            }
+            catch (Exception ex)
+            {
+                ShowBalloonTip($"OCR识别失败: {ex.Message}");
+                LogService.Logger.Error("静默OCR失败", ex);
+            }
         }
 
         [RelayCommand]
@@ -405,56 +480,62 @@ namespace STranslate.ViewModels
         {
             ScreenshotView view = new();
             ShowAndActive(view);
-            view.BitmapCallback += (
-                async bitmap =>
-                {
-                    //如果重复执行先取消上一步操作
-                    Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
-                    Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
-
-                    //增量翻译
-                    if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
-                    {
-                        ClearOutput();
-                        var input = Singleton<InputViewModel>.Instance.InputContent;
-                        Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
-                    }
-                    else
-                    {
-                        ClearAll();
-                    }
-
-                    MainView view = Application.Current.Windows.OfType<MainView>().First();
-                    ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
-
-                    var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
-                    try
-                    {
-                        string getText = "";
-                        var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
-                        //判断结果
-                        if (!ocrResult.Success)
-                        {
-                            throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
-                        }
-                        getText = ocrResult.Text;
-                        //取词前移除换行
-                        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
-                            getText = StringUtil.RemoveLineBreaks(getText);
-                        //OCR后自动复制
-                        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
-                            ClipboardHelper.Copy(getText);
-                        Singleton<InputViewModel>.Instance.InputContent += getText;
-                        Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
-                    }
-                    catch (Exception ex)
-                    {
-                        Singleton<InputViewModel>.Instance.InputContent = ex.Message;
-                    }
-                }
-            );
+            view.BitmapCallback += async bitmap => await ScreenshotCallback(bitmap);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
+        }
+
+        internal async Task ScreenshotCallback(Bitmap? bitmap)
+        {
+            if (bitmap == null)
+            {
+                ShowBalloonTip("图像不存在");
+                return;
+            }
+
+            //如果重复执行先取消上一步操作
+            Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+            Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+
+            //增量翻译
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+            {
+                ClearOutput();
+                var input = Singleton<InputViewModel>.Instance.InputContent;
+                Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            }
+            else
+            {
+                ClearAll();
+            }
+
+            MainView view = Application.Current.Windows.OfType<MainView>().First();
+            ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
+
+            var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+            try
+            {
+                string getText = "";
+                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
+                //判断结果
+                if (!ocrResult.Success)
+                {
+                    throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
+                }
+                getText = ocrResult.Text;
+                //取词前移除换行
+                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
+                    getText = StringUtil.RemoveLineBreaks(getText);
+                //OCR后自动复制
+                if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
+                    ClipboardHelper.Copy(getText);
+                Singleton<InputViewModel>.Instance.InputContent += getText;
+                Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+            }
+            catch (Exception ex)
+            {
+                Singleton<InputViewModel>.Instance.InputContent = ex.Message;
+            }
         }
 
         /// <summary>

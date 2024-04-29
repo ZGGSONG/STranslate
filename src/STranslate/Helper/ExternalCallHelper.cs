@@ -13,12 +13,16 @@ namespace STranslate.Helper;
 
 public class ExternalCallHelper
 {
-    public void StartService(string prefix)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="prefix"></param>
+    /// <param name="isStopFirst"></param>
+    public void StartService(string prefix, bool isStopFirst = false)
     {
-        if (_isStarted)
-        {
-            throw new InvalidOperationException("Server is already started.");
-        }
+        if (isStopFirst) StopService();
+
+        if (_isStarted) return;
 
         _listener ??= new HttpListener();
         _listener.Prefixes.Clear();
@@ -31,10 +35,7 @@ public class ExternalCallHelper
 
     public void StopService()
     {
-        if (!_isStarted)
-        {
-            throw new InvalidOperationException("Server is not started.");
-        }
+        if (!_isStarted) return;
 
         _listener?.Close();
         _listener = null;
@@ -50,14 +51,15 @@ public class ExternalCallHelper
         var path = uri.AbsolutePath.TrimStart('/');
         var ecAction = GetExternalCallAction(path);
 
-        var collection = HttpUtility.ParseQueryString(uri.Query);
-        string queryKey = "screenshot";
-        var internalScreenshot = true;
-        if (collection.AllKeys.Contains(queryKey))
-        {
-            internalScreenshot = !bool.TryParse(collection[queryKey], out internalScreenshot) || internalScreenshot;
-        }
-        WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content, internalScreenshot));
+        //弃用qurey形式传参
+        //var collection = HttpUtility.ParseQueryString(uri.Query);
+        //string queryKey = "screenshot";
+        //var internalScreenshot = true;
+        //if (collection.AllKeys.Contains(queryKey))
+        //{
+        //    internalScreenshot = !bool.TryParse(collection[queryKey], out internalScreenshot) || internalScreenshot;
+        //}
+        WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content));
     }
 
     /// <summary>

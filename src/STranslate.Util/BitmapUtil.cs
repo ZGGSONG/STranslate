@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace STranslate.Util
 {
@@ -40,12 +40,7 @@ namespace STranslate.Util
             BitmapSource? bitmapSource = null;
             try
             {
-                bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                    ptr,
-                    IntPtr.Zero,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions()
-                );
+                bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ptr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
             finally
             {
@@ -130,6 +125,23 @@ namespace STranslate.Util
             // 根据文件扩展名检查文件是否为图片文件
             string extension = Path.GetExtension(filePath).ToLower();
             return extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".bmp";
+        }
+
+        /// <summary>
+        /// 通过FileStream 来打开文件，这样就可以实现不锁定Image文件，到时可以让多用户同时访问Image文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static Bitmap? ReadImageFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return null; // 文件不存在
+            }
+
+            using var fs = File.OpenRead(path);
+            var result = Image.FromStream(fs); // 从流中创建图像
+            return new Bitmap(result); // 创建并返回位图
         }
     }
 }
