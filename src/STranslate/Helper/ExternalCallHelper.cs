@@ -51,7 +51,7 @@ public class ExternalCallHelper
         _isStarted = false;
     }
 
-    private void GetHandler(HttpListenerRequest request)
+    private void RequestHandler(HttpListenerRequest request)
     {
         using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
         var content = reader.ReadToEnd();
@@ -91,11 +91,8 @@ public class ExternalCallHelper
         {
             var request = context.Request;
 
-            // 仅接受 GET 请求
-            if (request.HttpMethod == "GET")
-                GetHandler(request);
-            else
-                throw new Exception("Please use GET like `curl 127.0.0.1:50020/translate -d 'helloworld'`");
+            //Please use GET like `curl localhost:50020/translate -d \"hello world\"`"
+            RequestHandler(request);
 
             ResponseHandler(context.Response);
         }
