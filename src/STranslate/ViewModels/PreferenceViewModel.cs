@@ -114,5 +114,33 @@ namespace STranslate.ViewModels
             }
             base.Close(win);
         }
+
+        [RelayCommand]
+        private void Save()
+        {
+            switch (CurrentView)
+            {
+                case CommonViewModel:
+                    Singleton<CommonViewModel>.Instance.SaveCommand.Execute(null);
+                    break;
+                case HotkeyViewModel:
+                    Singleton<HotkeyViewModel>.Instance.SaveCommand.Execute(null);
+                    break;
+                case ServiceViewModel:
+                    Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+                    break;
+                case OCRScvViewModel:
+                    Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
+                    break;
+                case TTSViewModel:
+                    Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
+                    break;
+                case BackupViewModel:
+                    Singleton<BackupViewModel>.Instance.SaveCommand.Execute(null);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

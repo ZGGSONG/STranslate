@@ -117,7 +117,8 @@ namespace STranslate.ViewModels.Preference
             Save();
         }
 
-        protected void Save()
+        [RelayCommand]
+        private void Save()
         {
             if (!_configHelper.WriteConfig(this))
             {

@@ -25,6 +25,7 @@
     </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="S" Command="{Binding SaveCommand}" Modifiers="Ctrl" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="StateChanged">
