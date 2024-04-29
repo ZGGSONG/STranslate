@@ -1,41 +1,50 @@
-using CommunityToolkit.Mvvm.Messaging;
+ï»¿using CommunityToolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Util;
+using STranslate.ViewModels;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web;
 
 namespace STranslate.Helper;
 
 public class ExternalCallHelper
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="prefix"></param>
     /// <param name="isStopFirst"></param>
     public void StartService(string prefix, bool isStopFirst = false)
     {
-        if (isStopFirst) StopService();
+        if (isStopFirst)
+            StopService();
 
-        if (_isStarted) return;
+        if (_isStarted)
+            return;
 
-        _listener ??= new HttpListener();
-        _listener.Prefixes.Clear();
-        _listener.Prefixes.Add(prefix);
+        try
+        {
+            _listener = new HttpListener();
+            _listener.Prefixes.Add(prefix);
 
-        _listener.Start();
-        _listener.BeginGetContext(Callback, _listener);
-        _isStarted = true;
+            _listener.Start();
+            _listener.BeginGetContext(Callback, _listener);
+            _isStarted = true;
+        }
+        catch (Exception)
+        {
+            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("å¯åŠ¨æœåŠ¡å¤±è´¥è¯·é‡æ–°é…ç½®ç«¯å£");
+        }
     }
 
     public void StopService()
     {
-        if (!_isStarted) return;
+        if (!_isStarted)
+            return;
 
         _listener?.Close();
         _listener = null;
@@ -51,19 +60,11 @@ public class ExternalCallHelper
         var path = uri.AbsolutePath.TrimStart('/');
         var ecAction = GetExternalCallAction(path);
 
-        //ÆúÓÃqureyĞÎÊ½´«²Î
-        //var collection = HttpUtility.ParseQueryString(uri.Query);
-        //string queryKey = "screenshot";
-        //var internalScreenshot = true;
-        //if (collection.AllKeys.Contains(queryKey))
-        //{
-        //    internalScreenshot = !bool.TryParse(collection[queryKey], out internalScreenshot) || internalScreenshot;
-        //}
         WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content));
     }
 
     /// <summary>
-    /// ×Ö·û´®=>Íâ²¿µ÷ÓÃÃ¶¾Ù
+    /// å­—ç¬¦ä¸²=>å¤–éƒ¨è°ƒç”¨æšä¸¾
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
@@ -74,14 +75,23 @@ public class ExternalCallHelper
         if (!_isStarted || _listener == null || !_listener.IsListening)
             return;
 
-        var context = _listener.EndGetContext(ar);
+        HttpListenerContext context;
+        try
+        {
+            context = _listener.EndGetContext(ar);
+        }
+        catch (Exception)
+        {
+            // HttpListener has been disposed, no need to handle the request
+            return;
+        }
         _listener.BeginGetContext(Callback, _listener);
 
         try
         {
             var request = context.Request;
 
-            // ½ö½ÓÊÜ GET ÇëÇó
+            // ä»…æ¥å— GET è¯·æ±‚
             if (request.HttpMethod == "GET")
                 GetHandler(request);
             else
