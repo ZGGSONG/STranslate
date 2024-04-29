@@ -248,7 +248,7 @@ public class ConfigHelper
         );
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
-        ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020);
+        ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
