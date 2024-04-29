@@ -59,6 +59,7 @@ namespace STranslate.ViewModels.Preference
             IsOcrAutoCopyText = curConfig?.IsOcrAutoCopyText ?? false;
             IsAdjustContentTranslate = curConfig?.IsAdjustContentTranslate ?? false;
             IsRemoveLineBreakGettingWords = curConfig?.IsRemoveLineBreakGettingWords ?? false;
+            IsRemoveLineBreakGettingWordsOCR = curConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
             DoubleTapTrayFunc = curConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
             CustomFont = curConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
             IsKeepTopmostAfterMousehook = curConfig?.IsKeepTopmostAfterMousehook ?? false;
@@ -238,6 +239,9 @@ namespace STranslate.ViewModels.Preference
 
         [ObservableProperty]
         private bool isRemoveLineBreakGettingWords = curConfig?.IsRemoveLineBreakGettingWords ?? false;
+
+        [ObservableProperty]
+        private bool _isRemoveLineBreakGettingWordsOCR = curConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
 
         [ObservableProperty]
         private DoubleTapFuncEnum doubleTapTrayFunc = curConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;

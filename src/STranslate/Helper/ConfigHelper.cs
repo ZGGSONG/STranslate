@@ -202,6 +202,7 @@ public class ConfigHelper
         CurrentConfig.IsOcrAutoCopyText = model.IsOcrAutoCopyText;
         CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
         CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
+        CurrentConfig.IsRemoveLineBreakGettingWordsOCR = model.IsRemoveLineBreakGettingWordsOCR;
         CurrentConfig.DoubleTapTrayFunc = model.DoubleTapTrayFunc;
         CurrentConfig.CustomFont = model.CustomFont;
         CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
@@ -494,6 +495,7 @@ public class ConfigHelper
             CloseUIOcrRetTranslate = false,
             IsAdjustContentTranslate = false,
             IsRemoveLineBreakGettingWords = false,
+            IsRemoveLineBreakGettingWordsOCR = false,
             DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
             CustomFont = ConstStr.DEFAULTFONTNAME,
             IsKeepTopmostAfterMousehook = false,

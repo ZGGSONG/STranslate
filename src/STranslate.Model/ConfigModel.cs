@@ -61,6 +61,11 @@ public class ConfigModel
     public bool IsRemoveLineBreakGettingWords { get; set; }
 
     /// <summary>
+    /// OCR取词时移除换行
+    /// </summary>
+    public bool IsRemoveLineBreakGettingWordsOCR { get; set; }
+
+    /// <summary>
     /// 鼠标双击托盘程序功能
     /// </summary>
     public DoubleTapFuncEnum DoubleTapTrayFunc { get; set; } = DoubleTapFuncEnum.InputFunc;
@@ -304,6 +309,7 @@ public class ConfigModel
             IsOcrAutoCopyText = IsOcrAutoCopyText,
             IsAdjustContentTranslate = IsAdjustContentTranslate,
             IsRemoveLineBreakGettingWords = IsRemoveLineBreakGettingWords,
+            IsRemoveLineBreakGettingWordsOCR = IsRemoveLineBreakGettingWordsOCR,
             DoubleTapTrayFunc = DoubleTapTrayFunc,
             SourceLang = SourceLang,
             TargetLang = TargetLang,

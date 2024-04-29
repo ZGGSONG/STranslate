@@ -402,6 +402,12 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="OCR取词时移除换行" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR时取词时移除所有换行" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsRemoveLineBreakGettingWordsOCR}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="增量翻译" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="开启后增量添加文本进行翻译" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IncrementalTranslation}" />
