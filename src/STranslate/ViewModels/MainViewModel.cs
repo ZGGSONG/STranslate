@@ -93,10 +93,23 @@ namespace STranslate.ViewModels
 
         public bool IsHotkeyCopy = false;
 
+        /// <summary>
+        /// 是否为重置状态
+        /// </summary>
         private bool _isInitial = false;
+
+        [ObservableProperty]
+        private bool _isDebug = false;
 
         public MainViewModel()
         {
+
+#if DEBUG
+            IsDebug = true;
+#else
+            IsDebug = false;
+#endif
+
             SqlHelper.InitializeDB();
 
             Reset();

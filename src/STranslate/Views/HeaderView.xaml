@@ -359,6 +359,10 @@
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="历史记录"
                     Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <TextBlock FontWeight="Bold"
+                       Foreground="Red"
+                       Text="[开发版]"
+                       Visibility="{Binding IsDebug, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </UserControl>
