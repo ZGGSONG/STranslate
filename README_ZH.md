@@ -1,5 +1,3 @@
-Here is the translated markdown content:
-
 <p align="center">
 <a href="https://github.com/zggsong/STranslate" target="_blank">
 <img align="center" alt="STranslate" width="200" src="./img/favicon.svg" />
@@ -21,53 +19,52 @@ Here is the translated markdown content:
 </p>
 <h1 align="center">STranslate</h1>
 
-<p align="center">A <strong>ready-to-use</strong>, <strong>ready-to-go</strong> translation and OCR tool developed with WPF.
+<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译、OCR工具
 </p>
 
+[**English**](./README.md) | **简体中文**
 
-**English** | [**简体中文**](./README_ZH.md)
+## 访问
 
-## Access
-
-| Overseas | Domestic |
+| 国外 | 国内 |
 | :--: | :--: |
 | **[Github](https://github.com/ZGGSONG/STranslate)** | **[Gitee](https://gitee.com/zggsong/STranslate)** |
 
 
-## Discussion
+## 讨论
 
-Have questions? Please head to [Discussions](https://github.com/ZGGSONG/STranslate/discussions) for discussion.
+有疑问优先移步 [Discussions](https://github.com/ZGGSONG/STranslate/discussions) 进行讨论
 
-## Installation
+## 安装
 
-Download the latest [Release](https://github.com/ZGGSONG/STranslate/releases) version and extract it to use.
+下载最新 [Release](https://github.com/ZGGSONG/STranslate/releases) 版本后解压即可使用
 
-## Usage
+## 使用
 
 [Document](https://stranslate.zggsong.com)
 
-## Acknowledgments
+## 感谢
 
-- Special thanks to [zu1k](https://github.com/zu1k)
-- Thanks to [Bob](https://bobtranslate.com/guide/) for inspiration
-- Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing paddleocr
-- Thanks to [WpfTool](https://github.com/NPCDW/WpfTool) for screenshot functionality
-- Thanks to [Tai](https://github.com/Planshit/Tai) for upgrade functionality
-- Thanks to ChatGPT
-- Thanks to [pot-desktop](https://pot-app.com/) for prompt design reference
-- Thanks to JetBrains for providing open-source project free License
+- 特别鸣谢 [zu1k](https://github.com/zu1k)
+- 感谢 [Bob](https://bobtranslate.com/guide/) 的启发
+- 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对paddleocr的封装
+- 感谢 [WpfTool](https://github.com/NPCDW/WpfTool) 截图功能
+- 感谢 [Tai](https://github.com/Planshit/Tai) 升级功能
+- 感谢 ChatGPT
+- 感谢 [pot-desktop](https://pot-app.com/) 参考prompt设计
+- 感谢 JetBrains 提供开源项目免费License
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
 
-## Donations
+## 打赏
 
-If you like it, you can buy the author a cup of coffee.
+觉得不错的话可以请作者喝杯阔落
 
-| WeChat | Alipay |
+| 微信 | 支付宝 |
 | :--: | :--: |
 |![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |
 
-## Author
+## 作者
 
 **STranslate** © [zggsong](https://github.com/zggsong), Released under the [MIT](https://github.com/ZGGSONG/STranslate/blob/main/LICENSE) License.<br>
 
