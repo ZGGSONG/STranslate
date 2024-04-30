@@ -97,7 +97,7 @@ namespace STranslate.ViewModels
                         }
                         else
                         {
-                            TranslateHandler(view, content, true);//表示对象非空，强制翻译
+                            TranslateHandler(view, content, true); //表示对象非空，强制翻译
                         }
                     }
                 },
