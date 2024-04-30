@@ -1,5 +1,3 @@
-Here is the translated markdown content:
-
 <p align="center">
 <a href="https://github.com/zggsong/STranslate" target="_blank">
 <img align="center" alt="STranslate" width="200" src="./img/favicon.svg" />
