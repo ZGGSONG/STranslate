@@ -168,7 +168,7 @@ namespace STranslate.ViewModels.Preference
         {
             if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurOCRServiceList))
             {
-                LogService.Logger.Debug($"保存OCR失败，{JsonConvert.SerializeObject(CurOCRServiceList)}");
+                LogService.Logger.Warn($"保存OCR失败，{JsonConvert.SerializeObject(CurOCRServiceList)}");
 
                 ToastHelper.Show("保存失败", WindowType.Preference);
             }

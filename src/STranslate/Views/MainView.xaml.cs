@@ -160,7 +160,7 @@ namespace STranslate.Views
             //写入配置
             if (!Singleton<ConfigHelper>.Instance.WriteConfig(Left, Top))
             {
-                LogService.Logger.Error($"保存位置({Left},{Top})失败...");
+                LogService.Logger.Warn($"保存位置({Left},{Top})失败...");
             }
         }
 

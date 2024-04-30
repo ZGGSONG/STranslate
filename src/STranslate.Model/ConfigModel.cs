@@ -271,6 +271,16 @@ public class ConfigModel
     public int? ExternalCallPort { get; set; }
 
     /// <summary>
+    /// OCR页面高度
+    /// </summary>
+    public double? OcrViewHeight { get; set; }
+
+    /// <summary>
+    /// OCR页面宽度
+    /// </summary>
+    public double? OcrViewWidth { get; set; }
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -350,6 +360,8 @@ public class ConfigModel
             ChangedLang2Execute = ChangedLang2Execute,
             UseFormsCopy = UseFormsCopy,
             ExternalCallPort = ExternalCallPort,
+            OcrViewHeight = OcrViewHeight,
+            OcrViewWidth = OcrViewWidth,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

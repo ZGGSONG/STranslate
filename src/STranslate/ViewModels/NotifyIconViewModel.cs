@@ -725,7 +725,7 @@ namespace STranslate.ViewModels
             var vm = Singleton<MainViewModel>.Instance;
             if (!Singleton<ConfigHelper>.Instance.WriteConfig(vm.SourceLang, vm.TargetLang))
             {
-                LogService.Logger.Debug($"保存源语言({vm.SourceLang.GetDescription()})、目标语言({vm.TargetLang.GetDescription()})配置失败...");
+                LogService.Logger.Warn($"保存源语言({vm.SourceLang.GetDescription()})、目标语言({vm.TargetLang.GetDescription()})配置失败...");
             }
         }
 

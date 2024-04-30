@@ -150,7 +150,7 @@ namespace STranslate.ViewModels.Preference
         {
             if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurTTSServiceList))
             {
-                LogService.Logger.Debug($"保存TTS失败，{JsonConvert.SerializeObject(CurTTSServiceList)}");
+                LogService.Logger.Warn($"保存TTS失败，{JsonConvert.SerializeObject(CurTTSServiceList)}");
 
                 ToastHelper.Show("保存失败", WindowType.Preference);
             }

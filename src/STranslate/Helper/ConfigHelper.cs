@@ -277,6 +277,25 @@ public class ConfigHelper
     }
 
     /// <summary>
+    /// 保存ocr页面宽高
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public bool WriteOCRConfig(double height, double width)
+    {
+        bool isSuccess = false;
+        if (CurrentConfig is not null)
+        {
+            CurrentConfig.OcrViewHeight = height;
+            CurrentConfig.OcrViewWidth = width;
+            WriteConfig(CurrentConfig);
+            isSuccess = true;
+        }
+        return isSuccess;
+    }
+
+    /// <summary>
     /// 校验配置
     /// </summary>
     /// <param name="configPath"></param>
@@ -532,6 +551,8 @@ public class ConfigHelper
             ChangedLang2Execute = false,
             UseFormsCopy = false,
             ExternalCallPort = 50020,
+            OcrViewHeight = 400,
+            OcrViewWidth = 1000,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),

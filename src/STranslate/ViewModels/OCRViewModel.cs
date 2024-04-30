@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using PaddleOCRSharp;
 using STranslate.Helper;
 using STranslate.Log;
@@ -54,6 +55,22 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
 
+        [ObservableProperty]
+        private double _ocrViewHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrViewHeight ?? 400;
+
+        [ObservableProperty]
+        private double _ocrViewWidth = Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrViewWidth ?? 1000;
+
+        public OCRViewModel() => Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
+
+        private void Save()
+        {
+            if (!Singleton<ConfigHelper>.Instance.WriteOCRConfig(OcrViewHeight, OcrViewWidth))
+            {
+                LogService.Logger.Warn($"保存OCRView失败，height: {OcrViewHeight}, width: {OcrViewWidth}");
+            }
+        }
+
         /// <summary>
         /// 点击置顶按钮
         /// </summary>
@@ -84,6 +101,7 @@ namespace STranslate.ViewModels
 
         public override void Close(Window win)
         {
+            Save();
             win.Topmost = false;
             IsTopMost = ConstStr.TAGFALSE;
             TopMostContent = ConstStr.UNTOPMOSTCONTENT;
