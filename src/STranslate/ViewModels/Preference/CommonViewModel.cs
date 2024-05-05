@@ -16,7 +16,9 @@ namespace STranslate.ViewModels.Preference
     public partial class CommonViewModel : ObservableObject
     {
         public event Action<int>? OnViewMaxHeightChanged;
+
         public event Action<int>? OnViewWidthChanged;
+
         public event Action<bool>? OnIncrementalChanged;
 
         [RelayCommand]
@@ -411,7 +413,7 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private ProxyMethodEnum _proxyMethod = curConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
-        
+
         /// <summary>
         /// 代理服务器IP
         /// </summary>
@@ -451,7 +453,7 @@ namespace STranslate.ViewModels.Preference
         private bool _isProxyPasswordHide = true;
 
         private RelayCommand<string>? showEncryptInfoCommand;
-        
+
         /// <summary>
         /// 显示/隐藏密码Command
         /// </summary>

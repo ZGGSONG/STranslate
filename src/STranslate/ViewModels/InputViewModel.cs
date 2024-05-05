@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -320,14 +321,24 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private void RemoveLineBreaks(PlaceholderTextBox textBox)
     {
-        var oldTxt = textBox.Text;
-        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-        if (string.Equals(oldTxt, newTxt))
+        //根据Ctrl+LeftClick
+        if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
+        {
+            var oldTxt = textBox.Text;
+            var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+            if (string.Equals(oldTxt, newTxt))
+                return;
+
+            ToastHelper.Show("移除换行");
+
+            RemoveHandler(textBox, newTxt);
             return;
+        }
 
-        ToastHelper.Show("移除换行");
-
-        RemoveHandler(textBox, newTxt);
+        var vm = Singleton<CommonViewModel>.Instance;
+        vm.IsRemoveLineBreakGettingWords = !vm.IsRemoveLineBreakGettingWords;
+        vm.SaveCommand.Execute(null);
+        ToastHelper.Show($"{(vm.IsRemoveLineBreakGettingWords ? "打开" : "关闭")}始终移除换行");
     }
 
     [RelayCommand]
