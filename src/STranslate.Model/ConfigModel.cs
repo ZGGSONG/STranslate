@@ -260,6 +260,11 @@ public class ConfigModel
     public bool ChangedLang2Execute { get; set; } = false;
 
     /// <summary>
+    /// Ocr切换语言时自动翻译
+    /// </summary>
+    public bool OcrChangedLang2Execute { get; set; } = false;
+
+    /// <summary>
     /// 如果出现OpenClipboard失败(0x800401D0(CLIPBRD E CANT OPEN))尝试解决
     /// https://stackoverflow.com/questions/68666/clipbrd-e-cant-open-error-when-setting-the-clipboard-from-net
     /// </summary>
@@ -358,6 +363,7 @@ public class ConfigModel
             WebDavUsername = WebDavUsername,
             WebDavPassword = WebDavPassword,
             ChangedLang2Execute = ChangedLang2Execute,
+            OcrChangedLang2Execute = OcrChangedLang2Execute,
             UseFormsCopy = UseFormsCopy,
             ExternalCallPort = ExternalCallPort,
             OcrViewHeight = OcrViewHeight,

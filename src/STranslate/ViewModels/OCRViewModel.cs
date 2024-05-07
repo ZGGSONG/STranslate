@@ -31,8 +31,20 @@ namespace STranslate.ViewModels
         /// <summary>
         /// 语言类型
         /// </summary>
-        [ObservableProperty]
         private LangEnum _lang = LangEnum.auto;
+        public LangEnum Lang
+        {
+            get => _lang;
+            set
+            {
+                if (_lang == value) return;
+                OnPropertyChanging();
+                _lang = value;
+                OnPropertyChanged();
+
+                OnChangeOcrServiceorLang();
+            }
+        }
 
         /// <summary>
         /// 原始数据
@@ -61,7 +73,17 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private double _ocrViewWidth = Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrViewWidth ?? 1000;
 
-        public OCRViewModel() => Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
+        public OCRViewModel()
+        {
+            Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
+            OCRScvVM.OnChangeActivedOcrService += OnChangeOcrServiceorLang;
+        }
+
+        private void OnChangeOcrServiceorLang()
+        {
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrChangedLang2Execute ?? false)
+                Task.Run(() => CommonUtil.InvokeOnUIThread(async () => await RecertificationAsync()));
+        }
 
         private void Save()
         {

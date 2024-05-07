@@ -234,6 +234,7 @@ public class ConfigHelper
         CurrentConfig.IsShowMainPlaceholder = model.IsShowMainPlaceholder;
         CurrentConfig.ShowAuxiliaryLine = model.ShowAuxiliaryLine;
         CurrentConfig.ChangedLang2Execute = model.ChangedLang2Execute;
+        CurrentConfig.OcrChangedLang2Execute = model.OcrChangedLang2Execute;
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         

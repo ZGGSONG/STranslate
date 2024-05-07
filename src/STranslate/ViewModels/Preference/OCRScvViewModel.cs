@@ -265,8 +265,12 @@ namespace STranslate.ViewModels.Preference
                     CurOCRServiceList.First(x => x == value).IsEnabled = true;
                     
                     if (!_isPreferenceOperate) Save();
+
+                    OnChangeActivedOcrService?.Invoke();
                 }
             }
         }
+
+        public event Action? OnChangeActivedOcrService;
     }
 }

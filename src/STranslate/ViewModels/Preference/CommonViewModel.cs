@@ -92,6 +92,7 @@ namespace STranslate.ViewModels.Preference
             IsShowMainPlaceholder = curConfig?.IsShowMainPlaceholder ?? true;
             ShowAuxiliaryLine = curConfig?.ShowAuxiliaryLine ?? true;
             ChangedLang2Execute = curConfig?.ChangedLang2Execute ?? false;
+            OcrChangedLang2Execute = curConfig?.OcrChangedLang2Execute ?? false;
             UseFormsCopy = curConfig?.UseFormsCopy ?? false;
             ExternalCallPort = curConfig?.ExternalCallPort ?? 50020;
 
@@ -503,6 +504,12 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool _changedLang2Execute = curConfig?.ChangedLang2Execute ?? true;
+
+        /// <summary>
+        /// OCR修改语言后立即翻译
+        /// </summary>
+        [ObservableProperty]
+        private bool _ocrChangedLang2Execute = curConfig?.OcrChangedLang2Execute ?? true;
 
         /// <summary>
         /// 使用windows forms库中的Clipboard尝试解决剪贴板占用问题

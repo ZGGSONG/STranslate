@@ -103,8 +103,14 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="修改语种后立即翻译" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="修改选择语言后立即翻译" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面修改选择语言后立即翻译" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ChangedLang2Execute}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="OCR修改服务或语种后立即翻译" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR页面选择服务或选择语言后立即翻译" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding OcrChangedLang2Execute}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
