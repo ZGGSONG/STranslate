@@ -212,7 +212,7 @@ namespace STranslate.ViewModels.Preference
             {
                 return;
             }
-            StringBuilder shortcutText = new StringBuilder();
+            StringBuilder shortcutText = new();
             if ((Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
                 _hotkeysModifiers += 2;
@@ -228,13 +228,17 @@ namespace STranslate.ViewModels.Preference
                 _hotkeysModifiers += 4;
                 shortcutText.Append("Shift + ");
             }
-            if (_hotkeysModifiers == 0 && (key < Key.F1 || key > Key.F12))
+            //backspace and delete 
+            if (_hotkeysModifiers == 0 && (key == Key.Back || key == Key.Delete))
             {
                 _hotkeysKey = 0;
                 shortcutText.Clear();
                 control.Text = _hotkeysText = "";
-
-                ToastHelper.Show("单字符可能会影响日常使用", WindowType.Preference);
+                return;
+            }
+            else if (_hotkeysModifiers == 0 && (key < Key.F1 || key > Key.F12))
+            {
+                ToastHelper.Show("单字符可能会影响使用", WindowType.Preference);
             }
             _hotkeysKey = (KeyCodes)KeyInterop.VirtualKeyFromKey(key);
             shortcutText.Append(key.ToString());
