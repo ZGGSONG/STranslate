@@ -103,7 +103,6 @@ namespace STranslate.ViewModels
 
         public MainViewModel()
         {
-
 #if DEBUG
             IsDebug = true;
 #else

@@ -701,7 +701,7 @@ namespace STranslate.Model
     /// </summary>
     public enum ExternalCallAction
     {
-        translate,
+        translate = 1,
         translate_force,
         translate_input,
         translate_ocr,

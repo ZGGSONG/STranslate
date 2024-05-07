@@ -51,25 +51,6 @@ public class ExternalCallHelper
         _isStarted = false;
     }
 
-    private void RequestHandler(HttpListenerRequest request)
-    {
-        using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
-        var content = reader.ReadToEnd();
-
-        var uri = request.Url ?? throw new Exception("get url is null");
-        var path = uri.AbsolutePath.TrimStart('/');
-        var ecAction = GetExternalCallAction(path);
-
-        WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content));
-    }
-
-    /// <summary>
-    /// 字符串=>外部调用枚举
-    /// </summary>
-    /// <param name="source"></param>
-    /// <returns></returns>
-    private ExternalCallAction GetExternalCallAction(string source) => Enum.TryParse<ExternalCallAction>(source, out var eAction) ? eAction : ExternalCallAction.translate;
-
     private void Callback(IAsyncResult ar)
     {
         if (!_isStarted || _listener == null || !_listener.IsListening)
@@ -91,8 +72,37 @@ public class ExternalCallHelper
         {
             var request = context.Request;
 
+            // Get the URL from the request
+            var uri = request.Url ?? throw new Exception("get url is null");
+
+            if (uri.Segments.Length > 2)
+                throw new Exception("path does not meet the requirements");
+
+            // Get the path from the URL
+            var path = uri.AbsolutePath.TrimStart('/');
+            path = path == "" ? "translate" : path;
+
+            // Get the external call action based on the path
+            var ecAction = GetExternalCallAction(path);
+
+            // Read the content of the request
+            using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+            var content = reader.ReadToEnd();
+
             //Please use GET like `curl localhost:50020/translate -d \"hello world\"`"
-            RequestHandler(request);
+            switch (request.HttpMethod)
+            {
+                case "GET":
+                    WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, ""));
+                    break;
+
+                case "POST":
+                    WeakReferenceMessenger.Default.Send(new ExternalCallMessenger(ecAction, content));
+                    break;
+
+                default:
+                    throw new Exception("Method Not Allowed");
+            }
 
             ResponseHandler(context.Response);
         }
@@ -102,6 +112,14 @@ public class ExternalCallHelper
             LogService.Logger.Error($"ExternalCall Error, {e.Message}", e);
         }
     }
+
+    /// <summary>
+    /// 字符串=>外部调用枚举
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    private ExternalCallAction GetExternalCallAction(string source) =>
+        Enum.TryParse<ExternalCallAction>(source, out var eAction) ? eAction : throw new Exception("path does not meet the requirements");
 
     private void ResponseHandler(HttpListenerResponse response, string? error = null)
     {
