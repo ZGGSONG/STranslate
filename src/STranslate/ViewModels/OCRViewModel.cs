@@ -32,12 +32,14 @@ namespace STranslate.ViewModels
         /// 语言类型
         /// </summary>
         private LangEnum _lang = LangEnum.auto;
+
         public LangEnum Lang
         {
             get => _lang;
             set
             {
-                if (_lang == value) return;
+                if (_lang == value)
+                    return;
                 OnPropertyChanging();
                 _lang = value;
                 OnPropertyChanged();
@@ -72,6 +74,9 @@ namespace STranslate.ViewModels
 
         [ObservableProperty]
         private double _ocrViewWidth = Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrViewWidth ?? 1000;
+
+        [ObservableProperty]
+        private string _qrCodeContent = "";
 
         public OCRViewModel()
         {
@@ -280,6 +285,7 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private async Task ClipboardImgAsync()
         {
+            ClearQrContent();
             var img = Clipboard.GetImage();
             if (img != null)
             {
@@ -291,6 +297,8 @@ namespace STranslate.ViewModels
 
                 await OCRHandler(bytes);
 
+                QrCodeContent = QrCodeHandler(Bs);
+
                 return;
             }
 
@@ -299,6 +307,7 @@ namespace STranslate.ViewModels
 
         private async Task ImgFileHandlerAsync(string file)
         {
+            ClearQrContent();
             using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
             var bytes = new byte[fs.Length];
             fs.Read(bytes, 0, bytes.Length);
@@ -307,6 +316,8 @@ namespace STranslate.ViewModels
             GetImg = Bs.Clone();
 
             await OCRHandler(bytes);
+
+            QrCodeContent = QrCodeHandler(Bs);
         }
 
         /// <summary>
@@ -315,6 +326,8 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private async Task RecertificationAsync()
         {
+            ClearQrContent();
+
             if (Bs == null)
                 return;
 
@@ -324,6 +337,8 @@ namespace STranslate.ViewModels
             var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs);
 
             await OCRHandler(bytes);
+
+            QrCodeContent = QrCodeHandler(Bs);
         }
 
         private async Task OCRHandler(byte[] bytes)
@@ -414,25 +429,38 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void QRCode()
         {
+            ClearQrContent();
+
             if (Bs == null)
                 return;
-            var reader = new ZXing.ZKWeb.BarcodeReader();
-            reader.Options.CharacterSet = "UTF-8";
-            using var stream = new MemoryStream();
-            var encoder = new BmpBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(Bs));
-            encoder.Save(stream);
-            var map = new System.DrawingCore.Bitmap(stream);
-            var readerResult = reader.Decode(map);
-            if (readerResult != null)
+            var ret = QrCodeHandler(Bs);
+            if (!string.IsNullOrEmpty(ret))
             {
-                GetContent = readerResult.Text;
+                GetContent = ret;
                 ToastHelper.Show("二维码识别成功", WindowType.OCR);
             }
             else
             {
                 ToastHelper.Show("未识别到二维码", WindowType.OCR);
             }
+        }
+
+        private string QrCodeHandler(BitmapSource bs)
+        {
+            string ret = "";
+            var reader = new ZXing.ZKWeb.BarcodeReader();
+            reader.Options.CharacterSet = "UTF-8";
+            using var stream = new MemoryStream();
+            var encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bs));
+            encoder.Save(stream);
+            var map = new System.DrawingCore.Bitmap(stream);
+            var readerResult = reader.Decode(map);
+            if (readerResult != null)
+            {
+                ret = readerResult.Text;
+            }
+            return ret;
         }
 
         /// <summary>
@@ -497,6 +525,9 @@ namespace STranslate.ViewModels
             view.WindowState = WindowState.Normal;
             view.Activate();
         }
+
+        [RelayCommand]
+        private void ClearQrContent() => QrCodeContent = "";
 
         #region 鼠标缩放、拖拽
 
@@ -599,6 +630,7 @@ namespace STranslate.ViewModels
         {
             if (obj is TextBox tb)
             {
+                LogService.Logger.Debug(tb.Name);
                 tb.SelectAll();
             }
         }
