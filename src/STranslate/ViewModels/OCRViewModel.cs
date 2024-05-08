@@ -206,15 +206,25 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void RemoveLineBreaks(TextBox textBox)
         {
-            var oldTxt = textBox.Text;
-            var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-            if (string.Equals(oldTxt, newTxt))
+            //根据Ctrl+LeftClick
+            if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
+            {
+                var oldTxt = textBox.Text;
+                var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+                if (string.Equals(oldTxt, newTxt))
+                    return;
+
+                ToastHelper.Show("移除换行", WindowType.OCR);
+
+                textBox.SelectAll();
+                textBox.SelectedText = newTxt;
                 return;
+            }
 
-            ToastHelper.Show("移除换行", WindowType.OCR);
-
-            textBox.SelectAll();
-            textBox.SelectedText = newTxt;
+            var vm = Singleton<CommonViewModel>.Instance;
+            vm.IsRemoveLineBreakGettingWordsOCR = !vm.IsRemoveLineBreakGettingWordsOCR;
+            vm.SaveCommand.Execute(null);
+            ToastHelper.Show($"{(vm.IsRemoveLineBreakGettingWordsOCR ? "打开" : "关闭")}OCR始终移除换行", WindowType.OCR);
         }
 
         [RelayCommand]

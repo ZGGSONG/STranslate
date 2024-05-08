@@ -285,13 +285,17 @@
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="复制"
                                     Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
-                            <Button Command="{Binding RemoveLineBreaksCommand}"
-                                    CommandParameter="{Binding ElementName=TB}"
-                                    Content="&#xe6b2;"
+                            <Button Content="&#xe6b2;"
                                     FontWeight="Bold"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="移除换行"
-                                    Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
+                                    Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}" CommandParameter="{Binding ElementName=TB}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                             <Button Command="{Binding RemoveSpaceCommand}"
                                     CommandParameter="{Binding ElementName=TB}"
                                     Content="&#xe6ab;"
@@ -307,7 +311,8 @@
                                    BorderThickness="3"
                                    Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
                         <!-- // QrCode Content // -->
-                        <TextBox x:Name="QrTB" Grid.Row="1"
+                        <TextBox x:Name="QrTB"
+                                 Grid.Row="1"
                                  Margin="3,23,3,3"
                                  ContextMenu="{StaticResource QrTBCM}"
                                  FontSize="{DynamicResource FontSize_TextBox}"
