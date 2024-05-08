@@ -163,8 +163,9 @@ namespace STranslate.ViewModels.Preference.OCR
                 }
                 catch (OperationCanceledException)
                 {
-                    // 任务被取消
-                    tcs.SetCanceled();
+                }
+                catch (ThreadInterruptedException)
+                {
                 }
                 catch (NotSupportedException ex)
                 {
@@ -186,7 +187,7 @@ namespace STranslate.ViewModels.Preference.OCR
             // 注册取消回调以便在取消时中止线程
             token.Register(() =>
             {
-                thread.Abort(); // 注意：Thread.Abort() 在 .NET Core 和 .NET 5.0+ 中已经被废弃
+                thread.Interrupt();
                 tcs.TrySetCanceled();
             });
 

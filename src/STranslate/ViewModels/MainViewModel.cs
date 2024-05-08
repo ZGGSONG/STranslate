@@ -416,6 +416,7 @@ namespace STranslate.ViewModels
             win.ViewAnimation(false);
             OutputVM.SingleTranslateCancelCommand.Execute(null);
             InputVM.TranslateCancelCommand.Execute(null);
+            NotifyIconVM.ScreenShotTranslateCancelCommand.Execute(null);
 
             //取消语音播放
             InputVM.TTSCancelCommand.Execute(null);

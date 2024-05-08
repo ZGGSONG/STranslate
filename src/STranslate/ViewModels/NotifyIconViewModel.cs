@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -452,11 +453,11 @@ namespace STranslate.ViewModels
             }
         }
 
-        [RelayCommand]
-        private void ScreenShotTranslate(object obj)
+        [RelayCommand(IncludeCancelCommand = true)]
+        private Task ScreenShotTranslate(object obj, CancellationToken token)
         {
             if (!CanOpenScreenshot)
-                return;
+                return Task.CompletedTask;
 
             if (obj == null)
             {
@@ -468,24 +469,23 @@ namespace STranslate.ViewModels
                 HideMainView();
             }
 
-            Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler()));
-
-            return;
+            return Task.Delay(200, token).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
 
             Last:
-            ScreenShotHandler();
+            ScreenShotHandler(token);
+            return Task.CompletedTask;
         }
 
-        internal void ScreenShotHandler()
+        internal void ScreenShotHandler(CancellationToken? token = null)
         {
             ScreenshotView view = new();
             ShowAndActive(view);
-            view.BitmapCallback += async bitmap => await ScreenshotCallback(bitmap);
+            view.BitmapCallback += async bitmap => await ScreenshotCallback(bitmap, token);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
         }
 
-        internal async Task ScreenshotCallback(Bitmap? bitmap)
+        internal async Task ScreenshotCallback(Bitmap? bitmap, CancellationToken? token = null)
         {
             if (bitmap == null)
             {
@@ -516,7 +516,7 @@ namespace STranslate.ViewModels
             try
             {
                 string getText = "";
-                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
+                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token);
                 //判断结果
                 if (!ocrResult.Success)
                 {
@@ -531,6 +531,10 @@ namespace STranslate.ViewModels
                     ClipboardHelper.Copy(getText);
                 Singleton<InputViewModel>.Instance.InputContent += getText;
                 Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+            }
+            catch (OperationCanceledException)
+            {
+                LogService.Logger.Debug("Screenshoot Translate 取消");
             }
             catch (Exception ex)
             {

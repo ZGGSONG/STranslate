@@ -87,7 +87,7 @@ namespace STranslate.ViewModels
         private void OnChangeOcrServiceorLang()
         {
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrChangedLang2Execute ?? false)
-                Task.Run(() => CommonUtil.InvokeOnUIThread(async () => await RecertificationAsync()));
+                Task.Run(() => CommonUtil.InvokeOnUIThread(async () => await RecertificationCommand.ExecuteAsync(null)));
         }
 
         private void Save()
@@ -132,6 +132,12 @@ namespace STranslate.ViewModels
             win.Topmost = false;
             IsTopMost = ConstStr.TAGFALSE;
             TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+
+            RecertificationCancelCommand.Execute(null);
+            DropCancelCommand.Execute(null);
+            OpenfileCancelCommand.Execute(null);
+            ClipboardImgCancelCommand.Execute(null);
+
             base.Close(win);
         }
 
@@ -242,8 +248,8 @@ namespace STranslate.ViewModels
             textBox.SelectedText = newTxt;
         }
 
-        [RelayCommand]
-        private async Task DropAsync(DragEventArgs e)
+        [RelayCommand(IncludeCancelCommand = true)]
+        private async Task DropAsync(DragEventArgs e, CancellationToken token)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -255,7 +261,7 @@ namespace STranslate.ViewModels
                 // 检查文件类型，确保是图片文件
                 if (BitmapUtil.IsImageFile(filePath))
                 {
-                    await ImgFileHandlerAsync(filePath);
+                    await ImgFileHandlerAsync(filePath, token);
                 }
                 else
                 {
@@ -265,8 +271,8 @@ namespace STranslate.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task OpenfileAsync()
+        [RelayCommand(IncludeCancelCommand = true)]
+        private async Task OpenfileAsync(CancellationToken token)
         {
             var openfileDialog = new OpenFileDialog()
             {
@@ -276,7 +282,7 @@ namespace STranslate.ViewModels
             };
             if (openfileDialog.ShowDialog() == true)
             {
-                await ImgFileHandlerAsync(openfileDialog.FileName);
+                await ImgFileHandlerAsync(openfileDialog.FileName, token);
             }
         }
 
@@ -292,8 +298,8 @@ namespace STranslate.ViewModels
             Singleton<NotifyIconViewModel>.Instance.OCRCommand.Execute(null);
         }
 
-        [RelayCommand]
-        private async Task ClipboardImgAsync()
+        [RelayCommand(IncludeCancelCommand = true)]
+        private async Task ClipboardImgAsync(CancellationToken token)
         {
             ClearQrContent();
             var img = Clipboard.GetImage();
@@ -305,7 +311,7 @@ namespace STranslate.ViewModels
                 Bs = BitmapUtil.ConvertBytes2BitmapSource(bytes);
                 GetImg = Bs.Clone();
 
-                await OCRHandler(bytes);
+                await OCRHandler(bytes, token);
 
                 QrCodeContent = QrCodeHandler(Bs);
 
@@ -315,7 +321,7 @@ namespace STranslate.ViewModels
             ToastHelper.Show("剪贴板最近无图片", WindowType.OCR);
         }
 
-        private async Task ImgFileHandlerAsync(string file)
+        private async Task ImgFileHandlerAsync(string file, CancellationToken token)
         {
             ClearQrContent();
             using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
@@ -325,7 +331,7 @@ namespace STranslate.ViewModels
             Bs = BitmapUtil.ConvertBytes2BitmapSource(bytes);
             GetImg = Bs.Clone();
 
-            await OCRHandler(bytes);
+            await OCRHandler(bytes, token);
 
             QrCodeContent = QrCodeHandler(Bs);
         }
@@ -333,8 +339,8 @@ namespace STranslate.ViewModels
         /// <summary>
         /// 重新识别
         /// </summary>
-        [RelayCommand]
-        private async Task RecertificationAsync()
+        [RelayCommand(IncludeCancelCommand = true)]
+        private async Task RecertificationAsync(CancellationToken token)
         {
             ClearQrContent();
 
@@ -346,19 +352,19 @@ namespace STranslate.ViewModels
 
             var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs);
 
-            await OCRHandler(bytes);
+            await OCRHandler(bytes, token);
 
             QrCodeContent = QrCodeHandler(Bs);
         }
 
-        private async Task OCRHandler(byte[] bytes)
+        private async Task OCRHandler(byte[] bytes, CancellationToken? token = null)
         {
             try
             {
                 //清空
                 GetContent = "";
                 ToastHelper.Show("识别中...", WindowType.OCR);
-                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR, lang: Lang);
+                var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR, token, Lang);
                 //判断结果
                 if (!ocrResult.Success)
                 {
@@ -383,6 +389,10 @@ namespace STranslate.ViewModels
 
                 GetContent = getText;
                 ToastHelper.Show("识别成功", WindowType.OCR);
+            }
+            catch (TaskCanceledException)
+            {
+                LogService.Logger.Debug("OCR操作取消");
             }
             catch (Exception ex)
             {
