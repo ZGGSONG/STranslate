@@ -101,6 +101,11 @@ namespace STranslate.ViewModels.Preference.Services
 
         [JsonIgnore]
         [ObservableProperty]
+        [property: JsonIgnore]
+        private bool _isExecuting = false;
+
+        [JsonIgnore]
+        [ObservableProperty]
         private TencentRegionEnum _region = TencentRegionEnum.ap_shanghai;
 
         [JsonIgnore]
@@ -212,6 +217,7 @@ namespace STranslate.ViewModels.Preference.Services
                 ProjectId = this.ProjectId,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,
+                IsExecuting = IsExecuting,
             };
         }
 

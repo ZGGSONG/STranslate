@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+             xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -71,6 +72,7 @@
                                 <MultiBinding Converter="{StaticResource MultiValue2ExpandedConverter}">
                                     <Binding Path="Data.Result" />
                                     <Binding Path="AutoExpander" />
+                                    <Binding Path="IsExecuting" />
                                 </MultiBinding>
                             </Expander.IsExpanded>
                             <Expander.Triggers>
@@ -171,7 +173,6 @@
                                          Style="{DynamicResource TextBoxOutputStyle}"
                                          Tag="{Binding Data.IsSuccess}"
                                          Text="{Binding Data.Result}" />
-
                                 <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
                                     <!-- TTS -->
                                     <Button Margin="5,0,0,0"
@@ -214,6 +215,8 @@
                                             ToolTip="复制为大驼峰字符串"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 </StackPanel>
+                                <!-- // 加载动画 // -->
+                                <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}" Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Grid>
                         </Expander>
                     </Border>

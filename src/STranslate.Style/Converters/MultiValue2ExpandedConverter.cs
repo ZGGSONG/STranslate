@@ -19,8 +19,9 @@ namespace STranslate.Style.Converters
         {
             var content = (string)value[0];
             var autoexpander = (bool)value[1];
+            var isExecuting = (bool)value[2];
             // 如果值是非空字符串，则返回 true；否则返回 false。
-            return !string.IsNullOrEmpty(content) && autoexpander;
+            return !string.IsNullOrEmpty(content) && autoexpander || isExecuting;
         }
 
         /// <summary>

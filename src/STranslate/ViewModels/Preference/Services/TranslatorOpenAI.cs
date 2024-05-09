@@ -92,6 +92,11 @@ namespace STranslate.ViewModels.Preference.Services
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
+        [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private bool _isExecuting = false;
+
         #region Show/Hide Encrypt Info
 
         [JsonIgnore]
@@ -274,6 +279,7 @@ namespace STranslate.ViewModels.Preference.Services
                 Icons = this.Icons,
                 KeyHide = this.KeyHide,
                 Model = this.Model,
+                IsExecuting = IsExecuting,
             };
         }
 

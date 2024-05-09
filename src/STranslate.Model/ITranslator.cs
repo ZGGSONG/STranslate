@@ -31,6 +31,8 @@ namespace STranslate.Model
 
         string? LangConverter(LangEnum lang);
 
+        bool IsExecuting { get; set; }
+
         Task<TranslationResult> TranslateAsync(object request, CancellationToken token);
 
         Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token);

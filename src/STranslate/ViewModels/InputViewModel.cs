@@ -147,6 +147,8 @@ public partial class InputViewModel : ObservableObject
             {
                 try
                 {
+                    service.IsExecuting = true;
+
                     if (translatorList != null)
                     {
                         IdentifyLanguage = "缓存";
@@ -205,6 +207,14 @@ public partial class InputViewModel : ObservableObject
                 catch (Exception ex)
                 {
                     HandleTranslationException(service, "翻译出错", ex, cancellationToken);
+                }
+                finally
+                {
+                    if (service.IsExecuting)
+                    {
+                        LogService.Logger.Debug(service.Name);
+                        service.IsExecuting = false;
+                    }
                 }
             }
         );
@@ -294,6 +304,9 @@ public partial class InputViewModel : ObservableObject
             new RequestModel(content, source, target),
             msg =>
             {
+                //开始有数据就停止加载动画
+                if (service.IsExecuting)
+                    service.IsExecuting = false;
                 service.Data.IsSuccess = true;
                 service.Data.Result += msg;
             },

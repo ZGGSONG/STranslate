@@ -97,6 +97,11 @@ namespace STranslate.ViewModels.Preference.Services
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private bool _isExecuting = false;
+
+        [JsonIgnore]
         public string Tips { get; set; } = "本地服务，无需配置";
 
         #endregion Properties
@@ -117,7 +122,7 @@ namespace STranslate.ViewModels.Preference.Services
                 var sourceBytes = Encoding.UTF8.GetBytes(source);
                 var targetBytes = Encoding.UTF8.GetBytes(target);
                 var contentBytes = Encoding.UTF8.GetBytes(req.Text);
-                var result = await Task.Run(() => GoUtil.Execute(sourceBytes, targetBytes, contentBytes));
+                var result = await Task.Run(() => GoUtil.Execute(sourceBytes, targetBytes, contentBytes), token);
                 var resp = GoUtil.GoStringToCSharpString(result);
 
                 // 解析JSON数据
@@ -153,6 +158,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AutoExpander = this.AutoExpander,
                 Icons = this.Icons,
                 Tips = this.Tips,
+                IsExecuting = IsExecuting,
             };
         }
 

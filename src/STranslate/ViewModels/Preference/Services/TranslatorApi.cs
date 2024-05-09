@@ -95,6 +95,11 @@ namespace STranslate.ViewModels.Preference.Services
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private bool _isExecuting = false;
+
+        [JsonIgnore]
         public string Tips { get; private init; } =
             @"请求:
 {
@@ -174,7 +179,8 @@ namespace STranslate.ViewModels.Preference.Services
                 AutoExpander = AutoExpander,
                 Icons = Icons,
                 Tips = Tips,
-                Token = Token
+                Token = Token,
+                IsExecuting = IsExecuting,
             };
         }
 

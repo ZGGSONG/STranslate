@@ -210,7 +210,7 @@ namespace STranslate.Util
             using var responseStream = await response.Content.ReadAsStreamAsync(token);
             using var reader = new System.IO.StreamReader(responseStream);
             // 逐行读取并输出结果
-            while (!reader.EndOfStream)
+            while (!reader.EndOfStream && !token.IsCancellationRequested)
             {
                 var content = await reader.ReadLineAsync(token);
 

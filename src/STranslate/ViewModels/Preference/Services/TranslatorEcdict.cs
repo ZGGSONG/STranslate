@@ -106,6 +106,11 @@ namespace STranslate.ViewModels.Preference.Services
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private bool _isExecuting = false;
+
+        [JsonIgnore]
         public string Tips { get; set; } = "本地服务，需下载词典文件";
 
         [ObservableProperty]
@@ -295,6 +300,7 @@ namespace STranslate.ViewModels.Preference.Services
                 IsShowProcessBar = this.IsShowProcessBar,
                 HasDB = this.HasDB,
                 DbFileSize = this.DbFileSize,
+                IsExecuting = IsExecuting,
             };
         }
 
