@@ -31,11 +31,6 @@
 | :--: | :--: |
 | **[Github](https://github.com/ZGGSONG/STranslate)** | **[Gitee](https://gitee.com/zggsong/STranslate)** |
 
-
-## Discussion
-
-Have questions? Please head to [Discussions](https://github.com/ZGGSONG/STranslate/discussions) for discussion.
-
 ## Installation
 
 Download the latest [Release](https://github.com/ZGGSONG/STranslate/releases) version and extract it to use.
@@ -43,6 +38,14 @@ Download the latest [Release](https://github.com/ZGGSONG/STranslate/releases) ve
 ## Usage
 
 [Document](https://stranslate.zggsong.com)
+
+## Discussion
+
+If you have questions, please go to [Discussions](https://github.com/ZGGSONG/STranslate/discussions) for discussion.
+
+Or group discussion
+
+<img src="./img/qq.jpeg" height=100 />
 
 ## Acknowledgments
 
