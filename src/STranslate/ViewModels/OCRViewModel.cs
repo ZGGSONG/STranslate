@@ -78,6 +78,9 @@ namespace STranslate.ViewModels
         [ObservableProperty]
         private string _qrCodeContent = "";
 
+        [ObservableProperty]
+        private bool _isExecuting = false;
+
         public OCRViewModel()
         {
             Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
@@ -361,9 +364,9 @@ namespace STranslate.ViewModels
         {
             try
             {
+                IsExecuting = true;
                 //清空
                 GetContent = "";
-                ToastHelper.Show("识别中...", WindowType.OCR);
                 var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.OCR, token, Lang);
                 //判断结果
                 if (!ocrResult.Success)
@@ -388,7 +391,6 @@ namespace STranslate.ViewModels
                     ClipboardHelper.Copy(getText);
 
                 GetContent = getText;
-                ToastHelper.Show("识别成功", WindowType.OCR);
             }
             catch (TaskCanceledException)
             {
@@ -398,6 +400,10 @@ namespace STranslate.ViewModels
             {
                 GetContent = ex.Message;
                 LogService.Logger.Error("OCR失败", ex);
+            }
+            finally
+            {
+                IsExecuting = false;
             }
         }
 
@@ -449,6 +455,7 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void QRCode()
         {
+            IsExecuting = true;
             ClearQrContent();
 
             if (Bs == null)
@@ -457,12 +464,13 @@ namespace STranslate.ViewModels
             if (!string.IsNullOrEmpty(ret))
             {
                 GetContent = ret;
-                ToastHelper.Show("二维码识别成功", WindowType.OCR);
             }
             else
             {
                 ToastHelper.Show("未识别到二维码", WindowType.OCR);
             }
+
+            IsExecuting = false;
         }
 
         private string QrCodeHandler(BitmapSource bs)

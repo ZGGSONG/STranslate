@@ -113,4 +113,10 @@
 	  </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Controls\LoadingUC.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
