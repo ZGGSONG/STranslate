@@ -25,6 +25,7 @@ namespace STranslate.ViewModels;
 public partial class InputViewModel : ObservableObject
 {
     #region 属性、字段
+    public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
 
     /// <summary>
     /// 自动识别的语言

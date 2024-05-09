@@ -59,6 +59,9 @@ namespace STranslate.ViewModels
 
         private ClipboardHelper? _clipboardHelper;
 
+        [ObservableProperty]
+        private bool _isScreenshotExecuting = false;
+
         public NotifyIconViewModel()
         {
             UpdateToolTip();
@@ -515,6 +518,7 @@ namespace STranslate.ViewModels
             var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
             try
             {
+                IsScreenshotExecuting = true;
                 string getText = "";
                 var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token);
                 //判断结果
@@ -539,6 +543,10 @@ namespace STranslate.ViewModels
             catch (Exception ex)
             {
                 Singleton<InputViewModel>.Instance.InputContent = ex.Message;
+            }
+            finally
+            {
+                IsScreenshotExecuting = false;
             }
         }
 
