@@ -45,7 +45,7 @@
 
 或者加群讨论
 
-<img src="./img/qq.jpeg" height=100 />
+<img src="./img/qq.jpeg" height=200 />
 
 
 ## 感谢

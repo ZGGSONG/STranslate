@@ -45,7 +45,7 @@ If you have questions, please go to [Discussions](https://github.com/ZGGSONG/STr
 
 Or group discussion
 
-<img src="./img/qq.jpeg" height=100 />
+<img src="./img/qq.jpeg" height=200 />
 
 ## Acknowledgments
 
