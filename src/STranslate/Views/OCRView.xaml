@@ -320,13 +320,6 @@
                                  Style="{DynamicResource TextBoxOCRStyle}"
                                  Text="{Binding QrCodeContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
-                        <TextBlock Grid.Row="1"
-                                   Margin="2"
-                                   VerticalAlignment="Top"
-                                   FontSize="{DynamicResource FontSize_Identify}"
-                                   Foreground="{DynamicResource ThemeAccentColor}"
-                                   Text="图中可能包含二维码"
-                                   Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
                         <Button Grid.Row="1"
                                 Width="20"
                                 Height="20"
@@ -339,6 +332,23 @@
                                 Foreground="{DynamicResource ThemeAccentColor}"
                                 Style="{DynamicResource ButtonIconStyle}"
                                 Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="4"
+                                   VerticalAlignment="Top"
+                                   FontFamily="{DynamicResource IconFont}"
+                                   FontSize="{DynamicResource FontSize_Identify}"
+                                   Foreground="{DynamicResource ThemeAccentColor}"
+                                   IsHitTestVisible="False"
+                                   Text="&#xe642;"
+                                   Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="22,2,2,2"
+                                   VerticalAlignment="Top"
+                                   FontSize="{DynamicResource FontSize_Identify}"
+                                   Foreground="{DynamicResource ThemeAccentColor}"
+                                   IsHitTestVisible="False"
+                                   Text="二维码识别结果"
+                                   Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
                     </Grid>
                 </Border>
             </Grid>
