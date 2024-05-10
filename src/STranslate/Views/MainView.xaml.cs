@@ -191,7 +191,13 @@ namespace STranslate.Views
             }
             catch (Exception)
             {
-                WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                // 计算窗口左上角在屏幕上的位置
+                double left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
+                double top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+
+                // 设置窗口位置
+                Left = left;
+                Top = top;
 
                 LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
             }

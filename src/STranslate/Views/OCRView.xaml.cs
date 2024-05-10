@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using STranslate.Util;
 using STranslate.ViewModels;
 
@@ -56,6 +55,17 @@ namespace STranslate.Views
 #if false
             Topmost = true;
 #endif
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 计算窗口左上角在屏幕上的位置
+            double left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
+            double top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+
+            // 设置窗口位置
+            Left = left;
+            Top = top;
         }
 
         /// <summary>

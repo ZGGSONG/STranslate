@@ -20,7 +20,7 @@
         BorderThickness="1"
         FontFamily="{DynamicResource UserFont}"
         Icon="{DynamicResource Icon}"
-        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
         mc:Ignorable="d">
     <WindowChrome.WindowChrome>
         <WindowChrome ResizeBorderThickness="5" />
