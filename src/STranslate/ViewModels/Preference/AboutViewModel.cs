@@ -37,6 +37,7 @@ namespace STranslate.ViewModels.Preference
                 var canUpdate = StringUtil.IsCanUpdate(remoteVer, Version);
                 MessageBox_S.Show(canUpdate ? $"检测到最新版本: {remoteVer}\n当前版本: {Version}" : $"恭喜您, 当前为最新版本!");
             }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 MessageBox_S.Show($"检查更新出错, 请检查网络情况");
