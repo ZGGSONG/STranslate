@@ -20,15 +20,25 @@ namespace STranslate.ViewModels.Preference
 {
     public partial class TTSViewModel : ObservableObject
     {
-        public async Task SpeakTextAsync(string content, CancellationToken token)
+        private bool _isSpeaking = false;
+
+        public async Task SpeakTextAsync(string content, WindowType type, CancellationToken token)
         {
             if (ActivedTTS is null)
             {
-                ToastHelper.Show("未启用TTS服务", WindowType.Main);
+                ToastHelper.Show("未启用TTS服务", type);
                 return;
             }
 
+            if (_isSpeaking)
+            {
+                ToastHelper.Show("当前语音未结束", type);
+                return;
+            }
+
+            _isSpeaking = true;
             await ActivedTTS.SpeakTextAsync(content, token);
+            _isSpeaking = false;
         }
 
         private ITTS? ActivedTTS => CurTTSServiceList.FirstOrDefault(x => x.IsEnabled);

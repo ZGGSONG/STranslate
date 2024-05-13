@@ -49,7 +49,7 @@ public partial class HistoryContentViewModel : ObservableObject
     {
         if (obj is string text && !string.IsNullOrEmpty(text))
         {
-            await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, token);
+            await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, WindowType.Preference, token);
         }
     }
 

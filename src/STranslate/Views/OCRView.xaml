@@ -280,6 +280,12 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Orientation="Horizontal">
+                            <Button Command="{Binding TTSCommand}"
+                                    CommandParameter="{Binding GetContent}"
+                                    Content="&#xe610;"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="TTS"
+                                    Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
                             <Button Command="{Binding CopyCommand}"
                                     CommandParameter="{Binding GetContent}"
                                     Content="&#xe692;"

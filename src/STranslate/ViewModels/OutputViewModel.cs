@@ -87,7 +87,7 @@ namespace STranslate.ViewModels
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task TTS(string text, CancellationToken token)
         {
-            await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, token);
+            await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, WindowType.Main, token);
         }
 
         [RelayCommand]

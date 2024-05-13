@@ -140,6 +140,7 @@ namespace STranslate.ViewModels
             DropCancelCommand.Execute(null);
             OpenfileCancelCommand.Execute(null);
             ClipboardImgCancelCommand.Execute(null);
+            TTSCancelCommand.Execute(null);
 
             base.Close(win);
         }
@@ -198,6 +199,14 @@ namespace STranslate.ViewModels
                 {
                     ToastHelper.Show("取消保存图片", WindowType.OCR);
                 }
+            }
+        }
+        [RelayCommand(IncludeCancelCommand = true)]
+        private async Task TTSAsync(string? content, CancellationToken token)
+        {
+            if (!string.IsNullOrEmpty(content))
+            {
+                await Singleton<TTSViewModel>.Instance.SpeakTextAsync(content, WindowType.OCR, token);
             }
         }
 
