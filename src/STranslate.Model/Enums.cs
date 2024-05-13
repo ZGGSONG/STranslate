@@ -728,6 +728,12 @@ namespace STranslate.Model
         Baidu,
         [Description("腾讯识别")]
         Tencent,
+        [Description("小牛识别")]
+        Niutrans,
+        [Description("Yandex")]
+        Yandex,
+        [Description("必应识别")]
+        Bing,
     }
 
     /// <summary>

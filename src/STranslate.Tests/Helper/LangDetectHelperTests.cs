@@ -18,4 +18,25 @@ public class LangDetectHelperTests
         var resp = await LangDetectHelper.TencentLangDetectAsync("我將執行一些東西");
         System.Diagnostics.Debug.WriteLine(resp);
     }
+
+    [Fact()]
+    public async Task NiutransLangDetectTest()
+    {
+        var resp = await LangDetectHelper.NiutransLangDetectAsync("我將執行一些東西");
+        System.Diagnostics.Debug.WriteLine(resp);
+    }
+
+    [Fact()]
+    public async Task YandexLangDetectTest()
+    {
+        var resp = await LangDetectHelper.YandexLangDetectAsync("我將執行一些東西");
+        System.Diagnostics.Debug.WriteLine(resp);
+    }
+
+    [Fact()]
+    public async Task BingLangDetectTest()
+    {
+        var resp = await LangDetectHelper.BingLangDetectAsync("我將執行一些東西");
+        System.Diagnostics.Debug.WriteLine(resp);
+    }
 }

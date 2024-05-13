@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -10,6 +11,9 @@ using STranslate.Util;
 
 namespace STranslate.Helper;
 
+/// <summary>
+/// https://github1s.com/pot-app/pot-desktop/blob/master/src/utils/lang_detect.js
+/// </summary>
 public class LangDetectHelper
 {
     /// <summary>
@@ -25,6 +29,9 @@ public class LangDetectHelper
             LangDetectType.Local => LocalLangDetect(content),
             LangDetectType.Baidu => await BaiduLangDetectAsync(content, token),
             LangDetectType.Tencent => await TencentLangDetectAsync(content, token),
+            LangDetectType.Niutrans => await NiutransLangDetectAsync(content, token),
+            LangDetectType.Yandex => await YandexLangDetectAsync(content, token),
+            LangDetectType.Bing => await BingLangDetectAsync(content, token),
             _ => LangEnum.auto
         };
 
@@ -136,6 +143,213 @@ public class LangDetectHelper
         catch (Exception ex)
         {
             LogService.Logger.Error("腾讯语种识别出错, " + ex.Message);
+        }
+
+        return lang;
+    }
+
+    /// <summary>
+    /// 小牛识别
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task<LangEnum> NiutransLangDetectAsync(string content, CancellationToken? token = null)
+    {
+        LangEnum lang = LangEnum.auto;
+        try
+        {
+            var url = "https://test.niutrans.com/NiuTransServer/language";
+            var queryparams = new Dictionary<string, string>
+            {
+                { "src_text", content },
+                { "source", "text"},
+                { "time", ((long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds).ToString() }
+            };
+            var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
+
+            var parseData = JsonConvert.DeserializeObject<JObject>(resp);
+            var lan = parseData?["language"]?.ToString() ?? "";
+
+            lang = lan switch
+            {
+                "zh" => LangEnum.zh_cn,
+                "cht" => LangEnum.zh_cn,
+                "en" => LangEnum.en,
+                "ja" => LangEnum.ja,
+                "ko" => LangEnum.ko,
+                "fr" => LangEnum.fr,
+                "es" => LangEnum.es,
+                "ru" => LangEnum.ru,
+                "de" => LangEnum.de,
+                "it" => LangEnum.it,
+                "tr" => LangEnum.tr,
+                "pt" => LangEnum.pt_pt,
+                "vi" => LangEnum.vi,
+                "id" => LangEnum.id,
+                "th" => LangEnum.th,
+                "ms" => LangEnum.ms,
+                "ar" => LangEnum.ar,
+                "hi" => LangEnum.hi,
+                "mn" => LangEnum.mn_cy,
+                "mo" => LangEnum.mn_mo,
+                "km" => LangEnum.km,
+                "nb" => LangEnum.nb_no,
+                "nn" => LangEnum.nn_no,
+                "fa" => LangEnum.fa,
+                "uk" => LangEnum.uk,
+
+                _ => LangEnum.auto
+            };
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error("小牛语种识别出错, " + ex.Message);
+        }
+
+        return lang;
+    }
+
+    /// <summary>
+    /// Yandex识别
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task<LangEnum> YandexLangDetectAsync(string content, CancellationToken? token = null)
+    {
+        LangEnum lang = LangEnum.auto;
+        try
+        {
+            var url = "https://translate.yandex.net/api/v1/tr.json/detect";
+            var queryparams = new Dictionary<string, string>
+            {
+                { "id", Guid.NewGuid().ToString().Replace("-", "") + "-0-0" },
+                { "srv", "android"},
+                { "text", content }
+            };
+            var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
+
+            var parseData = JsonConvert.DeserializeObject<JObject>(resp);
+            var lan = parseData?["lang"]?.ToString() ?? "";
+
+            lang = lan switch
+            {
+                "zh" => LangEnum.zh_cn,
+                "en" => LangEnum.en,
+                "ja" => LangEnum.ja,
+                "ko" => LangEnum.ko,
+                "fr" => LangEnum.fr,
+                "es" => LangEnum.es,
+                "ru" => LangEnum.ru,
+                "de" => LangEnum.de,
+                "it" => LangEnum.it,
+                "tr" => LangEnum.tr,
+                "pt" => LangEnum.pt_pt,
+                "vi" => LangEnum.vi,
+                "id" => LangEnum.id,
+                "th" => LangEnum.th,
+                "ms" => LangEnum.ms,
+                "ar" => LangEnum.ar,
+                "hi" => LangEnum.hi,
+                "no" => LangEnum.nb_no,
+                "fa" => LangEnum.fa,
+                "uk" => LangEnum.uk,
+
+                _ => LangEnum.auto
+            };
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error("Yandex语种识别出错, " + ex.Message);
+        }
+
+        return lang;
+    }
+
+    /// <summary>
+    /// 必应识别
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task<LangEnum> BingLangDetectAsync(string content, CancellationToken? token = null)
+    {
+        LangEnum lang = LangEnum.auto;
+        try
+        {
+            var tokenUrl = "https://edge.microsoft.com/translate/auth";
+            var getToken = await HttpUtil.GetAsync(tokenUrl, token ?? CancellationToken.None);
+
+            var url = "https://api-edge.cognitive.microsofttranslator.com/detect";
+            var headers = new Dictionary<string, string>
+            {
+                { "accept", "*/*" },
+                { "accept-language", "zh-TW,zh;q=0.9,ja;q=0.8,zh-CN;q=0.7,en-US;q=0.6,en;q=0.5" },
+                { "authorization", "Bearer " + getToken },
+                { "cache-control", "no-cache" },
+                { "pragma", "no-cache" },
+                { "sec-ch-ua", "\"Microsoft Edge\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"" },
+                { "sec-ch-ua-mobile", "?0" },
+                { "sec-ch-ua-platform", "\"Windows\"" },
+                { "sec-fetch-dest", "empty" },
+                { "sec-fetch-mode", "cors" },
+                { "sec-fetch-site", "cross-site" },
+                { "Referer", "https://appsumo.com/" },
+                { "Referrer-Policy", "strict-origin-when-cross-origin" },
+                { "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42" }
+            };
+
+            var queryParams = new Dictionary<string, string>
+            {
+                { "api-version", "3.0" }
+            };
+
+            var data = new[]
+            {
+                new { Text = content }
+            };
+            var req = JsonConvert.SerializeObject(data);
+
+            var resp = await HttpUtil.PostAsync(url, req, queryParams, headers, token ?? CancellationToken.None);
+
+            var langInfos = JsonConvert.DeserializeObject<List<LanguageInfo>>(resp);
+            var lan = langInfos?.FirstOrDefault()?.Language ?? "";
+
+            lang = lan switch
+            {
+                "zh-Hans" => LangEnum.zh_cn,
+                "zh-Hant" => LangEnum.zh_tw,
+                "en" => LangEnum.en,
+                "ja" => LangEnum.ja,
+                "ko" => LangEnum.ko,
+                "fr" => LangEnum.fr,
+                "es" => LangEnum.es,
+                "ru" => LangEnum.ru,
+                "de" => LangEnum.de,
+                "it" => LangEnum.it,
+                "tr" => LangEnum.tr,
+                "pt-pt" => LangEnum.pt_pt,
+                "pt" => LangEnum.pt_br,
+                "vi" => LangEnum.vi,
+                "id" => LangEnum.id,
+                "th" => LangEnum.th,
+                "ms" => LangEnum.ms,
+                "ar" => LangEnum.ar,
+                "hi" => LangEnum.hi,
+                "mn-Cyrl" => LangEnum.mn_cy,
+                "mn-Mong" => LangEnum.mn_mo,
+                "km" => LangEnum.km,
+                "nb" => LangEnum.nb_no,
+                "fa" => LangEnum.fa,
+                "uk" => LangEnum.uk,
+
+                _ => LangEnum.auto
+            };
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error("必应语种识别出错, " + ex.Message);
         }
 
         return lang;
