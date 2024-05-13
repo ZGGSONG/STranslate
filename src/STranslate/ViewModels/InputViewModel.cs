@@ -162,9 +162,9 @@ public partial class InputViewModel : ObservableObject
                     //如果是自动则获取自动识别后的目标语种
                     if (target == LangEnum.auto)
                     {
-                        var autoRet = StringUtil.AutomaticLanguageRecognition(InputContent);
-                        identify = autoRet.Item1;
-                        target = autoRet.Item2;
+                        identify = await LangDetectHelper.DetectAsync(InputContent, Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local, cancellationToken);
+                        //目标语言 默认为中英文
+                        target = identify == LangEnum.en ? LangEnum.zh_cn : LangEnum.en;
                         IdentifyLanguage = identify.GetDescription();
                     }
 

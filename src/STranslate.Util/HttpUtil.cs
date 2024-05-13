@@ -94,6 +94,28 @@ namespace STranslate.Util
         }
 
         /// <summary>
+        /// 异步Post请求 application/x-www-form-urlencoded
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="req"></param>
+        /// <param name="token"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, Tuple<string, string> req, CancellationToken token, int timeout = 10)
+        {
+            using var client = new HttpClient(new SocketsHttpHandler()) { Timeout = TimeSpan.FromSeconds(timeout) };
+
+            var content = new StringContent($"{req.Item1}={Uri.EscapeDataString(req.Item2)}", Encoding.UTF8, "application/x-www-form-urlencoded");
+
+            var respContent = await client.PostAsync(url, content, token);
+
+            string respStr = await respContent.Content.ReadAsStringAsync(token);
+
+            return respStr;
+        }
+
+
+        /// <summary>
         /// 异步Post请求(QueryParams、Header、Body)
         /// </summary>
         /// <param name="url"></param>

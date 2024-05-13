@@ -237,6 +237,7 @@ public class ConfigHelper
         CurrentConfig.OcrChangedLang2Execute = model.OcrChangedLang2Execute;
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
+        CurrentConfig.DetectType = model.DetectType;
         
         //重新执行必要操作
         ThemeOperate(CurrentConfig.ThemeType);
@@ -554,6 +555,7 @@ public class ConfigHelper
             ExternalCallPort = 50020,
             OcrViewHeight = 400,
             OcrViewWidth = 1000,
+            DetectType = LangDetectType.Local,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),

@@ -286,6 +286,11 @@ public class ConfigModel
     public double? OcrViewWidth { get; set; }
 
     /// <summary>
+    /// 语种识别服务
+    /// </summary>
+    public LangDetectType DetectType { get; set; }
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -368,6 +373,7 @@ public class ConfigModel
             ExternalCallPort = ExternalCallPort,
             OcrViewHeight = OcrViewHeight,
             OcrViewWidth = OcrViewWidth,
+            DetectType = DetectType,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

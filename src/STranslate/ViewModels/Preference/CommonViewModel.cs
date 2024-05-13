@@ -95,6 +95,7 @@ namespace STranslate.ViewModels.Preference
             OcrChangedLang2Execute = curConfig?.OcrChangedLang2Execute ?? false;
             UseFormsCopy = curConfig?.UseFormsCopy ?? false;
             ExternalCallPort = curConfig?.ExternalCallPort ?? 50020;
+            DetectType = curConfig?.DetectType ?? LangDetectType.Local;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -522,5 +523,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private int? _externalCallPort = curConfig?.ExternalCallPort ?? 50020;
+
+        /// <summary>
+        /// 语种识别类型
+        /// </summary>
+        [ObservableProperty]
+        private LangDetectType _detectType = curConfig?.DetectType ?? LangDetectType.Local;
     }
 }

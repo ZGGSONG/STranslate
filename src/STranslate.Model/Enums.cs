@@ -718,6 +718,19 @@ namespace STranslate.Model
     }
 
     /// <summary>
+    /// 语种识别方式
+    /// </summary>
+    public enum LangDetectType
+    {
+        [Description("本地识别")]
+        Local,
+        [Description("百度识别")]
+        Baidu,
+        [Description("腾讯识别")]
+        Tencent,
+    }
+
+    /// <summary>
     /// 获取Description
     /// </summary>
     public static class EnumExtensions

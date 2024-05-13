@@ -53,8 +53,19 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="语种识别" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式" />
+                                <ComboBox Height="30"
+                                          HorizontalAlignment="Right"
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
+                                          SelectedValue="{Binding DetectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="语种识别比例(zh-en)" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="针对中英文情况下英文字符占总字符数的比例" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
                                 <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right" Orientation="Horizontal">
                                     <Slider MinWidth="160"
                                             Margin="0,0,30,0"
