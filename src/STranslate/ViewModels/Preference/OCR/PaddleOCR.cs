@@ -1,15 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using PaddleOCRSharp;
 using STranslate.Helper;
 using STranslate.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.OCR
 {
@@ -17,24 +16,31 @@ namespace STranslate.ViewModels.Preference.OCR
     {
         #region PaddleOCR Related
 
-        protected Architecture _architecture;
-        protected PaddleOCREngine? _paddleOCREngine;
+        protected Tuple<LangEnum, PaddleOCREngine>? _engineDict;
 
-        private void InitialPaddleOCREngine()
+        private PaddleOCREngine GetEngine(LangEnum lang = LangEnum.auto)
         {
-            _architecture = RuntimeInformation.OSArchitecture;
-
-            if (_architecture != Architecture.X64)
+            //获取缓存引擎
+            if (_engineDict != null && _engineDict.Item1 == lang)
             {
-                // 如果不是64位架构，不进行初始化
-                return;
+                return _engineDict.Item2;
             }
 
-            // 使用默认中英文V4模型
-            OCRModelConfig? config = null;
+            //如果需要创建，首先释放当前引擎资源
+            _engineDict?.Item2?.Dispose();
+            _engineDict = null;
+
+            var architecture = RuntimeInformation.OSArchitecture;
+
+            if (architecture != Architecture.X64)
+            {
+                throw new Exception($"CPU架构不支持({architecture})");
+            }
+
+            var config = GetOcrModelConfig(lang);
 
             // 使用默认参数
-            OCRParameter oCRParameter = new OCRParameter
+            var oCRParameter = new OCRParameter
             {
                 cpu_math_library_num_threads = 10, // 预测并发线程数
                 enable_mkldnn = true, // web部署该值建议设置为0, 否则出错，内存如果使用很大，建议该值也设置为0.
@@ -45,8 +51,34 @@ namespace STranslate.ViewModels.Preference.OCR
             };
 
             // 建议程序全局初始化一次即可，不必每次识别都初始化，容易报错。
-            _paddleOCREngine = new PaddleOCREngine(config, oCRParameter);
+            var engine = new PaddleOCREngine(config, oCRParameter);
+
+            _engineDict = new(lang, engine);
+            return engine;
         }
+
+        private OCRModelConfig? GetOcrModelConfig(LangEnum lang = LangEnum.auto) =>
+            lang switch
+            {
+                LangEnum.ja
+                    => new OCRModelConfig
+                    {
+                        det_infer = ConstStr.PaddleOCRModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
+                        rec_infer = ConstStr.PaddleOCRModelPath + "japan_PP-OCRv3_rec_infer",
+                        cls_infer = ConstStr.PaddleOCRModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
+                        keys = ConstStr.PaddleOCRModelPath + "japan_dict.txt"
+                    },
+                LangEnum.ko
+                    => new OCRModelConfig
+                    {
+                        det_infer = ConstStr.PaddleOCRModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
+                        rec_infer = ConstStr.PaddleOCRModelPath + "korean_PP-OCRv3_rec_infer",
+                        cls_infer = ConstStr.PaddleOCRModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
+                        keys = ConstStr.PaddleOCRModelPath + "korean_dict.txt"
+                    },
+                // 使用默认中英文V4模型
+                _ => null
+            };
 
         #endregion PaddleOCR Related
 
@@ -74,8 +106,6 @@ namespace STranslate.ViewModels.Preference.OCR
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
-
-            InitialPaddleOCREngine();
         }
 
         #endregion Constructor
@@ -126,10 +156,10 @@ namespace STranslate.ViewModels.Preference.OCR
 
         #region Interface Implementation
 
-        public Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang,  CancellationToken token)
+        public Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken token)
         {
-            if (lang != LangEnum.auto)
-                ToastHelper.Show("该服务不支持指定语种", WindowType.OCR);
+            if (LangConverter(lang) == null)
+                ToastHelper.Show($"不支持 {lang.GetDescription()}", WindowType.OCR);
 
             var result = new OcrResult();
             var tcs = new TaskCompletionSource<OcrResult>();
@@ -141,12 +171,7 @@ namespace STranslate.ViewModels.Preference.OCR
                 {
                     token.ThrowIfCancellationRequested();
 
-                    if (_paddleOCREngine is null)
-                    {
-                        throw new NotSupportedException($"CPU架构不支持({_architecture})");
-                    }
-
-                    var ocrResult = _paddleOCREngine.DetectText(bytes);
+                    var ocrResult = GetEngine(lang).DetectText(bytes);
 
                     // 在耗时操作后再次检查取消标志
                     token.ThrowIfCancellationRequested();
@@ -161,12 +186,8 @@ namespace STranslate.ViewModels.Preference.OCR
                     // 设置任务结果
                     tcs.SetResult(result);
                 }
-                catch (OperationCanceledException)
-                {
-                }
-                catch (ThreadInterruptedException)
-                {
-                }
+                catch (OperationCanceledException) { }
+                catch (ThreadInterruptedException) { }
                 catch (NotSupportedException ex)
                 {
                     // 处理特定的不支持异常
@@ -190,10 +211,8 @@ namespace STranslate.ViewModels.Preference.OCR
                 thread.Interrupt();
                 tcs.TrySetCanceled();
             });
-
             return tcs.Task;
         }
-
 
         public IOCR Clone()
         {
@@ -211,7 +230,18 @@ namespace STranslate.ViewModels.Preference.OCR
             };
         }
 
-        public string? LangConverter(LangEnum lang) => null;
+        public string? LangConverter(LangEnum lang) =>
+            lang switch
+            {
+                LangEnum.auto => "",
+                LangEnum.zh_cn => "",
+                LangEnum.zh_tw => "",
+                LangEnum.yue => "",
+                LangEnum.en => "",
+                LangEnum.ja => "",
+                LangEnum.ko => "",
+                _ => null
+            };
 
         #endregion Interface Implementation
     }

@@ -25,6 +25,39 @@
     <Content Include="ClearCache.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="inference\japan_dict.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\japan_PP-OCRv3_rec_infer\inference.pdiparams">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\japan_PP-OCRv3_rec_infer\inference.pdiparams.info">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\japan_PP-OCRv3_rec_infer\inference.pdmodel">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_dict.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_PP-OCRv3_rec_infer\inference.pdiparams">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_PP-OCRv3_rec_infer\inference.pdiparams.info">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_PP-OCRv3_rec_infer\inference.pdmodel">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdiparams">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdiparams.info">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdmodel">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -75,5 +75,7 @@ namespace STranslate.Model
         public const string CNFNAME = "stranslate";
 
         public const string ZIP = ".zip";
+
+        public static string PaddleOCRModelPath = $"{ExecutePath}\\inference\\";
     }
 }
