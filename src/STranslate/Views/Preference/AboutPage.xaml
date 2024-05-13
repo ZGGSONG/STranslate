@@ -35,11 +35,18 @@
                         <TextBlock FontWeight="Bold" Text="版本    " />
                         <TextBlock Text="{Binding Version}" />
 
-                        <Button Width="100"
-                                Padding="5,2"
-                                HorizontalAlignment="Right"
-                                Command="{Binding CheckUpdateCommand}"
-                                Content="检查更新" />
+                        <Grid HorizontalAlignment="Right">
+                            <Button Width="100"
+                                    Padding="5,2"
+                                    Command="{Binding CheckUpdateCommand}"
+                                    Content="检查更新"
+                                    Visibility="{Binding IsChecking, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                            <Button Width="100"
+                                    Padding="5,2"
+                                    Command="{Binding CheckUpdateCancelCommand}"
+                                    Content="取消检查"
+                                    Visibility="{Binding IsChecking, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
                     </DockPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">

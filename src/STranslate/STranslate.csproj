@@ -21,6 +21,7 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
 
+  <!--// PaddleOCR模型文件 //-->
   <ItemGroup>
     <Content Include="ClearCache.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -88,6 +89,7 @@
     <ProjectReference Include="..\STranslate.Log\STranslate.Log.csproj" />
     <ProjectReference Include="..\STranslate.Model\STranslate.Model.csproj" />
     <ProjectReference Include="..\STranslate.Style\STranslate.Style.csproj" />
+    <ProjectReference Include="..\STranslate.Updater\STranslate.Updater.csproj" />
     <ProjectReference Include="..\STranslate.Util\STranslate.Util.csproj" />
   </ItemGroup>
 
