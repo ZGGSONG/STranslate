@@ -30,8 +30,9 @@ public class LangDetectHelper
             LangDetectType.Baidu => await BaiduLangDetectAsync(content, token),
             LangDetectType.Tencent => await TencentLangDetectAsync(content, token),
             LangDetectType.Niutrans => await NiutransLangDetectAsync(content, token),
-            LangDetectType.Yandex => await YandexLangDetectAsync(content, token),
             LangDetectType.Bing => await BingLangDetectAsync(content, token),
+            LangDetectType.Yandex => await YandexLangDetectAsync(content, token),
+            LangDetectType.Google => await GoogleLangDetectAsync(content, token),
             _ => LangEnum.auto
         };
 
@@ -163,7 +164,7 @@ public class LangDetectHelper
             var queryparams = new Dictionary<string, string>
             {
                 { "src_text", content },
-                { "source", "text"},
+                { "source", "text" },
                 { "time", ((long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds).ToString() }
             };
             var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
@@ -211,63 +212,6 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// Yandex识别
-    /// </summary>
-    /// <param name="content"></param>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public static async Task<LangEnum> YandexLangDetectAsync(string content, CancellationToken? token = null)
-    {
-        LangEnum lang = LangEnum.auto;
-        try
-        {
-            var url = "https://translate.yandex.net/api/v1/tr.json/detect";
-            var queryparams = new Dictionary<string, string>
-            {
-                { "id", Guid.NewGuid().ToString().Replace("-", "") + "-0-0" },
-                { "srv", "android"},
-                { "text", content }
-            };
-            var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
-
-            var parseData = JsonConvert.DeserializeObject<JObject>(resp);
-            var lan = parseData?["lang"]?.ToString() ?? "";
-
-            lang = lan switch
-            {
-                "zh" => LangEnum.zh_cn,
-                "en" => LangEnum.en,
-                "ja" => LangEnum.ja,
-                "ko" => LangEnum.ko,
-                "fr" => LangEnum.fr,
-                "es" => LangEnum.es,
-                "ru" => LangEnum.ru,
-                "de" => LangEnum.de,
-                "it" => LangEnum.it,
-                "tr" => LangEnum.tr,
-                "pt" => LangEnum.pt_pt,
-                "vi" => LangEnum.vi,
-                "id" => LangEnum.id,
-                "th" => LangEnum.th,
-                "ms" => LangEnum.ms,
-                "ar" => LangEnum.ar,
-                "hi" => LangEnum.hi,
-                "no" => LangEnum.nb_no,
-                "fa" => LangEnum.fa,
-                "uk" => LangEnum.uk,
-
-                _ => LangEnum.auto
-            };
-        }
-        catch (Exception ex)
-        {
-            LogService.Logger.Error("Yandex语种识别出错, " + ex.Message);
-        }
-
-        return lang;
-    }
-
-    /// <summary>
     /// 必应识别
     /// </summary>
     /// <param name="content"></param>
@@ -300,15 +244,9 @@ public class LangDetectHelper
                 { "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42" }
             };
 
-            var queryParams = new Dictionary<string, string>
-            {
-                { "api-version", "3.0" }
-            };
+            var queryParams = new Dictionary<string, string> { { "api-version", "3.0" } };
 
-            var data = new[]
-            {
-                new { Text = content }
-            };
+            var data = new[] { new { Text = content } };
             var req = JsonConvert.SerializeObject(data);
 
             var resp = await HttpUtil.PostAsync(url, req, queryParams, headers, token ?? CancellationToken.None);
@@ -350,6 +288,63 @@ public class LangDetectHelper
         catch (Exception ex)
         {
             LogService.Logger.Error("必应语种识别出错, " + ex.Message);
+        }
+
+        return lang;
+    }
+
+    /// <summary>
+    /// Yandex识别
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task<LangEnum> YandexLangDetectAsync(string content, CancellationToken? token = null)
+    {
+        LangEnum lang = LangEnum.auto;
+        try
+        {
+            var url = "https://translate.yandex.net/api/v1/tr.json/detect";
+            var queryparams = new Dictionary<string, string>
+            {
+                { "id", Guid.NewGuid().ToString().Replace("-", "") + "-0-0" },
+                { "srv", "android" },
+                { "text", content }
+            };
+            var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
+
+            var parseData = JsonConvert.DeserializeObject<JObject>(resp);
+            var lan = parseData?["lang"]?.ToString() ?? "";
+
+            lang = lan switch
+            {
+                "zh" => LangEnum.zh_cn,
+                "en" => LangEnum.en,
+                "ja" => LangEnum.ja,
+                "ko" => LangEnum.ko,
+                "fr" => LangEnum.fr,
+                "es" => LangEnum.es,
+                "ru" => LangEnum.ru,
+                "de" => LangEnum.de,
+                "it" => LangEnum.it,
+                "tr" => LangEnum.tr,
+                "pt" => LangEnum.pt_pt,
+                "vi" => LangEnum.vi,
+                "id" => LangEnum.id,
+                "th" => LangEnum.th,
+                "ms" => LangEnum.ms,
+                "ar" => LangEnum.ar,
+                "hi" => LangEnum.hi,
+                "no" => LangEnum.nb_no,
+                "fa" => LangEnum.fa,
+                "uk" => LangEnum.uk,
+
+                _ => LangEnum.auto
+            };
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error("Yandex语种识别出错, " + ex.Message);
         }
 
         return lang;
