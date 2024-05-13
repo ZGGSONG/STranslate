@@ -77,5 +77,8 @@ namespace STranslate.Model
         public const string ZIP = ".zip";
 
         public static string PaddleOCRModelPath = $"{ExecutePath}\\inference\\";
+
+        public const string GITHUBRELEASEURL = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
+        public const string DEFAULTVERSION = "1.0.0.101";
     }
 }

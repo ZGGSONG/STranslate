@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Windows;
+using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Base;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.History;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -112,6 +112,7 @@ namespace STranslate.ViewModels
             {
                 vm.TTSCancelCommand.Execute(null);
             }
+            Singleton<AboutViewModel>.Instance.CheckUpdateCancelCommand.Execute(null);
             base.Close(win);
         }
 
@@ -123,21 +124,27 @@ namespace STranslate.ViewModels
                 case CommonViewModel:
                     Singleton<CommonViewModel>.Instance.SaveCommand.Execute(null);
                     break;
+
                 case HotkeyViewModel:
                     Singleton<HotkeyViewModel>.Instance.SaveCommand.Execute(null);
                     break;
+
                 case ServiceViewModel:
                     Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
                     break;
+
                 case OCRScvViewModel:
                     Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
                     break;
+
                 case TTSViewModel:
                     Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
                     break;
+
                 case BackupViewModel:
                     Singleton<BackupViewModel>.Instance.SaveCommand.Execute(null);
                     break;
+
                 default:
                     break;
             }

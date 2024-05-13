@@ -185,5 +185,21 @@ namespace STranslate.Util
             }
             return true;
         }
+
+        /// <summary>
+        /// 是否可以升级
+        /// </summary>
+        /// <param name="rVer"></param>
+        /// <param name="lVer"></param>
+        /// <returns></returns>
+        public static bool IsCanUpdate(string rVer, string lVer)
+        {
+            // 获取版本移除小数点后数字大小
+            var remoteVersion = Convert.ToInt64(rVer.Replace(".", ""));
+            var localVersion = Convert.ToInt64(lVer.Replace(".", ""));
+
+            // 如果远端版本号数字大于本地版本号数字即可升级
+            return localVersion < remoteVersion;
+        }
     }
 }
