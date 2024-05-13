@@ -39,4 +39,11 @@ public class LangDetectHelperTests
         var resp = await LangDetectHelper.BingLangDetectAsync("我將執行一些東西");
         System.Diagnostics.Debug.WriteLine(resp);
     }
+
+    [Fact()]
+    public async Task GoogleLangDetectTest()
+    {
+        var resp = await LangDetectHelper.GoogleLangDetectAsync("我將執行一些東西");
+        System.Diagnostics.Debug.WriteLine(resp);
+    }
 }

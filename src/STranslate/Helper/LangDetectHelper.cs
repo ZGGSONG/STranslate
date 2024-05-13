@@ -354,4 +354,73 @@ public class LangDetectHelper
 
         return lang;
     }
+
+    /// <summary>
+    /// 谷歌识别
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task<LangEnum> GoogleLangDetectAsync(string content, CancellationToken? token = null)
+    {
+        LangEnum lang = LangEnum.auto;
+        try
+        {
+            var url = "https://translate.google.com/translate_a/single?dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t";
+
+            var queryParams = new Dictionary<string, string>
+            {
+                { "client", "gtx" },
+                { "sl", "auto" },
+                { "tl", "zh-CN" },
+                { "hl", "zh-CN" },
+                { "ie", "UTF-8" },
+                { "oe", "UTF-8" },
+                { "otf", "1" },
+                { "ssel", "0" },
+                { "tsel", "0" },
+                { "kc", "7" },
+                { "q", content },
+            };
+
+            var resp = await HttpUtil.GetAsync(url, queryParams, token ?? CancellationToken.None);
+            JArray jsonArray = JArray.Parse(resp);
+            var lan = jsonArray[2]?.ToString() ?? "";
+
+            lang = lan switch
+            {
+                "zh-CN" => LangEnum.zh_cn,
+                "zh-TW" => LangEnum.zh_tw,
+                "ja" => LangEnum.ja,
+                "en" => LangEnum.en,
+                "ko" => LangEnum.ko,
+                "fr" => LangEnum.fr,
+                "es" => LangEnum.es,
+                "ru" => LangEnum.ru,
+                "de" => LangEnum.de,
+                "it" => LangEnum.it,
+                "tr" => LangEnum.tr,
+                "pt" => LangEnum.pt_pt,
+                "vi" => LangEnum.vi,
+                "id" => LangEnum.id,
+                "th" => LangEnum.th,
+                "ms" => LangEnum.ms,
+                "ar" => LangEnum.ar,
+                "hi" => LangEnum.hi,
+                "mn" => LangEnum.mn_cy,
+                "km" => LangEnum.km,
+                "fa" => LangEnum.fa,
+                "no" => LangEnum.nb_no,
+                "uk" => LangEnum.uk,
+
+                _ => LangEnum.auto
+            };
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error("谷歌语种识别出错, " + ex.Message);
+        }
+
+        return lang;
+    }
 }
