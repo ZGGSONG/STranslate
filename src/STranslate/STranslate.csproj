@@ -31,6 +31,10 @@
   <ItemGroup>
     <PackageReference Include="AlibabaCloud.SDK.Alimt20181012" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Costura.Fody">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Dapper" />
     <PackageReference Include="Dapper.Contrib" />
     <PackageReference Include="gong-wpf-dragdrop" />
