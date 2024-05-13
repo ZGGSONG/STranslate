@@ -10,7 +10,6 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Model;
-using STranslate.Updater;
 using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
@@ -200,7 +199,7 @@ namespace STranslate.ViewModels.Preference.Services
         {
             ToastHelper.Show("解压资源包", WindowType.Preference);
 
-            var unresult = Unzip.ExtractZipFile(SourceFile, ConstStr.AppData);
+            var unresult = ZipUtil.DecompressToDirectory(SourceFile, ConstStr.AppData);
 
             if (unresult)
             {
