@@ -159,13 +159,21 @@ public partial class InputViewModel : ObservableObject
 
                     var identify = LangEnum.auto;
 
+                    // 原始语种自动识别
+                    if (source == LangEnum.auto)
+                    {
+                        var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
+                        identify = await LangDetectHelper.DetectAsync(InputContent, detectType, cancellationToken);
+                        IdentifyLanguage = identify.GetDescription();
+                    }
+
                     //如果是自动则获取自动识别后的目标语种
                     if (target == LangEnum.auto)
                     {
-                        identify = await LangDetectHelper.DetectAsync(InputContent, Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local, cancellationToken);
-                        //目标语言 默认为中英文
-                        target = identify == LangEnum.en ? LangEnum.zh_cn : LangEnum.en;
-                        IdentifyLanguage = identify.GetDescription();
+                        //目标语言
+                        //1. 识别语种为中文系则目标语言为英文
+                        //2. 识别语种为自动或其他语系则目标语言为中文
+                        target = (identify & (LangEnum.zh_cn | LangEnum.zh_tw | LangEnum.yue)) != 0 ? LangEnum.en : LangEnum.zh_cn;
                     }
 
                     //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加

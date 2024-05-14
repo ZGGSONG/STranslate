@@ -30,13 +30,22 @@ namespace STranslate.ViewModels
                 var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
                 var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
 
-                var idetify = LangEnum.auto;
+                var identify = LangEnum.auto;
+
+                // 原始语种自动识别
+                if (sourceLang == LangEnum.auto)
+                {
+                    var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
+                    identify = await LangDetectHelper.DetectAsync(inputVM.InputContent, detectType, token);
+                }
+
                 //如果是自动则获取自动识别后的目标语种
                 if (targetLang == LangEnum.auto)
                 {
-                    var autoRet = StringUtil.AutomaticLanguageRecognition(inputVM.InputContent);
-                    idetify = autoRet.Item1;
-                    targetLang = autoRet.Item2;
+                    //目标语言
+                    //1. 识别语种为中文系则目标语言为英文
+                    //2. 识别语种为自动或其他语系则目标语言为中文
+                    targetLang = (identify & (LangEnum.zh_cn | LangEnum.zh_tw | LangEnum.yue)) != 0 ? LangEnum.en : LangEnum.zh_cn;
                 }
 
                 //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
@@ -70,6 +79,7 @@ namespace STranslate.ViewModels
                         errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时";
                         isCancelMsg = token.IsCancellationRequested;
                         break;
+
                     case HttpRequestException:
                         errorMessage = "请求出错";
                         break;
