@@ -69,6 +69,7 @@
                                 <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right" Orientation="Horizontal">
                                     <Slider MinWidth="160"
                                             Margin="0,0,30,0"
+                                            Height="14"
                                             IsSnapToTickEnabled="True"
                                             Maximum="0.99"
                                             Minimum="0.01"
@@ -84,6 +85,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="针对部分软件取词失败的情况，延长取词时间间隔" />
                                 <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right" Orientation="Horizontal">
                                     <Slider MinWidth="160"
+                                            Height="14"
                                             Margin="0,0,30,0"
                                             IsSnapToTickEnabled="True"
                                             Maximum="2000"

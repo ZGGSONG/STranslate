@@ -34,6 +34,7 @@
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/TextBoxStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ToolTipStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ToggleButtonStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Slider.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
