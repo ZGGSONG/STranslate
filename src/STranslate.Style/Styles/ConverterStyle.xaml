@@ -22,4 +22,5 @@
     <converter:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter" />
     <converter:Collection2VisibilityConverter x:Key="Collection2VisibilityConverter" />
     <converter:TextBoxToIntConverter x:Key="TextBoxToIntConverter" />
+    <converter:ParamEqualToVisibility x:Key="ParamEqualToVisibility" />
 </ResourceDictionary>

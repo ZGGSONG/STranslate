@@ -59,7 +59,7 @@ namespace STranslate.ViewModels
                         {
                             //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
                             //Auto则转换为识别语种
-                            sourceLang = sourceLang == LangEnum.auto ? idetify : sourceLang;
+                            sourceLang = sourceLang == LangEnum.auto ? identify : sourceLang;
                             await inputVM.StreamHandlerAsync(service, inputVM.InputContent, sourceLang, targetLang, token);
                             break;
                         }
