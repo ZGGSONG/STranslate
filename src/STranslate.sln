@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 	ProjectSection(SolutionItems) = preProject
 		.csharpierrc.json = .csharpierrc.json
 		..\.gitignore = ..\.gitignore
+		CopyUpdater.bat = CopyUpdater.bat
 		Directory.Packages.props = Directory.Packages.props
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
@@ -25,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Log", "STranslat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Tests", "STranslate.Tests\STranslate.Tests.csproj", "{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STranslate.Updater", "STranslate.Updater\STranslate.Updater.csproj", "{D0BFF6B4-4B15-4BFF-A15F-2B3538CE4546}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Updater", "STranslate.Updater\STranslate.Updater.csproj", "{D0BFF6B4-4B15-4BFF-A15F-2B3538CE4546}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

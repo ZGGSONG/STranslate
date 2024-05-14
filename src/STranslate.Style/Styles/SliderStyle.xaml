@@ -9,11 +9,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Width="{TemplateBinding Width}"
-                               Height="{TemplateBinding Height}"
-                               Fill="{TemplateBinding Background}"
-                               RadiusX="2"
-                               RadiusY="2" />
+                    <Border Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="2,0,0,2" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
