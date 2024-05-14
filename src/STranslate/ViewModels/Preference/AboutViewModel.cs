@@ -39,18 +39,14 @@ namespace STranslate.ViewModels.Preference
                 const string updateFolder = "Update";
 
                 string GetPath(string fileName) => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-
                 string GetCachePath(string fileName) => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, updateFolder, fileName);
 
-                string[] requiredFiles = ["Updater.exe", "Updater.dll", "Newtonsoft.Json.dll", "Updater.deps.json", "Updater.runtimeconfig.json"];
-
-                if (!Directory.Exists(GetPath(updateFolder)))
-                {
-                    Directory.CreateDirectory(GetPath(updateFolder));
-                }
+                string[] requiredFiles = ["Updater.exe"];
 
                 if (requiredFiles.All(file => File.Exists(GetPath(file))))
                 {
+                    Directory.CreateDirectory(GetPath(updateFolder));
+
                     foreach (var file in requiredFiles)
                     {
                         File.Copy(GetPath(file), GetCachePath(file), true);

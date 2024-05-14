@@ -628,8 +628,12 @@ namespace STranslate.ViewModels
         private void OpenPreference()
         {
             PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
-            view ??= new PreferenceView();
-            view.UpdateNavigation();
+            // 如果已经打开则不重新导航
+            if (view is null)
+            {
+                view = new PreferenceView();
+                view.UpdateNavigation();
+            }
 
             ShowAndActive(view);
         }

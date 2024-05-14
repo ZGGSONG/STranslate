@@ -52,7 +52,7 @@ namespace STranslate.Model
         public const string REGISTRY = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
         public const string REGISTRYKEY = "SystemUsesLightTheme";
 
-        public static string AppName = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location);
+        public static string AppName = "STranslate";
         public static string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
         public static string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
         public static string DbFullName = $"{AppData}\\{AppName.ToLower()}.db";

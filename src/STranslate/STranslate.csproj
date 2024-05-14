@@ -12,8 +12,6 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<AssemblyVersion>1.1.2.0509</AssemblyVersion>
 	<FileVersion>1.1.2.0509</FileVersion>
-	<!--// Debug 模式下禁用 Fody 编译 //-->
-    <DisableFody Condition="'$(Configuration)' == 'Debug'">true</DisableFody>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->
@@ -64,10 +62,6 @@
   <ItemGroup>
     <PackageReference Include="AlibabaCloud.SDK.Alimt20181012" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
-    <PackageReference Include="Costura.Fody">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Dapper" />
     <PackageReference Include="Dapper.Contrib" />
     <PackageReference Include="gong-wpf-dragdrop" />
@@ -89,7 +83,6 @@
     <ProjectReference Include="..\STranslate.Log\STranslate.Log.csproj" />
     <ProjectReference Include="..\STranslate.Model\STranslate.Model.csproj" />
     <ProjectReference Include="..\STranslate.Style\STranslate.Style.csproj" />
-    <ProjectReference Include="..\STranslate.Updater\STranslate.Updater.csproj" />
     <ProjectReference Include="..\STranslate.Util\STranslate.Util.csproj" />
   </ItemGroup>
 

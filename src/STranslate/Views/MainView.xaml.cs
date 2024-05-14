@@ -1,17 +1,17 @@
-﻿using STranslate.Log;
+﻿using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels;
 using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using STranslate.Helper;
-using System.ComponentModel;
-using STranslate.Model;
 using System.Windows.Media.Animation;
-using System.Linq;
 
 namespace STranslate.Views
 {
@@ -181,10 +181,9 @@ namespace STranslate.Views
                 bool ret = true;
                 ret &= double.TryParse(args[0], out var left);
                 ret &= double.TryParse(args[1], out var top);
-                if (!ret || left > SystemParameters.WorkArea.Width || top > SystemParameters.WorkArea.Height)
-                {
-                    throw new Exception($"当前({SystemParameters.WorkArea.Width}x{SystemParameters.WorkArea.Height})");
-                }
+
+                // 判断是否在屏幕上
+                _ = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(screen => screen.Bounds.Contains(new Point(left, top))) ?? throw new Exception();
 
                 Left = left;
                 Top = top;
@@ -192,8 +191,8 @@ namespace STranslate.Views
             catch (Exception)
             {
                 // 计算窗口左上角在屏幕上的位置
-                double left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
-                double top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+                double left = (SystemParameters.PrimaryScreenWidth - Width) / 2;
+                double top = (SystemParameters.PrimaryScreenHeight - 600) / 2;
 
                 // 设置窗口位置
                 Left = left;

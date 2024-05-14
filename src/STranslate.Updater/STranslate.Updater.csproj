@@ -9,7 +9,8 @@
 	<ApplicationIcon>.\favicon.ico</ApplicationIcon>
 	<AssemblyName>Updater</AssemblyName>
   </PropertyGroup>
-	
+
+  <!--// Release 模式下禁用 Debug 信息 //-->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	<DebugType>none</DebugType>
   </PropertyGroup>
