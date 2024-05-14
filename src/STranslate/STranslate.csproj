@@ -10,8 +10,8 @@
 	<ApplicationManifest>app.manifest</ApplicationManifest>
 	<PlatformTarget>x64</PlatformTarget>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<AssemblyVersion>1.1.2.0509</AssemblyVersion>
-	<FileVersion>1.1.2.0509</FileVersion>
+	<AssemblyVersion>1.1.3.0514</AssemblyVersion>
+	<FileVersion>1.1.3.0514</FileVersion>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->
