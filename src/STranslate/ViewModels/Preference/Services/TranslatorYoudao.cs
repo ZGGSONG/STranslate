@@ -154,7 +154,7 @@ namespace STranslate.ViewModels.Preference.Services
                     { "to", new string[] { target } },
                 };
                 // 添加鉴权相关参数
-                AuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
+                YoudaoAuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
                 var headers = new Dictionary<string, string[]>() { { "Content-Type", new string[] { "application/x-www-form-urlencoded" } } };
 
                 string resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token);

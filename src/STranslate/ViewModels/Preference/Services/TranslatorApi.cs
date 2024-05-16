@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -125,35 +126,41 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken canceltoken)
         {
-            if (request is RequestModel reqModel)
+            if (request is not RequestModel reqModel)
+                throw new Exception($"请求数据出错: {request}");
+
+            var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
+            var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+
+            var preReq = new
             {
-                var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
-                var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+                text = reqModel.Text,
+                source_lang = convSource,
+                target_lang = convTarget,
+            };
 
-                var preReq = new
-                {
-                    text = reqModel.Text,
-                    source_lang = convSource,
-                    target_lang = convTarget,
-                };
+            var req = JsonConvert.SerializeObject(preReq);
 
-                var req = JsonConvert.SerializeObject(preReq);
+            var authToken = string.IsNullOrEmpty(Token) ? [] : new Dictionary<string, string> { { "Authorization", $"Bearer {Token}" } };
 
-                var authToken = string.IsNullOrEmpty(Token) ? [] : new Dictionary<string, string> { { "Authorization", $"Bearer {Token}" } };
-
-                string resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ?? throw new Exception("请求结果为空");
-
-                var ret = JsonConvert.DeserializeObject<ResponseApi>(resp ?? "");
-
-                if (ret is null || string.IsNullOrEmpty(ret.Data.ToString()))
-                {
-                    throw new Exception(resp);
-                }
-
-                return TranslationResult.Success(ret.Data.ToString() ?? "");
+            try
+            {
+                var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ?? throw new Exception("请求结果为空");
+                var data = JsonConvert.DeserializeObject<JObject>(resp)?["data"]?.ToString() ?? throw new Exception(resp);
+                return TranslationResult.Success(data);
             }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
+                {
+                    var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                    msg += $"{Environment.NewLine}{innMsg?["message"]?.ToString()}";
+                }
+                msg = msg.Trim();
 
-            throw new Exception($"请求数据出错: {request}");
+                throw new Exception(msg);
+            }
         }
 
         public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)

@@ -172,35 +172,34 @@ namespace STranslate.ViewModels.Preference.Services
 
         public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel reqModel)
-            {
-                //检查语种
-                var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
-                var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+            if (request is not RequestModel reqModel)
+                throw new Exception($"请求数据出错: {request}");
 
-                // 请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
-                // 工程代码泄露可能会导致 AccessKey 泄露，并威胁账号下所有资源的安全性。以下代码示例使用环境变量获取 AccessKey 的方式进行调用，仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378671.html
-                var client = CreateClient(AppID, AppKey, Url);
-                TranslateGeneralRequest translateGeneralRequest =
-                    new()
-                    {
-                        FormatType = "text",
-                        SourceLanguage = convSource,
-                        TargetLanguage = convTarget,
-                        SourceText = reqModel.Text,
-                        Scene = "general",
-                    };
-                AlibabaCloud.TeaUtil.Models.RuntimeOptions runtime = new();
+            //检查语种
+            var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
+            var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
 
-                TranslateGeneralResponse resp = client.TranslateGeneralWithOptions(translateGeneralRequest, runtime);
+            // 请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
+            // 工程代码泄露可能会导致 AccessKey 泄露，并威胁账号下所有资源的安全性。以下代码示例使用环境变量获取 AccessKey 的方式进行调用，仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378671.html
+            var client = CreateClient(AppID, AppKey, Url);
+            TranslateGeneralRequest translateGeneralRequest =
+                new()
+                {
+                    FormatType = "text",
+                    SourceLanguage = convSource,
+                    TargetLanguage = convTarget,
+                    SourceText = reqModel.Text,
+                    Scene = "general",
+                };
+            AlibabaCloud.TeaUtil.Models.RuntimeOptions runtime = new();
 
-                var data = resp.Body.Data.Translated;
-                data = data.Length == 0 ? throw new Exception("请求结果为空") : data;
+            TranslateGeneralResponse resp = client.TranslateGeneralWithOptions(translateGeneralRequest, runtime);
 
-                return Task.FromResult(TranslationResult.Success(data));
-            }
+            var data = resp.Body.Data.Translated;
+            data = data.Length == 0 ? throw new Exception("请求结果为空") : data;
 
-            throw new Exception($"请求数据出错: {request}");
+            return Task.FromResult(TranslationResult.Success(data));
+
         }
 
         public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)

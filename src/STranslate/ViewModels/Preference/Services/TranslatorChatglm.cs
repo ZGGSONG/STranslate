@@ -184,77 +184,89 @@ namespace STranslate.ViewModels.Preference.Services
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
                 throw new Exception("请先完善配置");
 
-            if (request is RequestModel req)
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            var content = req.Text;
+
+            UriBuilder uriBuilder = new(Url);
+
+            // 兼容旧版API: https://open.bigmodel.cn/dev/api#glm-4
+            if (!uriBuilder.Path.EndsWith("/api/paas/v4/chat/completions"))
             {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
-                var content = req.Text;
-
-                UriBuilder uriBuilder = new(Url);
-
-                // 兼容旧版API: https://open.bigmodel.cn/dev/api#glm-4
-                if (!uriBuilder.Path.EndsWith("/api/paas/v4/chat/completions"))
-                {
-                    uriBuilder.Path = "/api/paas/v4/chat/completions";
-                }
-
-                // 选择模型
-                var a_model = Model.Trim();
-                a_model = string.IsNullOrEmpty(a_model) ? "glm-4" : a_model;
-
-                // 替换Prompt关键字
-                var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
-                a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
-
-                // 构建请求数据
-                var reqData = new
-                {
-                    model = a_model,
-                    messages = a_messages,
-                    stream = true
-                };
-
-                var jsonData = JsonConvert.SerializeObject(reqData);
-
-                var auth = ChatglmAuthenicationUtil.GenerateToken(AppKey, 60);
-
-                await HttpUtil.PostAsync(
-                    uriBuilder.Uri,
-                    jsonData,
-                    auth,
-                    msg =>
-                    {
-                        if (string.IsNullOrEmpty(msg?.Trim()))
-                            return;
-
-                        var preprocessString = msg.Replace("data:", "").Trim();
-
-                        // 结束标记
-                        if (preprocessString.Equals("[DONE]"))
-                            return;
-
-                        // 解析JSON数据
-                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
-
-                        if (parsedData is null)
-                            return;
-
-                        // 提取content的值
-                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
-
-                        if (string.IsNullOrEmpty(contentValue))
-                            return;
-
-                        OnDataReceived?.Invoke(contentValue);
-                    },
-                    token
-                );
-
-                return;
+                uriBuilder.Path = "/api/paas/v4/chat/completions";
             }
 
-            throw new Exception($"请求数据出错: {request}");
+            // 选择模型
+            var a_model = Model.Trim();
+            a_model = string.IsNullOrEmpty(a_model) ? "glm-4" : a_model;
+
+            // 替换Prompt关键字
+            var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
+            a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
+
+            // 构建请求数据
+            var reqData = new
+            {
+                model = a_model,
+                messages = a_messages,
+                stream = true
+            };
+
+            var jsonData = JsonConvert.SerializeObject(reqData);
+
+            var auth = ChatglmAuthenicationUtil.GenerateToken(AppKey, 60);
+
+            try
+            {
+                await HttpUtil.PostAsync(
+                        uriBuilder.Uri,
+                        jsonData,
+                        auth,
+                        msg =>
+                        {
+                            if (string.IsNullOrEmpty(msg?.Trim()))
+                                return;
+
+                            var preprocessString = msg.Replace("data:", "").Trim();
+
+                            // 结束标记
+                            if (preprocessString.Equals("[DONE]"))
+                                return;
+
+                            // 解析JSON数据
+                            var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+
+                            if (parsedData is null)
+                                return;
+
+                            // 提取content的值
+                            var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
+
+                            if (string.IsNullOrEmpty(contentValue))
+                                return;
+
+                            OnDataReceived?.Invoke(contentValue);
+                        },
+                        token
+                    );
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
+                {
+                    var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                    msg += $" {innMsg?["error"]?["message"]?.ToString()}";
+                }
+                msg = msg.Trim();
+
+                throw new Exception(msg);
+            }
         }
 
         public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)

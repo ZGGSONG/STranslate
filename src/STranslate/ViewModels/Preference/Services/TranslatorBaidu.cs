@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -134,22 +135,44 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        /// <summary>
+        /// 错误代码: https://fanyi-api.baidu.com/product/113
+        /// </summary>
+        [JsonIgnore]
+        private Dictionary<string, string> ErrorDict => new()
+        {
+            { "52000", "成功" },
+            { "52001", "请求超时" },
+            { "52002", "系统错误" },
+            { "52003", "未授权用户" },
+            { "54000", "必填参数为空" },
+            { "54001", "签名错误" },
+            { "54003", "访问频率受限" },
+            { "54004", "账户余额不足" },
+            { "54005", "长query请求频繁" },
+            { "58000", "客户端IP非法" },
+            { "58001", "译文语言方向不支持" },
+            { "58002", "服务当前已关闭" },
+            { "90107", "认证未通过或未生效"}
+        };
+
         #endregion Properties
 
         #region Interface Implementation
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel req)
-            {
-                //检查语种
-                var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
 
-                string salt = new Random().Next(100000).ToString();
-                string sign = StringUtil.EncryptString(AppID + req.Text + salt + AppKey);
+            //检查语种
+            var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-                var queryparams = new Dictionary<string, string>
+            string salt = new Random().Next(100000).ToString();
+            string sign = StringUtil.EncryptString(AppID + req.Text + salt + AppKey);
+
+            var queryparams = new Dictionary<string, string>
                 {
                     { "q", req.Text },
                     { "from", convSource},
@@ -159,26 +182,22 @@ namespace STranslate.ViewModels.Preference.Services
                     { "sign", sign }
                 };
 
-                string resp = await HttpUtil.GetAsync(Url, queryparams, token);
-                if (string.IsNullOrEmpty(resp))
-                    throw new Exception("请求结果为空");
+            string resp = await HttpUtil.GetAsync(Url, queryparams, token) ?? throw new Exception("请求结果为空");
 
-                var ret = JsonConvert.DeserializeObject<ResponseBaidu>(resp ?? "");
-
-                //如果出错就将整个返回信息写入取值处
-                if (ret is null || string.IsNullOrEmpty(ret.TransResult?.FirstOrDefault()?.Dst))
+            var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
+            var errorCode = parseData["error_code"]?.ToString();
+            if (errorCode != null)
+            {
+                if (ErrorDict.TryGetValue(errorCode, out string? value))
                 {
-                    throw new Exception(resp);
+                    throw new Exception(value);
                 }
-
-                var transResults = ret.TransResult ?? [];
-                var data = transResults.Length == 0 ? throw new Exception("请求结果为空")
-                        : string.Join(Environment.NewLine, transResults.Where(trans => !string.IsNullOrEmpty(trans.Dst)).Select(trans => trans.Dst));
-
-                return TranslationResult.Success(data);
+                throw new Exception(parseData["error_msg"]?.ToString());
             }
+            var dsts = parseData["trans_result"]?.Select(x => x["dst"]?.ToString()) ?? throw new Exception("未获取到结果");
+            var data = string.Join(Environment.NewLine, dsts);
 
-            throw new Exception($"请求数据出错: {request}");
+            return TranslationResult.Success(data);
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

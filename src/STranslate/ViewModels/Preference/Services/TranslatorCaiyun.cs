@@ -142,28 +142,29 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel req)
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
+            var body = new
             {
-                //检查语种
-                var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+                source = req.Text.Split(Environment.NewLine),
+                trans_type = $"{convSource}2{convTarget}",
+                request_id = "demo",
+                detect = true
+            };
+            var reqStr = JsonConvert.SerializeObject(body);
+            var headers = new Dictionary<string, string> { { "X-Authorization", $"token {AppKey}" }, };
 
-                var body = new
-                {
-                    source = req.Text.Split(Environment.NewLine),
-                    trans_type = $"{convSource}2{convTarget}",
-                    request_id = "demo",
-                    detect = true
-                };
-
-                var headers = new Dictionary<string, string> { { "X-Authorization", $"token {AppKey}" }, };
-
-                string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(body), null, headers, token);
-                if (string.IsNullOrEmpty(resp))
-                    throw new Exception("请求结果为空");
+            try
+            {
+                var resp = await HttpUtil.PostAsync(Url, reqStr, null, headers, token) ?? throw new Exception("请求结果为空");
 
                 // 解析JSON数据
-                var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
+                var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
 
                 // 提取content的值
                 JArray arrayData = parsedData["target"] as JArray ?? throw new Exception("未获取到结果");
@@ -172,8 +173,18 @@ namespace STranslate.ViewModels.Preference.Services
 
                 return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
             }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
+                {
+                    var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                    msg += $" {innMsg?["message"]?.ToString()}";
+                }
+                msg = msg.Trim();
 
-            throw new Exception($"请求数据出错: {request}");
+                throw new Exception(msg);
+            }
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

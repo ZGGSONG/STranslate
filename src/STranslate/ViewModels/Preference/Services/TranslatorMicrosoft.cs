@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -135,6 +136,50 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        private Dictionary<string, string> ErrorDict => new()
+        {
+            { "400000", "某个请求输入无效。" },
+            { "400001", "“scope”参数无效。" },
+            { "400002", "“category”参数无效。" },
+            { "400003", "语言说明符缺失或无效。" },
+            { "400004", "目标脚本说明符（“To script”）缺失或无效。" },
+            { "400005", "输入文本缺失或无效。" },
+            { "400006", "语言和脚本的组合无效。" },
+            { "400018", "源脚本说明符（“From script”）缺失或无效。" },
+            { "400019", "指定的某个语言不受支持。" },
+            { "400020", "输入文本数组中的某个元素无效。" },
+            { "400021", "API 版本参数缺失或无效。" },
+            { "400023", "指定的某个语言对无效。" },
+            { "400035", "源语言（“From”字段）无效。" },
+            { "400036", "目标语言（“To”字段）缺失或无效。" },
+            { "400042", "指定的某个选项（“Options”字段）无效。" },
+            { "400043", "客户端跟踪 ID（ClientTraceId 字段或 X-ClientTranceId 标头）缺失或无效。" },
+            { "400050", "输入文本过长。 查看请求限制。" },
+            { "400064", "“translation”参数缺失或无效。" },
+            { "400070", "目标脚本（ToScript 参数）的数目与目标语言（To 参数）的数目不匹配。" },
+            { "400071", "TextType 的值无效。" },
+            { "400072", "输入文本的数组包含过多的元素。" },
+            { "400073", "脚本参数无效。" },
+            { "400074", "请求正文是无效的 JSON。" },
+            { "400075", "语言对和类别组合无效。" },
+            { "400077", "超过了最大请求大小。 查看请求限制。" },
+            { "400079", "请求用于在源语言与目标语言之间进行翻译的自定义系统不存在。" },
+            { "400080", "语言或脚本不支持音译。" },
+            { "401000", "由于凭据缺失或无效，请求未授权。" },
+            { "401015", "“提供的凭据适用于语音 API。 此请求需要文本 API 的凭据。 请使用翻译器订阅。”" },
+            { "403000", "不允许执行该操作。" },
+            { "403001", "由于订阅已超过其免费配额，因此不允许该操作。" },
+            { "405000", "请求的资源不支持该请求方法。" },
+            { "408001", "正在准备所请求的翻译系统。 请在几分钟后重试。" },
+            { "408002", "等待传入流时请求超时。 客户端没有在服务器准备等待的时间内生成请求。 客户端可以在以后的任何时间重复该请求，而不做任何修改。" },
+            { "415000", "Content-Type 标头缺失或无效。" },
+            { "429000", " 由于客户端已超出请求限制，服务器拒绝了请求。" },
+            { "429001", " 由于客户端已超出请求限制，服务器拒绝了请求。" },
+            { "429002", "由于客户端已超出请求限制，服务器拒绝了请求。" },
+            { "500000", "发生了意外错误。 如果该错误持续出现，请报告发生错误的日期/时间、响应标头 X-RequestId 中的请求标识符，以及请求标头 X-ClientTraceId 中的客户端标识符。" },
+            { "503000", "服务暂时不可用。 请重试。 如果该错误持续出现，请报告发生错误的日期/时间、响应标头 X-RequestId 中的请求标识符，以及请求标头 X-ClientTraceId 中的客户端标识符。" },
+        };
+
         #endregion Properties
 
         #region Interface Implementation
@@ -146,40 +191,52 @@ namespace STranslate.ViewModels.Preference.Services
                 Url = Url.TrimEnd('/') + "/translate";
             }
 
-            if (request is RequestModel req)
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
+            var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", target } };
+
+            if (!string.Equals(source, "auto", StringComparison.CurrentCultureIgnoreCase))
             {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+                query.Add("from", source);
+            }
 
-                var query = new Dictionary<string, string> { { "api-version", "3.0" }, { "to", target } };
+            var headers = new Dictionary<string, string> { { "Ocp-Apim-Subscription-Key", AppKey }, { "Ocp-Apim-Subscription-Region", AppID }, };
+            var body = new[] { new { text = req.Text } };
+            var reqStr = JsonConvert.SerializeObject(body);
 
-                if (!string.Equals(source, "auto", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    query.Add("from", source);
-                }
-
-                var headers = new Dictionary<string, string> { { "Ocp-Apim-Subscription-Key", AppKey }, { "Ocp-Apim-Subscription-Region", AppID }, };
-                var body = new[] { new { text = req.Text } };
-
-                string resp = await HttpUtil.PostAsync(Url, JsonConvert.SerializeObject(body), query, headers, token);
-                if (string.IsNullOrEmpty(resp))
-                    throw new Exception("请求结果为空");
-
-                var ret = JsonConvert.DeserializeObject<ResponseBing[]>(resp ?? "");
-
-                //如果出错就将整个返回信息写入取值处
-                if (ret is null || string.IsNullOrEmpty(ret?.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text))
-                {
-                    throw new Exception(resp);
-                }
-
-                var data = ret.FirstOrDefault()?.Translations?.FirstOrDefault()?.Text ?? throw new Exception("请求结果为空");
+            try
+            {
+                var resp = await HttpUtil.PostAsync(Url, reqStr, query, headers, token) ?? throw new Exception("请求结果为空");
+                var parseData = JsonConvert.DeserializeObject<JArray>(resp) ?? throw new Exception(resp);
+                var data = parseData.First()["translations"]?.FirstOrDefault()?["text"]?.ToString() ?? throw new Exception("请求结果为空");
 
                 return TranslationResult.Success(data);
             }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
+                {
+                    var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                    var innErrCode = innMsg?["error"]?["code"]?.ToString();
+                    if (innErrCode != null && ErrorDict.TryGetValue(innErrCode, out var value))
+                    {
+                        msg += $" {value}";
+                    }
+                    else
+                    {
+                        msg += $" {innMsg?["error"]?["message"]?.ToString()}";
+                    }
+                }
+                msg = msg.Trim();
 
-            throw new Exception($"请求数据出错: {request}");
+                throw new Exception(msg);
+            }
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

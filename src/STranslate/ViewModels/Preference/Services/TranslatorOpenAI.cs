@@ -184,76 +184,87 @@ namespace STranslate.ViewModels.Preference.Services
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
                 throw new Exception("请先完善配置");
 
-            if (request is RequestModel req)
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            var content = req.Text;
+
+            UriBuilder uriBuilder = new(Url);
+
+            // 兼容旧版API: https://platform.openai.com/docs/guides/text-generation
+            if (!uriBuilder.Path.EndsWith("/v1/chat/completions") && !uriBuilder.Path.EndsWith("/v1/completions"))
             {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
-                var content = req.Text;
-
-                UriBuilder uriBuilder = new(Url);
-
-                // 兼容旧版API: https://platform.openai.com/docs/guides/text-generation
-                if (!uriBuilder.Path.EndsWith("/v1/chat/completions") && !uriBuilder.Path.EndsWith("/v1/completions"))
-                {
-                    uriBuilder.Path = "/v1/chat/completions";
-                }
-
-                // 选择模型
-                var a_model = Model.Trim();
-                a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
-
-                // 替换Prompt关键字
-                var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
-                a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
-
-                // 构建请求数据
-                var reqData = new
-                {
-                    model = a_model,
-                    messages = a_messages,
-                    //temperature = 1.0,
-                    stream = true
-                };
-
-                var jsonData = JsonConvert.SerializeObject(reqData);
-
-                await HttpUtil.PostAsync(
-                    uriBuilder.Uri,
-                    jsonData,
-                    AppKey,
-                    msg =>
-                    {
-                        if (string.IsNullOrEmpty(msg?.Trim()))
-                            return;
-
-                        var preprocessString = msg.Replace("data:", "").Trim();
-
-                        // 结束标记
-                        if (preprocessString.Equals("[DONE]"))
-                            return;
-
-                        // 解析JSON数据
-                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
-
-                        if (parsedData is null)
-                            return;
-
-                        // 提取content的值
-                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
-
-                        if (string.IsNullOrEmpty(contentValue))
-                            return;
-
-                        OnDataReceived?.Invoke(contentValue);
-                    },
-                    token
-                );
-
-                return;
+                uriBuilder.Path = "/v1/chat/completions";
             }
 
-            throw new Exception($"请求数据出错: {request}");
+            // 选择模型
+            var a_model = Model.Trim();
+            a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
+
+            // 替换Prompt关键字
+            var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
+            a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
+
+            // 构建请求数据
+            var reqData = new
+            {
+                model = a_model,
+                messages = a_messages,
+                //temperature = 1.0,
+                stream = true
+            };
+
+            var jsonData = JsonConvert.SerializeObject(reqData);
+
+            try
+            {
+                await HttpUtil.PostAsync(
+                        uriBuilder.Uri,
+                        jsonData,
+                        AppKey,
+                        msg =>
+                        {
+                            if (string.IsNullOrEmpty(msg?.Trim()))
+                                return;
+
+                            var preprocessString = msg.Replace("data:", "").Trim();
+
+                            // 结束标记
+                            if (preprocessString.Equals("[DONE]"))
+                                return;
+
+                            // 解析JSON数据
+                            var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+
+                            if (parsedData is null)
+                                return;
+
+                            // 提取content的值
+                            var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
+
+                            if (string.IsNullOrEmpty(contentValue))
+                                return;
+
+                            OnDataReceived?.Invoke(contentValue);
+                        },
+                        token
+                    );
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
+                {
+                    var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                    msg += $" {innMsg?["error"]?["message"]?.ToString()}";
+                }
+                msg = msg.Trim();
+
+                throw new Exception(msg);
+            }
         }
 
         public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)

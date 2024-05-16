@@ -177,7 +177,7 @@ namespace STranslate.ViewModels.Preference.Services
                     }
                 }
 
-                extract:
+            extract:
                 IsShowProcessBar = false;
                 ToastHelper.Show("下载完成", WindowType.Preference);
 
@@ -245,32 +245,23 @@ namespace STranslate.ViewModels.Preference.Services
                 return TranslationResult.Success("");
             }
 
-            if (request is RequestModel req)
-            {
-                var source = req.SourceLang;
-                var target = req.TargetLang;
-                var content = req.Text;
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
 
-                var isWord = StringUtil.IsWord(content);
-                if (!isWord)
-                    goto Empty;
+            var content = req.Text;
 
-                //是否为自动转到中/英文??为了干嘛的？忘了
-                //var isAutoToZhOrEn = source == LangEnum.auto && (target == LangEnum.zh_cn || target == LangEnum.zh_tw || target == LangEnum.yue || target == LangEnum.en);
-                //if (!(isWord && isAutoToZhOrEn))
-                //    goto Empty;
+            var isWord = StringUtil.IsWord(content);
+            if (!isWord)
+                goto Empty;
 
-                var result = await EcdictHelper.GetECDICTAsync(content, token);
+            var result = await EcdictHelper.GetECDICTAsync(content, token);
 
-                if (result is null)
-                    goto Empty;
+            if (result is null)
+                goto Empty;
 
-                return TranslationResult.Success(result.ToString());
-            }
+            return TranslationResult.Success(result.ToString());
 
-            throw new Exception($"请求数据出错: {request}");
-
-            Empty:
+        Empty:
             return TranslationResult.Success("");
         }
 
