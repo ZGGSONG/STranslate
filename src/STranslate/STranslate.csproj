@@ -87,6 +87,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="localmode">
+      <HintPath>..\STranslate.Util\localmode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\Preference\AboutPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

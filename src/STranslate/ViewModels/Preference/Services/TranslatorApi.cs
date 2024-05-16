@@ -141,9 +141,7 @@ namespace STranslate.ViewModels.Preference.Services
 
                 var authToken = string.IsNullOrEmpty(Token) ? [] : new Dictionary<string, string> { { "Authorization", $"Bearer {Token}" } };
 
-                string resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken);
-                if (string.IsNullOrEmpty(resp))
-                    throw new Exception("请求结果为空");
+                string resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ?? throw new Exception("请求结果为空");
 
                 var ret = JsonConvert.DeserializeObject<ResponseApi>(resp ?? "");
 
