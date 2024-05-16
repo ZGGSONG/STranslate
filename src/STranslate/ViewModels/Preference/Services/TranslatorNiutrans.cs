@@ -135,18 +135,39 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        [JsonIgnore]
+        private Dictionary<string, string> ErrorDict => new()
+        {
+            { "10000"   , "输入为空" },
+            { "10001"   , "请求频繁，超出QPS限制" },
+            { "10003"   , "请求字符串长度超过限制" },
+            { "10005"   , "源语编码有问题，非UTF-8" },
+            { "13001"   , "字符流量不足或者没有访问权限" },
+            { "13002"   , "'apikey'参数不可以是空" },
+            { "13003"   , "内容过滤异常" },
+            { "13007"   , "语言不支持" },
+            { "13008"   , "请求处理超时" },
+            { "14001"   , "分句异常" },
+            { "14002"   , "分词异常" },
+            { "14003"   , "后处理异常" },
+            { "14004"   , "对齐失败，不能够返回正确的对应关系" },
+            { "000000"  , "请求参数有误，请检查参数" },
+            { "000001", "Content-Type不支持【multipart/form-data】" },
+        };
+
         #endregion Properties
 
         #region Interface Implementation
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel req)
-            {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
-                var queryparams = new Dictionary<string, string>
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            var queryparams = new Dictionary<string, string>
                 {
                     { "from", source },
                     { "to", target },
@@ -154,20 +175,30 @@ namespace STranslate.ViewModels.Preference.Services
                     { "apikey", AppKey },
                 };
 
-                string resp = await HttpUtil.GetAsync(Url, queryparams, token);
-                if (string.IsNullOrEmpty(resp))
-                    throw new Exception("请求结果为空");
+            var resp = await HttpUtil.GetAsync(Url, queryparams, token) ?? throw new Exception("请求结果为空");
 
-                // 解析JSON数据
-                var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
+            // 解析JSON数据
+            var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
 
-                // 提取content的值
-                var data = parsedData["tgt_text"]?.ToString() ?? throw new Exception("未获取到结果");
-
-                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
+            //{ "error_msg":"apikey error OR apikey unauthorized OR service package running out","apikey":"xx","src_text":"xx","error_code":"13001","from":"auto","to":"en"}
+            var errorCode = parsedData["error_code"]?.ToString();
+            if (errorCode != null)
+            {
+                if (ErrorDict.TryGetValue(errorCode, out var value))
+                {
+                    throw new Exception(value);
+                }
+                else
+                {
+                    throw new Exception(parsedData["error_msg"]?.ToString());
+                }
             }
 
-            throw new Exception($"请求数据出错: {request}");
+            // 提取content的值
+            var data = parsedData["tgt_text"]?.ToString() ?? throw new Exception("未获取到结果");
+
+            return TranslationResult.Success(data);
+
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

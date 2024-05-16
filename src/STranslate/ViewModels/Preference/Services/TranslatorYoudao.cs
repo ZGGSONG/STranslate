@@ -136,39 +136,90 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        /// <summary>
+        /// 错误代码: https://fanyi.youdao.com/openapi/
+        /// </summary>
+        [JsonIgnore]
+        private Dictionary<string, string> ErrorDict => new()
+        {
+            { "101", "缺少必填的参数,首先确保必填参数齐全，然后确认参数书写是否正确。" },
+            { "102", "不支持的语言类型" },
+            { "103", "翻译文本过长" },
+            { "104", "不支持的API类型" },
+            { "105", "不支持的签名类型" },
+            { "106", "不支持的响应类型" },
+            { "107", "不支持的传输加密类型" },
+            { "108", "应用ID无效，注册账号，登录后台创建应用并完成绑定，可获得应用ID和应用密钥等信息" },
+            { "109", "batchLog格式不正确" },
+            { "110", "无相关服务的有效应用,应用没有绑定服务应用，可以新建服务应用。注：某些服务的翻译结果发音需要tts服务，需要在控制台创建语音合成服务绑定应用后方能使用。" },
+            { "111", "开发者账号无效" },
+            { "112", "请求服务无效" },
+            { "113", "q不能为空" },
+            { "114", "不支持的图片传输方式" },
+            { "116", "strict字段取值无效，请参考文档填写正确参数值" },
+            { "201", "解密失败，可能为DES,BASE64,URLDecode的错误" },
+            { "202", "签名检验失败,如果确认应用ID和应用密钥的正确性，仍返回202，一般是编码问题。请确保翻译文本 q 为UTF-8编码." },
+            { "203", "访问IP地址不在可访问IP列表" },
+            { "205", "请求的接口与应用的平台类型不一致，确保接入方式（Android SDK、IOS SDK、API）与创建的应用平台类型一致。如有疑问请参考入门指南" },
+            { "206", "因为时间戳无效导致签名校验失败" },
+            { "207", "重放请求" },
+            { "301", "辞典查询失败" },
+            { "302", "翻译查询失败" },
+            { "303", "服务端的其它异常" },
+            { "304", "翻译失败，请联系技术同学" },
+            { "308", "rejectFallback参数错误" },
+            { "309", "domain参数错误" },
+            { "310", "未开通领域翻译服务" },
+            { "401", "账户已经欠费，请进行账户充值" },
+            { "402", "offlinesdk不可用" },
+            { "411", "访问频率受限,请稍后访问" },
+            { "412", "长请求过于频繁，请稍后访问" },
+        };
         #endregion Properties
 
         #region Interface Implementation
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel req)
-            {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
-                var paramsMap = new Dictionary<string, string[]>
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            var paramsMap = new Dictionary<string, string[]>
                 {
                     { "q", new string[] { req.Text } },
                     { "from", new string[] { source } },
                     { "to", new string[] { target } },
                 };
-                // 添加鉴权相关参数
-                YoudaoAuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
-                var headers = new Dictionary<string, string[]>() { { "Content-Type", new string[] { "application/x-www-form-urlencoded" } } };
+            // 添加鉴权相关参数
+            YoudaoAuthV3Util.AddAuthParams(AppID, AppKey, paramsMap);
+            var headers = new Dictionary<string, string[]>() { { "Content-Type", new string[] { "application/x-www-form-urlencoded" } } };
 
-                string resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token);
+            string resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token) ?? throw new Exception("请求结果为空");
 
-                // 解析JSON数据
-                var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
+            // 解析JSON数据
+            var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
 
-                // 提取content的值
-                var data = parsedData["translation"]?.FirstOrDefault()?.ToString() ?? throw new Exception("未获取到结果");
-
-                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
+            var errorCode = parsedData["errorCode"]?.ToString();
+            if (errorCode != null)
+            {
+                if (ErrorDict.TryGetValue(errorCode, out var value))
+                {
+                    throw new Exception(value);
+                }
+                else
+                {
+                    throw new Exception($"错误代码({errorCode})");
+                }
             }
 
-            throw new Exception($"请求数据出错: {request}");
+            // 提取content的值
+            var data = parsedData["translation"]?.FirstOrDefault()?.ToString() ?? throw new Exception("未获取到结果");
+
+            return TranslationResult.Success(data);
+
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

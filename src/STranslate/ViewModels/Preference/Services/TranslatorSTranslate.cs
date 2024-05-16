@@ -108,24 +108,23 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel req)
-            {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
 
-                var resp = await STranslateDLL.LocalMode.ExecuteAsync(req.Text, source, target, token) ?? throw new Exception("请求结果为空");
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-                // 解析JSON数据
-                var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
+            var resp = await STranslateDLL.LocalMode.ExecuteAsync(req.Text, source, target, token) ?? throw new Exception("请求结果为空");
 
-                // 提取content的值
-                var data = parsedData["Data"]?.ToString() ?? throw new Exception("未获取到结果");
+            // 解析JSON数据
+            var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
 
-                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
-            }
+            // 提取content的值
+            var data = parsedData["Data"]?.ToString() ?? throw new Exception("未获取到结果");
 
-            throw new Exception($"请求数据出错: {request}");
+            return TranslationResult.Success(data);
+
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)

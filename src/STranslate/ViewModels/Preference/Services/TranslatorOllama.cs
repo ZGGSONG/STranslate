@@ -219,37 +219,52 @@ namespace STranslate.ViewModels.Preference.Services
 
             var jsonData = JsonConvert.SerializeObject(reqData);
 
-            await HttpUtil.PostAsync(
-                uriBuilder.Uri,
-                jsonData,
-                AppKey,
-                msg =>
+            try
+            {
+                await HttpUtil.PostAsync(
+                        uriBuilder.Uri,
+                        jsonData,
+                        AppKey,
+                        msg =>
+                        {
+                            if (string.IsNullOrEmpty(msg?.Trim()))
+                                return;
+
+                            var preprocessString = msg./*Replace("data:", "").*/Trim();
+
+                            // 解析JSON数据
+                            var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+
+                            if (parsedData is null)
+                                return;
+
+                            // 如果done不是true、false或者done标记为true则结束读取结果
+                            if (!bool.TryParse(parsedData["done"]?.ToString() ?? "", out bool done) || done)
+                                return;
+
+                            // 提取content的值
+                            var contentValue = parsedData["message"]?["content"]?.ToString();
+
+                            if (string.IsNullOrEmpty(contentValue))
+                                return;
+
+                            OnDataReceived?.Invoke(contentValue);
+                        },
+                        token
+                    );
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
                 {
-                    if (string.IsNullOrEmpty(msg?.Trim()))
-                        return;
+                    var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                    msg += $" {innMsg?["error"]?.ToString()}";
+                }
+                msg = msg.Trim();
 
-                    var preprocessString = msg./*Replace("data:", "").*/Trim();
-
-                    // 解析JSON数据
-                    var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
-
-                    if (parsedData is null)
-                        return;
-
-                    // 如果done不是true、false或者done标记为true则结束读取结果
-                    if (!bool.TryParse(parsedData["done"]?.ToString() ?? "", out bool done) || done)
-                        return;
-
-                    // 提取content的值
-                    var contentValue = parsedData["message"]?["content"]?.ToString();
-
-                    if (string.IsNullOrEmpty(contentValue))
-                        return;
-
-                    OnDataReceived?.Invoke(contentValue);
-                },
-                token
-            );
+                throw new Exception(msg);
+            }
 
         }
 

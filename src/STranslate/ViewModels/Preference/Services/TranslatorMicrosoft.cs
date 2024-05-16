@@ -136,6 +136,7 @@ namespace STranslate.ViewModels.Preference.Services
 
         #endregion Show/Hide Encrypt Info
 
+        [JsonIgnore]
         private Dictionary<string, string> ErrorDict => new()
         {
             { "400000", "某个请求输入无效。" },

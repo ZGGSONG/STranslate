@@ -144,45 +144,44 @@ namespace STranslate.ViewModels.Preference.Services
 
         public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
         {
-            if (request is RequestModel req)
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+
+            //https://github.com/Baozisoftware/go-dll/wiki/C%23%E8%B0%83%E7%94%A8Go%E7%89%88DLL#%E5%85%B3%E4%BA%8Ego%E7%9A%84%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E8%BF%94%E5%9B%9E%E9%97%AE%E9%A2%98
+            //加入这个就不崩溃了
+            Environment.SetEnvironmentVariable("GODEBUG", "cgocheck=0");
+
+            var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
+            var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
+            var sourceBytes = Encoding.UTF8.GetBytes(source);
+            var targetBytes = Encoding.UTF8.GetBytes(target);
+            var contentBytes = Encoding.UTF8.GetBytes(req.Text);
+            var result = await Task.Run(() => GoUtil.Execute(accessKeyBytes, secretKeyBytes, sourceBytes, targetBytes, contentBytes));
+            var tuple = GoUtil.GoTupleToCSharpTuple(result);
+            var resp = tuple.Item2 ?? throw new Exception("请求结果为空");
+            if (tuple.Item1 != 200)
+                throw new Exception(resp);
+
+            // 解析JSON数据
+            var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+
+            var data = "";
+            if (string.IsNullOrEmpty(parsedData["TranslationList"]?.ToString()))
             {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
-
-                //https://github.com/Baozisoftware/go-dll/wiki/C%23%E8%B0%83%E7%94%A8Go%E7%89%88DLL#%E5%85%B3%E4%BA%8Ego%E7%9A%84%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E8%BF%94%E5%9B%9E%E9%97%AE%E9%A2%98
-                //加入这个就不崩溃了
-                Environment.SetEnvironmentVariable("GODEBUG", "cgocheck=0");
-
-                var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
-                var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
-                var sourceBytes = Encoding.UTF8.GetBytes(source);
-                var targetBytes = Encoding.UTF8.GetBytes(target);
-                var contentBytes = Encoding.UTF8.GetBytes(req.Text);
-                var result = await Task.Run(() => GoUtil.Execute(accessKeyBytes, secretKeyBytes, sourceBytes, targetBytes, contentBytes));
-                var tuple = GoUtil.GoTupleToCSharpTuple(result);
-                var resp = tuple.Item2;
-                if (tuple.Item1 != 200)
-                    throw new Exception(resp);
-
-                // 解析JSON数据
-                var parsedData = JsonConvert.DeserializeObject<JObject>(resp ?? throw new Exception("请求结果为空")) ?? throw new Exception($"反序列化失败: {resp}");
-
-                var data = "";
-                if (string.IsNullOrEmpty(parsedData["TranslationList"]?.ToString()))
-                {
-                    data = parsedData["ResponseMetadata"]?["Error"]?["Message"]?.ToString() ?? parsedData["ResponseMetadata"]?.ToString();
-                    return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取错误信息为空") : TranslationResult.Fail(data);
-                }
-                // 提取content的值
-                else
-                {
-                    data = parsedData["TranslationList"]?.FirstOrDefault()?["Translation"]?.ToString();
-                    return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
-                }
+                data = parsedData["ResponseMetadata"]?["Error"]?["Message"]?.ToString() ?? parsedData["ResponseMetadata"]?.ToString();
+                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取错误信息为空") : TranslationResult.Fail(data);
+            }
+            // 提取content的值
+            else
+            {
+                data = parsedData["TranslationList"]?.FirstOrDefault()?["Translation"]?.ToString();
+                return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
             }
 
-            throw new Exception($"请求数据出错: {request}");
         }
 
         public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
