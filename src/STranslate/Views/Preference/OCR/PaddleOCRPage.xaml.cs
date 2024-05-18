@@ -1,7 +1,8 @@
-﻿using STranslate.Model;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using STranslate.Model;
+using STranslate.ViewModels.Preference.OCR;
 
 namespace STranslate.Views.Preference.OCR
 {
@@ -12,6 +13,8 @@ namespace STranslate.Views.Preference.OCR
             InitializeComponent();
 
             DataContext = vm;
+
+            Check(vm);
         }
 
         /// <summary>
@@ -21,6 +24,16 @@ namespace STranslate.Views.Preference.OCR
         public void UpdateVM(IOCR vm)
         {
             DataContext = vm;
+
+            Check(vm);
+        }
+
+        private void Check(IOCR vm)
+        {
+            if (vm is not PaddleOCR paddle)
+                return;
+
+            paddle.CheckDataCommand.ExecuteAsync(null);
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) =>

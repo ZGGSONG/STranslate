@@ -40,12 +40,6 @@ namespace STranslate.ViewModels.Preference.Services
             AppKey = appKey;
             IsEnabled = isEnabled;
             Type = type;
-
-            HasDB = File.Exists(ConstStr.ECDICTPath);
-            if (HasDB)
-            {
-                DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
-            }
         }
 
         #endregion Constructor
@@ -139,14 +133,14 @@ namespace STranslate.ViewModels.Preference.Services
 
         #region Methods
 
-        [RelayCommand]
+        [RelayCommand(IncludeCancelCommand = true)]
         [property: JsonIgnore]
-        private async Task DownloadResource()
+        private async Task DownloadResourceAsync(CancellationToken token)
         {
             ProcessValue = 0;
             IsShowProcessBar = true;
 
-            var url = "https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip";
+            var url = $"{ConstStr.GHProxyURL}https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip";
             var httpClient = new HttpClient(new SocketsHttpHandler());
 
             try
@@ -158,8 +152,8 @@ namespace STranslate.ViewModels.Preference.Services
                 }
 
                 ToastHelper.Show("开始下载", WindowType.Preference);
-                using (var response = await httpClient.GetAsync(new Uri(url), HttpCompletionOption.ResponseHeadersRead))
-                using (var stream = await response.Content.ReadAsStreamAsync())
+                using (var response = await httpClient.GetAsync(new Uri(url), HttpCompletionOption.ResponseHeadersRead, token))
+                using (var stream = await response.Content.ReadAsStreamAsync(token))
                 using (var fileStream = new FileStream(SourceFile, FileMode.Create))
                 {
                     long totalBytes = response.Content.Headers.ContentLength ?? -1;
@@ -167,9 +161,9 @@ namespace STranslate.ViewModels.Preference.Services
                     byte[] buffer = new byte[1024];
                     int bytesRead;
 
-                    while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    while ((bytesRead = await stream.ReadAsync(buffer, token)) > 0)
                     {
-                        await fileStream.WriteAsync(buffer, 0, bytesRead);
+                        await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), token);
 
                         totalDownloadedByte += bytesRead;
                         double process = Math.Round((double)totalDownloadedByte / totalBytes * 100, 2);
@@ -177,12 +171,21 @@ namespace STranslate.ViewModels.Preference.Services
                     }
                 }
 
-            extract:
+                extract:
                 IsShowProcessBar = false;
                 ToastHelper.Show("下载完成", WindowType.Preference);
 
                 // 下载完成后的处理
-                ProcessDownloadedFile();
+                await ProcessDownloadedFileAsync(token);
+            }
+            catch (OperationCanceledException)
+            {
+                //更新状态
+                IsShowProcessBar = false;
+                //删除文件
+                File.Delete(SourceFile);
+                //通知到用户
+                ToastHelper.Show("取消下载", WindowType.Preference);
             }
             catch (Exception)
             {
@@ -195,11 +198,11 @@ namespace STranslate.ViewModels.Preference.Services
             }
         }
 
-        private void ProcessDownloadedFile()
+        private async Task ProcessDownloadedFileAsync(CancellationToken token)
         {
             ToastHelper.Show("解压资源包", WindowType.Preference);
 
-            var unresult = ZipUtil.DecompressToDirectory(SourceFile, ConstStr.AppData);
+            var unresult = await Task.Run(() => ZipUtil.DecompressToDirectory(SourceFile, ConstStr.AppData), token);
 
             if (unresult)
             {
@@ -212,13 +215,13 @@ namespace STranslate.ViewModels.Preference.Services
             }
             else
             {
-                ToastHelper.Show("解压文件时发生异常", WindowType.Preference);
+                ToastHelper.Show("解压失败,请重启再试", WindowType.Preference);
             }
         }
 
         [RelayCommand]
         [property: JsonIgnore]
-        private void DeleteResource()
+        private Task DeleteResourceAsync()
         {
             try
             {
@@ -230,8 +233,33 @@ namespace STranslate.ViewModels.Preference.Services
             }
             catch (Exception)
             {
-                ToastHelper.Show("文件被占用删除失败", WindowType.Preference);
+                ToastHelper.Show("删除失败,请重启再试", WindowType.Preference);
             }
+            return Task.CompletedTask;
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private Task CheckResourceAsync()
+        {
+            DataIntegrity();
+
+            ToastHelper.Show(HasDB ? "资源包完整" : "资源包缺失", WindowType.Preference);
+
+            return Task.CompletedTask;
+        }
+
+        internal bool DataIntegrity()
+        {
+            HasDB = true;
+            HasDB &= File.Exists(ConstStr.ECDICTPath);
+
+            if (HasDB)
+            {
+                DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
+            }
+
+            return HasDB;
         }
 
         #endregion Methods
@@ -261,7 +289,7 @@ namespace STranslate.ViewModels.Preference.Services
 
             return TranslationResult.Success(result.ToString());
 
-        Empty:
+            Empty:
             return TranslationResult.Success("");
         }
 

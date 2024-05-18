@@ -72,8 +72,8 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="资源: " />
                 <ProgressBar Grid.Column="1"
-                             Height="24"
                              Margin="110,0,0,0"
+                             FontSize="{DynamicResource FontSize_Prompt}"
                              Maximum="100"
                              Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}"
                              Value="{Binding ProcessValue}" />
@@ -84,13 +84,26 @@
                         Content="下载资源包"
                         Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <Button Grid.Column="1"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        Command="{Binding DownloadResourceCancelCommand}"
+                        Content="取消"
+                        Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Grid.Column="1"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        Command="{Binding CheckResourceCommand}"
+                        Content="检查数据包"
+                        Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Grid.Column="1"
                         Width="60"
+                        Margin="110,0,0,0"
                         HorizontalAlignment="Left"
                         Command="{Binding DeleteResourceCommand}"
                         Content="删除"
                         Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <TextBlock Grid.Column="1"
-                           Margin="80,0,0,0"
+                           Margin="180,0,0,0"
                            Text="{Binding DbFileSize}"
                            Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>

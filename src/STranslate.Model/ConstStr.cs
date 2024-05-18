@@ -1,9 +1,8 @@
-﻿
-using Microsoft.Win32;
-using System.Reflection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Microsoft.Win32;
 
 namespace STranslate.Model
 {
@@ -61,13 +60,13 @@ namespace STranslate.Model
 
         public static string ExecutePath = Environment.CurrentDirectory;
 
-        public static Dictionary<IconType, string> ICONDICT = System.Windows.Application.Current.Resources.MergedDictionaries
-                .FirstOrDefault(x => x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml", UriKind.Absolute))
-                !.OfType<System.Collections.DictionaryEntry>()
-                .ToDictionary(
-                    entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
-                    entry => entry.Value!.ToString() ?? ICON
-                ) ?? [];
+        public static Dictionary<IconType, string> ICONDICT =
+            System
+                .Windows.Application.Current.Resources.MergedDictionaries.FirstOrDefault(
+                    x => x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml", UriKind.Absolute)
+                )!
+                .OfType<System.Collections.DictionaryEntry>()
+                .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"), entry => entry.Value!.ToString() ?? ICON) ?? [];
 
         public const string MAINVIEWPLACEHOLDER = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
 
@@ -76,9 +75,36 @@ namespace STranslate.Model
 
         public const string ZIP = ".zip";
 
-        public static string PaddleOCRModelPath = $"{ExecutePath}\\inference\\";
-
         public const string GITHUBRELEASEURL = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
         public const string DEFAULTVERSION = "1.0.0.101";
+
+        public static string PaddleOCRInterfaceDir = "inference";
+        public static string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRModelPath}\\";
+
+        public static List<string> PaddleOCRDlls =
+        [
+            "common.dll",
+            "concrt140.dll",
+            "libiomp5md.dll",
+            "mfc140.dll",
+            "mfcm140.dll",
+            "mkldnn.dll",
+            "mklml.dll",
+            "msvcp140.dll",
+            "msvcp140_1.dll",
+            "msvcp140_2.dll",
+            "msvcp140_atomic_wait.dll",
+            "msvcp140_codecvt_ids.dll",
+            "opencv_world470.dll",
+            "PaddleOCR.dll",
+            "paddle_inference.dll",
+            "vcamp140.dll",
+            "vccorlib140.dll",
+            "vcomp140.dll",
+            "vcruntime140.dll",
+            "vcruntime140_1.dll",
+        ];
+
+        public static string GHProxyURL = "https://mirror.ghproxy.com/";
     }
 }

@@ -166,7 +166,7 @@ namespace STranslate.ViewModels.Preference.OCR
                 { "X-TC-RequestClient", "SDK_NET_BAREBONE" },
                 { "Authorization", auth },
             };
-            string resp = await HttpUtil.PostAsync(url, body, headers, cancelToken);
+            string resp = await HttpUtil.PostAsync(url, body, null, headers, cancelToken);
             if (string.IsNullOrEmpty(resp))
                 throw new Exception("请求结果为空");
 

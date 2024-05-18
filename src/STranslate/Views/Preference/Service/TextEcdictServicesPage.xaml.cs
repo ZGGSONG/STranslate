@@ -1,7 +1,8 @@
-﻿using STranslate.Model;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using STranslate.Model;
+using STranslate.ViewModels.Preference.Services;
 
 namespace STranslate.Views.Preference.Service
 {
@@ -12,6 +13,7 @@ namespace STranslate.Views.Preference.Service
             InitializeComponent();
 
             DataContext = vm;
+            Check(vm);
         }
 
         /// <summary>
@@ -21,6 +23,15 @@ namespace STranslate.Views.Preference.Service
         public void UpdateVM(ITranslator vm)
         {
             DataContext = vm;
+            Check(vm);
+        }
+
+        private void Check(ITranslator vm)
+        {
+            if (vm is not TranslatorEcdict ecdict)
+                return;
+
+            ecdict.CheckResourceCommand.ExecuteAsync(null);
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e) =>

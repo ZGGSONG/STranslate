@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using PaddleOCRSharp;
 using STranslate.Helper;
+using STranslate.Log;
 using STranslate.Model;
+using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.OCR
 {
@@ -152,7 +160,152 @@ namespace STranslate.ViewModels.Preference.OCR
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
+        [ObservableProperty]
+        [JsonIgnore]
+        [property: JsonIgnore]
+        private bool _hasData;
+
+        [ObservableProperty]
+        [JsonIgnore]
+        [property: JsonIgnore]
+        private double _processValue;
+
+        [ObservableProperty]
+        [JsonIgnore]
+        [property: JsonIgnore]
+        private bool _isShowProcessBar;
+
+        private static readonly string CurrentPath = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string SourceFile = Path.Combine(CurrentPath, "stranslate_paddleocr_data_v1.0.zip");
+
         #endregion Properties
+
+        #region Command
+        [RelayCommand(IncludeCancelCommand = true)]
+        [property: JsonIgnore]
+        private async Task DownloadAsync(CancellationToken token)
+        {
+            ProcessValue = 0;
+            IsShowProcessBar = true;
+
+            var url = $"{ConstStr.GHProxyURL}https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v1.0.zip";
+            var httpClient = new HttpClient(new SocketsHttpHandler());
+
+            try
+            {
+                if (File.Exists(SourceFile))
+                {
+                    ProcessValue = 100;
+                    goto extract;
+                }
+
+                ToastHelper.Show("开始下载", WindowType.Preference);
+                using (var response = await httpClient.GetAsync(new Uri(url), HttpCompletionOption.ResponseHeadersRead, token))
+                using (var stream = await response.Content.ReadAsStreamAsync(token))
+                using (var fileStream = new FileStream(SourceFile, FileMode.Create))
+                {
+                    long totalBytes = response.Content.Headers.ContentLength ?? -1;
+                    long totalDownloadedByte = 0;
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+
+                    while ((bytesRead = await stream.ReadAsync(buffer, token)) > 0)
+                    {
+                        await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), token);
+
+                        totalDownloadedByte += bytesRead;
+                        double process = Math.Round((double)totalDownloadedByte / totalBytes * 100, 2);
+                        ProcessValue = process;
+                    }
+                }
+
+            extract:
+                IsShowProcessBar = false;
+                ToastHelper.Show("下载完成", WindowType.Preference);
+
+                // 下载完成后的处理
+                await ProcessDownloadedFileAsync(token);
+            }
+            catch (OperationCanceledException)
+            {
+                //更新状态
+                IsShowProcessBar = false;
+                //删除文件
+                File.Delete(SourceFile);
+                //通知到用户
+                ToastHelper.Show("取消下载", WindowType.Preference);
+            }
+            catch (Exception)
+            {
+                // 下载发生异常
+                ToastHelper.Show("下载时发生异常", WindowType.Preference);
+            }
+            finally
+            {
+                httpClient.Dispose();
+            }
+        }
+
+        private async Task ProcessDownloadedFileAsync(CancellationToken token)
+        {
+            ToastHelper.Show("解压数据包", WindowType.Preference);
+
+            var unresult = await Task.Run(() => ZipUtil.DecompressToDirectory(SourceFile, CurrentPath), token);
+
+            if (unresult)
+            {
+                ToastHelper.Show("加载数据包成功", WindowType.Preference);
+
+                File.Delete(SourceFile);
+
+                HasData = true;
+            }
+            else
+            {
+                ToastHelper.Show("解压失败,请重启再试", WindowType.Preference);
+            }
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private Task CheckDataAsync()
+        {
+            DataIntegrity();
+
+            ToastHelper.Show(HasData ? "数据完整" : "数据缺失", WindowType.Preference);
+
+            return Task.CompletedTask;
+        }
+
+        internal bool DataIntegrity()
+        {
+            HasData = true;
+            HasData &= Directory.Exists(ConstStr.PaddleOCRInterfaceDir);
+            ConstStr.PaddleOCRDlls.ForEach(x => HasData &= File.Exists(x));
+            return HasData;
+        }
+
+        [RelayCommand]
+        [property: JsonIgnore]
+        private Task DeleteDataAsync()
+        {
+            try
+            {
+                ConstStr.PaddleOCRDlls.ForEach(File.Delete);
+                Directory.Delete(ConstStr.PaddleOCRInterfaceDir, true);
+
+                ToastHelper.Show("删除成功", WindowType.Preference);
+
+                HasData = false;
+            }
+            catch (Exception)
+            {
+                ToastHelper.Show("删除失败,请重启再试", WindowType.Preference);
+            }
+
+            return Task.CompletedTask;
+        }
+        #endregion
 
         #region Interface Implementation
 
@@ -160,6 +313,17 @@ namespace STranslate.ViewModels.Preference.OCR
         {
             if (LangConverter(lang) == null)
                 ToastHelper.Show($"不支持 {lang.GetDescription()}", WindowType.OCR);
+
+            if (!DataIntegrity())
+            {
+                var msg = "离线数据不完整";
+
+                ToastHelper.Show(msg, WindowType.OCR);
+
+                LogService.Logger.Error($"PaddleOCR{msg}，请检查下载后重试...");
+
+                return Task.FromResult(OcrResult.Fail(msg));
+            }
 
             var result = new OcrResult();
             var tcs = new TaskCompletionSource<OcrResult>();

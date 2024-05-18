@@ -51,6 +51,47 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="数据包: " />
+
+                <Button Grid.Column="1"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        Command="{Binding DownloadCommand}"
+                        Content="下载数据包"
+                        Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <Button Grid.Column="1"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        Command="{Binding DownloadCancelCommand}"
+                        Content="取消"
+                        Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <ProgressBar Grid.Column="1"
+                             Margin="110,0,0,0"
+                             FontSize="{DynamicResource FontSize_Prompt}"
+                             Maximum="100"
+                             Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             Value="{Binding ProcessValue}" />
+                <Button Grid.Column="1"
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        Command="{Binding CheckDataCommand}"
+                        Content="检查数据包"
+                        Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Grid.Column="1"
+                        Width="60"
+                        Margin="110,0,0,0"
+                        HorizontalAlignment="Left"
+                        Command="{Binding DeleteDataCommand}"
+                        Content="删除"
+                        Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="Other: " />
                 <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
             </Grid>
