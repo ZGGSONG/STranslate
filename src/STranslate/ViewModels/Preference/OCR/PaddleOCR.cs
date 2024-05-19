@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -181,14 +182,19 @@ namespace STranslate.ViewModels.Preference.OCR
         #endregion Properties
 
         #region Command
+
         [RelayCommand(IncludeCancelCommand = true)]
         [property: JsonIgnore]
-        private async Task DownloadAsync(CancellationToken token)
+        private async Task DownloadAsync(List<object> @params, CancellationToken token)
         {
             ProcessValue = 0;
             IsShowProcessBar = true;
+            var control = (ToggleButton)@params[0];
+            control.IsChecked = !control.IsChecked;
 
-            var url = $"{ConstStr.GHProxyURL}https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v1.0.zip";
+            var proxy = ((GithubProxy)@params[1]).GetDescription();
+            var url = $"{proxy}https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v1.0.zip";
+
             var httpClient = new HttpClient(new SocketsHttpHandler());
 
             try
@@ -219,7 +225,7 @@ namespace STranslate.ViewModels.Preference.OCR
                     }
                 }
 
-            extract:
+                extract:
                 IsShowProcessBar = false;
                 ToastHelper.Show("下载完成", WindowType.Preference);
 
@@ -310,7 +316,8 @@ namespace STranslate.ViewModels.Preference.OCR
 
             return Task.CompletedTask;
         }
-        #endregion
+
+        #endregion Command
 
         #region Interface Implementation
 

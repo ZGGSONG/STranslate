@@ -739,6 +739,17 @@ namespace STranslate.Model
     }
 
     /// <summary>
+    /// Github代理
+    /// </summary>
+    public enum GithubProxy
+    {
+        [Description("")]
+        None,
+        [Description("https://mirror.ghproxy.com/")]
+        GHProxy,
+    }
+
+    /// <summary>
     /// 获取Description
     /// </summary>
     public static class EnumExtensions

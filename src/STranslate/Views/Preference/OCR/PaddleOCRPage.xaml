@@ -4,6 +4,7 @@
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
              d:DataContext="{d:DesignInstance Type=vm:PaddleOCR}"
              d:DesignHeight="450"
@@ -53,12 +54,46 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="数据包: " />
 
-                <Button Grid.Column="1"
-                        Width="100"
-                        HorizontalAlignment="Left"
-                        Command="{Binding DownloadCommand}"
-                        Content="下载数据包"
-                        Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <ToggleButton Name="BTN_Down"
+                              Grid.Column="1"
+                              Width="100"
+                              HorizontalAlignment="Left"
+                              Content="下载数据包"
+                              Style="{DynamicResource ToggleButtonTextStyle}"
+                              Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <Popup MinWidth="80"
+                       MinHeight="30"
+                       MaxHeight="400"
+                       AllowsTransparency="True"
+                       IsOpen="{Binding ElementName=BTN_Down, Path=IsChecked}"
+                       Placement="Center"
+                       PlacementTarget="{Binding ElementName=BTN_Down}"
+                       PopupAnimation="Fade"
+                       StaysOpen="False">
+                    <Border Width="100"
+                            BorderBrush="{DynamicResource BorderBrushColor}"
+                            BorderThickness="1"
+                            Style="{DynamicResource BorderPopupStyle}">
+                        <StackPanel>
+                            <Button Command="{Binding DownloadCommand}" Content="Github">
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                        <Binding ElementName="BTN_Down" />
+                                        <Binding Source="{x:Static model:GithubProxy.None}" />
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{Binding DownloadCommand}" Content="ghProxy">
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                        <Binding ElementName="BTN_Down" />
+                                        <Binding Source="{x:Static model:GithubProxy.GHProxy}" />
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </Popup>
                 <Button Grid.Column="1"
                         Width="100"
                         HorizontalAlignment="Left"

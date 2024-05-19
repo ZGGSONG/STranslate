@@ -104,7 +104,5 @@ namespace STranslate.Model
             "vcruntime140.dll",
             "vcruntime140_1.dll",
         ];
-
-        public static string GHProxyURL = "https://mirror.ghproxy.com/";
     }
 }
