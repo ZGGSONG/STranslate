@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -205,6 +206,7 @@ namespace STranslate.ViewModels.Preference.Services
             var errorCode = parsedData["errorCode"]?.ToString();
             if (errorCode != null)
             {
+                LogService.Logger.Error($"({Name})({Identify}) raw content:\n{resp}");
                 if (ErrorDict.TryGetValue(errorCode, out var value))
                 {
                     throw new Exception(value);

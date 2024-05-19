@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -260,6 +261,7 @@ namespace STranslate.ViewModels.Preference.Services
                 {
                     var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
                     msg += $" {innMsg?["error"]?.ToString()}";
+                    LogService.Logger.Error($"({Name})({Identify}) raw content:\n{innEx.Message}");
                 }
                 msg = msg.Trim();
 

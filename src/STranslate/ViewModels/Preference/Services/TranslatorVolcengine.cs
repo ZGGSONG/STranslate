@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -172,6 +173,7 @@ namespace STranslate.ViewModels.Preference.Services
             var data = "";
             if (string.IsNullOrEmpty(parsedData["TranslationList"]?.ToString()))
             {
+                LogService.Logger.Error($"({Name})({Identify}) raw content:\n{resp}");
                 data = parsedData["ResponseMetadata"]?["Error"]?["Message"]?.ToString() ?? parsedData["ResponseMetadata"]?.ToString();
                 return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取错误信息为空") : TranslationResult.Fail(data);
             }
