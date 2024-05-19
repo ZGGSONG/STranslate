@@ -285,6 +285,11 @@ namespace STranslate.ViewModels.Preference.OCR
             return HasData;
         }
 
+        /// <summary>
+        /// 一些库存在运行时被依赖占用无法删除: vcruntime140_1.dll
+        /// </summary>
+        /// <returns></returns>
+        [Obsolete]
         [RelayCommand]
         [property: JsonIgnore]
         private Task DeleteDataAsync()

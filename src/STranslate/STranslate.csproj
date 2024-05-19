@@ -21,8 +21,11 @@
 
   <!--// PaddleOCR模型文件 //-->
   <ItemGroup>
-    <Content Include="ClearCache.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="z_uninstall.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cleanocr.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="inference\japan_dict.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

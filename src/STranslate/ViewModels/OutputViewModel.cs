@@ -26,6 +26,9 @@ namespace STranslate.ViewModels
         {
             try
             {
+                service.Data = TranslationResult.Reset;
+                service.IsExecuting = true;
+
                 var inputVM = Singleton<InputViewModel>.Instance;
                 var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
                 var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
@@ -83,6 +86,10 @@ namespace STranslate.ViewModels
                     case HttpRequestException:
                         errorMessage = "请求出错";
                         break;
+
+                    default:
+                        errorMessage = "翻译出错";
+                        break;
                 }
 
                 service.Data = TranslationResult.Fail($"{errorMessage}: {exception.Message}", exception);
@@ -91,6 +98,13 @@ namespace STranslate.ViewModels
                     LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
                 else
                     LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+            }
+            finally
+            {
+                if (service.IsExecuting)
+                {
+                    service.IsExecuting = false;
+                }
             }
         }
 

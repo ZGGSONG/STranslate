@@ -1,15 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using STranslate.Model;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using STranslate.Model;
+using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -125,9 +126,36 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         private BindingList<UserDefinePrompt> _userDefinePrompts =
         [
-            new UserDefinePrompt("翻译", [new Prompt("user", "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."), new Prompt("model", "Ok, I will only translate the text content, never interpret it"), new Prompt("user", "Translate the following text from en to zh: hello world"), new Prompt("model", "你好，世界"), new Prompt("user", "Translate the following text from $source to $target: $content")], true),
-            new UserDefinePrompt("润色", [new Prompt("user", "You are a text embellisher, you can only embellish the text, never interpret it."), new Prompt("model", "Ok, I will only embellish the text, never interpret it."), new Prompt("user", "Embellish the following text in $source: $content")]),
-            new UserDefinePrompt("总结", [new Prompt("user", "You are a text summarizer, you can only summarize the text, never interpret it."), new Prompt("model", "Ok, I will only summarize the text, never interpret it."), new Prompt("user", "Summarize the following text in $source: $content")]),
+            new UserDefinePrompt(
+                "翻译",
+                [
+                    new Prompt(
+                        "user",
+                        "You are a professional translation engine, please translate the text into a colloquial, professional, elegant and fluent content, without the style of machine translation. You must only translate the text content, never interpret it."
+                    ),
+                    new Prompt("model", "Ok, I will only translate the text content, never interpret it"),
+                    new Prompt("user", "Translate the following text from en to zh: hello world"),
+                    new Prompt("model", "你好，世界"),
+                    new Prompt("user", "Translate the following text from $source to $target: $content")
+                ],
+                true
+            ),
+            new UserDefinePrompt(
+                "润色",
+                [
+                    new Prompt("user", "You are a text embellisher, you can only embellish the text, never interpret it."),
+                    new Prompt("model", "Ok, I will only embellish the text, never interpret it."),
+                    new Prompt("user", "Embellish the following text in $source: $content")
+                ]
+            ),
+            new UserDefinePrompt(
+                "总结",
+                [
+                    new Prompt("user", "You are a text summarizer, you can only summarize the text, never interpret it."),
+                    new Prompt("model", "Ok, I will only summarize the text, never interpret it."),
+                    new Prompt("user", "Summarize the following text in $source: $content")
+                ]
+            ),
         ];
 
         [RelayCommand]
@@ -141,7 +169,8 @@ namespace STranslate.ViewModels.Preference.Services
             }
             userDefinePrompt.Enabled = true;
 
-            if (obj.Count == 2) Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            if (obj.Count == 2)
+                Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
         }
 
         [RelayCommand]
@@ -190,42 +219,35 @@ namespace STranslate.ViewModels.Preference.Services
             if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
                 throw new Exception("请先完善配置");
 
-            if (request is RequestModel req)
+            if (request is not RequestModel req)
+                throw new Exception($"请求数据出错: {request}");
+
+            //检查语种
+            var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+            var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+            var content = req.Text;
+
+            UriBuilder uriBuilder = new(Url);
+
+            if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
             {
-                //检查语种
-                var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-                var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
-                var content = req.Text;
+                uriBuilder.Path = "/v1beta/models/gemini-pro:streamGenerateContent";
+            }
 
-                UriBuilder uriBuilder = new(Url);
+            uriBuilder.Query = $"key={AppKey}";
 
-                if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
-                {
-                    uriBuilder.Path = "/v1beta/models/gemini-pro:streamGenerateContent";
-                }
+            // 替换Prompt关键字
+            var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
+            a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 
-                uriBuilder.Query = $"key={AppKey}";
+            // 构建请求数据
+            var reqData = new { contents = a_messages.Select(e => new { role = e.Role, parts = new[] { new { text = e.Content } } }) };
 
-                // 替换Prompt关键字
-                var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
-                a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
+            // 为了流式输出与MVVM还是放这里吧
+            var jsonData = JsonConvert.SerializeObject(reqData);
 
-                // 构建请求数据
-                var reqData = new
-                {
-                    contents = a_messages.Select(e => new
-                    {
-                        role = e.Role,
-                        parts = new[]
-                        {
-                            new { text = e.Content }
-                        }
-                    })
-                };
-
-                // 为了流式输出与MVVM还是放这里吧
-                var jsonData = JsonConvert.SerializeObject(reqData);
-
+            try
+            {
                 await HttpUtil.PostAsync(
                     uriBuilder.Uri,
                     jsonData,
@@ -245,11 +267,19 @@ namespace STranslate.ViewModels.Preference.Services
                     token,
                     TimeOut
                 );
-
-                return;
             }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException is Exception innEx)
+                {
+                    var innMsg = JsonConvert.DeserializeObject<JArray>(innEx.Message);
+                    msg += $" {innMsg?.FirstOrDefault()?["error"]?["message"]?.ToString()}";
+                }
+                msg = msg.Trim();
 
-            throw new Exception($"请求数据出错: {request}");
+                throw new Exception(msg);
+            }
         }
 
         public Task<TranslationResult> TranslateAsync(object request, CancellationToken token)

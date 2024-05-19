@@ -155,7 +155,7 @@ namespace STranslate.ViewModels.Preference.Services
                 if (ex.InnerException is Exception innEx)
                 {
                     var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
-                    msg += $"{Environment.NewLine}{innMsg?["message"]?.ToString()}";
+                    msg += $" {innMsg?["message"]?.ToString()}";
                 }
                 msg = msg.Trim();
 

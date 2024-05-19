@@ -79,7 +79,7 @@ namespace STranslate.Model
         public const string DEFAULTVERSION = "1.0.0.101";
 
         public static string PaddleOCRInterfaceDir = "inference";
-        public static string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRModelPath}\\";
+        public static string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRInterfaceDir}\\";
 
         public static List<string> PaddleOCRDlls =
         [
@@ -87,7 +87,7 @@ namespace STranslate.Model
             "concrt140.dll",
             "libiomp5md.dll",
             "mfc140.dll",
-            "mfcm140.dll",
+            //"mfcm140.dll",//单一文件发布后被打包进主程序
             "mkldnn.dll",
             "mklml.dll",
             "msvcp140.dll",

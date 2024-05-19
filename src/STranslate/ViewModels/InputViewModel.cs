@@ -221,7 +221,6 @@ public partial class InputViewModel : ObservableObject
                 {
                     if (service.IsExecuting)
                     {
-                        LogService.Logger.Debug(service.Name);
                         service.IsExecuting = false;
                     }
                 }
