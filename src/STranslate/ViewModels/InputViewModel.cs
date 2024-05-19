@@ -140,7 +140,7 @@ public partial class InputViewModel : ObservableObject
             }
         }
 
-        execute:
+    execute:
         await Parallel.ForEachAsync(
             services,
             token,
@@ -173,7 +173,7 @@ public partial class InputViewModel : ObservableObject
                         //目标语言
                         //1. 识别语种为中文系则目标语言为英文
                         //2. 识别语种为自动或其他语系则目标语言为中文
-                        target = (identify & (LangEnum.zh_cn | LangEnum.zh_tw | LangEnum.yue)) != 0 ? LangEnum.en : LangEnum.zh_cn;
+                        target = (identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue) ? LangEnum.en : LangEnum.zh_cn;
                     }
 
                     //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
@@ -184,20 +184,20 @@ public partial class InputViewModel : ObservableObject
                         case ServiceType.OpenAIService:
                         case ServiceType.ChatglmService:
                         case ServiceType.OllamaService:
-                        {
-                            //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                            //Auto则转换为识别语种
-                            source = source == LangEnum.auto ? identify : source;
-                            await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
-                            break;
-                        }
+                            {
+                                //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                                //Auto则转换为识别语种
+                                source = source == LangEnum.auto ? identify : source;
+                                await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
+                                break;
+                            }
 
                         default:
                             await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
                             break;
                     }
 
-                    copy:
+                copy:
                     //翻译后复制结果
                     var currentServiceIndex = services.IndexOf(service) + 1;
                     if (currentServiceIndex == copyIndex)

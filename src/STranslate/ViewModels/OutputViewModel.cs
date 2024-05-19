@@ -48,7 +48,7 @@ namespace STranslate.ViewModels
                     //目标语言
                     //1. 识别语种为中文系则目标语言为英文
                     //2. 识别语种为自动或其他语系则目标语言为中文
-                    targetLang = (identify & (LangEnum.zh_cn | LangEnum.zh_tw | LangEnum.yue)) != 0 ? LangEnum.en : LangEnum.zh_cn;
+                    targetLang = (identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue) ? LangEnum.en : LangEnum.zh_cn;
                 }
 
                 //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
