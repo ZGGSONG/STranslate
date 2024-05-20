@@ -15,6 +15,7 @@
         BorderThickness="1"
         FontFamily="{DynamicResource UserFont}"
         Icon="{DynamicResource Icon}"
+        Loaded="promptDialog_Loaded"
         SizeToContent="Height"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
@@ -63,7 +64,8 @@
 
         <ScrollViewer Grid.Row="1" FontSize="{DynamicResource FontSize_Content}">
             <StackPanel>
-                <common:PlaceholderTextBox MinWidth="200"
+                <common:PlaceholderTextBox x:Name="TbName"
+                                           MinWidth="200"
                                            Margin="5,0"
                                            Placeholder="Input your prompt name"
                                            Text="{Binding UserDefinePrompt.Name, UpdateSourceTrigger=PropertyChanged}" />

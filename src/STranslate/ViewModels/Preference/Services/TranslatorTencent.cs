@@ -15,7 +15,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorTencent : ObservableObject, ITranslator
+    public partial class TranslatorTencent : TranslatorBase, ITranslator
     {
         #region Constructor
 
@@ -95,9 +95,6 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: JsonIgnore]
         public TranslationResult _data = TranslationResult.Reset;
-
-        [JsonIgnore]
-        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -211,7 +208,6 @@ namespace STranslate.ViewModels.Preference.Services
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 AutoExpander = this.AutoExpander,
-                Icons = this.Icons,
                 Region = TencentRegionEnum.ap_shanghai,
                 ProjectId = this.ProjectId,
                 IdHide = this.IdHide,

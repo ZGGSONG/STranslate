@@ -41,6 +41,12 @@ namespace STranslate.Views.Preference.Service
             DataContext = vm;
         }
 
+        private void promptDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            TbName.Focus();
+            TbName.SelectAll();
+        }
+
         /// <summary>
         /// ListBox鼠标滚轮事件处理函数
         /// </summary>

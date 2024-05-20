@@ -15,7 +15,7 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorGemini : ObservableObject, ITranslator
+    public partial class TranslatorGemini : TranslatorBase, ITranslator
     {
         #region Constructor
 
@@ -96,9 +96,6 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: JsonIgnore]
         public TranslationResult _data = TranslationResult.Reset;
-
-        [JsonIgnore]
-        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -302,9 +299,8 @@ namespace STranslate.ViewModels.Preference.Services
                 Data = TranslationResult.Reset,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
-                UserDefinePrompts = this.UserDefinePrompts,
+                UserDefinePrompts = this.UserDefinePrompts.Clone(),
                 AutoExpander = this.AutoExpander,
-                Icons = this.Icons,
                 KeyHide = this.KeyHide,
                 IsExecuting = IsExecuting,
             };

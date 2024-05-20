@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.Services
 {
-    public partial class TranslatorSTranslate : ObservableObject, ITranslator
+    public partial class TranslatorSTranslate : TranslatorBase, ITranslator
     {
         #region Constructor
 
@@ -92,9 +92,6 @@ namespace STranslate.ViewModels.Preference.Services
         public TranslationResult _data = TranslationResult.Reset;
 
         [JsonIgnore]
-        public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
-
-        [JsonIgnore]
         [ObservableProperty]
         [property: JsonIgnore]
         private bool _isExecuting = false;
@@ -146,7 +143,6 @@ namespace STranslate.ViewModels.Preference.Services
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 AutoExpander = this.AutoExpander,
-                Icons = this.Icons,
                 Tips = this.Tips,
                 IsExecuting = IsExecuting,
             };
