@@ -55,20 +55,12 @@ namespace STranslate.Model
             }
         }
 
-        public OCRCollection<T> DeepCopy()
+        public OCRCollection<IOCR> DeepCopy()
         {
-            var copiedList = new OCRCollection<T>();
+            var copiedList = new OCRCollection<IOCR>();
             foreach (var item in this)
             {
-                T newItem = (T)Activator.CreateInstance(item.GetType())!;
-                var properties = typeof(T).GetProperties();
-                foreach (var property in properties)
-                {
-                    if (property.CanWrite)
-                    {
-                        property.SetValue(newItem, property.GetValue(item));
-                    }
-                }
+                var newItem = item.Clone();
                 copiedList.Add(newItem);
             }
             return copiedList;

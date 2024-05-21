@@ -303,6 +303,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AutoExpander = this.AutoExpander,
                 KeyHide = this.KeyHide,
                 IsExecuting = IsExecuting,
+                TimeOut = this.TimeOut,
             };
         }
 

@@ -108,8 +108,9 @@ namespace STranslate.ViewModels.Preference.TTS
         /// <summary>
         /// 声音名称
         /// </summary>
+        [JsonIgnore]
         [ObservableProperty]
-        private AzureVoiceEnum _voice;
+        private AzureVoiceEnum _voice = AzureVoiceEnum.zh_CN_liaoning_XiaobeiNeural;
 
         public async Task SpeakTextAsync(string text, CancellationToken token)
         {

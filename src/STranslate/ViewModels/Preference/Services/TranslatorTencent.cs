@@ -208,7 +208,7 @@ namespace STranslate.ViewModels.Preference.Services
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 AutoExpander = this.AutoExpander,
-                Region = TencentRegionEnum.ap_shanghai,
+                Region = this.Region,
                 ProjectId = this.ProjectId,
                 IdHide = this.IdHide,
                 KeyHide = this.KeyHide,

@@ -53,20 +53,13 @@ namespace STranslate.Model
             }
         }
 
-        public TTSCollection<T> DeepCopy()
+        public TTSCollection<ITTS> DeepCopy()
         {
-            var copiedList = new TTSCollection<T>();
+            var copiedList = new TTSCollection<ITTS>();
+
             foreach (var item in this)
             {
-                T newItem = (T)Activator.CreateInstance(item.GetType())!;
-                var properties = typeof(T).GetProperties();
-                foreach (var property in properties)
-                {
-                    if (property.CanWrite)
-                    {
-                        property.SetValue(newItem, property.GetValue(item));
-                    }
-                }
+                var newItem = item.Clone();
                 copiedList.Add(newItem);
             }
             return copiedList;

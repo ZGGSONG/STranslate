@@ -181,7 +181,6 @@ namespace STranslate.ViewModels.Preference.Services
                 AppID = AppID,
                 AppKey = AppKey,
                 AutoExpander = AutoExpander,
-                Tips = Tips,
                 Token = Token,
                 IsExecuting = IsExecuting,
             };

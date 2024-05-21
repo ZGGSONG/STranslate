@@ -189,6 +189,7 @@ namespace STranslate.ViewModels.Preference.OCR
                 AppID = this.AppID,
                 AppKey = this.AppKey,
                 Icons = this.Icons,
+                BaiduOcrAction = this.BaiduOcrAction,
             };
         }
 

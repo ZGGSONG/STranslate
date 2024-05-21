@@ -402,7 +402,7 @@ namespace STranslate.ViewModels.Preference.OCR
                 Url = this.Url,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
-                Icons = this.Icons,
+                HasData = this.HasData,
             };
         }
 
