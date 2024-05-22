@@ -590,5 +590,14 @@ namespace STranslate.ViewModels
                 Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
             }
         }
+
+        [RelayCommand]
+        private void ChangeTheme()
+        {
+            CommonSettingVM.ThemeType = CommonSettingVM.ThemeType.Increase();
+            CommonSettingVM.SaveCommand.Execute(null);
+
+            ToastHelper.Show(CommonSettingVM.ThemeType.GetDescription());
+        }
     }
 }

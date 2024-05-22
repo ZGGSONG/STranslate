@@ -33,6 +33,7 @@
                     Command="{Binding StickyCommand}"
                     CommandParameter="{Binding ElementName=Mwin}"
                     Modifiers="Ctrl+Shift" />
+        <KeyBinding Key="R" Command="{Binding ChangeThemeCommand}" Modifiers="Ctrl+Shift" />
         <KeyBinding Key="Esc" Command="{Binding EscCommand}" CommandParameter="{Binding ElementName=Mwin, Mode=OneWay}" />
 
         <KeyBinding Key="A" Command="{Binding ShowHideInputCommand}" Modifiers="Ctrl+Shift" />

@@ -832,5 +832,19 @@ namespace STranslate.Model
                 return value;
             }
         }
+
+        /// <summary>
+        /// 累加超出枚举范围则返回第一个
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static T Increase<T>(this T @enum) where T : Enum
+        {
+            T[] values = (T[])Enum.GetValues(typeof(T));
+            int currentIndex = Array.IndexOf(values, @enum);
+            int nextIndex = (currentIndex + 1) % values.Length;
+            return values[nextIndex];
+        }
     }
 }
