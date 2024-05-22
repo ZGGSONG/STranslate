@@ -99,15 +99,6 @@ namespace STranslate.ViewModels.Preference
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
-            if (IsStartup)
-            {
-                if (!ShortcutUtil.IsStartup())
-                    ShortcutUtil.SetStartup();
-            }
-            else
-            {
-                ShortcutUtil.UnSetStartup();
-            }
         }
 
         public CommonViewModel()

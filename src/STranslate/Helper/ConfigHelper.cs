@@ -52,6 +52,8 @@ public class ConfigHelper
     /// </summary>
     public void InitialOperate()
     {
+        StartupOperate(CurrentConfig?.IsStartup ?? false);
+
         //初始化主题
         ThemeOperate(CurrentConfig?.ThemeType ?? ThemeType.Light);
 
@@ -238,8 +240,9 @@ public class ConfigHelper
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         CurrentConfig.DetectType = model.DetectType;
-        
+
         //重新执行必要操作
+        StartupOperate(CurrentConfig.IsStartup);
         ThemeOperate(CurrentConfig.ThemeType);
         ProxyOperate(
             CurrentConfig.ProxyMethod,
@@ -429,6 +432,21 @@ public class ConfigHelper
             });
     }
 
+    // 初始化自启动
+    private void StartupOperate(bool isStartup)
+    {
+        if (isStartup)
+        {
+            if (!ShortcutUtil.IsStartup())
+                ShortcutUtil.SetStartup();
+        }
+        else
+        {
+            ShortcutUtil.UnSetStartup();
+        }
+    }
+
+    // 初始化主题
     private void ThemeOperate(ThemeType themeType)
     {
         switch (themeType)
