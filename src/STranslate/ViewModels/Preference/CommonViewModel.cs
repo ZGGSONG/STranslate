@@ -29,16 +29,6 @@ namespace STranslate.ViewModels.Preference
                 //通知增量翻译配置到主界面
                 OnIncrementalChanged?.Invoke(IncrementalTranslation);
                 ToastHelper.Show("保存常规配置成功", WindowType.Preference);
-
-                if (IsStartup)
-                {
-                    if (!ShortcutUtil.IsStartup())
-                        ShortcutUtil.SetStartup();
-                }
-                else
-                {
-                    ShortcutUtil.UnSetStartup();
-                }
             }
             else
             {
