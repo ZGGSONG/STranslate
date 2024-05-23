@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Win32;
 
 namespace STranslate.Model
@@ -11,8 +10,8 @@ namespace STranslate.Model
         public const string THEMELIGHT = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorLight.xaml";
         public const string THEMEDARK = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorDark.xaml";
 
-        public static System.Uri LIGHTURI = new(THEMELIGHT);
-        public static System.Uri DARKURI = new(THEMEDARK);
+        public static readonly Uri LIGHTURI = new(THEMELIGHT);
+        public static readonly Uri DARKURI = new(THEMEDARK);
 
         public const string ICON = "pack://application:,,,/STranslate.Style;component/Resources/favicon.ico";
         public const string ICONFORBIDDEN = "pack://application:,,,/STranslate.Style;component/Resources/forbidden.ico";
@@ -51,19 +50,19 @@ namespace STranslate.Model
         public const string REGISTRY = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
         public const string REGISTRYKEY = "SystemUsesLightTheme";
 
-        public static string AppName = "STranslate";
-        public static string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
-        public static string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
-        public static string DbFullName = $"{AppData}\\{AppName.ToLower()}.db";
-        public static string DbConnectionString = $"Data Source={DbFullName}";
-        public static string ECDICTPath = System.IO.Path.Combine(AppData, "stardict.db");
+        public static readonly string AppName = "STranslate";
+        public static readonly string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
+        public static readonly string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
+        public static readonly string DbFullName = $"{AppData}\\{AppName.ToLower()}.db";
+        public static readonly string DbConnectionString = $"Data Source={DbFullName}";
+        public static readonly string ECDICTPath = System.IO.Path.Combine(AppData, "stardict.db");
 
-        public static string ExecutePath = Environment.CurrentDirectory;
+        public static readonly string ExecutePath = Environment.CurrentDirectory;
 
-        public static Dictionary<IconType, string> ICONDICT =
+        public static readonly Dictionary<IconType, string> ICONDICT =
             System
-                .Windows.Application.Current.Resources.MergedDictionaries.FirstOrDefault(
-                    x => x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml", UriKind.Absolute)
+                .Windows.Application.Current.Resources.MergedDictionaries.FirstOrDefault(x =>
+                    x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml", UriKind.Absolute)
                 )!
                 .OfType<System.Collections.DictionaryEntry>()
                 .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"), entry => entry.Value!.ToString() ?? ICON) ?? [];
@@ -78,10 +77,10 @@ namespace STranslate.Model
         public const string GITHUBRELEASEURL = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
         public const string DEFAULTVERSION = "1.0.0.101";
 
-        public static string PaddleOCRInterfaceDir = "inference";
-        public static string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRInterfaceDir}\\";
+        public static readonly string PaddleOCRInterfaceDir = "inference";
+        public static readonly string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRInterfaceDir}\\";
 
-        public static List<string> PaddleOCRDlls =
+        public static readonly List<string> PaddleOCRDlls =
         [
             "common.dll",
             "concrt140.dll",
