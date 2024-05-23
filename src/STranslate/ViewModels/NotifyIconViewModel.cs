@@ -1,4 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using STranslate.Helper;
@@ -7,14 +15,6 @@ using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
 using STranslate.Views;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace STranslate.ViewModels
 {
@@ -571,7 +571,7 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void OpenMainWindow(Window view)
         {
-            if ((Singleton<ConfigHelper>.Instance.CurrentConfig?.IsTriggerShowHide ?? false) && view.IsActive)
+            if ((Singleton<ConfigHelper>.Instance.CurrentConfig?.IsTriggerShowHide ?? false) && WindowHelper.IsWindowVisible(view) && WindowHelper.IsWindowInForeground(view))
                 HideMainView();
             else
                 ShowAndActive(view);
@@ -611,6 +611,7 @@ namespace STranslate.ViewModels
                 view.Show();
             }
             view.Activate();
+            WindowHelper.SetWindowInForeground(view);
 
             //激活输入框
             if (view is MainView mainView && (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") is TextBox inputTextBox)

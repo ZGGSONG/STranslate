@@ -41,6 +41,7 @@ namespace STranslate.Util
         /// <param name="hWnd">窗口句柄</param>
         /// <returns></returns>
         [DllImport("User32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         /// <summary>
@@ -49,6 +50,15 @@ namespace STranslate.Util
         /// <returns>窗口句柄</returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr GetForegroundWindow();
+
+        /// <summary>
+        /// 获取窗口是否可见
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindowVisible(IntPtr hWnd);
 
         /// <summary>
         /// 模拟触发键盘的按键

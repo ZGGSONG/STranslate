@@ -72,7 +72,7 @@ namespace STranslate
             if (LogService.Logger != null)
             {
                 var adminMsg = CommonUtil.IsUserAdministrator() ? "[Administrator]" : "";
-                LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Closed...");
+                LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Closed...\n");
                 LogService.UnRegister();
             }
             base.OnExit(e);

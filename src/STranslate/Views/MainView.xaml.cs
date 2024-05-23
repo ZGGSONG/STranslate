@@ -204,6 +204,8 @@ namespace STranslate.Views
             // 首次加载时是否隐藏界面
             if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false))
             {
+                // 尝试移动窗口到屏幕最上层
+                WindowHelper.SetWindowInForeground(this);
                 // 第一次加载页面激活输入框
                 (InputView.FindName("InputTB") as TextBox)?.Focus();
             }
