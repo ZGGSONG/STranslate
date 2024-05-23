@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using STranslate.Model;
 
 namespace STranslate.Style.Controls
 {
@@ -31,7 +32,7 @@ namespace STranslate.Style.Controls
         /// <summary>
         /// 默认标题名为主项目程序集名称
         /// </summary>
-        private readonly string PruductName = System.Reflection.Assembly.GetEntryAssembly()!.GetName().Name ?? "";
+        private readonly string PruductName = ConstStr.AppName;
 
         public MessageBox_S(string msg)
         {

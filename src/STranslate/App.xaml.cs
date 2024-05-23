@@ -35,7 +35,7 @@ namespace STranslate
             // 2. 多开检测
             if (IsAnotherInstanceRunning())
             {
-                MessageBox_S.Show($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} 应用程序已经在运行中。", "多开检测");
+                MessageBox_S.Show($"{ConstStr.AppName} 应用程序已经在运行中。", "多开检测");
                 Current.Shutdown();
                 return;
             }
