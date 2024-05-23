@@ -95,6 +95,7 @@ public partial class InputViewModel : ObservableObject
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
             await HandleHistoryAsync(obj, history, sourceLang, dbTarget, size);
         }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             LogService.Logger.Error("[TranslateAsync]", ex);

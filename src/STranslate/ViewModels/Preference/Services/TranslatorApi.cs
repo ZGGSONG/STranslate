@@ -7,6 +7,7 @@ using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -146,6 +147,14 @@ namespace STranslate.ViewModels.Preference.Services
                 var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ?? throw new Exception("请求结果为空");
                 var data = JsonConvert.DeserializeObject<JObject>(resp)?["data"]?.ToString() ?? throw new Exception(resp);
                 return TranslationResult.Success(data);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (HttpRequestException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

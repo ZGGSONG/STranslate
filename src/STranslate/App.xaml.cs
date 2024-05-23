@@ -71,7 +71,7 @@ namespace STranslate
             //打印退出日志并释放日志资源
             if (LogService.Logger != null)
             {
-                var adminMsg = CommonUtil.IsUserAdministrator() ? "(Administrator)" : "";
+                var adminMsg = CommonUtil.IsUserAdministrator() ? "[Administrator]" : "";
                 LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Closed...");
                 LogService.UnRegister();
             }
@@ -119,7 +119,7 @@ namespace STranslate
 
         private void StartProgram()
         {
-            var adminMsg = CommonUtil.IsUserAdministrator() ? "(Administrator)" : "";
+            var adminMsg = CommonUtil.IsUserAdministrator() ? "[Administrator]" : "";
             LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Opened...");
             new MainView().Show();
         }

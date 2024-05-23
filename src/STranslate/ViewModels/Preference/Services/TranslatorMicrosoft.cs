@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -216,6 +217,14 @@ namespace STranslate.ViewModels.Preference.Services
                 var data = parseData.First()["translations"]?.FirstOrDefault()?["text"]?.ToString() ?? throw new Exception("请求结果为空");
 
                 return TranslationResult.Success(data);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (HttpRequestException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
