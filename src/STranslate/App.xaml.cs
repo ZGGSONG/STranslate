@@ -1,15 +1,16 @@
-﻿using STranslate.Helper;
-using STranslate.Log;
-using STranslate.Style.Controls;
-using STranslate.Util;
-using STranslate.Views;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Model;
+using STranslate.Style.Controls;
+using STranslate.Util;
+using STranslate.Views;
 
 namespace STranslate
 {
@@ -19,14 +20,7 @@ namespace STranslate
         {
             base.OnStartup(e);
 
-            // 1. 开启日志服务
-#if DEBUG
-            LogService.Register();
-#elif !DEBUG
-            LogService.Register(minLevel: LogLevel.Info);
-#endif
-
-            // 2. 检查是否已经具有管理员权限
+            // 1. 检查是否已经具有管理员权限
             if (NeedAdministrator())
             {
                 // 如果没有管理员权限，可以提示用户提升权限
@@ -38,13 +32,20 @@ namespace STranslate
                 }
             }
 
-            // 3. 多开检测
+            // 2. 多开检测
             if (IsAnotherInstanceRunning())
             {
                 MessageBox_S.Show($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} 应用程序已经在运行中。", "多开检测");
                 Current.Shutdown();
                 return;
             }
+
+            // 3. 开启日志服务
+#if DEBUG
+            LogService.Register();
+#elif !DEBUG
+            LogService.Register(minLevel: LogLevel.Info);
+#endif
 
             // 4. 开启监听系统代理
             ProxyUtil.LoadDynamicProxy();
@@ -70,7 +71,8 @@ namespace STranslate
             //打印退出日志并释放日志资源
             if (LogService.Logger != null)
             {
-                LogService.Logger.Info($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} Closed...");
+                var adminMsg = CommonUtil.IsUserAdministrator() ? "(Administrator)" : "";
+                LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Closed...");
                 LogService.UnRegister();
             }
             base.OnExit(e);
@@ -89,13 +91,13 @@ namespace STranslate
 
         private bool TryRunAsAdministrator()
         {
-            var dll = Assembly.GetExecutingAssembly().Location;
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                FileName = dll.Substring(0, dll.Length - 3) + "exe",
-                UseShellExecute = true,
-                Verb = "runas" // 提升权限
-            };
+            ProcessStartInfo startInfo =
+                new()
+                {
+                    FileName = $"{ConstStr.ExecutePath}\\{ConstStr.AppName}.exe",
+                    UseShellExecute = true,
+                    Verb = "runas" // 提升权限
+                };
 
             try
             {
@@ -110,9 +112,6 @@ namespace STranslate
 
         private bool IsAnotherInstanceRunning()
         {
-            //Process currentProcess = Process.GetCurrentProcess();
-            //string currentProcessName = Path.GetFileNameWithoutExtension(currentProcess.MainModule.FileName);
-            //var currentProcessName = "CE252DD8-179F-4544-9989-453F5DEA378D";
             var currentProcessName = "STranslate";
             Process[] runningProcesses = Process.GetProcessesByName(currentProcessName);
             return runningProcesses.Length > 1;
@@ -120,7 +119,8 @@ namespace STranslate
 
         private void StartProgram()
         {
-            LogService.Logger.Info($"{Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()!.Location)} Opened...");
+            var adminMsg = CommonUtil.IsUserAdministrator() ? "(Administrator)" : "";
+            LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Opened...");
             new MainView().Show();
         }
 

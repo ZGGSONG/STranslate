@@ -172,7 +172,7 @@ namespace STranslate.ViewModels
 
             string toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
 
-            NIModel.ToolTip = string.Format(toolTipFormat, Application.ResourceAssembly.GetName().Version!, msg);
+            NIModel.ToolTip = string.Format(toolTipFormat, ConstStr.AppVersion, msg);
         }
 
         [RelayCommand]

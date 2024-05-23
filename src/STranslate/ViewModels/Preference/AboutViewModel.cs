@@ -22,7 +22,7 @@ namespace STranslate.ViewModels.Preference
 
         public AboutViewModel()
         {
-            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? ConstStr.DEFAULTVERSION;
+            Version = ConstStr.AppVersion;
         }
 
         [RelayCommand]

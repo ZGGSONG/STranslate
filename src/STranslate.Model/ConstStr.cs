@@ -50,6 +50,7 @@ namespace STranslate.Model
         public const string REGISTRY = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
         public const string REGISTRYKEY = "SystemUsesLightTheme";
 
+        public static readonly string AppVersion = System.Windows.Application.ResourceAssembly.GetName().Version?.ToString() ?? DEFAULTVERSION;
         public static readonly string AppName = "STranslate";
         public static readonly string AppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
         public static readonly string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
@@ -75,7 +76,7 @@ namespace STranslate.Model
         public const string ZIP = ".zip";
 
         public const string GITHUBRELEASEURL = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
-        public const string DEFAULTVERSION = "1.0.0.101";
+        public const string DEFAULTVERSION = "1.0.0.0";
 
         public static readonly string PaddleOCRInterfaceDir = "inference";
         public static readonly string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRInterfaceDir}\\";

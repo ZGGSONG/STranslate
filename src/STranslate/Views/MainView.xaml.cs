@@ -244,7 +244,7 @@ namespace STranslate.Views
 
                 string toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
 
-                var msg = string.Format(toolTipFormat, Application.ResourceAssembly.GetName().Version!);
+                var msg = string.Format(toolTipFormat, ConstStr.AppVersion);
 
                 // 显示信息
                 Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
