@@ -54,7 +54,6 @@ Or group discussion
 - Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing paddleocr
 - Thanks to [WpfTool](https://github.com/NPCDW/WpfTool) for screenshot functionality
 - Thanks to [Tai](https://github.com/Planshit/Tai) for upgrade functionality
-- Thanks to ChatGPT
 - Thanks to [pot-desktop](https://pot-app.com/) for prompt design reference
 - Thanks to JetBrains for providing open-source project free License
 
