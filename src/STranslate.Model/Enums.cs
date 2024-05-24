@@ -327,8 +327,8 @@ namespace STranslate.Model
         [Description("PaddleOCR")]
         PaddleOCR,
 
-        [Description("百度OCR")]
-        BaiduOCR,
+        [Description("百度云平台")]
+        BaiduBce,
 
         [Description("腾讯OCR")]
         TencentOCR,

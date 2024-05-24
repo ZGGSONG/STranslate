@@ -120,6 +120,22 @@ public class HttpUtil
         return await GetResponseContentAsync(response, token);
     }
 
+    /// <summary>
+    /// Post-FromData
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="formData"></param>
+    /// <param name="token"></param>
+    /// <param name="timeout"></param>
+    /// <returns></returns>
+    public static async Task<string> PostAsync(string url, Dictionary<string, string> formData, CancellationToken token, int timeout = 10)
+    {
+        using var client = CreateHttpClient(timeout);
+        var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(formData) };
+        var response = await client.SendAsync(request);
+        return await GetResponseContentAsync(response, token);
+    }
+
     public static async Task PostAsync(Uri uri, string req, string? key, Action<string> OnDataReceived, CancellationToken token, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);

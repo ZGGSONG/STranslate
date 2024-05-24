@@ -23,7 +23,7 @@ namespace STranslate.ViewModels.Preference.OCR
             Guid guid,
             string url,
             string name = "",
-            IconType icon = IconType.BaiduOCR,
+            IconType icon = IconType.BaiduBce,
             string appID = "",
             string appKey = "",
             bool isEnabled = true,
@@ -61,7 +61,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        private IconType _icon = IconType.BaiduOCR;
+        private IconType _icon = IconType.BaiduBce;
 
         [JsonIgnore]
         [ObservableProperty]

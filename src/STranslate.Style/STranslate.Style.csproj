@@ -35,7 +35,7 @@
     <Resource Include="Resources\baidu.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\baidu2.png">
+    <Resource Include="Resources\baidubce.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\bing.png">

@@ -117,7 +117,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
-                                               Placeholder="gpt-3.5-turbo"
+                                               Placeholder="ernie_speed"
                                                Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
@@ -127,7 +127,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="38" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="APIKey: " />
+                    <TextBlock Text="APIKey:" />
 
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="160"
@@ -157,7 +157,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="38" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="SecretKey: " />
+                    <TextBlock Text="SecKey: " />
 
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="160"

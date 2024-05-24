@@ -1,17 +1,18 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using STranslate.Log;
-using STranslate.Model;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using STranslate.Log;
+using STranslate.Model;
+using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -19,11 +20,19 @@ namespace STranslate.ViewModels.Preference.Services
     {
         #region Constructor
 
-        public TranslatorBaiduBce() : this(Guid.NewGuid(), "https://aip.baidubce.com/rpc/2.0/ai_custom/v1", "百度千帆")
-        {
-        }
+        public TranslatorBaiduBce()
+            : this(Guid.NewGuid(), "https://aip.baidubce.com/rpc/2.0/ai_custom/v1", "百度千帆") { }
 
-        public TranslatorBaiduBce(Guid guid, string url, string name = "", IconType icon = IconType.Baidu, string appID = "", string appKey = "", bool isEnabled = true, ServiceType type = ServiceType.BaiduBceService)
+        public TranslatorBaiduBce(
+            Guid guid,
+            string url,
+            string name = "",
+            IconType icon = IconType.BaiduBce,
+            string appID = "",
+            string appKey = "",
+            bool isEnabled = true,
+            ServiceType type = ServiceType.BaiduBceService
+        )
         {
             Identify = guid;
             Url = url;
@@ -84,7 +93,7 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         [property: DefaultValue("")]
         [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        private string _model = "gpt-3.5-turbo";
+        private string _model = "ernie_speed";
 
         [JsonIgnore]
         [ObservableProperty]
@@ -110,7 +119,8 @@ namespace STranslate.ViewModels.Preference.Services
 
         private void ShowEncryptInfo(string? obj)
         {
-            if (obj == null) return;
+            if (obj == null)
+                return;
 
             if (obj.Equals(nameof(AppID)))
             {
@@ -135,9 +145,26 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         private BindingList<UserDefinePrompt> _userDefinePrompts =
         [
-            new UserDefinePrompt("翻译", [new Prompt("system", "You are a professional, authentic translation engine. You only return the translated text, without any explanations."), new Prompt("user", "Please translate  into $target (avoid explaining the original text):\r\n\r\n$content")], true),
-            new UserDefinePrompt("润色", [new Prompt("system", "You are a text embellisher, you can only embellish the text, never interpret it."), new Prompt("user", "Embellish the following text in $source: $content")]),
-            new UserDefinePrompt("总结", [new Prompt("system", "You are a text summarizer, you can only summarize the text, never interpret it."), new Prompt("user", "Summarize the following text in $source: $content")]),
+            new UserDefinePrompt(
+                "翻译",
+                [
+                    new Prompt(
+                        "user",
+                        "You are a professional, authentic translation engine. You only return the translated text, without any explanations.\nPlease translate  into zh-cn (avoid explaining the original text):\r\n\r\nhello world"
+                    ),
+                    new Prompt("assistant", "你好世界"),
+                    new Prompt("user", "Please translate  into $target (avoid explaining the original text):\r\n\r\n$content"),
+                ],
+                true
+            ),
+            new UserDefinePrompt(
+                "润色",
+                [new Prompt("user", "You are a text embellisher, you can only embellish the text, never interpret it.Embellish the following text in $source: $content")]
+            ),
+            new UserDefinePrompt(
+                "总结",
+                [new Prompt("user", "You are a text summarizer, you can only summarize the text, never interpret it. Summarize the following text in $source: $content")]
+            ),
         ];
 
         [RelayCommand]
@@ -151,7 +178,8 @@ namespace STranslate.ViewModels.Preference.Services
             }
             userDefinePrompt.Enabled = true;
 
-            if (obj.Count == 2) Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            if (obj.Count == 2)
+                Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
         }
 
         [RelayCommand]
@@ -210,29 +238,26 @@ namespace STranslate.ViewModels.Preference.Services
 
             // 选择模型
             var a_model = Model.Trim();
-            a_model = string.IsNullOrEmpty(a_model) ? "gpt-3.5-turbo" : a_model;
+            a_model = string.IsNullOrEmpty(a_model) ? "ernie_speed" : a_model;
 
             // 替换Prompt关键字
             var a_messages = (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
             a_messages.ToList().ForEach(item => item.Content = item.Content.Replace("$source", source).Replace("$target", target).Replace("$content", content));
 
-            // 构建请求数据
-            var reqData = new
-            {
-                messages = a_messages,
-                //temperature = 1.0,
-                stream = true
-            };
+            #region 获取accesstoken
 
-            var jsonData = JsonConvert.SerializeObject(reqData);
-
-            // 获取accesstoken
-            var accessTokenUrl = $"https://aip.baidubce.com/oauth/2.0/token?client_id={AppID}G&client_secret={AppKey}&grant_type=client_credentials";
             var accessToken = string.Empty;
             try
             {
-                var resp = await HttpUtil.PostAsync(accessTokenUrl, string.Empty);
-                accessToken = JObject.Parse(resp)?["session_key"]?.ToString();
+                var accessTokenUrl = "https://aip.baidubce.com/oauth/2.0/token";
+                var formData = new Dictionary<string, string>
+                {
+                    { "grant_type", "client_credentials" },
+                    { "client_id", AppID },
+                    { "client_secret", AppKey }
+                };
+                var resp = await HttpUtil.PostAsync(accessTokenUrl, formData, token);
+                accessToken = JObject.Parse(resp)?["access_token"]?.ToString() ?? throw new Exception("get accesstoken is null");
             }
             catch (OperationCanceledException)
             {
@@ -256,41 +281,58 @@ namespace STranslate.ViewModels.Preference.Services
                 throw new Exception(msg);
             }
 
+            #endregion 获取accesstoken
+
+            // 构建请求数据
+            var reqData = new
+            {
+                messages = a_messages,
+                //temperature = 1.0,
+                stream = true
+            };
+
+            var jsonData = JsonConvert.SerializeObject(reqData);
+
             var a_url = $"{Url}/wenxinworkshop/chat/{a_model}?access_token={accessToken}";
 
             try
             {
                 await HttpUtil.PostAsync(
-                        new Uri(a_url),
-                        jsonData,
-                        null,
-                        msg =>
+                    new Uri(a_url),
+                    jsonData,
+                    null,
+                    msg =>
+                    {
+                        if (string.IsNullOrEmpty(msg?.Trim()))
+                            return;
+
+                        var preprocessString = msg.Replace("data:", "").Trim();
+
+                        // 解析JSON数据
+                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+
+                        if (parsedData is null)
+                            return;
+
+                        if (!string.IsNullOrEmpty(parsedData["error_msg"]?.ToString()))
                         {
-                            if (string.IsNullOrEmpty(msg?.Trim()))
-                                return;
+                            throw new Exception("", new Exception(parsedData?.ToString()));
+                        }
 
-                            var preprocessString = msg.Replace("data:", "").Trim();
+                        // 提取content的值
+                        var contentValue = parsedData["result"]?.ToString();
 
-                            // 解析JSON数据
-                            var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+                        if (string.IsNullOrEmpty(contentValue))
+                            return;
 
-                            if (parsedData is null)
-                                return;
+                        OnDataReceived?.Invoke(contentValue);
 
-                            // 结束
-                            if (bool.TryParse(parsedData["is_end"]?.ToString(), out var isend) && isend)
-                                return;
-
-                            // 提取content的值
-                            var contentValue = parsedData["result"]?.ToString();
-
-                            if (string.IsNullOrEmpty(contentValue))
-                                return;
-
-                            OnDataReceived?.Invoke(contentValue);
-                        },
-                        token
-                    );
+                        // 结束
+                        if (bool.TryParse(parsedData["is_end"]?.ToString(), out var isend) && isend)
+                            return;
+                    },
+                    token
+                );
             }
             catch (OperationCanceledException)
             {
@@ -306,7 +348,7 @@ namespace STranslate.ViewModels.Preference.Services
                 if (ex.InnerException is Exception innEx)
                 {
                     var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
-                    msg += $" {innMsg?["error"]?["message"]?.ToString()}";
+                    msg += $" {innMsg?["error_msg"]?.ToString()}";
                     LogService.Logger.Error($"({Name})({Identify}) raw content:\n{innEx.Message}");
                 }
                 msg = msg.Trim();
