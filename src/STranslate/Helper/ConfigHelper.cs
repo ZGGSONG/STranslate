@@ -336,12 +336,12 @@ public class ConfigHelper
             Decryption(config);
             return config;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // 备份当前config
-            var path = BackupCurrentConfig();
+            BackupCurrentConfig();
 
-            LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
+            //LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
             return InitialConfig();
         }
     }
