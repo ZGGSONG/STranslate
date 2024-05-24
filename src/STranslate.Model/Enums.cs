@@ -217,6 +217,7 @@ namespace STranslate.Model
         EcdictService,
         ChatglmService,
         OllamaService,
+        BaiduBceService,
     }
 
     public enum TTSType

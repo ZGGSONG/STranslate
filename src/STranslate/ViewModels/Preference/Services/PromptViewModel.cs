@@ -37,6 +37,12 @@ namespace STranslate.ViewModels.Preference.Services
                         "user" => new Prompt("assistant"),
                         _ => new Prompt("user")
                     },
+                ServiceType.BaiduBceService
+                    => last switch
+                    {
+                        "user" => new Prompt("assistant"),
+                        _ => new Prompt("user")
+                    },
                 _
                     => last switch
                     {

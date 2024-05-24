@@ -143,6 +143,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.EcdictService => new TranslatorEcdict(),
             (int)ServiceType.ChatglmService => new TranslatorChatglm(),
             (int)ServiceType.OllamaService => new TranslatorOllama(),
+            (int)ServiceType.BaiduBceService => new TranslatorBaiduBce(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
