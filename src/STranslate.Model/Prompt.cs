@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
@@ -31,7 +32,7 @@ namespace STranslate.Model
 
         public object Clone()
         {
-            return new UserDefinePrompt(Name, Prompts, Enabled);
+            return new UserDefinePrompt(Name, Prompts.Clone(), Enabled);
         }
     }
 
@@ -69,4 +70,13 @@ namespace STranslate.Model
             return new Prompt(this.Role, this.Content);
         }
     }
+    internal static class PromptExtensions
+    {
+        public static BindingList<T> Clone<T>(this BindingList<T> listToClone)
+            where T : Prompt
+        {
+            return new BindingList<T>(listToClone.Select(item => (T)item.Clone()).ToList());
+        }
+    }
+
 }

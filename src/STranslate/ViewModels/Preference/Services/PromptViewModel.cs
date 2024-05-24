@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Linq;
+using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STranslate.Model;
-using System.Linq;
-using System.Windows;
 
 namespace STranslate.ViewModels.Preference.Services
 {
@@ -11,12 +11,15 @@ namespace STranslate.ViewModels.Preference.Services
         [ObservableProperty]
         private UserDefinePrompt _userDefinePrompt;
 
+        private readonly UserDefinePrompt _tmpPrompt;
+
         private readonly ServiceType _serviceType;
 
         public PromptViewModel(ServiceType type, UserDefinePrompt definePrompt)
         {
             _serviceType = type;
             UserDefinePrompt = definePrompt;
+            _tmpPrompt = (UserDefinePrompt)definePrompt.Clone();
         }
 
         [RelayCommand]
@@ -64,6 +67,16 @@ namespace STranslate.ViewModels.Preference.Services
         private void Save(Window window)
         {
             window.DialogResult = true;
+        }
+
+        [RelayCommand]
+        private void Cancel(Window window)
+        {
+            UserDefinePrompt.Name = _tmpPrompt.Name;
+            UserDefinePrompt.Enabled = _tmpPrompt.Enabled;
+            UserDefinePrompt.Prompts.Clear();
+            _tmpPrompt.Prompts.ToList().ForEach(UserDefinePrompt.Prompts.Add);
+            window.DialogResult = false;
         }
     }
 }

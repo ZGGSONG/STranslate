@@ -118,7 +118,7 @@
                     CommandParameter="{Binding ElementName=promptDialog}"
                     Content="保存"
                     IsDefault="True" />
-            <Button Content="取消" IsCancel="True" />
+            <Button Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=promptDialog}" Content="取消" />
         </WrapPanel>
     </Grid>
 </Window>
