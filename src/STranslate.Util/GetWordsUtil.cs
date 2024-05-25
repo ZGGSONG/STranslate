@@ -26,6 +26,14 @@ namespace STranslate.Util
             return newTxt == oldTxt ? string.Empty : newTxt.Trim();
         }
 
+        /// <summary>
+        /// 模拟粘贴操作
+        /// </summary>
+        public static void Paste()
+        {
+            SendCtrlCV(true);
+        }
+
         [Obsolete]
         /// <summary>
         /// 可能引起崩溃
