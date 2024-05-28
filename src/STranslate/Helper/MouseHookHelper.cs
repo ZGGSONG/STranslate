@@ -1,4 +1,5 @@
-﻿using STranslate.Util;
+﻿using STranslate.Log;
+using STranslate.Util;
 using System;
 using System.Windows.Forms;
 
@@ -63,7 +64,13 @@ namespace STranslate.Helper
             }
             if (isDown && isMove)
             {
-                var content = GetWordsUtil.MouseSlidGet(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
+                //var content = GetWordsUtil.MouseSlidGet(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
+                var content = ClipboardUtil.GetSelectedText2(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
+                if (string.IsNullOrEmpty(content))
+                {
+                    LogService.Logger.Warn($"取词失败，可能是取词内容相同...");
+                    return;
+                }
                 OnGetwordsHandler?.Invoke(content);
             }
             isDown = false;

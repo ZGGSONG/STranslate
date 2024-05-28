@@ -230,8 +230,9 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void CrossWordTranslate(Window view)
         {
-            var content = GetWordsUtil.Get(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100).Trim();
-            if (string.IsNullOrWhiteSpace(content))
+            //var content = GetWordsUtil.Get(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100).Trim();
+            var content = ClipboardUtil.GetSelectedText(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
+            if (string.IsNullOrEmpty(content))
             {
                 LogService.Logger.Warn($"取词失败，取词内容为空，请尝试延长取词间隔...");
                 return;
