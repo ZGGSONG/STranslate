@@ -64,11 +64,11 @@ namespace STranslate.Helper
             }
             if (isDown && isMove)
             {
-                //var content = GetWordsUtil.MouseSlidGet(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
-                var content = ClipboardUtil.GetSelectedText2(Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100);
+                var interval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
+                var content = ClipboardUtil.GetSelectedTextDiff(interval);
                 if (string.IsNullOrEmpty(content))
                 {
-                    LogService.Logger.Warn($"取词失败，可能是取词内容相同...");
+                    LogService.Logger.Debug($"可能是取词内容相同,或者需要增加取词延迟(当前: {interval}ms)...");
                     return;
                 }
                 OnGetwordsHandler?.Invoke(content);
