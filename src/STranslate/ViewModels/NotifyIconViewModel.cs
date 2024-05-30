@@ -134,9 +134,17 @@ namespace STranslate.ViewModels
                     async (_, content) =>
                     {
                         if (string.IsNullOrWhiteSpace(content))
+                        {
                             SilentOCRHandler();
+                        }
                         else
-                            await SilentOCRCallback(BitmapUtil.ReadImageFile(content));
+                        {
+                            var bitmap = BitmapUtil.ReadImageFile(content);
+                            if (bitmap != null)
+                            {
+                                await SilentOCRCallback(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
+                            }
+                        }
                     }
                 },
                 {
@@ -296,7 +304,7 @@ namespace STranslate.ViewModels
 
             return;
 
-            Last:
+        Last:
             QRCodeHandler();
         }
 
@@ -305,7 +313,7 @@ namespace STranslate.ViewModels
             ScreenshotView view = new();
             ShowAndActive(view);
 
-            view.BitmapCallback += (bitmap => QRCodeCallback(bitmap));
+            view.BitmapCallback += (tuple => QRCodeCallback(tuple.Item1));
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
         }
@@ -351,7 +359,7 @@ namespace STranslate.ViewModels
 
             return;
 
-            Last:
+        Last:
             OCRHandler();
         }
 
@@ -360,7 +368,7 @@ namespace STranslate.ViewModels
             ScreenshotView view = new();
             ShowAndActive(view);
 
-            view.BitmapCallback += async bitmap => await OCRCallback(bitmap);
+            view.BitmapCallback += async tuple => await OCRCallback(tuple.Item1);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
         }
@@ -407,7 +415,7 @@ namespace STranslate.ViewModels
 
             return;
 
-            Last:
+        Last:
             SilentOCRHandler();
         }
 
@@ -416,23 +424,17 @@ namespace STranslate.ViewModels
             ScreenshotView view = new();
             ShowAndActive(view);
 
-            view.BitmapCallback += async bitmap => await SilentOCRCallback(bitmap);
+            view.BitmapCallback += async tuple => await SilentOCRCallback(tuple);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
         }
 
-        private async Task SilentOCRCallback(Bitmap? bitmap)
+        private async Task SilentOCRCallback(Tuple<Bitmap, double, double> tuple)
         {
             try
             {
-                if (bitmap == null)
-                {
-                    ShowBalloonTip("图像不存在");
-                    return;
-                }
-
                 string getText = "";
-                var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+                var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1);
                 var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
                 //判断结果
                 if (!ocrResult.Success)
@@ -447,12 +449,11 @@ namespace STranslate.ViewModels
                 //写入剪贴板
                 ClipboardHelper.Copy(getText);
 
-                var tmp = getText.Length >= 9 ? getText[..9] + "..." : getText;
-                ShowBalloonTip($"OCR识别成功: {tmp}");
+                await Task.Run(() => CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3).Show()));
             }
             catch (Exception ex)
             {
-                ShowBalloonTip($"OCR识别失败: {ex.Message}");
+                await Task.Run(() => CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
                 LogService.Logger.Error("静默OCR失败", ex);
             }
         }
@@ -475,7 +476,7 @@ namespace STranslate.ViewModels
 
             return Task.Delay(200, token).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
 
-            Last:
+        Last:
             ScreenShotHandler(token);
             return Task.CompletedTask;
         }
@@ -484,7 +485,7 @@ namespace STranslate.ViewModels
         {
             ScreenshotView view = new();
             ShowAndActive(view);
-            view.BitmapCallback += async bitmap => await ScreenshotCallback(bitmap, token);
+            view.BitmapCallback += async tuple => await ScreenshotCallback(tuple.Item1, token);
             view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
             view.InvokeCanOpen();
         }

@@ -24,40 +24,40 @@ namespace STranslate.Views
                 return;
             }
 
-            Rect bounds = screen.WpfBounds;
+            _bounds = screen.WpfBounds;
 
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowAuxiliaryLine ?? true)
             {
                 //设置辅助线宽高
                 HorizontalLine.X1 = 0;
-                HorizontalLine.X2 = bounds.Width;
+                HorizontalLine.X2 = _bounds.Width;
                 VerticalLine.Y1 = 0;
-                VerticalLine.Y2 = bounds.Height;
+                VerticalLine.Y2 = _bounds.Height;
             }
 
             _dpiScale = screen.ScaleFactor;
             if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false)
-                bounds = new Rect((int)(bounds.X * _dpiScale), (int)(bounds.Y * _dpiScale), (int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale));
+                _bounds = new Rect((int)(_bounds.X * _dpiScale), (int)(_bounds.Y * _dpiScale), (int)(_bounds.Width * _dpiScale), (int)(_bounds.Height * _dpiScale));
 
-            Top = bounds.X;
-            Left = bounds.Y;
-            Width = bounds.Width;
-            Height = bounds.Height;
+            Top = _bounds.X;
+            Left = _bounds.Y;
+            Width = _bounds.Width;
+            Height = _bounds.Height;
 
-            Canvas.SetLeft(this, bounds.X);
-            Canvas.SetTop(this, bounds.Y);
-            LeftMask.Width = bounds.Width;
-            LeftMask.Height = bounds.Height;
+            Canvas.SetLeft(this, _bounds.X);
+            Canvas.SetTop(this, _bounds.Y);
+            LeftMask.Width = _bounds.Width;
+            LeftMask.Height = _bounds.Height;
 
-            _bitmap = new Bitmap((int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale));
+            _bitmap = new Bitmap((int)(_bounds.Width * _dpiScale), (int)(_bounds.Height * _dpiScale));
             using (Graphics g = Graphics.FromImage(_bitmap))
             {
                 g.CopyFromScreen(
-                    (int)(bounds.X * _dpiScale),
-                    (int)(bounds.Y * _dpiScale),
+                    (int)(_bounds.X * _dpiScale),
+                    (int)(_bounds.Y * _dpiScale),
                     0,
                     0,
-                    new System.Drawing.Size((int)(bounds.Width * _dpiScale), (int)(bounds.Height * _dpiScale)),
+                    new System.Drawing.Size((int)(_bounds.Width * _dpiScale), (int)(_bounds.Height * _dpiScale)),
                     CopyPixelOperation.SourceCopy
                 );
             }
@@ -89,7 +89,9 @@ namespace STranslate.Views
             OnViewVisibilityChanged?.Invoke(true);
             Close();
 
-            BitmapCallback?.Invoke(bmpOut);
+            var convertX = _bounds.X + (x + width) / _dpiScale;
+            var convertY = _bounds.Y + y / _dpiScale;
+            BitmapCallback?.Invoke(new Tuple<Bitmap, double, double>(bmpOut, convertX, convertY));
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -163,11 +165,12 @@ namespace STranslate.Views
         }
 
         public event Action<bool>? OnViewVisibilityChanged;
-        public event Action<Bitmap>? BitmapCallback;
+        public event Action<Tuple<Bitmap, double, double>>? BitmapCallback;
         private Rect _rectangle; //保存的矩形
         private Point _startPoint; //鼠标按下的点
         private bool _isMouseDown; //鼠标是否被按下
         private Bitmap? _bitmap; // 截屏图片
         private double _dpiScale = 1; //缩放比例
+        private Rect _bounds; //获取到的屏幕数据
     }
 }
