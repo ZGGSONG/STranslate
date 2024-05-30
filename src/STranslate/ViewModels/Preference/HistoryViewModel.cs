@@ -79,11 +79,8 @@ namespace STranslate.ViewModels.Preference
             {
                 IsLoading = false;
 
-                if (scroll is not null)
-                {
-                    scroll.ScrollToTop();
-                    CommonUtil.InvokeOnUIThread(() => ToastHelper.Show("刷新历史记录", WindowType.Preference));
-                }
+                scroll?.ScrollToTop();
+                //CommonUtil.InvokeOnUIThread(() => ToastHelper.Show("刷新历史记录", WindowType.Preference));
             }
         }
 
