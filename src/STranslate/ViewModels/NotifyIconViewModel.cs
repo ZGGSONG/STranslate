@@ -239,10 +239,19 @@ namespace STranslate.ViewModels
         private void CrossWordTranslate(Window view)
         {
             var interval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
-            var content = ClipboardUtil.GetSelectedText(interval);
-            if (string.IsNullOrEmpty(content))
+            string? content = null;
+            try
             {
-                LogService.Logger.Warn($"取词失败，取词内容为空，请尝试延长取词间隔(当前: {interval}ms)...");
+                content = ClipboardUtil.GetSelectedText(interval);
+                if (string.IsNullOrEmpty(content))
+                {
+                    LogService.Logger.Warn($"取词失败, 请尝试延长取词间隔(当前: {interval}ms)...");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Logger.Warn($"win32 api 异常: " + ex.Message);
                 return;
             }
 
@@ -304,7 +313,7 @@ namespace STranslate.ViewModels
 
             return;
 
-        Last:
+            Last:
             QRCodeHandler();
         }
 
@@ -359,7 +368,7 @@ namespace STranslate.ViewModels
 
             return;
 
-        Last:
+            Last:
             OCRHandler();
         }
 
@@ -415,7 +424,7 @@ namespace STranslate.ViewModels
 
             return;
 
-        Last:
+            Last:
             SilentOCRHandler();
         }
 
@@ -476,7 +485,7 @@ namespace STranslate.ViewModels
 
             return Task.Delay(200, token).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
 
-        Last:
+            Last:
             ScreenShotHandler(token);
             return Task.CompletedTask;
         }

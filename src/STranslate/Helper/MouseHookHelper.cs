@@ -1,7 +1,7 @@
-﻿using STranslate.Log;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using STranslate.Log;
+using STranslate.Util;
 
 namespace STranslate.Helper
 {
@@ -65,13 +65,23 @@ namespace STranslate.Helper
             if (isDown && isMove)
             {
                 var interval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
-                var content = ClipboardUtil.GetSelectedTextDiff(interval);
-                if (string.IsNullOrEmpty(content))
+                string? content = null;
+                try
                 {
-                    LogService.Logger.Debug($"可能是取词内容相同,或者需要增加取词延迟(当前: {interval}ms)...");
+                    content = ClipboardUtil.GetSelectedTextDiff(interval);
+
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        LogService.Logger.Debug($"可能是取词内容相同, 或者需要增加取词延迟(当前: {interval}ms)...");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogService.Logger.Warn($"win32 api 异常: " + ex.Message);
                     return;
                 }
-                OnGetwordsHandler?.Invoke(content);
+                System.Threading.Tasks.Task.Run(() => OnGetwordsHandler?.Invoke(content));
             }
             isDown = false;
             isMove = false;
