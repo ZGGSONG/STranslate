@@ -76,9 +76,9 @@ namespace STranslate.Helper
                         return;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    LogService.Logger.Warn($"win32 api 异常: " + ex.Message);
+                    LogService.Logger.Warn("获取剪贴板异常, 请重试");
                     return;
                 }
                 System.Threading.Tasks.Task.Run(() => OnGetwordsHandler?.Invoke(content));
