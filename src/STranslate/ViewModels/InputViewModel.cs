@@ -539,6 +539,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.ChatglmService => new TranslatorChatglm(),
                 (int)ServiceType.OllamaService => new TranslatorOllama(),
                 (int)ServiceType.BaiduBceService => new TranslatorBaiduBce(),
+                (int)ServiceType.DeepLService => new TranslatorDeepL(),
                 _ => new TranslatorApi()
             };
 

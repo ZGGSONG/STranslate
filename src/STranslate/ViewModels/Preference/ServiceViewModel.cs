@@ -6,6 +6,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Services;
+using STranslate.Views.Preference.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +39,7 @@ namespace STranslate.ViewModels.Preference
             TransServices.Add(new TranslatorChatglm());
             TransServices.Add(new TranslatorOllama());
             TransServices.Add(new TranslatorBaiduBce());
+            TransServices.Add(new TranslatorDeepL());
 
             ResetView();
         }
@@ -93,22 +95,23 @@ namespace STranslate.ViewModels.Preference
                 //TODO: 新接口需要适配
                 var name = service.Type switch
                 {
-                    ServiceType.STranslateService => string.Format("{0}TextSTranslateServicesPage", head),
-                    ServiceType.ApiService => string.Format("{0}TextApiServicePage", head),
-                    ServiceType.BaiduService => string.Format("{0}TextBaiduServicesPage", head),
-                    ServiceType.MicrosoftService => string.Format("{0}TextMicrosoftServicesPage", head),
-                    ServiceType.OpenAIService => string.Format("{0}TextOpenAIServicesPage", head),
-                    ServiceType.GeminiService => string.Format("{0}TextGeminiServicesPage", head),
-                    ServiceType.TencentService => string.Format("{0}TextTencentServicesPage", head),
-                    ServiceType.AliService => string.Format("{0}TextAliServicesPage", head),
-                    ServiceType.YoudaoService => string.Format("{0}TextYoudaoServicesPage", head),
-                    ServiceType.NiutransService => string.Format("{0}TextNiutransServicesPage", head),
-                    ServiceType.CaiyunService => string.Format("{0}TextCaiyunServicesPage", head),
-                    ServiceType.VolcengineService => string.Format("{0}TextVolcengineServicesPage", head),
-                    ServiceType.EcdictService => string.Format("{0}TextEcdictServicesPage", head),
-                    ServiceType.ChatglmService => string.Format("{0}TextChatglmServicesPage", head),
-                    ServiceType.OllamaService => string.Format("{0}TextOllamaServicesPage", head),
-                    ServiceType.BaiduBceService => string.Format("{0}TextBaiduBceServicesPage", head),
+                    ServiceType.STranslateService => $"{head}{nameof(TextSTranslateServicesPage)}",
+                    ServiceType.ApiService => $"{head}{nameof(TextApiServicePage)}",
+                    ServiceType.BaiduService => $"{head}{nameof(TextBaiduServicesPage)}",
+                    ServiceType.MicrosoftService => $"{head}{nameof(TextMicrosoftServicesPage)}",
+                    ServiceType.OpenAIService => $"{head}{nameof(TextOpenAIServicesPage)}",
+                    ServiceType.GeminiService => $"{head}{nameof(TextGeminiServicesPage)}",
+                    ServiceType.TencentService => $"{head}{nameof(TextTencentServicesPage)}",
+                    ServiceType.AliService => $"{head}{nameof(TextAliServicesPage)}",
+                    ServiceType.YoudaoService => $"{head}{nameof(TextYoudaoServicesPage)}",
+                    ServiceType.NiutransService => $"{head}{nameof(TextNiutransServicesPage)}",
+                    ServiceType.CaiyunService => $"{head}{nameof(TextCaiyunServicesPage)}",
+                    ServiceType.VolcengineService => $"{head}{nameof(TextVolcengineServicesPage)}",
+                    ServiceType.EcdictService => $"{head}{nameof(TextEcdictServicesPage)}",
+                    ServiceType.ChatglmService => $"{head}{nameof(TextChatglmServicesPage)}",
+                    ServiceType.OllamaService => $"{head}{nameof(TextOllamaServicesPage)}",
+                    ServiceType.BaiduBceService => $"{head}{nameof(TextBaiduBceServicesPage)}",
+                    ServiceType.DeepLService => $"{head}{nameof(TextDeepLServicePage)}",
                     _ => string.Format("{0}TextApiServicePage", head)
                 };
 
@@ -142,6 +145,7 @@ namespace STranslate.ViewModels.Preference
                     TranslatorChatglm chatglm => chatglm.Clone(),
                     TranslatorOllama ollama => ollama.Clone(),
                     TranslatorBaiduBce baiduBce => baiduBce.Clone(),
+                    TranslatorDeepL deepl => deepl.Clone(),
                     _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
                 });
 
