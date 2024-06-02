@@ -105,7 +105,7 @@
                         <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding ServicePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding TranslatorPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="翻译服务" />
                     </menu:Btn>
 

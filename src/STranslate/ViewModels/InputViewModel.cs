@@ -18,7 +18,7 @@ using STranslate.Model;
 using STranslate.Style.Commons;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using STranslate.ViewModels.Preference.Services;
+using STranslate.ViewModels.Preference.Translator;
 
 namespace STranslate.ViewModels;
 
@@ -111,13 +111,13 @@ public partial class InputViewModel : ObservableObject
         if (!string.IsNullOrWhiteSpace(InputContent))
             return true;
 
-        Parallel.ForEach(Singleton<ServiceViewModel>.Instance.CurTransServiceList, (service, cancellationToken) => service.Data = TranslationResult.Fail("请输入有效内容"));
+        Parallel.ForEach(Singleton<TranslatorViewModel>.Instance.CurTransServiceList, (service, cancellationToken) => service.Data = TranslationResult.Fail("请输入有效内容"));
         return false;
     }
 
     private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LangEnum source, LangEnum dbTarget, LangEnum target, long size, CancellationToken token)
     {
-        var services = Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
+        var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
         HistoryModel? history = null;
         List<ITranslator>? translatorList = null;
         //读取配置翻译后复制服务索引
@@ -267,7 +267,7 @@ public partial class InputViewModel : ObservableObject
     {
         if (history is null && size > 0)
         {
-            var enableServices = Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
+            var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
             var jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CustomizeContractResolver() };
 
             var data = new HistoryModel
@@ -512,7 +512,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         var jsonObject = JObject.Load(reader);
 
         // 获取当前可用的翻译服务列表
-        var translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList;
+        var translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList;
 
         // 从 JSON 中提取 Identify 字段的值，用于确定具体实现类
         var identify = jsonObject["Identify"]!.Value<string>();

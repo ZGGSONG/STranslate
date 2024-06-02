@@ -105,7 +105,7 @@
     <Compile Update="Views\Preference\Service\PromptDialog.xaml.cs">
 	  <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Preference\OCRScvPage.xaml.cs">
+    <Compile Update="Views\Preference\OCRPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Preference\TTSPage.xaml.cs">

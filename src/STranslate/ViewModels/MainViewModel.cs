@@ -577,7 +577,7 @@ namespace STranslate.ViewModels
             {
                 it.IsEnabled = !it.IsEnabled;
 
-                Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+                Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
             }
             else if (service is IOCR io)
             {

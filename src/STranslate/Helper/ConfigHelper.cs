@@ -13,7 +13,7 @@ using STranslate.Util;
 using STranslate.ViewModels;
 using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.OCR;
-using STranslate.ViewModels.Preference.Services;
+using STranslate.ViewModels.Preference.Translator;
 using STranslate.ViewModels.Preference.TTS;
 
 namespace STranslate.Helper;

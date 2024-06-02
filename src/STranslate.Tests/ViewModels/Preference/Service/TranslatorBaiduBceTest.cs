@@ -1,5 +1,5 @@
 ﻿using STranslate.Model;
-using STranslate.ViewModels.Preference.Services;
+using STranslate.ViewModels.Preference.Translator;
 using Xunit;
 
 namespace STranslate.ViewModels.Preference.OCR.Service;

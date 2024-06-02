@@ -1,16 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.CognitiveServices.Speech;
 using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
-using STranslate.ViewModels.Preference.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace STranslate.ViewModels.Preference.TTS
 {
@@ -19,7 +18,16 @@ namespace STranslate.ViewModels.Preference.TTS
         public TTSAzure()
             : this(Guid.NewGuid(), "https://eastasia.api.cognitive.microsoft.com/", "微软TTS") { }
 
-        public TTSAzure(Guid guid, string url, string name = "", IconType icon = IconType.Azure, string appID = "", string appKey = "", bool isEnabled = true, TTSType type = TTSType.AzureTTS)
+        public TTSAzure(
+            Guid guid,
+            string url,
+            string name = "",
+            IconType icon = IconType.Azure,
+            string appID = "",
+            string appKey = "",
+            bool isEnabled = true,
+            TTSType type = TTSType.AzureTTS
+        )
         {
             Identify = guid;
             Url = url;
@@ -165,7 +173,7 @@ namespace STranslate.ViewModels.Preference.TTS
                     break;
             }
         }
-        
+
         public ITTS Clone()
         {
             return new TTSAzure

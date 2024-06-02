@@ -19,7 +19,7 @@ namespace STranslate.ViewModels
     public partial class OutputViewModel : ObservableObject, IDropTarget
     {
         [ObservableProperty]
-        private BindingList<ITranslator> _translators = Singleton<ServiceViewModel>.Instance.CurTransServiceList ?? [];
+        private BindingList<ITranslator> _translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList ?? [];
 
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
@@ -199,20 +199,20 @@ namespace STranslate.ViewModels
         {
             param.AutoExpander = !param.AutoExpander;
 
-            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
         }
 
         [RelayCommand]
         private void CloseService(ITranslator param)
         {
-            if (Singleton<ServiceViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).Count() < 2)
+            if (Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).Count() < 2)
             {
                 ToastHelper.Show("至少保留一个服务", WindowType.Main);
                 return;
             }
             param.IsEnabled = false;
 
-            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
         }
 
         public void Clear()
@@ -243,7 +243,7 @@ namespace STranslate.ViewModels
             Translators.Insert(targetIndex, sourceItem);
 
             // Save Configuration
-            Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+            Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
         }
 
         #endregion gong-wpf-dragdrop interface implementation

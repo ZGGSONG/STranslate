@@ -38,7 +38,7 @@ namespace STranslate.ViewModels
                     break;
 
                 case PerferenceType.Service:
-                    ServicePage();
+                    TranslatorPage();
                     break;
 
                 case PerferenceType.OCR:
@@ -75,7 +75,7 @@ namespace STranslate.ViewModels
         private void HotkeyPage() => CurrentView = Singleton<HotkeyViewModel>.Instance;
 
         [RelayCommand]
-        private void ServicePage() => CurrentView = Singleton<ServiceViewModel>.Instance;
+        private void TranslatorPage() => CurrentView = Singleton<TranslatorViewModel>.Instance;
 
         [RelayCommand]
         private void OCRPage() => CurrentView = Singleton<Preference.OCRScvViewModel>.Instance;
@@ -129,8 +129,8 @@ namespace STranslate.ViewModels
                     Singleton<HotkeyViewModel>.Instance.SaveCommand.Execute(null);
                     break;
 
-                case ServiceViewModel:
-                    Singleton<ServiceViewModel>.Instance.SaveCommand.Execute(null);
+                case TranslatorViewModel:
+                    Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
                     break;
 
                 case OCRScvViewModel:

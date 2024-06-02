@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
-using STranslate.ViewModels.Preference.Services;
+using STranslate.ViewModels.Preference.Translator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
