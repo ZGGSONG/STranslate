@@ -124,6 +124,14 @@
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
                                             <!-- 大驼峰复制 -->
+                                            <!-- TTS -->
+                                            <Button Margin="2,2,0,2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                                    CommandParameter="{Binding Data.Result}"
+                                                    Content="&#xe610;"
+                                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                                    ToolTip="TTS"
+                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
                                                     CommandParameter="{Binding Data.Result}"
@@ -155,14 +163,6 @@
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                                     ToolTip="直接复制结果"
                                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
-                                            <!-- TTS -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe610;"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="TTS"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
@@ -181,14 +181,6 @@
                                             Content="&#xe610;"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
                                             ToolTip="TTS"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
-                                    <!-- 普通复制 -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
-                                            CommandParameter="{Binding Data.Result}"
-                                            Content="&#xe692;"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="直接复制结果"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                     <!-- 蛇形复制 -->
                                     <Button Margin="5,0,0,0"
@@ -213,6 +205,14 @@
                                             Content="&#xe601;"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
                                             ToolTip="复制为大驼峰字符串"
+                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                    <!-- 普通复制 -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                            CommandParameter="{Binding Data.Result}"
+                                            Content="&#xe692;"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="直接复制结果"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 </StackPanel>
                                 <!-- // 加载动画 // -->
