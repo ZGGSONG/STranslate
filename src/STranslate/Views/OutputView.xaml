@@ -42,8 +42,8 @@
                 <DataTemplate>
                     <!-- 宽度需要绑定到StackPanel上，而非ListBox上 -->
                     <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
-                            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource ScaleFromTop},
-                                                               Delay=20,
+                            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow},
+                                                               Delay=10,
                                                                TransformOn=Render}"
                             Style="{DynamicResource BorderInOutputStyle}"
                             Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
