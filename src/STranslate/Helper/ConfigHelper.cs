@@ -243,6 +243,7 @@ public class ConfigHelper
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         CurrentConfig.DetectType = model.DetectType;
         CurrentConfig.DisableGlobalHotkeys = model.DisableGlobalHotkeys;
+        CurrentConfig.EnableBlur = model.EnableBlur;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -258,6 +259,7 @@ public class ConfigHelper
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
         ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
+        BlurOperate(CurrentConfig.EnableBlur);
 
         if (!isHotkeyConfSame)
             DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys, Application.Current.Windows.OfType<MainView>().First());
@@ -507,6 +509,9 @@ public class ConfigHelper
     /// <param name="value"></param>
     /// <param name="view"></param>
     private void DisableGlobalHotkeysOperate(bool value, Window view) => Singleton<NotifyIconViewModel>.Instance.InvokeForbiddenShotcuts(view, value);
+    
+    private void BlurOperate(bool enableBlur) => WindowAccentCompositor.Instance.IsEnabled = enableBlur;
+
     #endregion 私有方法
 
     #region 字段 && 属性

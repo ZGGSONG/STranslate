@@ -243,6 +243,12 @@
                     <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
                         <StackPanel>
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="背景模糊" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否开启主窗口模糊(云母)效果" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding EnableBlur}" />
+                            </DockPanel>
+                            
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="主题选择" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、自动主题切换" />
                                 <ComboBox Height="30"

@@ -1,9 +1,4 @@
-﻿using STranslate.Helper;
-using STranslate.Log;
-using STranslate.Model;
-using STranslate.Util;
-using STranslate.ViewModels;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,6 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using STranslate.Helper;
+using STranslate.Log;
+using STranslate.Model;
+using STranslate.Util;
+using STranslate.ViewModels;
 
 namespace STranslate.Views
 {

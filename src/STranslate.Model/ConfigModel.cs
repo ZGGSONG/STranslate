@@ -294,6 +294,10 @@ public class ConfigModel
     /// 禁用热键
     /// </summary>
     public bool DisableGlobalHotkeys { get; set; }
+    
+    /// 启用模糊(旧版win10)、亚克力(新版win10)、云母(win11)效果
+    /// </summary>
+    public bool EnableBlur { get; set; }
 
     /// <summary>
     /// 热键
@@ -380,6 +384,7 @@ public class ConfigModel
             OcrViewWidth = OcrViewWidth,
             DetectType = DetectType,
             DisableGlobalHotkeys = DisableGlobalHotkeys,
+            EnableBlur = EnableBlur,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

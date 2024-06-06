@@ -7,7 +7,6 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels"
-             xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
              d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
