@@ -86,6 +86,7 @@ namespace STranslate.ViewModels.Preference
             UseFormsCopy = curConfig?.UseFormsCopy ?? false;
             ExternalCallPort = curConfig?.ExternalCallPort ?? 50020;
             DetectType = curConfig?.DetectType ?? LangDetectType.Local;
+            EnableBlur = curConfig?.EnableBlur ?? false;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -510,5 +511,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private LangDetectType _detectType = curConfig?.DetectType ?? LangDetectType.Local;
+
+        /// <summary>
+        /// 启用模糊(旧版win10)、亚克力(新版win10)、云母(win11)效果
+        /// </summary>
+        [ObservableProperty]
+        private bool _enableBlur = curConfig?.EnableBlur ?? false;
     }
 }

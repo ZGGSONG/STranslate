@@ -23,7 +23,7 @@
         Loaded="Window_Loaded"
         mc:Ignorable="d">
     <WindowChrome.WindowChrome>
-        <WindowChrome ResizeBorderThickness="5" />
+        <WindowChrome />
     </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />

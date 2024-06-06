@@ -239,6 +239,7 @@ public class ConfigHelper
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         CurrentConfig.DetectType = model.DetectType;
+        CurrentConfig.EnableBlur = model.EnableBlur;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -254,6 +255,7 @@ public class ConfigHelper
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
         ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
+        BlurOperate(CurrentConfig.EnableBlur);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -496,6 +498,8 @@ public class ConfigHelper
     private void HeightWidthOperate() => Singleton<MainViewModel>.Instance.ResetMaxHeightWidthCommand.Execute(null);
 
     private void ExternalCallOperate(int port, bool isStop = false) => Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
+
+    private void BlurOperate(bool enableBlur) => WindowAccentCompositor.Instance.IsEnabled = enableBlur;
 
     #endregion 私有方法
 

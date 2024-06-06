@@ -7,7 +7,6 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels"
-             xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
              d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -42,9 +41,6 @@
                 <DataTemplate>
                     <!-- 宽度需要绑定到StackPanel上，而非ListBox上 -->
                     <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
-                            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource ScaleFromTop},
-                                                               Delay=20,
-                                                               TransformOn=Render}"
                             Style="{DynamicResource BorderInOutputStyle}"
                             Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Border.Resources>

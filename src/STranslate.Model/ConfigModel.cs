@@ -291,6 +291,11 @@ public class ConfigModel
     public LangDetectType DetectType { get; set; }
 
     /// <summary>
+    /// 启用模糊(旧版win10)、亚克力(新版win10)、云母(win11)效果
+    /// </summary>
+    public bool EnableBlur { get; set; }
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -374,6 +379,7 @@ public class ConfigModel
             OcrViewHeight = OcrViewHeight,
             OcrViewWidth = OcrViewWidth,
             DetectType = DetectType,
+            EnableBlur = EnableBlur,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

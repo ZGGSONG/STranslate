@@ -7,24 +7,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:STranslate.Views"
         xmlns:vm="clr-namespace:STranslate.ViewModels"
-        xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
         x:Name="Mwin"
         Title="STranslate"
         MinWidth="400"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
-        AllowsTransparency="True"
-        Background="Transparent"
+        Background="{DynamicResource BorderBackground}"
         Deactivated="Mwin_Deactivated"
         FontFamily="{DynamicResource UserFont}"
         FontSize="{DynamicResource FontSize_Content}"
         Icon="{DynamicResource STranslate}"
         MouseLeftButtonDown="Mwin_MouseLeftButtonDown"
-        ResizeMode="NoResize"
         ShowInTaskbar="False"
         SizeChanged="Mwin_SizeChanged"
         SizeToContent="Height"
-        WindowStyle="None"
         mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="1" ResizeBorderThickness="0" />
+    </WindowChrome.WindowChrome>
     <Window.InputBindings>
         <KeyBinding Key="Q" Command="{Binding NotifyIconVM.ExitCommand}" Modifiers="Ctrl+Shift" />
         <KeyBinding Key="OemComma" Command="{Binding NotifyIconVM.OpenPreferenceCommand}" Modifiers="Ctrl" />
@@ -81,7 +80,7 @@
             <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=Mwin}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=100}" Style="{DynamicResource BorderMainStyle}">
+    <Border Style="{DynamicResource BorderMainStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
