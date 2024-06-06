@@ -61,13 +61,18 @@ public class WindowAccentCompositor
         {
             if (!isEnabled)
             {
+                //针对Win11的特殊处理
+                WindowChrome.SetWindowChrome(_window, new WindowChrome() { GlassFrameThickness = new Thickness(-1), ResizeBorderThickness = new Thickness(0, 0, 0, 0) });
+                _window.Background = new SolidColorBrush(DefineColor);
                 SetWindowBlur(handle, 0, BlurMode.None);
                 return;
             }
             //针对Win11的特殊处理
             WindowChrome.SetWindowChrome(_window, new WindowChrome() { GlassFrameThickness = new Thickness(-1), ResizeBorderThickness = new Thickness(0, 0, 0, 0) });
             //_window.Background = new SolidColorBrush(_color);
-            SetWindowBlur(handle, DarkMode.Dark, BlurMode.Auto);
+            _window.Background = new SolidColorBrush(Colors.Transparent);
+
+            SetWindowBlur(handle, DarkMode.Dark, BlurMode.Acrylic);
         }
         else
         {
