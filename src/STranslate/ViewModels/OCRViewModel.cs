@@ -587,6 +587,12 @@ namespace STranslate.ViewModels
             ImgScale = scaleTransform.ScaleX;
         }
 
+        [RelayCommand]
+        private void SwitchImg(Image img)
+        {
+            img.Source = img.Source == GetImg ? Bs : GetImg;
+        }
+
         // https://www.cnblogs.com/snake-hand/archive/2012/08/13/2636227.html
         private bool mouseDown;
 

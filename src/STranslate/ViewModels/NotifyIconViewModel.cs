@@ -242,7 +242,7 @@ namespace STranslate.ViewModels
             string? content = null;
             try
             {
-                content = ClipboardUtil.GetSelectedText(interval);
+                content = ClipboardUtil.GetSelectedText(interval)?.Trim();
                 if (string.IsNullOrEmpty(content))
                 {
                     LogService.Logger.Warn($"取词失败, 请尝试延长取词间隔(当前: {interval}ms)...");

@@ -6,6 +6,27 @@
   "description": "基于.Net 6 开发的新款翻译工具",
   "glyphs": [
     {
+      "icon_id": "6543468",
+      "name": "switch",
+      "font_class": "switch",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "8123223",
+      "name": "switch",
+      "font_class": "switch1",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "9502947",
+      "name": "switch",
+      "font_class": "switch2",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
       "icon_id": "1108",
       "name": "错误",
       "font_class": "cuowu",

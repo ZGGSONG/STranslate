@@ -240,6 +240,12 @@
                                         Style="{DynamicResource ButtonCopyIconStyle}"
                                         ToolTip="适应窗口"
                                         Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
+                                <Button Command="{Binding SwitchImgCommand}"
+                                        CommandParameter="{Binding ElementName=ImgCtl}"
+                                        Content="&#xe621;"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="切换原图/标注图"
+                                        Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                             </StackPanel>
                         </Grid>
                     </Grid>
