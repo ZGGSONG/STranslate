@@ -193,6 +193,8 @@ public class ConfigHelper
         var isSuccess = false;
         if (CurrentConfig is null)
             return isSuccess;
+        //判断是否相同,避免重复注册
+        var isHotkeyConfSame = CurrentConfig.DisableGlobalHotkeys == model.DisableGlobalHotkeys;
         CurrentConfig.IsStartup = model.IsStartup;
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -256,7 +258,9 @@ public class ConfigHelper
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
         ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
-        DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys, Application.Current.Windows.OfType<MainView>().First());
+
+        if (!isHotkeyConfSame)
+            DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys, Application.Current.Windows.OfType<MainView>().First());
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
