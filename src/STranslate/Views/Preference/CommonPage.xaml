@@ -131,6 +131,12 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果出现剪贴板被占用了，可尝试启用此配置" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding UseFormsCopy}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="禁用全局热键" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用全局热键" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding DisableGlobalHotkeys}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

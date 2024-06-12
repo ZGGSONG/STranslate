@@ -86,6 +86,7 @@ namespace STranslate.ViewModels.Preference
             UseFormsCopy = curConfig?.UseFormsCopy ?? false;
             ExternalCallPort = curConfig?.ExternalCallPort ?? 50020;
             DetectType = curConfig?.DetectType ?? LangDetectType.Local;
+            DisableGlobalHotkeys = curConfig?.DisableGlobalHotkeys ?? false;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -510,5 +511,11 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private LangDetectType _detectType = curConfig?.DetectType ?? LangDetectType.Local;
+
+        /// <summary>
+        /// 禁用全局热键
+        /// </summary>
+        [ObservableProperty]
+        private bool _disableGlobalHotkeys = curConfig?.DisableGlobalHotkeys ?? false;
     }
 }

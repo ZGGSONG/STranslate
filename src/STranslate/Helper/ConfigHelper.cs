@@ -14,6 +14,7 @@ using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.OCR;
 using STranslate.ViewModels.Preference.Translator;
 using STranslate.ViewModels.Preference.TTS;
+using STranslate.Views;
 
 namespace STranslate.Helper;
 
@@ -239,6 +240,7 @@ public class ConfigHelper
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         CurrentConfig.DetectType = model.DetectType;
+        CurrentConfig.DisableGlobalHotkeys = model.DisableGlobalHotkeys;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -254,12 +256,12 @@ public class ConfigHelper
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
         ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
+        DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys, Application.Current.Windows.OfType<MainView>().First());
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
     }
-
 
     /// <summary>
     /// 写入备份到配置
@@ -344,7 +346,7 @@ public class ConfigHelper
             return InitialConfig();
         }
     }
-    
+
     /// <summary>
     /// 备份当前配置文件
     /// </summary>
@@ -408,22 +410,19 @@ public class ConfigHelper
         conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword) ? conf.WebDavPassword : DESUtil.DesDecrypt(conf.WebDavPassword);
 
         // 读取时解密AppID、AppKey
-        conf
-            .Services?.ToList()
+        conf.Services?.ToList()
             .ForEach(service =>
             {
                 service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
                 service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
             });
-        conf
-            .OCRList?.ToList()
+        conf.OCRList?.ToList()
             .ForEach(ocr =>
             {
                 ocr.AppID = string.IsNullOrEmpty(ocr.AppID) ? ocr.AppID : DESUtil.DesDecrypt(ocr.AppID);
                 ocr.AppKey = string.IsNullOrEmpty(ocr.AppKey) ? ocr.AppKey : DESUtil.DesDecrypt(ocr.AppKey);
             });
-        conf
-            .TTSList?.ToList()
+        conf.TTSList?.ToList()
             .ForEach(tts =>
             {
                 tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
@@ -497,6 +496,13 @@ public class ConfigHelper
 
     private void ExternalCallOperate(int port, bool isStop = false) => Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
 
+    /// <summary>
+    /// 初始化时自动进MainViewModel进行处理
+    /// 后续修改执行该处理
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="view"></param>
+    private void DisableGlobalHotkeysOperate(bool value, Window view) => Singleton<NotifyIconViewModel>.Instance.InvokeForbiddenShotcuts(view, value);
     #endregion 私有方法
 
     #region 字段 && 属性
@@ -573,14 +579,15 @@ public class ConfigHelper
             OcrViewHeight = 400,
             OcrViewWidth = 1000,
             DetectType = LangDetectType.Local,
+            DisableGlobalHotkeys = false,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),
                 new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
                 new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", IconType.DeepL, isEnabled: false)
             ],
-            OCRList = [ new PaddleOCR() ],
-            TTSList = [ new TTSOffline() ]
+            OCRList = [new PaddleOCR()],
+            TTSList = [new TTSOffline()]
         };
     }
 

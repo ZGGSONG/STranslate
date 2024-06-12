@@ -291,6 +291,11 @@ public class ConfigModel
     public LangDetectType DetectType { get; set; }
 
     /// <summary>
+    /// 禁用热键
+    /// </summary>
+    public bool DisableGlobalHotkeys { get; set; }
+
+    /// <summary>
     /// 热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -374,6 +379,7 @@ public class ConfigModel
             OcrViewHeight = OcrViewHeight,
             OcrViewWidth = OcrViewWidth,
             DetectType = DetectType,
+            DisableGlobalHotkeys = DisableGlobalHotkeys,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),
