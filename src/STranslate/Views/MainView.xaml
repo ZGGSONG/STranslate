@@ -10,7 +10,7 @@
         xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
         x:Name="Mwin"
         Title="STranslate"
-        MinWidth="400"
+        MinWidth="464"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         AllowsTransparency="True"
         Background="Transparent"
@@ -53,11 +53,15 @@
         <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
 
         <!-- // 宽、最大高快捷键调整 // -->
-        <KeyBinding Command="{Binding ViewWidthMaxHeightPlusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+OemPlus" />
-        <KeyBinding Command="{Binding ViewWidthPlusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+Alt+OemPlus" />
+        <KeyBinding Command="{Binding ViewWidthMaxHeightPlusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+                    Gesture="Ctrl+OemPlus" />
+        <KeyBinding Command="{Binding ViewWidthPlusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+                    Gesture="Ctrl+Alt+OemPlus" />
         <KeyBinding Command="{Binding ViewMaxHeightPlusCommand}" Gesture="Ctrl+Shift+OemPlus" />
-        <KeyBinding Command="{Binding ViewWidthMaxHeightMinusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+OemMinus" />
-        <KeyBinding Command="{Binding ViewWidthMinusCommand}" CommandParameter="{Binding ElementName=Mwin}" Gesture="Ctrl+Alt+OemMinus" />
+        <KeyBinding Command="{Binding ViewWidthMaxHeightMinusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+                    Gesture="Ctrl+OemMinus" />
+        <KeyBinding Command="{Binding ViewWidthMinusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+                    Gesture="Ctrl+Alt+OemMinus" />
         <KeyBinding Command="{Binding ViewMaxHeightMinusCommand}" Gesture="Ctrl+Shift+OemMinus" />
         <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" Gesture="Ctrl+0" />
     </Window.InputBindings>
@@ -81,7 +85,15 @@
             <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=Mwin}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}" Style="{DynamicResource BorderMainStyle}">
+    <Border Margin="32 12 32 32"
+            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}"
+            Style="{DynamicResource BorderMainStyle}">
+        <Border.Effect>
+            <DropShadowEffect Opacity="0.3"
+                              BlurRadius="30"
+                              Direction="270"
+                              ShadowDepth="12" />
+        </Border.Effect>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />

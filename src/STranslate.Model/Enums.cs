@@ -488,19 +488,19 @@ namespace STranslate.Model
     public enum MaxHeight : int
     {
         [Description("最小高度")]
-        Minimum = 328,
+        Minimum = 372,
 
         [Description("较小高度")]
-        Smaller = 496,
+        Smaller = 540,
 
         [Description("中等高度")]
-        Medium = 600,
+        Medium = 644,
 
         [Description("较大高度")]
-        Larger = 700,
+        Larger = 744,
 
         [Description("最大高度")]
-        Maximum = 800,
+        Maximum = 844,
 
         [Description("工作区高度")]
         WorkAreaMaximum = 9999
@@ -512,22 +512,22 @@ namespace STranslate.Model
     public enum WidthEnum : int
     {
         [Description("最最小宽度")]
-        UltraMinimum = 400,
+        UltraMinimum = 464,
 
         [Description("最小宽度")]
-        Minimum = 480,
+        Minimum = 544,
 
         [Description("较小宽度")]
-        Smaller = 600,
+        Smaller = 664,
 
         [Description("中等宽度")]
-        Medium = 800,
+        Medium = 864,
 
         [Description("较大宽度")]
-        Larger = 1000,
+        Larger = 1064,
 
         [Description("最大宽度")]
-        Maximum = 1200,
+        Maximum = 1264,
 
         [Description("工作区宽度")]
         WorkAreaMaximum = 9999
