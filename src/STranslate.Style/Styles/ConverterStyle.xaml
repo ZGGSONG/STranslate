@@ -23,4 +23,6 @@
     <converter:Collection2VisibilityConverter x:Key="Collection2VisibilityConverter" />
     <converter:TextBoxToIntConverter x:Key="TextBoxToIntConverter" />
     <converter:ParamEqualToVisibility x:Key="ParamEqualToVisibility" />
+    <converter:PromptToVisibilityConverter x:Key="PromptToVisibilityConverter" />
+    <converter:PromptConverter x:Key="PromptConverter" />
 </ResourceDictionary>

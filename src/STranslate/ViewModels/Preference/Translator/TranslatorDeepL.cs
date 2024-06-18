@@ -21,7 +21,9 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
     #region Constructor
 
     public TranslatorDeepL()
-        : this(Guid.NewGuid(), "https://api-free.deepl.com/v2/translate", "DeepL") { }
+        : this(Guid.NewGuid(), "https://api-free.deepl.com/v2/translate", "DeepL")
+    {
+    }
 
     public TranslatorDeepL(
         Guid guid,
@@ -48,24 +50,15 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
 
     #region Properties
 
-    [ObservableProperty]
-    private Guid _identify = Guid.Empty;
+    [ObservableProperty] private Guid _identify = Guid.Empty;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    private ServiceType _type = 0;
+    [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    private bool _isEnabled = true;
+    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    private string _name = string.Empty;
+    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    private IconType _icon = IconType.DeepL;
+    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.DeepL;
 
     [JsonIgnore]
     [ObservableProperty]
@@ -85,33 +78,22 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     private string _appKey = string.Empty;
 
-    [JsonIgnore]
-    public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
+    [JsonIgnore] public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
 
-    [JsonIgnore]
-    [ObservableProperty]
-    private bool _autoExpander = true;
+    [JsonIgnore] [ObservableProperty] private bool _autoExpander = true;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: JsonIgnore]
+    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private TranslationResult _data = TranslationResult.Reset;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: JsonIgnore]
-    private bool _isExecuting = false;
+    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
+    private bool _isExecuting;
 
     #region Show/Hide Encrypt Info
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: JsonIgnore]
+    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private bool _idHide = true;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: JsonIgnore]
+    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private bool _keyHide = true;
 
     private void ShowEncryptInfo(string? obj)
@@ -134,7 +116,8 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
     private RelayCommand<string>? _showEncryptInfoCommand;
 
     [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand => _showEncryptInfoCommand ??= new RelayCommand<string>(new Action<string?>(ShowEncryptInfo));
+    public IRelayCommand<string> ShowEncryptInfoCommand =>
+        _showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
 
     #endregion Show/Hide Encrypt Info
 
@@ -142,14 +125,15 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
 
     #region Service Test
 
-    [ObservableProperty]
-    private bool _isTesting = false;
+    [property: JsonIgnore] [ObservableProperty]
+    private bool _isTesting;
 
+    [property: JsonIgnore]
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task TestAsync(CancellationToken token)
     {
         var result = "";
-        bool isCancel = false;
+        var isCancel = false;
         try
         {
             IsTesting = true;
@@ -182,31 +166,32 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
         if (request is not RequestModel reqModel)
             throw new Exception($"请求数据出错: {request}");
 
-        var convSource = LangConverter(reqModel.SourceLang) ?? throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
-        var convTarget = LangConverter(reqModel.TargetLang) ?? throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+        var convSource = LangConverter(reqModel.SourceLang) ??
+                         throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
+        var convTarget = LangConverter(reqModel.TargetLang) ??
+                         throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
 
         object preReq;
         if (convSource.Equals("auto"))
-        {
-            preReq = new { text = new[] { reqModel.Text }, target_lang = convTarget, };
-        }
+            preReq = new { text = new[] { reqModel.Text }, target_lang = convTarget };
         else
-        {
             preReq = new
             {
                 text = new[] { reqModel.Text },
                 target_lang = convTarget,
-                source_lang = convSource,
+                source_lang = convSource
             };
-        }
 
         var req = JsonConvert.SerializeObject(preReq);
 
-        var authToken = string.IsNullOrEmpty(AppKey) ? [] : new Dictionary<string, string> { { "Authorization", $"DeepL-Auth-Key {AppKey}" } };
+        var authToken = string.IsNullOrEmpty(AppKey)
+            ? []
+            : new Dictionary<string, string> { { "Authorization", $"DeepL-Auth-Key {AppKey}" } };
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ?? throw new Exception("请求结果为空");
+            var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ??
+                       throw new Exception("请求结果为空");
             var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
             var data = parseData["translations"]?.FirstOrDefault()?["text"]?.ToString();
 
@@ -226,9 +211,10 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             if (ex.InnerException is Exception innEx)
             {
                 var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
-                msg += $" {innMsg?["message"]?.ToString()}";
+                msg += $" {innMsg?["message"]}";
                 LogService.Logger.Error($"({Name})({Identify}) raw content:\n{innEx.Message}");
             }
+
             msg = msg.Trim();
 
             throw new Exception(msg);
@@ -254,12 +240,12 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             AppID = AppID,
             AppKey = AppKey,
             AutoExpander = AutoExpander,
-            IsExecuting = IsExecuting,
+            IsExecuting = IsExecuting
         };
     }
 
     /// <summary>
-    /// https://developers.deepl.com/docs/v/zh/resources/supported-languages#source-languages
+    ///     https://developers.deepl.com/docs/v/zh/resources/supported-languages#source-languages
     /// </summary>
     /// <param name="lang"></param>
     /// <returns></returns>

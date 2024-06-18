@@ -299,6 +299,7 @@ public partial class MainViewModel : ObservableObject
 
     private void CancelAndTranslate()
     {
+        OutputVM.ExpanderHeaderCancelCommand.Execute(null);
         OutputVM.SingleTranslateCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
         InputVM.TranslateCommand.Execute(null);
@@ -374,6 +375,7 @@ public partial class MainViewModel : ObservableObject
         InputVM.InputContent = content;
 
         //如果重复执行先取消上一步操作
+        OutputVM.ExpanderHeaderCancelCommand.Execute(null);
         OutputVM.SingleTranslateCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
 
@@ -424,6 +426,7 @@ public partial class MainViewModel : ObservableObject
         IsTopMost = ConstStr.TAGFALSE;
         TopMostContent = ConstStr.UNTOPMOSTCONTENT;
         win.ViewAnimation(false);
+        OutputVM.ExpanderHeaderCancelCommand.Execute(null);
         OutputVM.SingleTranslateCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
         NotifyIconVM.ScreenShotTranslateCancelCommand.Execute(null);

@@ -18,10 +18,10 @@ namespace STranslate.Style.Converters
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
             var content = (string)value[0];
-            var autoexpander = (bool)value[1];
+            var autoExpander = (bool)value[1];
             var isExecuting = (bool)value[2];
             // 如果值是非空字符串，则返回 true；否则返回 false。
-            return !string.IsNullOrEmpty(content) && autoexpander || isExecuting;
+            return !string.IsNullOrEmpty(content) && autoExpander || isExecuting;
         }
 
         /// <summary>
@@ -34,11 +34,8 @@ namespace STranslate.Style.Converters
         /// <returns>Binding.DoNothing 表示无需执行任何操作。</returns>
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
         {
-            // 用户通过 UI 更改了 Expander 的状态，不需要执行任何操作。
-            object[] convertedValues = Enumerable.Repeat(Binding.DoNothing, targetType.Length).ToArray();
-
             // 返回填充了 Binding.DoNothing 的数组
-            return convertedValues;
+            return Enumerable.Repeat(Binding.DoNothing, targetType.Length).ToArray();
         }
     }
 }

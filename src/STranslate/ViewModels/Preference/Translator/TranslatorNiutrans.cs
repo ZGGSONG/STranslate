@@ -114,16 +114,16 @@ namespace STranslate.ViewModels.Preference.Translator
 
         private void ShowEncryptInfo(string? obj)
         {
-            if (obj == null)
-                return;
-
-            if (obj.Equals(nameof(AppID)))
+            switch (obj)
             {
-                IdHide = !IdHide;
-            }
-            else if (obj.Equals(nameof(AppKey)))
-            {
-                KeyHide = !KeyHide;
+                case null:
+                    return;
+                case nameof(AppID):
+                    IdHide = !IdHide;
+                    break;
+                case nameof(AppKey):
+                    KeyHide = !KeyHide;
+                    break;
             }
         }
 
@@ -159,9 +159,11 @@ namespace STranslate.ViewModels.Preference.Translator
 
         #region Service Test
 
+        [property: JsonIgnore]
         [ObservableProperty]
         private bool _isTesting = false;
 
+        [property: JsonIgnore]
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task TestAsync(CancellationToken token)
         {

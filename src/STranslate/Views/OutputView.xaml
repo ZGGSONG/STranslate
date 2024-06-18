@@ -41,22 +41,24 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <!-- 宽度需要绑定到StackPanel上，而非ListBox上 -->
-                    <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
-                            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow},
+                    <Border
+                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
+                        xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow},
                                                                Delay=10,
                                                                TransformOn=Render}"
-                            Style="{DynamicResource BorderInOutputStyle}"
-                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        Style="{DynamicResource BorderInOutputStyle}"
+                        Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Border.Resources>
                             <common:BindingProxy x:Key="proxy" Data="{Binding}" />
                         </Border.Resources>
                         <Border.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.UpdateAutoExpanderCommand}"
-                                          CommandParameter="{Binding Source={StaticResource proxy}, Path=Data}"
-                                          Header="自动展开"
-                                          Icon="&#xe609;"
-                                          IsCheckable="{Binding Source={StaticResource proxy}, Path=Data.AutoExpander}" />
+                                <MenuItem
+                                    Command="{Binding Source={StaticResource vm}, Path=Data.UpdateAutoExpanderCommand}"
+                                    CommandParameter="{Binding Source={StaticResource proxy}, Path=Data}"
+                                    Header="自动展开"
+                                    Icon="&#xe609;"
+                                    IsCheckable="{Binding Source={StaticResource proxy}, Path=Data.AutoExpander}" />
                                 <Separator />
                                 <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.CloseServiceCommand}"
                                           CommandParameter="{Binding Source={StaticResource proxy}, Path=Data}"
@@ -66,8 +68,10 @@
                         </Border.ContextMenu>
                         <Expander VerticalAlignment="Top"
                                   ExpandDirection="Down"
+                                  x:Name="expander"
                                   IsEnabled="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}, Mode=OneWay}"
                                   SnapsToDevicePixels="True">
+                            <!--// Expander 展开状态绑定结果 //-->
                             <Expander.IsExpanded>
                                 <MultiBinding Converter="{StaticResource MultiValue2ExpandedConverter}">
                                     <Binding Path="Data.Result" />
@@ -75,14 +79,19 @@
                                     <Binding Path="IsExecuting" />
                                 </MultiBinding>
                             </Expander.IsExpanded>
-                            <Expander.Triggers>
-                                <EventTrigger RoutedEvent="Expander.Expanded">
-                                    <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}" />
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="Expander.Collapsed">
-                                    <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}" />
-                                </EventTrigger>
-                            </Expander.Triggers>
+                            <!--// 手动触发Expander的Expanded事件 //--><!--
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Expanded">
+                                    <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.ExpanderHeaderCommand}">
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                <Binding ElementName="expander" />
+                                                <Binding Path="." />
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
                             <Expander.Header>
                                 <Grid Height="30">
                                     <Grid.ColumnDefinitions>
@@ -90,12 +99,32 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
-                                        <Image Width="18" Margin="10,0,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                        <Image Width="18" Margin="10,0,0,0"
+                                               Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
                                         <TextBlock Margin="10,0,0,0"
                                                    FontSize="{DynamicResource FontSize_Identify}"
                                                    Foreground="{DynamicResource TextForeground}"
                                                    Text="{Binding Name}"
                                                    TextTrimming="CharacterEllipsis" />
+                                        <!--<Button Margin="10 0 0 0"
+                                                Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
+                                                FontSize="{DynamicResource FontSize_Identify}"
+                                                Foreground="{DynamicResource TextForeground}"
+                                                Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}" />-->
+                                        <Border Margin="10 0 0 0"
+                                                Padding="3 0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                BorderThickness="1"
+                                                BorderBrush="{DynamicResource ThemeAccentColor}"
+                                                CornerRadius="6"
+                                                Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}">
+                                            <TextBlock
+                                                FontSize="{DynamicResource FontSize_Identify}"
+                                                Foreground="{DynamicResource TextForeground}"
+                                                Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}"
+                                                Text="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}" />
+                                        </Border>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1"
@@ -117,9 +146,12 @@
                                         <!-- // 复制按钮到Expander上 Expander收起时显示// -->
                                         <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
                                             <StackPanel.Visibility>
-                                                <MultiBinding Converter="{StaticResource MultiValue2VisibilityConverter}">
-                                                    <Binding Path="IsExpanded" RelativeSource="{RelativeSource AncestorType=Expander}" />
-                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                <MultiBinding
+                                                    Converter="{StaticResource MultiValue2VisibilityConverter}">
+                                                    <Binding Path="IsExpanded"
+                                                             RelativeSource="{RelativeSource AncestorType=Expander}" />
+                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader"
+                                                             RelativeSource="{RelativeSource AncestorType=Window}" />
                                                     <Binding Path="Data.IsSuccess" />
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
@@ -167,12 +199,21 @@
                                     </StackPanel>
                                 </Grid>
                             </Expander.Header>
+                            <!--// Expander Header Copy Button Fade In/Out Animation //-->
+                            <Expander.Triggers>
+                                <EventTrigger RoutedEvent="Expander.Expanded">
+                                    <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}" />
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="Expander.Collapsed">
+                                    <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}" />
+                                </EventTrigger>
+                            </Expander.Triggers>
                             <Grid>
-                                <TextBox ContextMenu="{x:Null}"
-                                         PreviewMouseWheel="TextBox_PreviewMouseWheel"
-                                         Style="{DynamicResource TextBoxOutputStyle}"
-                                         Tag="{Binding Data.IsSuccess}"
-                                         Text="{Binding Data.Result}" />
+                                <TextBox
+                                    PreviewMouseWheel="TextBox_PreviewMouseWheel"
+                                    Style="{DynamicResource TextBoxOutputStyle}"
+                                    Tag="{Binding Data.IsSuccess}"
+                                    Text="{Binding Data.Result}" />
                                 <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
                                     <!-- TTS -->
                                     <Button Margin="5,0,0,0"
@@ -216,7 +257,8 @@
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 </StackPanel>
                                 <!-- // 加载动画 // -->
-                                <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}" Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}"
+                                                   Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Grid>
                         </Expander>
                     </Border>

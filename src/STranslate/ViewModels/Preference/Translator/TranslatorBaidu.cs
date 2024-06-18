@@ -160,9 +160,11 @@ namespace STranslate.ViewModels.Preference.Translator
 
         #region Service Test
 
+        [property: JsonIgnore]
         [ObservableProperty]
         private bool _isTesting = false;
 
+        [property: JsonIgnore]
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task TestAsync(CancellationToken token)
         {

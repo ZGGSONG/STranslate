@@ -25,16 +25,16 @@ namespace STranslate.ViewModels;
 public partial class InputViewModel : ObservableObject
 {
     #region 属性、字段
+
     public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
 
     /// <summary>
-    /// 自动识别的语言
+    ///     自动识别的语言
     /// </summary>
-    [ObservableProperty]
-    private string _identifyLanguage = string.Empty;
+    [ObservableProperty] private string _identifyLanguage = string.Empty;
 
     /// <summary>
-    /// 输入内容
+    ///     输入内容
     /// </summary>
     private string _inputContent = string.Empty;
 
@@ -61,12 +61,12 @@ public partial class InputViewModel : ObservableObject
 
     private bool CanTranslate => !string.IsNullOrEmpty(InputContent);
 
-    [ObservableProperty]
-    private string _placeholder = ConstStr.MAINVIEWPLACEHOLDER;
+    [ObservableProperty] private string _placeholder = ConstStr.MAINVIEWPLACEHOLDER;
 
     #endregion 属性、字段
 
     #region 命令
+
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task TTS(string text, CancellationToken token)
     {
@@ -95,7 +95,9 @@ public partial class InputViewModel : ObservableObject
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
             await HandleHistoryAsync(obj, history, sourceLang, dbTarget, size);
         }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException)
+        {
+        }
         catch (Exception ex)
         {
             LogService.Logger.Error("[TranslateAsync]", ex);
@@ -103,7 +105,7 @@ public partial class InputViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 前置处理
+    ///     前置处理
     /// </summary>
     /// <returns></returns>
     private bool PreviousHandle()
@@ -111,13 +113,18 @@ public partial class InputViewModel : ObservableObject
         if (!string.IsNullOrWhiteSpace(InputContent))
             return true;
 
-        Parallel.ForEach(Singleton<TranslatorViewModel>.Instance.CurTransServiceList, (service, cancellationToken) => service.Data = TranslationResult.Fail("请输入有效内容"));
+        Parallel.ForEach(Singleton<TranslatorViewModel>.Instance.CurTransServiceList,
+            (service, cancellationToken) => service.Data = TranslationResult.Fail("请输入有效内容"));
         return false;
     }
 
-    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LangEnum source, LangEnum dbTarget, LangEnum target, long size, CancellationToken token)
+    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LangEnum source, LangEnum dbTarget,
+        LangEnum target, long size, CancellationToken token)
     {
+        // 过滤非启用的翻译服务
         var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
+        // 不自动展开的不主动翻译
+        //services = services.Where(x => x.AutoExpander).ToList();
         HistoryModel? history = null;
         List<ITranslator>? translatorList = null;
         //读取配置翻译后复制服务索引
@@ -141,7 +148,7 @@ public partial class InputViewModel : ObservableObject
             }
         }
 
-    execute:
+        execute:
         await Parallel.ForEachAsync(
             services,
             token,
@@ -154,7 +161,8 @@ public partial class InputViewModel : ObservableObject
                     if (translatorList != null)
                     {
                         IdentifyLanguage = "缓存";
-                        service.Data = translatorList.FirstOrDefault(x => x.Identify == service.Identify)?.Data ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
+                        service.Data = translatorList.FirstOrDefault(x => x.Identify == service.Identify)?.Data ??
+                                       TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
                         goto copy;
                     }
 
@@ -163,19 +171,20 @@ public partial class InputViewModel : ObservableObject
                     // 原始语种自动识别
                     if (source == LangEnum.auto)
                     {
-                        var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
+                        var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ??
+                                         LangDetectType.Local;
                         identify = await LangDetectHelper.DetectAsync(InputContent, detectType, cancellationToken);
                         IdentifyLanguage = identify.GetDescription();
                     }
 
                     //如果是自动则获取自动识别后的目标语种
                     if (target == LangEnum.auto)
-                    {
                         //目标语言
                         //1. 识别语种为中文系则目标语言为英文
                         //2. 识别语种为自动或其他语系则目标语言为中文
-                        target = (identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue) ? LangEnum.en : LangEnum.zh_cn;
-                    }
+                        target = identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue
+                            ? LangEnum.en
+                            : LangEnum.zh_cn;
 
                     //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
                     //TODO: 新接口需要适配
@@ -186,26 +195,25 @@ public partial class InputViewModel : ObservableObject
                         case ServiceType.ChatglmService:
                         case ServiceType.OllamaService:
                         case ServiceType.BaiduBceService:
-                            {
-                                //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                                //Auto则转换为识别语种
-                                source = source == LangEnum.auto ? identify : source;
-                                await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
-                                break;
-                            }
+                        {
+                            //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                            //Auto则转换为识别语种
+                            source = source == LangEnum.auto ? identify : source;
+                            await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
+                            break;
+                        }
 
                         default:
                             await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
                             break;
                     }
 
-                copy:
+                    copy:
                     //翻译后复制结果
                     var currentServiceIndex = services.IndexOf(service) + 1;
                     if (currentServiceIndex == copyIndex)
-                    {
-                        CommonUtil.InvokeOnUIThread(() => Singleton<OutputViewModel>.Instance.HotkeyCopyCommand.Execute(copyIndex.ToString()));
-                    }
+                        CommonUtil.InvokeOnUIThread(() =>
+                            Singleton<OutputViewModel>.Instance.HotkeyCopyCommand.Execute(copyIndex.ToString()));
                 }
                 catch (TaskCanceledException ex)
                 {
@@ -221,10 +229,7 @@ public partial class InputViewModel : ObservableObject
                 }
                 finally
                 {
-                    if (service.IsExecuting)
-                    {
-                        service.IsExecuting = false;
-                    }
+                    if (service.IsExecuting) service.IsExecuting = false;
                 }
             }
         );
@@ -232,7 +237,8 @@ public partial class InputViewModel : ObservableObject
         return history;
     }
 
-    private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception, CancellationToken token)
+    private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception,
+        CancellationToken token)
     {
         var isCancelMsg = false;
         switch (exception)
@@ -249,13 +255,15 @@ public partial class InputViewModel : ObservableObject
         service.Data = TranslationResult.Fail($"{errorMessage}: {exception.Message}", exception);
 
         if (isCancelMsg)
-            LogService.Logger.Debug($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+            LogService.Logger.Debug(
+                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
         else
-            LogService.Logger.Error($"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+            LogService.Logger.Error(
+                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
     }
 
     /// <summary>
-    /// 插入数据库
+    ///     插入数据库
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="history"></param>
@@ -263,12 +271,14 @@ public partial class InputViewModel : ObservableObject
     /// <param name="dbTarget"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    private async Task HandleHistoryAsync(object? obj, HistoryModel? history, LangEnum source, LangEnum dbTarget, long size)
+    private async Task HandleHistoryAsync(object? obj, HistoryModel? history, LangEnum source, LangEnum dbTarget,
+        long size)
     {
         if (history is null && size > 0)
         {
             var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
-            var jsonSerializerSettings = new JsonSerializerSettings { ContractResolver = new CustomizeContractResolver() };
+            var jsonSerializerSettings = new JsonSerializerSettings
+                { ContractResolver = new CustomizeContractResolver() };
 
             var data = new HistoryModel
             {
@@ -285,7 +295,7 @@ public partial class InputViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 非流数据处理
+    ///     非流数据处理
     /// </summary>
     /// <param name="service"></param>
     /// <param name="content"></param>
@@ -293,11 +303,14 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public async Task NonStreamHandlerAsync(ITranslator service, string content, LangEnum source, LangEnum target, CancellationToken token) =>
+    public async Task NonStreamHandlerAsync(ITranslator service, string content, LangEnum source, LangEnum target,
+        CancellationToken token)
+    {
         service.Data = await service.TranslateAsync(new RequestModel(content, source, target), token);
+    }
 
     /// <summary>
-    /// 流式数据处理
+    ///     流式数据处理
     /// </summary>
     /// <param name="service"></param>
     /// <param name="content"></param>
@@ -305,7 +318,8 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public async Task StreamHandlerAsync(ITranslator service, string content, LangEnum source, LangEnum target, CancellationToken token)
+    public async Task StreamHandlerAsync(ITranslator service, string content, LangEnum source, LangEnum target,
+        CancellationToken token)
     {
         //先清空
         service.Data = TranslationResult.Reset;
@@ -334,11 +348,9 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private void CopyContent(string content)
     {
-        if (!string.IsNullOrEmpty(content))
-        {
-            ClipboardHelper.Copy(content);
-            ToastHelper.Show("复制成功");
-        }
+        if (string.IsNullOrEmpty(content)) return;
+        ClipboardHelper.Copy(content);
+        ToastHelper.Show("复制成功");
     }
 
     [RelayCommand]
@@ -396,57 +408,47 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private void TbSelectAll(object obj)
     {
-        if (obj is TextBox tb)
-        {
-            tb.SelectAll();
-        }
+        if (obj is TextBox tb) tb.SelectAll();
     }
 
     [RelayCommand]
     private void TbCopy(object obj)
     {
-        if (obj is TextBox tb)
-        {
-            var text = tb.SelectedText;
-            if (!string.IsNullOrEmpty(text))
-                ClipboardHelper.Copy(text);
-        }
+        if (obj is not TextBox tb) return;
+        var text = tb.SelectedText;
+        if (!string.IsNullOrEmpty(text))
+            ClipboardHelper.Copy(text);
     }
 
     [RelayCommand]
     private void TbPaste(object obj)
     {
-        if (obj is TextBox tb)
-        {
-            var getText = Clipboard.GetText();
+        if (obj is not TextBox tb) return;
+        var getText = Clipboard.GetText();
 
-            //剪贴板内容为空或者为非字符串则不处理
-            if (string.IsNullOrEmpty(getText))
-                return;
-            var index = tb.SelectionStart;
-            //处理选中字符串
-            var selectLength = tb.SelectionLength;
-            //删除选中文本再粘贴
-            var preHandleStr = tb.Text.Remove(index, selectLength);
+        //剪贴板内容为空或者为非字符串则不处理
+        if (string.IsNullOrEmpty(getText))
+            return;
+        var index = tb.SelectionStart;
+        //处理选中字符串
+        var selectLength = tb.SelectionLength;
+        //删除选中文本再粘贴
+        var preHandleStr = tb.Text.Remove(index, selectLength);
 
-            var newText = preHandleStr.Insert(index, getText);
-            tb.Text = newText;
+        var newText = preHandleStr.Insert(index, getText);
+        tb.Text = newText;
 
-            // 重新定位光标索引
-            tb.SelectionStart = index + getText.Length;
+        // 重新定位光标索引
+        tb.SelectionStart = index + getText.Length;
 
-            // 聚焦光标
-            tb.Focus();
-        }
+        // 聚焦光标
+        tb.Focus();
     }
 
     [RelayCommand]
     private void TbClear(object obj)
     {
-        if (obj is TextBox tb)
-        {
-            tb.Clear();
-        }
+        if (obj is TextBox tb) tb.Clear();
     }
 
     #endregion ContextMenu
@@ -457,9 +459,9 @@ public partial class InputViewModel : ObservableObject
 #region JsonConvert
 
 /// <summary>
-/// 自定义属性构造器
-/// 1、可以通过构造方法，传入bool动态控制，主要用于外面有统一封装的时候
-/// 2、可以通过构造方法，传入需要显示的属性名称，然后基于list做linq过滤
+///     自定义属性构造器
+///     1、可以通过构造方法，传入bool动态控制，主要用于外面有统一封装的时候
+///     2、可以通过构造方法，传入需要显示的属性名称，然后基于list做linq过滤
 /// </summary>
 public class CustomizeContractResolver : DefaultContractResolver
 {
@@ -471,16 +473,13 @@ public class CustomizeContractResolver : DefaultContractResolver
             .Select(property =>
             {
                 // 设置不忽略 Data 属性
-                if (property is { Ignored: true, PropertyName: "Data" })
-                {
-                    property.Ignored = false;
-                }
+                if (property is { Ignored: true, PropertyName: "Data" }) property.Ignored = false;
 
                 switch (property.PropertyName)
                 {
                     // 忽略 AppID 和 AppKey 属性
                     case "AppID"
-                    or "AppKey":
+                        or "AppKey":
                         property.Ignored = true;
                         break;
                     // 特殊处理 TranslationResult 类型的 Data 属性
@@ -502,11 +501,12 @@ public class CustomizeContractResolver : DefaultContractResolver
 }
 
 /// <summary>
-/// 获取当前翻译服务的缓存结果
+///     获取当前翻译服务的缓存结果
 /// </summary>
 public class CurrentTranslatorConverter : JsonConverter<ITranslator>
 {
-    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue,
+        bool hasExistingValue, JsonSerializer serializer)
     {
         // 从 JSON 数据中加载一个 JObject
         var jsonObject = JObject.Load(reader);
@@ -554,7 +554,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             //兼容旧版结果
             var data = jsonObject["Data"]?.Value<string>();
-            translator.Data.Result = data is null ? ConstStr.INPUTERRORCONTENT : data;
+            translator.Data.Result = data ?? ConstStr.INPUTERRORCONTENT;
         }
 
         // 返回构建好的 translator 对象
