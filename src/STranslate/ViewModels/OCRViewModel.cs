@@ -24,7 +24,7 @@ namespace STranslate.ViewModels
 {
     public partial class OCRViewModel : WindowVMBase
     {
-        private OCRScvViewModel OcrScvVm => Singleton<OCRScvViewModel>.Instance;
+        public OCRScvViewModel OcrScvVm => Singleton<OCRScvViewModel>.Instance;
 
         /// <summary>
         /// 语言类型
@@ -118,7 +118,7 @@ namespace STranslate.ViewModels
         /// 重置字体大小
         /// </summary>
         [RelayCommand]
-        private void ResetFontsize() => Application.Current.Resources["FontSize_TextBox"] = 18.0;
+        private void ResetFontSize() => Application.Current.Resources["FontSize_TextBox"] = 18.0;
 
         public override void Close(Window win)
         {

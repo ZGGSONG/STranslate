@@ -60,8 +60,8 @@ namespace STranslate.Views
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // 计算窗口左上角在屏幕上的位置
-            double left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
-            double top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+            var left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
+            var top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
 
             // 设置窗口位置
             Left = left;
@@ -75,7 +75,7 @@ namespace STranslate.Views
         /// <param name="e"></param>
         private void Header_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            WindowInteropHelper wndHelper = new WindowInteropHelper(this);
+            var wndHelper = new WindowInteropHelper(this);
             ReleaseCapture();
             SendMessage(wndHelper.Handle, WM_SYSCOMMAND, SC_MOVE + WM_DESTROY, WM_NULL);
         }
@@ -87,23 +87,18 @@ namespace STranslate.Views
         /// <param name="e"></param>
         private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
-            {
-                if (this.WindowState == WindowState.Maximized)
-                    this.WindowState = WindowState.Normal;
-                else
-                    this.WindowState = WindowState.Maximized;
-            }
+            if (e.ClickCount != 2) return;
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void InputTB_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             // 检查是否按住 Ctrl 键，如果按住则进行缩放等特殊操作，否则进行滚动
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                double currentFontSize = (double)Application.Current.Resources["FontSize_TextBox"];
+                var currentFontSize = (double)Application.Current.Resources["FontSize_TextBox"];
 
                 // 根据滚轮事件更改字体大小
                 if (e.Delta > 0)

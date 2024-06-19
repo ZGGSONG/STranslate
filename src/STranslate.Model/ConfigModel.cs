@@ -170,16 +170,6 @@ public class ConfigModel
     public bool IsCaretLast { get; set; } = false;
 
     /// <summary>
-    /// 最大高度
-    /// </summary>
-    public MaxHeight MaxHeight { get; set; } = MaxHeight.Maximum;
-
-    /// <summary>
-    /// 最大宽度
-    /// </summary>
-    public WidthEnum Width { get; set; } = WidthEnum.Minimum;
-
-    /// <summary>
     /// 网络代理方式
     /// </summary>
     public ProxyMethodEnum ProxyMethod { get; set; } = ProxyMethodEnum.系统代理;
@@ -288,12 +278,22 @@ public class ConfigModel
     /// <summary>
     /// 语种识别服务
     /// </summary>
-    public LangDetectType DetectType { get; set; }
+    public LangDetectType DetectType { get; set; } = LangDetectType.Local;
 
     /// <summary>
     /// 禁用热键
     /// </summary>
-    public bool DisableGlobalHotkeys { get; set; }
+    public bool DisableGlobalHotkeys { get; set; } = false;
+
+    /// <summary>
+    /// 主界面最大高度
+    /// </summary>
+    public uint MainViewMaxHeight { get; set; } = 840;
+
+    /// <summary>
+    /// 主界面宽度
+    /// </summary>
+    public uint MainViewWidth { get; set; } = 460;
 
     /// <summary>
     /// 热键
@@ -355,8 +355,6 @@ public class ConfigModel
             IsHideOnStart = IsHideOnStart,
             ShowCopyOnHeader = ShowCopyOnHeader,
             IsCaretLast = IsCaretLast,
-            MaxHeight = MaxHeight,
-            Width = Width,
             ProxyMethod = ProxyMethod,
             ProxyIp = ProxyIp,
             ProxyPort = ProxyPort,
@@ -380,6 +378,8 @@ public class ConfigModel
             OcrViewWidth = OcrViewWidth,
             DetectType = DetectType,
             DisableGlobalHotkeys = DisableGlobalHotkeys,
+            MainViewMaxHeight = MainViewMaxHeight,
+            MainViewWidth = MainViewWidth,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

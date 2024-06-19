@@ -27,17 +27,9 @@ public partial class MainView : Window
 
         _vm.NotifyIconVM.OnExit += UnLoadPosition;
 
-        _vm.CommonSettingVM.OnViewMaxHeightChanged += Vm_OnMaxHeightChanged;
-        _vm.CommonSettingVM.OnViewWidthChanged += Vm_OnWidthChanged;
-
         InitializeComponent();
 
-        _vm.CommonSettingVM.TriggerMaxHeight();
-        _vm.CommonSettingVM.TriggerWidth();
-
         LoadPosition();
-
-        SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
     }
 
     /// <summary>
@@ -47,62 +39,8 @@ public partial class MainView : Window
     protected override void OnClosing(CancelEventArgs e)
     {
         _vm.NotifyIconVM.OnExit -= UnLoadPosition;
-        _vm.CommonSettingVM.OnViewMaxHeightChanged -= Vm_OnMaxHeightChanged;
-        _vm.CommonSettingVM.OnViewWidthChanged -= Vm_OnWidthChanged;
-        SystemParameters.StaticPropertyChanged -= SystemParameters_StaticPropertyChanged;
 
         base.OnClosing(e);
-    }
-
-    /// <summary>
-    ///     副屏不生效
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void SystemParameters_StaticPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SystemParameters.WorkArea))
-            Dispatcher.Invoke(() =>
-            {
-                // 如果当前最大高度值不在enum中则说明为工作区最大高度
-                // 工作区变动=>更新MaxHeight
-                if (Enum.IsDefined(typeof(MaxHeight), Convert.ToInt32(MaxHeight))) return;
-                MaxHeight = SystemParameters.WorkArea.Height;
-                Width = SystemParameters.WorkArea.Width;
-                Mwin_SizeChanged(null, null);
-            });
-    }
-
-    private void Vm_OnMaxHeightChanged(int height)
-    {
-        // 更新最大高度
-        MaxHeight = height;
-        HAnimation(Height, height);
-    }
-
-    private void Vm_OnWidthChanged(int width)
-    {
-        // 更新宽度
-        Width = width;
-        WAnimation(Width, width);
-    }
-
-    internal void WAnimation(double oValue, double nValue)
-    {
-        var wAnimation = FindResource("WAnimation") as Storyboard;
-        var doubleAnimation = wAnimation?.Children.FirstOrDefault() as DoubleAnimation;
-        doubleAnimation!.From = double.IsNaN(oValue) ? 480 : oValue;
-        doubleAnimation!.To = nValue;
-        wAnimation?.Begin();
-    }
-
-    internal void HAnimation(double oValue, double nValue)
-    {
-        var hAnimation = FindResource("HAnimation") as Storyboard;
-        var doubleAnimation = hAnimation?.Children.FirstOrDefault() as DoubleAnimation;
-        doubleAnimation!.From = double.IsNaN(oValue) ? 800 : oValue;
-        doubleAnimation!.To = nValue;
-        hAnimation?.Begin();
     }
 
     public void ViewAnimation(bool show = true)
@@ -114,11 +52,11 @@ public partial class MainView : Window
         if (show)
         {
             // 如果当前已经显示了，则不执行动画
-            if (Mwin.Visibility == Visibility.Visible)
+            if (MainWindow.Visibility == Visibility.Visible)
                 return;
 
             // 在开始动画之前，确保窗口是可见的
-            Mwin.Visibility = Visibility.Visible;
+            MainWindow.Visibility = Visibility.Visible;
             doubleAnimation.From = 0;
             doubleAnimation.To = 1;
         }
@@ -136,18 +74,7 @@ public partial class MainView : Window
     private void AnimationCompleted(object? sender, EventArgs e)
     {
         // 动画完成后隐藏窗口
-        Mwin.Visibility = Visibility.Hidden;
-    }
-
-    /// <summary>
-    ///     刷新最大高度并刷新界面
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void Mwin_SizeChanged(object? sender, SizeChangedEventArgs? e)
-    {
-        SizeToContent = SizeToContent.Height;
-        Mwin.UpdateDefaultStyle();
+        MainWindow.Visibility = Visibility.Hidden;
     }
 
     /// <summary>
@@ -205,17 +132,17 @@ public partial class MainView : Window
         }
         else
         {
-            Mwin.Visibility = Visibility.Hidden;
+            MainWindow.Visibility = Visibility.Hidden;
         }
     }
 
-    private void Mwin_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void MainWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         // 开始拖动窗体
         DragMove();
     }
 
-    private void Mwin_Deactivated(object sender, EventArgs e)
+    private void MainWindow_Deactivated(object sender, EventArgs e)
     {
         if (!Topmost) ViewAnimation(false);
     }

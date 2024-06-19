@@ -76,9 +76,6 @@ public class ConfigHelper
         //初始化首页图标
         MainViewIconOperate();
 
-        //初始化宽高
-        HeightWidthOperate();
-
         //初始化外部调用服务
         ExternalCallOperate(CurrentConfig?.ExternalCallPort ?? 50020);
     }
@@ -91,13 +88,12 @@ public class ConfigHelper
     /// <returns></returns>
     public bool WriteConfig(double x, double y)
     {
-        bool isSuccess = false;
-        if (CurrentConfig is not null)
-        {
-            CurrentConfig.Position = $"{x},{y}";
-            WriteConfig(CurrentConfig);
-            isSuccess = true;
-        }
+        var isSuccess = false;
+        if (CurrentConfig is null)
+            return isSuccess;
+        CurrentConfig.Position = $"{x},{y}";
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
         return isSuccess;
     }
 
@@ -224,8 +220,6 @@ public class ConfigHelper
         CurrentConfig.IsHideOnStart = model.IsHideOnStart;
         CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
         CurrentConfig.IsCaretLast = model.IsCaretLast;
-        CurrentConfig.MaxHeight = model.MaxHeight;
-        CurrentConfig.Width = model.Width;
         CurrentConfig.ProxyMethod = model.ProxyMethod;
         CurrentConfig.ProxyIp = model.ProxyIp;
         CurrentConfig.ProxyPort = model.ProxyPort;
@@ -243,6 +237,8 @@ public class ConfigHelper
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         CurrentConfig.DetectType = model.DetectType;
         CurrentConfig.DisableGlobalHotkeys = model.DisableGlobalHotkeys;
+        CurrentConfig.MainViewMaxHeight = model.MainViewMaxHeight;
+        CurrentConfig.MainViewWidth = model.MainViewWidth;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -294,14 +290,13 @@ public class ConfigHelper
     /// <returns></returns>
     public bool WriteOCRConfig(double height, double width)
     {
-        bool isSuccess = false;
-        if (CurrentConfig is not null)
-        {
-            CurrentConfig.OcrViewHeight = height;
-            CurrentConfig.OcrViewWidth = width;
-            WriteConfig(CurrentConfig);
-            isSuccess = true;
-        }
+        var isSuccess = false;
+        if (CurrentConfig is null)
+            return isSuccess;
+        CurrentConfig.OcrViewHeight = height;
+        CurrentConfig.OcrViewWidth = width;
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
         return isSuccess;
     }
 
@@ -495,9 +490,6 @@ public class ConfigHelper
     //刷新主窗口图标
     private void MainViewIconOperate() => Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
 
-    //重置窗口大小
-    private void HeightWidthOperate() => Singleton<MainViewModel>.Instance.ResetMaxHeightWidthCommand.Execute(null);
-
     private void ExternalCallOperate(int port, bool isStop = false) => Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
 
     /// <summary>
@@ -559,8 +551,6 @@ public class ConfigHelper
             IsHideOnStart = false,
             ShowCopyOnHeader = false,
             IsCaretLast = false,
-            MaxHeight = MaxHeight.Maximum,
-            Width = WidthEnum.Minimum,
             ProxyMethod = ProxyMethodEnum.系统代理,
             ProxyIp = string.Empty,
             ProxyPort = 8089,
@@ -584,6 +574,8 @@ public class ConfigHelper
             OcrViewWidth = 1000,
             DetectType = LangDetectType.Local,
             DisableGlobalHotkeys = false,
+            MainViewMaxHeight = 840,
+            MainViewWidth = 460,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),

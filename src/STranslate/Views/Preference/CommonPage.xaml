@@ -41,7 +41,8 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="历史记录数量" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="历史记录最大数量设置" />
-                                <ComboBox Height="30" HorizontalAlignment="Right" SelectedIndex="{Binding HistorySizeType}">
+                                <ComboBox Height="30" HorizontalAlignment="Right"
+                                          SelectedIndex="{Binding HistorySizeType}">
                                     <ComboBoxItem Content="50 条" />
                                     <ComboBoxItem Content="100 条" />
                                     <ComboBoxItem Content="200 条" />
@@ -63,9 +64,11 @@
                                           SelectedValuePath="Value" />
                             </DockPanel>
 
-                            <DockPanel Margin="20,10" Visibility="{Binding DetectType, ConverterParameter=Local, Converter={StaticResource ParamEqualToVisibility}}">
+                            <DockPanel Margin="20,10"
+                                       Visibility="{Binding DetectType, ConverterParameter=Local, Converter={StaticResource ParamEqualToVisibility}}">
                                 <TextBlock Text="语种识别比例(zh-en)" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
                                 <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right" Orientation="Horizontal">
                                     <Slider Height="14"
                                             MinWidth="160"
@@ -76,7 +79,8 @@
                                             TickFrequency="0.01"
                                             TickPlacement="None"
                                             Value="{Binding AutoScale}" />
-                                    <TextBlock Width="65" Margin="10,0" Text="{Binding AutoScale, StringFormat={}{0:P0}}" />
+                                    <TextBlock Width="65" Margin="10,0"
+                                               Text="{Binding AutoScale, StringFormat={}{0:P0}}" />
                                 </StackPanel>
                             </DockPanel>
 
@@ -93,7 +97,8 @@
                                             TickFrequency="50"
                                             TickPlacement="None"
                                             Value="{Binding WordPickingInterval}" />
-                                    <TextBlock Width="75" Margin="0,0,10,0" Text="{Binding WordPickingInterval, StringFormat={}{0} ms}" />
+                                    <TextBlock Width="75" Margin="0,0,10,0"
+                                               Text="{Binding WordPickingInterval, StringFormat={}{0} ms}" />
                                 </StackPanel>
                             </DockPanel>
 
@@ -110,32 +115,38 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示界面重复触发显/隐" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsTriggerShowHide}" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsTriggerShowHide}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="修改语种后立即翻译" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面修改选择语言后立即翻译" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ChangedLang2Execute}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding ChangedLang2Execute}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="OCR修改服务或语种后立即翻译" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR页面选择服务或选择语言后立即翻译" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding OcrChangedLang2Execute}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding OcrChangedLang2Execute}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="剪贴板占用问题" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果出现剪贴板被占用了，可尝试启用此配置" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding UseFormsCopy}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding UseFormsCopy}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="禁用全局热键" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用全局热键" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding DisableGlobalHotkeys}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding DisableGlobalHotkeys}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>
@@ -165,7 +176,8 @@
                             </DockPanel>
 
                             <!-- // 代理配置 // -->
-                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
+                            <DockPanel Margin="20,10"
+                                       Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
                                 <TextBlock Text="服务器" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器IP地址" />
                                 <common:PlaceholderTextBox MinWidth="200"
@@ -173,7 +185,8 @@
                                                            Placeholder="请输入IP地址"
                                                            Text="{Binding ProxyIp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             </DockPanel>
-                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
+                            <DockPanel Margin="20,10"
+                                       Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
                                 <TextBlock Text="端口" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器端口" />
                                 <common:PlaceholderTextBox MinWidth="200"
@@ -183,10 +196,12 @@
                                                            Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=8089}" />
                             </DockPanel>
 
-                            <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
+                            <DockPanel Margin="20,10"
+                                       Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
                                 <TextBlock Text="代理服务器验证" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器需要身份验证" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsProxyAuthentication}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsProxyAuthentication}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -263,61 +278,85 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="主界面宽度[立即生效]" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面宽度设置[立即生效]" />
-                                <ComboBox Height="30"
-                                          HorizontalAlignment="Right"
-                                          DisplayMemberPath="Description"
-                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:WidthEnum}}}"
-                                          SelectedValue="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SelectedValuePath="Value" />
+                                <TextBlock HorizontalAlignment="Left" Text="主界面最大高度[立即生效]" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度调整" />
+                                <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right"
+                                            DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <TextBlock Width="75" Margin="10,0,0,0" FontWeight="Black"
+                                               Text="{Binding MainViewMaxHeight, StringFormat={}{0}}" />
+                                    <Slider Height="14"
+                                            FlowDirection="LeftToRight"
+                                            MinWidth="260"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="1080"
+                                            Minimum="400"
+                                            TickFrequency="10"
+                                            TickPlacement="None"
+                                            Value="{Binding MainViewMaxHeight}" />
+                                </StackPanel>
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="主界面最大高度[立即生效]" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度设置[立即生效]" />
-                                <ComboBox Height="30"
-                                          HorizontalAlignment="Right"
-                                          DisplayMemberPath="Description"
-                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:MaxHeight}}}"
-                                          SelectedValue="{Binding MaxHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SelectedValuePath="Value" />
+                                <TextBlock HorizontalAlignment="Left" Text="主界面宽度[立即生效]" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面宽度调整" />
+                                <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right"
+                                            DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <TextBlock Width="75" Margin="10,0,0,0" FontWeight="Black"
+                                               Text="{Binding MainViewWidth, StringFormat={}{0}}" />
+                                    <Slider Height="14"
+                                            FlowDirection="LeftToRight"
+                                            MinWidth="260"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="1920"
+                                            Minimum="400"
+                                            TickFrequency="10"
+                                            TickPlacement="None"
+                                            Value="{Binding MainViewWidth}" />
+                                </StackPanel>
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="窗口跟随鼠标(输入、截图、划词和监听剪贴板)" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsFollowMouse}" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsFollowMouse}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="OCR翻译关闭界面" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="后针对结果进行翻译同时关闭" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding CloseUIOcrRetTranslate}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding CloseUIOcrRetTranslate}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="非常规屏幕截图修复" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="非16:9的拓展显示器截图移位的问题&#13;如果出现问题尝试开启一下该选项" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding UnconventionalScreen}" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="非16:9的拓展显示器截图移位的问题&#13;如果出现问题尝试开启一下该选项" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding UnconventionalScreen}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="关闭鼠标划词保持置顶" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="关闭鼠标划词功能后保持窗口置顶" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsKeepTopmostAfterMousehook}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsKeepTopmostAfterMousehook}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="启动时隐藏主界面" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示主界面" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsHideOnStart}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsHideOnStart}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="收缩框显示按钮" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="翻译结果收缩框收缩时上方是否显示TTS、复制按钮" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ShowCopyOnHeader}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding ShowCopyOnHeader}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -329,13 +368,15 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="主窗口提示词" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否显示主窗口提示词" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowMainPlaceholder}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowMainPlaceholder}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="截图辅助线" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图时是否显示辅助线" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding ShowAuxiliaryLine}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding ShowAuxiliaryLine}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>
@@ -346,31 +387,36 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示设置图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowPreference}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowPreference}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示服务配置图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示服务配置图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowConfigureService}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowConfigureService}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示鼠标划词图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示鼠标划词图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowMousehook}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowMousehook}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示增量翻译图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示增量翻译图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowIncrementalTranslation}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowIncrementalTranslation}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示截图翻译图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示截图翻译图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowScreenshot}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowScreenshot}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -382,25 +428,29 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示静默OCR图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示静默OCR图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowSilentOCR}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowSilentOCR}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示监听剪贴板图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示监听剪贴板图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowClipboardMonitor}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowClipboardMonitor}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示二维码图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示识别二维码图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowQRCode}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowQRCode}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示历史记录图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示历史记录图标" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsShowHistory}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowHistory}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>
@@ -411,37 +461,43 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="OCR后自动复制" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR识别文本后自动复制文本内容" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsOcrAutoCopyText}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsOcrAutoCopyText}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="调整内容后立即翻译" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主窗口移除换行或空格后立即重新翻译内容" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsAdjustContentTranslate}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsAdjustContentTranslate}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="取词时移除换行" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="取词时移除所有换行" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsRemoveLineBreakGettingWords}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsRemoveLineBreakGettingWords}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="OCR取词时移除换行" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR时取词时移除所有换行" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsRemoveLineBreakGettingWordsOCR}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsRemoveLineBreakGettingWordsOCR}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="增量翻译" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="开启后增量添加文本进行翻译" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IncrementalTranslation}" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IncrementalTranslation}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="翻译后复制结果" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行第几个翻译结果的复制操作" />
-                                <ComboBox Height="30" HorizontalAlignment="Right" SelectedIndex="{Binding CopyResultAfterTranslateIndex}">
+                                <ComboBox Height="30" HorizontalAlignment="Right"
+                                          SelectedIndex="{Binding CopyResultAfterTranslateIndex}">
                                     <ComboBoxItem Content="无操作" />
                                     <ComboBoxItem Content="第一个" />
                                     <ComboBoxItem Content="第二个" />

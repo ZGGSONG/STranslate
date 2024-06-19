@@ -161,7 +161,7 @@
         </Grid>
 
         <!-- // Notify // -->
-        <view:ToastView x:Name="notify"
+        <view:ToastView x:Name="Notify"
                         Grid.RowSpan="2"
                         Margin="0,8,0,0"
                         VerticalAlignment="Top"

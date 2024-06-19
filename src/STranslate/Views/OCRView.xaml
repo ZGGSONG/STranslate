@@ -37,7 +37,7 @@
         <!-- // 重置图片大小及位置 // -->
         <KeyBinding Command="{Binding ResetImgCommand}" CommandParameter="{Binding ElementName=ImgCtl}" Gesture="Ctrl+0" />
         <!-- // 重置字体大小 // -->
-        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
+        <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="StateChanged">
@@ -446,7 +446,7 @@
         </Grid>
 
         <!-- // Notify // -->
-        <view:ToastView x:Name="notify"
+        <view:ToastView x:Name="Notify"
                         Grid.RowSpan="2"
                         Margin="0,8,0,0"
                         VerticalAlignment="Top"

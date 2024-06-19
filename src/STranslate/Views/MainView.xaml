@@ -8,20 +8,20 @@
         xmlns:view="clr-namespace:STranslate.Views"
         xmlns:vm="clr-namespace:STranslate.ViewModels"
         xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
-        x:Name="Mwin"
+        x:Name="MainWindow"
         Title="STranslate"
-        MinWidth="464"
+        Width="{Binding CommonSettingVM.MainViewWidth, Mode=TwoWay}"
+        MaxHeight="{Binding CommonSettingVM.MainViewMaxHeight, Mode=TwoWay}"
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         AllowsTransparency="True"
         Background="Transparent"
-        Deactivated="Mwin_Deactivated"
+        Deactivated="MainWindow_Deactivated"
         FontFamily="{DynamicResource UserFont}"
         FontSize="{DynamicResource FontSize_Content}"
         Icon="{DynamicResource STranslate}"
-        MouseLeftButtonDown="Mwin_MouseLeftButtonDown"
+        MouseLeftButtonDown="MainWindow_MouseLeftButtonDown"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        SizeChanged="Mwin_SizeChanged"
         SizeToContent="Height"
         WindowStyle="None"
         mc:Ignorable="d">
@@ -31,10 +31,10 @@
         <KeyBinding Key="OemQuestion" Command="{Binding NotifyIconVM.OpenHistoryCommand}" Modifiers="Ctrl" />
         <KeyBinding Key="T"
                     Command="{Binding StickyCommand}"
-                    CommandParameter="{Binding ElementName=Mwin}"
+                    CommandParameter="{Binding ElementName=MainWindow}"
                     Modifiers="Ctrl+Shift" />
         <KeyBinding Key="R" Command="{Binding ChangeThemeCommand}" Modifiers="Ctrl+Shift" />
-        <KeyBinding Key="Esc" Command="{Binding EscCommand}" CommandParameter="{Binding ElementName=Mwin, Mode=OneWay}" />
+        <KeyBinding Key="Esc" Command="{Binding EscCommand}" CommandParameter="{Binding ElementName=MainWindow, Mode=OneWay}" />
 
         <KeyBinding Key="A" Command="{Binding ShowHideInputCommand}" Modifiers="Ctrl+Shift" />
 
@@ -50,39 +50,39 @@
         <KeyBinding Command="{Binding OutputVM.HotkeyCopyCommand}" CommandParameter="9" Gesture="Ctrl+9" />
 
         <!-- // 重置字体大小 // -->
-        <KeyBinding Command="{Binding ResetFontsizeCommand}" Gesture="Ctrl+OemTilde" />
+        <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />
 
         <!-- // 宽、最大高快捷键调整 // -->
-        <KeyBinding Command="{Binding ViewWidthMaxHeightPlusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewMaxHeightWidthPlusCommand}"
                     Gesture="Ctrl+OemPlus" />
-        <KeyBinding Command="{Binding ViewWidthPlusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthPlusCommand}"
                     Gesture="Ctrl+Alt+OemPlus" />
-        <KeyBinding Command="{Binding ViewMaxHeightPlusCommand}" Gesture="Ctrl+Shift+OemPlus" />
-        <KeyBinding Command="{Binding ViewWidthMaxHeightMinusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewMaxHeightPlusCommand}" Gesture="Ctrl+Shift+OemPlus" />
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewMaxHeightMinusCommand}"
                     Gesture="Ctrl+OemMinus" />
-        <KeyBinding Command="{Binding ViewWidthMinusCommand}" CommandParameter="{Binding ElementName=Mwin}"
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthMinusCommand}"
                     Gesture="Ctrl+Alt+OemMinus" />
-        <KeyBinding Command="{Binding ViewMaxHeightMinusCommand}" Gesture="Ctrl+Shift+OemMinus" />
-        <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" Gesture="Ctrl+0" />
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewMaxHeightMinusCommand}" Gesture="Ctrl+Shift+OemMinus" />
+        <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" CommandParameter="{Binding ElementName=MainWindow}"
+                    Gesture="Ctrl+0" />
     </Window.InputBindings>
     <Window.Resources>
         <Storyboard x:Key="WAnimation">
-            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="Width" Duration="0:0:0.15" />
+            <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="Width" Duration="0:0:0.15" />
         </Storyboard>
         <Storyboard x:Key="HAnimation">
-            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="MaxHeight" Duration="0:0:0.15" />
+            <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="MaxHeight" Duration="0:0:0.15" />
         </Storyboard>
-
         <Storyboard x:Key="ViewAnimation">
-            <DoubleAnimation Storyboard.TargetName="Mwin" Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" />
+            <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" />
         </Storyboard>
     </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=Mwin}" />
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=MainWindow}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=Mwin}" />
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=MainWindow}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Border Margin="32 12 32 32"
@@ -105,7 +105,7 @@
 
             <!-- // Header // -->
             <local:HeaderView x:Name="HeaderView"
-                              DataContext="{Binding ElementName=Mwin, Path=DataContext}"
+                              DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
                               Focusable="False"
                               WindowChrome.IsHitTestVisibleInChrome="True" />
 
@@ -116,11 +116,11 @@
                                      Margin="10,0"
                                      DataContext="{Binding InputVM}"
                                      FontSize="{DynamicResource FontSize_TextBox}"
-                                     Visibility="{Binding ElementName=Mwin, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                                     Visibility="{Binding ElementName=MainWindow, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!-- // Mid // -->
                     <local:LangView Margin="60,0"
-                                    DataContext="{Binding ElementName=Mwin, Path=DataContext}"
+                                    DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
                                     Focusable="False"
                                     Visibility="{Binding IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
@@ -133,7 +133,7 @@
             </ScrollViewer>
 
             <!-- // Notify // -->
-            <view:ToastView x:Name="notify"
+            <view:ToastView x:Name="Notify"
                             Grid.RowSpan="2"
                             VerticalAlignment="Top"
                             Focusable="False"

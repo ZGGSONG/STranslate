@@ -483,57 +483,6 @@ namespace STranslate.Model
     }
 
     /// <summary>
-    /// 主界面最大高度
-    /// </summary>
-    public enum MaxHeight : int
-    {
-        [Description("最小高度")]
-        Minimum = 372,
-
-        [Description("较小高度")]
-        Smaller = 540,
-
-        [Description("中等高度")]
-        Medium = 644,
-
-        [Description("较大高度")]
-        Larger = 744,
-
-        [Description("最大高度")]
-        Maximum = 844,
-
-        [Description("工作区高度")]
-        WorkAreaMaximum = 9999
-    }
-
-    /// <summary>
-    /// 主界面最大高度
-    /// </summary>
-    public enum WidthEnum : int
-    {
-        [Description("最最小宽度")]
-        UltraMinimum = 464,
-
-        [Description("最小宽度")]
-        Minimum = 544,
-
-        [Description("较小宽度")]
-        Smaller = 664,
-
-        [Description("中等宽度")]
-        Medium = 864,
-
-        [Description("较大宽度")]
-        Larger = 1064,
-
-        [Description("最大宽度")]
-        Maximum = 1264,
-
-        [Description("工作区宽度")]
-        WorkAreaMaximum = 9999
-    }
-
-    /// <summary>
     /// 设置页面导航
     /// </summary>
     public enum PerferenceType

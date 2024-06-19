@@ -15,10 +15,6 @@ namespace STranslate.ViewModels.Preference
 {
     public partial class CommonViewModel : ObservableObject
     {
-        public event Action<int>? OnViewMaxHeightChanged;
-
-        public event Action<int>? OnViewWidthChanged;
-
         public event Action<bool>? OnIncrementalChanged;
 
         [RelayCommand]
@@ -69,8 +65,6 @@ namespace STranslate.ViewModels.Preference
             IsHideOnStart = curConfig?.IsHideOnStart ?? false;
             ShowCopyOnHeader = curConfig?.ShowCopyOnHeader ?? false;
             IsCaretLast = curConfig?.IsCaretLast ?? false;
-            MaxHeight = curConfig?.MaxHeight ?? MaxHeight.Maximum;
-            Width = curConfig?.Width ?? WidthEnum.Minimum;
             ProxyMethod = curConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
             ProxyIp = curConfig?.ProxyIp ?? string.Empty;
             ProxyPort = curConfig?.ProxyPort ?? 0;
@@ -87,6 +81,8 @@ namespace STranslate.ViewModels.Preference
             ExternalCallPort = curConfig?.ExternalCallPort ?? 50020;
             DetectType = curConfig?.DetectType ?? LangDetectType.Local;
             DisableGlobalHotkeys = curConfig?.DisableGlobalHotkeys ?? false;
+            MainViewMaxHeight = curConfig?.MainViewMaxHeight ?? 840;
+            MainViewWidth = curConfig?.MainViewWidth ?? 460;
 
             LoadHistorySizeType();
             ToastHelper.Show("重置配置", WindowType.Preference);
@@ -104,28 +100,6 @@ namespace STranslate.ViewModels.Preference
 
             // 加载历史记录类型
             LoadHistorySizeType();
-        }
-
-        /// <summary>
-        /// 触发最大高度信息到View
-        /// </summary>
-        public void TriggerMaxHeight()
-        {
-            var workAreaHeight = Convert.ToInt32(SystemParameters.WorkArea.Height);
-            // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
-            var height = MaxHeight.GetHashCode() > workAreaHeight ? workAreaHeight : MaxHeight.ToInt();
-            OnViewMaxHeightChanged?.Invoke(height);
-        }
-
-        /// <summary>
-        /// 触发最大宽度信息到View
-        /// </summary>
-        public void TriggerWidth()
-        {
-            var workAreaWidth = Convert.ToInt32(SystemParameters.WorkArea.Width);
-            // 只要设定最大高度超过工作区高度,则设定最大高度为工作区高度
-            var width = Width.GetHashCode() > workAreaWidth ? workAreaWidth : Width.ToInt();
-            OnViewWidthChanged?.Invoke(width);
         }
 
         private void LoadHistorySizeType()
@@ -175,25 +149,23 @@ namespace STranslate.ViewModels.Preference
             get => historySizeType;
             set
             {
-                if (historySizeType != value)
+                if (historySizeType == value) return;
+                OnPropertyChanging();
+                historySizeType = value;
+
+                HistorySize = value switch
                 {
-                    OnPropertyChanging(nameof(HistorySizeType));
-                    historySizeType = value;
+                    0 => 50,
+                    1 => 100,
+                    2 => 200,
+                    3 => 500,
+                    4 => 1000,
+                    5 => long.MaxValue,
+                    6 => 0,
+                    _ => 100
+                };
 
-                    HistorySize = value switch
-                    {
-                        0 => 50,
-                        1 => 100,
-                        2 => 200,
-                        3 => 500,
-                        4 => 1000,
-                        5 => long.MaxValue,
-                        6 => 0,
-                        _ => 100
-                    };
-
-                    OnPropertyChanged(nameof(HistorySizeType));
-                }
+                OnPropertyChanged();
             }
         }
 
@@ -242,29 +214,30 @@ namespace STranslate.ViewModels.Preference
             get => _customFont;
             set
             {
-                if (_customFont != value)
+                if (_customFont == value) return;
+                OnPropertyChanging();
+
+                try
                 {
-                    OnPropertyChanging(nameof(CustomFont));
-
-                    try
-                    {
-                        // 切换字体
-                        Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = value.Equals(ConstStr.DEFAULTFONTNAME)
-                            ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
-                            : new FontFamily(value);
-                        _customFont = value;
-                    }
-                    catch (Exception)
-                    {
-                        Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
-                        _customFont = ConstStr.DEFAULTFONTNAME;
-                    }
-
-                    OnPropertyChanged(nameof(CustomFont));
+                    // 切换字体
+                    Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = value.Equals(ConstStr.DEFAULTFONTNAME)
+                        ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+                        : new FontFamily(value);
+                    _customFont = value;
                 }
+                catch (Exception)
+                {
+                    Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
+                    _customFont = ConstStr.DEFAULTFONTNAME;
+                }
+
+                OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// 是否在关闭鼠标划词后保持最前
+        /// </summary>
         [ObservableProperty]
         private bool isKeepTopmostAfterMousehook = curConfig?.IsKeepTopmostAfterMousehook ?? false;
 
@@ -353,46 +326,6 @@ namespace STranslate.ViewModels.Preference
         private bool isCaretLast = curConfig?.IsCaretLast ?? false;
 
         /// <summary>
-        /// View 最大高度
-        /// </summary>
-        private MaxHeight _maxHeight = curConfig?.MaxHeight ?? MaxHeight.Maximum;
-
-        public MaxHeight MaxHeight
-        {
-            get => _maxHeight;
-            set
-            {
-                if (_maxHeight != value)
-                {
-                    OnPropertyChanging();
-                    _maxHeight = value;
-                    TriggerMaxHeight();
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// View 宽度
-        /// </summary>
-        private WidthEnum _width = curConfig?.Width ?? WidthEnum.Minimum;
-
-        public WidthEnum Width
-        {
-            get => _width;
-            set
-            {
-                if (_width != value)
-                {
-                    OnPropertyChanging();
-                    _width = value;
-                    TriggerWidth();
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
         /// 所选代理方式
         /// </summary>
         [ObservableProperty]
@@ -446,7 +379,7 @@ namespace STranslate.ViewModels.Preference
 
         private void ShowEncryptInfo(string? obj)
         {
-            if (obj != null && obj.Equals(nameof(ProxyPassword)))
+            if (obj is nameof(ProxyPassword))
             {
                 IsProxyPasswordHide = !IsProxyPasswordHide;
             }
@@ -517,5 +450,59 @@ namespace STranslate.ViewModels.Preference
         /// </summary>
         [ObservableProperty]
         private bool _disableGlobalHotkeys = curConfig?.DisableGlobalHotkeys ?? false;
+
+        /// <summary>
+        /// 主界面最大高度
+        /// </summary>
+        [ObservableProperty]
+        private uint _mainViewMaxHeight = curConfig?.MainViewMaxHeight ?? 840;
+
+        /// <summary>
+        /// 主界面宽度
+        /// </summary>
+        [ObservableProperty]
+        private uint _mainViewWidth = curConfig?.MainViewWidth ?? 460;
+
+        [RelayCommand]
+        private void MainViewMaxHeightWidthPlus()
+        {
+            MainViewMaxHeightPlus();
+            MainViewWidthPlus();
+        }
+
+        [RelayCommand]
+        private void MainViewMaxHeightPlus()
+        {
+            if (MainViewMaxHeight >= 1080) return;
+            MainViewMaxHeight += 20;
+        }
+
+        [RelayCommand]
+        private void MainViewWidthPlus()
+        {
+            if (MainViewWidth >= 1920) return;
+            MainViewWidth += 20;
+        }
+
+        [RelayCommand]
+        private void MainViewMaxHeightWidthMinus()
+        {
+            MainViewMaxHeightMinus();
+            MainViewWidthMinus();
+        }
+
+        [RelayCommand]
+        private void MainViewMaxHeightMinus()
+        {
+            if (MainViewMaxHeight <= 400) return;
+            MainViewMaxHeight -= 20;
+        }
+
+        [RelayCommand]
+        private void MainViewWidthMinus()
+        {
+            if (MainViewWidth <= 400) return;
+            MainViewWidth -= 20;
+        }
     }
 }

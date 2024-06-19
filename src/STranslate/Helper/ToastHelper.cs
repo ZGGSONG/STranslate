@@ -85,9 +85,9 @@ public class ToastHelper
     /// <returns></returns>
     private static ToastView? GetNotifyControlForWindowType(WindowType type) => type switch
     {
-        WindowType.Preference => Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault()?.notify,
-        WindowType.OCR => Application.Current.Windows.OfType<OCRView>().FirstOrDefault()?.notify,
-        _ => Application.Current.Windows.OfType<MainView>().FirstOrDefault()?.notify
+        WindowType.Preference => Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault()?.Notify,
+        WindowType.OCR => Application.Current.Windows.OfType<OCRView>().FirstOrDefault()?.Notify,
+        _ => Application.Current.Windows.OfType<MainView>().FirstOrDefault()?.Notify
     };
 
     /// <summary>
