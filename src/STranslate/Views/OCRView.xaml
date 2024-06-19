@@ -406,8 +406,8 @@
                           Margin="10,0"
                           DisplayMemberPath="Name"
                           FontSize="{DynamicResource FontSize_Content}"
-                          ItemsSource="{Binding OCRScvVM.CurOCRServiceList}"
-                          SelectedValue="{Binding OCRScvVM.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                          ItemsSource="{Binding OcrScvVm.CurOCRServiceList}"
+                          SelectedValue="{Binding OcrScvVm.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </ComboBox>
 
                 <ComboBox Margin="10,0"

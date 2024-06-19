@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using PaddleOCRSharp;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -26,7 +24,7 @@ namespace STranslate.ViewModels
 {
     public partial class OCRViewModel : WindowVMBase
     {
-        public OCRScvViewModel OCRScvVM => Singleton<OCRScvViewModel>.Instance;
+        private OCRScvViewModel OcrScvVm => Singleton<OCRScvViewModel>.Instance;
 
         /// <summary>
         /// 语言类型
@@ -84,7 +82,7 @@ namespace STranslate.ViewModels
         public OCRViewModel()
         {
             Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
-            OCRScvVM.OnChangeActivedOcrService += OnChangeOcrServiceorLang;
+            OcrScvVm.OnChangeActivedOcrService += OnChangeOcrServiceorLang;
         }
 
         private void OnChangeOcrServiceorLang()
@@ -113,14 +111,7 @@ namespace STranslate.ViewModels
             TopMostContent = tmp ? ConstStr.TOPMOSTCONTENT : ConstStr.UNTOPMOSTCONTENT;
             win.Topmost = tmp;
 
-            if (tmp)
-            {
-                ToastHelper.Show("启用置顶", WindowType.OCR);
-            }
-            else
-            {
-                ToastHelper.Show("关闭置顶", WindowType.OCR);
-            }
+            ToastHelper.Show(tmp ? "启用置顶" : "关闭置顶", WindowType.OCR);
         }
 
         /// <summary>
@@ -148,57 +139,53 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void CopyImg()
         {
-            if (Bs is not null)
-            {
-                Clipboard.SetImage(Bs);
+            if (Bs is null) return;
+            Clipboard.SetImage(Bs);
 
-                ToastHelper.Show("复制图片", WindowType.OCR);
-            }
+            ToastHelper.Show("复制图片", WindowType.OCR);
         }
 
         [RelayCommand]
         private void SaveImg()
         {
-            if (Bs is not null)
-            {
-                // 创建一个 SaveFileDialog
-                SaveFileDialog saveFileDialog =
-                    new()
-                    {
-                        Title = "Save Image",
-                        Filter = "PNG Files (*.png)|*.png|JPEG Files (*.jpg;*.jpeg)|*.jpg;*.jpeg|All Files (*.*)|*.*",
-                        FileName = $"{DateTime.Now:yyyyMMddHHmmssfff}",
-                        DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                        AddToRecent = true,
-                    };
-                // 打开 SaveFileDialog，并获取用户选择的文件路径
-                if (saveFileDialog.ShowDialog() == true)
+            if (Bs is null) return;
+            // 创建一个 SaveFileDialog
+            SaveFileDialog saveFileDialog =
+                new()
                 {
-                    var fileName = saveFileDialog.FileName;
-                    // 根据文件扩展名选择图像格式
-                    BitmapEncoder encoder;
-                    if (fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
-                    {
-                        encoder = new PngBitmapEncoder();
-                    }
-                    else
-                    {
-                        encoder = new JpegBitmapEncoder();
-                    }
-
-                    // 将 BitmapSource 添加到 BitmapEncoder
-                    encoder.Frames.Add(BitmapFrame.Create(Bs));
-
-                    // 使用 FileStream 保存到文件
-                    using FileStream fs = new(fileName, FileMode.Create);
-                    encoder.Save(fs);
-
-                    ToastHelper.Show("保存图片成功", WindowType.OCR);
+                    Title = "Save Image",
+                    Filter = "PNG Files (*.png)|*.png|JPEG Files (*.jpg;*.jpeg)|*.jpg;*.jpeg|All Files (*.*)|*.*",
+                    FileName = $"{DateTime.Now:yyyyMMddHHmmssfff}",
+                    DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    AddToRecent = true,
+                };
+            // 打开 SaveFileDialog，并获取用户选择的文件路径
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var fileName = saveFileDialog.FileName;
+                // 根据文件扩展名选择图像格式
+                BitmapEncoder encoder;
+                if (fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+                {
+                    encoder = new PngBitmapEncoder();
                 }
                 else
                 {
-                    ToastHelper.Show("取消保存图片", WindowType.OCR);
+                    encoder = new JpegBitmapEncoder();
                 }
+
+                // 将 BitmapSource 添加到 BitmapEncoder
+                encoder.Frames.Add(BitmapFrame.Create(Bs));
+
+                // 使用 FileStream 保存到文件
+                using FileStream fs = new(fileName, FileMode.Create);
+                encoder.Save(fs);
+
+                ToastHelper.Show("保存图片成功", WindowType.OCR);
+            }
+            else
+            {
+                ToastHelper.Show("取消保存图片", WindowType.OCR);
             }
         }
         [RelayCommand(IncludeCancelCommand = true)]
@@ -213,12 +200,10 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void Copy(string? content)
         {
-            if (!string.IsNullOrEmpty(content))
-            {
-                ClipboardHelper.Copy(content);
+            if (string.IsNullOrEmpty(content)) return;
+            ClipboardHelper.Copy(content);
 
-                ToastHelper.Show("复制成功", WindowType.OCR);
-            }
+            ToastHelper.Show("复制成功", WindowType.OCR);
         }
 
         [RelayCommand]
@@ -265,7 +250,7 @@ namespace STranslate.ViewModels
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 // 取第一个文件
                 string filePath = files[0];
@@ -286,15 +271,15 @@ namespace STranslate.ViewModels
         [RelayCommand(IncludeCancelCommand = true)]
         private async Task OpenfileAsync(CancellationToken token)
         {
-            var openfileDialog = new OpenFileDialog()
+            var openFileDialog = new OpenFileDialog()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                 Filter = "Images|*.bmp;*.png;*.jpg;*.jpeg",
                 RestoreDirectory = true,
             };
-            if (openfileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true)
             {
-                await ImgFileHandlerAsync(openfileDialog.FileName, token);
+                await ImgFileHandlerAsync(openFileDialog.FileName, token);
             }
         }
 
@@ -336,9 +321,9 @@ namespace STranslate.ViewModels
         private async Task ImgFileHandlerAsync(string file, CancellationToken token)
         {
             ClearQrContent();
-            using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
+            await using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
             var bytes = new byte[fs.Length];
-            fs.Read(bytes, 0, bytes.Length);
+            _ = await fs.ReadAsync(bytes, 0, bytes.Length, token);
 
             Bs = BitmapUtil.ConvertBytes2BitmapSource(bytes);
             GetImg = Bs.Clone();
@@ -484,7 +469,7 @@ namespace STranslate.ViewModels
 
         private string QrCodeHandler(BitmapSource bs)
         {
-            string ret = "";
+            var ret = "";
             var reader = new ZXing.ZKWeb.BarcodeReader();
             reader.Options.CharacterSet = "UTF-8";
             using var stream = new MemoryStream();
@@ -530,7 +515,7 @@ namespace STranslate.ViewModels
             Singleton<OutputViewModel>.Instance.Clear();
 
             //获取主窗口
-            MainView window = Application.Current.Windows.OfType<MainView>().First();
+            var window = Application.Current.Windows.OfType<MainView>().First();
             window.ViewAnimation();
             window.Activate();
 
@@ -555,8 +540,7 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void OCRPreference()
         {
-            PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
-            view ??= new PreferenceView();
+            var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault() ?? new PreferenceView();
             view.UpdateNavigation(PerferenceType.OCR);
             view.Show();
             view.WindowState = WindowState.Normal;
@@ -671,49 +655,43 @@ namespace STranslate.ViewModels
         [RelayCommand]
         private void TBSelectAll(object obj)
         {
-            if (obj is TextBox tb)
-            {
-                LogService.Logger.Debug(tb.Name);
-                tb.SelectAll();
-            }
+            if (obj is not TextBox tb) return;
+            LogService.Logger.Debug(tb.Name);
+            tb.SelectAll();
         }
 
         [RelayCommand]
         private void TBCopy(object obj)
         {
-            if (obj is TextBox tb)
-            {
-                var text = tb.SelectedText;
-                if (!string.IsNullOrEmpty(text))
-                    ClipboardHelper.Copy(text);
-            }
+            if (obj is not TextBox tb) return;
+            var text = tb.SelectedText;
+            if (!string.IsNullOrEmpty(text))
+                ClipboardHelper.Copy(text);
         }
 
         [RelayCommand]
         private void TBPaste(object obj)
         {
-            if (obj is TextBox tb)
-            {
-                var getText = Clipboard.GetText();
+            if (obj is not TextBox tb) return;
+            var getText = Clipboard.GetText();
 
-                //剪贴板内容为空或者为非字符串则不处理
-                if (string.IsNullOrEmpty(getText))
-                    return;
-                var index = tb.SelectionStart;
-                //处理选中字符串
-                var selectLength = tb.SelectionLength;
-                //删除选中文本再粘贴
-                var preHandleStr = tb.Text.Remove(index, selectLength);
+            //剪贴板内容为空或者为非字符串则不处理
+            if (string.IsNullOrEmpty(getText))
+                return;
+            var index = tb.SelectionStart;
+            //处理选中字符串
+            var selectLength = tb.SelectionLength;
+            //删除选中文本再粘贴
+            var preHandleStr = tb.Text.Remove(index, selectLength);
 
-                var newText = preHandleStr.Insert(index, getText);
-                tb.Text = newText;
+            var newText = preHandleStr.Insert(index, getText);
+            tb.Text = newText;
 
-                // 重新定位光标索引
-                tb.SelectionStart = index + getText.Length;
+            // 重新定位光标索引
+            tb.SelectionStart = index + getText.Length;
 
-                // 聚焦光标
-                tb.Focus();
-            }
+            // 聚焦光标
+            tb.Focus();
         }
 
         [RelayCommand]

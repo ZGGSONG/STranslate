@@ -264,18 +264,18 @@ namespace STranslate.Util
         public static T? FindControlByName<T>(DependencyObject parent, string name)
             where T : FrameworkElement
         {
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            var childCount = VisualTreeHelper.GetChildrenCount(parent);
 
-            for (int i = 0; i < childCount; i++)
+            for (var i = 0; i < childCount; i++)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                var child = VisualTreeHelper.GetChild(parent, i);
 
                 if (child is T frameworkElement && frameworkElement.Name == name)
                 {
                     return frameworkElement;
                 }
 
-                T? result = FindControlByName<T>(child, name);
+                var result = FindControlByName<T>(child, name);
                 if (result != null)
                 {
                     return result;
@@ -325,7 +325,7 @@ namespace STranslate.Util
         public static void InvokeOnUIThread(Action action)
         {
             if (Application.Current?.Dispatcher is null)
-                Dispatcher.CurrentDispatcher.BeginInvoke(action, new object[0]);
+                Dispatcher.CurrentDispatcher.BeginInvoke(action, []);
             else
                 Application.Current?.Dispatcher.BeginInvoke(action);
         }
@@ -336,12 +336,11 @@ namespace STranslate.Util
         /// <returns></returns>
         public static double GetDpi()
         {
-            double dDpi = 1;
-            IntPtr desktopDc = GetDC(IntPtr.Zero);
-            float horizontalDPI = GetDeviceCaps(desktopDc, LOGPIXELSX);
-            float verticalDPI = GetDeviceCaps(desktopDc, LOGPIXELSY);
-            int dpi = (int)(horizontalDPI + verticalDPI) / 2;
-            dDpi = 1 + ((dpi - 96) / 24) * 0.25;
+            var desktopDc = GetDC(IntPtr.Zero);
+            float horizontalDpi = GetDeviceCaps(desktopDc, LOGPIXELSX);
+            float verticalDpi = GetDeviceCaps(desktopDc, LOGPIXELSY);
+            var dpi = (int)(horizontalDpi + verticalDpi) / 2;
+            var dDpi = 1 + ((dpi - 96) / 24) * 0.25;
             if (dDpi < 1)
             {
                 dDpi = 1;
@@ -360,11 +359,7 @@ namespace STranslate.Util
         {
             try
             {
-                string arguments = "";
-                foreach (string arg in args)
-                {
-                    arguments += $"\"{arg}\" ";
-                }
+                var arguments = args.Aggregate("", (current, arg) => current + $"\"{arg}\" ");
                 arguments = arguments.Trim();
                 Process process = new();
                 ProcessStartInfo startInfo = new(filename, arguments);
@@ -387,7 +382,7 @@ namespace STranslate.Util
             where T : Enum
         {
             var dict = new Dictionary<string, T>();
-            List<T> list = Enum.GetValues(typeof(T)).OfType<T>().ToList();
+            var list = Enum.GetValues(typeof(T)).OfType<T>().ToList();
             list.ForEach(x =>
             {
                 dict.Add(x.GetDescription(), x);
@@ -406,17 +401,14 @@ namespace STranslate.Util
             //原始数据是否在原始分辨率的屏幕内
             var screen = WpfScreenHelper.Screen.AllScreens.FirstOrDefault(s => s.Bounds.Contains(new Point(ms.X, ms.Y)));
 
-            if (screen != null)
-            {
-                //获取缩放比例
-                double dpiScale = screen.ScaleFactor;
-                //获取处理后的屏幕数据
-                var bounds = screen.WpfBounds;
-                //返回处理后的数据
-                return new(new Point(ms.X / dpiScale, ms.Y / dpiScale), bounds);
-            }
+            if (screen == null) throw new ArgumentNullException();
+            //获取缩放比例
+            var dpiScale = screen.ScaleFactor;
+            //获取处理后的屏幕数据
+            var bounds = screen.WpfBounds;
+            //返回处理后的数据
+            return new Tuple<Point, Rect>(new Point(ms.X / dpiScale, ms.Y / dpiScale), bounds);
 
-            throw new ArgumentNullException();
         }
 
         /// <summary>
@@ -425,7 +417,7 @@ namespace STranslate.Util
         /// <returns></returns>
         public static bool IsUserAdministrator()
         {
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            var identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new(identity);
 
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
@@ -438,17 +430,17 @@ namespace STranslate.Util
         /// <returns></returns>
         public static string CountSize(long Size)
         {
-            string result = "";
-            long FactSize = 0;
-            FactSize = Size;
-            if (FactSize < 1024.00)
-                result = FactSize.ToString("F2") + " Byte";
-            else if (FactSize >= 1024.00 && FactSize < 1048576)
-                result = (FactSize / 1024.00).ToString("F2") + " KB";
-            else if (FactSize >= 1048576 && FactSize < 1073741824)
-                result = (FactSize / 1024.00 / 1024.00).ToString("F2") + " MB";
-            else if (FactSize >= 1073741824)
-                result = (FactSize / 1024.00 / 1024.00 / 1024.00).ToString("F2") + " GB";
+            var result = "";
+            long factSize = 0;
+            factSize = Size;
+            if (factSize < 1024.00)
+                result = factSize.ToString("F2") + " Byte";
+            else if (factSize >= 1024.00 && factSize < 1048576)
+                result = (factSize / 1024.00).ToString("F2") + " KB";
+            else if (factSize >= 1048576 && factSize < 1073741824)
+                result = (factSize / 1024.00 / 1024.00).ToString("F2") + " MB";
+            else if (factSize >= 1073741824)
+                result = (factSize / 1024.00 / 1024.00 / 1024.00).ToString("F2") + " GB";
             return result;
         }
 
