@@ -516,7 +516,7 @@ namespace STranslate.ViewModels
 
             //获取主窗口
             var window = Application.Current.Windows.OfType<MainView>().First();
-            window.ViewAnimation();
+            AnimationHelper.MainViewAnimation();
             window.Activate();
 
             //获取文本

@@ -67,13 +67,13 @@
                     Gesture="Ctrl+0" />
     </Window.InputBindings>
     <Window.Resources>
-        <Storyboard x:Key="WAnimation">
+        <Storyboard x:Key="WidthAnimation">
             <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="Width" Duration="0:0:0.15" />
         </Storyboard>
-        <Storyboard x:Key="HAnimation">
+        <Storyboard x:Key="MaxHeightAnimation">
             <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="MaxHeight" Duration="0:0:0.15" />
         </Storyboard>
-        <Storyboard x:Key="ViewAnimation">
+        <Storyboard x:Key="MainViewAnimation">
             <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" />
         </Storyboard>
     </Window.Resources>

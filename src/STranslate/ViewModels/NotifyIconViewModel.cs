@@ -575,7 +575,7 @@ public partial class NotifyIconViewModel : ObservableObject
         // 判断是否置顶，置顶的话则不隐藏
         if (!view.Topmost)
         {
-            view.ViewAnimation(false);
+            AnimationHelper.MainViewAnimation(false);
         }
     }
 
@@ -613,9 +613,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
         SpecialWindowActiveHandler(view);
 
-        if (view is MainView mview)
+        if (view is MainView)
         {
-            mview.ViewAnimation();
+            AnimationHelper.MainViewAnimation();
         }
         else
         {

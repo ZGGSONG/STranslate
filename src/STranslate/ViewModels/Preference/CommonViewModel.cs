@@ -474,14 +474,14 @@ namespace STranslate.ViewModels.Preference
         private void MainViewMaxHeightPlus()
         {
             if (MainViewMaxHeight >= 1080) return;
-            MainViewMaxHeight += 20;
+            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight + 20);
         }
 
         [RelayCommand]
         private void MainViewWidthPlus()
         {
             if (MainViewWidth >= 1920) return;
-            MainViewWidth += 20;
+            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth + 20);
         }
 
         [RelayCommand]
@@ -495,14 +495,14 @@ namespace STranslate.ViewModels.Preference
         private void MainViewMaxHeightMinus()
         {
             if (MainViewMaxHeight <= 400) return;
-            MainViewMaxHeight -= 20;
+            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight - 20);
         }
 
         [RelayCommand]
         private void MainViewWidthMinus()
         {
             if (MainViewWidth <= 400) return;
-            MainViewWidth -= 20;
+            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth - 20);
         }
     }
 }

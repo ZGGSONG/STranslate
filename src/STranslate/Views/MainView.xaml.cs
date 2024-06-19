@@ -43,40 +43,6 @@ public partial class MainView : Window
         base.OnClosing(e);
     }
 
-    public void ViewAnimation(bool show = true)
-    {
-        var viewAnimation = (FindResource("ViewAnimation") as Storyboard)!;
-        var doubleAnimation = (viewAnimation.Children.FirstOrDefault() as DoubleAnimation)!;
-        // 注销之前可能添加的Completed事件
-        viewAnimation.Completed -= AnimationCompleted;
-        if (show)
-        {
-            // 如果当前已经显示了，则不执行动画
-            if (MainWindow.Visibility == Visibility.Visible)
-                return;
-
-            // 在开始动画之前，确保窗口是可见的
-            MainWindow.Visibility = Visibility.Visible;
-            doubleAnimation.From = 0;
-            doubleAnimation.To = 1;
-        }
-        else
-        {
-            doubleAnimation.From = 1;
-            doubleAnimation.To = 0;
-            // 在动画完成时注册一个事件，隐藏窗口
-            viewAnimation.Completed += AnimationCompleted;
-        }
-
-        viewAnimation?.Begin();
-    }
-
-    private void AnimationCompleted(object? sender, EventArgs e)
-    {
-        // 动画完成后隐藏窗口
-        MainWindow.Visibility = Visibility.Hidden;
-    }
-
     /// <summary>
     ///     保存退出前位置
     /// </summary>
@@ -144,7 +110,7 @@ public partial class MainView : Window
 
     private void MainWindow_Deactivated(object sender, EventArgs e)
     {
-        if (!Topmost) ViewAnimation(false);
+        if (!Topmost) AnimationHelper.MainViewAnimation(false);
     }
 
     #region 隐藏系统窗口菜单

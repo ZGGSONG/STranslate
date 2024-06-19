@@ -409,7 +409,7 @@ public partial class MainViewModel : ObservableObject
         win.Topmost = false;
         IsTopMost = ConstStr.TAGFALSE;
         TopMostContent = ConstStr.UNTOPMOSTCONTENT;
-        win.ViewAnimation(false);
+        AnimationHelper.MainViewAnimation(false);
         OutputVM.ExpanderHeaderCancelCommand.Execute(null);
         OutputVM.SingleTranslateCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
@@ -434,10 +434,8 @@ public partial class MainViewModel : ObservableObject
     {
         var maxHeight = Config?.MainViewMaxHeight ?? 840;
         var width = Config?.MainViewWidth ?? 460;
-        view.MaxHeight = maxHeight;
-        view.Width = width;
-        CommonSettingVM.MainViewWidth = maxHeight;
-        CommonSettingVM.MainViewWidth = width;
+        AnimationHelper.MaxHeightAnimation(view.MaxHeight, maxHeight);
+        AnimationHelper.WidthAnimation(view.Width, width);
     }
 
     /// <summary>
