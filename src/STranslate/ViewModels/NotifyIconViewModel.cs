@@ -62,6 +62,9 @@ public partial class NotifyIconViewModel : ObservableObject
     [ObservableProperty]
     private bool _isScreenshotExecuting = false;
 
+    private readonly InputViewModel _inputViewModel = Singleton<InputViewModel>.Instance;
+    private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
+
     public NotifyIconViewModel()
     {
         UpdateToolTip();
@@ -186,7 +189,7 @@ public partial class NotifyIconViewModel : ObservableObject
     [RelayCommand]
     private void DoubleClick(Window view)
     {
-        switch (Singleton<ConfigHelper>.Instance.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc)
+        switch (_configHelper.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc)
         {
             case DoubleTapFuncEnum.InputFunc:
                 InputTranslateCommand.Execute(view);
@@ -230,15 +233,15 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
-        Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+        _inputViewModel.TranslateCancelCommand.Execute(null);
         ClearAll();
-        ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
+        ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
     }
 
     [RelayCommand]
     private void CrossWordTranslate(Window view)
     {
-        var interval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
+        var interval = _configHelper.CurrentConfig?.WordPickingInterval ?? 100;
         string? content;
         try
         {
@@ -256,7 +259,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
 
         //取词前移除换行
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
             content = StringUtil.RemoveLineBreaks(content);
 
         TranslateHandler(view, content);
@@ -266,24 +269,24 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
-        Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+        _inputViewModel.TranslateCancelCommand.Execute(null);
 
         //增量翻译
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+        if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
         {
             ClearOutput();
-            var input = Singleton<InputViewModel>.Instance.InputContent;
-            Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            var input = _inputViewModel.InputContent;
+            _inputViewModel.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
         }
         else
         {
             ClearAll();
         }
 
-        Singleton<InputViewModel>.Instance.InputContent += content;
-        ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
+        _inputViewModel.InputContent += content;
+        ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
 
-        Singleton<InputViewModel>.Instance.TranslateCommand.Execute(obj);
+        _inputViewModel.TranslateCommand.Execute(obj);
     }
 
     [RelayCommand]
@@ -453,7 +456,7 @@ public partial class NotifyIconViewModel : ObservableObject
             getText = ocrResult.Text;
 
             //取词前移除换行
-            getText = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
+            getText = _configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
 
             //写入剪贴板
             ClipboardHelper.Copy(getText);
@@ -508,14 +511,14 @@ public partial class NotifyIconViewModel : ObservableObject
 
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
-        Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+        _inputViewModel.TranslateCancelCommand.Execute(null);
 
         //增量翻译
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+        if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
         {
             ClearOutput();
-            var input = Singleton<InputViewModel>.Instance.InputContent;
-            Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            var input = _inputViewModel.InputContent;
+            _inputViewModel.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
         }
         else
         {
@@ -523,11 +526,16 @@ public partial class NotifyIconViewModel : ObservableObject
         }
 
         var view = Application.Current.Windows.OfType<MainView>().First();
-        ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
+        ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
 
         var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
         try
         {
+            // 显示水印的情况下，如果输入框为空则填充一个空格，以显示动画避免与水印重叠
+            if ((_configHelper.CurrentConfig?.IsShowMainPlaceholder ?? true) && _inputViewModel.InputContent == "")
+            {
+                _inputViewModel.InputContent = " ";
+            }
             IsScreenshotExecuting = true;
             var getText = "";
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token);
@@ -538,13 +546,16 @@ public partial class NotifyIconViewModel : ObservableObject
             }
             getText = ocrResult.Text;
             //取词前移除换行
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
+            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
                 getText = StringUtil.RemoveLineBreaks(getText);
             //OCR后自动复制
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
+            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
                 ClipboardHelper.Copy(getText);
-            Singleton<InputViewModel>.Instance.InputContent += getText;
-            Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+            // 如果仅有空格则移除
+            if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
+                _inputViewModel.InputContent = "";
+            _inputViewModel.InputContent += getText;
+            _inputViewModel.TranslateCommand.Execute(null);
         }
         catch (OperationCanceledException)
         {
@@ -552,7 +563,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Singleton<InputViewModel>.Instance.InputContent = ex.Message;
+            _inputViewModel.InputContent = ex.Message;
         }
         finally
         {
@@ -581,7 +592,7 @@ public partial class NotifyIconViewModel : ObservableObject
     [RelayCommand]
     private void OpenMainWindow(Window view)
     {
-        if ((Singleton<ConfigHelper>.Instance.CurrentConfig?.IsTriggerShowHide ?? false) && WindowHelper.IsWindowVisible(view) && WindowHelper.IsWindowInForeground(view))
+        if ((_configHelper.CurrentConfig?.IsTriggerShowHide ?? false) && WindowHelper.IsWindowVisible(view) && WindowHelper.IsWindowInForeground(view))
             HideMainView();
         else
             ShowAndActive(view);
@@ -597,7 +608,7 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         ClearOutput();
         //清空输入相关
-        Singleton<InputViewModel>.Instance.Clear();
+        _inputViewModel.Clear();
     }
 
     private void ShowAndActive(Window view, bool canFollowMouse = false)
@@ -630,7 +641,7 @@ public partial class NotifyIconViewModel : ObservableObject
         inputTextBox.Focus();
 
         // 光标移动至末尾
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false)
+        if (_configHelper.CurrentConfig?.IsCaretLast ?? false)
             inputTextBox.CaretIndex = inputTextBox.Text.Length;
     }
 
@@ -733,35 +744,35 @@ public partial class NotifyIconViewModel : ObservableObject
             return;
         }
         //取词前移除换行
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
             content = StringUtil.RemoveLineBreaks(content);
 
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
-        Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+        _inputViewModel.TranslateCancelCommand.Execute(null);
         //增量翻译
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+        if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
         {
             ClearOutput();
-            var input = Singleton<InputViewModel>.Instance.InputContent;
-            Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+            var input = _inputViewModel.InputContent;
+            _inputViewModel.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
         }
         else
         {
             ClearAll();
         }
 
-        Singleton<InputViewModel>.Instance.InputContent += content;
-        ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
+        _inputViewModel.InputContent += content;
+        ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
 
-        Singleton<InputViewModel>.Instance.TranslateCommand.Execute(null);
+        _inputViewModel.TranslateCommand.Execute(null);
     }
 
     private void SaveSelectedLang()
     {
         //写入配置
         var vm = Singleton<MainViewModel>.Instance;
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(vm.SourceLang, vm.TargetLang))
+        if (!_configHelper.WriteConfig(vm.SourceLang, vm.TargetLang))
         {
             LogService.Logger.Warn($"保存源语言({vm.SourceLang.GetDescription()})、目标语言({vm.TargetLang.GetDescription()})配置失败...");
         }
