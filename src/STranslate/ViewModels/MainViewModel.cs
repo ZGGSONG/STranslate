@@ -432,10 +432,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ResetMaxHeightWidth(Window view)
     {
-        var maxHeight = Config?.MainViewMaxHeight ?? 840;
-        var width = Config?.MainViewWidth ?? 460;
-        AnimationHelper.MaxHeightAnimation(view.MaxHeight, maxHeight);
-        AnimationHelper.WidthAnimation(view.Width, width);
+        CommonSettingVM.MainViewMaxHeight = Config?.MainViewMaxHeight ?? 840;
+        CommonSettingVM.MainViewWidth = Config?.MainViewWidth ?? 460;
     }
 
     /// <summary>

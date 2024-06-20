@@ -1,15 +1,15 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 
 namespace STranslate.ViewModels.Preference
 {
@@ -149,7 +149,8 @@ namespace STranslate.ViewModels.Preference
             get => historySizeType;
             set
             {
-                if (historySizeType == value) return;
+                if (historySizeType == value)
+                    return;
                 OnPropertyChanging();
                 historySizeType = value;
 
@@ -214,7 +215,8 @@ namespace STranslate.ViewModels.Preference
             get => _customFont;
             set
             {
-                if (_customFont == value) return;
+                if (_customFont == value)
+                    return;
                 OnPropertyChanging();
 
                 try
@@ -451,6 +453,8 @@ namespace STranslate.ViewModels.Preference
         [ObservableProperty]
         private bool _disableGlobalHotkeys = curConfig?.DisableGlobalHotkeys ?? false;
 
+        #region 主界面调整
+
         /// <summary>
         /// 主界面最大高度
         /// </summary>
@@ -473,15 +477,21 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private void MainViewMaxHeightPlus()
         {
-            if (MainViewMaxHeight >= 1080) return;
-            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight + 20);
+            if (MainViewMaxHeight >= 1080)
+                return;
+            MainViewMaxHeight += 20;
+            return;
+            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight + 20, v => MainViewMaxHeight = (uint)v);
         }
 
         [RelayCommand]
         private void MainViewWidthPlus()
         {
-            if (MainViewWidth >= 1920) return;
-            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth + 20);
+            if (MainViewWidth >= 1920)
+                return;
+            MainViewWidth += 20;
+            return;
+            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth + 20, v => MainViewWidth = (uint)v);
         }
 
         [RelayCommand]
@@ -494,15 +504,23 @@ namespace STranslate.ViewModels.Preference
         [RelayCommand]
         private void MainViewMaxHeightMinus()
         {
-            if (MainViewMaxHeight <= 400) return;
-            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight - 20);
+            if (MainViewMaxHeight <= 400)
+                return;
+            MainViewMaxHeight -= 20;
+            return;
+            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight - 20, v => MainViewMaxHeight = (uint)v);
         }
 
         [RelayCommand]
         private void MainViewWidthMinus()
         {
-            if (MainViewWidth <= 400) return;
-            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth - 20);
+            if (MainViewWidth <= 400)
+                return;
+            MainViewWidth -= 20;
+            return;
+            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth - 20, v => MainViewWidth = (uint)v);
         }
+
+        #endregion 主界面调整
     }
 }

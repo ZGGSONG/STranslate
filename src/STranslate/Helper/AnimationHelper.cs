@@ -18,13 +18,14 @@ public class AnimationHelper
     /// </summary>
     /// <param name="oldValue">The original width value.</param>
     /// <param name="newValue">The new width value.</param>
-    public static void WidthAnimation(double oldValue, double newValue)
+    public static void WidthAnimation(double oldValue, double newValue, Action<double> Callback)
     {
-        var widthAnimation = MainView.FindResource("WidthAnimation") as Storyboard;
-        var doubleAnimation = widthAnimation?.Children.FirstOrDefault() as DoubleAnimation;
-        doubleAnimation!.From = double.IsNaN(oldValue) ? 460 : oldValue;
-        doubleAnimation!.To = newValue;
-        widthAnimation?.Begin();
+        var widthAnimation = (Storyboard)MainView.FindResource("WidthAnimation");
+        var doubleAnimation = (DoubleAnimation)widthAnimation.Children.First();
+        doubleAnimation.From = double.IsNaN(oldValue) ? 460 : oldValue;
+        doubleAnimation.To = newValue;
+        widthAnimation.Completed += (_, _) => Callback?.Invoke(newValue);
+        widthAnimation.Begin();
     }
 
     /// <summary>
@@ -32,13 +33,14 @@ public class AnimationHelper
     /// </summary>
     /// <param name="oldValue">The original max height value.</param>
     /// <param name="newValue">The new max height value.</param>
-    public static void MaxHeightAnimation(double oldValue, double newValue)
+    public static void MaxHeightAnimation(double oldValue, double newValue, Action<double> Callback)
     {
-        var maxHeightAnimation = MainView.FindResource("MaxHeightAnimation") as Storyboard;
-        var doubleAnimation = maxHeightAnimation?.Children.FirstOrDefault() as DoubleAnimation;
-        doubleAnimation!.From = double.IsNaN(oldValue) ? 840 : oldValue;
-        doubleAnimation!.To = newValue;
-        maxHeightAnimation?.Begin();
+        var maxHeightAnimation = (Storyboard)MainView.FindResource("MaxHeightAnimation");
+        var doubleAnimation = (DoubleAnimation)maxHeightAnimation.Children.First();
+        doubleAnimation.From = double.IsNaN(oldValue) ? 840 : oldValue;
+        doubleAnimation.To = newValue;
+        maxHeightAnimation.Completed += (_, _) => Callback?.Invoke(newValue);
+        maxHeightAnimation.Begin();
     }
 
     /// <summary>
@@ -47,8 +49,8 @@ public class AnimationHelper
     /// <param name="show">Indicates whether to show or hide the main view.</param>
     public static void MainViewAnimation(bool show = true)
     {
-        var viewAnimation = (MainView.FindResource("MainViewAnimation") as Storyboard)!;
-        var doubleAnimation = (viewAnimation.Children.FirstOrDefault() as DoubleAnimation)!;
+        var viewAnimation = (Storyboard)MainView.FindResource("MainViewAnimation");
+        var doubleAnimation = (DoubleAnimation)viewAnimation.Children.First();
         // Unsubscribe from any previously added Completed event
         viewAnimation.Completed -= AnimationCompleted;
         if (show)
@@ -70,7 +72,7 @@ public class AnimationHelper
             viewAnimation.Completed += AnimationCompleted;
         }
 
-        viewAnimation?.Begin();
+        viewAnimation.Begin();
     }
 
     /// <summary>
