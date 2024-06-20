@@ -468,26 +468,25 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
-    private Task ScreenShotTranslate(object obj, CancellationToken token)
+    private async Task ScreenShotTranslateAsync(object obj, CancellationToken token)
     {
         if (!CanOpenScreenshot)
-            return Task.CompletedTask;
+            return;
 
-        if (obj == null)
+        switch (obj)
         {
-            goto Last;
+            case null:
+                goto Last;
+            case "header":
+                HideMainView();
+                break;
         }
 
-        if (obj.Equals("header"))
-        {
-            HideMainView();
-        }
-
-        return Task.Delay(200, token).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
+        await Task.Delay(200, token).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
+        return;
 
         Last:
         ScreenShotHandler(token);
-        return Task.CompletedTask;
     }
 
     internal void ScreenShotHandler(CancellationToken? token = null)
@@ -523,14 +522,14 @@ public partial class NotifyIconViewModel : ObservableObject
             ClearAll();
         }
 
-        MainView view = Application.Current.Windows.OfType<MainView>().First();
+        var view = Application.Current.Windows.OfType<MainView>().First();
         ShowAndActive(view, Singleton<ConfigHelper>.Instance.CurrentConfig?.IsFollowMouse ?? false);
 
         var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
         try
         {
             IsScreenshotExecuting = true;
-            string getText = "";
+            var getText = "";
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token);
             //判断结果
             if (!ocrResult.Success)
@@ -625,15 +624,14 @@ public partial class NotifyIconViewModel : ObservableObject
         WindowHelper.SetWindowInForeground(view);
 
         //激活输入框
-        if (view is MainView mainView && (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") is TextBox inputTextBox)
-        {
-            // 获取焦点
-            inputTextBox.Focus();
+        if (view is not MainView mainView ||
+            (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") is not TextBox inputTextBox) return;
+        // 获取焦点
+        inputTextBox.Focus();
 
-            // 光标移动至末尾
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false)
-                inputTextBox.CaretIndex = inputTextBox.Text.Length;
-        }
+        // 光标移动至末尾
+        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsCaretLast ?? false)
+            inputTextBox.CaretIndex = inputTextBox.Text.Length;
     }
 
     [RelayCommand]

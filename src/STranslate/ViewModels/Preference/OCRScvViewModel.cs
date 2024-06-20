@@ -29,13 +29,11 @@ namespace STranslate.ViewModels.Preference
         /// <returns></returns>
         public async Task<OcrResult> ExecuteAsync(byte[] bytes, WindowType showErrorToast, CancellationToken? token = null, LangEnum lang = LangEnum.auto)
         {
-            if (ActivedOCR is null)
-            {
-                ToastHelper.Show("未启用OCR服务", showErrorToast);
-                return await Task.FromResult(OcrResult.Fail("未启用OCR服务"));
-            }
+            if (ActivedOCR is not null)
+                return await ActivedOCR.ExecuteAsync(bytes, lang, token ?? CancellationToken.None);
+            ToastHelper.Show("未启用OCR服务", showErrorToast);
+            return await Task.FromResult(OcrResult.Fail("未启用OCR服务"));
 
-            return await ActivedOCR.ExecuteAsync(bytes, lang, token ?? CancellationToken.None);
         }
 
         public OCRScvViewModel()

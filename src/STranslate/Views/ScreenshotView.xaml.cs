@@ -82,16 +82,16 @@ namespace STranslate.Views
                 return;
             }
             Bitmap bmpOut = new(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(bmpOut);
+            var g = Graphics.FromImage(bmpOut);
             if (_bitmap != null)
                 g.DrawImage(_bitmap, new Rectangle(0, 0, width, height), new Rectangle(x, y, width, height), GraphicsUnit.Pixel);
 
             OnViewVisibilityChanged?.Invoke(true);
-            Close();
-
             var convertX = _bounds.X + (x + width) / _dpiScale;
             var convertY = _bounds.Y + y / _dpiScale;
             BitmapCallback?.Invoke(new Tuple<Bitmap, double, double>(bmpOut, convertX, convertY));
+
+            Close();
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
