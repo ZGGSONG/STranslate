@@ -429,13 +429,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ResetFontSize() => Application.Current.Resources["FontSize_TextBox"] = 18.0;
 
-    [RelayCommand]
-    private void ResetMaxHeightWidth(Window view)
-    {
-        CommonSettingVM.MainViewMaxHeight = Config?.MainViewMaxHeight ?? 840;
-        CommonSettingVM.MainViewWidth = Config?.MainViewWidth ?? 460;
-    }
-
     /// <summary>
     /// 更新主界面图标显示
     /// </summary>

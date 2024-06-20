@@ -283,7 +283,7 @@
                                 <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right"
                                             DockPanel.Dock="Right" Orientation="Horizontal">
                                     <TextBlock Width="75" Margin="10,0,0,0" FontWeight="Black"
-                                               Text="{Binding MainViewMaxHeight, StringFormat={}{0}}" />
+                                               Text="{Binding MainViewMaxHeight, StringFormat={}{0:0}}" />
                                     <Slider Height="14"
                                             FlowDirection="LeftToRight"
                                             MinWidth="260"
@@ -302,7 +302,7 @@
                                 <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right"
                                             DockPanel.Dock="Right" Orientation="Horizontal">
                                     <TextBlock Width="75" Margin="10,0,0,0" FontWeight="Black"
-                                               Text="{Binding MainViewWidth, StringFormat={}{0}}" />
+                                               Text="{Binding MainViewWidth, StringFormat={}{0:0}}" />
                                     <Slider Height="14"
                                             FlowDirection="LeftToRight"
                                             MinWidth="260"
@@ -311,7 +311,7 @@
                                             Minimum="400"
                                             TickFrequency="10"
                                             TickPlacement="None"
-                                            Value="{Binding MainViewWidth}" />
+                                            Value="{Binding MainViewWidth, Mode=TwoWay}" />
                                 </StackPanel>
                             </DockPanel>
 

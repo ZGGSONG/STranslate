@@ -288,12 +288,12 @@ public class ConfigModel
     /// <summary>
     /// 主界面最大高度
     /// </summary>
-    public uint MainViewMaxHeight { get; set; } = 840;
+    public double MainViewMaxHeight { get; set; } = 840;
 
     /// <summary>
     /// 主界面宽度
     /// </summary>
-    public uint MainViewWidth { get; set; } = 460;
+    public double MainViewWidth { get; set; } = 460;
 
     /// <summary>
     /// 热键

@@ -459,66 +459,66 @@ namespace STranslate.ViewModels.Preference
         /// 主界面最大高度
         /// </summary>
         [ObservableProperty]
-        private uint _mainViewMaxHeight = curConfig?.MainViewMaxHeight ?? 840;
+        private double _mainViewMaxHeight = curConfig?.MainViewMaxHeight ?? 840;
 
         /// <summary>
         /// 主界面宽度
         /// </summary>
         [ObservableProperty]
-        private uint _mainViewWidth = curConfig?.MainViewWidth ?? 460;
+        private double _mainViewWidth = curConfig?.MainViewWidth ?? 460;
+
+        private const double ChangeValue = 40;
 
         [RelayCommand]
-        private void MainViewMaxHeightWidthPlus()
+        private void MainViewChange(object? obj = null)
         {
-            MainViewMaxHeightPlus();
-            MainViewWidthPlus();
+            MainViewMaxHeightChange(obj);
+            MainViewWidthChange(obj);
         }
 
         [RelayCommand]
-        private void MainViewMaxHeightPlus()
+        private void ResetMainView()
         {
-            if (MainViewMaxHeight >= 1080)
-                return;
-            MainViewMaxHeight += 20;
-            return;
-            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight + 20, v => MainViewMaxHeight = (uint)v);
+            MainViewMaxHeight = curConfig?.MainViewMaxHeight ?? 840;
+            MainViewWidth = curConfig?.MainViewWidth ?? 460;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj">null is plus</param>
+        [RelayCommand]
+        private void MainViewMaxHeightChange(object? obj = null)
+        {
+            double newValue;
+            if (obj == null)
+            {
+                newValue = MainViewMaxHeight + ChangeValue;
+                if (newValue >= 1080) newValue = 1080;
+            }
+            else
+            {
+                newValue = MainViewMaxHeight - ChangeValue;
+                if (newValue <= 400) newValue = 400;
+            }
+            MainViewMaxHeight = newValue;
         }
 
         [RelayCommand]
-        private void MainViewWidthPlus()
+        private void MainViewWidthChange(object? obj = null)
         {
-            if (MainViewWidth >= 1920)
-                return;
-            MainViewWidth += 20;
-            return;
-            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth + 20, v => MainViewWidth = (uint)v);
-        }
-
-        [RelayCommand]
-        private void MainViewMaxHeightWidthMinus()
-        {
-            MainViewMaxHeightMinus();
-            MainViewWidthMinus();
-        }
-
-        [RelayCommand]
-        private void MainViewMaxHeightMinus()
-        {
-            if (MainViewMaxHeight <= 400)
-                return;
-            MainViewMaxHeight -= 20;
-            return;
-            AnimationHelper.MaxHeightAnimation(MainViewMaxHeight, MainViewMaxHeight - 20, v => MainViewMaxHeight = (uint)v);
-        }
-
-        [RelayCommand]
-        private void MainViewWidthMinus()
-        {
-            if (MainViewWidth <= 400)
-                return;
-            MainViewWidth -= 20;
-            return;
-            AnimationHelper.WidthAnimation(MainViewWidth, MainViewWidth - 20, v => MainViewWidth = (uint)v);
+            double newValue;
+            if (obj == null)
+            {
+                newValue = MainViewWidth + ChangeValue;
+                if (newValue >= 1920) newValue = 1920;
+            }
+            else
+            {
+                newValue = MainViewWidth - ChangeValue;
+                if (newValue <= 400) newValue = 400;
+            }
+            MainViewWidth = newValue;
         }
 
         #endregion 主界面调整

@@ -14,36 +14,6 @@ public class AnimationHelper
     private static readonly Window MainView = Application.Current.Windows.Cast<MainView>().First();
 
     /// <summary>
-    ///     Performs a width animation on the MainView.
-    /// </summary>
-    /// <param name="oldValue">The original width value.</param>
-    /// <param name="newValue">The new width value.</param>
-    public static void WidthAnimation(double oldValue, double newValue, Action<double> Callback)
-    {
-        var widthAnimation = (Storyboard)MainView.FindResource("WidthAnimation");
-        var doubleAnimation = (DoubleAnimation)widthAnimation.Children.First();
-        doubleAnimation.From = double.IsNaN(oldValue) ? 460 : oldValue;
-        doubleAnimation.To = newValue;
-        widthAnimation.Completed += (_, _) => Callback?.Invoke(newValue);
-        widthAnimation.Begin();
-    }
-
-    /// <summary>
-    ///     Performs a max height animation on the MainView.
-    /// </summary>
-    /// <param name="oldValue">The original max height value.</param>
-    /// <param name="newValue">The new max height value.</param>
-    public static void MaxHeightAnimation(double oldValue, double newValue, Action<double> Callback)
-    {
-        var maxHeightAnimation = (Storyboard)MainView.FindResource("MaxHeightAnimation");
-        var doubleAnimation = (DoubleAnimation)maxHeightAnimation.Children.First();
-        doubleAnimation.From = double.IsNaN(oldValue) ? 840 : oldValue;
-        doubleAnimation.To = newValue;
-        maxHeightAnimation.Completed += (_, _) => Callback?.Invoke(newValue);
-        maxHeightAnimation.Begin();
-    }
-
-    /// <summary>
     ///     Performs the main view animation.
     /// </summary>
     /// <param name="show">Indicates whether to show or hide the main view.</param>

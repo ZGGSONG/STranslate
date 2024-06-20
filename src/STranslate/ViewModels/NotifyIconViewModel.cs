@@ -639,7 +639,7 @@ public partial class NotifyIconViewModel : ObservableObject
     [RelayCommand]
     private void OpenPreference()
     {
-        PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+        var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
         // 如果已经打开则不重新导航
         if (view is null)
         {

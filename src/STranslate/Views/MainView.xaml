@@ -34,7 +34,8 @@
                     CommandParameter="{Binding ElementName=MainWindow}"
                     Modifiers="Ctrl+Shift" />
         <KeyBinding Key="R" Command="{Binding ChangeThemeCommand}" Modifiers="Ctrl+Shift" />
-        <KeyBinding Key="Esc" Command="{Binding EscCommand}" CommandParameter="{Binding ElementName=MainWindow, Mode=OneWay}" />
+        <KeyBinding Key="Esc" Command="{Binding EscCommand}"
+                    CommandParameter="{Binding ElementName=MainWindow, Mode=OneWay}" />
 
         <KeyBinding Key="A" Command="{Binding ShowHideInputCommand}" Modifiers="Ctrl+Shift" />
 
@@ -52,37 +53,38 @@
         <!-- // 重置字体大小 // -->
         <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />
 
-        <!-- // 宽、最大高快捷键调整 // -->
-        <KeyBinding Command="{Binding CommonSettingVM.MainViewMaxHeightWidthPlusCommand}"
+        <!-- // 宽、最大高快捷键调整 START // -->
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewChangeCommand}"
                     Gesture="Ctrl+OemPlus" />
-        <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthPlusCommand}"
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewMaxHeightChangeCommand}"
+                    Gesture="Ctrl+Shift+OemPlus" />
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthChangeCommand}"
                     Gesture="Ctrl+Alt+OemPlus" />
-        <KeyBinding Command="{Binding CommonSettingVM.MainViewMaxHeightPlusCommand}" Gesture="Ctrl+Shift+OemPlus" />
-        <KeyBinding Command="{Binding  CommonSettingVM.MainViewMaxHeightMinusCommand}"
+        
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewChangeCommand}" CommandParameter="1"
                     Gesture="Ctrl+OemMinus" />
-        <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthMinusCommand}"
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewMaxHeightChangeCommand}" CommandParameter="1"
+                    Gesture="Ctrl+Shift+OemMinus" />
+        <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthChangeCommand}" CommandParameter="1"
                     Gesture="Ctrl+Alt+OemMinus" />
-        <KeyBinding Command="{Binding  CommonSettingVM.MainViewMaxHeightMinusCommand}" Gesture="Ctrl+Shift+OemMinus" />
-        <KeyBinding Command="{Binding ResetMaxHeightWidthCommand}" CommandParameter="{Binding ElementName=MainWindow}"
+
+        <KeyBinding Command="{Binding CommonSettingVM.ResetMainViewCommand}"
                     Gesture="Ctrl+0" />
+        <!-- // 宽、最大高快捷键调整 END // -->
     </Window.InputBindings>
     <Window.Resources>
-        <Storyboard x:Key="WidthAnimation">
-            <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="Width" Duration="0:0:0.15" />
-        </Storyboard>
-        <Storyboard x:Key="MaxHeightAnimation">
-            <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="MaxHeight" Duration="0:0:0.15" />
-        </Storyboard>
         <Storyboard x:Key="MainViewAnimation">
             <DoubleAnimation Storyboard.TargetName="MainWindow" Storyboard.TargetProperty="Opacity" Duration="0:0:0.15" />
         </Storyboard>
     </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=MainWindow}" />
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"
+                                   CommandParameter="{Binding ElementName=MainWindow}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=MainWindow}" />
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}"
+                                   CommandParameter="{Binding ElementName=MainWindow}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Border Margin="32 12 32 32"

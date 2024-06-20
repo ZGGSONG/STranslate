@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media.Animation;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -110,7 +109,9 @@ public partial class MainView : Window
 
     private void MainWindow_Deactivated(object sender, EventArgs e)
     {
-        if (!Topmost) AnimationHelper.MainViewAnimation(false);
+        if (Topmost) return;
+
+        AnimationHelper.MainViewAnimation(false);
     }
 
     #region 隐藏系统窗口菜单
