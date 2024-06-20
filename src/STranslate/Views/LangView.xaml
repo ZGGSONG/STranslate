@@ -12,14 +12,16 @@
              mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
             <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
         <!-- // SourceLang // -->
         <ComboBox Grid.Column="0"
                   DisplayMemberPath="Description"
+                  Width="130"
+                  HorizontalAlignment="Right"
                   ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                   SelectedValue="{Binding SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Value" />
@@ -33,6 +35,8 @@
         <!-- // TargetLang // -->
         <ComboBox Grid.Column="2"
                   DisplayMemberPath="Description"
+                  Width="130"
+                  HorizontalAlignment="Left"
                   ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                   SelectedValue="{Binding TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Value" />

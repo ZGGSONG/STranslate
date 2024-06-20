@@ -119,8 +119,7 @@
                                      Visibility="{Binding ElementName=MainWindow, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!-- // Mid // -->
-                    <local:LangView Margin="60,0"
-                                    DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
+                    <local:LangView DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
                                     Focusable="False"
                                     Visibility="{Binding IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
