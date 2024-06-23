@@ -67,37 +67,31 @@ public partial class HistoryContentViewModel : ObservableObject
     [RelayCommand]
     private void CopySnakeResult(object obj)
     {
-        if (obj is string str && !string.IsNullOrEmpty(str))
-        {
-            var snakeRet = StringUtil.GenSnakeString([.. str.Split(' ')]);
-            ClipboardHelper.Copy(snakeRet);
+        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+        var snakeRet = StringUtil.GenSnakeString(str);
+        ClipboardHelper.Copy(snakeRet);
 
-            ToastHelper.Show("蛇形复制成功", WindowType.Preference);
-        }
+        ToastHelper.Show("蛇形复制成功", WindowType.Preference);
     }
 
     [RelayCommand]
     private void CopySmallHumpResult(object obj)
     {
-        if (obj is string str && !string.IsNullOrEmpty(str))
-        {
-            var snakeRet = StringUtil.GenHumpString([.. str.Split(' ')], true);
-            ClipboardHelper.Copy(snakeRet);
+        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+        var snakeRet = StringUtil.GenHumpString(str, true);
+        ClipboardHelper.Copy(snakeRet);
 
-            ToastHelper.Show("小驼峰复制成功", WindowType.Preference);
-        }
+        ToastHelper.Show("小驼峰复制成功", WindowType.Preference);
     }
 
     [RelayCommand]
     private void CopyLargeHumpResult(object obj)
     {
-        if (obj is string str && !string.IsNullOrEmpty(str))
-        {
-            var snakeRet = StringUtil.GenHumpString([.. str.Split(' ')], false);
-            ClipboardHelper.Copy(snakeRet);
+        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+        var snakeRet = StringUtil.GenHumpString(str);
+        ClipboardHelper.Copy(snakeRet);
 
-            ToastHelper.Show("大驼峰复制成功", WindowType.Preference);
-        }
+        ToastHelper.Show("大驼峰复制成功", WindowType.Preference);
     }
 
     [ObservableProperty]
