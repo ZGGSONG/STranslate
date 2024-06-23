@@ -219,7 +219,7 @@ public partial class TranslatorCaiyun : TranslatorBase, ITranslator
         }
     }
 
-    public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
     {
         throw new NotImplementedException();
     }

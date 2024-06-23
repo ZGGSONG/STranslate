@@ -201,7 +201,7 @@ public partial class TranslatorVolcengine : TranslatorBase, ITranslator
         return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
     }
 
-    public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
     {
         throw new NotImplementedException();
     }

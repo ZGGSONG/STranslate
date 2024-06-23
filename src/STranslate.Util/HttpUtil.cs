@@ -21,10 +21,10 @@ public class HttpUtil
         return await GetResponseContentAsync(response, token);
     }
 
-    public static async Task<string> GetAsync(string url, Dictionary<string, string> queryParams, CancellationToken token, int timeout = 10)
+    public static async Task<string> GetAsync(string url, Dictionary<string, string>? queryParams, CancellationToken token, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
-        if (queryParams != null && queryParams.Count > 0)
+        if (queryParams is { Count: > 0 })
         {
             var uriBuilder = new UriBuilder(url) { Query = BuildQueryString(queryParams) };
             url = uriBuilder.ToString();
@@ -65,7 +65,7 @@ public class HttpUtil
     )
     {
         using var client = CreateHttpClient(timeout);
-        if (queryParams != null && queryParams.Count > 0)
+        if (queryParams is { Count: > 0 })
         {
             var uriBuilder = new UriBuilder(url) { Query = BuildQueryString(queryParams) };
             url = uriBuilder.ToString();
@@ -79,7 +79,7 @@ public class HttpUtil
     public static async Task<string> PostAsync(
         string url,
         Dictionary<string, string[]>? headers,
-        Dictionary<string, string[]> parameters,
+        Dictionary<string, string[]>? parameters,
         CancellationToken token,
         int timeout = 10
     )
@@ -132,11 +132,11 @@ public class HttpUtil
     {
         using var client = CreateHttpClient(timeout);
         var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(formData) };
-        var response = await client.SendAsync(request);
+        var response = await client.SendAsync(request, token);
         return await GetResponseContentAsync(response, token);
     }
 
-    public static async Task PostAsync(Uri uri, string req, string? key, Action<string> OnDataReceived, CancellationToken token, int timeout = 10)
+    public static async Task PostAsync(Uri uri, string req, string? key, Action<string> onDataReceived, CancellationToken token, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
 
@@ -150,14 +150,14 @@ public class HttpUtil
         using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
         await ResponseCheckAsync(response, token);
 
-        using var responseStream = await response.Content.ReadAsStreamAsync(token);
+        await using var responseStream = await response.Content.ReadAsStreamAsync(token);
         using var reader = new System.IO.StreamReader(responseStream);
 
         while (!reader.EndOfStream && !token.IsCancellationRequested)
         {
             var content = await reader.ReadLineAsync(token);
             if (!string.IsNullOrEmpty(content))
-                OnDataReceived?.Invoke(content);
+                onDataReceived?.Invoke(content);
         }
     }
 

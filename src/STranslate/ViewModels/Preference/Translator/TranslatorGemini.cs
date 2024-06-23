@@ -231,7 +231,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslator
 
     #region Interface Implementation
 
-    public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+    public async Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
     {
         if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
             throw new Exception("请先完善配置");
@@ -278,7 +278,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslator
 
                     var match = Regex.Match(msg, pattern);
 
-                    if (match.Success) OnDataReceived?.Invoke(match.Value.Replace("\\n", "\n"));
+                    if (match.Success) onDataReceived?.Invoke(match.Value.Replace("\\n", "\n"));
                 },
                 token,
                 TimeOut

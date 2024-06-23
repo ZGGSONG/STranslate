@@ -35,7 +35,7 @@ namespace STranslate.Model
 
         Task<TranslationResult> TranslateAsync(object request, CancellationToken token);
 
-        Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token);
+        Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token);
 
         ITranslator Clone();
     }

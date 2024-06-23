@@ -237,7 +237,7 @@ namespace STranslate.ViewModels.Preference.Translator
             return TranslationResult.Success(data);
         }
 
-        public Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+        public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
         {
             throw new NotImplementedException();
         }

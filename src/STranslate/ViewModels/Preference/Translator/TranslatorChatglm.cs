@@ -234,7 +234,7 @@ public partial class TranslatorChatglm : TranslatorBase, ITranslator
 
     #region Interface Implementation
 
-    public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
+    public async Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
     {
         if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
             throw new Exception("请先完善配置");
@@ -305,7 +305,7 @@ public partial class TranslatorChatglm : TranslatorBase, ITranslator
                     if (string.IsNullOrEmpty(contentValue))
                         return;
 
-                    OnDataReceived?.Invoke(contentValue);
+                    onDataReceived?.Invoke(contentValue);
                 },
                 token
             );
