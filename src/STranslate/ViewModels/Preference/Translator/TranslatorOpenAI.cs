@@ -227,7 +227,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslator
 
     public async Task TranslateAsync(object request, Action<string> OnDataReceived, CancellationToken token)
     {
-        if (string.IsNullOrEmpty(Url) || string.IsNullOrEmpty(AppKey))
+        if (string.IsNullOrEmpty(Url)/* || string.IsNullOrEmpty(AppKey)*/)
             throw new Exception("请先完善配置");
 
         if (request is not RequestModel req)

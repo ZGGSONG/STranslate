@@ -526,6 +526,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
 
         var view = Application.Current.Windows.OfType<MainView>().First();
+        //var view = Application.Current.MainWindow!;
         ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
 
         var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
