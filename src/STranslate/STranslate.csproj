@@ -12,6 +12,7 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<AssemblyVersion>1.1.4.0523</AssemblyVersion>
 	<FileVersion>1.1.4.0523</FileVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->

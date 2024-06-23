@@ -215,7 +215,7 @@
                 </Grid>
 
                 <!-- // Prompts // -->
-                <Border Margin="0,10" Style="{DynamicResource BorderMainStyle}">
+                <Border Margin="0,10" Style="{DynamicResource BorderStyle}">
                     <ListBox Background="Transparent"
                              BorderThickness="0"
                              ItemsPanel="{StaticResource prompttemplate}"

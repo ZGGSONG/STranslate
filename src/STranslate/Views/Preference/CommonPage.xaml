@@ -378,6 +378,13 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding ShowAuxiliaryLine}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="主窗口阴影(比较占用性能)" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主窗口是否显示显示阴影&#13;比较占用性能请自行选择" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding MainViewShadow}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

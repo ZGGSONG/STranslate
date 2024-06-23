@@ -1,46 +1,56 @@
-﻿using STranslate.Model;
-using STranslate.Util;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
+using STranslate.Model;
+using STranslate.Util;
 
-namespace STranslate.Helper
+namespace STranslate.Helper;
+
+public class ThemeHelper : IDisposable
 {
-    public class ThemeHelper : IDisposable
+    private static readonly RegistryMonitor registryMonitor =
+        new(ConstStr.REGISTRYHIVE, ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
+
+    public void Dispose()
     {
-        public void StartListenRegistry()
-        {
-            if (registryMonitor.IsMonitoring)
-                return;
+        registryMonitor?.Dispose();
+    }
 
-            registryMonitor.RegChanged += OnRegChanged;
-            registryMonitor.Start();
-            InitialTheme();
-        }
+    public void StartListenRegistry()
+    {
+        if (registryMonitor.IsMonitoring)
+            return;
 
-        public void StopListenRegistry()
-        {
-            registryMonitor.Stop();
-            registryMonitor.RegChanged -= OnRegChanged;
-        }
+        registryMonitor.RegChanged += OnRegChanged;
+        registryMonitor.Start();
+        InitialTheme();
+    }
 
-        private void InitialTheme()
-        {
-            var SystemUsesLightTheme = RegistryMonitor.GetRegistryValue(ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
-            OnRegChanged(SystemUsesLightTheme);
-        }
+    public void StopListenRegistry()
+    {
+        registryMonitor.Stop();
+        registryMonitor.RegChanged -= OnRegChanged;
+    }
 
-        public void LightTheme() => OnRegChanged("1");
+    private void InitialTheme()
+    {
+        var SystemUsesLightTheme = RegistryMonitor.GetRegistryValue(ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
+        OnRegChanged(SystemUsesLightTheme);
+    }
 
-        public void DarkTheme() => OnRegChanged("0");
+    public void LightTheme()
+    {
+        OnRegChanged("1");
+    }
 
-        private void OnRegChanged(string type)
-        {
-            Application.Current.Resources.MergedDictionaries.First().Source = type == "1" ? ConstStr.LIGHTURI : ConstStr.DARKURI;
-        }
+    public void DarkTheme()
+    {
+        OnRegChanged("0");
+    }
 
-        public void Dispose() => registryMonitor?.Dispose();
-
-        private static readonly RegistryMonitor registryMonitor = new(ConstStr.REGISTRYHIVE, ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
+    private void OnRegChanged(string type)
+    {
+        Application.Current.Resources.MergedDictionaries.First().Source =
+            type == "1" ? ConstStr.LIGHTURI : ConstStr.DARKURI;
     }
 }

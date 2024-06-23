@@ -10,6 +10,9 @@ namespace STranslate.Model
         public const string THEMELIGHT = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorLight.xaml";
         public const string THEMEDARK = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorDark.xaml";
 
+        public const string WindowResourcePath = "pack://application:,,,/STranslate.Style;component/Styles/WindowStyle.xaml";
+        public const string WindowResourceName = "WindowStyle";
+
         public static readonly Uri LIGHTURI = new(THEMELIGHT);
         public static readonly Uri DARKURI = new(THEMEDARK);
 

@@ -29,26 +29,28 @@ public class ConfigHelper
             Directory.CreateDirectory(ConstStr.AppData); //创建新路径
             ShortcutUtil.SetDesktopShortcut(); //创建桌面快捷方式
         }
+
         if (!File.Exists(ConstStr.CnfFullName)) //文件不存在
         {
             FileStream fs = new(ConstStr.CnfFullName, FileMode.Create, FileAccess.ReadWrite);
             fs.Close();
             WriteConfig(InitialConfig());
         }
-        InitialCurntCnf();
+
+        InitCurrentCnf();
     }
 
     /// <summary>
-    /// 读取配置文件到缓存
+    ///     读取配置文件到缓存
     /// </summary>
-    public void InitialCurntCnf()
+    public void InitCurrentCnf()
     {
         //初始化时将初始值赋给Config属性
         CurrentConfig = ResetConfig;
     }
 
     /// <summary>
-    /// 初始化操作
+    ///     初始化操作
     /// </summary>
     public void InitialOperate()
     {
@@ -81,7 +83,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 退出时保存位置
+    ///     退出时保存位置
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
@@ -98,7 +100,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入服务到配置
+    ///     写入服务到配置
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
@@ -114,7 +116,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入OCR服务到配置
+    ///     写入OCR服务到配置
     /// </summary>
     /// <param name="ocrList"></param>
     /// <returns></returns>
@@ -130,7 +132,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入TTS服务到配置
+    ///     写入TTS服务到配置
     /// </summary>
     /// <param name="ttsList"></param>
     /// <returns></returns>
@@ -146,7 +148,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入源语言、目标语言到配置
+    ///     写入源语言、目标语言到配置
     /// </summary>
     /// <param name="source"></param>
     /// <param name="target"></param>
@@ -164,7 +166,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入热键到配置
+    ///     写入热键到配置
     /// </summary>
     /// <param name="hotkeys"></param>
     /// <returns></returns>
@@ -180,7 +182,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 写入常规配置项到当前配置
+    ///     写入常规配置项到当前配置
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -239,6 +241,7 @@ public class ConfigHelper
         CurrentConfig.DisableGlobalHotkeys = model.DisableGlobalHotkeys;
         CurrentConfig.MainViewMaxHeight = model.MainViewMaxHeight;
         CurrentConfig.MainViewWidth = model.MainViewWidth;
+        CurrentConfig.MainViewShadow = model.MainViewShadow;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -254,17 +257,20 @@ public class ConfigHelper
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
         ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
+        MainViewShadowOperate(CurrentConfig.MainViewShadow);
 
         if (!isHotkeyConfSame)
-            DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys, Application.Current.Windows.OfType<MainView>().First());
+            DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys,
+                Application.Current.Windows.OfType<MainView>().First());
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
     }
 
+
     /// <summary>
-    /// 写入备份到配置
+    ///     写入备份到配置
     /// </summary>
     /// <param name="hotkeys"></param>
     /// <returns></returns>
@@ -283,7 +289,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 保存ocr页面宽高
+    ///     保存ocr页面宽高
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
@@ -301,7 +307,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 校验配置
+    ///     校验配置
     /// </summary>
     /// <param name="configPath"></param>
     /// <returns></returns>
@@ -309,9 +315,11 @@ public class ConfigHelper
     {
         try
         {
-            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
+            var settings = new JsonSerializerSettings
+                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
             var content = File.ReadAllText(configPath);
-            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
+            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
+                         throw new Exception("反序列化失败...");
             Decryption(config);
             return true;
         }
@@ -330,9 +338,11 @@ public class ConfigHelper
     {
         try
         {
-            var settings = new JsonSerializerSettings { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
+            var settings = new JsonSerializerSettings
+                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
             var content = File.ReadAllText(ConstStr.CnfFullName);
-            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ?? throw new Exception("反序列化失败...");
+            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
+                         throw new Exception("反序列化失败...");
             Decryption(config);
             return config;
         }
@@ -347,7 +357,7 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 备份当前配置文件
+    ///     备份当前配置文件
     /// </summary>
     private string BackupCurrentConfig()
     {
@@ -364,23 +374,29 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 加密
+    ///     加密
     /// </summary>
     /// <param name="conf"></param>
     private void Encryption(ConfigModel conf)
     {
         // proxy pwd
-        conf.ProxyPassword = string.IsNullOrEmpty(conf.ProxyPassword) ? conf.ProxyPassword : DESUtil.DesEncrypt(conf.ProxyPassword);
+        conf.ProxyPassword = string.IsNullOrEmpty(conf.ProxyPassword)
+            ? conf.ProxyPassword
+            : DESUtil.DesEncrypt(conf.ProxyPassword);
 
         // webdav pwd
-        conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword) ? conf.WebDavPassword : DESUtil.DesEncrypt(conf.WebDavPassword);
+        conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword)
+            ? conf.WebDavPassword
+            : DESUtil.DesEncrypt(conf.WebDavPassword);
 
         // Translate Service加密
         conf.Services?.ToList()
             .ForEach(service =>
             {
                 service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesEncrypt(service.AppID);
-                service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesEncrypt(service.AppKey);
+                service.AppKey = string.IsNullOrEmpty(service.AppKey)
+                    ? service.AppKey
+                    : DESUtil.DesEncrypt(service.AppKey);
             });
         // OCR加密
         conf.OCRList?.ToList()
@@ -399,21 +415,27 @@ public class ConfigHelper
     }
 
     /// <summary>
-    /// 解密
+    ///     解密
     /// </summary>
     /// <param name="conf"></param>
     private void Decryption(ConfigModel conf)
     {
         // 读取时解密 proxy webdav 密码
-        conf.ProxyPassword = string.IsNullOrEmpty(conf.ProxyPassword) ? conf.ProxyPassword : DESUtil.DesDecrypt(conf.ProxyPassword);
-        conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword) ? conf.WebDavPassword : DESUtil.DesDecrypt(conf.WebDavPassword);
+        conf.ProxyPassword = string.IsNullOrEmpty(conf.ProxyPassword)
+            ? conf.ProxyPassword
+            : DESUtil.DesDecrypt(conf.ProxyPassword);
+        conf.WebDavPassword = string.IsNullOrEmpty(conf.WebDavPassword)
+            ? conf.WebDavPassword
+            : DESUtil.DesDecrypt(conf.WebDavPassword);
 
         // 读取时解密AppID、AppKey
         conf.Services?.ToList()
             .ForEach(service =>
             {
                 service.AppID = string.IsNullOrEmpty(service.AppID) ? service.AppID : DESUtil.DesDecrypt(service.AppID);
-                service.AppKey = string.IsNullOrEmpty(service.AppKey) ? service.AppKey : DESUtil.DesDecrypt(service.AppKey);
+                service.AppKey = string.IsNullOrEmpty(service.AppKey)
+                    ? service.AppKey
+                    : DESUtil.DesDecrypt(service.AppKey);
             });
         conf.OCRList?.ToList()
             .ForEach(ocr =>
@@ -468,48 +490,73 @@ public class ConfigHelper
     {
         try
         {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
-                ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
-                : new FontFamily(CurrentConfig!.CustomFont);
+            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] =
+                CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
+                    ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+                    : new FontFamily(CurrentConfig!.CustomFont);
         }
         catch (Exception)
         {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
+            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] =
+                Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
             CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
         }
     }
 
     //代理操作
-    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username, string pwd) =>
+    private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username,
+        string pwd)
+    {
         ProxyUtil.UpdateProxy(proxyMethod, ip, port, isAuth, username, pwd);
+    }
 
     //主窗口提示词
-    private void PlaceholderOperate(bool isShowMainPlaceholder) =>
-        Singleton<InputViewModel>.Instance.Placeholder = isShowMainPlaceholder ? ConstStr.MAINVIEWPLACEHOLDER : string.Empty;
+    private void PlaceholderOperate(bool isShowMainPlaceholder)
+    {
+        Singleton<InputViewModel>.Instance.Placeholder =
+            isShowMainPlaceholder ? ConstStr.MAINVIEWPLACEHOLDER : string.Empty;
+    }
 
     //刷新主窗口图标
-    private void MainViewIconOperate() => Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
+    private void MainViewIconOperate()
+    {
+        Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
+    }
 
-    private void ExternalCallOperate(int port, bool isStop = false) => Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
+    //外部调用功能
+    private void ExternalCallOperate(int port, bool isStop = false)
+    {
+        Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
+    }
+
+    //主窗口阴影
+    public void MainViewShadowOperate(bool mainViewShadow)
+    {
+        ShadowHelper.ShadowEffect(mainViewShadow);
+    }
 
     /// <summary>
-    /// 初始化时自动进MainViewModel进行处理
-    /// 后续修改执行该处理
+    ///     初始化时自动进MainViewModel进行处理
+    ///     后续修改执行该处理
     /// </summary>
     /// <param name="value"></param>
     /// <param name="view"></param>
-    private void DisableGlobalHotkeysOperate(bool value, Window view) => Singleton<NotifyIconViewModel>.Instance.InvokeForbiddenShotcuts(view, value);
+    private void DisableGlobalHotkeysOperate(bool value, Window view)
+    {
+        Singleton<NotifyIconViewModel>.Instance.InvokeForbiddenShotcuts(view, value);
+    }
+
     #endregion 私有方法
 
     #region 字段 && 属性
 
     /// <summary>
-    /// 重置Config
+    ///     重置Config
     /// </summary>
     public ConfigModel ResetConfig => ReadConfig();
 
     /// <summary>
-    /// 初始Config
+    ///     初始Config
     /// </summary>
     private ConfigModel InitialConfig()
     {
@@ -518,10 +565,12 @@ public class ConfigHelper
         hk.CrosswordTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.D, ConstStr.DEFAULTCROSSWORDHOTKEY);
         hk.ScreenShotTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.S, ConstStr.DEFAULTSCREENSHOTHOTKEY);
         hk.OpenMainWindow.Update(KeyModifiers.MOD_ALT, KeyCodes.G, ConstStr.DEFAULTOPENHOTKEY);
-        hk.MousehookTranslate.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.D, ConstStr.DEFAULTMOUSEHOOKHOTKEY);
+        hk.MousehookTranslate.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.D,
+            ConstStr.DEFAULTMOUSEHOOKHOTKEY);
         hk.OCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.S, ConstStr.DEFAULTOCRHOTKEY);
         hk.SilentOCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.F, ConstStr.DEFAULTSILENTOCRHOTKEY);
-        hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A, ConstStr.DEFAULTCLIPBOARDMONITORHOTKEY);
+        hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A,
+            ConstStr.DEFAULTCLIPBOARDMONITORHOTKEY);
         return new ConfigModel
         {
             HistorySize = 100,
@@ -576,11 +625,12 @@ public class ConfigHelper
             DisableGlobalHotkeys = false,
             MainViewMaxHeight = 840,
             MainViewWidth = 460,
+            MainViewShadow = false,
             Services =
             [
-                new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", IconType.STranslate),
+                new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),
                 new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
-                new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", IconType.DeepL, isEnabled: false)
+                new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", isEnabled: false)
             ],
             OCRList = [new PaddleOCR()],
             TTSList = [new TTSOffline()]
@@ -596,9 +646,10 @@ public class ConfigHelper
 
 public class OCRConverter : JsonConverter<IOCR>
 {
-    public override IOCR? ReadJson(JsonReader reader, Type objectType, IOCR? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override IOCR? ReadJson(JsonReader reader, Type objectType, IOCR? existingValue, bool hasExistingValue,
+        JsonSerializer serializer)
     {
-        JObject jsonObject = JObject.Load(reader);
+        var jsonObject = JObject.Load(reader);
 
         // 根据Type字段的值来决定具体实现类
         var type = jsonObject["Type"]!.Value<int>();
@@ -623,9 +674,10 @@ public class OCRConverter : JsonConverter<IOCR>
 
 public class TTSConverter : JsonConverter<ITTS>
 {
-    public override ITTS? ReadJson(JsonReader reader, Type objectType, ITTS? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override ITTS? ReadJson(JsonReader reader, Type objectType, ITTS? existingValue, bool hasExistingValue,
+        JsonSerializer serializer)
     {
-        JObject jsonObject = JObject.Load(reader);
+        var jsonObject = JObject.Load(reader);
 
         // 根据Type字段的值来决定具体实现类
         var type = jsonObject["Type"]!.Value<int>();
@@ -649,9 +701,10 @@ public class TTSConverter : JsonConverter<ITTS>
 
 public class TranslatorConverter : JsonConverter<ITranslator>
 {
-    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue,
+        bool hasExistingValue, JsonSerializer serializer)
     {
-        JObject jsonObject = JObject.Load(reader);
+        var jsonObject = JObject.Load(reader);
 
         // 根据Type字段的值来决定具体实现类
         var type = jsonObject["Type"]!.Value<int>();
@@ -690,4 +743,5 @@ public class TranslatorConverter : JsonConverter<ITranslator>
         throw new NotImplementedException();
     }
 }
+
 #endregion JsonConvert

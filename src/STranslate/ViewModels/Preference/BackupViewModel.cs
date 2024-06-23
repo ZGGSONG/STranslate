@@ -322,7 +322,7 @@ namespace STranslate.ViewModels.Preference
             }
 
             //重新初始化ConfigHelper操作
-            Singleton<ConfigHelper>.Instance.InitialCurntCnf();
+            Singleton<ConfigHelper>.Instance.InitCurrentCnf();
             Singleton<ConfigHelper>.Instance.InitialOperate();
 
             //配置页面初始化

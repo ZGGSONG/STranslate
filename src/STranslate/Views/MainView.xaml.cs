@@ -18,6 +18,7 @@ namespace STranslate.Views;
 
 public partial class MainView : Window
 {
+    private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
     private readonly MainViewModel _vm = Singleton<MainViewModel>.Instance;
 
     public MainView()
@@ -48,7 +49,7 @@ public partial class MainView : Window
     private void UnLoadPosition()
     {
         //写入配置
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(Left, Top))
+        if (!_configHelper.WriteConfig(Left, Top))
             LogService.Logger.Warn($"保存位置({Left},{Top})失败...");
     }
 
@@ -57,7 +58,7 @@ public partial class MainView : Window
     /// </summary>
     private void LoadPosition()
     {
-        var position = Singleton<ConfigHelper>.Instance.CurrentConfig?.Position;
+        var position = _configHelper.CurrentConfig?.Position;
         try
         {
             var args = position?.Split(',');
@@ -88,7 +89,7 @@ public partial class MainView : Window
         }
 
         // 首次加载时是否隐藏界面
-        if (!(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false))
+        if (!(_configHelper.CurrentConfig?.IsHideOnStart ?? false))
         {
             // 尝试移动窗口到屏幕最上层
             WindowHelper.SetWindowInForeground(this);
@@ -121,9 +122,15 @@ public partial class MainView : Window
 
     protected override void OnSourceInitialized(EventArgs e)
     {
+        #region 初始化时阴影
+
+        _configHelper.MainViewShadowOperate(_configHelper.CurrentConfig?.MainViewShadow ?? false);
+
+        #endregion 初始化时阴影
+
         #region 开启时隐藏主界面
 
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false)
+        if (_configHelper.CurrentConfig?.IsHideOnStart ?? false)
         {
             Hide();
 

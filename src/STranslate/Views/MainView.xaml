@@ -60,7 +60,7 @@
                     Gesture="Ctrl+Shift+OemPlus" />
         <KeyBinding Command="{Binding  CommonSettingVM.MainViewWidthChangeCommand}"
                     Gesture="Ctrl+Alt+OemPlus" />
-        
+
         <KeyBinding Command="{Binding  CommonSettingVM.MainViewChangeCommand}" CommandParameter="1"
                     Gesture="Ctrl+OemMinus" />
         <KeyBinding Command="{Binding  CommonSettingVM.MainViewMaxHeightChangeCommand}" CommandParameter="1"
@@ -87,15 +87,15 @@
                                    CommandParameter="{Binding ElementName=MainWindow}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Border Margin="32 12 32 32"
-            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}"
-            Style="{DynamicResource BorderMainStyle}">
-        <Border.Effect>
+    <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}"
+            Style="{DynamicResource WindowStyle}">
+        <!--Margin="32 12 32 32"-->
+        <!--<Border.Effect>
             <DropShadowEffect Opacity="0.3"
                               BlurRadius="30"
                               Direction="270"
                               ShadowDepth="12" />
-        </Border.Effect>
+        </Border.Effect>-->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
