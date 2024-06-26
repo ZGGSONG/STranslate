@@ -1,56 +1,53 @@
-﻿using STranslate.Model;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using STranslate.Model;
 
-namespace STranslate.Style.Converters
+namespace STranslate.Style.Converters;
+
+public class ServiceType2StringConverter : IValueConverter
 {
-    public class ServiceType2StringConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (parameter is string str && str == "prompt" && value is ServiceType svcType)
+        // 提示词 ContextMenu 是否显示
+        if (parameter is "prompt" && value is ServiceType svcType)
+            return svcType switch
             {
-                return svcType switch
-                {
-                    ServiceType.OpenAIService => "true",
-                    ServiceType.GeminiService => "true",
-                    ServiceType.ChatglmService => "true",
-                    _ => "false"
-                };
-            }
-            if (value is ServiceType sType)
-            {
-                return sType switch
-                {
-                    ServiceType.ApiService => "自建",
-                    ServiceType.STranslateService => "内置",
-                    ServiceType.EcdictService => "内置",
-                    _ => "官方",
-                };
-            }
-            if (value is TTSType tType)
-            {
-                return tType switch
-                {
-                    TTSType.OfflineTTS => "内置",
-                    _ => "官方",
-                };
-            }
-            if (value is OCRType oType)
-            {
-                return oType switch
-                {
-                    OCRType.PaddleOCR => "内置",
-                    _ => "官方",
-                };
-            }
-            return "自建";
-        }
+                //TODO: LLM 服务需要添加以支持切换 Prompt
+                ServiceType.OpenAIService => "true",
+                ServiceType.GeminiService => "true",
+                ServiceType.ChatglmService => "true",
+                ServiceType.OllamaService => "true",
+                ServiceType.BaiduBceService => "true",
+                _ => "false"
+            };
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        // 服务类型转换为字符串以显示
+        return value switch
         {
-            return Binding.DoNothing;
-        }
+            ServiceType sType => sType switch
+            {
+                ServiceType.ApiService => "自建",
+                ServiceType.STranslateService => "内置",
+                ServiceType.EcdictService => "内置",
+                _ => "官方"
+            },
+            TTSType tType => tType switch
+            {
+                TTSType.OfflineTTS => "内置",
+                _ => "官方"
+            },
+            OCRType oType => oType switch
+            {
+                OCRType.PaddleOCR => "内置",
+                _ => "官方"
+            },
+            _ => "自建"
+        };
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Binding.DoNothing;
     }
 }
