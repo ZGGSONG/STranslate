@@ -73,7 +73,6 @@
                                   VerticalAlignment="Top"
                                   ExpandDirection="Down"
                                   common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
-                                  common:ExpanderHelper.AutoExpander="{Binding AutoExpander}"
                                   common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
                                   SnapsToDevicePixels="True">
                             <!-- // BindingProxy 传递 ITranslator // -->
