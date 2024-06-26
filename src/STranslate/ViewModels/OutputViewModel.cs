@@ -31,14 +31,20 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task ExpanderHeaderAsync(List<object> e, CancellationToken token)
     {
-        if (e.First() is not Expander ep || e.Last() is not ITranslator service) return;
+        // 使用模式匹配来简化类型检查和转换
+        if (e.FirstOrDefault() is not Expander ep || e.LastOrDefault() is not ITranslator service) return;
 
+        // 检查输入框内容是否为空，如果是，则不展开并直接返回
         if (string.IsNullOrEmpty(_inputVm.InputContent))
         {
             ep.IsExpanded = false;
             return;
         }
 
+        // 检查服务是否正在执行或者结果是否已存在，如果是，则直接返回
+        if (service.IsExecuting || !string.IsNullOrEmpty(service.Data?.Result?.ToString())) return;
+
+        // 执行翻译服务
         await SingleTranslateAsync(service, token);
     }
 

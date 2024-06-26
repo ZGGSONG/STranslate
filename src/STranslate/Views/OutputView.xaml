@@ -53,6 +53,7 @@
                         <Border.Resources>
                             <common:BindingProxy x:Key="proxy" Data="{Binding}" />
                         </Border.Resources>
+                        <!--// TODO: 使用Popup替代ContextMenu //-->
                         <Border.ContextMenu>
                             <ContextMenu>
                                 <MenuItem
@@ -68,27 +69,23 @@
                                           Icon="&#xe64d;" />
                             </ContextMenu>
                         </Border.ContextMenu>
-                        <Expander VerticalAlignment="Top"
+                        <Expander x:Name="expander"
+                                  VerticalAlignment="Top"
                                   ExpandDirection="Down"
-                                  x:Name="expander"
-                                  IsEnabled="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}, Mode=OneWay}"
+                                  common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
+                                  common:ExpanderHelper.AutoExpander="{Binding AutoExpander}"
+                                  common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
                                   SnapsToDevicePixels="True">
-                            <!--// Expander 展开状态绑定结果 //-->
-                            <Expander.IsExpanded>
-                                <MultiBinding Converter="{StaticResource MultiValue2ExpandedConverter}">
-                                    <Binding Path="Data.Result" />
-                                    <Binding Path="AutoExpander" />
-                                    <Binding Path="IsExecuting" />
-                                </MultiBinding>
-                            </Expander.IsExpanded>
+                            <!-- // BindingProxy 传递 ITranslator // -->
                             <Expander.Resources>
                                 <common:BindingProxy Data="{Binding .}" x:Key="TranslatorService" />
                             </Expander.Resources>
+
                             <!--// 手动触发Expander的Expanded事件 //-->
-                            <!--
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Expanded">
-                                    <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.ExpanderHeaderCommand}">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding Source={StaticResource vm}, Path=Data.ExpanderHeaderCommand}">
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="expander" />
@@ -97,7 +94,7 @@
                                         </i:InvokeCommandAction.CommandParameter>
                                     </i:InvokeCommandAction>
                                 </i:EventTrigger>
-                            </i:Interaction.Triggers>-->
+                            </i:Interaction.Triggers>
                             <Expander.Header>
                                 <Grid Height="30">
                                     <Grid.ColumnDefinitions>
@@ -112,7 +109,7 @@
                                                    Foreground="{DynamicResource TextForeground}"
                                                    Text="{Binding Name}"
                                                    TextTrimming="CharacterEllipsis" />
-                                        <ToggleButton Name="ExpanderPromptTb" 
+                                        <ToggleButton Name="ExpanderPromptTb"
                                                       Cursor="Hand"
                                                       Margin="10 0 0 0"
                                                       Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
@@ -177,12 +174,17 @@
                                                     </ListBox.ItemTemplate>
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                                            <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.SelectedPromptCommand}">
+                                                            <i:InvokeCommandAction
+                                                                Command="{Binding Source={StaticResource vm}, Path=Data.SelectedPromptCommand}">
                                                                 <i:InvokeCommandAction.CommandParameter>
-                                                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                        <Binding Source="{StaticResource TranslatorService}" Path="Data" />
-                                                                        <Binding ElementName="PromptLb" Path="SelectedItem" />
-                                                                        <Binding ElementName="ExpanderPromptTb"/>
+                                                                    <MultiBinding
+                                                                        Converter="{StaticResource MultiValue2ListConverter}">
+                                                                        <Binding
+                                                                            Source="{StaticResource TranslatorService}"
+                                                                            Path="Data" />
+                                                                        <Binding ElementName="PromptLb"
+                                                                            Path="SelectedItem" />
+                                                                        <Binding ElementName="ExpanderPromptTb" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -191,22 +193,9 @@
                                                 </ListBox>
                                             </Border>
                                         </Popup>
-                                        <!--<Border Margin="10 0 0 0"
-                                                Padding="3 0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                BorderThickness="1"
-                                                BorderBrush="{DynamicResource ThemeAccentColor}"
-                                                CornerRadius="6"
-                                                Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}">
-                                            <TextBlock
-                                                FontSize="{DynamicResource FontSize_Identify}"
-                                                Foreground="{DynamicResource TextForeground}"
-                                                Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}"
-                                                Text="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}" />
-                                        </Border>-->
                                     </StackPanel>
 
+                                    <!-- // 重试及其他按钮 // -->
                                     <StackPanel Grid.Column="1"
                                                 Margin="0,0,30,0"
                                                 HorizontalAlignment="Right"
