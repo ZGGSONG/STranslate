@@ -9,4 +9,12 @@ public class TranslatorBase : ObservableObject
 {
     [JsonIgnore]
     public Dictionary<IconType, string> Icons => ConstStr.ICONDICT;
+
+    public void ManualPropChanged(params string[] array)
+    {
+        foreach (var str in array)
+        {
+            OnPropertyChanged(str);
+        }
+    }
 }

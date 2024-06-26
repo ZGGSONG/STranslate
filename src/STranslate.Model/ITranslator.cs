@@ -25,6 +25,12 @@ namespace STranslate.Model
 
         BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
 
+        /// <summary>
+        /// 手动通知属性更新
+        /// </summary>
+        /// <param name="name"></param>
+        void ManualPropChanged(params string[] name);
+
         string AppID { get; set; }
 
         string AppKey { get; set; }

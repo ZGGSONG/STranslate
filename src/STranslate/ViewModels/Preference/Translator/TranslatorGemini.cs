@@ -150,6 +150,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
         var userDefinePrompt = (UserDefinePrompt)obj.First();
         foreach (var item in UserDefinePrompts) item.Enabled = false;
         userDefinePrompt.Enabled = true;
+        ManualPropChanged(nameof(UserDefinePrompts));
 
         if (obj.Count == 2)
             Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
@@ -160,12 +161,11 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
     private void UpdatePrompt(UserDefinePrompt userDefinePrompt)
     {
         var dialog = new PromptDialog(ServiceType.GeminiService, (UserDefinePrompt)userDefinePrompt.Clone());
-        if (dialog.ShowDialog() ?? false)
-        {
-            var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
-            userDefinePrompt.Name = tmp.Name;
-            userDefinePrompt.Prompts = tmp.Prompts;
-        }
+        if (!(dialog.ShowDialog() ?? false)) return;
+        var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
+        userDefinePrompt.Name = tmp.Name;
+        userDefinePrompt.Prompts = tmp.Prompts;
+        ManualPropChanged(nameof(UserDefinePrompts));
     }
 
     [RelayCommand]
@@ -173,6 +173,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
     private void DeletePrompt(UserDefinePrompt userDefinePrompt)
     {
         UserDefinePrompts.Remove(userDefinePrompt);
+        ManualPropChanged(nameof(UserDefinePrompts));
     }
 
     [RelayCommand]
@@ -186,6 +187,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
         userDefinePrompt.Name = tmp.Name;
         userDefinePrompt.Prompts = tmp.Prompts;
         UserDefinePrompts.Add(userDefinePrompt);
+        ManualPropChanged(nameof(UserDefinePrompts));
     }
 
     #endregion Prompt

@@ -148,6 +148,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
         var userDefinePrompt = (UserDefinePrompt)obj.First();
         foreach (var item in UserDefinePrompts) item.Enabled = false;
         userDefinePrompt.Enabled = true;
+        ManualPropChanged(nameof(UserDefinePrompts));
 
         if (obj.Count == 2)
             Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
@@ -162,6 +163,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
         var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
         userDefinePrompt.Name = tmp.Name;
         userDefinePrompt.Prompts = tmp.Prompts;
+        ManualPropChanged(nameof(UserDefinePrompts));
     }
 
     [RelayCommand]
@@ -169,6 +171,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
     private void DeletePrompt(UserDefinePrompt userDefinePrompt)
     {
         UserDefinePrompts.Remove(userDefinePrompt);
+        ManualPropChanged(nameof(UserDefinePrompts));
     }
 
     [RelayCommand]
@@ -182,6 +185,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
         userDefinePrompt.Name = tmp.Name;
         userDefinePrompt.Prompts = tmp.Prompts;
         UserDefinePrompts.Add(userDefinePrompt);
+        ManualPropChanged(nameof(UserDefinePrompts));
     }
 
     #endregion Prompt

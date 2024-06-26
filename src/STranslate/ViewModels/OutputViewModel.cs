@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
@@ -237,6 +238,18 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     public void Clear()
     {
         foreach (var item in Translators) item.Data = TranslationResult.Reset;
+    }
+
+    [RelayCommand]
+    private void SelectedPrompt(List<object> list)
+    {
+        if (list is not [ITranslator service, UserDefinePrompt ud, ToggleButton tb])
+            return;
+
+        foreach (var item in service.UserDefinePrompts) item.Enabled = false;
+        ud.Enabled = true;
+        service.ManualPropChanged(nameof(service.UserDefinePrompts));
+        tb.IsChecked = false;
     }
 
     #region gong-wpf-dragdrop interface implementation
