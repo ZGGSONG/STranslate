@@ -18,7 +18,7 @@ using STranslate.Views.Preference.Translator;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorGemini : TranslatorBase, ITranslator
+public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
 {
     #region Constructor
 
@@ -181,13 +181,11 @@ public partial class TranslatorGemini : TranslatorBase, ITranslator
     {
         var userDefinePrompt = new UserDefinePrompt("Undefined", []);
         var dialog = new PromptDialog(ServiceType.GeminiService, userDefinePrompt);
-        if (dialog.ShowDialog() ?? false)
-        {
-            var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
-            userDefinePrompt.Name = tmp.Name;
-            userDefinePrompt.Prompts = tmp.Prompts;
-            UserDefinePrompts.Add(userDefinePrompt);
-        }
+        if (!(dialog.ShowDialog() ?? false)) return;
+        var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
+        userDefinePrompt.Name = tmp.Name;
+        userDefinePrompt.Prompts = tmp.Prompts;
+        UserDefinePrompts.Add(userDefinePrompt);
     }
 
     #endregion Prompt

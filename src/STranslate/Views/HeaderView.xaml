@@ -28,10 +28,10 @@
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Type, Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="false">
+                            <DataTrigger Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="0">
                                 <Setter Property="ContextMenu" Value="{x:Null}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Type, Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="true">
+                            <DataTrigger Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="1">
                                 <Setter Property="ContextMenu">
                                     <Setter.Value>
                                         <ContextMenu ItemsSource="{Binding Source={StaticResource proxy}, Path=Data.UserDefinePrompts}">

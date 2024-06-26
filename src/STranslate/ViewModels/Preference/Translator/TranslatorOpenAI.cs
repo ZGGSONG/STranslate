@@ -17,7 +17,7 @@ using STranslate.Views.Preference.Translator;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorOpenAI : TranslatorBase, ITranslator
+public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
 {
     #region Constructor
 

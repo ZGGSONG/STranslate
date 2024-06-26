@@ -39,4 +39,7 @@ namespace STranslate.Model
 
         ITranslator Clone();
     }
+
+    public interface ITranslatorLlm : ITranslator
+    { }
 }

@@ -17,7 +17,7 @@ using STranslate.Views.Preference.Translator;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorBaiduBce : TranslatorBase, ITranslator
+public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
 {
     #region Constructor
 
@@ -174,12 +174,10 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslator
     private void UpdatePrompt(UserDefinePrompt userDefinePrompt)
     {
         var dialog = new PromptDialog(ServiceType.OpenAIService, (UserDefinePrompt)userDefinePrompt.Clone());
-        if (dialog.ShowDialog() ?? false)
-        {
-            var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
-            userDefinePrompt.Name = tmp.Name;
-            userDefinePrompt.Prompts = tmp.Prompts;
-        }
+        if (!(dialog.ShowDialog() ?? false)) return;
+        var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
+        userDefinePrompt.Name = tmp.Name;
+        userDefinePrompt.Prompts = tmp.Prompts;
     }
 
     [RelayCommand]

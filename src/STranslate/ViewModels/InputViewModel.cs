@@ -187,25 +187,16 @@ public partial class InputViewModel : ObservableObject
                             : LangEnum.zh_cn;
 
                     //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
-                    //TODO: 新接口需要适配
-                    switch (service.Type)
+                    if (service is ITranslatorLlm)
                     {
-                        case ServiceType.GeminiService:
-                        case ServiceType.OpenAIService:
-                        case ServiceType.ChatglmService:
-                        case ServiceType.OllamaService:
-                        case ServiceType.BaiduBceService:
-                        {
-                            //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                            //Auto则转换为识别语种
-                            source = source == LangEnum.auto ? identify : source;
-                            await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
-                            break;
-                        }
-
-                        default:
-                            await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
-                            break;
+                        //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
+                        //Auto则转换为识别语种
+                        source = source == LangEnum.auto ? identify : source;
+                        await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
+                    }
+                    else
+                    {
+                        await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
                     }
 
                     copy:
