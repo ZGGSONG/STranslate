@@ -246,8 +246,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         foreach (var item in Translators) item.Data = TranslationResult.Reset;
     }
 
-    [RelayCommand]
-    private void SelectedPrompt(List<object> list)
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task SelectedPromptAsync(List<object> list, CancellationToken token)
     {
         if (list is not [ITranslator service, UserDefinePrompt ud, ToggleButton tb])
             return;
@@ -256,6 +256,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         ud.Enabled = true;
         service.ManualPropChanged(nameof(service.UserDefinePrompts));
         tb.IsChecked = false;
+
+        await SingleTranslateAsync(service, token);
     }
 
     #region gong-wpf-dragdrop interface implementation
