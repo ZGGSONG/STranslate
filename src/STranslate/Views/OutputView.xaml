@@ -43,30 +43,13 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <!-- 宽度需要绑定到StackPanel上，而非ListBox上 -->
-                    <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
-                            xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow},
+                    <Border
+                        Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
+                        xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow},
                                                                Delay=10,
                                                                TransformOn=Render}"
-                            Style="{DynamicResource BorderInOutputStyle}"
-                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Border.Resources>
-                            <common:BindingProxy x:Key="proxy" Data="{Binding}" />
-                        </Border.Resources>
-                        <!-- // TODO: 使用Popup替代ContextMenu // -->
-                        <Border.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.UpdateAutoExpanderCommand}"
-                                          CommandParameter="{Binding Source={StaticResource proxy}, Path=Data}"
-                                          Header="自动展开"
-                                          Icon="&#xe609;"
-                                          IsCheckable="{Binding Source={StaticResource proxy}, Path=Data.AutoExpander}" />
-                                <Separator />
-                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.CloseServiceCommand}"
-                                          CommandParameter="{Binding Source={StaticResource proxy}, Path=Data}"
-                                          Header="关闭服务"
-                                          Icon="&#xe64d;" />
-                            </ContextMenu>
-                        </Border.ContextMenu>
+                        Style="{DynamicResource BorderInOutputStyle}"
+                        Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Expander x:Name="expander"
                                   VerticalAlignment="Top"
                                   common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
@@ -81,7 +64,8 @@
                             <!-- // 手动触发Expander的Expanded事件 // -->
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Expanded">
-                                    <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.ExpanderHeaderCommand}">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding Source={StaticResource vm}, Path=Data.ExpanderHeaderCommand}">
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="expander" />
@@ -97,8 +81,10 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
+                                    <!-- // 服务图标、名称 // -->
                                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
-                                        <Image Width="18" Margin="10,0,0,0" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                        <Image Width="18" Margin="10,0,0,0"
+                                               Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
                                         <TextBlock Margin="10,0,0,0"
                                                    FontSize="{DynamicResource FontSize_Identify}"
                                                    Foreground="{DynamicResource TextForeground}"
@@ -160,18 +146,24 @@
                                                             </Border>
                                                             <DataTemplate.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter TargetName="PromptBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                                    <Setter TargetName="PromptBorder"
+                                                                            Property="Background"
+                                                                            Value="{DynamicResource BtnMouseOverBackground}" />
                                                                 </Trigger>
                                                             </DataTemplate.Triggers>
                                                         </DataTemplate>
                                                     </ListBox.ItemTemplate>
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                                            <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.SelectedPromptCommand}">
+                                                            <i:InvokeCommandAction
+                                                                Command="{Binding Source={StaticResource vm}, Path=Data.SelectedPromptCommand}">
                                                                 <i:InvokeCommandAction.CommandParameter>
-                                                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                        <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="PromptLb" Path="SelectedItem" />
+                                                                    <MultiBinding
+                                                                        Converter="{StaticResource MultiValue2ListConverter}">
+                                                                        <Binding Path="Data"
+                                                                            Source="{StaticResource TranslatorService}" />
+                                                                        <Binding ElementName="PromptLb"
+                                                                            Path="SelectedItem" />
                                                                         <Binding ElementName="ExpanderPromptTb" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
@@ -190,7 +182,7 @@
                                                 VerticalAlignment="Center"
                                                 FlowDirection="RightToLeft"
                                                 Orientation="Horizontal">
-                                        
+
                                         <ToggleButton Name="ExtraSettingsTb"
                                                       Background="Transparent"
                                                       Content="&#xe8b7;"
@@ -199,23 +191,104 @@
                                                       Height="26"
                                                       Width="26"
                                                       Style="{DynamicResource ToggleButtonIconStyle}" />
+                                        <Popup Name="ExtraSettingsPopup"
+                                               MinWidth="40"
+                                               MinHeight="30"
+                                               AllowsTransparency="True"
+                                               IsOpen="{Binding ElementName=ExtraSettingsTb, Path=IsChecked}"
+                                               Placement="Bottom"
+                                               PlacementTarget="{Binding ElementName=ExtraSettingsTb}"
+                                               PopupAnimation="Slide"
+                                               StaysOpen="False">
+                                            <Border Style="{DynamicResource BorderStyle}">
+                                                <StackPanel FlowDirection="LeftToRight">
+                                                    <!--// 自动翻译 //-->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.CanAutoExecuteCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Label HorizontalAlignment="Left"
+                                                                   Content="&#xec9e;"
+                                                                   FontFamily="{DynamicResource IconFont}"
+                                                                   FontSize="{DynamicResource FontSize_Prompt}"
+                                                                   FontWeight="Bold"
+                                                                   Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExpander, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       HorizontalAlignment="Left"
+                                                                       FontSize="{DynamicResource FontSize_Prompt}"
+                                                                       Text="自动翻译" />
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <Separator />
+                                                    
+                                                    <!--// 关闭服务 //-->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.CloseServiceCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       HorizontalAlignment="Left"
+                                                                       FontSize="{DynamicResource FontSize_Prompt}"
+                                                                       Text="关闭服务" />
+                                                        </Grid>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </Popup>
 
                                         <Button Margin="2,2,0,2"
                                                 HorizontalAlignment="Right"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
                                                 CommandParameter="{Binding}"
                                                 Content="&#xe60f;"
+                                                Cursor="Hand"
                                                 FontSize="17"
-                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                Background="Transparent"
+                                                Style="{DynamicResource ButtonIconStyle}"
                                                 ToolTip="重试"
                                                 Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                                         <!-- // 复制按钮到Expander上 Expander收起时显示// -->
                                         <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
                                             <StackPanel.Visibility>
-                                                <MultiBinding Converter="{StaticResource MultiValue2VisibilityConverter}">
-                                                    <Binding Path="IsExpanded" RelativeSource="{RelativeSource AncestorType=Expander}" />
-                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                <MultiBinding
+                                                    Converter="{StaticResource MultiValue2VisibilityConverter}">
+                                                    <Binding Path="IsExpanded"
+                                                             RelativeSource="{RelativeSource AncestorType=Expander}" />
+                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader"
+                                                             RelativeSource="{RelativeSource AncestorType=Window}" />
                                                     <Binding Path="Data.IsSuccess" />
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
@@ -320,7 +393,8 @@
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 </StackPanel>
                                 <!-- // 加载动画 // -->
-                                <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}" Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}"
+                                                   Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Grid>
                         </Expander>
                     </Border>

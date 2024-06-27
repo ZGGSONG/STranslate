@@ -219,28 +219,6 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         ToastHelper.Show($"复制{translator.Name}结果");
     }
 
-    [RelayCommand]
-    private void UpdateAutoExpander(ITranslator param)
-    {
-        param.AutoExpander = !param.AutoExpander;
-
-        Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-    }
-
-    [RelayCommand]
-    private void CloseService(ITranslator param)
-    {
-        if (Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).Count() < 2)
-        {
-            ToastHelper.Show("至少保留一个服务");
-            return;
-        }
-
-        param.IsEnabled = false;
-
-        Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-    }
-
     public void Clear()
     {
         foreach (var item in Translators) item.Data = TranslationResult.Reset;
@@ -258,6 +236,33 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         tb.IsChecked = false;
 
         await SingleTranslateAsync(service, token);
+    }
+
+    [RelayCommand]
+    private void CanAutoExecute(List<object> list)
+    {
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service || list.LastOrDefault() is not ToggleButton tb)
+            return;
+
+        service.AutoExpander = !service.AutoExpander;
+        Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
+        tb.IsChecked = false;
+    }
+
+    [RelayCommand]
+    private void CloseService(List<object> list)
+    {
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service || list.LastOrDefault() is not ToggleButton tb)
+            return;
+
+        if (Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled)?.Count() < 2)
+        {
+            ToastHelper.Show("至少保留一个服务");
+            return;
+        }
+        service.IsEnabled = false;
+        Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
+        tb.IsChecked = false;
     }
 
     #region gong-wpf-dragdrop interface implementation

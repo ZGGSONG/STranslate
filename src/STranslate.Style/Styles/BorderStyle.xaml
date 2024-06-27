@@ -51,4 +51,18 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+
+    <!-- // Popup Border // -->
+    <Style x:Key="BorderExtraSettingsStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>
