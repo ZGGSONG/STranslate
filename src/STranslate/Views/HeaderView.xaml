@@ -64,7 +64,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="35" />
                     </Grid.ColumnDefinitions>
 
                     <Label HorizontalAlignment="Left"
@@ -87,8 +87,9 @@
 
                     <Border Grid.Column="3"
                             Padding="1"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
+                            Margin="0 0 3 0"
                             Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                             CornerRadius="6">
                         <TextBlock Padding="2,0"
@@ -116,7 +117,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="35" />
                     </Grid.ColumnDefinitions>
 
                     <Label HorizontalAlignment="Left"
@@ -139,8 +140,9 @@
 
                     <Border Grid.Column="3"
                             Padding="1"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
+                            Margin="0 0 3 0"
                             Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                             CornerRadius="6">
                         <TextBlock Padding="2,0"
@@ -168,7 +170,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="35" />
                     </Grid.ColumnDefinitions>
 
                     <Label HorizontalAlignment="Left"
@@ -191,8 +193,9 @@
 
                     <Border Grid.Column="3"
                             Padding="1"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
+                            Margin="0 0 3 0"
                             Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                             CornerRadius="6">
                         <TextBlock Padding="2,0"
