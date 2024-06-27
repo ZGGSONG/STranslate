@@ -131,17 +131,8 @@
                                PlacementTarget="{Binding ElementName=BTN_Add}"
                                PopupAnimation="Slide"
                                StaysOpen="False">
-                            <Grid>
-                                <Rectangle Margin="5"
-                                           Fill="{DynamicResource BorderBackground}"
-                                           RadiusX="2"
-                                           RadiusY="2">
-                                    <Rectangle.Effect>
-                                        <DropShadowEffect ShadowDepth="0" Color="{DynamicResource PopupDropShadowEffectColor}" />
-                                    </Rectangle.Effect>
-                                </Rectangle>
+                            <Border Style="{DynamicResource BorderStyle}">
                                 <ListBox Name="TTSServiceListBox"
-                                         Margin="5"
                                          Background="Transparent"
                                          BorderThickness="0"
                                          ItemsSource="{Binding TtsServices}"
@@ -194,7 +185,7 @@
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                            </Grid>
+                            </Border>
                         </Popup>
 
                         <Button x:Name="BTN_Del"
