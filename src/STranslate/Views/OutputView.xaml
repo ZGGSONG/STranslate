@@ -13,10 +13,9 @@
              d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             SizeChanged="OutputView_SizeChanged"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <common:BindingProxy x:Key="vm" Data="{Binding}" />
+        <common:BindingProxy x:Key="OutputVm" Data="{Binding}" />
         <Storyboard x:Key="FadeInStoryboard">
             <DoubleAnimation Storyboard.TargetName="HeaderCopySP"
                              Storyboard.TargetProperty="Opacity"
@@ -50,7 +49,7 @@
                                                                TransformOn=Render}"
                         Style="{DynamicResource BorderInOutputStyle}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Expander x:Name="expander"
+                        <Expander x:Name="TranslatorExpander"
                                   VerticalAlignment="Top"
                                   common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
                                   common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
@@ -65,10 +64,10 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Expanded">
                                     <i:InvokeCommandAction
-                                        Command="{Binding Source={StaticResource vm}, Path=Data.ExpanderHeaderCommand}">
+                                        Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExpanderHeaderCommand}">
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                <Binding ElementName="expander" />
+                                                <Binding ElementName="TranslatorExpander" />
                                                 <Binding Path="." />
                                             </MultiBinding>
                                         </i:InvokeCommandAction.CommandParameter>
@@ -156,7 +155,7 @@
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                                             <i:InvokeCommandAction
-                                                                Command="{Binding Source={StaticResource vm}, Path=Data.SelectedPromptCommand}">
+                                                                Command="{Binding Source={StaticResource OutputVm}, Path=Data.SelectedPromptCommand}">
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding
                                                                         Converter="{StaticResource MultiValue2ListConverter}">
@@ -203,10 +202,11 @@
                                             <Border Style="{DynamicResource BorderStyle}">
                                                 <StackPanel FlowDirection="LeftToRight">
                                                     <!--// 自动翻译 //-->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}">
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                            ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.CanAutoExecuteCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
                                                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                             <Binding Path="Data" Source="{StaticResource TranslatorService}" />
@@ -239,10 +239,11 @@
                                                     <Separator />
                                                     
                                                     <!--// 关闭服务 //-->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}">
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                            ToolTip="立即关闭服务并保存至配置文件">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource vm}, Path=Data.CloseServiceCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
                                                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                             <Binding Path="Data" Source="{StaticResource TranslatorService}" />

@@ -289,7 +289,7 @@
                                             MinWidth="260"
                                             IsSnapToTickEnabled="True"
                                             Maximum="1080"
-                                            Minimum="400"
+                                            Minimum="200"
                                             TickFrequency="10"
                                             TickPlacement="None"
                                             Value="{Binding MainViewMaxHeight}" />
@@ -308,7 +308,7 @@
                                             MinWidth="260"
                                             IsSnapToTickEnabled="True"
                                             Maximum="1920"
-                                            Minimum="400"
+                                            Minimum="350"
                                             TickFrequency="10"
                                             TickPlacement="None"
                                             Value="{Binding MainViewWidth, Mode=TwoWay}" />
