@@ -7,6 +7,7 @@
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Width" Value="30" />

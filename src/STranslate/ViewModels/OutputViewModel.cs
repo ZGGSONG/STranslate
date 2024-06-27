@@ -235,7 +235,9 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         service.ManualPropChanged(nameof(service.UserDefinePrompts));
         tb.IsChecked = false;
 
-        await SingleTranslateAsync(service, token);
+        // 输入内容不为空时才进行翻译
+        if (!string.IsNullOrEmpty(_inputVm.InputContent))
+            await SingleTranslateAsync(service, token);
     }
 
     [RelayCommand]

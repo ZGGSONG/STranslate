@@ -75,12 +75,23 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <Expander.Header>
-                                <Grid Height="30">
+                                <Grid Height="30" Background="Transparent">
+                                    <i:Interaction.Triggers>
+                                        <!-- // https://stackoverflow.com/questions/3870214/eventtrigger-with-setter-in-wpf // -->
+                                        <i:EventTrigger EventName="MouseEnter">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Visible"
+                                                                    TargetName="ExtraSettingsTb" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="MouseLeave">
+                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"
+                                                                    TargetName="ExtraSettingsTb" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <!-- // 服务图标、名称 // -->
+                                    <!-- // 左侧服务图标、名称 // -->
                                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
                                         <Image Width="18" Margin="10,0,0,0"
                                                Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
@@ -99,7 +110,7 @@
                                                       Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                                       Cursor="Hand"
                                                       FontFamily="{DynamicResource UserFont}"
-                                                      FontSize="{DynamicResource FontSize_Prompt}"
+                                                      FontSize="{DynamicResource FontSize_Identify}"
                                                       Style="{DynamicResource ToggleButtonIconStyle}"
                                                       Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}" />
                                         <Popup MinWidth="40"
@@ -118,7 +129,7 @@
                                                     <ListBox.ItemTemplate>
                                                         <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
                                                             <Border x:Name="PromptBorder"
-                                                                    Margin="5"
+                                                                    Margin="3"
                                                                     HorizontalAlignment="Center"
                                                                     Background="{DynamicResource BorderBackground}"
                                                                     BorderBrush="{x:Null}"
@@ -126,19 +137,19 @@
                                                                 <Grid Margin="0,5">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="30" />
-                                                                        <ColumnDefinition Width="80" />
+                                                                        <ColumnDefinition Width="50" />
                                                                     </Grid.ColumnDefinitions>
 
                                                                     <Label HorizontalAlignment="Left"
                                                                            Content="&#xec9e;"
                                                                            FontFamily="{DynamicResource IconFont}"
-                                                                           FontSize="{DynamicResource FontSize_Prompt}"
+                                                                           FontSize="{DynamicResource FontSize_Identify}"
                                                                            FontWeight="Bold"
                                                                            Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                                                     <TextBlock Grid.Column="1"
                                                                                HorizontalAlignment="Left"
-                                                                               FontSize="{DynamicResource FontSize_Prompt}"
+                                                                               FontSize="{DynamicResource FontSize_Identify}"
                                                                                Text="{Binding Name}"
                                                                                TextTrimming="CharacterEllipsis" />
                                                                 </Grid>
@@ -174,7 +185,7 @@
                                         </Popup>
                                     </StackPanel>
 
-                                    <!-- // 重试及其他按钮 // -->
+                                    <!-- // 右侧其他按钮 // -->
                                     <StackPanel Grid.Column="1"
                                                 Margin="0,0,30,0"
                                                 HorizontalAlignment="Right"
@@ -182,93 +193,7 @@
                                                 FlowDirection="RightToLeft"
                                                 Orientation="Horizontal">
 
-                                        <ToggleButton Name="ExtraSettingsTb"
-                                                      Background="Transparent"
-                                                      Content="&#xe8b7;"
-                                                      Cursor="Hand"
-                                                      Margin="3,0"
-                                                      Height="26"
-                                                      Width="26"
-                                                      Style="{DynamicResource ToggleButtonIconStyle}" />
-                                        <Popup Name="ExtraSettingsPopup"
-                                               MinWidth="40"
-                                               MinHeight="30"
-                                               AllowsTransparency="True"
-                                               IsOpen="{Binding ElementName=ExtraSettingsTb, Path=IsChecked}"
-                                               Placement="Bottom"
-                                               PlacementTarget="{Binding ElementName=ExtraSettingsTb}"
-                                               PopupAnimation="Slide"
-                                               StaysOpen="False">
-                                            <Border Style="{DynamicResource BorderStyle}">
-                                                <StackPanel FlowDirection="LeftToRight">
-                                                    <!--// 自动翻译 //-->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                            ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
-                                                        <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
-                                                                    <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                            <Binding ElementName="ExtraSettingsTb" />
-                                                                        </MultiBinding>
-                                                                    </i:InvokeCommandAction.CommandParameter>
-                                                                </i:InvokeCommandAction>
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                        <Grid Margin="0,5">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="30" />
-                                                                <ColumnDefinition Width="80" />
-                                                            </Grid.ColumnDefinitions>
-
-                                                            <Label HorizontalAlignment="Left"
-                                                                   Content="&#xec9e;"
-                                                                   FontFamily="{DynamicResource IconFont}"
-                                                                   FontSize="{DynamicResource FontSize_Prompt}"
-                                                                   FontWeight="Bold"
-                                                                   Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExecute, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
-                                                            <TextBlock Grid.Column="1"
-                                                                       HorizontalAlignment="Left"
-                                                                       FontSize="{DynamicResource FontSize_Prompt}"
-                                                                       Text="自动翻译" />
-                                                        </Grid>
-                                                    </Border>
-
-                                                    <Separator />
-                                                    
-                                                    <!--// 关闭服务 //-->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                            ToolTip="立即关闭服务并保存至配置文件">
-                                                        <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
-                                                                    <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                            <Binding ElementName="ExtraSettingsTb" />
-                                                                        </MultiBinding>
-                                                                    </i:InvokeCommandAction.CommandParameter>
-                                                                </i:InvokeCommandAction>
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                        <Grid Margin="0,5">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="30" />
-                                                                <ColumnDefinition Width="80" />
-                                                            </Grid.ColumnDefinitions>
-
-                                                            <TextBlock Grid.Column="1"
-                                                                       HorizontalAlignment="Left"
-                                                                       FontSize="{DynamicResource FontSize_Prompt}"
-                                                                       Text="关闭服务" />
-                                                        </Grid>
-                                                    </Border>
-                                                </StackPanel>
-                                            </Border>
-                                        </Popup>
-
+                                        <!-- // 重试按钮 // -->
                                         <Button Margin="2,2,0,2"
                                                 HorizontalAlignment="Right"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
@@ -334,6 +259,101 @@
                                                     ToolTip="直接复制结果"
                                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                         </StackPanel>
+
+                                        <!-- // 更多设置按钮 // -->
+                                        <ToggleButton Name="ExtraSettingsTb"
+                                                      Background="Transparent"
+                                                      Content="&#xe8b7;"
+                                                      Cursor="Hand"
+                                                      Margin="3,0"
+                                                      Height="26"
+                                                      Width="26"
+                                                      Visibility="Collapsed"
+                                                      Style="{DynamicResource ToggleButtonIconStyle}" />
+                                        <Popup Name="ExtraSettingsPopup"
+                                               MinWidth="40"
+                                               MinHeight="30"
+                                               AllowsTransparency="True"
+                                               IsOpen="{Binding ElementName=ExtraSettingsTb, Path=IsChecked}"
+                                               Placement="Bottom"
+                                               PlacementTarget="{Binding ElementName=ExtraSettingsTb}"
+                                               PopupAnimation="Slide"
+                                               StaysOpen="False">
+                                            <Border Style="{DynamicResource BorderStyle}">
+                                                <StackPanel FlowDirection="LeftToRight">
+                                                    <!--// 自动翻译 //-->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                            ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction
+                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding
+                                                                            Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data"
+                                                                                Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Label HorizontalAlignment="Left"
+                                                                   Content="&#xec9e;"
+                                                                   FontFamily="{DynamicResource IconFont}"
+                                                                   FontSize="{DynamicResource FontSize_Identify}"
+                                                                   FontWeight="Bold"
+                                                                   Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExecute, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       HorizontalAlignment="Left"
+                                                                       FontSize="{DynamicResource FontSize_Identify}"
+                                                                       Text="自动翻译" />
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <Separator />
+
+                                                    <!--// 关闭服务 //-->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                            ToolTip="立即关闭服务并保存至配置文件">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction
+                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding
+                                                                            Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data"
+                                                                                Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       HorizontalAlignment="Left"
+                                                                       FontSize="{DynamicResource FontSize_Identify}"
+                                                                       Text="关闭服务" />
+                                                        </Grid>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </Popup>
                                     </StackPanel>
                                 </Grid>
                             </Expander.Header>
