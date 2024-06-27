@@ -89,13 +89,6 @@
     </i:Interaction.Triggers>
     <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}"
             Style="{DynamicResource WindowStyle}">
-        <!--Margin="32 12 32 32"-->
-        <!--<Border.Effect>
-            <DropShadowEffect Opacity="0.3"
-                              BlurRadius="30"
-                              Direction="270"
-                              ShadowDepth="12" />
-        </Border.Effect>-->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />

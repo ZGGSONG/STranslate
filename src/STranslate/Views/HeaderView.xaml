@@ -214,7 +214,7 @@
                                       ITTSTemplate="{StaticResource ITTSTemplate}"
                                       ITranslatorTemplate="{StaticResource ITranslatorTemplate}" />
     </UserControl.Resources>
-    <Grid x:Name="Header">
+    <Grid>
         <Button x:Name="TopmostBtn"
                 Margin="10,5,0,0"
                 HorizontalAlignment="Left"

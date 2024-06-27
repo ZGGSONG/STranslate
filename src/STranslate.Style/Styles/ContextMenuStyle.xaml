@@ -23,25 +23,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
                     <!-- Here is where you change the border thickness to zero on the menu -->
-                    <Border Width="{TemplateBinding Width}" Padding="5">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="5"
-                                              Direction="0"
-                                              ShadowDepth="0"
-                                              Color="{DynamicResource ContextMenuDropShadowEffectColor}" />
-                        </Border.Effect>
-                        <Border x:Name="Border" Padding="0,5" CornerRadius="5">
-                            <StackPanel ClipToBounds="True"
-                                        IsItemsHost="True"
-                                        KeyboardNavigation.DirectionalNavigation="Cycle"
-                                        Orientation="Vertical" />
-                        </Border>
+                    <Border x:Name="Border" Width="{TemplateBinding Width}" Padding="5" BorderThickness="1"
+                            BorderBrush="{DynamicResource BorderBrushColor}" CornerRadius="5" Background="{DynamicResource BorderBackground}">
+                        <StackPanel ClipToBounds="True"
+                                    IsItemsHost="True"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                    Orientation="Vertical" />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource BorderBackground}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -51,7 +39,6 @@
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border Name="Border"
                 Width="{TemplateBinding Width}"
-                Margin="2,0"
                 Background="Transparent"
                 ClipToBounds="True"
                 CornerRadius="5">
@@ -121,21 +108,13 @@
                        Placement="Right"
                        PopupAnimation="Fade">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="5"
+                        <Border Name="SubmenuBorder"
+                                Width="5"
                                 Height="35"
+                                Padding="5"
                                 Background="{DynamicResource BorderBackground}"
-                                Opacity="0.01" />
-                        <Border Padding="5">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="5"
-                                                  Direction="0"
-                                                  Opacity="0.1"
-                                                  ShadowDepth="0"
-                                                  Color="{DynamicResource ContextMenuDropShadowEffectColor}" />
-                            </Border.Effect>
-                            <Border Name="SubmenuBorder" Width="{TemplateBinding Width}" Background="{DynamicResource BorderBackground}">
-                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                            </Border>
+                                Opacity="0.01">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                         </Border>
                     </StackPanel>
                 </Popup>
