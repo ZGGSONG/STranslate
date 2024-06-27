@@ -302,6 +302,11 @@ public class ConfigModel
     public bool MainViewShadow { get; set; } = false;
 
     /// <summary>
+    ///     输出界面是否显示Prompt切换
+    /// </summary>
+    public bool IsPromptToggleVisible { get; set; } = true;
+
+    /// <summary>
     ///     热键
     /// </summary>
     public Hotkeys? Hotkeys { get; set; }
@@ -387,6 +392,7 @@ public class ConfigModel
             MainViewMaxHeight = MainViewMaxHeight,
             MainViewWidth = MainViewWidth,
             MainViewShadow = MainViewShadow,
+            IsPromptToggleVisible = IsPromptToggleVisible,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

@@ -245,6 +245,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
+    /// <summary>
+    ///     输出界面是否显示Prompt切换
+    /// </summary>
+    [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
+
     public CommonViewModel()
     {
         // 获取系统已安装字体
@@ -386,6 +391,7 @@ public partial class CommonViewModel : ObservableObject
         MainViewMaxHeight = CurConfig?.MainViewMaxHeight ?? 840;
         MainViewWidth = CurConfig?.MainViewWidth ?? 460;
         MainViewShadow = CurConfig?.MainViewShadow ?? false;
+        IsPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

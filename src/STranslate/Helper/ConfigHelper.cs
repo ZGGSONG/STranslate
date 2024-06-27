@@ -242,7 +242,10 @@ public class ConfigHelper
         CurrentConfig.MainViewMaxHeight = model.MainViewMaxHeight;
         CurrentConfig.MainViewWidth = model.MainViewWidth;
         CurrentConfig.MainViewShadow = model.MainViewShadow;
+        CurrentConfig.IsPromptToggleVisible = model.IsPromptToggleVisible;
 
+        //输出界面Prompt显示控制
+        Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
         ThemeOperate(CurrentConfig.ThemeType);
@@ -626,6 +629,7 @@ public class ConfigHelper
             MainViewMaxHeight = 840,
             MainViewWidth = 460,
             MainViewShadow = false,
+            IsPromptToggleVisible = true,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),

@@ -22,3 +22,28 @@ public class PromptToVisibilityConverter : IValueConverter
         return Binding.DoNothing;
     }
 }
+
+public class PromptToVisibilityMultiConverter : IMultiValueConverter
+{
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        try
+        {
+            var up = (BindingList<UserDefinePrompt>)values[0];
+            var isPromptToggleVisible = (bool)values[1];
+
+            var haveEnabledPrompt = up.FirstOrDefault(p => p.Enabled) != null;
+
+            return isPromptToggleVisible && haveEnabledPrompt ? Visibility.Visible : Visibility.Collapsed;
+        }
+        catch (Exception)
+        {
+            return Visibility.Collapsed;
+        }
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

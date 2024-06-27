@@ -385,6 +385,13 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding MainViewShadow}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="输出界面是否显示Prompt切换" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输出界面是否显示Prompt切换按钮" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsPromptToggleVisible}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

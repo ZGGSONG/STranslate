@@ -25,6 +25,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     private readonly InputViewModel _inputVm = Singleton<InputViewModel>.Instance;
     private readonly MainViewModel _mainVm = Singleton<MainViewModel>.Instance;
 
+    [ObservableProperty] private bool _isPromptToggleVisible = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsPromptToggleVisible ?? true;
+
     [ObservableProperty]
     private BindingList<ITranslator> _translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList ?? [];
 

@@ -25,4 +25,5 @@
     <converter:ParamEqualToVisibility x:Key="ParamEqualToVisibility" />
     <converter:PromptToVisibilityConverter x:Key="PromptToVisibilityConverter" />
     <converter:PromptConverter x:Key="PromptConverter" />
+    <converter:PromptToVisibilityMultiConverter x:Key="PromptToVisibilityMultiConverter" />
 </ResourceDictionary>

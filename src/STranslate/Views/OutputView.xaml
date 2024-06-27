@@ -111,8 +111,14 @@
                                                       Cursor="Hand"
                                                       FontFamily="{DynamicResource UserFont}"
                                                       FontSize="{DynamicResource FontSize_Identify}"
-                                                      Style="{DynamicResource ToggleButtonIconStyle}"
-                                                      Visibility="{Binding UserDefinePrompts, Converter={StaticResource PromptToVisibilityConverter}}" />
+                                                      Style="{DynamicResource ToggleButtonIconStyle}">
+                                            <ToggleButton.Visibility>
+                                                <MultiBinding Converter="{StaticResource PromptToVisibilityMultiConverter}">
+                                                    <Binding Path="UserDefinePrompts" />
+                                                    <Binding Source="{StaticResource OutputVm}" Path="Data.IsPromptToggleVisible" />
+                                                </MultiBinding>
+                                            </ToggleButton.Visibility>
+                                        </ToggleButton>
                                         <Popup MinWidth="40"
                                                MinHeight="30"
                                                AllowsTransparency="True"
