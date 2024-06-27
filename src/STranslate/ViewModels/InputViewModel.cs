@@ -124,7 +124,7 @@ public partial class InputViewModel : ObservableObject
         // 过滤非启用的翻译服务
         var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
         // 不自动展开的不主动翻译
-        services = services.Where(x => x.AutoExpander).ToList();
+        services = services.Where(x => x.AutoExecute).ToList();
         HistoryModel? history = null;
         List<ITranslator>? translatorList = null;
         //读取配置翻译后复制服务索引

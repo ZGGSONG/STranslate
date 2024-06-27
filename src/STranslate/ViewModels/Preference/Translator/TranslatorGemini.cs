@@ -80,7 +80,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string _appKey = string.Empty;
 
-    [JsonIgnore] [ObservableProperty] private bool _autoExpander = true;
+    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
 
     [JsonIgnore] [ObservableProperty] public int _timeOut = 10;
 
@@ -327,7 +327,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
             AppID = AppID,
             AppKey = AppKey,
             UserDefinePrompts = UserDefinePrompts.Clone(),
-            AutoExpander = AutoExpander,
+            AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             IsExecuting = IsExecuting,
             TimeOut = TimeOut

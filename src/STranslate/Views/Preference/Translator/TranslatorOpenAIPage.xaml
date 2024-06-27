@@ -74,16 +74,6 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="自动展开: " />
-
-                    <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding AutoExpander}" />
-                </Grid>
-
-                <Grid Margin="0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
                     <TextBlock Text="图标: " />
 
                     <ComboBox Grid.Column="1"
@@ -150,6 +140,16 @@
                             Command="{Binding ShowEncryptInfoCommand}"
                             Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                             Style="{DynamicResource ButtonIconStyle}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译"/>
+
+                    <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding AutoExecute}" />
                 </Grid>
 
                 <Grid Margin="0,10">

@@ -89,7 +89,7 @@ namespace STranslate.ViewModels.Preference.Translator
 
         [JsonIgnore]
         [ObservableProperty]
-        private bool _autoExpander = true;
+        private bool _autoExecute = true;
 
         [JsonIgnore]
         [ObservableProperty]
@@ -244,7 +244,7 @@ namespace STranslate.ViewModels.Preference.Translator
                 Data = TranslationResult.Reset,
                 AppID = this.AppID,
                 AppKey = this.AppKey,
-                AutoExpander = this.AutoExpander,
+                AutoExecute = this.AutoExecute,
                 Region = this.Region,
                 ProjectId = this.ProjectId,
                 IdHide = this.IdHide,

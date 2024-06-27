@@ -19,7 +19,7 @@ namespace STranslate.Model
 
         string Url { get; set; }
 
-        bool AutoExpander { get; set; }
+        bool AutoExecute { get; set; }
 
         TranslationResult Data { get; set; }
 

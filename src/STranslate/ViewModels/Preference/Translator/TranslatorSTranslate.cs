@@ -76,7 +76,7 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
 
     [JsonIgnore] public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
 
-    [JsonIgnore] [ObservableProperty] private bool _autoExpander = true;
+    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
 
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     public TranslationResult _data = TranslationResult.Reset;
@@ -165,7 +165,7 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
             Data = TranslationResult.Reset,
             AppID = AppID,
             AppKey = AppKey,
-            AutoExpander = AutoExpander,
+            AutoExecute = AutoExecute,
             Tips = Tips,
             IsExecuting = IsExecuting
         };

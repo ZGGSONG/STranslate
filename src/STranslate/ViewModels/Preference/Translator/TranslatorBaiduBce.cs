@@ -79,7 +79,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     private string _appKey = string.Empty;
 
-    [JsonIgnore] [ObservableProperty] private bool _autoExpander = true;
+    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
 
     [JsonIgnore]
     [ObservableProperty]
@@ -402,7 +402,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
             AppID = AppID,
             AppKey = AppKey,
             UserDefinePrompts = UserDefinePrompts.Clone(),
-            AutoExpander = AutoExpander,
+            AutoExecute = AutoExecute,
             IdHide = IdHide,
             KeyHide = KeyHide,
             Model = Model,

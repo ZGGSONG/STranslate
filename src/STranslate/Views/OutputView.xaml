@@ -227,7 +227,7 @@
                                                                    FontFamily="{DynamicResource IconFont}"
                                                                    FontSize="{DynamicResource FontSize_Prompt}"
                                                                    FontWeight="Bold"
-                                                                   Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExpander, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                   Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExecute, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                                             <TextBlock Grid.Column="1"
                                                                        HorizontalAlignment="Left"

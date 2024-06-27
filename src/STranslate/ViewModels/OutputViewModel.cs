@@ -244,7 +244,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service || list.LastOrDefault() is not ToggleButton tb)
             return;
 
-        service.AutoExpander = !service.AutoExpander;
+        service.AutoExecute = !service.AutoExecute;
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
         tb.IsChecked = false;
     }
