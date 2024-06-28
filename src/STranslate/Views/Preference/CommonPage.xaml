@@ -387,8 +387,8 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="输出界面是否显示Prompt切换" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输出界面是否显示Prompt切换按钮" />
+                                <TextBlock HorizontalAlignment="Left" Text="主界面显示 Prompt 切换" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示 Prompt 切换按钮" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IsPromptToggleVisible}" />
                             </DockPanel>
