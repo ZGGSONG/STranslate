@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using STranslate.Views;
@@ -56,14 +57,47 @@ public class AnimationHelper
         _previousAction = show;
     }
 
-    /// <summary>
-    ///     Event handler for the animation completed event.
-    /// </summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
+    public static async Task MainViewAnimationAsync(bool show = true)
+    {
+        if (_previousAction == show)
+            return;
+
+        var viewAnimation = (Storyboard)MainView.FindResource("MainViewAnimation");
+        var doubleAnimation = (DoubleAnimation)viewAnimation.Children.First();
+
+        viewAnimation.Completed -= AnimationCompleted; // Unsubscribe to ensure no memory leaks
+
+        var tcs = new TaskCompletionSource<bool>();
+
+        if (show)
+        {
+            if (MainView.Visibility == Visibility.Visible)
+                return;
+
+            MainView.Visibility = Visibility.Visible;
+            doubleAnimation.From = 0;
+            doubleAnimation.To = 1;
+        }
+        else
+        {
+            doubleAnimation.From = 1;
+            doubleAnimation.To = 0;
+            viewAnimation.Completed += (s, e) => tcs.TrySetResult(true); // Use lambda to complete the task
+        }
+
+        viewAnimation.Begin();
+
+        _previousAction = show;
+
+        if (!show)
+        {
+            await tcs.Task; // Wait for the animation to complete
+            AnimationCompleted(null, EventArgs.Empty); // Manually call the completion method
+        }
+    }
+
     internal static void AnimationCompleted(object? sender, EventArgs e)
     {
-        // Hide the window after the animation is completed
         MainView.Visibility = Visibility.Hidden;
     }
 }

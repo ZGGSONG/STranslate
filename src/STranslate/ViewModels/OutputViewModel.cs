@@ -273,12 +273,15 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     {
         if (obj is not string str || string.IsNullOrEmpty(str)) return;
 
-        AnimationHelper.MainViewAnimation(false);
+        LogService.Logger.Debug("<Start> [Animation]");
+        await AnimationHelper.MainViewAnimationAsync(false);
+        LogService.Logger.Debug("<End> [Animation]");
 
-        // 隐藏动画需要执行150ms等待完成后焦点自动回到上一拥有焦点的窗口
-        await Task.Delay(200);
-
+        // 额外主线程等待一段时间，避免动画未完成时执行输入操作
+        await Task.Delay(100);
+        LogService.Logger.Debug("<Start> [Output]");
         new InputSimulator().Keyboard.TextEntry(str);
+        LogService.Logger.Debug("<End> [Output]");
     }
 
     #region gong-wpf-dragdrop interface implementation
