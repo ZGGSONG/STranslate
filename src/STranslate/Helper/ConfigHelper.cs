@@ -243,9 +243,15 @@ public class ConfigHelper
         CurrentConfig.MainViewWidth = model.MainViewWidth;
         CurrentConfig.MainViewShadow = model.MainViewShadow;
         CurrentConfig.IsPromptToggleVisible = model.IsPromptToggleVisible;
+        CurrentConfig.IsShowSnakeCopyBtn = model.IsShowSnakeCopyBtn;
+        CurrentConfig.IsShowSmallHumpCopyBtn = model.IsShowSmallHumpCopyBtn;
+        CurrentConfig.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
 
-        //输出界面Prompt显示控制
+        //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
+        Singleton<OutputViewModel>.Instance.IsShowSnakeCopyBtn = model.IsShowSnakeCopyBtn;
+        Singleton<OutputViewModel>.Instance.IsShowSmallHumpCopyBtn = model.IsShowSmallHumpCopyBtn;
+        Singleton<OutputViewModel>.Instance.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
         ThemeOperate(CurrentConfig.ThemeType);
@@ -630,6 +636,9 @@ public class ConfigHelper
             MainViewWidth = 460,
             MainViewShadow = false,
             IsPromptToggleVisible = true,
+            IsShowSnakeCopyBtn = false,
+            IsShowSmallHumpCopyBtn = false,
+            IsShowLargeHumpCopyBtn = false,
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),

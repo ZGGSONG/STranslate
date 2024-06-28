@@ -306,6 +306,12 @@ public class ConfigModel
     /// </summary>
     public bool IsPromptToggleVisible { get; set; } = true;
 
+    public bool IsShowSnakeCopyBtn { get; set; } = false;
+
+    public bool IsShowSmallHumpCopyBtn { get; set; } = false;
+
+    public bool IsShowLargeHumpCopyBtn { get; set; } = false;
+
     /// <summary>
     ///     热键
     /// </summary>
@@ -393,6 +399,9 @@ public class ConfigModel
             MainViewWidth = MainViewWidth,
             MainViewShadow = MainViewShadow,
             IsPromptToggleVisible = IsPromptToggleVisible,
+            IsShowSnakeCopyBtn = IsShowSnakeCopyBtn,
+            IsShowSmallHumpCopyBtn = IsShowSmallHumpCopyBtn,
+            IsShowLargeHumpCopyBtn = IsShowLargeHumpCopyBtn,
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

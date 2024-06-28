@@ -25,8 +25,15 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 {
     private readonly InputViewModel _inputVm = Singleton<InputViewModel>.Instance;
     private readonly MainViewModel _mainVm = Singleton<MainViewModel>.Instance;
+    private static readonly ConfigModel? CurConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
 
-    [ObservableProperty] private bool _isPromptToggleVisible = Singleton<ConfigHelper>.Instance.CurrentConfig?.IsPromptToggleVisible ?? true;
+    [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
+
+    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
 
     [ObservableProperty]
     private BindingList<ITranslator> _translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList ?? [];

@@ -250,6 +250,12 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
 
+    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
+
     public CommonViewModel()
     {
         // 获取系统已安装字体
@@ -392,6 +398,9 @@ public partial class CommonViewModel : ObservableObject
         MainViewWidth = CurConfig?.MainViewWidth ?? 460;
         MainViewShadow = CurConfig?.MainViewShadow ?? false;
         IsPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
+        IsShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? true;
+        IsShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? true;
+        IsShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? true;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

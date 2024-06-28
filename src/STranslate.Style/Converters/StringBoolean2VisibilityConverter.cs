@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
 namespace STranslate.Style.Converters;
 
-/// <summary>
-///     多条数据确定显示隐藏
-/// </summary>
-internal class MultiValue2VisibilityConverter : IMultiValueConverter
+internal class StringBoolean2VisibilityConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         try
         {
-            var isExpander = (bool)values[0];
-            var isConfOpen = (bool)values[1];
-            var isSuccess = (bool)values[2];
+            if (values.Count() != 2 || values[0] is not string str || values[1] is not bool b)
+                return Visibility.Collapsed;
 
-            return isConfOpen && !isExpander && isSuccess ? Visibility.Visible : Visibility.Collapsed;
+            return !string.IsNullOrEmpty(str) && b ? Visibility.Visible : Visibility.Collapsed;
         }
         catch (Exception)
         {

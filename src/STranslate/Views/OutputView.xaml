@@ -224,43 +224,66 @@
                                                     <Binding Path="Data.IsSuccess" />
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
-                                            <!-- 大驼峰复制 -->
                                             <!-- TTS -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
                                                     CommandParameter="{Binding Data.Result}"
                                                     Content="&#xe610;"
+                                                    Cursor="Hand"
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="TTS"
+                                                    ToolTip="文字转语音"
                                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!-- 大驼峰复制 -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
                                                     CommandParameter="{Binding Data.Result}"
                                                     Content="&#xe601;"
+                                                    Cursor="Hand"
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="复制为大驼峰字符串"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                                    ToolTip="复制为大驼峰字符串">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                        <Binding Path="Data.Result" />
+                                                        <Binding Source="{StaticResource OutputVm}" Path="Data.IsShowLargeHumpCopyBtn" />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+                                            </Button>
                                             <!-- 小驼峰复制 -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
                                                     CommandParameter="{Binding Data.Result}"
                                                     Content="&#xe602;"
+                                                    Cursor="Hand"
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="复制为小驼峰字符串"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                                    ToolTip="复制为小驼峰字符串">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                        <Binding Path="Data.Result" />
+                                                        <Binding Source="{StaticResource OutputVm}" Path="Data.IsShowSmallHumpCopyBtn" />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+                                            </Button>
                                             <!-- 蛇形复制 -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
                                                     CommandParameter="{Binding Data.Result}"
                                                     Content="&#xe600;"
+                                                    Cursor="Hand"
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="复制为蛇形字符串"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                                    ToolTip="复制为蛇形字符串">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                        <Binding Path="Data.Result" />
+                                                        <Binding Source="{StaticResource OutputVm}" Path="Data.IsShowSnakeCopyBtn" />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+                                            </Button>
                                             <!-- 普通复制 -->
                                             <Button Margin="2,2,0,2"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
                                                     CommandParameter="{Binding Data.Result}"
                                                     Content="&#xe692;"
+                                                    Cursor="Hand"
                                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                                     ToolTip="直接复制结果"
                                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
@@ -383,38 +406,61 @@
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
                                             CommandParameter="{Binding Data.Result}"
                                             Content="&#xe610;"
+                                            Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="TTS"
+                                            ToolTip="文字转语音"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                     <!-- 蛇形复制 -->
                                     <Button Margin="5,0,0,0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
                                             CommandParameter="{Binding Data.Result}"
                                             Content="&#xe600;"
+                                            Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为蛇形字符串"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            ToolTip="复制为蛇形字符串">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                <Binding Path="Data.Result" />
+                                                <Binding Source="{StaticResource OutputVm}" Path="Data.IsShowSnakeCopyBtn" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
                                     <!-- 小驼峰复制 -->
                                     <Button Margin="5,0,0,0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
                                             CommandParameter="{Binding Data.Result}"
                                             Content="&#xe602;"
+                                            Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为小驼峰字符串"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            ToolTip="复制为小驼峰字符串">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                <Binding Path="Data.Result" />
+                                                <Binding Source="{StaticResource OutputVm}" Path="Data.IsShowSmallHumpCopyBtn" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
                                     <!-- 大驼峰复制 -->
                                     <Button Margin="5,0,0,0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
                                             CommandParameter="{Binding Data.Result}"
                                             Content="&#xe601;"
+                                            Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为大驼峰字符串"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            ToolTip="复制为大驼峰字符串">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                <Binding Path="Data.Result" />
+                                                <Binding Source="{StaticResource OutputVm}" Path="Data.IsShowLargeHumpCopyBtn" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
                                     <!-- 普通复制 -->
                                     <Button Margin="5,0,0,0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
                                             CommandParameter="{Binding Data.Result}"
                                             Content="&#xe692;"
+                                            Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
                                             ToolTip="直接复制结果"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
@@ -424,6 +470,7 @@
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
                                             CommandParameter="{Binding Data.Result}"
                                             Content="&#xe677;"
+                                            Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
                                             ToolTip="插入结果"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />

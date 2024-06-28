@@ -26,4 +26,5 @@
     <converter:PromptToVisibilityConverter x:Key="PromptToVisibilityConverter" />
     <converter:PromptConverter x:Key="PromptConverter" />
     <converter:PromptToVisibilityMultiConverter x:Key="PromptToVisibilityMultiConverter" />
+    <converter:StringBoolean2VisibilityConverter x:Key="StringBoolean2VisibilityConverter" />
 </ResourceDictionary>

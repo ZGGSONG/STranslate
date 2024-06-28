@@ -392,6 +392,27 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IsPromptToggleVisible}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="显示蛇形结果复制" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示复制蛇形结果按钮" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowSnakeCopyBtn}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="显示小驼峰结果复制" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示复制小驼峰结果按钮" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowSmallHumpCopyBtn}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="显示大驼峰结果复制" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示复制大驼峰结果按钮" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowLargeHumpCopyBtn}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 
