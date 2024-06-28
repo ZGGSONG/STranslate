@@ -418,6 +418,15 @@
                                             Style="{DynamicResource ButtonCopyIconStyle}"
                                             ToolTip="直接复制结果"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                    
+                                    <!-- // 插入文本 // -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
+                                            CommandParameter="{Binding Data.Result}"
+                                            Content="&#xe677;"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="插入结果"
+                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 </StackPanel>
                                 <!-- // 加载动画 // -->
                                 <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}"

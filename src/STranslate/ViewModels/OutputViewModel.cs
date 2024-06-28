@@ -17,6 +17,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
+using WindowsInput;
 
 namespace STranslate.ViewModels;
 
@@ -158,12 +159,10 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand]
     private void CopyResult(object obj)
     {
-        if (obj is string str && !string.IsNullOrEmpty(str))
-        {
-            ClipboardHelper.Copy(str);
+        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+        ClipboardHelper.Copy(str);
 
-            ToastHelper.Show("复制成功");
-        }
+        ToastHelper.Show("复制成功");
     }
 
     [RelayCommand]
@@ -269,15 +268,26 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         tb.IsChecked = false;
     }
 
+    [RelayCommand]
+    private async Task InsertResultAsync(object obj)
+    {
+        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+
+        AnimationHelper.MainViewAnimation(false);
+
+        // 隐藏动画需要执行150ms等待完成后焦点自动回到上一拥有焦点的窗口
+        await Task.Delay(200);
+
+        new InputSimulator().Keyboard.TextEntry(str);
+    }
+
     #region gong-wpf-dragdrop interface implementation
 
     public void DragOver(IDropInfo dropInfo)
     {
-        if (dropInfo.Data is ITranslator && dropInfo.TargetItem is ITranslator)
-        {
-            dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-            dropInfo.Effects = DragDropEffects.Copy;
-        }
+        if (dropInfo.Data is not ITranslator || dropInfo.TargetItem is not ITranslator) return;
+        dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+        dropInfo.Effects = DragDropEffects.Copy;
     }
 
     public void Drop(IDropInfo dropInfo)
