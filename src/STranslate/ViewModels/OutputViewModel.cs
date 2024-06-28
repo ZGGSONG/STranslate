@@ -17,7 +17,6 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using WindowsInput;
 
 namespace STranslate.ViewModels;
 
