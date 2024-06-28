@@ -282,7 +282,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
                 },
                 token,
                 TimeOut
-            );
+            ).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {

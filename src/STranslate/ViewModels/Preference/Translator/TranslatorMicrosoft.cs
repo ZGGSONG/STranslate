@@ -231,7 +231,7 @@ public partial class TranslatorMicrosoft : TranslatorBase, ITranslator
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, reqStr, query, headers, token) ?? throw new Exception("请求结果为空");
+            var resp = await HttpUtil.PostAsync(Url, reqStr, query, headers, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
             var parseData = JsonConvert.DeserializeObject<JArray>(resp) ?? throw new Exception(resp);
             var data = parseData.First()["translations"]?.FirstOrDefault()?["text"]?.ToString() ??
                        throw new Exception("请求结果为空");

@@ -302,7 +302,7 @@ public partial class TranslatorOllama : TranslatorBase, ITranslatorLlm
                     onDataReceived?.Invoke(contentValue);
                 },
                 token
-            );
+            ).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {

@@ -178,7 +178,7 @@ public partial class TranslatorVolcengine : TranslatorBase, ITranslator
         var targetBytes = Encoding.UTF8.GetBytes(target);
         var contentBytes = Encoding.UTF8.GetBytes(req.Text);
         var result = await Task.Run(() =>
-            GoUtil.Execute(accessKeyBytes, secretKeyBytes, sourceBytes, targetBytes, contentBytes));
+            GoUtil.Execute(accessKeyBytes, secretKeyBytes, sourceBytes, targetBytes, contentBytes)).ConfigureAwait(false);
         var tuple = GoUtil.GoTupleToCSharpTuple(result);
         var resp = tuple.Item2 ?? throw new Exception("请求结果为空");
         if (tuple.Item1 != 200)

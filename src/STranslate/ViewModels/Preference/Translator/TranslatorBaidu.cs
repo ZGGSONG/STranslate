@@ -219,7 +219,7 @@ namespace STranslate.ViewModels.Preference.Translator
                 { "sign", sign }
             };
 
-            string resp = await HttpUtil.GetAsync(Url, queryparams, token) ?? throw new Exception("请求结果为空");
+            string resp = await HttpUtil.GetAsync(Url, queryparams, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
 
             var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
             var errorCode = parseData["error_code"]?.ToString();

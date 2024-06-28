@@ -183,7 +183,7 @@ namespace STranslate.ViewModels.Preference.Translator
 
             try
             {
-                var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ?? throw new Exception("请求结果为空");
+                var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
                 var data = JsonConvert.DeserializeObject<JObject>(resp)?["data"]?.ToString() ?? throw new Exception(resp);
                 return TranslationResult.Success(data);
             }

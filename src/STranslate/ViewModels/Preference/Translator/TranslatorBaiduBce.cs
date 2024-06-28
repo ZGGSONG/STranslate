@@ -357,7 +357,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
                         return;
                 },
                 token
-            );
+            ).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {

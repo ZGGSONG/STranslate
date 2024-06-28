@@ -183,7 +183,7 @@ public partial class TranslatorCaiyun : TranslatorBase, ITranslator
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, reqStr, null, headers, token) ?? throw new Exception("请求结果为空");
+            var resp = await HttpUtil.PostAsync(Url, reqStr, null, headers, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
 
             // 解析JSON数据
             var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");

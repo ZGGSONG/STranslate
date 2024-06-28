@@ -257,7 +257,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
         if (!isWord)
             goto Empty;
 
-        var result = await EcdictHelper.GetECDICTAsync(content, token);
+        var result = await EcdictHelper.GetECDICTAsync(content, token).ConfigureAwait(false);
 
         if (result is null)
             goto Empty;

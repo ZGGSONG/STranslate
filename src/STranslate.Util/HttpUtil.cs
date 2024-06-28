@@ -12,13 +12,13 @@ public class HttpUtil
 {
     #region 公共方法-GetAsync
 
-    public static async Task<string> GetAsync(string url, int timeout = 10) => await GetAsync(url, CancellationToken.None, timeout);
+    public static async Task<string> GetAsync(string url, int timeout = 10) => await GetAsync(url, CancellationToken.None, timeout).ConfigureAwait(false);
 
     public static async Task<string> GetAsync(string url, CancellationToken token, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
-        var response = await client.GetAsync(url, token);
-        return await GetResponseContentAsync(response, token);
+        var response = await client.GetAsync(url, token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     public static async Task<string> GetAsync(string url, Dictionary<string, string>? queryParams, CancellationToken token, int timeout = 10)
@@ -30,29 +30,29 @@ public class HttpUtil
             url = uriBuilder.ToString();
         }
 
-        var response = await client.GetAsync(url, token);
-        return await GetResponseContentAsync(response, token);
+        var response = await client.GetAsync(url, token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     #endregion 公共方法-GetAsync
 
     #region 公共方法-PostAsync
 
-    public static async Task<string> PostAsync(string url, string req, int timeout = 10) => await PostAsync(url, req, CancellationToken.None, timeout);
+    public static async Task<string> PostAsync(string url, string req, int timeout = 10) => await PostAsync(url, req, CancellationToken.None, timeout).ConfigureAwait(false);
 
     public static async Task<string> PostAsync(string url, string req, CancellationToken token, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
-        var response = await client.PostAsync(url, new StringContent(req, Encoding.UTF8, "application/json"), token);
-        return await GetResponseContentAsync(response, token);
+        var response = await client.PostAsync(url, new StringContent(req, Encoding.UTF8, "application/json"), token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     public static async Task<string> PostAsync(string url, Tuple<string, string> req, CancellationToken token, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
         var content = new StringContent($"{req.Item1}={Uri.EscapeDataString(req.Item2)}", Encoding.UTF8, "application/x-www-form-urlencoded");
-        var response = await client.PostAsync(url, content, token);
-        return await GetResponseContentAsync(response, token);
+        var response = await client.PostAsync(url, content, token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     public static async Task<string> PostAsync(
@@ -72,8 +72,8 @@ public class HttpUtil
         }
 
         using var request = CreateHttpRequestMessage(HttpMethod.Post, url, req, headers);
-        var response = await client.SendAsync(request, token);
-        return await GetResponseContentAsync(response, token);
+        var response = await client.SendAsync(request, token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     public static async Task<string> PostAsync(
@@ -100,8 +100,8 @@ public class HttpUtil
             }
 
             var stringContent = new StringContent(content.ToString(), Encoding.UTF8, "application/x-www-form-urlencoded");
-            response = await client.PostAsync(url, stringContent, token);
-            return await GetResponseContentAsync(response, token);
+            response = await client.PostAsync(url, stringContent, token).ConfigureAwait(false);
+            return await GetResponseContentAsync(response, token).ConfigureAwait(false);
         }
 
         var emptyContent = new StringContent(string.Empty);
@@ -116,8 +116,8 @@ public class HttpUtil
             }
         }
 
-        response = await client.PostAsync(url, emptyContent, token);
-        return await GetResponseContentAsync(response, token);
+        response = await client.PostAsync(url, emptyContent, token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -132,8 +132,8 @@ public class HttpUtil
     {
         using var client = CreateHttpClient(timeout);
         var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(formData) };
-        var response = await client.SendAsync(request, token);
-        return await GetResponseContentAsync(response, token);
+        var response = await client.SendAsync(request, token).ConfigureAwait(false);
+        return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
     public static async Task PostAsync(Uri uri, string req, string? key, Action<string> onDataReceived, CancellationToken token, int timeout = 10)
@@ -147,8 +147,8 @@ public class HttpUtil
             request.Headers.Add("Authorization", $"Bearer {key}");
         }
 
-        using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
-        await ResponseCheckAsync(response, token);
+        using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+        await ResponseCheckAsync(response, token).ConfigureAwait(false);
 
         await using var responseStream = await response.Content.ReadAsStreamAsync(token);
         using var reader = new System.IO.StreamReader(responseStream);
@@ -186,8 +186,8 @@ public class HttpUtil
 
     private static async Task<string> GetResponseContentAsync(HttpResponseMessage response, CancellationToken token)
     {
-        await ResponseCheckAsync(response, token);
-        return await response.Content.ReadAsStringAsync(token);
+        await ResponseCheckAsync(response, token).ConfigureAwait(false);
+        return await response.Content.ReadAsStringAsync(token).ConfigureAwait(false);
     }
 
     private static string BuildQueryString(Dictionary<string, string> queryParams)

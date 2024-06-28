@@ -213,7 +213,7 @@ namespace STranslate.ViewModels.Preference.Translator
                 { "apikey", AppKey },
             };
 
-            var resp = await HttpUtil.GetAsync(Url, queryparams, token) ?? throw new Exception("请求结果为空");
+            var resp = await HttpUtil.GetAsync(Url, queryparams, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
 
             // 解析JSON数据
             var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");

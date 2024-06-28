@@ -308,7 +308,7 @@ public partial class TranslatorChatglm : TranslatorBase, ITranslatorLlm
                     onDataReceived?.Invoke(contentValue);
                 },
                 token
-            );
+            ).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {

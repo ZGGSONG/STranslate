@@ -230,7 +230,7 @@ namespace STranslate.ViewModels.Preference.Translator
                 };
             AlibabaCloud.TeaUtil.Models.RuntimeOptions runtime = new();
 
-            TranslateGeneralResponse resp = await client.TranslateGeneralWithOptionsAsync(translateGeneralRequest, runtime);
+            TranslateGeneralResponse resp = await client.TranslateGeneralWithOptionsAsync(translateGeneralRequest, runtime).ConfigureAwait(false);
 
             var data = resp.Body.Data.Translated;
             data = data.Length == 0 ? throw new Exception("请求结果为空") : data;

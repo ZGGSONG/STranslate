@@ -190,7 +190,7 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken) ??
+            var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken).ConfigureAwait(false) ??
                        throw new Exception("请求结果为空");
             var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
             var data = parseData["translations"]?.FirstOrDefault()?["text"]?.ToString();
