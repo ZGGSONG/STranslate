@@ -251,6 +251,14 @@ public partial class MainViewModel : ObservableObject
             }
         );
 
+        HotkeyHelper.Register(
+            HotkeyHelper.ReplaceTranslateId,
+            () =>
+            {
+                NotifyIconVM.ReplaceTranslateCommand.Execute(view);
+            }
+        );
+
         if (
             HotkeyHelper.Hotkeys!.InputTranslate.Conflict
             || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
@@ -260,6 +268,7 @@ public partial class MainViewModel : ObservableObject
             || HotkeyHelper.Hotkeys!.OCR.Conflict
             || HotkeyHelper.Hotkeys!.SilentOCR.Conflict
             || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict
+            || HotkeyHelper.Hotkeys!.ReplaceTranslate.Conflict
         )
         {
             MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");

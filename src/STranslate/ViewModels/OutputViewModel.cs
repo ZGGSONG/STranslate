@@ -287,7 +287,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
         await Task.Delay(100);
         LogService.Logger.Debug("<Start> [Output]");
-        new InputSimulator().Keyboard.TextEntry(str);
+        InputSimulatHelper.PrintText(str);
         LogService.Logger.Debug("<End> [Output]");
     }
 

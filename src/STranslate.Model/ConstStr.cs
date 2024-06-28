@@ -35,6 +35,7 @@ namespace STranslate.Model
         public const string DEFAULTCROSSWORDHOTKEY = "Alt + D";
         public const string DEFAULTSCREENSHOTHOTKEY = "Alt + S";
         public const string DEFAULTOPENHOTKEY = "Alt + G";
+        public const string DEFAULTREPLACEHOTKEY = "Alt + F";
         public const string DEFAULTMOUSEHOOKHOTKEY = "Alt + Shift + D";
         public const string DEFAULTOCRHOTKEY = "Alt + Shift + S";
         public const string DEFAULTSILENTOCRHOTKEY = "Alt + Shift + F";

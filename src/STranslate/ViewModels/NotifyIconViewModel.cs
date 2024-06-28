@@ -241,22 +241,7 @@ public partial class NotifyIconViewModel : ObservableObject
     [RelayCommand]
     private void CrossWordTranslate(Window view)
     {
-        var interval = _configHelper.CurrentConfig?.WordPickingInterval ?? 100;
-        string? content;
-        try
-        {
-            content = ClipboardUtil.GetSelectedText(interval)?.Trim();
-            if (string.IsNullOrEmpty(content))
-            {
-                LogService.Logger.Warn($"取词失败, 请尝试延长取词间隔(当前: {interval}ms)...");
-                return;
-            }
-        }
-        catch (Exception)
-        {
-            LogService.Logger.Warn("获取剪贴板异常, 请重试");
-            return;
-        }
+        if (!TryGetWord(out string? content) || content == null) return;
 
         //取词前移除换行
         if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
@@ -767,6 +752,72 @@ public partial class NotifyIconViewModel : ObservableObject
         ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
 
         _inputViewModel.TranslateCommand.Execute(null);
+    }
+
+    private int count = 0;
+    [RelayCommand]
+    private async Task ReplaceTranslateAsync(Window view)
+    {
+        if (!TryGetWord(out string? content) || content == null) return;
+
+        async Task EndAsync()
+        {
+            InputSimulatHelper.PrintText("✅");
+            await Task.Delay(300);
+            InputSimulatHelper.Backspace();
+        }
+
+        var req = new RequestModel(content, LangEnum.auto, LangEnum.en);
+        var ret = TranslationResult.Reset;
+        try
+        {
+            count++;
+            var list = Singleton<TranslatorViewModel>.Instance.CurTransServiceList;
+            var service = count % 2 == 0 ? list.First(x => x.IsEnabled) : list.Last(x => x.IsEnabled);
+            ShowBalloonTip(service.Name);
+            if (service is ITranslatorLlm)
+            {
+                await service.TranslateAsync(req, InputSimulatHelper.PrintText, CancellationToken.None);
+                await EndAsync();
+            }
+            else
+            {
+                ret = await service.TranslateAsync(req, CancellationToken.None);
+
+                if (!ret.IsSuccess)
+                {
+                    throw new Exception(ret.Result?.ToString());
+                }
+                InputSimulatHelper.PrintText(ret.Result);
+                await EndAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Warn(ex.Message);
+            return;
+        }
+    }
+
+    internal bool TryGetWord(out string? content)
+    {
+        var interval = _configHelper.CurrentConfig?.WordPickingInterval ?? 100;
+        try
+        {
+            content = ClipboardUtil.GetSelectedText(interval)?.Trim();
+            if (string.IsNullOrEmpty(content))
+            {
+                LogService.Logger.Warn($"取词失败, 请尝试延长取词间隔(当前: {interval}ms)...");
+                return false;
+            }
+        }
+        catch (Exception)
+        {
+            LogService.Logger.Warn("获取剪贴板异常请重试");
+            content = null;
+            return false;
+        }
+        return true;
     }
 
     private void SaveSelectedLang()

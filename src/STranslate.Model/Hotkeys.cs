@@ -10,6 +10,7 @@
         public OCR OCR { get; set; } = new();
         public SilentOCR SilentOCR { get; set; } = new();
         public ClipboardMonitor ClipboardMonitor { get; set; } = new();
+        public ReplaceTranslate ReplaceTranslate { get; set; } = new();
 
         public Hotkeys Clone()
         {
@@ -22,7 +23,8 @@
                 MousehookTranslate = MousehookTranslate.Clone(),
                 OCR = OCR.Clone(),
                 SilentOCR = SilentOCR.Clone(),
-                ClipboardMonitor = ClipboardMonitor.Clone()
+                ClipboardMonitor = ClipboardMonitor.Clone(),
+                ReplaceTranslate = ReplaceTranslate.Clone(),
             };
         }
     }
@@ -42,6 +44,8 @@
     public class SilentOCR : HotkeyBase { }
 
     public class ClipboardMonitor : HotkeyBase { }
+
+    public class ReplaceTranslate : HotkeyBase { }
 
     public class HotkeyBase
     {

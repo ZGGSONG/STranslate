@@ -344,7 +344,7 @@
                                                             <TextBlock Grid.Column="1"
                                                                        HorizontalAlignment="Left"
                                                                        FontSize="{DynamicResource FontSize_Identify}"
-                                                                       Text="自动翻译" />
+                                                                       Text="自动执行" />
                                                         </Grid>
                                                     </Border>
 
