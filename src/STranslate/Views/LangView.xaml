@@ -19,9 +19,9 @@
 
         <!-- // SourceLang // -->
         <ComboBox Grid.Column="0"
-                  DisplayMemberPath="Description"
                   Width="130"
                   HorizontalAlignment="Right"
+                  DisplayMemberPath="Description"
                   ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                   SelectedValue="{Binding SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Value" />
@@ -34,9 +34,9 @@
 
         <!-- // TargetLang // -->
         <ComboBox Grid.Column="2"
-                  DisplayMemberPath="Description"
                   Width="130"
                   HorizontalAlignment="Left"
+                  DisplayMemberPath="Description"
                   ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                   SelectedValue="{Binding TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Value" />

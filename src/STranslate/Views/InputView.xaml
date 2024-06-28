@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              d:DataContext="{d:DesignInstance Type=vm:InputViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -14,6 +15,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference InputTB}" />
+        <common:BindingProxy x:Key="InputVm" Data="{Binding}" />
     </UserControl.Resources>
 
     <!-- // 输入框 // -->
@@ -77,7 +79,8 @@
                         Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}" CommandParameter="{Binding ElementName=InputTB}" />
+                            <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}"
+                                                   CommandParameter="{Binding ElementName=InputTB}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -89,15 +92,87 @@
                         Style="{DynamicResource ButtonCopyIconStyle}"
                         ToolTip="移除空格"
                         Visibility="{Binding InputContent, Converter={StaticResource VisibilityConverter}}" />
-                <Border Style="{DynamicResource LanguageMarkBorderStyle}" Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
+                <Border Style="{DynamicResource LanguageMarkBorderStyle}"
+                        Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
                     <StackPanel Margin="5,2" Orientation="Horizontal">
                         <TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />
-                        <TextBlock FontSize="{DynamicResource FontSize_Identify}" Foreground="{DynamicResource ThemeAccentColor}" Text="{Binding IdentifyLanguage}" />
+                        <TextBlock FontSize="{DynamicResource FontSize_Identify}"
+                                   Visibility="Collapsed"
+                                   Foreground="{DynamicResource ThemeAccentColor}" Text="{Binding IdentifyLanguage}" />
+                        <ToggleButton Name="IdentifyTb"
+                                      FontFamily="{DynamicResource UserFont}"
+                                      FontSize="{DynamicResource FontSize_Identify}"
+                                      Foreground="{DynamicResource ThemeAccentColor}"
+                                      Content="{Binding IdentifyLanguage}"
+                                      Cursor="Hand"
+                                      Background="Transparent"
+                                      Height="20"
+                                      Margin="0"
+                                      Style="{DynamicResource ToggleButtonIconStyle}" />
+                        <Popup Name="IdentifyPopup"
+                               IsOpen="{Binding ElementName=IdentifyTb, Path=IsChecked}"
+                               StaysOpen="False"
+                               MinWidth="40"
+                               MinHeight="30"
+                               AllowsTransparency="True"
+                               PopupAnimation="Slide"
+                               PlacementTarget="{Binding ElementName=IdentifyTb}"
+                               Placement="Bottom">
+                            <Border Style="{DynamicResource BorderStyle}">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              MaxHeight="400">
+                                    <ListBox
+                                        Name="IdentifyLb"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type model:LangEnum}">
+                                                <Border x:Name="IdentifyBorder"
+                                                        Margin="3"
+                                                        Background="{DynamicResource BorderBackground}"
+                                                        BorderBrush="{x:Null}"
+                                                        CornerRadius="5">
+                                                    <TextBlock HorizontalAlignment="Left"
+                                                               Margin="3 5"
+                                                               FontSize="{DynamicResource FontSize_Identify}"
+                                                               Text="{Binding Description}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                </Border>
+                                                <DataTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="IdentifyBorder"
+                                                                Property="Background"
+                                                                Value="{DynamicResource BtnMouseOverBackground}" />
+                                                    </Trigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding Source={StaticResource InputVm}, Path=Data.SelectedLanguageCommand}">
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                            <Binding ElementName="IdentifyLb" Path="SelectedItem" />
+                                                            <Binding ElementName="IdentifyTb" />
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ListBox>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
                     </StackPanel>
                 </Border>
             </StackPanel>
 
-            <control:LoadingUC Margin="10,6,0,0" IsAnimationPlaying="{Binding NotifyIconVM.IsScreenshotExecuting}" Visibility="{Binding NotifyIconVM.IsScreenshotExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <control:LoadingUC Margin="10,6,0,0" IsAnimationPlaying="{Binding NotifyIconVM.IsScreenshotExecuting}"
+                               Visibility="{Binding NotifyIconVM.IsScreenshotExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Grid>
     </Border>
 </UserControl>

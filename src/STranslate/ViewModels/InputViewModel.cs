@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -32,6 +33,8 @@ public partial class InputViewModel : ObservableObject
     ///     自动识别的语言
     /// </summary>
     [ObservableProperty] private string _identifyLanguage = string.Empty;
+
+    private LangEnum? _userSelectedLang;
 
     /// <summary>
     ///     输入内容
@@ -134,7 +137,7 @@ public partial class InputViewModel : ObservableObject
         if (size == 0)
             goto execute;
 
-        //是否强制翻译
+        //是否使用缓存
         var isCheckCacheFirst = obj == null;
         if (isCheckCacheFirst)
         {
@@ -167,15 +170,22 @@ public partial class InputViewModel : ObservableObject
                     }
 
                     var identify = LangEnum.auto;
-
-                    // 原始语种自动识别
-                    if (source == LangEnum.auto)
+                    if (_userSelectedLang != null)
                     {
-                        var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ??
-                                         LangDetectType.Local;
-                        identify = await LangDetectHelper.DetectAsync(InputContent, detectType, cancellationToken);
-                        IdentifyLanguage = identify.GetDescription();
+                        identify = (LangEnum)_userSelectedLang;
                     }
+                    else
+                    {
+                        // 原始语种自动识别
+                        if (source == LangEnum.auto)
+                        {
+                            var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ??
+                                             LangDetectType.Local;
+                            identify = await LangDetectHelper.DetectAsync(InputContent, detectType, cancellationToken);
+                            IdentifyLanguage = identify.GetDescription();
+                        }
+                    }
+
 
                     //如果是自动则获取自动识别后的目标语种
                     if (target == LangEnum.auto)
@@ -443,6 +453,31 @@ public partial class InputViewModel : ObservableObject
     }
 
     #endregion ContextMenu
+
+    [RelayCommand]
+    private async Task SelectedLanguageAsync(List<object> list)
+    {
+        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+            list.Last() is not ToggleButton tb)
+            return;
+
+        tb.IsChecked = false;
+
+        if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
+            obj is not LangEnum lang) return;
+
+        _userSelectedLang = lang;
+
+        IdentifyLanguage = lang.GetDescription();
+        // 选择语言后自动翻译
+        Singleton<OutputViewModel>.Instance.ExpanderHeaderCancelCommand.Execute(null);
+        Singleton<OutputViewModel>.Instance.SelectedPromptCancelCommand.Execute(null);
+        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        TranslateCancelCommand.Execute(null);
+        await TranslateCommand.ExecuteAsync(string.Empty);
+
+        _userSelectedLang = null;
+    }
 
     #endregion 命令
 }
