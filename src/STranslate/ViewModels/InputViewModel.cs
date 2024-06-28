@@ -46,11 +46,7 @@ public partial class InputViewModel : ObservableObject
         get => _inputContent;
         set
         {
-            if (_inputContent == value)
-                return;
-            OnPropertyChanging();
-            _inputContent = value;
-            OnPropertyChanged();
+            SetProperty(ref _inputContent, value);
 
             //清空识别语种
             if (!string.IsNullOrEmpty(IdentifyLanguage))
@@ -126,116 +122,110 @@ public partial class InputViewModel : ObservableObject
     {
         // 过滤非启用的翻译服务
         var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
-        // 不自动展开的不主动翻译
-        services = services.Where(x => x.AutoExecute).ToList();
         HistoryModel? history = null;
-        List<ITranslator>? translatorList = null;
-        //读取配置翻译后复制服务索引
+        List<ITranslator>? translatorCacheList = null;
+        // 读取配置翻译后复制服务索引
         var copyIndex = Singleton<ConfigHelper>.Instance.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
 
-        //如果数据库限制大小为0则跳过检查数据库
-        if (size == 0)
-            goto execute;
-
-        //是否使用缓存
+        // 读取缓存
         var isCheckCacheFirst = obj == null;
-        if (isCheckCacheFirst)
+        if (size != 0 && isCheckCacheFirst)
         {
             history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), dbTarget.GetDescription());
-
             if (history != null)
             {
                 var settings = new JsonSerializerSettings { Converters = { new CurrentTranslatorConverter() } };
-
-                translatorList = JsonConvert.DeserializeObject<List<ITranslator>>(history.Data, settings);
+                translatorCacheList = JsonConvert.DeserializeObject<List<ITranslator>>(history.Data, settings);
             }
         }
 
-        execute:
         await Parallel.ForEachAsync(
-            services,
+            services.Where(x => x.AutoExecute),
             token,
             async (service, cancellationToken) =>
             {
-                try
-                {
-                    service.IsExecuting = true;
-
-                    if (translatorList != null)
-                    {
-                        IdentifyLanguage = "缓存";
-                        service.Data = translatorList.FirstOrDefault(x => x.Identify == service.Identify)?.Data ??
-                                       TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
-                        goto copy;
-                    }
-
-                    var identify = LangEnum.auto;
-                    if (_userSelectedLang != null)
-                    {
-                        identify = (LangEnum)_userSelectedLang;
-                    }
-                    else
-                    {
-                        // 原始语种自动识别
-                        if (source == LangEnum.auto)
-                        {
-                            var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ??
-                                             LangDetectType.Local;
-                            identify = await LangDetectHelper.DetectAsync(InputContent, detectType, cancellationToken);
-                            IdentifyLanguage = identify.GetDescription();
-                        }
-                    }
-
-
-                    //如果是自动则获取自动识别后的目标语种
-                    if (target == LangEnum.auto)
-                        //目标语言
-                        //1. 识别语种为中文系则目标语言为英文
-                        //2. 识别语种为自动或其他语系则目标语言为中文
-                        target = identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue
-                            ? LangEnum.en
-                            : LangEnum.zh_cn;
-
-                    //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
-                    if (service is ITranslatorLlm)
-                    {
-                        //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                        //Auto则转换为识别语种
-                        source = source == LangEnum.auto ? identify : source;
-                        await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
-                    }
-                    else
-                    {
-                        await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
-                    }
-
-                    copy:
-                    //翻译后复制结果
-                    var currentServiceIndex = services.IndexOf(service) + 1;
-                    if (currentServiceIndex == copyIndex)
-                        CommonUtil.InvokeOnUIThread(() =>
-                            Singleton<OutputViewModel>.Instance.HotkeyCopyCommand.Execute(copyIndex.ToString()));
-                }
-                catch (TaskCanceledException ex)
-                {
-                    HandleTranslationException(service, "请求取消", ex, cancellationToken);
-                }
-                catch (HttpRequestException ex)
-                {
-                    HandleTranslationException(service, "请求出错", ex, cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    HandleTranslationException(service, "翻译出错", ex, cancellationToken);
-                }
-                finally
-                {
-                    if (service.IsExecuting) service.IsExecuting = false;
-                }
+                await TranslateServiceHandlerAsync(services, service, translatorCacheList, source, target, _userSelectedLang, InputContent, cancellationToken, copyIndex);
             }
         );
-
         return history;
+    }
+    private async Task TranslateServiceHandlerAsync(List<ITranslator> services, ITranslator service,
+        List<ITranslator>? translatorList, LangEnum source, LangEnum target, LangEnum? userSelectedLang,
+        string inputContent, CancellationToken cancellationToken, int copyIndex)
+    {
+        try
+        {
+            service.IsExecuting = true;
+            if (translatorList != null)
+            {
+                UpdateServiceDataFromCache(service, translatorList);
+                goto copy;
+            }
+
+            var identify = LangEnum.auto;
+            if (userSelectedLang != null)
+            {
+                identify = (LangEnum)userSelectedLang;
+            }
+            else
+            {
+                if (source == LangEnum.auto)
+                {
+                    var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
+                    identify = await LangDetectHelper.DetectAsync(inputContent, detectType, cancellationToken);
+                    IdentifyLanguage = identify.GetDescription();
+                }
+            }
+
+            if (target == LangEnum.auto)
+                target = identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue
+                    ? LangEnum.en
+                    : LangEnum.zh_cn;
+
+            if (service is ITranslatorLlm)
+            {
+                source = source == LangEnum.auto ? identify : source;
+                await StreamHandlerAsync(service, inputContent, source, target, cancellationToken);
+            }
+            else
+            {
+                await NonStreamHandlerAsync(service, inputContent, source, target, cancellationToken);
+            }
+
+            copy:
+            var currentServiceIndex = services.IndexOf(service) + 1;
+            if (currentServiceIndex == copyIndex)
+                CommonUtil.InvokeOnUIThread(() =>
+                    Singleton<OutputViewModel>.Instance.HotkeyCopyCommand.Execute(copyIndex.ToString()));
+        }
+        catch (TaskCanceledException ex)
+        {
+            HandleTranslationException(service, "请求取消", ex, cancellationToken);
+        }
+        catch (HttpRequestException ex)
+        {
+            HandleTranslationException(service, "请求出错", ex, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            HandleTranslationException(service, "翻译出错", ex, cancellationToken);
+        }
+        finally
+        {
+            if (service.IsExecuting) service.IsExecuting = false;
+        }
+    }
+    private void UpdateServiceDataFromCache(ITranslator service, List<ITranslator>? translatorList)
+    {
+        var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
+        if (cachedTranslator != null)
+        {
+            service.Data = cachedTranslator.Data ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
+        }
+        else
+        {
+            service.Data = TranslationResult.Fail("未找到缓存数据");
+        }
     }
 
     private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception,
@@ -260,7 +250,7 @@ public partial class InputViewModel : ObservableObject
                 $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
         else
             LogService.Logger.Error(
-                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}", exception);
     }
 
     /// <summary>
