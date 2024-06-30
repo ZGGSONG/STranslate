@@ -109,6 +109,10 @@
                         <TextBlock Style="{StaticResource Text_Style}" Text="翻译服务" />
                     </menu:Btn>
 
+                    <menu:Btn Command="{Binding ReplacePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Replace}" Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="替换翻译" />
+                    </menu:Btn>
+
                     <menu:Btn Command="{Binding OCRPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=OCR}" Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="OCR服务" />
                     </menu:Btn>

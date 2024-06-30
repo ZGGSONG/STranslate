@@ -14,6 +14,10 @@
         <view:TranslatorPage/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:ReplaceViewModel}">
+        <view:ReplacePage/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:OCRScvViewModel}">
         <view:OCRPage/>
     </DataTemplate>

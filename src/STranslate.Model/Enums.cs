@@ -490,12 +490,13 @@ namespace STranslate.Model
         Common,
         Hotkey,
         Service,
+        Replace,
         OCR,
         TTS,
         Favorite,
         History,
         Backup,
-        About
+        About,
     }
 
     /// <summary>

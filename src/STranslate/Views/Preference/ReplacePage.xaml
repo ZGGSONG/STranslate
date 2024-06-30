@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="STranslate.Views.Preference.ReplacePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="STranslate.Views.Preference"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+             d:DataContext="{d:DesignInstance Type=vm:ReplaceViewModel}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             d:FontFamily="{DynamicResource UserFont}"
+             d:FontSize="{DynamicResource FontSize_Content}"
+             Style="{StaticResource ResourceKey=Page_Style}"
+             mc:Ignorable="d">
+    <Border CornerRadius="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical">
+
+                <!-- // TODO:  // -->
+                <!--<Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
+                    <StackPanel Orientation="Vertical">
+                        <DockPanel Margin="20,10">
+                            <TextBlock Text="显示设置图标" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
+                            <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowPreference}" />
+                        </DockPanel>
+                    </StackPanel>
+                </Border>-->
+            </StackPanel>
+
+
+            <Grid Grid.Row="1" Margin="20,0">
+                <Button Width="60"
+                        Margin="0,0,76,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding ResetCommand}"
+                        Content="撤销" />
+                <Button Width="60"
+                        Padding="3"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveCommand}"
+                        Content="保存" />
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>
