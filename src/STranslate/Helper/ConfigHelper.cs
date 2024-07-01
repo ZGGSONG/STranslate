@@ -337,7 +337,7 @@ public class ConfigHelper
         try
         {
             var settings = new JsonSerializerSettings
-                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
+                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() } };
             var content = File.ReadAllText(configPath);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                          throw new Exception("反序列化失败...");
@@ -360,14 +360,14 @@ public class ConfigHelper
         try
         {
             var settings = new JsonSerializerSettings
-                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter() } };
+                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() } };
             var content = File.ReadAllText(ConstStr.CnfFullName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                          throw new Exception("反序列化失败...");
             Decryption(config);
             return config;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // 备份当前config
             BackupCurrentConfig();
@@ -729,6 +729,37 @@ public class TTSConverter : JsonConverter<ITTS>
     }
 
     public override void WriteJson(JsonWriter writer, ITTS? value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class ReplaceConverter : JsonConverter<ReplaceProp>
+{
+    public override ReplaceProp? ReadJson(JsonReader reader, Type objectType, ReplaceProp? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var jsonObject = JObject.Load(reader);
+        var rate = jsonObject["AutoScale"]!.Value<double>();
+        var detectType = jsonObject["DetectType"]!.Value<int>();
+        var targetLang = jsonObject["TargetLang"]!.Value<int>();
+        var model = new ReplaceProp
+        {
+            //ActiveService = ,
+            AutoScale = rate,
+            DetectType = (LangDetectType)detectType,
+            TargetLang = (LangEnum)targetLang,
+        };
+
+        var obj = jsonObject["ActiveService"]!.Value<object>();
+        if (obj is not null)
+        {
+            var service = JsonConvert.DeserializeObject<ITranslator>(obj.ToString(), new JsonSerializerSettings { Converters = { new TranslatorConverter() } });
+            model.ActiveService = service;
+        }
+        return model;
+    }
+
+    public override void WriteJson(JsonWriter writer, ReplaceProp? value, JsonSerializer serializer)
     {
         throw new NotImplementedException();
     }
