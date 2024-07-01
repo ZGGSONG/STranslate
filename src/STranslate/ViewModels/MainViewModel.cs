@@ -23,6 +23,7 @@ public partial class MainViewModel : ObservableObject
     public CommonViewModel CommonSettingVM => Singleton<CommonViewModel>.Instance;
     public OCRScvViewModel OCRVM => Singleton<OCRScvViewModel>.Instance;
     public TTSViewModel TTSVM => Singleton<TTSViewModel>.Instance;
+    public ReplaceViewModel ReplaceVm => Singleton<ReplaceViewModel>.Instance;
 
     private ConfigModel? Config => Singleton<ConfigHelper>.Instance.CurrentConfig;
 
@@ -122,6 +123,7 @@ public partial class MainViewModel : ObservableObject
         SourceLang = Config?.SourceLang ?? LangEnum.auto;
         TargetLang = Config?.TargetLang ?? LangEnum.auto;
         IsEnableIncrementalTranslation = (Config?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        _ = ReplaceVm.ReplaceProp.ActiveService;//激活ReplaceVm
         _isInitial = false;
     }
 

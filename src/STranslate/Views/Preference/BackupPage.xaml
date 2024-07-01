@@ -23,6 +23,7 @@
                         <TextBlock Text="备份方式" />
                         <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="请选择备份方式" />
                         <ComboBox Height="30"
+                                  BorderThickness="1"
                                   HorizontalAlignment="Right"
                                   DisplayMemberPath="Description"
                                   ItemsSource="{Binding Source={common:Enumeration {x:Type model:BackupType}}}"

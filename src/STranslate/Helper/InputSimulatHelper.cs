@@ -23,7 +23,7 @@ public class InputSimulatHelper
 
     public static void Backspace(int count = 1)
     {
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
             InputSimulator.Keyboard.KeyPress(VirtualKeyCode.BACK);
     }
 }

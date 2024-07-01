@@ -76,7 +76,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             if (sourceLang == LangEnum.auto)
             {
                 var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
-                identify = await LangDetectHelper.DetectAsync(content, detectType, token);
+                var rate = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
+                identify = await LangDetectHelper.DetectAsync(content, detectType, rate, token);
             }
 
             //如果是自动则获取自动识别后的目标语种

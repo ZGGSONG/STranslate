@@ -277,6 +277,18 @@ public class ConfigHelper
         return isSuccess;
     }
 
+    public bool WriteConfig(ReplaceViewModel model)
+    {
+        var isSuccess = false;
+        if (CurrentConfig is null)
+            return isSuccess;
+
+        CurrentConfig.ReplaceProp = model.ReplaceProp;
+
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
+        return isSuccess;
+    }
 
     /// <summary>
     ///     写入备份到配置
@@ -421,6 +433,12 @@ public class ConfigHelper
                 tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesEncrypt(tts.AppID);
                 tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesEncrypt(tts.AppKey);
             });
+
+        // Replace属性加密
+        var rp = conf.ReplaceProp.ActiveService;
+        if (rp is null) return;
+        rp.AppID = string.IsNullOrEmpty(rp.AppID) ? rp.AppID : DESUtil.DesEncrypt(rp.AppID);
+        rp.AppKey = string.IsNullOrEmpty(rp.AppKey) ? rp.AppKey : DESUtil.DesEncrypt(rp.AppKey);
     }
 
     /// <summary>
@@ -458,6 +476,10 @@ public class ConfigHelper
                 tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
                 tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
             });
+        var rp = conf.ReplaceProp.ActiveService;
+        if (rp is null) return;
+        rp.AppID = string.IsNullOrEmpty(rp.AppID) ? rp.AppID : DESUtil.DesDecrypt(rp.AppID);
+        rp.AppKey = string.IsNullOrEmpty(rp.AppKey) ? rp.AppKey : DESUtil.DesDecrypt(rp.AppKey);
     }
 
     // 初始化自启动
@@ -638,6 +660,7 @@ public class ConfigHelper
             IsShowSnakeCopyBtn = false,
             IsShowSmallHumpCopyBtn = false,
             IsShowLargeHumpCopyBtn = false,
+            ReplaceProp = new ReplaceProp(),
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),

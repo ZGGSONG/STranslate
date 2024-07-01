@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Win32;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -20,60 +21,61 @@ namespace STranslate.ViewModels;
 
 public partial class NotifyIconViewModel : ObservableObject
 {
-    /// <summary>
-    /// 屏蔽快捷键事件
-    /// </summary>
-    public event Action<Window, bool>? OnForbiddenShortcuts;
+    private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
 
-    /// <summary>
-    /// 监听鼠标划词事件
-    /// </summary>
-    public event Action<Window>? OnMousehook;
-
-    /// <summary>
-    /// 退出事件
-    /// </summary>
-    public event Action? OnExit;
-
-    /// <summary>
-    /// Toast通知事件
-    /// </summary>
-    public event Action<string>? OnShowBalloonTip;
-
-    /// <summary>
-    /// 图标、提示
-    /// </summary>
-    public NotifyIconModel NIModel { get; } = new();
-
-    [ObservableProperty]
-    private bool _isMousehook = false;
-
-    [ObservableProperty]
-    private bool _isForbiddenShortcuts = false;
-
-    [ObservableProperty]
-    private bool _isClipboardMonitor = false;
-
-    [ObservableProperty]
-    private string _isEnabledClipboardMonitor = ConstStr.TAGFALSE;
+    private readonly InputViewModel _inputViewModel = Singleton<InputViewModel>.Instance;
 
     private ClipboardHelper? _clipboardHelper;
 
-    [ObservableProperty]
-    private bool _isScreenshotExecuting = false;
+    [ObservableProperty] private bool _isClipboardMonitor;
 
-    private readonly InputViewModel _inputViewModel = Singleton<InputViewModel>.Instance;
-    private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
+    [ObservableProperty] private string _isEnabledClipboardMonitor = ConstStr.TAGFALSE;
+
+    [ObservableProperty] private bool _isForbiddenShortcuts;
+
+    [ObservableProperty] private bool _isMousehook;
+
+    [ObservableProperty] private bool _isScreenshotExecuting;
 
     public NotifyIconViewModel()
     {
         UpdateToolTip();
-        Microsoft.Win32.SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
+        SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
         WeakReferenceMessenger.Default.Register<ExternalCallMessenger>(this, (o, e) => ExternalCallHandler(e));
     }
 
     /// <summary>
-    /// 外部调用注册
+    ///     图标、提示
+    /// </summary>
+    public NotifyIconModel NIModel { get; } = new();
+
+    /// <summary>
+    ///     是否可以调用截图View
+    /// </summary>
+    public bool CanOpenScreenshot { get; set; } = true;
+
+    /// <summary>
+    ///     屏蔽快捷键事件
+    /// </summary>
+    public event Action<Window, bool>? OnForbiddenShortcuts;
+
+    /// <summary>
+    ///     监听鼠标划词事件
+    /// </summary>
+    public event Action<Window>? OnMousehook;
+
+    /// <summary>
+    ///     退出事件
+    /// </summary>
+    public event Action? OnExit;
+
+    /// <summary>
+    ///     Toast通知事件
+    /// </summary>
+    public event Action<string>? OnShowBalloonTip;
+
+    /// <summary>
+    ///     外部调用注册
     /// </summary>
     /// <param name="e"></param>
     private void ExternalCallHandler(ExternalCallMessenger e)
@@ -85,13 +87,9 @@ public partial class NotifyIconViewModel : ObservableObject
                 (view, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
-                    {
                         InputTranslate(view);
-                    }
                     else
-                    {
                         TranslateHandler(view, content);
-                    }
                 }
             },
             {
@@ -99,13 +97,9 @@ public partial class NotifyIconViewModel : ObservableObject
                 (view, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
-                    {
                         InputTranslate(view);
-                    }
                     else
-                    {
                         TranslateHandler(view, content, true); //表示对象非空，强制翻译
-                    }
                 }
             },
             { ExternalCallAction.translate_input, (view, _) => InputTranslate(view) },
@@ -143,10 +137,7 @@ public partial class NotifyIconViewModel : ObservableObject
                     else
                     {
                         var bitmap = BitmapUtil.ReadImageFile(content);
-                        if (bitmap != null)
-                        {
-                            await SilentOCRCallback(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
-                        }
+                        if (bitmap != null) await SilentOCRCallback(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
                     }
                 }
             },
@@ -163,25 +154,22 @@ public partial class NotifyIconViewModel : ObservableObject
             { ExternalCallAction.open_window, (view, _) => OpenMainWindow(view) },
             { ExternalCallAction.open_preference, (_, _) => OpenPreference() },
             { ExternalCallAction.open_history, (_, _) => OpenHistory() },
-            { ExternalCallAction.forbiddenhotkey, (view, _) => ForbiddenShortcuts(view) },
+            { ExternalCallAction.forbiddenhotkey, (view, _) => ForbiddenShortcuts(view) }
         };
 
         CommonUtil.InvokeOnUIThread(() =>
         {
             var view = Application.Current.Windows.OfType<MainView>().First();
 
-            if (actions.TryGetValue(e.ECAction, out var handler))
-            {
-                handler?.Invoke(view, e.Content);
-            }
+            if (actions.TryGetValue(e.ECAction, out var handler)) handler?.Invoke(view, e.Content);
         });
     }
 
     public void UpdateToolTip(string msg = "")
     {
-        bool isAdmin = CommonUtil.IsUserAdministrator();
+        var isAdmin = CommonUtil.IsUserAdministrator();
 
-        string toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
+        var toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
 
         NIModel.ToolTip = string.Format(toolTipFormat, ConstStr.AppVersion, msg);
     }
@@ -222,9 +210,6 @@ public partial class NotifyIconViewModel : ObservableObject
             case DoubleTapFuncEnum.ExitFunc:
                 ExitCommand.Execute(null);
                 break;
-
-            default:
-                break;
         }
     }
 
@@ -241,7 +226,7 @@ public partial class NotifyIconViewModel : ObservableObject
     [RelayCommand]
     private void CrossWordTranslate(Window view)
     {
-        if (!TryGetWord(out string? content) || content == null) return;
+        if (!TryGetWord(out var content) || content == null) return;
 
         //取词前移除换行
         if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
@@ -287,15 +272,9 @@ public partial class NotifyIconViewModel : ObservableObject
         if (!CanOpenScreenshot)
             return;
 
-        if (obj is null)
-        {
-            goto Last;
-        }
+        if (obj is null) goto Last;
 
-        if (obj.Equals("header"))
-        {
-            HideMainView();
-        }
+        if (obj.Equals("header")) HideMainView();
 
         Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
 
@@ -310,8 +289,8 @@ public partial class NotifyIconViewModel : ObservableObject
         ScreenshotView view = new();
         ShowAndActive(view);
 
-        view.BitmapCallback += (tuple => QRCodeCallback(tuple.Item1));
-        view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+        view.BitmapCallback += tuple => QRCodeCallback(tuple.Item1);
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
         view.InvokeCanOpen();
     }
 
@@ -324,7 +303,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
 
         //显示OCR窗口
-        OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
+        var view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
         view ??= new OCRView();
         ShowAndActive(view);
 
@@ -342,15 +321,9 @@ public partial class NotifyIconViewModel : ObservableObject
         if (!CanOpenScreenshot)
             return;
 
-        if (obj == null)
-        {
-            goto Last;
-        }
+        if (obj == null) goto Last;
 
-        if (obj.Equals("header"))
-        {
-            HideMainView();
-        }
+        if (obj.Equals("header")) HideMainView();
 
         Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
 
@@ -366,7 +339,7 @@ public partial class NotifyIconViewModel : ObservableObject
         ShowAndActive(view);
 
         view.BitmapCallback += async tuple => await OCRCallback(tuple.Item1);
-        view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
         view.InvokeCanOpen();
     }
 
@@ -379,7 +352,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
 
         //显示OCR窗口
-        OCRView? view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
+        var view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
         view ??= new OCRView();
         ShowAndActive(view);
 
@@ -398,15 +371,9 @@ public partial class NotifyIconViewModel : ObservableObject
         if (!CanOpenScreenshot)
             return;
 
-        if (obj == null)
-        {
-            goto Last;
-        }
+        if (obj == null) goto Last;
 
-        if (obj.Equals("header"))
-        {
-            HideMainView();
-        }
+        if (obj.Equals("header")) HideMainView();
 
         Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
 
@@ -422,7 +389,7 @@ public partial class NotifyIconViewModel : ObservableObject
         ShowAndActive(view);
 
         view.BitmapCallback += async tuple => await SilentOCRCallback(tuple);
-        view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
         view.InvokeCanOpen();
     }
 
@@ -430,27 +397,28 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         try
         {
-            string getText = "";
+            var getText = "";
             var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1);
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
             //判断结果
-            if (!ocrResult.Success)
-            {
-                throw new Exception(ocrResult.ErrorMsg);
-            }
+            if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
             getText = ocrResult.Text;
 
             //取词前移除换行
-            getText = _configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false ? StringUtil.RemoveLineBreaks(getText) : getText;
+            getText = _configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false
+                ? StringUtil.RemoveLineBreaks(getText)
+                : getText;
 
             //写入剪贴板
             ClipboardHelper.Copy(getText);
 
-            await Task.Run(() => CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3).Show()));
+            await Task.Run(() =>
+                CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3).Show()));
         }
         catch (Exception ex)
         {
-            await Task.Run(() => CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
+            await Task.Run(() =>
+                CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
             LogService.Logger.Error("静默OCR失败", ex);
         }
     }
@@ -470,7 +438,8 @@ public partial class NotifyIconViewModel : ObservableObject
                 break;
         }
 
-        await Task.Delay(200, token).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
+        await Task.Delay(200, token)
+            .ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
         return;
 
         Last:
@@ -482,7 +451,7 @@ public partial class NotifyIconViewModel : ObservableObject
         ScreenshotView view = new();
         ShowAndActive(view);
         view.BitmapCallback += async tuple => await ScreenshotCallback(tuple.Item1, token);
-        view.OnViewVisibilityChanged += (o) => CanOpenScreenshot = o;
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
         view.InvokeCanOpen();
     }
 
@@ -519,23 +488,18 @@ public partial class NotifyIconViewModel : ObservableObject
         {
             // 显示水印的情况下，如果输入框为空则填充一个空格，以显示动画避免与水印重叠
             if ((_configHelper.CurrentConfig?.IsShowMainPlaceholder ?? true) && _inputViewModel.InputContent == "")
-            {
                 _inputViewModel.InputContent = " ";
-            }
             IsScreenshotExecuting = true;
             var getText = "";
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token);
             //判断结果
-            if (!ocrResult.Success)
-            {
-                throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
-            }
+            if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;
             //取词前移除换行
-            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false && !string.IsNullOrEmpty(getText))
+            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? (false && !string.IsNullOrEmpty(getText)))
                 getText = StringUtil.RemoveLineBreaks(getText);
             //OCR后自动复制
-            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false && !string.IsNullOrEmpty(getText))
+            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? (false && !string.IsNullOrEmpty(getText)))
                 ClipboardHelper.Copy(getText);
             // 如果仅有空格则移除
             if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
@@ -558,27 +522,20 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 是否可以调用截图View
-    /// </summary>
-    public bool CanOpenScreenshot { get; set; } = true;
-
-    /// <summary>
-    /// 隐藏主窗口
+    ///     隐藏主窗口
     /// </summary>
     internal void HideMainView()
     {
         var view = Application.Current.Windows.OfType<MainView>().First();
         // 判断是否置顶，置顶的话则不隐藏
-        if (!view.Topmost)
-        {
-            AnimationHelper.MainViewAnimation(false);
-        }
+        if (!view.Topmost) AnimationHelper.MainViewAnimation(false);
     }
 
     [RelayCommand]
     private void OpenMainWindow(Window view)
     {
-        if ((_configHelper.CurrentConfig?.IsTriggerShowHide ?? false) && WindowHelper.IsWindowVisible(view) && WindowHelper.IsWindowInForeground(view))
+        if ((_configHelper.CurrentConfig?.IsTriggerShowHide ?? false) && WindowHelper.IsWindowVisible(view) &&
+            WindowHelper.IsWindowInForeground(view))
             HideMainView();
         else
             ShowAndActive(view);
@@ -610,13 +567,9 @@ public partial class NotifyIconViewModel : ObservableObject
         SpecialWindowActiveHandler(view);
 
         if (view is MainView)
-        {
             AnimationHelper.MainViewAnimation();
-        }
         else
-        {
             view.Show();
-        }
         view.Activate();
         WindowHelper.SetWindowInForeground(view);
 
@@ -648,7 +601,7 @@ public partial class NotifyIconViewModel : ObservableObject
     [RelayCommand]
     private void OpenHistory()
     {
-        PreferenceView? view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+        var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
         view ??= new PreferenceView();
         view.UpdateNavigation(PerferenceType.History);
 
@@ -689,13 +642,13 @@ public partial class NotifyIconViewModel : ObservableObject
         {
             _clipboardHelper ??= new ClipboardHelper();
             // 开始监听剪贴板变化
-            if (_clipboardHelper.Start(out string error))
+            if (_clipboardHelper.Start(out var error))
             {
                 // 清除热键复制标记
                 Singleton<MainViewModel>
                     .Instance
                     .IsHotkeyCopy = false;
-                _clipboardHelper.OnClipboardChanged += (c) => ClipboardChanged(c, view);
+                _clipboardHelper.OnClipboardChanged += c => ClipboardChanged(c, view);
 
                 ShowBalloonTip("已启用监听剪贴板");
             }
@@ -706,11 +659,11 @@ public partial class NotifyIconViewModel : ObservableObject
         }
         else
         {
-            if (_clipboardHelper == null)
-                return;
-            else if (_clipboardHelper.Stop(out string error))
+            if (_clipboardHelper == null) return;
+
+            if (_clipboardHelper.Stop(out var error))
             {
-                _clipboardHelper.OnClipboardChanged -= (c) => ClipboardChanged(c, view);
+                _clipboardHelper.OnClipboardChanged -= c => ClipboardChanged(c, view);
                 _clipboardHelper = null;
                 ShowBalloonTip("已关闭监听剪贴板");
             }
@@ -724,11 +677,12 @@ public partial class NotifyIconViewModel : ObservableObject
     private void ClipboardChanged(string content, Window view)
     {
         //热键复制时略过
-        if (Singleton<MainViewModel>.Instance.IsHotkeyCopy == true)
+        if (Singleton<MainViewModel>.Instance.IsHotkeyCopy)
         {
             Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
             return;
         }
+
         //取词前移除换行
         if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
             content = StringUtil.RemoveLineBreaks(content);
@@ -754,49 +708,12 @@ public partial class NotifyIconViewModel : ObservableObject
         _inputViewModel.TranslateCommand.Execute(null);
     }
 
-    private int count = 0;
     [RelayCommand]
     private async Task ReplaceTranslateAsync(Window view)
     {
-        if (!TryGetWord(out string? content) || content == null) return;
-
-        async Task EndAsync()
-        {
-            InputSimulatHelper.PrintText("✅");
-            await Task.Delay(300);
-            InputSimulatHelper.Backspace();
-        }
-
-        var req = new RequestModel(content, LangEnum.auto, LangEnum.en);
-        var ret = TranslationResult.Reset;
-        try
-        {
-            count++;
-            var list = Singleton<TranslatorViewModel>.Instance.CurTransServiceList;
-            var service = count % 2 == 0 ? list.First(x => x.IsEnabled) : list.Last(x => x.IsEnabled);
-            ShowBalloonTip(service.Name);
-            if (service is ITranslatorLlm)
-            {
-                await service.TranslateAsync(req, InputSimulatHelper.PrintText, CancellationToken.None);
-                await EndAsync();
-            }
-            else
-            {
-                ret = await service.TranslateAsync(req, CancellationToken.None);
-
-                if (!ret.IsSuccess)
-                {
-                    throw new Exception(ret.Result?.ToString());
-                }
-                InputSimulatHelper.PrintText(ret.Result);
-                await EndAsync();
-            }
-        }
-        catch (Exception ex)
-        {
-            LogService.Logger.Warn(ex.Message);
-            return;
-        }
+        if (!TryGetWord(out var content) || content == null) return;
+        //TODO: 取消
+        await Singleton<ReplaceViewModel>.Instance.ExecuteAsync(content, CancellationToken.None);
     }
 
     internal bool TryGetWord(out string? content)
@@ -817,6 +734,7 @@ public partial class NotifyIconViewModel : ObservableObject
             content = null;
             return false;
         }
+
         return true;
     }
 
@@ -825,13 +743,12 @@ public partial class NotifyIconViewModel : ObservableObject
         //写入配置
         var vm = Singleton<MainViewModel>.Instance;
         if (!_configHelper.WriteConfig(vm.SourceLang, vm.TargetLang))
-        {
-            LogService.Logger.Warn($"保存源语言({vm.SourceLang.GetDescription()})、目标语言({vm.TargetLang.GetDescription()})配置失败...");
-        }
+            LogService.Logger.Warn(
+                $"保存源语言({vm.SourceLang.GetDescription()})、目标语言({vm.TargetLang.GetDescription()})配置失败...");
     }
 
     /// <summary>
-    /// 系统显示变化
+    ///     系统显示变化
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -841,15 +758,18 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 托盘程序BallonTip消息入口
+    ///     托盘程序BallonTip消息入口
     /// </summary>
     /// <param name="msg"></param>
-    public void ShowBalloonTip(string msg) => OnShowBalloonTip?.Invoke(msg);
+    public void ShowBalloonTip(string msg)
+    {
+        OnShowBalloonTip?.Invoke(msg);
+    }
 
     [RelayCommand]
     private void Exit()
     {
-        Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= DisplaySettingsChanged;
+        SystemEvents.DisplaySettingsChanged -= DisplaySettingsChanged;
 
         OnExit?.Invoke();
 
@@ -859,7 +779,7 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 跟随鼠标处理
+    ///     跟随鼠标处理
     /// </summary>
     /// <param name="view"></param>
     /// <returns></returns>
@@ -872,37 +792,26 @@ public partial class NotifyIconViewModel : ObservableObject
         var top = position.Y;
 
         //保持页面在屏幕上方三分之一处
-        if ((top - bounds.Top) * 3 > bounds.Height)
-        {
-            top = bounds.Height / 3 + bounds.Top;
-        }
+        if ((top - bounds.Top) * 3 > bounds.Height) top = bounds.Height / 3 + bounds.Top;
 
         //如果当前高度不足以容纳最大高度的内容，则使用最大高度为窗口Top值
-        if (bounds.Height - top + bounds.Top < view.MaxHeight)
-        {
-            top = bounds.Height - view.MaxHeight + bounds.Top - 48;
-        }
+        if (bounds.Height - top + bounds.Top < view.MaxHeight) top = bounds.Height - view.MaxHeight + bounds.Top - 48;
 
         //右侧不超出当前屏幕区域
-        if (left + view.Width > (bounds.Left + bounds.Width))
-        {
-            left = bounds.Left + bounds.Width - view.Width;
-        }
+        if (left + view.Width > bounds.Left + bounds.Width) left = bounds.Left + bounds.Width - view.Width;
         return new Tuple<double, double>(left, top);
     }
 
     /// <summary>
-    /// 特定情况下窗口无法激活的问题
-    /// 1. 主窗口非置顶并且设置页面已经存在时激活设置页面
-    /// 2. 设置页面最小化再激活
+    ///     特定情况下窗口无法激活的问题
+    ///     1. 主窗口非置顶并且设置页面已经存在时激活设置页面
+    ///     2. 设置页面最小化再激活
     /// </summary>
     /// <param name="view"></param>
     private void SpecialWindowActiveHandler(Window view)
     {
         if (view.WindowState == WindowState.Minimized)
-        {
             view.WindowState = WindowState.Normal; // Restore the window if it was minimized.
-        }
         if (!view.Topmost) // Ensure the window is topmost if it's not already.
         {
             view.Topmost = true; // Temporarily make the window topmost.

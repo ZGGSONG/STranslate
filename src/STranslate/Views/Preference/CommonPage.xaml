@@ -41,7 +41,9 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="历史记录数量" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="历史记录最大数量设置" />
-                                <ComboBox Height="30" HorizontalAlignment="Right"
+                                <ComboBox Height="30"
+                                          BorderThickness="1"
+                                          HorizontalAlignment="Right"
                                           SelectedIndex="{Binding HistorySizeType}">
                                     <ComboBoxItem Content="50 条" />
                                     <ComboBoxItem Content="100 条" />
@@ -57,6 +59,7 @@
                                 <TextBlock Text="语种识别" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式" />
                                 <ComboBox Height="30"
+                                          BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           DisplayMemberPath="Description"
                                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
@@ -106,6 +109,7 @@
                                 <TextBlock Text="双击托盘功能" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标左键双击头盘程序功能选择" />
                                 <ComboBox Height="30"
+                                          BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           DisplayMemberPath="Description"
                                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:DoubleTapFuncEnum}}}"
@@ -168,6 +172,7 @@
                                 <TextBlock Text="代理设置" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置网络代理方式&#13;本地地址直连" />
                                 <ComboBox Height="30"
+                                          BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           DisplayMemberPath="Value"
                                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:ProxyMethodEnum}}}"
@@ -261,6 +266,7 @@
                                 <TextBlock Text="主题选择" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、自动主题切换" />
                                 <ComboBox Height="30"
+                                          BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           DisplayMemberPath="Description"
                                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:ThemeType}}}"
@@ -272,6 +278,7 @@
                                 <TextBlock Text="字体选择[立即生效]" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择系统中自带字体[立即生效]" />
                                 <ComboBox Height="30"
+                                          BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           ItemsSource="{Binding GetFontFamilys}"
                                           SelectedValue="{Binding CustomFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -531,7 +538,9 @@
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="翻译后复制结果" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行第几个翻译结果的复制操作" />
-                                <ComboBox Height="30" HorizontalAlignment="Right"
+                                <ComboBox Height="30"
+                                          BorderThickness="1"
+                                          HorizontalAlignment="Right"
                                           SelectedIndex="{Binding CopyResultAfterTranslateIndex}">
                                     <ComboBoxItem Content="无操作" />
                                     <ComboBoxItem Content="第一个" />

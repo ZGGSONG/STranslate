@@ -21,12 +21,13 @@ public class LangDetectHelper
     /// </summary>
     /// <param name="content"></param>
     /// <param name="type"></param>
+    /// <param name="rate"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public static async Task<LangEnum> DetectAsync(string content, LangDetectType type = LangDetectType.Local, CancellationToken? token = null) =>
+    public static async Task<LangEnum> DetectAsync(string content, LangDetectType type = LangDetectType.Local, double rate = 0.8, CancellationToken? token = null) =>
         type switch
         {
-            LangDetectType.Local => LocalLangDetect(content),
+            LangDetectType.Local => LocalLangDetect(content, rate),
             LangDetectType.Baidu => await BaiduLangDetectAsync(content, token),
             LangDetectType.Tencent => await TencentLangDetectAsync(content, token),
             LangDetectType.Niutrans => await NiutransLangDetectAsync(content, token),
@@ -41,10 +42,11 @@ public class LangDetectHelper
     /// 仅能识别中英文
     /// </summary>
     /// <param name="content"></param>
+    /// <param name="rate"></param>
     /// <returns></returns>
-    private static LangEnum LocalLangDetect(string content)
+    private static LangEnum LocalLangDetect(string content, double rate)
     {
-        var ret = StringUtil.AutomaticLanguageRecognition(content, Singleton<ConfigHelper>.Instance?.CurrentConfig?.AutoScale ?? 0.8);
+        var ret = StringUtil.AutomaticLanguageRecognition(content, rate);
         return ret.Item1;
     }
 

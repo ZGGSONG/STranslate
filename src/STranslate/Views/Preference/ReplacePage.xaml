@@ -2,9 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="STranslate.Views.Preference"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+             xmlns:commons="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              d:DataContext="{d:DesignInstance Type=vm:ReplaceViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -16,22 +17,75 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="60" />
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Vertical">
-
-                <!-- // TODO:  // -->
-                <!--<Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
+                <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
                     <StackPanel Orientation="Vertical">
+
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="显示设置图标" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
-                            <ToggleButton Height="26" HorizontalAlignment="Right"
-                                              IsChecked="{Binding IsShowPreference}" />
+                            <TextBlock Text="替换翻译服务" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择替换翻译服务" />
+                            <ComboBox Height="30"
+                                      BorderThickness="1"
+                                      HorizontalAlignment="Right"
+                                      DisplayMemberPath="Name"
+                                      ItemsSource="{Binding AllServices}"
+                                      SelectedItem="{Binding ReplaceProp.ActiveService, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+
+                        <DockPanel Margin="20,10">
+                            <TextBlock Text="目标语种" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译目标语种" />
+                            <ComboBox Height="30"
+                                      BorderThickness="1"
+                                      HorizontalAlignment="Right"
+                                      DisplayMemberPath="Description"
+                                      ItemsSource="{Binding Source={commons:Enumeration {x:Type model:LangEnum}}}"
+                                      SelectedValue="{Binding ReplaceProp.TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValuePath="Value" />
+                        </DockPanel>
+
+                        <DockPanel Margin="20,10"
+                                   Visibility="{Binding ReplaceProp.TargetLang, ConverterParameter=auto, Converter={StaticResource ParamEqualToVisibility}}">
+                            <TextBlock Text="语种识别" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式" />
+                            <ComboBox Height="30"
+                                      BorderThickness="1"
+                                      HorizontalAlignment="Right"
+                                      DisplayMemberPath="Description"
+                                      ItemsSource="{Binding Source={commons:Enumeration {x:Type model:LangDetectType}}}"
+                                      SelectedValue="{Binding ReplaceProp.DetectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValuePath="Value" />
+                        </DockPanel>
+
+                        <DockPanel Margin="20,10">
+                            <DockPanel.Visibility>
+                                <MultiBinding Converter="{StaticResource ReplaceMultiProp2VisibilityConverter}">
+                                    <Binding Path="ReplaceProp.DetectType" />
+                                    <Binding Path="ReplaceProp.TargetLang" />
+                                </MultiBinding>
+                            </DockPanel.Visibility>
+                            <TextBlock Text="语种识别比例(zh-en)" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                       ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
+                            <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Right" Orientation="Horizontal">
+                                <Slider Height="14"
+                                        MinWidth="160"
+                                        Margin="0,0,30,0"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="0.99"
+                                        Minimum="0.01"
+                                        TickFrequency="0.01"
+                                        TickPlacement="None"
+                                        Value="{Binding ReplaceProp.AutoScale}" />
+                                <TextBlock Width="65" Margin="10,0"
+                                           Text="{Binding ReplaceProp.AutoScale, StringFormat={}{0:P0}}" />
+                            </StackPanel>
                         </DockPanel>
                     </StackPanel>
-                </Border>-->
+                </Border>
             </StackPanel>
 
 

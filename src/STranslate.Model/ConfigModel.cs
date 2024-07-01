@@ -299,18 +299,23 @@ public class ConfigModel
     ///     主窗口阴影
     ///     * 比较损耗性能 实测多占用30MB内存
     /// </summary>
-    public bool MainViewShadow { get; set; } = false;
+    public bool MainViewShadow { get; set; }
 
     /// <summary>
     ///     输出界面是否显示Prompt切换
     /// </summary>
     public bool IsPromptToggleVisible { get; set; } = true;
 
-    public bool IsShowSnakeCopyBtn { get; set; } = false;
+    public bool IsShowSnakeCopyBtn { get; set; }
 
-    public bool IsShowSmallHumpCopyBtn { get; set; } = false;
+    public bool IsShowSmallHumpCopyBtn { get; set; }
 
-    public bool IsShowLargeHumpCopyBtn { get; set; } = false;
+    public bool IsShowLargeHumpCopyBtn { get; set; }
+
+    /// <summary>
+    ///     替换翻译
+    /// </summary>
+    public ReplaceProp ReplaceProp { get; set; } = new();
 
     /// <summary>
     ///     热键
@@ -402,6 +407,7 @@ public class ConfigModel
             IsShowSnakeCopyBtn = IsShowSnakeCopyBtn,
             IsShowSmallHumpCopyBtn = IsShowSmallHumpCopyBtn,
             IsShowLargeHumpCopyBtn = IsShowLargeHumpCopyBtn,
+            ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

@@ -404,6 +404,7 @@
 
                 <ComboBox MaxWidth="280"
                           Margin="10,0"
+                          BorderThickness="1"
                           DisplayMemberPath="Name"
                           FontSize="{DynamicResource FontSize_Content}"
                           ItemsSource="{Binding OcrScvVm.CurOCRServiceList}"
@@ -411,6 +412,7 @@
                 </ComboBox>
 
                 <ComboBox Margin="10,0"
+                          BorderThickness="1"
                           DisplayMemberPath="Description"
                           FontSize="{DynamicResource FontSize_Content}"
                           ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"

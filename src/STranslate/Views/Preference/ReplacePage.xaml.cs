@@ -4,7 +4,7 @@ using STranslate.ViewModels.Preference;
 
 namespace STranslate.Views.Preference;
 
-public partial class ReplacePage : UserControl
+public partial class ReplacePage
 {
     public ReplacePage()
     {

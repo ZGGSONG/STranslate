@@ -172,7 +172,8 @@ public partial class InputViewModel : ObservableObject
                 if (source == LangEnum.auto)
                 {
                     var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
-                    identify = await LangDetectHelper.DetectAsync(inputContent, detectType, cancellationToken);
+                    var rate = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
+                    identify = await LangDetectHelper.DetectAsync(inputContent, detectType, rate, cancellationToken);
                     IdentifyLanguage = identify.GetDescription();
                 }
             }
