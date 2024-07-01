@@ -46,7 +46,7 @@
         <Border Margin="8" Background="{DynamicResource BorderBackground}" CornerRadius="5">
             <StackPanel Margin="20">
                 <!-- // 输入翻译 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -65,7 +65,7 @@
                 </Grid>
 
                 <!-- // 划词翻译 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -84,7 +84,7 @@
                 </Grid>
 
                 <!-- // 截图翻译 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -102,8 +102,27 @@
                     <TextBlock Grid.Column="2" Visibility="{Binding ScreenshotHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
+                <!-- // 替换翻译 // -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="替换翻译" />
+                    <TextBox Grid.Column="1" Text="{Binding ReplaceHk.Content}">
+                        <i:Interaction.Behaviors>
+                            <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                                                             KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                                                             Keyup="{Binding KeyupCommand}"
+                                                             KeyupParam="{x:Static model:HotkeyEnum.ReplaceHk}" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                    <TextBlock Grid.Column="2" Visibility="{Binding ReplaceHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                </Grid>
+
                 <!-- // 显示界面 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -122,7 +141,7 @@
                 </Grid>
 
                 <!-- // 鼠标滑动 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -141,7 +160,7 @@
                 </Grid>
 
                 <!-- // 文字识别 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -160,7 +179,7 @@
                 </Grid>
 
                 <!-- // 静默OCR // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />
@@ -179,7 +198,7 @@
                 </Grid>
 
                 <!-- // 监听剪贴板 // -->
-                <Grid Margin="0,0,0,20">
+                <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="3*" />

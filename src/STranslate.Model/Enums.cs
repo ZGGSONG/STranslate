@@ -642,6 +642,7 @@ namespace STranslate.Model
         CrosswordHk,
         ScreenshotHk,
         OpenHk,
+        ReplaceHk,
         MousehookHk,
         OcrHk,
         SilentOcrHk,

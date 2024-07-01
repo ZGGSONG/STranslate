@@ -282,6 +282,8 @@ public partial class MainViewModel : ObservableObject
             msg += $"划词: {HotkeyHelper.Hotkeys.CrosswordTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.ScreenShotTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ScreenShotTranslate.Text))
             msg += $"截图: {HotkeyHelper.Hotkeys.ScreenShotTranslate.Text}\n";
+        if (!HotkeyHelper.Hotkeys.ReplaceTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ReplaceTranslate.Text))
+            msg += $"替换: {HotkeyHelper.Hotkeys.ReplaceTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.OpenMainWindow.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OpenMainWindow.Text))
             msg += $"显示: {HotkeyHelper.Hotkeys.OpenMainWindow.Text}\n";
         if (!HotkeyHelper.Hotkeys.MousehookTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.MousehookTranslate.Text))
