@@ -200,6 +200,7 @@ namespace STranslate.Helper
             if (Hotkeys!.InputTranslate.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, InputTranslateId);
+                Hotkeys.InputTranslate.Conflict = false;
             }
             else if (InputTranslateModifiers != Hotkeys!.InputTranslate.Modifiers || InputTranslateKey != Hotkeys!.InputTranslate.Key)
             {
@@ -219,6 +220,7 @@ namespace STranslate.Helper
             if (Hotkeys!.CrosswordTranslate.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, CrosswordTranslateId);
+                Hotkeys.CrosswordTranslate.Conflict = false;
             }
             else if (CrosswordTranslateModifiers != Hotkeys!.CrosswordTranslate.Modifiers || CrosswordTranslateKey != Hotkeys!.CrosswordTranslate.Key)
             {
@@ -238,6 +240,7 @@ namespace STranslate.Helper
             if (Hotkeys!.ScreenShotTranslate.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, ScreenShotTranslateId);
+                Hotkeys.ScreenShotTranslate.Conflict = false;
             }
             else if (ScreenShotTranslateModifiers != Hotkeys!.ScreenShotTranslate.Modifiers || ScreenShotTranslateKey != Hotkeys!.ScreenShotTranslate.Key)
             {
@@ -255,6 +258,7 @@ namespace STranslate.Helper
             if (Hotkeys!.OpenMainWindow.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, OpenMainWindowId);
+                Hotkeys.OpenMainWindow.Conflict = false;
             }
             else if (OpenMainWindowModifiers != Hotkeys!.OpenMainWindow.Modifiers || OpenMainWindowKey != Hotkeys!.OpenMainWindow.Key)
             {
@@ -272,6 +276,7 @@ namespace STranslate.Helper
             if (Hotkeys!.MousehookTranslate.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, MousehookTranslateId);
+                Hotkeys.MousehookTranslate.Conflict = false;
             }
             else if (MousehookTranslateModifiers != Hotkeys!.MousehookTranslate.Modifiers || MousehookTranslateKey != Hotkeys!.MousehookTranslate.Key)
             {
@@ -289,6 +294,7 @@ namespace STranslate.Helper
             if (Hotkeys!.OCR.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, OCRId);
+                Hotkeys.OCR.Conflict = false;
             }
             else if (OCRModifiers != Hotkeys!.OCR.Modifiers || OCRKey != Hotkeys!.OCR.Key)
             {
@@ -301,6 +307,7 @@ namespace STranslate.Helper
             if (Hotkeys!.SilentOCR.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, SilentOCRId);
+                Hotkeys.SilentOCR.Conflict = false;
             }
             else if (SilentOCRModifiers != Hotkeys!.SilentOCR.Modifiers || SilentOCRKey != Hotkeys!.SilentOCR.Key)
             {
@@ -313,6 +320,7 @@ namespace STranslate.Helper
             if (Hotkeys!.ClipboardMonitor.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, ClipboardMonitorId);
+                Hotkeys.ClipboardMonitor.Conflict = false;
             }
             else if (ClipboardMonitorModifiers != Hotkeys!.ClipboardMonitor.Modifiers || ClipboardMonitorKey != Hotkeys!.ClipboardMonitor.Key)
             {
@@ -325,6 +333,7 @@ namespace STranslate.Helper
             if (Hotkeys!.ReplaceTranslate.Key == 0)
             {
                 CommonUtil.UnregisterHotKey(MainIntPtr, ReplaceTranslateId);
+                Hotkeys.ReplaceTranslate.Conflict = false;
             }
             else if (ReplaceTranslateModifiers != Hotkeys!.ReplaceTranslate.Modifiers || ReplaceTranslateKey != Hotkeys!.ReplaceTranslate.Key)
             {

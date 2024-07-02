@@ -222,7 +222,7 @@ public partial class HotkeyViewModel : ObservableObject
         {
             _hotkeysKey = 0;
             shortcutText.Clear();
-            control.Text = _hotkeysText = "";
+            control.Text = _hotkeysText = shortcutText.ToString();
             return;
         }
 
