@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xaml;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -16,8 +15,8 @@ namespace STranslate.ViewModels.Preference;
 
 public partial class ReplaceViewModel : ObservableObject
 {
-    private readonly TranslatorViewModel _translateVm = Singleton<TranslatorViewModel>.Instance;
     private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
+    private readonly TranslatorViewModel _translateVm = Singleton<TranslatorViewModel>.Instance;
 
     public ReplaceViewModel()
     {
@@ -49,12 +48,10 @@ public partial class ReplaceViewModel : ObservableObject
 
         // Determine target language
         var targetLang = ReplaceProp.TargetLang;
-        if (targetLang == LangEnum.auto)
-        {
-            targetLang = await DetectLanguageAsync(content, token);
-        }
+        if (targetLang == LangEnum.auto) targetLang = await DetectLanguageAsync(content, token);
 
-        LogService.Logger.Debug($"<Begin> Replace Execute\tcontent: [{content}]\ttarget: [{targetLang.GetDescription()}]");
+        LogService.Logger.Debug(
+            $"<Begin> Replace Execute\tcontent: [{content}]\ttarget: [{targetLang.GetDescription()}]");
 
         // Perform translation
         var req = new RequestModel(content, LangEnum.auto, targetLang);
@@ -66,13 +63,9 @@ public partial class ReplaceViewModel : ObservableObject
             InputSimulatHelper.PrintText(translating);
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
-            {
                 await TranslateLlmAsync(req, transLength, token);
-            }
             else
-            {
                 await TranslateRegularAsync(req, transLength, token);
-            }
 
             await SuccessAsync(token);
         }
@@ -91,7 +84,8 @@ public partial class ReplaceViewModel : ObservableObject
 
     private async Task<LangEnum> DetectLanguageAsync(string content, CancellationToken token)
     {
-        var identify = await LangDetectHelper.DetectAsync(content, ReplaceProp.DetectType, ReplaceProp.AutoScale, token);
+        var identify =
+            await LangDetectHelper.DetectAsync(content, ReplaceProp.DetectType, ReplaceProp.AutoScale, token);
         return identify is LangEnum.zh_cn or LangEnum.zh_tw ? LangEnum.en : LangEnum.zh_cn;
     }
 
@@ -165,6 +159,7 @@ public partial class ReplaceViewModel : ObservableObject
     [ObservableProperty] private BindingList<ITranslator> _allServices;
 
     [ObservableProperty] private ReplaceProp _replaceProp;
+
     #endregion
 
     #region Command
