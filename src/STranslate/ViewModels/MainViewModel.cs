@@ -17,6 +17,48 @@ namespace STranslate.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty] private bool _isDebug;
+
+    [ObservableProperty] private string _isEnableIncrementalTranslation = ConstStr.TAGFALSE;
+
+    [ObservableProperty] private string _isEnableMosehook = ConstStr.TAGFALSE;
+
+    /// <summary>
+    ///     是否为重置状态
+    /// </summary>
+    private bool _isInitial;
+
+    [ObservableProperty] private bool _isOnlyShowRet;
+
+    [ObservableProperty] private string _isTopMost = ConstStr.TAGFALSE;
+
+    /// <summary>
+    ///     原始语言
+    /// </summary>
+    private LangEnum _sourceLang;
+
+    /// <summary>
+    ///     目标语言
+    /// </summary>
+    private LangEnum _targetLang;
+
+    [ObservableProperty] private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
+
+    public bool IsHotkeyCopy = false;
+
+    public MainViewModel()
+    {
+#if DEBUG
+        IsDebug = true;
+#else
+        IsDebug = false;
+#endif
+
+        SqlHelper.InitializeDB();
+
+        Reset();
+    }
+
     public InputViewModel InputVM => Singleton<InputViewModel>.Instance;
     public OutputViewModel OutputVM => Singleton<OutputViewModel>.Instance;
     public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
@@ -26,11 +68,6 @@ public partial class MainViewModel : ObservableObject
     public ReplaceViewModel ReplaceVm => Singleton<ReplaceViewModel>.Instance;
 
     private ConfigModel? Config => Singleton<ConfigHelper>.Instance.CurrentConfig;
-
-    /// <summary>
-    /// 原始语言
-    /// </summary>
-    private LangEnum _sourceLang;
 
     public LangEnum SourceLang
     {
@@ -47,16 +84,9 @@ public partial class MainViewModel : ObservableObject
 
             //是否立即翻译
             if (!_isInitial && !string.IsNullOrEmpty(InputVM.InputContent) && (Config?.ChangedLang2Execute ?? false))
-            {
                 CancelAndTranslate();
-            }
         }
     }
-
-    /// <summary>
-    /// 目标语言
-    /// </summary>
-    private LangEnum _targetLang;
 
     public LangEnum TargetLang
     {
@@ -73,48 +103,8 @@ public partial class MainViewModel : ObservableObject
 
             //是否立即翻译
             if (!_isInitial && !string.IsNullOrEmpty(InputVM.InputContent) && (Config?.ChangedLang2Execute ?? false))
-            {
                 CancelAndTranslate();
-            }
         }
-    }
-
-    [ObservableProperty]
-    private string _isTopMost = ConstStr.TAGFALSE;
-
-    [ObservableProperty]
-    private string _isEnableMosehook = ConstStr.TAGFALSE;
-
-    [ObservableProperty]
-    private string _isEnableIncrementalTranslation = ConstStr.TAGFALSE;
-
-    [ObservableProperty]
-    private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
-
-    [ObservableProperty]
-    private bool _isOnlyShowRet = false;
-
-    public bool IsHotkeyCopy = false;
-
-    /// <summary>
-    /// 是否为重置状态
-    /// </summary>
-    private bool _isInitial = false;
-
-    [ObservableProperty]
-    private bool _isDebug = false;
-
-    public MainViewModel()
-    {
-#if DEBUG
-        IsDebug = true;
-#else
-        IsDebug = false;
-#endif
-
-        SqlHelper.InitializeDB();
-
-        Reset();
     }
 
     public void Reset()
@@ -122,8 +112,8 @@ public partial class MainViewModel : ObservableObject
         _isInitial = true;
         SourceLang = Config?.SourceLang ?? LangEnum.auto;
         TargetLang = Config?.TargetLang ?? LangEnum.auto;
-        IsEnableIncrementalTranslation = (Config?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
-        _ = ReplaceVm.ReplaceProp.ActiveService;//激活ReplaceVm
+        IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        _ = ReplaceVm.ReplaceProp.ActiveService; //激活ReplaceVm
         _isInitial = false;
     }
 
@@ -142,7 +132,7 @@ public partial class MainViewModel : ObservableObject
             if (Config?.DisableGlobalHotkeys ?? false)
             {
                 NotifyIconVM.ForbiddenShortcuts(true);
-                NotifyIconVM.UpdateToolTip($"快捷键禁用");
+                NotifyIconVM.UpdateToolTip("快捷键禁用");
             }
             else
             {
@@ -165,7 +155,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 禁用/启用快捷键
+    ///     禁用/启用快捷键
     /// </summary>
     /// <param name="view"></param>
     /// <param name="forbidden"></param>
@@ -178,7 +168,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 监听增量翻译更新
+    ///     监听增量翻译更新
     /// </summary>
     /// <param name="value"></param>
     private void OnIncrementalChanged(bool value)
@@ -189,78 +179,15 @@ public partial class MainViewModel : ObservableObject
     private void RegisterHotkeys(Window view)
     {
         HotkeyHelper.InitialHook(view);
-        HotkeyHelper.Register(
-            HotkeyHelper.InputTranslateId,
-            () =>
-            {
-                NotifyIconVM.InputTranslateCommand.Execute(view);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.CrosswordTranslateId,
-            () =>
-            {
-                NotifyIconVM.CrossWordTranslateCommand.Execute(view);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.ScreenShotTranslateId,
-            () =>
-            {
-                NotifyIconVM.ScreenShotTranslateCommand.Execute(null);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.OpenMainWindowId,
-            () =>
-            {
-                NotifyIconVM.OpenMainWindowCommand.Execute(view);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.MousehookTranslateId,
-            () =>
-            {
-                NotifyIconVM.MousehookTranslateCommand.Execute(view);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.OCRId,
-            () =>
-            {
-                NotifyIconVM.OCRCommand.Execute(null);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.SilentOCRId,
-            () =>
-            {
-                NotifyIconVM.SilentOCRCommand.Execute(null);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.ClipboardMonitorId,
-            () =>
-            {
-                NotifyIconVM.ClipboardMonitorCommand.Execute(view);
-            }
-        );
-
-        HotkeyHelper.Register(
-            HotkeyHelper.ReplaceTranslateId,
-            () =>
-            {
-                NotifyIconVM.ReplaceTranslateCommand.Execute(view);
-            }
-        );
-
+        HotkeyHelper.Register(HotkeyHelper.InputTranslateId, () => NotifyIconVM.InputTranslateCommand.Execute(view));
+        HotkeyHelper.Register(HotkeyHelper.CrosswordTranslateId, () => NotifyIconVM.CrossWordTranslateCommand.Execute(view));
+        HotkeyHelper.Register(HotkeyHelper.ScreenShotTranslateId, () => NotifyIconVM.ScreenShotTranslateCommand.Execute(null));
+        HotkeyHelper.Register(HotkeyHelper.ReplaceTranslateId, () => NotifyIconVM.ReplaceTranslateCommand.Execute(view));
+        HotkeyHelper.Register(HotkeyHelper.OpenMainWindowId, () => NotifyIconVM.OpenMainWindowCommand.Execute(view));
+        HotkeyHelper.Register(HotkeyHelper.MousehookTranslateId, () => NotifyIconVM.MousehookTranslateCommand.Execute(view));
+        HotkeyHelper.Register(HotkeyHelper.OCRId, () => NotifyIconVM.OCRCommand.Execute(null));
+        HotkeyHelper.Register(HotkeyHelper.SilentOCRId, () => NotifyIconVM.SilentOCRCommand.Execute(null));
+        HotkeyHelper.Register(HotkeyHelper.ClipboardMonitorId, () => NotifyIconVM.ClipboardMonitorCommand.Execute(view));
         if (
             HotkeyHelper.Hotkeys!.InputTranslate.Conflict
             || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
@@ -272,27 +199,32 @@ public partial class MainViewModel : ObservableObject
             || HotkeyHelper.Hotkeys!.SilentOCR.Conflict
             || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict
         )
-        {
             MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
-        }
         var msg = "";
-        if (!HotkeyHelper.Hotkeys.InputTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.InputTranslate.Text))
+        if (!HotkeyHelper.Hotkeys.InputTranslate.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.InputTranslate.Text))
             msg += $"输入: {HotkeyHelper.Hotkeys.InputTranslate.Text}\n";
-        if (!HotkeyHelper.Hotkeys.CrosswordTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.CrosswordTranslate.Text))
+        if (!HotkeyHelper.Hotkeys.CrosswordTranslate.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.CrosswordTranslate.Text))
             msg += $"划词: {HotkeyHelper.Hotkeys.CrosswordTranslate.Text}\n";
-        if (!HotkeyHelper.Hotkeys.ScreenShotTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ScreenShotTranslate.Text))
+        if (!HotkeyHelper.Hotkeys.ScreenShotTranslate.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ScreenShotTranslate.Text))
             msg += $"截图: {HotkeyHelper.Hotkeys.ScreenShotTranslate.Text}\n";
-        if (!HotkeyHelper.Hotkeys.ReplaceTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ReplaceTranslate.Text))
+        if (!HotkeyHelper.Hotkeys.ReplaceTranslate.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ReplaceTranslate.Text))
             msg += $"替换: {HotkeyHelper.Hotkeys.ReplaceTranslate.Text}\n";
-        if (!HotkeyHelper.Hotkeys.OpenMainWindow.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OpenMainWindow.Text))
+        if (!HotkeyHelper.Hotkeys.OpenMainWindow.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OpenMainWindow.Text))
             msg += $"显示: {HotkeyHelper.Hotkeys.OpenMainWindow.Text}\n";
-        if (!HotkeyHelper.Hotkeys.MousehookTranslate.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.MousehookTranslate.Text))
+        if (!HotkeyHelper.Hotkeys.MousehookTranslate.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.MousehookTranslate.Text))
             msg += $"鼠标: {HotkeyHelper.Hotkeys.MousehookTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.OCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OCR.Text))
             msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
         if (!HotkeyHelper.Hotkeys.SilentOCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentOCR.Text))
             msg += $"静默: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
-        if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
+        if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict &&
+            !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
             msg += $"剪贴板: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
         NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
         HotkeyHelper.UpdateConflict();
@@ -302,7 +234,7 @@ public partial class MainViewModel : ObservableObject
     {
         HotkeyHelper.UnRegisterHotKey(view);
 
-        NotifyIconVM.UpdateToolTip($"快捷键禁用");
+        NotifyIconVM.UpdateToolTip("快捷键禁用");
     }
 
     private void CancelAndTranslate()
@@ -345,6 +277,7 @@ public partial class MainViewModel : ObservableObject
                 IsTopMost = ConstStr.TAGFALSE;
                 TopMostContent = ConstStr.UNTOPMOSTCONTENT;
             }
+
             Singleton<MouseHookHelper>.Instance.MouseHookStop();
             Singleton<MouseHookHelper>.Instance.OnGetwordsHandler -= OnGetwordsHandlerChanged;
             ToastHelper.Show("关闭鼠标划词");
@@ -360,12 +293,12 @@ public partial class MainViewModel : ObservableObject
             return;
 
         conf.IncrementalTranslation = !conf.IncrementalTranslation;
-        IsEnableIncrementalTranslation = (conf?.IncrementalTranslation ?? false) ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        IsEnableIncrementalTranslation = conf?.IncrementalTranslation ?? false ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
 
         common.IncrementalTranslation = !common.IncrementalTranslation;
         common.SaveCommand.Execute(null);
 
-        string msg = (common.IncrementalTranslation ? "打开" : "关闭") + "增量翻译";
+        var msg = (common.IncrementalTranslation ? "打开" : "关闭") + "增量翻译";
         ToastHelper.Show(msg);
     }
 
@@ -390,7 +323,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 点击置顶按钮
+    ///     点击置顶按钮
     /// </summary>
     /// <param name="win"></param>
     [RelayCommand]
@@ -401,6 +334,7 @@ public partial class MainViewModel : ObservableObject
             MessageBox_S.Show("当前监听鼠标划词中，请先解除监听...");
             return;
         }
+
         var tmp = !win.Topmost;
         IsTopMost = tmp ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
         TopMostContent = tmp ? ConstStr.TOPMOSTCONTENT : ConstStr.UNTOPMOSTCONTENT;
@@ -410,7 +344,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 隐藏窗口
+    ///     隐藏窗口
     /// </summary>
     /// <param name="win"></param>
     [RelayCommand]
@@ -441,16 +375,22 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ShowHideInput() => IsOnlyShowRet = !IsOnlyShowRet;
+    private void ShowHideInput()
+    {
+        IsOnlyShowRet = !IsOnlyShowRet;
+    }
 
     /// <summary>
-    /// 重置字体大小
+    ///     重置字体大小
     /// </summary>
     [RelayCommand]
-    private void ResetFontSize() => Application.Current.Resources["FontSize_TextBox"] = 18.0;
+    private void ResetFontSize()
+    {
+        Application.Current.Resources["FontSize_TextBox"] = 18.0;
+    }
 
     /// <summary>
-    /// 更新主界面图标显示
+    ///     更新主界面图标显示
     /// </summary>
     internal void UpdateMainViewIcons()
     {
@@ -465,40 +405,6 @@ public partial class MainViewModel : ObservableObject
         IsShowQRCode = Config?.IsShowQRCode ?? false;
         IsShowHistory = Config?.IsShowHistory ?? false;
     }
-
-    #region 显示图标
-
-    [ObservableProperty]
-    private bool isShowPreference;
-
-    [ObservableProperty]
-    private bool isShowConfigureService;
-
-    [ObservableProperty]
-    private bool isShowMousehook;
-
-    [ObservableProperty]
-    private bool isShowIncrementalTranslation;
-
-    [ObservableProperty]
-    private bool isShowScreenshot;
-
-    [ObservableProperty]
-    private bool isShowOCR;
-
-    [ObservableProperty]
-    private bool isShowSilentOCR;
-
-    [ObservableProperty]
-    private bool isShowClipboardMonitor;
-
-    [ObservableProperty]
-    private bool isShowQRCode;
-
-    [ObservableProperty]
-    private bool isShowHistory;
-
-    #endregion 显示图标
 
     [RelayCommand]
     private void SelectedService(List<object> list)
@@ -532,4 +438,28 @@ public partial class MainViewModel : ObservableObject
 
         ToastHelper.Show(CommonSettingVM.ThemeType.GetDescription());
     }
+
+    #region 显示图标
+
+    [ObservableProperty] private bool isShowPreference;
+
+    [ObservableProperty] private bool isShowConfigureService;
+
+    [ObservableProperty] private bool isShowMousehook;
+
+    [ObservableProperty] private bool isShowIncrementalTranslation;
+
+    [ObservableProperty] private bool isShowScreenshot;
+
+    [ObservableProperty] private bool isShowOCR;
+
+    [ObservableProperty] private bool isShowSilentOCR;
+
+    [ObservableProperty] private bool isShowClipboardMonitor;
+
+    [ObservableProperty] private bool isShowQRCode;
+
+    [ObservableProperty] private bool isShowHistory;
+
+    #endregion 显示图标
 }
