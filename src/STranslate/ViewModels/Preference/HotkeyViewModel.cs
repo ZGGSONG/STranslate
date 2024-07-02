@@ -30,6 +30,7 @@ public partial class HotkeyViewModel : ObservableObject
         SilentOcrHk.Content = _conf.CurrentConfig?.Hotkeys?.SilentOCR?.Text ?? "";
         ClipboardMonitorHk.Content = _conf.CurrentConfig?.Hotkeys?.ClipboardMonitor?.Text ?? "";
         HotKeyConflictCheck();
+        HotkeyHelper.OnUpdateConflict += HotKeyConflictCheck;
     }
 
     #region Property

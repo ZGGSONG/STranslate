@@ -265,12 +265,12 @@ public partial class MainViewModel : ObservableObject
             HotkeyHelper.Hotkeys!.InputTranslate.Conflict
             || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
             || HotkeyHelper.Hotkeys!.ScreenShotTranslate.Conflict
+            || HotkeyHelper.Hotkeys!.ReplaceTranslate.Conflict
             || HotkeyHelper.Hotkeys!.OpenMainWindow.Conflict
             || HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict
             || HotkeyHelper.Hotkeys!.OCR.Conflict
             || HotkeyHelper.Hotkeys!.SilentOCR.Conflict
             || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict
-            || HotkeyHelper.Hotkeys!.ReplaceTranslate.Conflict
         )
         {
             MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
@@ -295,6 +295,7 @@ public partial class MainViewModel : ObservableObject
         if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
             msg += $"剪贴板: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
         NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
+        HotkeyHelper.UpdateConflict();
     }
 
     private void UnRegisterHotkeys(Window view)

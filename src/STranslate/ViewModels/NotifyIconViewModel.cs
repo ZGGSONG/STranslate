@@ -612,9 +612,9 @@ public partial class NotifyIconViewModel : ObservableObject
     private void ForbiddenShortcuts(Window view)
     {
         //保存配置
-        var commonVM = Singleton<CommonViewModel>.Instance;
-        commonVM.DisableGlobalHotkeys = !IsForbiddenShortcuts;
-        commonVM.SaveCommand.Execute(null);
+        var commonVm = Singleton<CommonViewModel>.Instance;
+        commonVm.DisableGlobalHotkeys = !IsForbiddenShortcuts;
+        commonVm.SaveCommand.Execute(null);
     }
 
     public void InvokeForbiddenShotcuts(Window view, bool isForbiddenShortcuts)
@@ -626,10 +626,7 @@ public partial class NotifyIconViewModel : ObservableObject
     public void ForbiddenShortcuts(bool isForbidden)
     {
         IsForbiddenShortcuts = isForbidden;
-        if (IsForbiddenShortcuts)
-            NIModel.IconSource = ConstStr.ICONFORBIDDEN;
-        else
-            NIModel.IconSource = ConstStr.ICON;
+        NIModel.IconSource = IsForbiddenShortcuts ? ConstStr.ICONFORBIDDEN : ConstStr.ICON;
     }
 
     [RelayCommand]

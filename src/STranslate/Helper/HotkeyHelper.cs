@@ -362,5 +362,9 @@ namespace STranslate.Helper
             _hwndSource = HwndSource.FromHwnd(hwnd);
             _hwndSource.RemoveHook(WndProc);
         }
+
+        public static Action? OnUpdateConflict;
+
+        public static void UpdateConflict() => OnUpdateConflict?.Invoke();
     }
 }
