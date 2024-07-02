@@ -304,9 +304,15 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     {
         var sourceItem = (ITranslator)dropInfo.Data;
         var targetIndex = dropInfo.InsertIndex > 0 ? dropInfo.InsertIndex - 1 : 0;
-
+        var replaceVm = Singleton<ReplaceViewModel>.Instance;
+        var tmp = replaceVm.ReplaceProp.ActiveService?.Identify;
         Translators.Remove(sourceItem);
         Translators.Insert(targetIndex, sourceItem);
+        // 检查替换翻译
+        if (tmp == sourceItem.Identify)
+        {
+            replaceVm.ReplaceProp.ActiveService = sourceItem;
+        }
 
         // Save Configuration
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
