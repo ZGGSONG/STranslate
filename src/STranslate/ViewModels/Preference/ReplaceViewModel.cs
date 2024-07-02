@@ -46,102 +46,118 @@ public partial class ReplaceViewModel : ObservableObject
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("请先选择替换翻译服务后重试");
             return;
         }
-        var useLang = ReplaceProp.TargetLang;
-        LogService.Logger.Debug($"<Begin> Replace Execute\tcontent: [{content}]\ttarget: [{useLang.GetDescription()}]");
 
-        if (ReplaceProp.TargetLang == LangEnum.auto)
+        // Determine target language
+        var targetLang = ReplaceProp.TargetLang;
+        if (targetLang == LangEnum.auto)
         {
-            var identify = await LangDetectHelper.DetectAsync(content, ReplaceProp.DetectType, ReplaceProp.AutoScale, token);
-            useLang = identify is LangEnum.zh_cn or LangEnum.zh_tw ? LangEnum.en : LangEnum.zh_cn;
-            LogService.Logger.Debug($"ReplaceViewModel selected target lang is auto \tdetect service is [{ReplaceProp.DetectType.GetDescription()}{(ReplaceProp.DetectType == LangDetectType.Local ? $"rate is {ReplaceProp.AutoScale}" : "")}]\tdetect target lang is [{useLang.GetDescription()}]");
+            targetLang = await DetectLanguageAsync(content, token);
         }
-        var req = new RequestModel(content, LangEnum.auto, useLang);
+
+        LogService.Logger.Debug($"<Begin> Replace Execute\tcontent: [{content}]\ttarget: [{targetLang.GetDescription()}]");
+
+        // Perform translation
+        var req = new RequestModel(content, LangEnum.auto, targetLang);
         try
         {
-            const string translating = "<<<翻译中...\u270d\ufe0f>>>";
+            const string translating = "<<<翻译中...>>>";
+            var transLength = translating.Length;
+
             InputSimulatHelper.PrintText(translating);
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
             {
-                var isStart = false;
-                var count = 0;
-
-                try
-                {
-                    await ReplaceProp.ActiveService.TranslateAsync(req,
-                        msg =>
-                        {
-                            // 如果开始移除等待标记
-                            if (!isStart)
-                                InputSimulatHelper.Backspace(translating.Length);
-
-                            isStart = true;
-                            count += msg.Length; // 计算已输出长度
-                            InputSimulatHelper.PrintText(msg);
-                        }, token);
-                }
-                catch (Exception)
-                {
-                    // 出错判断是否已经开始
-                    // 未开始则移除等待标记
-                    if (!isStart)
-                        InputSimulatHelper.Backspace(translating.Length);
-
-                    // 出错则移除已输出内容
-                    InputSimulatHelper.Backspace(count);
-                    throw;
-                }
-
-                await EndAsync(token);
+                await TranslateLlmAsync(req, transLength, token);
             }
             else
             {
-                TranslationResult ret;
-                try
-                {
-                    ret = await ReplaceProp.ActiveService.TranslateAsync(req, CancellationToken.None);
-                }
-                catch (Exception)
-                {
-                    InputSimulatHelper.Backspace(translating.Length);
-                    throw;
-                }
-
-                InputSimulatHelper.Backspace(translating.Length);
-
-                if (!ret.IsSuccess) throw new Exception(ret.Result?.ToString());
-                InputSimulatHelper.PrintText(ret.Result);
-                await EndAsync(token);
+                await TranslateRegularAsync(req, transLength, token);
             }
+
+            await SuccessAsync(token);
         }
         catch (Exception ex)
         {
-            LogService.Logger.Warn("替换翻译出错: " + ex.Message);
+            LogService.Logger.Warn("Replace Execute Error: " + ex.Message);
             await FailAsync(token);
+            // 还原原始内容
             InputSimulatHelper.PrintText(content);
-            return;
         }
         finally
         {
             LogService.Logger.Debug("<End> Replace Execute");
         }
+    }
 
-        return;
+    private async Task<LangEnum> DetectLanguageAsync(string content, CancellationToken token)
+    {
+        var identify = await LangDetectHelper.DetectAsync(content, ReplaceProp.DetectType, ReplaceProp.AutoScale, token);
+        return identify is LangEnum.zh_cn or LangEnum.zh_tw ? LangEnum.en : LangEnum.zh_cn;
+    }
 
-        async Task FailAsync(CancellationToken cancellationToken)
+    private async Task TranslateRegularAsync(RequestModel req, int length, CancellationToken token)
+    {
+        TranslationResult ret;
+        try
         {
-            const string errorMsg = "<<<翻译出错...\ud83e\udd40>>>";
-            InputSimulatHelper.PrintText(errorMsg);
-            await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
-            InputSimulatHelper.Backspace(errorMsg.Length);
+            ret = await ReplaceProp.ActiveService!.TranslateAsync(req, CancellationToken.None);
+        }
+        catch (Exception)
+        {
+            InputSimulatHelper.Backspace(length);
+            throw;
         }
 
-        async Task EndAsync(CancellationToken cancellationToken)
+        InputSimulatHelper.Backspace(length);
+
+        if (!ret.IsSuccess) throw new Exception(ret.Result?.ToString());
+        InputSimulatHelper.PrintText(ret.Result);
+    }
+
+    private async Task TranslateLlmAsync(RequestModel req, int length, CancellationToken token)
+    {
+        var isStart = false;
+        var count = 0;
+        try
         {
-            InputSimulatHelper.PrintText("✅");
-            await Task.Delay(300, cancellationToken).ConfigureAwait(false);
-            InputSimulatHelper.Backspace();
+            await ReplaceProp.ActiveService!.TranslateAsync(req,
+                msg =>
+                {
+                    // 如果开始移除等待标记
+                    if (!isStart)
+                        InputSimulatHelper.Backspace(length);
+
+                    isStart = true;
+                    count += msg.Length; // 计算已输出长度
+                    InputSimulatHelper.PrintText(msg);
+                }, token);
         }
+        catch (Exception)
+        {
+            // 出错判断是否已经开始 未开始则移除等待标记
+            if (!isStart)
+                InputSimulatHelper.Backspace(length);
+
+            // 出错则移除已输出内容
+            InputSimulatHelper.Backspace(count);
+            throw;
+        }
+    }
+
+    private async Task SuccessAsync(CancellationToken token)
+    {
+        const string successMark = "✅";
+        InputSimulatHelper.PrintText(successMark);
+        await Task.Delay(300, token).ConfigureAwait(false);
+        InputSimulatHelper.Backspace(successMark.Length);
+    }
+
+    private async Task FailAsync(CancellationToken cancellationToken)
+    {
+        const string errorMsg = "<<<翻译出错...>>>";
+        InputSimulatHelper.PrintText(errorMsg);
+        await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
+        InputSimulatHelper.Backspace(errorMsg.Length);
     }
 
     #region Property
