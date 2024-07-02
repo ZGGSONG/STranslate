@@ -60,7 +60,7 @@ public partial class ReplaceViewModel : ObservableObject
         var req = new RequestModel(content, LangEnum.auto, targetLang);
         try
         {
-            const string translating = "<<<翻译中...>>>";
+            const string translating = "【翻译中...】";
             var transLength = translating.Length;
 
             InputSimulatHelper.PrintText(translating);
@@ -154,7 +154,7 @@ public partial class ReplaceViewModel : ObservableObject
 
     private async Task FailAsync(CancellationToken cancellationToken)
     {
-        const string errorMsg = "<<<翻译出错...>>>";
+        const string errorMsg = "【翻译出错...】";
         InputSimulatHelper.PrintText(errorMsg);
         await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
         InputSimulatHelper.Backspace(errorMsg.Length);
