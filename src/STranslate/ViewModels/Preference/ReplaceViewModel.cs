@@ -58,14 +58,56 @@ public partial class ReplaceViewModel : ObservableObject
         var req = new RequestModel(content, LangEnum.auto, useLang);
         try
         {
+            const string translating = "<<<翻译中...\u270d\ufe0f>>>";
+            InputSimulatHelper.PrintText(translating);
+
             if (ReplaceProp.ActiveService is ITranslatorLlm)
             {
-                await ReplaceProp.ActiveService.TranslateAsync(req, InputSimulatHelper.PrintText, token);
+                var isStart = false;
+                var count = 0;
+
+                try
+                {
+                    await ReplaceProp.ActiveService.TranslateAsync(req,
+                        msg =>
+                        {
+                            // 如果开始移除等待标记
+                            if (!isStart)
+                                InputSimulatHelper.Backspace(translating.Length);
+
+                            isStart = true;
+                            count += msg.Length; // 计算已输出长度
+                            InputSimulatHelper.PrintText(msg);
+                        }, token);
+                }
+                catch (Exception)
+                {
+                    // 出错判断是否已经开始
+                    // 未开始则移除等待标记
+                    if (!isStart)
+                        InputSimulatHelper.Backspace(translating.Length);
+
+                    // 出错则移除已输出内容
+                    InputSimulatHelper.Backspace(count);
+                    throw;
+                }
+
                 await EndAsync(token);
             }
             else
             {
-                var ret = await ReplaceProp.ActiveService.TranslateAsync(req, CancellationToken.None);
+                TranslationResult ret;
+                try
+                {
+                    ret = await ReplaceProp.ActiveService.TranslateAsync(req, CancellationToken.None);
+                }
+                catch (Exception)
+                {
+                    InputSimulatHelper.Backspace(translating.Length);
+                    throw;
+                }
+
+                InputSimulatHelper.Backspace(translating.Length);
 
                 if (!ret.IsSuccess) throw new Exception(ret.Result?.ToString());
                 InputSimulatHelper.PrintText(ret.Result);
@@ -75,14 +117,24 @@ public partial class ReplaceViewModel : ObservableObject
         catch (Exception ex)
         {
             LogService.Logger.Warn("替换翻译出错: " + ex.Message);
+            await FailAsync(token);
+            InputSimulatHelper.PrintText(content);
             return;
         }
         finally
         {
-            LogService.Logger.Debug($"<End> Replace Execute");
+            LogService.Logger.Debug("<End> Replace Execute");
         }
 
         return;
+
+        async Task FailAsync(CancellationToken cancellationToken)
+        {
+            const string errorMsg = "<<<翻译出错...\ud83e\udd40>>>";
+            InputSimulatHelper.PrintText(errorMsg);
+            await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
+            InputSimulatHelper.Backspace(errorMsg.Length);
+        }
 
         async Task EndAsync(CancellationToken cancellationToken)
         {
