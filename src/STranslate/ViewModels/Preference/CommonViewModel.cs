@@ -401,6 +401,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? true;
         IsShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? true;
         IsShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? true;
+        IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);
@@ -494,4 +495,10 @@ public partial class CommonViewModel : ObservableObject
     }
 
     #endregion 主界面调整
+
+    /// <summary>
+    /// 全屏模式下忽略热键
+    /// </summary>
+    [ObservableProperty]
+    private bool _ignoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
 }

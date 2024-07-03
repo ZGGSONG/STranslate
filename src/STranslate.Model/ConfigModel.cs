@@ -313,6 +313,11 @@ public class ConfigModel
     public bool IsShowLargeHumpCopyBtn { get; set; }
 
     /// <summary>
+    /// 全屏模式下忽略热键
+    /// </summary>
+    public bool IgnoreHotkeysOnFullscreen { get; set; }
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -407,6 +412,7 @@ public class ConfigModel
             IsShowSnakeCopyBtn = IsShowSnakeCopyBtn,
             IsShowSmallHumpCopyBtn = IsShowSmallHumpCopyBtn,
             IsShowLargeHumpCopyBtn = IsShowLargeHumpCopyBtn,
+            IgnoreHotkeysOnFullscreen = IgnoreHotkeysOnFullscreen,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

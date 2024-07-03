@@ -152,6 +152,13 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding DisableGlobalHotkeys}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="全屏模式下忽略热键" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标所处显示器应用全屏时禁用全局热键（建议游戏时打开）" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IgnoreHotkeysOnFullscreen}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

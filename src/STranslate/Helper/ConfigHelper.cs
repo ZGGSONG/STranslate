@@ -246,6 +246,7 @@ public class ConfigHelper
         CurrentConfig.IsShowSnakeCopyBtn = model.IsShowSnakeCopyBtn;
         CurrentConfig.IsShowSmallHumpCopyBtn = model.IsShowSmallHumpCopyBtn;
         CurrentConfig.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
+        CurrentConfig.IgnoreHotkeysOnFullscreen = model.IgnoreHotkeysOnFullscreen;
 
         //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
@@ -660,6 +661,7 @@ public class ConfigHelper
             IsShowSnakeCopyBtn = false,
             IsShowSmallHumpCopyBtn = false,
             IsShowLargeHumpCopyBtn = false,
+            IgnoreHotkeysOnFullscreen = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

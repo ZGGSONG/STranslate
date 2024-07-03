@@ -107,6 +107,11 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// 是否忽略全局热键
+    /// </summary>
+    public bool ShouldIgnoreHotkeys => (Config?.IgnoreHotkeysOnFullscreen ?? false) &&  WindowHelper.IsWindowFullscreen();
+
     public void Reset()
     {
         _isInitial = true;
@@ -179,15 +184,15 @@ public partial class MainViewModel : ObservableObject
     private void RegisterHotkeys(Window view)
     {
         HotkeyHelper.InitialHook(view);
-        HotkeyHelper.Register(HotkeyHelper.InputTranslateId, () => NotifyIconVM.InputTranslateCommand.Execute(view));
-        HotkeyHelper.Register(HotkeyHelper.CrosswordTranslateId, () => NotifyIconVM.CrossWordTranslateCommand.Execute(view));
-        HotkeyHelper.Register(HotkeyHelper.ScreenShotTranslateId, () => NotifyIconVM.ScreenShotTranslateCommand.Execute(null));
-        HotkeyHelper.Register(HotkeyHelper.ReplaceTranslateId, () => NotifyIconVM.ReplaceTranslateCommand.Execute(view));
-        HotkeyHelper.Register(HotkeyHelper.OpenMainWindowId, () => NotifyIconVM.OpenMainWindowCommand.Execute(view));
-        HotkeyHelper.Register(HotkeyHelper.MousehookTranslateId, () => NotifyIconVM.MousehookTranslateCommand.Execute(view));
-        HotkeyHelper.Register(HotkeyHelper.OCRId, () => NotifyIconVM.OCRCommand.Execute(null));
-        HotkeyHelper.Register(HotkeyHelper.SilentOCRId, () => NotifyIconVM.SilentOCRCommand.Execute(null));
-        HotkeyHelper.Register(HotkeyHelper.ClipboardMonitorId, () => NotifyIconVM.ClipboardMonitorCommand.Execute(view));
+        HotkeyHelper.Register(HotkeyHelper.InputTranslateId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.InputTranslateCommand.Execute(view); });
+        HotkeyHelper.Register(HotkeyHelper.CrosswordTranslateId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.CrossWordTranslateCommand.Execute(view); });
+        HotkeyHelper.Register(HotkeyHelper.ScreenShotTranslateId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.ScreenShotTranslateCommand.Execute(null); });
+        HotkeyHelper.Register(HotkeyHelper.ReplaceTranslateId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.ReplaceTranslateCommand.Execute(view); });
+        HotkeyHelper.Register(HotkeyHelper.OpenMainWindowId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.OpenMainWindowCommand.Execute(view); });
+        HotkeyHelper.Register(HotkeyHelper.MousehookTranslateId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.MousehookTranslateCommand.Execute(view); });
+        HotkeyHelper.Register(HotkeyHelper.OCRId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.OCRCommand.Execute(null); });
+        HotkeyHelper.Register(HotkeyHelper.SilentOCRId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.SilentOCRCommand.Execute(null); });
+        HotkeyHelper.Register(HotkeyHelper.ClipboardMonitorId, () => { if (ShouldIgnoreHotkeys) return; NotifyIconVM.ClipboardMonitorCommand.Execute(view); });
         if (
             HotkeyHelper.Hotkeys!.InputTranslate.Conflict
             || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
