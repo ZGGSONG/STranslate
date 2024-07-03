@@ -59,7 +59,7 @@ public partial class ReplaceViewModel : ObservableObject
         {
             const string translating = "翻译中...";
             var transLength = translating.Length;
-            InputSimulatHelper.PrintText(translating);
+            InputSimulatorHelper.PrintText(translating);
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
                 await TranslateLlmAsync(req, transLength, token);
@@ -73,7 +73,7 @@ public partial class ReplaceViewModel : ObservableObject
             LogService.Logger.Warn("Replace Execute Error: " + ex.Message);
             await FailAsync(token);
             // 还原原始内容
-            InputSimulatHelper.PrintText(content);
+            InputSimulatorHelper.PrintText(content);
         }
         finally
         {
@@ -97,14 +97,14 @@ public partial class ReplaceViewModel : ObservableObject
         }
         catch (Exception)
         {
-            InputSimulatHelper.Backspace(length);
+            InputSimulatorHelper.Backspace(length);
             throw;
         }
 
-        InputSimulatHelper.Backspace(length);
+        InputSimulatorHelper.Backspace(length);
 
         if (!ret.IsSuccess) throw new Exception(ret.Result?.ToString());
-        InputSimulatHelper.PrintText(ret.Result);
+        InputSimulatorHelper.PrintText(ret.Result);
     }
 
     private async Task TranslateLlmAsync(RequestModel req, int length, CancellationToken token)
@@ -118,21 +118,21 @@ public partial class ReplaceViewModel : ObservableObject
                 {
                     // 如果开始移除等待标记
                     if (!isStart)
-                        InputSimulatHelper.Backspace(length);
+                        InputSimulatorHelper.Backspace(length);
 
                     isStart = true;
                     count += msg.Length; // 计算已输出长度
-                    InputSimulatHelper.PrintText(msg);
+                    InputSimulatorHelper.PrintText(msg);
                 }, token);
         }
         catch (Exception)
         {
             // 出错判断是否已经开始 未开始则移除等待标记
             if (!isStart)
-                InputSimulatHelper.Backspace(length);
+                InputSimulatorHelper.Backspace(length);
 
             // 出错则移除已输出内容
-            InputSimulatHelper.Backspace(count);
+            InputSimulatorHelper.Backspace(count);
             throw;
         }
     }
@@ -140,17 +140,17 @@ public partial class ReplaceViewModel : ObservableObject
     private async Task SuccessAsync(CancellationToken token)
     {
         const string successMark = "√";
-        InputSimulatHelper.PrintText(successMark);
+        InputSimulatorHelper.PrintText(successMark);
         await Task.Delay(300, token).ConfigureAwait(false);
-        InputSimulatHelper.Backspace(successMark.Length);
+        InputSimulatorHelper.Backspace(successMark.Length);
     }
 
     private async Task FailAsync(CancellationToken cancellationToken)
     {
         const string errorMsg = "翻译出错...";
-        InputSimulatHelper.PrintText(errorMsg);
+        InputSimulatorHelper.PrintText(errorMsg);
         await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
-        InputSimulatHelper.Backspace(errorMsg.Length);
+        InputSimulatorHelper.Backspace(errorMsg.Length);
     }
 
     #region Property

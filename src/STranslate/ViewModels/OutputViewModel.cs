@@ -51,7 +51,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         }
 
         // 检查服务是否正在执行或者结果是否已存在，如果是，则直接返回
-        if (service.IsExecuting || !string.IsNullOrEmpty(service.Data?.Result?.ToString())) return;
+        if (service.IsExecuting || !string.IsNullOrEmpty(service.Data.Result?.ToString())) return;
 
         // 执行翻译服务
         await SingleTranslateAsync(service, token);
@@ -287,7 +287,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
         await Task.Delay(100);
         LogService.Logger.Debug("<Start> [Output]");
-        InputSimulatHelper.PrintText(str);
+        InputSimulatorHelper.PrintText(str);
         LogService.Logger.Debug("<End> [Output]");
     }
 
