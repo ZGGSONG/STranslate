@@ -1,5 +1,4 @@
-﻿using System;
-using WindowsInput;
+﻿using WindowsInput;
 
 namespace STranslate.Helper;
 

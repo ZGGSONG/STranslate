@@ -57,9 +57,8 @@ public partial class ReplaceViewModel : ObservableObject
         var req = new RequestModel(content, LangEnum.auto, targetLang);
         try
         {
-            const string translating = "【翻译中...】";
+            const string translating = "翻译中...";
             var transLength = translating.Length;
-
             InputSimulatHelper.PrintText(translating);
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
@@ -140,7 +139,7 @@ public partial class ReplaceViewModel : ObservableObject
 
     private async Task SuccessAsync(CancellationToken token)
     {
-        const string successMark = "✅";
+        const string successMark = "√";
         InputSimulatHelper.PrintText(successMark);
         await Task.Delay(300, token).ConfigureAwait(false);
         InputSimulatHelper.Backspace(successMark.Length);
@@ -148,7 +147,7 @@ public partial class ReplaceViewModel : ObservableObject
 
     private async Task FailAsync(CancellationToken cancellationToken)
     {
-        const string errorMsg = "【翻译出错...】";
+        const string errorMsg = "翻译出错...";
         InputSimulatHelper.PrintText(errorMsg);
         await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
         InputSimulatHelper.Backspace(errorMsg.Length);
