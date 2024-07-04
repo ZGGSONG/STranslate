@@ -230,11 +230,10 @@
                 ToolTip="置顶" />
         <StackPanel Margin="0,0,10,0" FlowDirection="RightToLeft" Orientation="Horizontal">
             <Button HorizontalAlignment="Right"
-                    Content="&#xe64d;"
-                    FontSize="14"
-                    FontWeight="Black"
-                    Margin="3"
+                    Content="&#xe660;"
+                    FontSize="21"
                     Height="28"
+                    FontWeight="Bold"
                     Width="28"
                     Style="{DynamicResource ButtonCloseStyle}"
                     ToolTip="关闭窗口"
