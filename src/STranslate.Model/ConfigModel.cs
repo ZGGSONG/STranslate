@@ -313,9 +313,14 @@ public class ConfigModel
     public bool IsShowLargeHumpCopyBtn { get; set; }
 
     /// <summary>
-    /// 全屏模式下忽略热键
+    ///     全屏模式下忽略热键
     /// </summary>
     public bool IgnoreHotkeysOnFullscreen { get; set; }
+
+    /// <summary>
+    ///     丢失焦点时主界面不隐藏
+    /// </summary>
+    public bool StayMainViewWhenLoseFocus { get; set; }
 
     /// <summary>
     ///     替换翻译
@@ -413,6 +418,7 @@ public class ConfigModel
             IsShowSmallHumpCopyBtn = IsShowSmallHumpCopyBtn,
             IsShowLargeHumpCopyBtn = IsShowLargeHumpCopyBtn,
             IgnoreHotkeysOnFullscreen = IgnoreHotkeysOnFullscreen,
+            StayMainViewWhenLoseFocus = StayMainViewWhenLoseFocus,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

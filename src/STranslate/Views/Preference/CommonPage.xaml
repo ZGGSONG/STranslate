@@ -427,6 +427,13 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IsShowLargeHumpCopyBtn}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock HorizontalAlignment="Left" Text="丢失焦点时主界面不隐藏" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="丢失焦点时主界面不隐藏" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding StayMainViewWhenLoseFocus}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

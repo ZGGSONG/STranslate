@@ -110,9 +110,14 @@ public partial class MainView : Window
 
     private void MainWindow_Deactivated(object sender, EventArgs e)
     {
-        if (Topmost) return;
+        if (Topmost || StayView()) return;
 
         AnimationHelper.MainViewAnimation(false);
+    }
+
+    internal bool StayView()
+    {
+        return _configHelper.CurrentConfig?.StayMainViewWhenLoseFocus ?? false;
     }
 
     #region 隐藏系统窗口菜单
@@ -122,6 +127,12 @@ public partial class MainView : Window
 
     protected override void OnSourceInitialized(EventArgs e)
     {
+        #region 初始化失焦保持显示
+
+        _configHelper.MainViewStayOperate(_configHelper.CurrentConfig?.StayMainViewWhenLoseFocus ?? false);
+
+        #endregion 初始化失焦保持显示
+
         #region 初始化时阴影
 
         _configHelper.MainViewShadowOperate(_configHelper.CurrentConfig?.MainViewShadow ?? false);

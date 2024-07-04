@@ -247,6 +247,7 @@ public class ConfigHelper
         CurrentConfig.IsShowSmallHumpCopyBtn = model.IsShowSmallHumpCopyBtn;
         CurrentConfig.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
         CurrentConfig.IgnoreHotkeysOnFullscreen = model.IgnoreHotkeysOnFullscreen;
+        CurrentConfig.StayMainViewWhenLoseFocus = model.StayMainViewWhenLoseFocus;
 
         //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
@@ -268,6 +269,7 @@ public class ConfigHelper
         MainViewIconOperate();
         ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
         MainViewShadowOperate(CurrentConfig.MainViewShadow);
+        MainViewStayOperate(CurrentConfig.StayMainViewWhenLoseFocus);
 
         if (!isHotkeyConfSame)
             DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys,
@@ -338,7 +340,10 @@ public class ConfigHelper
         try
         {
             var settings = new JsonSerializerSettings
-                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() } };
+            {
+                Converters =
+                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() }
+            };
             var content = File.ReadAllText(configPath);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                          throw new Exception("反序列化失败...");
@@ -361,7 +366,10 @@ public class ConfigHelper
         try
         {
             var settings = new JsonSerializerSettings
-                { Converters = { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() } };
+            {
+                Converters =
+                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() }
+            };
             var content = File.ReadAllText(ConstStr.CnfFullName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                          throw new Exception("反序列化失败...");
@@ -483,7 +491,10 @@ public class ConfigHelper
         rp.AppKey = string.IsNullOrEmpty(rp.AppKey) ? rp.AppKey : DESUtil.DesDecrypt(rp.AppKey);
     }
 
-    // 初始化自启动
+    /// <summary>
+    ///     初始化自启动
+    /// </summary>
+    /// <param name="isStartup"></param>
     private void StartupOperate(bool isStartup)
     {
         if (isStartup)
@@ -497,7 +508,10 @@ public class ConfigHelper
         }
     }
 
-    // 初始化主题
+    /// <summary>
+    ///     初始化主题
+    /// </summary>
+    /// <param name="themeType"></param>
     private void ThemeOperate(ThemeType themeType)
     {
         switch (themeType)
@@ -517,7 +531,9 @@ public class ConfigHelper
         }
     }
 
-    //初始化字体
+    /// <summary>
+    ///     初始化字体
+    /// </summary>
     private void FontOperate()
     {
         try
@@ -535,36 +551,65 @@ public class ConfigHelper
         }
     }
 
-    //代理操作
+    /// <summary>
+    ///     代理操作
+    /// </summary>
+    /// <param name="proxyMethod"></param>
+    /// <param name="ip"></param>
+    /// <param name="port"></param>
+    /// <param name="isAuth"></param>
+    /// <param name="username"></param>
+    /// <param name="pwd"></param>
     private void ProxyOperate(ProxyMethodEnum proxyMethod, string ip, int port, bool isAuth, string username,
         string pwd)
     {
         ProxyUtil.UpdateProxy(proxyMethod, ip, port, isAuth, username, pwd);
     }
 
-    //主窗口提示词
+    /// <summary>
+    ///     主窗口提示词
+    /// </summary>
+    /// <param name="isShowMainPlaceholder"></param>
     private void PlaceholderOperate(bool isShowMainPlaceholder)
     {
         Singleton<InputViewModel>.Instance.Placeholder =
             isShowMainPlaceholder ? ConstStr.MAINVIEWPLACEHOLDER : string.Empty;
     }
 
-    //刷新主窗口图标
+    /// <summary>
+    ///     刷新主窗口图标
+    /// </summary>
     private void MainViewIconOperate()
     {
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
     }
 
-    //外部调用功能
+    /// <summary>
+    ///     外部调用功能
+    /// </summary>
+    /// <param name="port"></param>
+    /// <param name="isStop"></param>
     private void ExternalCallOperate(int port, bool isStop = false)
     {
         Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
     }
 
-    //主窗口阴影
+    /// <summary>
+    ///     主窗口阴影
+    /// </summary>
+    /// <param name="mainViewShadow"></param>
     public void MainViewShadowOperate(bool mainViewShadow)
     {
         ShadowHelper.ShadowEffect(mainViewShadow);
+    }
+
+    /// <summary>
+    ///     主窗口失焦后保留
+    /// </summary>
+    /// <param name="isStayView"></param>
+    public void MainViewStayOperate(bool isStayView)
+    {
+        Application.Current.MainWindow!.ShowInTaskbar = isStayView;
     }
 
     /// <summary>
@@ -598,10 +643,12 @@ public class ConfigHelper
         hk.ScreenShotTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.S, ConstStr.DEFAULTSCREENSHOTHOTKEY);
         hk.OpenMainWindow.Update(KeyModifiers.MOD_ALT, KeyCodes.G, ConstStr.DEFAULTOPENHOTKEY);
         hk.ReplaceTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.F, ConstStr.DEFAULTREPLACEHOTKEY);
-        hk.MousehookTranslate.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.D, ConstStr.DEFAULTMOUSEHOOKHOTKEY);
+        hk.MousehookTranslate.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.D,
+            ConstStr.DEFAULTMOUSEHOOKHOTKEY);
         hk.OCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.S, ConstStr.DEFAULTOCRHOTKEY);
         hk.SilentOCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.F, ConstStr.DEFAULTSILENTOCRHOTKEY);
-        hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A, ConstStr.DEFAULTCLIPBOARDMONITORHOTKEY);
+        hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A,
+            ConstStr.DEFAULTCLIPBOARDMONITORHOTKEY);
         return new ConfigModel
         {
             HistorySize = 100,
@@ -738,7 +785,8 @@ public class TTSConverter : JsonConverter<ITTS>
 
 public class ReplaceConverter : JsonConverter<ReplaceProp>
 {
-    public override ReplaceProp? ReadJson(JsonReader reader, Type objectType, ReplaceProp? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override ReplaceProp? ReadJson(JsonReader reader, Type objectType, ReplaceProp? existingValue,
+        bool hasExistingValue, JsonSerializer serializer)
     {
         var jsonObject = JObject.Load(reader);
         var rate = jsonObject["AutoScale"]!.Value<double>();
@@ -749,15 +797,17 @@ public class ReplaceConverter : JsonConverter<ReplaceProp>
             //ActiveService = ,
             AutoScale = rate,
             DetectType = (LangDetectType)detectType,
-            TargetLang = (LangEnum)targetLang,
+            TargetLang = (LangEnum)targetLang
         };
 
         var obj = jsonObject["ActiveService"]!.Value<object>();
         if (obj is not null)
         {
-            var service = JsonConvert.DeserializeObject<ITranslator>(obj.ToString(), new JsonSerializerSettings { Converters = { new TranslatorConverter() } });
+            var service = JsonConvert.DeserializeObject<ITranslator>(obj.ToString(),
+                new JsonSerializerSettings { Converters = { new TranslatorConverter() } });
             model.ActiveService = service;
         }
+
         return model;
     }
 

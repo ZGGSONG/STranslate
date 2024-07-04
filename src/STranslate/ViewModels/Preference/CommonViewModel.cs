@@ -402,6 +402,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? true;
         IsShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? true;
         IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
+        StayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);
@@ -501,4 +502,10 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     private bool _ignoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
+
+    /// <summary>
+    /// 丢失焦点时主界面不隐藏
+    /// </summary>
+    [ObservableProperty]
+    private bool _stayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
 }
