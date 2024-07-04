@@ -141,6 +141,10 @@ public partial class MainView : Window
 
         #region 开启时隐藏主界面
 
+
+        // 初始化动画标记
+        AnimationHelper.Init();
+
         if (_configHelper.CurrentConfig?.IsHideOnStart ?? false)
         {
             Hide();

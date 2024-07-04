@@ -25,10 +25,14 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     private static readonly ConfigModel? CurConfig = ConfigHelper.CurrentConfig;
 
+    [ObservableProperty] private double _autoScale = CurConfig?.AutoScale ?? 0.8;
+
     /// <summary>
     ///     修改语言后立即翻译
     /// </summary>
     [ObservableProperty] private bool _changedLang2Execute = CurConfig?.ChangedLang2Execute ?? true;
+
+    [ObservableProperty] private bool _closeUIOcrRetTranslate = CurConfig?.CloseUIOcrRetTranslate ?? false;
 
     /// <summary>
     ///     翻译后执行自动复制动作(Ctrl+1...9)
@@ -47,6 +51,9 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _disableGlobalHotkeys = CurConfig?.DisableGlobalHotkeys ?? false;
 
+    [ObservableProperty]
+    private DoubleTapFuncEnum _doubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+
     /// <summary>
     ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
     /// </summary>
@@ -55,9 +62,45 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private List<string> _getFontFamilys;
 
     /// <summary>
+    ///     历史记录大小
+    /// </summary>
+    private long _historySizeType = 1;
+
+    /// <summary>
+    ///     全屏模式下忽略热键
+    /// </summary>
+    [ObservableProperty] private bool _ignoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
+
+    /// <summary>
     ///     是否开启增量翻译
     /// </summary>
     [ObservableProperty] private bool _incrementalTranslation = CurConfig?.IncrementalTranslation ?? false;
+
+    [ObservableProperty] private bool _isAdjustContentTranslate = CurConfig?.IsAdjustContentTranslate ?? false;
+
+    /// <summary>
+    ///     激活窗口时光标移动至末尾
+    /// </summary>
+    [ObservableProperty] private bool _isCaretLast = CurConfig?.IsCaretLast ?? false;
+
+    [ObservableProperty] private bool _isFollowMouse = CurConfig?.IsFollowMouse ?? false;
+
+    /// <summary>
+    ///     启动时隐藏主界面
+    /// </summary>
+    [ObservableProperty] private bool _isHideOnStart = CurConfig?.IsHideOnStart ?? false;
+
+    /// <summary>
+    ///     是否在关闭鼠标划词后保持最前
+    /// </summary>
+    [ObservableProperty] private bool _isKeepTopmostAfterMousehook = CurConfig?.IsKeepTopmostAfterMousehook ?? false;
+
+    [ObservableProperty] private bool _isOcrAutoCopyText = CurConfig?.IsOcrAutoCopyText ?? false;
+
+    /// <summary>
+    ///     输出界面是否显示Prompt切换
+    /// </summary>
+    [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
 
     /// <summary>
     ///     是否启用代理认证
@@ -71,7 +114,20 @@ public partial class CommonViewModel : ObservableObject
     private bool _isProxyPasswordHide = true;
 
     [ObservableProperty]
+    private bool _isRemoveLineBreakGettingWords = CurConfig?.IsRemoveLineBreakGettingWords ?? false;
+
+    [ObservableProperty]
     private bool _isRemoveLineBreakGettingWordsOCR = CurConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
+
+    /// <summary>
+    ///     是否显示监听剪贴板
+    /// </summary>
+    [ObservableProperty] private bool _isShowClipboardMonitor = CurConfig?.IsShowClipboardMonitor ?? false;
+
+    /// <summary>
+    ///     是否显示关闭图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowClose = CurConfig?.IsShowClose ?? false;
 
     /// <summary>
     ///     是否显示快速配置服务
@@ -79,9 +135,60 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isShowConfigureService = CurConfig?.IsShowConfigureService ?? false;
 
     /// <summary>
+    ///     是否显示历史记录图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowHistory = CurConfig?.IsShowHistory ?? false;
+
+    /// <summary>
+    ///     是否显示打开增量翻译图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
+
+    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
+
+    /// <summary>
     ///     是否显示主窗口提示词
     /// </summary>
     [ObservableProperty] private bool _isShowMainPlaceholder = CurConfig?.IsShowMainPlaceholder ?? true;
+
+    /// <summary>
+    ///     是否显示打开鼠标划词图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowMousehook = CurConfig?.IsShowMousehook ?? false;
+
+    /// <summary>
+    ///     是否显示OCR图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowOCR = CurConfig?.IsShowOCR ?? false;
+
+    /// <summary>
+    ///     是否显示设置图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowPreference = CurConfig?.IsShowPreference ?? false;
+
+    /// <summary>
+    ///     是否显示识别二维码图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowQRCode = CurConfig?.IsShowQRCode ?? false;
+
+    /// <summary>
+    ///     是否显示截图翻译图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowScreenshot = CurConfig?.IsShowScreenshot ?? false;
+
+    /// <summary>
+    ///     是否显示静默OCR图标
+    /// </summary>
+    [ObservableProperty] private bool _isShowSilentOCR = CurConfig?.IsShowSilentOCR ?? false;
+
+    [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
+
+    /// <summary>
+    ///     是否开机启动
+    /// </summary>
+    [ObservableProperty] private bool _isStartup = CurConfig?.IsStartup ?? false;
 
     /// <summary>
     ///     是否开启重复触发显示界面为显示/隐藏
@@ -93,6 +200,11 @@ public partial class CommonViewModel : ObservableObject
     ///     * 比较损耗性能 实测多占用30MB内存
     /// </summary>
     [ObservableProperty] private bool _mainViewShadow = CurConfig?.MainViewShadow ?? false;
+
+    /// <summary>
+    ///     是否默认管理员启动
+    /// </summary>
+    [ObservableProperty] private bool _needAdmin = CurConfig?.NeedAdministrator ?? false;
 
     /// <summary>
     ///     OCR修改语言后立即翻译
@@ -130,108 +242,16 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _showAuxiliaryLine = CurConfig?.ShowAuxiliaryLine ?? true;
 
     /// <summary>
-    ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
-    /// </summary>
-    [ObservableProperty] private bool _useFormsCopy = CurConfig?.UseFormsCopy ?? true;
-
-    [ObservableProperty] private double _autoScale = CurConfig?.AutoScale ?? 0.8;
-
-    [ObservableProperty] private bool _closeUIOcrRetTranslate = CurConfig?.CloseUIOcrRetTranslate ?? false;
-
-    [ObservableProperty]
-    private DoubleTapFuncEnum _doubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
-
-    public long HistorySize = CurConfig?.HistorySize ?? 100;
-
-    /// <summary>
-    ///     历史记录大小
-    /// </summary>
-    private long _historySizeType = 1;
-
-    [ObservableProperty] private bool _isAdjustContentTranslate = CurConfig?.IsAdjustContentTranslate ?? false;
-
-    /// <summary>
-    ///     激活窗口时光标移动至末尾
-    /// </summary>
-    [ObservableProperty] private bool _isCaretLast = CurConfig?.IsCaretLast ?? false;
-
-    [ObservableProperty] private bool _isFollowMouse = CurConfig?.IsFollowMouse ?? false;
-
-    /// <summary>
-    ///     启动时隐藏主界面
-    /// </summary>
-    [ObservableProperty] private bool _isHideOnStart = CurConfig?.IsHideOnStart ?? false;
-
-    /// <summary>
-    ///     是否在关闭鼠标划词后保持最前
-    /// </summary>
-    [ObservableProperty] private bool _isKeepTopmostAfterMousehook = CurConfig?.IsKeepTopmostAfterMousehook ?? false;
-
-    [ObservableProperty] private bool _isOcrAutoCopyText = CurConfig?.IsOcrAutoCopyText ?? false;
-
-    [ObservableProperty] private bool _isRemoveLineBreakGettingWords = CurConfig?.IsRemoveLineBreakGettingWords ?? false;
-
-    /// <summary>
-    ///     是否显示监听剪贴板
-    /// </summary>
-    [ObservableProperty] private bool _isShowClipboardMonitor = CurConfig?.IsShowClipboardMonitor ?? false;
-
-    /// <summary>
-    ///     是否显示历史记录图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowHistory = CurConfig?.IsShowHistory ?? false;
-
-    /// <summary>
-    ///     是否显示打开增量翻译图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
-
-    /// <summary>
-    ///     是否显示打开鼠标划词图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowMousehook = CurConfig?.IsShowMousehook ?? false;
-
-    /// <summary>
-    ///     是否显示OCR图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowOCR = CurConfig?.IsShowOCR ?? false;
-
-    /// <summary>
-    ///     是否显示设置图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowPreference = CurConfig?.IsShowPreference ?? false;
-
-    /// <summary>
-    ///     是否显示识别二维码图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowQRCode = CurConfig?.IsShowQRCode ?? false;
-
-    /// <summary>
-    ///     是否显示截图翻译图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowScreenshot = CurConfig?.IsShowScreenshot ?? false;
-
-    /// <summary>
-    ///     是否显示静默OCR图标
-    /// </summary>
-    [ObservableProperty] private bool _isShowSilentOCR = CurConfig?.IsShowSilentOCR ?? false;
-
-    /// <summary>
-    ///     是否开机启动
-    /// </summary>
-    [ObservableProperty] private bool _isStartup = CurConfig?.IsStartup ?? false;
-
-    /// <summary>
-    ///     是否默认管理员启动
-    /// </summary>
-    [ObservableProperty] private bool _needAdmin = CurConfig?.NeedAdministrator ?? false;
-
-    /// <summary>
     ///     收缩框是否显示复制按钮
     /// </summary>
     [ObservableProperty] private bool _showCopyOnHeader = CurConfig?.ShowCopyOnHeader ?? false;
 
     private RelayCommand<string>? _showEncryptInfoCommand;
+
+    /// <summary>
+    ///     丢失焦点时主界面不隐藏
+    /// </summary>
+    [ObservableProperty] private bool _stayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
 
     /// <summary>
     ///     主题类型
@@ -241,20 +261,16 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _unconventionalScreen = CurConfig?.UnconventionalScreen ?? false;
 
     /// <summary>
+    ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
+    /// </summary>
+    [ObservableProperty] private bool _useFormsCopy = CurConfig?.UseFormsCopy ?? true;
+
+    /// <summary>
     ///     取词时间间隔
     /// </summary>
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
-    /// <summary>
-    ///     输出界面是否显示Prompt切换
-    /// </summary>
-    [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
-
-    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
-
-    [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
-
-    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
+    public long HistorySize = CurConfig?.HistorySize ?? 100;
 
     public CommonViewModel()
     {
@@ -364,6 +380,7 @@ public partial class CommonViewModel : ObservableObject
         DoubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
         CustomFont = CurConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
         IsKeepTopmostAfterMousehook = CurConfig?.IsKeepTopmostAfterMousehook ?? false;
+        IsShowClose = CurConfig?.IsShowClose ?? false;
         IsShowPreference = CurConfig?.IsShowPreference ?? false;
         IsShowMousehook = CurConfig?.IsShowMousehook ?? false;
         IsShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
@@ -496,16 +513,4 @@ public partial class CommonViewModel : ObservableObject
     }
 
     #endregion 主界面调整
-
-    /// <summary>
-    /// 全屏模式下忽略热键
-    /// </summary>
-    [ObservableProperty]
-    private bool _ignoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
-
-    /// <summary>
-    /// 丢失焦点时主界面不隐藏
-    /// </summary>
-    [ObservableProperty]
-    private bool _stayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
 }

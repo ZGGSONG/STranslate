@@ -230,6 +230,18 @@
                 ToolTip="置顶" />
         <StackPanel Margin="0,0,10,0" FlowDirection="RightToLeft" Orientation="Horizontal">
             <Button HorizontalAlignment="Right"
+                    Content="&#xe64d;"
+                    FontSize="14"
+                    FontWeight="Black"
+                    Margin="3"
+                    Height="28"
+                    Width="28"
+                    Style="{DynamicResource ButtonCloseStyle}"
+                    ToolTip="关闭窗口"
+                    Command="{Binding EscCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding IsShowClose, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button HorizontalAlignment="Right"
                     Command="{Binding NotifyIconVM.OpenPreferenceCommand}"
                     Content="&#xe656;"
                     Style="{DynamicResource ButtonIconStyle}"

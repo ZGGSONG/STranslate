@@ -441,6 +441,13 @@
                     <Border Margin="8" Background="{DynamicResource BorderContentBackground}" CornerRadius="5">
                         <StackPanel Orientation="Vertical">
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="显示关闭图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示关闭图标" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding IsShowClose}" />
+                            </DockPanel>
+                            
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="显示设置图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"

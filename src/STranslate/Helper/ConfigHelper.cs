@@ -208,6 +208,7 @@ public class ConfigHelper
         CurrentConfig.DoubleTapTrayFunc = model.DoubleTapTrayFunc;
         CurrentConfig.CustomFont = model.CustomFont;
         CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
+        CurrentConfig.IsShowClose = model.IsShowClose;
         CurrentConfig.IsShowPreference = model.IsShowPreference;
         CurrentConfig.IsShowConfigureService = model.IsShowConfigureService;
         CurrentConfig.IsShowMousehook = model.IsShowMousehook;
@@ -666,6 +667,7 @@ public class ConfigHelper
             DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
             CustomFont = ConstStr.DEFAULTFONTNAME,
             IsKeepTopmostAfterMousehook = false,
+            IsShowClose = false,
             IsShowPreference = false,
             IsShowMousehook = false,
             IsShowScreenshot = false,

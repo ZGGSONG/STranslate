@@ -323,6 +323,11 @@ public class ConfigModel
     public bool StayMainViewWhenLoseFocus { get; set; }
 
     /// <summary>
+    ///     是否显示关闭图标
+    /// </summary>
+    public bool IsShowClose { get; set; } = false;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -373,6 +378,7 @@ public class ConfigModel
             Position = Position,
             CustomFont = CustomFont,
             IsKeepTopmostAfterMousehook = IsKeepTopmostAfterMousehook,
+            IsShowClose = IsShowClose,
             IsShowPreference = IsShowPreference,
             IsShowConfigureService = IsShowConfigureService,
             IsShowMousehook = IsShowMousehook,

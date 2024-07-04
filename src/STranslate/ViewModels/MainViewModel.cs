@@ -399,6 +399,7 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     internal void UpdateMainViewIcons()
     {
+        IsShowClose = Config?.IsShowClose ?? false;
         IsShowPreference = Config?.IsShowPreference ?? false;
         IsShowConfigureService = Config?.IsShowConfigureService ?? false;
         IsShowMousehook = Config?.IsShowMousehook ?? false;
@@ -445,6 +446,8 @@ public partial class MainViewModel : ObservableObject
     }
 
     #region 显示图标
+
+    [ObservableProperty] private bool isShowClose;
 
     [ObservableProperty] private bool isShowPreference;
 

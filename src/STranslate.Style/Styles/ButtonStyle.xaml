@@ -186,6 +186,8 @@
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="30" />
         <Setter Property="Margin" Value="3" />
@@ -198,6 +200,8 @@
                             Height="{TemplateBinding Height}"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="5"
                             SnapsToDevicePixels="true">
                         <TextBlock x:Name="textblock"

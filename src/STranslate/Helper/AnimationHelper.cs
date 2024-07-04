@@ -13,7 +13,7 @@ namespace STranslate.Helper;
 /// </summary>
 public class AnimationHelper
 {
-    public AnimationHelper()
+    public static void Init()
     {
         _previousAction = !(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false);
     }
