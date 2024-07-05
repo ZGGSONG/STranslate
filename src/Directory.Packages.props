@@ -8,13 +8,13 @@
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="Dapper.Contrib" Version="2.0.78" />
     <PackageVersion Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageVersion Include="H.InputSimulator" Version="1.4.1" />
+    <PackageVersion Include="H.InputSimulator" Version="1.4.2" />
     <PackageVersion Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageVersion Include="Microsoft.CognitiveServices.Speech" Version="1.37.0" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.4" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="PaddleOCRSharp" Version="4.2.0" />
+    <PackageVersion Include="PaddleOCRSharp" Version="4.3.0" />
     <PackageVersion Include="System.Speech" Version="8.0.0" />
     <PackageVersion Include="TencentCloudSDK.Tmt" Version="3.0.1003" />
     <PackageVersion Include="WebDav.Client" Version="2.8.0" />
