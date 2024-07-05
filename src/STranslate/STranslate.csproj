@@ -10,9 +10,10 @@
 	<ApplicationManifest>app.manifest</ApplicationManifest>
 	<PlatformTarget>x64</PlatformTarget>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<AssemblyVersion>1.1.5.0703</AssemblyVersion>
-	<FileVersion>1.1.5.0703</FileVersion>
+	<AssemblyVersion>1.1.6.0704</AssemblyVersion>
+	<FileVersion>1.1.6.0704</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Copyright>ZGGSONG</Copyright>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->
