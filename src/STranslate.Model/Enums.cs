@@ -234,7 +234,9 @@ namespace STranslate.Model
         [Description("百度OCR")]
         BaiduOCR,
         [Description("腾讯OCR")]
-        TencentOCR
+        TencentOCR,
+        [Description("火山OCR")]
+        VolcengineOCR,
     }
 
     public enum BaiduOCRAction
