@@ -86,6 +86,16 @@
             <i:InvokeCommandAction Command="{Binding ClosingCommand}"
                                    CommandParameter="{Binding ElementName=MainWindow}" />
         </i:EventTrigger>
+        
+        <!-- KeyDown EventTrigger -->
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <i:InvokeCommandAction Command="{Binding InputVM.ShowMainOcrLangCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+
+            <!-- KeyUp EventTrigger -->
+        <i:EventTrigger EventName="PreviewKeyUp">
+            <i:InvokeCommandAction Command="{Binding InputVM.HideMainOcrLangCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}"
             Style="{DynamicResource WindowStyle}">

@@ -28,6 +28,7 @@ public partial class InputViewModel : ObservableObject
     #region 属性、字段
 
     public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
+    public CommonViewModel CommonVm => Singleton<CommonViewModel>.Instance;
 
     /// <summary>
     ///     自动识别的语言
@@ -61,6 +62,8 @@ public partial class InputViewModel : ObservableObject
     private bool CanTranslate => !string.IsNullOrEmpty(InputContent);
 
     [ObservableProperty] private string _placeholder = ConstStr.MAINVIEWPLACEHOLDER;
+
+    [ObservableProperty] private bool _mainOcrLangVisibile = false;
 
     #endregion 属性、字段
 
@@ -469,6 +472,37 @@ public partial class InputViewModel : ObservableObject
 
         _userSelectedLang = null;
     }
+
+    [RelayCommand]
+    private void SelectedMainOcrLanguage(List<object> list)
+    {
+        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+            list.Last() is not ToggleButton tb)
+            return;
+
+        tb.IsChecked = false;
+
+        if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
+            obj is not LangEnum lang) return;
+
+        CommonVm.MainOcrLang = lang;
+        CommonVm.SaveCommand.Execute(null);
+    }
+
+    [RelayCommand]
+    private void ShowMainOcrLang(KeyEventArgs e)
+    {
+        if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            MainOcrLangVisibile = true;
+    }
+
+    [RelayCommand]
+    private void HideMainOcrLang(KeyEventArgs e)
+    {
+        if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            MainOcrLangVisibile = false;
+    }
+
 
     #endregion 命令
 }
