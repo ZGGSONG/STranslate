@@ -249,6 +249,7 @@ public class ConfigHelper
         CurrentConfig.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
         CurrentConfig.IgnoreHotkeysOnFullscreen = model.IgnoreHotkeysOnFullscreen;
         CurrentConfig.StayMainViewWhenLoseFocus = model.StayMainViewWhenLoseFocus;
+        CurrentConfig.MainOcrLang = model.MainOcrLang;
 
         //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
@@ -711,6 +712,7 @@ public class ConfigHelper
             IsShowSmallHumpCopyBtn = false,
             IsShowLargeHumpCopyBtn = false,
             IgnoreHotkeysOnFullscreen = false,
+            MainOcrLang = LangEnum.auto,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

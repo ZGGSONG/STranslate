@@ -272,6 +272,11 @@ public partial class CommonViewModel : ObservableObject
 
     public long HistorySize = CurConfig?.HistorySize ?? 100;
 
+    /// <summary>
+    /// 主界面截图识别语种
+    /// </summary>
+    [ObservableProperty] private LangEnum mainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
+
     public CommonViewModel()
     {
         // 获取系统已安装字体
@@ -420,6 +425,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? true;
         IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
         StayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
+        MainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

@@ -159,6 +159,18 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IgnoreHotkeysOnFullscreen}" />
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="截图翻译识别语种" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图翻译时OCR的语种(包括静默OCR)" />
+                                <ComboBox Height="30"
+                                          BorderThickness="1"
+                                          HorizontalAlignment="Right"
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
+                                          SelectedValue="{Binding MainOcrLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 
@@ -446,7 +458,7 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IsShowClose}" />
                             </DockPanel>
-                            
+
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示设置图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />

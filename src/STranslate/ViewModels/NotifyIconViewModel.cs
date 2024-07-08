@@ -399,7 +399,7 @@ public partial class NotifyIconViewModel : ObservableObject
         {
             var getText = "";
             var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1);
-            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main);
+            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
             if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
             getText = ocrResult.Text;
@@ -491,7 +491,7 @@ public partial class NotifyIconViewModel : ObservableObject
                 _inputViewModel.InputContent = " ";
             IsScreenshotExecuting = true;
             var getText = "";
-            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token);
+            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token, lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
             if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;

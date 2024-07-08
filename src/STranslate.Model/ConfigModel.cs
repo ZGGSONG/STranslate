@@ -323,6 +323,11 @@ public class ConfigModel
     public bool StayMainViewWhenLoseFocus { get; set; }
 
     /// <summary>
+    ///     主界面截图翻译语种
+    /// </summary>
+    public LangEnum MainOcrLang { get; set; } = LangEnum.auto;
+
+    /// <summary>
     ///     是否显示关闭图标
     /// </summary>
     public bool IsShowClose { get; set; } = false;
@@ -425,6 +430,7 @@ public class ConfigModel
             IsShowLargeHumpCopyBtn = IsShowLargeHumpCopyBtn,
             IgnoreHotkeysOnFullscreen = IgnoreHotkeysOnFullscreen,
             StayMainViewWhenLoseFocus = StayMainViewWhenLoseFocus,
+            MainOcrLang = MainOcrLang,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
