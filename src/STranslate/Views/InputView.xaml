@@ -155,7 +155,8 @@
                                                 <i:InvokeCommandAction
                                                     Command="{Binding Source={StaticResource InputVm}, Path=Data.SelectedLanguageCommand}">
                                                     <i:InvokeCommandAction.CommandParameter>
-                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                        <MultiBinding
+                                                            Converter="{StaticResource MultiValue2ListConverter}">
                                                             <Binding ElementName="IdentifyLb" Path="SelectedItem" />
                                                             <Binding ElementName="IdentifyTb" />
                                                         </MultiBinding>
@@ -172,7 +173,8 @@
                 <Border Style="{DynamicResource LanguageMarkBorderStyle}"
                         Visibility="{Binding MainOcrLangVisibile, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Margin="5,2" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="截图语种 " />
+                        <TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="OCR语种 "
+                                   ToolTip="仅对截图翻译/静默OCR生效" />
                         <ToggleButton Name="MainOcrLangTb"
                                       FontFamily="{DynamicResource UserFont}"
                                       FontSize="{DynamicResource FontSize_Identify}"
@@ -229,7 +231,8 @@
                                                 <i:InvokeCommandAction
                                                     Command="{Binding Source={StaticResource InputVm}, Path=Data.SelectedMainOcrLanguageCommand}">
                                                     <i:InvokeCommandAction.CommandParameter>
-                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                        <MultiBinding
+                                                            Converter="{StaticResource MultiValue2ListConverter}">
                                                             <Binding ElementName="MainOcrLangLb" Path="SelectedItem" />
                                                             <Binding ElementName="MainOcrLangTb" />
                                                         </MultiBinding>
