@@ -587,6 +587,13 @@
                                     <ComboBoxItem Content="最后一个" />
                                 </ComboBox>
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="热键触发复制成功提示" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="热键触发复制成功提示是否显示" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding HotkeyCopySuccessToast}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
                 </StackPanel>

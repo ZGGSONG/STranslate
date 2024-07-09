@@ -323,14 +323,19 @@ public class ConfigModel
     public bool StayMainViewWhenLoseFocus { get; set; }
 
     /// <summary>
+    ///     是否显示关闭图标
+    /// </summary>
+    public bool IsShowClose { get; set; }
+
+    /// <summary>
     ///     主界面截图翻译语种
     /// </summary>
     public LangEnum MainOcrLang { get; set; } = LangEnum.auto;
 
     /// <summary>
-    ///     是否显示关闭图标
+    ///     热键触发复制后是否显示成功提示
     /// </summary>
-    public bool IsShowClose { get; set; } = false;
+    public bool HotkeyCopySuccessToast { get; set; } = true;
 
     /// <summary>
     ///     替换翻译
@@ -431,6 +436,7 @@ public class ConfigModel
             IgnoreHotkeysOnFullscreen = IgnoreHotkeysOnFullscreen,
             StayMainViewWhenLoseFocus = StayMainViewWhenLoseFocus,
             MainOcrLang = MainOcrLang,
+            HotkeyCopySuccessToast = HotkeyCopySuccessToast,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

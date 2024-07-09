@@ -275,7 +275,13 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     /// 主界面截图识别语种
     /// </summary>
-    [ObservableProperty] private LangEnum mainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
+    [ObservableProperty] private LangEnum _mainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
+
+
+    /// <summary>
+    ///     热键触发复制后是否显示成功提示
+    /// </summary>
+    [ObservableProperty] private bool _hotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
 
     public CommonViewModel()
     {
@@ -426,6 +432,7 @@ public partial class CommonViewModel : ObservableObject
         IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
         StayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
         MainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
+        HotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

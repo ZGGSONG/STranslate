@@ -224,7 +224,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         if (string.IsNullOrEmpty(result)) return;
 
         ClipboardHelper.Copy(result);
-        ToastHelper.Show($"复制{translator.Name}结果");
+        if (CurConfig?.HotkeyCopySuccessToast ?? true)
+            ToastHelper.Show($"复制{translator.Name}结果");
     }
 
     public void Clear()

@@ -250,6 +250,7 @@ public class ConfigHelper
         CurrentConfig.IgnoreHotkeysOnFullscreen = model.IgnoreHotkeysOnFullscreen;
         CurrentConfig.StayMainViewWhenLoseFocus = model.StayMainViewWhenLoseFocus;
         CurrentConfig.MainOcrLang = model.MainOcrLang;
+        CurrentConfig.HotkeyCopySuccessToast = model.HotkeyCopySuccessToast;
 
         //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
@@ -713,6 +714,7 @@ public class ConfigHelper
             IsShowLargeHumpCopyBtn = false,
             IgnoreHotkeysOnFullscreen = false,
             MainOcrLang = LangEnum.auto,
+            HotkeyCopySuccessToast = true,
             ReplaceProp = new ReplaceProp(),
             Services =
             [
