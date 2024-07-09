@@ -15,6 +15,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.OCR;
+using STranslate.Views.Preference.OCR;
 
 namespace STranslate.ViewModels.Preference;
 
@@ -54,6 +55,7 @@ public partial class OCRScvViewModel : ObservableObject
         OcrServices.Add(new PaddleOCR());
         OcrServices.Add(new TencentOCR());
         OcrServices.Add(new BaiduOCR());
+        OcrServices.Add(new VolcengineOCR());
 
         ResetView();
     }
@@ -151,14 +153,15 @@ public partial class OCRScvViewModel : ObservableObject
             if (SelectedIndex != -1)
                 tmpIndex = SelectedIndex;
 
-            var head = "STranslate.Views.Preference.OCR.";
+            const string head = "STranslate.Views.Preference.OCR.";
             //TODO: 新OCR服务需要适配
             var name = ocr.Type switch
             {
-                OCRType.PaddleOCR => string.Format("{0}PaddleOCRPage", head),
-                OCRType.TencentOCR => string.Format("{0}TencentOCRPage", head),
-                OCRType.BaiduOCR => string.Format("{0}BaiduOCRPage", head),
-                _ => string.Format("{0}PaddleOCRPage", head)
+                OCRType.PaddleOCR => string.Format($"{head}{nameof(PaddleOCRPage)}"),
+                OCRType.TencentOCR => string.Format($"{head}{nameof(TencentOCRPage)}"),
+                OCRType.BaiduOCR => string.Format($"{head}{nameof(BaiduOCRPage)}"),
+                OCRType.VolcengineOCR => string.Format($"{head}{nameof(VolcengineOCRPage)}"),
+                _ => string.Format($"{head}{nameof(PaddleOCRPage)}")
             };
 
             NavigationPage(name, ocr);
@@ -185,6 +188,7 @@ public partial class OCRScvViewModel : ObservableObject
                     PaddleOCR paddleocr => paddleocr.Clone(),
                     TencentOCR tencentocr => tencentocr.Clone(),
                     BaiduOCR baiduocr => baiduocr.Clone(),
+                    VolcengineOCR volcengineocr => volcengineocr.Clone(),
                     _ => throw new InvalidOperationException($"Unsupported ocr type: {ocr.GetType().Name}")
                 }
             );

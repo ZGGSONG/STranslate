@@ -9,6 +9,9 @@ namespace STranslate.Util
         [DllImport("volcengine.dll", EntryPoint = "Execute", CallingConvention = CallingConvention.Cdecl)]
         public static extern GoTuple Execute(byte[] appid, byte[] appkey, byte[] source, byte[] target, byte[] content);
 
+        [DllImport("volcengine-ocr.dll", EntryPoint = "Execute", CallingConvention = CallingConvention.Cdecl)]
+        public static extern GoTuple Execute(byte[] appid, byte[] appkey, byte[] base64Str);
+
         public struct GoTuple
         {
             public int intValue;

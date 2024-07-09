@@ -125,8 +125,15 @@ namespace STranslate.ViewModels.Preference.OCR
 
         public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
         {
-            var action = "OCRNormal";
-            var version = "2020-08-26";
+            //https://github.com/Baozisoftware/go-dll/wiki/C%23%E8%B0%83%E7%94%A8Go%E7%89%88DLL#%E5%85%B3%E4%BA%8Ego%E7%9A%84%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E8%BF%94%E5%9B%9E%E9%97%AE%E9%A2%98
+            //加入这个就不崩溃了
+            Environment.SetEnvironmentVariable("GODEBUG", "cgocheck=0");
+
+            var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
+            var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
+            //var result = await Task.Run(() =>
+            //    GoUtil.Execute(accessKeyBytes, secretKeyBytes, bytes)).ConfigureAwait(false);
+
 
 #if false
 var secretId = AppID;

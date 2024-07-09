@@ -745,10 +745,11 @@ public class OCRConverter : JsonConverter<IOCR>
         var type = jsonObject["Type"]!.Value<int>();
         IOCR ocr = type switch
         {
+            //TODO: 新OCR服务需要适配
             (int)OCRType.PaddleOCR => new PaddleOCR(),
             (int)OCRType.BaiduOCR => new BaiduOCR(),
             (int)OCRType.TencentOCR => new TencentOCR(),
-            //TODO: 新OCR服务需要适配
+            (int)OCRType.VolcengineOCR => new VolcengineOCR(),
             _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
         };
 
