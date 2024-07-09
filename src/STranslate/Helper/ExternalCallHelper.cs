@@ -35,9 +35,11 @@ public class ExternalCallHelper
             _listener.BeginGetContext(Callback, _listener);
             _isStarted = true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("启动服务失败请重新配置端口");
+            const string msg = "启动服务失败请重新配置端口";
+            LogService.Logger.Error($"{msg}: {prefix}", ex);
+            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
         }
     }
 
