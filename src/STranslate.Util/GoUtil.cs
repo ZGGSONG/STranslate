@@ -6,11 +6,14 @@ namespace STranslate.Util
 {
     public class GoUtil
     {
-        [DllImport("volcengine.dll", EntryPoint = "Execute", CallingConvention = CallingConvention.Cdecl)]
-        public static extern GoTuple Execute(byte[] appid, byte[] appkey, byte[] source, byte[] target, byte[] content);
+        [DllImport("volcengine.dll", EntryPoint = "VolcengineTranslator", CallingConvention = CallingConvention.Cdecl)]
+        public static extern GoTuple VolcengineTranslator(byte[] appid, byte[] appkey, byte[] source, byte[] target, byte[] content);
 
-        [DllImport("volcengine-ocr.dll", EntryPoint = "Execute", CallingConvention = CallingConvention.Cdecl)]
-        public static extern GoTuple Execute(byte[] appid, byte[] appkey, byte[] base64Str);
+        [DllImport("volcengine.dll", EntryPoint = "VolcengineOcr", CallingConvention = CallingConvention.Cdecl)]
+        public static extern GoTuple VolcengineOcr(byte[] appid, byte[] appkey, byte[] base64Str);
+
+        [DllImport("volcengine.dll", EntryPoint = "TestMultiReturn", CallingConvention = CallingConvention.Cdecl)]
+        public static extern GoTuple TestMultiReturn();
 
         public struct GoTuple
         {

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -142,6 +143,12 @@ namespace STranslate.Util
             using var fs = File.OpenRead(path);
             var result = Image.FromStream(fs); // 从流中创建图像
             return new Bitmap(result); // 创建并返回位图
+        }
+
+        public static byte[] BytesToBase64StringBytes(byte[] bytes)
+        {
+            var str = Convert.ToBase64String(bytes);
+            return Encoding.UTF8.GetBytes(str);
         }
     }
 }

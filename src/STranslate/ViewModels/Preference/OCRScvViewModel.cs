@@ -65,17 +65,17 @@ public partial class OCRScvViewModel : ObservableObject
         get => _activedOCR;
         set
         {
-            if (value != null && _activedOCR != value)
-            {
-                _activedOCR = value;
-                OnPropertyChanged();
+            if (value == null || _activedOCR == value)
+                return;
 
-                CurOCRServiceList.First(x => x == value).IsEnabled = true;
+            _activedOCR = value;
+            OnPropertyChanged();
 
-                if (!_isPreferenceOperate) Save();
+            CurOCRServiceList.First(x => x == value).IsEnabled = true;
 
-                OnChangeActivedOcrService?.Invoke();
-            }
+            if (!_isPreferenceOperate) Save();
+
+            OnChangeActivedOcrService?.Invoke();
         }
     }
 

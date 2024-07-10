@@ -51,7 +51,7 @@ public partial class ReplaceViewModel : ObservableObject
         if (targetLang == LangEnum.auto) targetLang = await DetectLanguageAsync(content, token);
 
         LogService.Logger.Debug(
-            $"<Begin> Replace Execute\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
+            $"<Begin> Replace VolcengineTranslator\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
 
         // Perform translation
         var req = new RequestModel(content, LangEnum.auto, targetLang);
@@ -70,14 +70,14 @@ public partial class ReplaceViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            LogService.Logger.Warn("Replace Execute Error: " + ex.Message);
+            LogService.Logger.Warn("Replace VolcengineTranslator Error: " + ex.Message);
             await FailAsync(token);
             // 还原原始内容
             InputSimulatorHelper.PrintText(content);
         }
         finally
         {
-            LogService.Logger.Debug("<End> Replace Execute");
+            LogService.Logger.Debug("<End> Replace VolcengineTranslator");
         }
     }
 

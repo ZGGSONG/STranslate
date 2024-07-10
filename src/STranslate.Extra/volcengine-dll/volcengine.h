@@ -84,12 +84,19 @@ struct TestMultiReturn_return {
 };
 extern __declspec(dllexport) struct TestMultiReturn_return TestMultiReturn();
 
-/* Return type for Execute */
-struct Execute_return {
+/* Return type for VolcengineOcr */
+struct VolcengineOcr_return {
 	GoInt r0;
 	GoString r1;
 };
-extern __declspec(dllexport) struct Execute_return Execute(char* accessKey, char* secretKey, char* source, char* target, char* content);
+extern __declspec(dllexport) struct VolcengineOcr_return VolcengineOcr(char* accessKey, char* secretKey, char* base64Str);
+
+/* Return type for VolcengineTranslator */
+struct VolcengineTranslator_return {
+	GoInt r0;
+	GoString r1;
+};
+extern __declspec(dllexport) struct VolcengineTranslator_return VolcengineTranslator(char* accessKey, char* secretKey, char* source, char* target, char* content);
 
 #ifdef __cplusplus
 }

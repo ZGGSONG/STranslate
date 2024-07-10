@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using System;
@@ -131,61 +132,31 @@ namespace STranslate.ViewModels.Preference.OCR
 
             var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
             var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
-            //var result = await Task.Run(() =>
-            //    GoUtil.Execute(accessKeyBytes, secretKeyBytes, bytes)).ConfigureAwait(false);
+            var result = await Task.Run(() => GoUtil.VolcengineOcr(accessKeyBytes, secretKeyBytes, BitmapUtil.BytesToBase64StringBytes(bytes)), cancelToken).ConfigureAwait(false);
+            var tuple = GoUtil.GoTupleToCSharpTuple(result);
+            var resp = tuple.Item2 ?? throw new Exception("请求结果为空");
+            if (tuple.Item1 != 200)
+                throw new Exception(resp);
 
-
-#if false
-var secretId = AppID;
-            var secretKey = AppKey;
-            var token = "";
-            var region = TencentRegionEnum.ap_shanghai.ToString().Replace("_", "-");
-
-            var base64Str = Convert.ToBase64String(bytes);
-            string body = "";
-            if (TencentOcrAction == TencentOCRAction.GeneralBasicOCR)
-            {
-                var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
-                body = "{\"ImageBase64\":\"" + base64Str + "\",\"LanguageType\":\"" + target + "\"}";
-            }
-            else
-            {
-                body = "{\"ImageBase64\":\"" + base64Str + "\"}";
-            }
-            
-            var url = Url;
-            var host = url.Replace("https://", "");
-            var contentType = "application/json; charset=utf-8";
-            var timestamp = ((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds).ToString();
-            var headers = new Dictionary<string, string>
-            {
-                { "Host", host },
-                { "X-TC-Timestamp", timestamp },
-                { "X-TC-Version", version },
-                { "X-TC-Region", region },
-                { "X-TC-Token", token },
-                { "X-TC-RequestClient", "SDK_NET_BAREBONE" },
-            };
-            string resp = await HttpUtil.PostAsync(url, body, null, headers, cancelToken);
-            if (string.IsNullOrEmpty(resp))
-                throw new Exception("请求结果为空");
-
-            // 解析JSON数据
             var parsedData = JsonConvert.DeserializeObject<Root>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+            if (parsedData.code != 10000) return OcrResult.Fail(parsedData.ResponseMetadata.Error.Message);
 
-            // 判断是否出错
-            if (parsedData.Response.Error != null) return OcrResult.Fail(parsedData.Response.Error.Message);
+            if (parsedData.data.line_texts.Count != parsedData.data.line_rects.Count) return OcrResult.Fail("识别和位置结果数量不匹配\n原始数据:" + resp);
+
             // 提取content的值
             var ocrResult = new OcrResult();
-            foreach (var item in parsedData.Response.TextDetections)
+            for (var i = 0; i < parsedData.data.line_texts.Count; i++)
             {
-                var content = new OcrContent(item.DetectedText);
-                item.Polygon.ForEach(pg => content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y)));
+                var content = new OcrContent(parsedData.data.line_texts[i]);
+                Converter(parsedData.data.line_rects[i]).ForEach(pg =>
+                {
+                    //仅位置不全为0时添加
+                    if (pg.X != pg.Y || pg.X != 0)
+                        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                });
                 ocrResult.OcrContents.Add(content);
             }
             return ocrResult;
-#endif
-            return OcrResult.Empty;
         }
 
         public IOCR Clone()
@@ -205,6 +176,166 @@ var secretId = AppID;
 
         public string? LangConverter(LangEnum lang) => "auto";
 
-#endregion Interface Implementation
+        #endregion Interface Implementation
+
+        #region Volcengine Offcial Support
+
+        public List<BoxPoint> Converter(Line_rectsItem rect) =>
+        [
+            //left top
+            new(rect.x, rect.y),
+
+	        //right top
+	        new(rect.x + rect.width, rect.y),
+
+	        //right bottom
+	        new(rect.x + rect.width, rect.y + rect.height),
+
+	        //left bottom
+	        new(rect.x, rect.y + rect.height)
+        ];
+
+        public class Error
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public int CodeN { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Code { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Message { get; set; }
+        }
+
+        public class ResponseMetadata
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public string RequestId { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Service { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Region { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Action { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Version { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public Error Error { get; set; }
+        }
+
+        public class Line_rectsItem
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public int x { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int y { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int width { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int height { get; set; }
+        }
+
+        public class CharsItemItem
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public int x { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int y { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int width { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int height { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public double score { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string @char { get; set; }
+        }
+
+        public class Data
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public List<string> line_texts { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public List<Line_rectsItem> line_rects { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public List<List<CharsItemItem>> chars { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public List<List<List<int>>> polygons { get; set; }
+        }
+
+        public class Root
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public ResponseMetadata ResponseMetadata { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string request_id { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string time_elapsed { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int code { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string message { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public Data data { get; set; }
+        }
+
+
+        #endregion Volcengine Offcial Support
     }
 }
