@@ -93,7 +93,7 @@
 
     <!-- // 密码框 // -->
     <Style TargetType="PasswordBox">
-        <Setter Property="Padding" Value="5,2" />
+        <Setter Property="Padding" Value="5,0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
@@ -109,7 +109,7 @@
                             SnapsToDevicePixels="True">
                         <Grid>
                             <TextBlock Name="markText"
-                                       Margin="5,2"
+                                       Margin="5, 0"
                                        VerticalAlignment="Center"
                                        Foreground="Gray"
                                        Text="{TemplateBinding Tag}"
@@ -133,9 +133,9 @@
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxKeyboardFocusedBrushColor}" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding ToolTip, RelativeSource={RelativeSource Self}}" Value="">
+                        <Trigger Property="common:BoundPasswordBox.Password" Value="">
                             <Setter TargetName="markText" Property="Visibility" Value="Visible" />
-                        </DataTrigger>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
