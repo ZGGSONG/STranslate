@@ -27,6 +27,8 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" 
+                                           
                                            Placeholder="BaiduOCR"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -57,6 +59,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="304"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="https://aip.baidubce.com"
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -88,6 +91,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="APIKey"
                                            Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
@@ -118,6 +122,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="SecretKey"
                                            Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />

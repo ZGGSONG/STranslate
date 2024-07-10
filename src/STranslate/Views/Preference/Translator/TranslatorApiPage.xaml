@@ -26,6 +26,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="自建服务"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -39,6 +40,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="282"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="http://127.0.0.1:8000/translate"
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -52,6 +54,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="282"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="没有则无需填写"
                                            Text="{Binding Token, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>

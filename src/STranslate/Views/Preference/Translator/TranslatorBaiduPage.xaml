@@ -26,6 +26,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="百度翻译"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -40,6 +41,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="304"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="https://fanyi-api.baidu.com/api/trans/vip/translate"
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -55,6 +57,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="AppID"
                                            Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
@@ -85,6 +88,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="AppKey"
                                            Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />

@@ -39,6 +39,7 @@
                 <common:PlaceholderTextBox x:Name="SearchTb"
                                            Height="32"
                                            Margin="8,0"
+                                           VerticalAlignment="Center"
                                            ContextMenu="{x:Null}"
                                            Placeholder="请输入搜索内容"
                                            Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />

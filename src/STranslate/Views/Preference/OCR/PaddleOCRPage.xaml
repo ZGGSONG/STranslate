@@ -27,6 +27,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="PaddleOCR"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>

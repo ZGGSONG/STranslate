@@ -182,6 +182,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置服务端口进行外部调用" />
                                 <common:PlaceholderTextBox MinWidth="100"
                                                            HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
                                                            Placeholder="请输入端口号"
                                                            PreviewKeyDown="AcceptOnlyNumber"
                                                            Text="{Binding ExternalCallPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=50020}" />
@@ -206,6 +207,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器IP地址" />
                                 <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
                                                            Placeholder="请输入IP地址"
                                                            Text="{Binding ProxyIp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             </DockPanel>
@@ -215,6 +217,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器端口" />
                                 <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
                                                            Placeholder="请输入端口号"
                                                            PreviewKeyDown="AcceptOnlyNumber"
                                                            Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=8089}" />
@@ -233,6 +236,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器用户名" />
                                 <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
                                                            Placeholder="请输入用户名"
                                                            Text="{Binding ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
@@ -249,6 +253,7 @@
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器密码" />
                                 <common:PlaceholderTextBox MinWidth="200"
                                                            HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
                                                            DockPanel.Dock="Right"
                                                            Placeholder="请输入密码"
                                                            Text="{Binding ProxyPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

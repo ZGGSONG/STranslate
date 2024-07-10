@@ -63,6 +63,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="160"
                                                HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
                                                Placeholder="百度千帆"
                                                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
@@ -93,6 +94,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
                                                Placeholder="https://aip.baidubce.com/rpc/2.0/ai_custom/v1"
                                                Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
@@ -107,6 +109,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
                                                Placeholder="ernie_speed"
                                                Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
@@ -122,12 +125,14 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="160"
                                                HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
                                                Placeholder="APIKey"
                                                Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                     <PasswordBox Grid.Column="1"
                                  MinWidth="160"
                                  HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
                                  common:BoundPasswordBox.Attach="True"
                                  common:BoundPasswordBox.Password="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                  Tag="APIKey"

@@ -123,6 +123,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="160"
                                                HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
                                                Placeholder="API Key"
                                                Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />

@@ -38,6 +38,7 @@
                         <common:PlaceholderTextBox MinWidth="200"
                                                    MaxWidth="400"
                                                    HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
                                                    Placeholder="请输入WebDav地址"
                                                    Text="{Binding WebDavUrl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
@@ -48,6 +49,7 @@
                         <common:PlaceholderTextBox MinWidth="200"
                                                    MaxWidth="400"
                                                    HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
                                                    Placeholder="请输入用户名"
                                                    Text="{Binding WebDavUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
@@ -58,6 +60,7 @@
                         <common:PlaceholderTextBox MinWidth="200"
                                                    MaxWidth="400"
                                                    HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
                                                    DockPanel.Dock="Right"
                                                    Placeholder="请输入密码"
                                                    Text="{Binding WebDavPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

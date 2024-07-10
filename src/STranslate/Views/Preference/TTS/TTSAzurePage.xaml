@@ -89,6 +89,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="southeaseasia"
                                            Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
@@ -119,6 +120,7 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
                                            Placeholder="Key"
                                            Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
