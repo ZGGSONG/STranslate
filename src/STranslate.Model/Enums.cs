@@ -259,6 +259,14 @@ namespace STranslate.Model
         GeneralAccurateOCR,
     }
 
+    public enum VolcengineOCRAction
+    {
+        [Description("通用文字识别")]
+        OCRNormal,
+        [Description("多语种OCR")]
+        MultiLanguageOCR,
+    }
+
     /// <summary>
     /// 图标类型
     /// </summary>

@@ -34,12 +34,12 @@ func TestMultiReturn() (int, string) {
 }
 
 //export VolcengineOcr
-func VolcengineOcr(accessKey, secretKey, base64Str *C.char) (int, string) {
+func VolcengineOcr(accessKey, secretKey, base64Str, action *C.char) (int, string) {
 	visual.DefaultInstance.Client.SetAccessKey(C.GoString(accessKey))
 	visual.DefaultInstance.Client.SetSecretKey(C.GoString(secretKey))
 	form := url.Values{}
 	form.Add("image_base64", C.GoString(base64Str))
-	resp, status, err := visual.DefaultInstance.OCRNormal(form)
+	resp, status, err := visual.DefaultInstance.OCRApi(form, C.GoString(action))
 	b, _ := json.Marshal(resp)
 	if status == 200 {
 		return status, string(b)

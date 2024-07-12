@@ -10,7 +10,7 @@ namespace STranslate.Util
         public static extern GoTuple VolcengineTranslator(byte[] appid, byte[] appkey, byte[] source, byte[] target, byte[] content);
 
         [DllImport("volcengine.dll", EntryPoint = "VolcengineOcr", CallingConvention = CallingConvention.Cdecl)]
-        public static extern GoTuple VolcengineOcr(byte[] appid, byte[] appkey, byte[] base64Str);
+        public static extern GoTuple VolcengineOcr(byte[] appid, byte[] appkey, byte[] base64Str, byte[] action);
 
         [DllImport("volcengine.dll", EntryPoint = "TestMultiReturn", CallingConvention = CallingConvention.Cdecl)]
         public static extern GoTuple TestMultiReturn();

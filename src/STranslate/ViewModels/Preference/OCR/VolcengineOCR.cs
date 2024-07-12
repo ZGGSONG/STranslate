@@ -7,6 +7,7 @@ using STranslate.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -86,6 +87,12 @@ namespace STranslate.ViewModels.Preference.OCR
         [JsonIgnore]
         public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
 
+        /// <summary>
+        /// 火山OCR版本(默认多语种OCR)
+        /// </summary>
+        [ObservableProperty]
+        private VolcengineOCRAction _volcengineOcrAction = VolcengineOCRAction.MultiLanguageOCR;
+
         #region Show/Hide Encrypt Info
 
         [JsonIgnore]
@@ -132,29 +139,59 @@ namespace STranslate.ViewModels.Preference.OCR
 
             var accessKeyBytes = Encoding.UTF8.GetBytes(AppID);
             var secretKeyBytes = Encoding.UTF8.GetBytes(AppKey);
-            var result = await Task.Run(() => GoUtil.VolcengineOcr(accessKeyBytes, secretKeyBytes, BitmapUtil.BytesToBase64StringBytes(bytes)), cancelToken).ConfigureAwait(false);
+            var actionBytes = Encoding.UTF8.GetBytes(VolcengineOcrAction.ToString());
+            var result = await Task.Run(() => GoUtil.VolcengineOcr(accessKeyBytes, secretKeyBytes, BitmapUtil.BytesToBase64StringBytes(bytes), actionBytes), cancelToken).ConfigureAwait(false);
             var tuple = GoUtil.GoTupleToCSharpTuple(result);
             var resp = tuple.Item2 ?? throw new Exception("请求结果为空");
             if (tuple.Item1 != 200)
                 throw new Exception(resp);
 
-            var parsedData = JsonConvert.DeserializeObject<Root>(resp) ?? throw new Exception($"反序列化失败: {resp}");
-            if (parsedData.code != 10000) return OcrResult.Fail(parsedData.ResponseMetadata.Error.Message);
-
-            if (parsedData.data.line_texts.Count != parsedData.data.line_rects.Count) return OcrResult.Fail("识别和位置结果数量不匹配\n原始数据:" + resp);
+            object? parsedData = VolcengineOcrAction switch
+            {
+                VolcengineOCRAction.OCRNormal => JsonConvert.DeserializeObject<Root>(resp),
+                VolcengineOCRAction.MultiLanguageOCR => JsonConvert.DeserializeObject<RootMultiLang>(resp),
+                _ => throw new Exception(resp)
+            };
 
             // 提取content的值
             var ocrResult = new OcrResult();
-            for (var i = 0; i < parsedData.data.line_texts.Count; i++)
+            if (parsedData is Root root)
             {
-                var content = new OcrContent(parsedData.data.line_texts[i]);
-                Converter(parsedData.data.line_rects[i]).ForEach(pg =>
+                if (root.code != 10000) return OcrResult.Fail(root.ResponseMetadata.Error.Message);
+
+                if (root.data.line_texts.Count != root.data.line_rects.Count) return OcrResult.Fail("识别和位置结果数量不匹配\n原始数据:" + resp);
+
+                for (var i = 0; i < root.data.line_texts.Count; i++)
                 {
-                    //仅位置不全为0时添加
-                    if (pg.X != pg.Y || pg.X != 0)
-                        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-                });
-                ocrResult.OcrContents.Add(content);
+                    var content = new OcrContent(root.data.line_texts[i]);
+                    Converter(root.data.line_rects[i]).ForEach(pg =>
+                    {
+                        //仅位置不全为0时添加
+                        if (pg.X != pg.Y || pg.X != 0)
+                            content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                    });
+                    ocrResult.OcrContents.Add(content);
+                }
+            }
+            else if (parsedData is RootMultiLang rootMultiLang)
+            {
+                if (rootMultiLang.code != 10000) return OcrResult.Fail(rootMultiLang.ResponseMetadata.Error.Message);
+
+                for (var i = 0; i < rootMultiLang.data.ocr_infos.Count; i++)
+                {
+                    var content = new OcrContent(rootMultiLang.data.ocr_infos[i].text);
+                    Converter(rootMultiLang.data.ocr_infos[i].rect).ForEach(pg =>
+                    {
+                        //仅位置不全为0时添加
+                        if (pg.X != pg.Y || pg.X != 0)
+                            content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                    });
+                    ocrResult.OcrContents.Add(content);
+                }
+            }
+            else
+            {
+                throw new Exception($"反序列化失败: {resp}");
             }
             return ocrResult;
         }
@@ -193,6 +230,21 @@ namespace STranslate.ViewModels.Preference.OCR
 
 	        //left bottom
 	        new(rect.x, rect.y + rect.height)
+        ];
+
+        public List<BoxPoint> Converter(List<List<int>> rect) =>
+        [
+            //left top
+            new(rect[0][0], rect[0][1]),
+
+            //right top
+            new(rect[1][0], rect[1][1]),
+
+            //right bottom
+            new(rect[2][0], rect[2][1]),
+
+            //left bottom
+            new(rect[3][0], rect[3][1]),
         ];
 
         public class Error
@@ -336,6 +388,61 @@ namespace STranslate.ViewModels.Preference.OCR
         }
 
 
+        public class RootMultiLang
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public ResponseMetadata ResponseMetadata { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string request_id { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string time_elapsed { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public int code { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string message { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public DataMultiLang data { get; set; }
+        }
+
+        public class Ocr_infosItem
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public string lang { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public double prob { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public List<List<int>> rect { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string text { get; set; }
+        }
+
+        public class DataMultiLang
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public List<Ocr_infosItem> ocr_infos { get; set; }
+        }
         #endregion Volcengine Offcial Support
     }
 }

@@ -89,7 +89,7 @@ struct VolcengineOcr_return {
 	GoInt r0;
 	GoString r1;
 };
-extern __declspec(dllexport) struct VolcengineOcr_return VolcengineOcr(char* accessKey, char* secretKey, char* base64Str);
+extern __declspec(dllexport) struct VolcengineOcr_return VolcengineOcr(char* accessKey, char* secretKey, char* base64Str, char* action);
 
 /* Return type for VolcengineTranslator */
 struct VolcengineTranslator_return {
