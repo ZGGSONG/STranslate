@@ -54,7 +54,7 @@ public partial class TranslatorCaiyun : TranslatorBase, ITranslator
 
     [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
 
-    [JsonIgnore] [ObservableProperty] public bool _isEnabled = true;
+    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
 
     [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
 

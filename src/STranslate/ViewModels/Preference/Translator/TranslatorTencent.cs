@@ -56,7 +56,7 @@ namespace STranslate.ViewModels.Preference.Translator
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]
