@@ -17,7 +17,7 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public BaiduOCR()
-            : this(Guid.NewGuid(), "https://aip.baidubce.com", "百度OCR") { }
+            : this(Guid.NewGuid(), "https://aip.baidubce.com", "百度OCR", isEnabled: false) { }
 
         public BaiduOCR(
             Guid guid,
@@ -53,7 +53,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]

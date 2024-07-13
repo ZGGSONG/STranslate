@@ -87,7 +87,7 @@ public partial class PaddleOCR : ObservableObject, IOCR
     #region Constructor
 
     public PaddleOCR()
-        : this(Guid.NewGuid(), "", "PaddleOCR")
+        : this(Guid.NewGuid(), "", "PaddleOCR", isEnabled: false)
     {
     }
 
@@ -120,7 +120,7 @@ public partial class PaddleOCR : ObservableObject, IOCR
 
     [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.PaddleOCR;
 
-    [JsonIgnore] [ObservableProperty] public bool _isEnabled = true;
+    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
 
     [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
 

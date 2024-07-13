@@ -16,7 +16,7 @@ namespace STranslate.ViewModels.Preference.TTS
     public partial class TTSAzure : ObservableObject, ITTS
     {
         public TTSAzure()
-            : this(Guid.NewGuid(), "https://eastasia.api.cognitive.microsoft.com/", "微软TTS") { }
+            : this(Guid.NewGuid(), "https://eastasia.api.cognitive.microsoft.com/", "微软TTS", isEnabled: false) { }
 
         public TTSAzure(
             Guid guid,
@@ -48,7 +48,7 @@ namespace STranslate.ViewModels.Preference.TTS
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]

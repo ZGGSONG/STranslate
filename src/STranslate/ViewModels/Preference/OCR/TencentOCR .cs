@@ -18,7 +18,7 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public TencentOCR()
-            : this(Guid.NewGuid(), "https://ocr.tencentcloudapi.com", "腾讯OCR") { }
+            : this(Guid.NewGuid(), "https://ocr.tencentcloudapi.com", "腾讯OCR", isEnabled: false) { }
 
         public TencentOCR(
             Guid guid,
@@ -54,7 +54,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]

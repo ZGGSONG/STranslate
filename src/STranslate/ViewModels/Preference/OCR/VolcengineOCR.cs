@@ -20,7 +20,7 @@ namespace STranslate.ViewModels.Preference.OCR
         #region Constructor
 
         public VolcengineOCR()
-            : this(Guid.NewGuid(), "https://visual.volcengineapi.com", "火山OCR") { }
+            : this(Guid.NewGuid(), "https://visual.volcengineapi.com", "火山OCR", isEnabled: false) { }
 
         public VolcengineOCR(
             Guid guid,
@@ -56,7 +56,7 @@ namespace STranslate.ViewModels.Preference.OCR
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]

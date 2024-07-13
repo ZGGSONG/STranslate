@@ -177,26 +177,24 @@ public partial class OCRScvViewModel : ObservableObject
     [RelayCommand]
     private void Add(List<object> list)
     {
-        if (list?.Count == 2)
-        {
-            var ocr = list.First();
+        if (list?.Count != 2) return;
+        var ocr = list.First();
 
-            //TODO: 新OCR服务需要适配
-            CurOCRServiceList.Add(
-                ocr switch
-                {
-                    PaddleOCR paddleocr => paddleocr.Clone(),
-                    TencentOCR tencentocr => tencentocr.Clone(),
-                    BaiduOCR baiduocr => baiduocr.Clone(),
-                    VolcengineOCR volcengineocr => volcengineocr.Clone(),
-                    _ => throw new InvalidOperationException($"Unsupported ocr type: {ocr.GetType().Name}")
-                }
-            );
+        //TODO: 新OCR服务需要适配
+        CurOCRServiceList.Add(
+            ocr switch
+            {
+                PaddleOCR paddleocr => paddleocr.Clone(),
+                TencentOCR tencentocr => tencentocr.Clone(),
+                BaiduOCR baiduocr => baiduocr.Clone(),
+                VolcengineOCR volcengineocr => volcengineocr.Clone(),
+                _ => throw new InvalidOperationException($"Unsupported ocr type: {ocr.GetType().Name}")
+            }
+        );
 
-            (list.Last() as Popup)!.IsOpen = false;
+        (list.Last() as Popup)!.IsOpen = false;
 
-            ResetView(ActionType.Add);
-        }
+        ResetView(ActionType.Add);
     }
 
     [RelayCommand]

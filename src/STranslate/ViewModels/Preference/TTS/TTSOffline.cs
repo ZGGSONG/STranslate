@@ -13,7 +13,7 @@ namespace STranslate.ViewModels.Preference.TTS
     public partial class TTSOffline : ObservableObject, ITTS
     {
         public TTSOffline()
-            : this(Guid.NewGuid(), "", "离线TTS") { }
+            : this(Guid.NewGuid(), "", "离线TTS", isEnabled: false) { }
 
         public TTSOffline(
             Guid guid,
@@ -45,7 +45,7 @@ namespace STranslate.ViewModels.Preference.TTS
 
         [JsonIgnore]
         [ObservableProperty]
-        public bool _isEnabled = true;
+        private bool _isEnabled = true;
 
         [JsonIgnore]
         [ObservableProperty]
