@@ -12,6 +12,7 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <proxy:BindingProxy x:Key="Vm" Data="{Binding}" />
         <proxy:BindingProxy x:Key="translator" Data="{Binding OutputVM.Translators}" />
         <proxy:BindingProxy x:Key="ocr" Data="{Binding OCRVM.CurOCRServiceList}" />
         <proxy:BindingProxy x:Key="tts" Data="{Binding TTSVM.CurTTSServiceList}" />
@@ -28,23 +29,30 @@
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="0">
+                            <DataTrigger
+                                Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}"
+                                Value="0">
                                 <Setter Property="ContextMenu" Value="{x:Null}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="1">
+                            <DataTrigger
+                                Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}"
+                                Value="1">
                                 <Setter Property="ContextMenu">
                                     <Setter.Value>
-                                        <ContextMenu ItemsSource="{Binding Source={StaticResource proxy}, Path=Data.UserDefinePrompts}">
+                                        <ContextMenu
+                                            ItemsSource="{Binding Source={StaticResource proxy}, Path=Data.UserDefinePrompts}">
                                             <ContextMenu.ItemContainerStyle>
                                                 <Style TargetType="MenuItem">
                                                     <Setter Property="Header" Value="{Binding Name}" />
                                                     <Setter Property="Height" Value="30" />
                                                     <Setter Property="Icon" Value="&#xe60b;" />
                                                     <Setter Property="IsCheckable" Value="{Binding Enabled}" />
-                                                    <Setter Property="Command" Value="{Binding Source={StaticResource proxy}, Path=Data.SelectedPromptCommand}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding Source={StaticResource proxy}, Path=Data.SelectedPromptCommand}" />
                                                     <Setter Property="CommandParameter">
                                                         <Setter.Value>
-                                                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                            <MultiBinding
+                                                                Converter="{StaticResource MultiValue2ListConverter}">
                                                                 <Binding Path="." />
                                                                 <Binding Path="" />
                                                             </MultiBinding>
@@ -101,7 +109,8 @@
             </Border>
             <DataTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                    <Setter TargetName="ServiceControl" Property="Background"
+                            Value="{DynamicResource BtnMouseOverBackground}" />
                 </Trigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -154,7 +163,8 @@
             </Border>
             <DataTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="OcrControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                    <Setter TargetName="OcrControl" Property="Background"
+                            Value="{DynamicResource BtnMouseOverBackground}" />
                 </Trigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -207,7 +217,8 @@
             </Border>
             <DataTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="OcrControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                    <Setter TargetName="OcrControl" Property="Background"
+                            Value="{DynamicResource BtnMouseOverBackground}" />
                 </Trigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -275,7 +286,8 @@
                                  PreviewMouseWheel="ServiceListBox_PreviewMouseWheel">
                             <ListBox.ItemsSource>
                                 <CompositeCollection>
-                                    <CollectionContainer Collection="{Binding Source={StaticResource translator}, Path=Data}" />
+                                    <CollectionContainer
+                                        Collection="{Binding Source={StaticResource translator}, Path=Data}" />
                                     <Separator />
                                     <CollectionContainer Collection="{Binding Source={StaticResource ocr}, Path=Data}" />
                                     <Separator />
@@ -289,6 +301,71 @@
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="ServiceListBox" Path="SelectedItem" />
                                                 <Binding ElementName="BTN_Service" />
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListBox>
+                    </ScrollViewer>
+                </Border>
+            </Popup>
+            <ToggleButton x:Name="MainOcrLangTb"
+                          HorizontalAlignment="Right"
+                          Content="&#xe62f;"
+                          Style="{DynamicResource ToggleButtonIconStyle}"
+                          ToolTip="静默OCR/截图翻译语种"
+                          Visibility="{Binding ShowMainOcrLang, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Popup MinWidth="80"
+                   MinHeight="30"
+                   MaxHeight="400"
+                   AllowsTransparency="True"
+                   IsOpen="{Binding ElementName=MainOcrLangTb, Path=IsChecked}"
+                   Placement="Bottom"
+                   PlacementTarget="{Binding ElementName=MainOcrLangTb}"
+                   PopupAnimation="Slide"
+                   StaysOpen="False">
+                <Border Style="{DynamicResource BorderStyle}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  FlowDirection="LeftToRight"
+                                  MaxHeight="400">
+                        <ListBox x:Name="MainOcrLangLb"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 PreviewMouseWheel="ServiceListBox_PreviewMouseWheel"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ItemsSource="{Binding Source={proxy:Enumeration {x:Type model:LangEnum}}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type model:LangEnum}">
+                                    <Border x:Name="MainOcrLangBorder"
+                                            Margin="3"
+                                            Background="{DynamicResource BorderBackground}"
+                                            BorderBrush="{x:Null}"
+                                            CornerRadius="5">
+                                        <TextBlock HorizontalAlignment="Left"
+                                                   Margin="3 5"
+                                                   FontSize="{DynamicResource FontSize_Identify}"
+                                                   Text="{Binding Description}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Border>
+                                    <DataTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="MainOcrLangBorder"
+                                                    Property="Background"
+                                                    Value="{DynamicResource BtnMouseOverBackground}" />
+                                        </Trigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding Source={StaticResource Vm}, Path=Data.SelectedMainOcrLanguageCommand}">
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding
+                                                Converter="{StaticResource MultiValue2ListConverter}">
+                                                <Binding ElementName="MainOcrLangLb" Path="SelectedItem" />
+                                                <Binding ElementName="MainOcrLangTb" />
                                             </MultiBinding>
                                         </i:InvokeCommandAction.CommandParameter>
                                     </i:InvokeCommandAction>
@@ -326,19 +403,19 @@
                     ToolTip="截图翻译"
                     Visibility="{Binding IsShowScreenshot, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button HorizontalAlignment="Right"
-                    Command="{Binding NotifyIconVM.OCRCommand}"
-                    CommandParameter="header"
-                    Content="&#xe695;"
-                    Style="{DynamicResource ButtonIconStyle}"
-                    ToolTip="OCR"
-                    Visibility="{Binding IsShowOCR, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Button HorizontalAlignment="Right"
                     Command="{Binding NotifyIconVM.SilentOCRCommand}"
                     CommandParameter="header"
                     Content="&#xe861;"
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="静默OCR"
                     Visibility="{Binding IsShowSilentOCR, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button HorizontalAlignment="Right"
+                    Command="{Binding NotifyIconVM.OCRCommand}"
+                    CommandParameter="header"
+                    Content="&#xe695;"
+                    Style="{DynamicResource ButtonIconStyle}"
+                    ToolTip="OCR"
+                    Visibility="{Binding IsShowOCR, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button Width="30"
                     Height="30"
                     HorizontalAlignment="Right"

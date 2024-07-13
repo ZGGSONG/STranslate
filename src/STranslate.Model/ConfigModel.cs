@@ -333,6 +333,11 @@ public class ConfigModel
     public LangEnum MainOcrLang { get; set; } = LangEnum.auto;
 
     /// <summary>
+    ///     显示主界面截图翻译语种
+    /// </summary>
+    public bool ShowMainOcrLang { get; set; }
+
+    /// <summary>
     ///     热键触发复制后是否显示成功提示
     /// </summary>
     public bool HotkeyCopySuccessToast { get; set; } = true;
@@ -436,6 +441,7 @@ public class ConfigModel
             IgnoreHotkeysOnFullscreen = IgnoreHotkeysOnFullscreen,
             StayMainViewWhenLoseFocus = StayMainViewWhenLoseFocus,
             MainOcrLang = MainOcrLang,
+            ShowMainOcrLang = ShowMainOcrLang,
             HotkeyCopySuccessToast = HotkeyCopySuccessToast,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),

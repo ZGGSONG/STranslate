@@ -479,6 +479,13 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="显示静默OCR/截图翻译语种选择图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="静默OCR/截图翻译语种选择图标" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding ShowMainOcrLang}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="显示鼠标划词图标" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示鼠标划词图标" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"

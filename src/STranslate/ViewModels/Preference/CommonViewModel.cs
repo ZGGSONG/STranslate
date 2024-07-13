@@ -186,6 +186,11 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
 
     /// <summary>
+    ///     显示主界面截图翻译语种选择图标
+    /// </summary>
+    [ObservableProperty] private bool _showMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
+
+    /// <summary>
     ///     是否开机启动
     /// </summary>
     [ObservableProperty] private bool _isStartup = CurConfig?.IsStartup ?? false;
@@ -432,6 +437,7 @@ public partial class CommonViewModel : ObservableObject
         IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
         StayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
         MainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
+        ShowMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
         HotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
 
         LoadHistorySizeType();

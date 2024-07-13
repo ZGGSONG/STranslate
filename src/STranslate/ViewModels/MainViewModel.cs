@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Commons;
 using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
@@ -410,6 +411,7 @@ public partial class MainViewModel : ObservableObject
         IsShowClipboardMonitor = Config?.IsShowClipboardMonitor ?? false;
         IsShowQRCode = Config?.IsShowQRCode ?? false;
         IsShowHistory = Config?.IsShowHistory ?? false;
+        ShowMainOcrLang = Config?.ShowMainOcrLang ?? false;
     }
 
     [RelayCommand]
@@ -445,29 +447,47 @@ public partial class MainViewModel : ObservableObject
         ToastHelper.Show(CommonSettingVM.ThemeType.GetDescription());
     }
 
+    [RelayCommand]
+    private void SelectedMainOcrLanguage(List<object> list)
+    {
+        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+            list.Last() is not ToggleButton tb)
+            return;
+
+        tb.IsChecked = false;
+
+        if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
+            obj is not LangEnum lang) return;
+
+        CommonSettingVM.MainOcrLang = lang;
+        CommonSettingVM.SaveCommand.Execute(null);
+    }
+
     #region 显示图标
 
-    [ObservableProperty] private bool isShowClose;
+    [ObservableProperty] private bool _isShowClose;
 
-    [ObservableProperty] private bool isShowPreference;
+    [ObservableProperty] private bool _isShowPreference;
 
-    [ObservableProperty] private bool isShowConfigureService;
+    [ObservableProperty] private bool _isShowConfigureService;
 
-    [ObservableProperty] private bool isShowMousehook;
+    [ObservableProperty] private bool _isShowMousehook;
 
-    [ObservableProperty] private bool isShowIncrementalTranslation;
+    [ObservableProperty] private bool _isShowIncrementalTranslation;
 
-    [ObservableProperty] private bool isShowScreenshot;
+    [ObservableProperty] private bool _isShowScreenshot;
 
-    [ObservableProperty] private bool isShowOCR;
+    [ObservableProperty] private bool _isShowOCR;
 
-    [ObservableProperty] private bool isShowSilentOCR;
+    [ObservableProperty] private bool _isShowSilentOCR;
 
-    [ObservableProperty] private bool isShowClipboardMonitor;
+    [ObservableProperty] private bool _isShowClipboardMonitor;
 
-    [ObservableProperty] private bool isShowQRCode;
+    [ObservableProperty] private bool _isShowQRCode;
 
-    [ObservableProperty] private bool isShowHistory;
+    [ObservableProperty] private bool _isShowHistory;
+
+    [ObservableProperty] private bool _showMainOcrLang;
 
     #endregion 显示图标
 }

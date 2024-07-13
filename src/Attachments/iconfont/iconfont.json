@@ -6,6 +6,34 @@
   "description": "基于.Net 6 开发的新款翻译工具",
   "glyphs": [
     {
+      "icon_id": "10316548",
+      "name": "语种",
+      "font_class": "icon",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "10404811",
+      "name": "多语言",
+      "font_class": "duoyuyan",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "13868179",
+      "name": "多语言",
+      "font_class": "duoyuyan1",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "27876632",
+      "name": "语言 中文",
+      "font_class": "a-yuyanzhongwen",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
       "icon_id": "31357694",
       "name": "关闭",
       "font_class": "guanbi1",
