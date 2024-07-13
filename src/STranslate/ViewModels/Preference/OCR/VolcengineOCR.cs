@@ -143,55 +143,65 @@ namespace STranslate.ViewModels.Preference.OCR
             var result = await Task.Run(() => GoUtil.VolcengineOcr(accessKeyBytes, secretKeyBytes, BitmapUtil.BytesToBase64StringBytes(bytes), actionBytes), cancelToken).ConfigureAwait(false);
             var tuple = GoUtil.GoTupleToCSharpTuple(result);
             var resp = tuple.Item2 ?? throw new Exception("请求结果为空");
-            if (tuple.Item1 != 200)
-                throw new Exception(resp);
-
-            object? parsedData = VolcengineOcrAction switch
+            object? parsedData;
+            try
             {
-                VolcengineOCRAction.OCRNormal => JsonConvert.DeserializeObject<Root>(resp),
-                VolcengineOCRAction.MultiLanguageOCR => JsonConvert.DeserializeObject<RootMultiLang>(resp),
-                _ => throw new Exception(resp)
-            };
+                parsedData = VolcengineOcrAction switch
+                {
+                    VolcengineOCRAction.OCRNormal => JsonConvert.DeserializeObject<Root>(resp),
+                    VolcengineOCRAction.MultiLanguageOCR => JsonConvert.DeserializeObject<RootMultiLang>(resp),
+                    _ => throw new Exception(resp)
+                };
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"{nameof(VolcengineOCR)} Error\n{resp}", e);
+            }
 
             // 提取content的值
             var ocrResult = new OcrResult();
-            if (parsedData is Root root)
+            switch (parsedData)
             {
-                if (root.code != 10000) return OcrResult.Fail(root.ResponseMetadata.Error.Message);
-
-                if (root.data.line_texts.Count != root.data.line_rects.Count) return OcrResult.Fail("识别和位置结果数量不匹配\n原始数据:" + resp);
-
-                for (var i = 0; i < root.data.line_texts.Count; i++)
+                case Root root when root.code != 10000:
+                    return OcrResult.Fail(root.ResponseMetadata.Error.Message);
+                case Root root when root.data.line_texts.Count != root.data.line_rects.Count:
+                    return OcrResult.Fail("识别和位置结果数量不匹配\n原始数据:" + resp);
+                case Root root:
                 {
-                    var content = new OcrContent(root.data.line_texts[i]);
-                    Converter(root.data.line_rects[i]).ForEach(pg =>
+                    for (var i = 0; i < root.data.line_texts.Count; i++)
                     {
-                        //仅位置不全为0时添加
-                        if (pg.X != pg.Y || pg.X != 0)
-                            content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-                    });
-                    ocrResult.OcrContents.Add(content);
-                }
-            }
-            else if (parsedData is RootMultiLang rootMultiLang)
-            {
-                if (rootMultiLang.code != 10000) return OcrResult.Fail(rootMultiLang.ResponseMetadata.Error.Message);
+                        var content = new OcrContent(root.data.line_texts[i]);
+                        Converter(root.data.line_rects[i]).ForEach(pg =>
+                        {
+                            //仅位置不全为0时添加
+                            if (pg.X != pg.Y || pg.X != 0)
+                                content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                        });
+                        ocrResult.OcrContents.Add(content);
+                    }
 
-                for (var i = 0; i < rootMultiLang.data.ocr_infos.Count; i++)
-                {
-                    var content = new OcrContent(rootMultiLang.data.ocr_infos[i].text);
-                    Converter(rootMultiLang.data.ocr_infos[i].rect).ForEach(pg =>
-                    {
-                        //仅位置不全为0时添加
-                        if (pg.X != pg.Y || pg.X != 0)
-                            content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-                    });
-                    ocrResult.OcrContents.Add(content);
+                    break;
                 }
-            }
-            else
-            {
-                throw new Exception($"反序列化失败: {resp}");
+                case RootMultiLang rootMultiLang when rootMultiLang.code != 10000:
+                    return OcrResult.Fail(rootMultiLang.ResponseMetadata.Error.Message);
+                case RootMultiLang rootMultiLang:
+                {
+                    foreach (var item in rootMultiLang.data.ocr_infos)
+                    {
+                        var content = new OcrContent(item.text);
+                        Converter(item.rect).ForEach(pg =>
+                        {
+                            //仅位置不全为0时添加
+                            if (pg.X != pg.Y || pg.X != 0)
+                                content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                        });
+                        ocrResult.OcrContents.Add(content);
+                    }
+
+                    break;
+                }
+                default:
+                    throw new Exception($"反序列化失败: {resp}");
             }
             return ocrResult;
         }
