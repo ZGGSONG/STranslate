@@ -89,13 +89,27 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="接口: " />
+                    <TextBlock Text="URL: " />
 
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
                                                Placeholder="https://generativelanguage.googleapis.com"
                                                Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="模型: " />
+
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="206"
+                                               HorizontalAlignment="Left"
+                                               Placeholder="gemini-pro"
+                                               Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid Margin="0,10">
@@ -126,24 +140,6 @@
                             Command="{Binding ShowEncryptInfoCommand}"
                             Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                             Style="{DynamicResource ButtonIconStyle}" />
-                </Grid>
-
-                <Grid Margin="0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="40" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="超时: " />
-
-                    <common:PlaceholderTextBox Grid.Column="1"
-                                               MinWidth="80"
-                                               HorizontalAlignment="Left"
-                                               InputMethod.IsInputMethodEnabled="False"
-                                               Placeholder="10"
-                                               PreviewKeyDown="AcceptOnlyNumber"
-                                               Text="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" Margin="10,0" Text="秒" />
                 </Grid>
 
                 <Grid Margin="0,10">

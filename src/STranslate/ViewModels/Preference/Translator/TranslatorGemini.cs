@@ -82,7 +82,11 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
 
     [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
 
-    [JsonIgnore] [ObservableProperty] public int _timeOut = 10;
+    [JsonIgnore]
+    [ObservableProperty]
+    [property: DefaultValue("")]
+    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    private string _model = "gemini-pro";
 
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     public TranslationResult _data = TranslationResult.Reset;
@@ -246,8 +250,12 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
 
         UriBuilder uriBuilder = new(Url);
 
-        if (!uriBuilder.Path.EndsWith("/v1beta/models/gemini-pro:streamGenerateContent"))
-            uriBuilder.Path = "/v1beta/models/gemini-pro:streamGenerateContent";
+        // 选择模型
+        var a_model = Model.Trim();
+        a_model = string.IsNullOrEmpty(a_model) ? "gemini-pro" : a_model;
+
+        if (!uriBuilder.Path.EndsWith($"/v1beta/models/{a_model}:streamGenerateContent"))
+            uriBuilder.Path = $"/v1beta/models/{a_model}:streamGenerateContent";
 
         uriBuilder.Query = $"key={AppKey}";
 
@@ -280,8 +288,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
 
                     if (match.Success) onDataReceived?.Invoke(match.Value.Replace("\\n", "\n"));
                 },
-                token,
-                TimeOut
+                token
             ).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
@@ -326,11 +333,11 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
             Data = TranslationResult.Reset,
             AppID = AppID,
             AppKey = AppKey,
+            Model = Model,
             UserDefinePrompts = UserDefinePrompts.Clone(),
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             IsExecuting = IsExecuting,
-            TimeOut = TimeOut
         };
     }
 
