@@ -277,9 +277,14 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     }
 
     [RelayCommand]
-    private async Task InsertResultAsync(object obj)
+    private async Task InsertResultAsync(List<object> obj)
     {
-        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+        if (obj?.Count != 2 || obj.First() is not string str || obj.Last() is not Window win)
+            return;
+
+        win.Topmost = false;
+        _mainVm.IsTopMost = ConstStr.TAGFALSE;
+        _mainVm.TopMostContent = ConstStr.UNTOPMOSTCONTENT;
 
         LogService.Logger.Debug("<Start> [Animation]");
         await AnimationHelper.MainViewAnimationAsync(false);
