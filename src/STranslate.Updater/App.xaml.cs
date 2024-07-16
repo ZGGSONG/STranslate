@@ -28,7 +28,7 @@ namespace STranslate.Updater
         /// </summary>
         private bool IsAlreadyRunning()
         {
-            mutex = new Mutex(true, System.Reflection.Assembly.GetEntryAssembly()!.ManifestModule.Name, out bool isCreatedNew);
+            mutex = new Mutex(true, "9B65585D-AEB9-2CB9-AA73-216DA90DD186", out bool isCreatedNew);
             return !isCreatedNew;
         }
     }

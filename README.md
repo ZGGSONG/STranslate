@@ -63,6 +63,8 @@ Or group discussion
 
 If you like it, you can buy the author a cup of coffee.
 
+> Thank you to those who rewarded me
+
 | WeChat | Alipay |
 | :--: | :--: |
 |![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |

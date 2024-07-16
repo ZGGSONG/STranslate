@@ -7,4 +7,6 @@ obj/
 packages/
 
 .DS_Store
-/STranslate/Properties/PublishProfiles/FolderProfile.pubxml
+
+
+publish/

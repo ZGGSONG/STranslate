@@ -65,6 +65,8 @@
 
 觉得不错的话可以请作者喝杯阔落
 
+> 感谢打赏的朋友
+
 | 微信 | 支付宝 |
 | :--: | :--: |
 |![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |

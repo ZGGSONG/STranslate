@@ -1,12 +1,12 @@
 @echo off
 
-set "path_to_files=.\src\STranslate\bin\Release\net8.0-windows\publish\win-x64\"
-
 echo Deleting ocr dlls...
+
+set "path_to_files=.\publish\"
 cd /D "%path_to_files%"
 
 for %%i in (
-    "PaddleOCR.dll"
+  "PaddleOCR.dll"
 	"common.dll"
 	"libiomp5md.dll"
 	"mkldnn.dll"

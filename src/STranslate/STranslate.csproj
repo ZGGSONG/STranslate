@@ -87,9 +87,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\STranslate.Log\STranslate.Log.csproj" />
-    <ProjectReference Include="..\STranslate.Model\STranslate.Model.csproj" />
-    <ProjectReference Include="..\STranslate.Style\STranslate.Style.csproj" />
     <ProjectReference Include="..\STranslate.Util\STranslate.Util.csproj" />
+    <ProjectReference Include="..\STranslate.Style\STranslate.Style.csproj" />
   </ItemGroup>
 
   <ItemGroup>

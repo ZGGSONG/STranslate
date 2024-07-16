@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using IWshRuntimeLibrary;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using STranslate.Model;
 
 namespace STranslate.Util;
 
 public class ShortcutUtil
 {
-    #region public method
+    #region Public Method
 
     /// <summary>
-    /// 设置开机自启
+    ///     设置开机自启
     /// </summary>
     public static void SetStartup()
     {
@@ -19,75 +22,149 @@ public class ShortcutUtil
     }
 
     /// <summary>
-    /// 检查是否已经设置开机自启
+    ///     检查是否已经设置开机自启
     /// </summary>
     /// <returns>true: 开机自启 false: 非开机自启</returns>
     public static bool IsStartup()
     {
-        return ShortCutExist(appPath, StartUpPath);
+        return ShortCutExist(AppPath, StartUpPath);
     }
 
     /// <summary>
-    /// 取消开机自启
+    ///     取消开机自启
     /// </summary>
     public static void UnSetStartup()
     {
-        ShortCutDelete(appPath, StartUpPath);
+        ShortCutDelete(AppPath, StartUpPath);
     }
 
     /// <summary>
-    /// 设置桌面快捷方式
+    ///     设置桌面快捷方式
     /// </summary>
     public static void SetDesktopShortcut()
     {
         ShortCutCreate(true);
     }
 
-    #endregion public method
+    #endregion
 
-    #region params
+    #region Param
 
     /// <summary>
-    /// 开机启动目录
+    ///     开机启动目录
     /// </summary>
     private static readonly string StartUpPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
 
     /// <summary>
-    /// 用户桌面目录
+    ///     用户桌面目录
     /// </summary>
     private static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
     /// <summary>
-    /// 当前程序二进制文件路径
+    ///     当前程序二进制文件路径
     /// </summary>
-    private static readonly string appPath = $"{ConstStr.ExecutePath}\\{ConstStr.AppName}.exe";
+    private static readonly string AppPath = $"{ConstStr.ExecutePath}\\{ConstStr.AppName}.exe";
 
     /// <summary>
-    /// 组合的开机启动目录中的快捷方式路径
+    ///     组合的开机启动目录中的快捷方式路径
     /// </summary>
-    private static readonly string appShortcutPath = Path.Combine(StartUpPath, Path.GetFileNameWithoutExtension(appPath) + ".lnk");
+    private static readonly string AppShortcutPath =
+        Path.Combine(StartUpPath, Path.GetFileNameWithoutExtension(AppPath) + ".lnk");
 
-    private static readonly string desktopShortcutPath = Path.Combine(DesktopPath, Path.GetFileNameWithoutExtension(appPath) + ".lnk");
+    private static readonly string DesktopShortcutPath =
+        Path.Combine(DesktopPath, Path.GetFileNameWithoutExtension(AppPath) + ".lnk");
 
-    #endregion params
+    #endregion
 
-    #region native method
+    #region Private Method
 
     /// <summary>
-    /// 获取快捷方式中的目标（可执行文件的绝对路径）
+    ///     获取指定文件夹下的所有快捷方式（不包括子文件夹）
+    /// </summary>
+    /// <param name="target">目标文件夹（绝对路径）</param>
+    /// <returns></returns>
+    private static List<string> GetDirectoryFileList(string target)
+    {
+        List<string> list = [];
+        list.Clear();
+        var files = Directory.GetFiles(target, "*.lnk");
+        if (files.Length == 0) return list;
+
+        list.AddRange(files);
+        return list;
+    }
+
+    /// <summary>
+    ///     判断快捷方式是否存在
+    /// </summary>
+    /// <param name="path">快捷方式目标（可执行文件的绝对路径）</param>
+    /// <param name="target">目标文件夹（绝对路径）</param>
+    /// <returns></returns>
+    private static bool ShortCutExist(string path, string target)
+    {
+        var result = false;
+        var list = GetDirectoryFileList(target);
+        foreach (var item in list.Where(item => path == GetAppPathViaShortCut(item))) result = true;
+        return result;
+    }
+
+    /// <summary>
+    ///     删除快捷方式（通过快捷方式目标进行删除）
+    /// </summary>
+    /// <param name="path">快捷方式目标（可执行文件的绝对路径）</param>
+    /// <param name="target">目标文件夹（绝对路径）</param>
+    /// <returns></returns>
+    private static bool ShortCutDelete(string path, string target)
+    {
+        var result = false;
+        var list = GetDirectoryFileList(target);
+        foreach (var item in list.Where(item => path == GetAppPathViaShortCut(item)))
+        {
+            File.Delete(item);
+            result = true;
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    ///     为本程序创建一个快捷方式
+    /// </summary>
+    /// <param name="isDesktop">是否为桌面快捷方式</param>
+    /// <returns></returns>
+    private static bool ShortCutCreate(bool isDesktop = false)
+    {
+        var result = true;
+        try
+        {
+            CreateShortcut(isDesktop ? DesktopShortcutPath : AppShortcutPath, AppPath, AppPath);
+        }
+        catch
+        {
+            result = false;
+        }
+
+        return result;
+    }
+
+    #region 非 COM 实现快捷键创建
+
+    /// <see href="https://blog.csdn.net/weixin_42288222/article/details/124150046" />
+    /// <summary>
+    ///     获取快捷方式中的目标（可执行文件的绝对路径）
     /// </summary>
     /// <param name="shortCutPath">快捷方式的绝对路径</param>
     /// <returns></returns>
-    /// <remarks>需引入 COM 组件 Windows Script Host Object Model</remarks>
     private static string? GetAppPathViaShortCut(string shortCutPath)
     {
         try
         {
-            WshShell shell = new WshShell();
-            IWshShortcut shortct = (IWshShortcut)shell.CreateShortcut(shortCutPath);
-            //快捷方式文件指向的路径.Text = 当前快捷方式文件IWshShortcut类.TargetPath;
-            //快捷方式文件指向的目标目录.Text = 当前快捷方式文件IWshShortcut类.WorkingDirectory;
-            return shortct.TargetPath;
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            var file = (IShellLink)new ShellLink();
+            file.Load(shortCutPath, 2);
+            var sb = new StringBuilder(256);
+            file.GetPath(sb, sb.Capacity, IntPtr.Zero, 2);
+            return sb.ToString();
         }
         catch
         {
@@ -96,99 +173,60 @@ public class ShortcutUtil
     }
 
     /// <summary>
-    /// 获取指定文件夹下的所有快捷方式（不包括子文件夹）
+    ///     向目标路径创建指定文件的快捷方式
     /// </summary>
-    /// <param target="">目标文件夹（绝对路径）</param>
-    /// <returns></returns>
-    private static List<string> GetDirectoryFileList(string target)
+    /// <param name="shortcutPath">快捷方式路径</param>
+    /// <param name="appPath">App路径</param>
+    /// <param name="description">提示信息</param>
+    private static void CreateShortcut(string shortcutPath, string appPath, string description)
     {
-        List<string> list = [];
-        list.Clear();
-        string[] files = Directory.GetFiles(target, "*.lnk");
-        if (files == null || files.Length == 0)
-        {
-            return list;
-        }
-        for (int i = 0; i < files.Length; i++)
-        {
-            list.Add(files[i]);
-        }
-        return list;
+        // ReSharper disable once SuspiciousTypeConversion.Global
+        var link = (IShellLink)new ShellLink();
+        //link.SetDescription(description);
+        link.SetPath(appPath);
+
+        if (File.Exists(shortcutPath))
+            File.Delete(shortcutPath);
+        link.Save(shortcutPath, false);
     }
 
-    /// <summary>
-    /// 判断快捷方式是否存在
-    /// </summary>
-    /// <param name="path">快捷方式目标（可执行文件的绝对路径）</param>
-    /// <param target="">目标文件夹（绝对路径）</param>
-    /// <returns></returns>
-    private static bool ShortCutExist(string path, string target)
+    [ComImport]
+    [Guid("00021401-0000-0000-C000-000000000046")]
+    internal class ShellLink
     {
-        bool Result = false;
-        List<string> list = GetDirectoryFileList(target);
-        foreach (var item in list)
-        {
-            if (path == GetAppPathViaShortCut(item))
-            {
-                Result = true;
-            }
-        }
-        return Result;
     }
 
-    /// <summary>
-    /// 删除快捷方式（通过快捷方式目标进行删除）
-    /// </summary>
-    /// <param name="path">快捷方式目标（可执行文件的绝对路径）</param>
-    /// <param target="">目标文件夹（绝对路径）</param>
-    /// <returns></returns>
-    private static bool ShortCutDelete(string path, string target)
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("000214F9-0000-0000-C000-000000000046")]
+    internal interface IShellLink : IPersistFile
     {
-        bool Result = false;
-        List<string> list = GetDirectoryFileList(target);
-        foreach (var item in list)
-        {
-            if (path == GetAppPathViaShortCut(item))
-            {
-                System.IO.File.Delete(item);
-                Result = true;
-            }
-        }
-        return Result;
+        void GetPath([Out] [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, IntPtr pfd,
+            int fFlags);
+
+        void GetIDList(out IntPtr ppidl);
+        void SetIDList(IntPtr pidl);
+        void GetDescription([Out] [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, int cchMaxName);
+        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
+        void GetWorkingDirectory([Out] [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, int cchMaxPath);
+        void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
+        void GetArguments([Out] [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, int cchMaxPath);
+        void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
+        void GetHotkey(out short pwHotkey);
+        void SetHotkey(short wHotkey);
+        void GetShowCmd(out int piShowCmd);
+        void SetShowCmd(int iShowCmd);
+
+        void GetIconLocation([Out] [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, int cchIconPath,
+            out int piIcon);
+
+        void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
+        void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, int dwReserved);
+        void Resolve(IntPtr hwnd, int fFlags);
+        void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
     }
 
-    /// <summary>
-    /// 为本程序创建一个快捷方式
-    /// </summary>
-    /// <param name="isDesktop">是否为桌面快捷方式</param>
-    /// <returns></returns>
-    private static bool ShortCutCreate(bool isDesktop = false)
-    {
-        bool Result;
-        try
-        {
-            if (!isDesktop)
-                ShortCutDelete(appPath, StartUpPath);
+    #endregion
 
-            var shellType = Type.GetTypeFromProgID("WScript.Shell")!;
-            dynamic shell = Activator.CreateInstance(shellType)!;
-            IWshShortcut shortcut;
-            if (!isDesktop)
-                shortcut = shell!.CreateShortcut(appShortcutPath);
-            else
-                shortcut = shell!.CreateShortcut(desktopShortcutPath);
-            shortcut.TargetPath = appPath;
-            shortcut.Arguments = string.Empty;
-            shortcut.WorkingDirectory = ConstStr.ExecutePath;
-            shortcut.Save();
-            Result = true;
-        }
-        catch
-        {
-            Result = false;
-        }
-        return Result;
-    }
-
-    #endregion native method
+    #endregion
 }

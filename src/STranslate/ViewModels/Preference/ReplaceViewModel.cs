@@ -45,21 +45,22 @@ public partial class ReplaceViewModel : ObservableObject
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("请先选择替换翻译服务后重试");
             return;
         }
-
-        // Determine target language
-        var targetLang = ReplaceProp.TargetLang;
-        if (targetLang == LangEnum.auto) targetLang = await DetectLanguageAsync(content, token);
-
-        LogService.Logger.Debug(
-            $"<Begin> Replace VolcengineTranslator\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
-
-        // Perform translation
-        var req = new RequestModel(content, LangEnum.auto, targetLang);
         try
         {
             const string translating = "翻译中...";
             var transLength = translating.Length;
             InputSimulatorHelper.PrintText(translating);
+
+            // Determine target language
+            var targetLang = ReplaceProp.TargetLang;
+            if (targetLang == LangEnum.auto) targetLang = await DetectLanguageAsync(content, token);
+
+            LogService.Logger.Debug(
+                $"<Begin> Replace Translator\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
+
+            // Perform translation
+            var req = new RequestModel(content, LangEnum.auto, targetLang);
+
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
                 await TranslateLlmAsync(req, transLength, token);
@@ -70,14 +71,14 @@ public partial class ReplaceViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            LogService.Logger.Warn("Replace VolcengineTranslator Error: " + ex.Message);
+            LogService.Logger.Warn("Replace Translator Error: " + ex.Message);
             await FailAsync(token);
             // 还原原始内容
             InputSimulatorHelper.PrintText(content);
         }
         finally
         {
-            LogService.Logger.Debug("<End> Replace VolcengineTranslator");
+            LogService.Logger.Debug("<End> Replace Translator");
         }
     }
 

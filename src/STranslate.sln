@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 	ProjectSection(SolutionItems) = preProject
 		.csharpierrc.json = .csharpierrc.json
 		..\.gitignore = ..\.gitignore
-		CopyUpdater.bat = CopyUpdater.bat
 		Directory.Packages.props = Directory.Packages.props
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
