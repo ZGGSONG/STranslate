@@ -137,6 +137,7 @@ public partial class InputViewModel : ObservableObject
             history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), dbTarget.GetDescription());
             if (history != null)
             {
+                IdentifyLanguage = "缓存";
                 var settings = new JsonSerializerSettings { Converters = { new CurrentTranslatorConverter() } };
                 translatorCacheList = JsonConvert.DeserializeObject<List<ITranslator>>(history.Data, settings);
             }
