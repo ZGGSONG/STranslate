@@ -451,7 +451,7 @@ public class ConfigModel
     }
 }
 
-internal static class Extensions
+public static class Extensions
 {
     public static BindingList<T> Clone<T>(this BindingList<T> listToClone)
         where T : ITranslator

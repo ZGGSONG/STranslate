@@ -15,7 +15,8 @@ public partial class ReplaceViewModel : ObservableObject
     private readonly TranslatorViewModel _translateVm = Singleton<TranslatorViewModel>.Instance;
     public ReplaceViewModel()
     {
-        Reset();
+        // View 上绑定结果从List中获取
+        ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
 
         _translateVm.PropertyChanged += (sender, args) =>
         {
@@ -147,7 +148,7 @@ public partial class ReplaceViewModel : ObservableObject
 
     #region Property
 
-    [ObservableProperty] private BindingList<ITranslator> _allServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList;
+    [ObservableProperty] private BindingList<ITranslator> _allServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Clone();
 
     [ObservableProperty] private ReplaceProp _replaceProp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
 
@@ -173,7 +174,10 @@ public partial class ReplaceViewModel : ObservableObject
     private void Reset()
     {
         AllServices.Clear();
+
         foreach (var service in _translateVm.CurTransServiceList) AllServices.Add(service);
+
+        ReplaceProp = _configHelper.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
 
         // View 上绑定结果从List中获取
         ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
