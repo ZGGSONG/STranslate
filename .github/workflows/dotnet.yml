@@ -1,0 +1,102 @@
+name: Public STranslate
+
+# https://github.com/softprops/action-gh-release/issues/236#issuecomment-1150530128
+# 无需 Token 即可发布
+permissions:
+  contents: write
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - "*" # Push events to matching *, i.e. 1.0, 20.15.10
+
+jobs:
+  # 以下为构建工作流
+  build:
+    runs-on: windows-latest # 添加EnableWindowsTargeting可支持跨平台编译WPF项目
+    # TODO: job 之间传递参数
+    # outputs:
+      # fileHash: ${{ steps.calculate_hash.outputs.hash }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish
+      run: |
+        .\publish.ps1
+        .\cleanocr.ps1
+        .\7z.ps1 ${{ github.ref_name }}
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        tag_name: ${{ github.ref_name }}
+        body_path: CHANGELOG.md
+        draft: false # 设置为 false 可立即发布版本
+        files: |
+          STranslate_${{ github.ref_name }}_win-x64.zip
+          STranslate_${{ github.ref_name }}_win-x64_7z.7z
+          STranslate_${{ github.ref_name }}_win-x64_sha256.txt
+        
+    # TODO: 输出 Hash 结果给 scoop extras
+    # - name: Output
+      # id: calculate_hash
+      # shell: pwsh
+      # run: |
+            # $str=(Get-FileHash STranslate_${{ github.ref_name }}_win-x64_sha256.txt -Algorithm SHA256).Hash
+            # echo ""
+            # echo "========================================"
+            # echo "Generated hash is: $str"
+            # echo "========================================"
+            # echo "hash=$str" >> $Env:GITHUB_OUTPUT
+
+  # TODO: 以下为同步 extras 仓库的工作流
+  # Extras:
+    # needs: build
+    # runs-on: ubuntu-latest
+
+    # steps:
+    # - name: Checkout extras
+      # uses: actions/checkout@v4
+      # with:
+        # repository: 'ZGGSONG/Extras'
+        # token: ${{ secrets.CI_TOKEN }}
+
+    # - name: Setup Git
+      # run: |
+        # git config --global user.email "zggsong@foxmail.com"
+        # git config --global user.name "zggsong"
+
+    # - name: Sync with upstream
+      # run: |
+        # git remote add upstream https://github.com/ScoopInstaller/Extras
+        # git fetch upstream
+        # git checkout master
+        # git merge upstream/master # 好像有点问题如果有更新的提交
+
+    # - name: Update stranslate.json
+      # run: |
+        # cd bucket
+        # jq --indent 4 --arg version "${{ github.ref_name }}" --arg hash_string "${{needs.build.outputs.fileHash}}" --argjson old_version "$(jq '.version' stranslate.json)" '.version = ${{ github.ref_name }} | .architecture."64bit".hash = ${{needs.build.outputs.fileHash}} | .architecture."64bit".url |= gsub($old_version; ${{ github.ref_name }})' "stranslate.json" > temp.json && mv temp.json "stranslate.json"
+        # cd ..
+        # echo ""
+        # echo "========================================"
+        # echo "Update stranslate.json successfully."
+        # echo "========================================"
+
+    # - name: Commit and push
+      # run: |
+        # jq . stranslate.json
+        # echo "Simulate Commit and Push"
+        # # git add buckets/stranslate.json
+        # # git commit -m "stranslate: Update version to ${{ github.ref_name }}"
+        # # git push
