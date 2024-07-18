@@ -1,8 +1,7 @@
 <Project>
+  <Import Project="..\Directory.Build.props" />
+
   <PropertyGroup>
-    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 </Project>

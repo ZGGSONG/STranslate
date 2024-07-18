@@ -2,11 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,12 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\STranslate\STranslate.csproj" />
+    <ProjectReference Include="..\..\src\STranslate\STranslate.csproj" />
   </ItemGroup>
 
   <ItemGroup>
