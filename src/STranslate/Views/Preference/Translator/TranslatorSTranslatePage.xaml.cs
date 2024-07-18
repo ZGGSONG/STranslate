@@ -1,26 +1,23 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using STranslate.Model;
 
-namespace STranslate.Views.Preference.Translator
+namespace STranslate.Views.Preference.Translator;
+
+public partial class TranslatorSTranslatePage : UserControl
 {
-    public partial class TranslatorSTranslatePage : UserControl
+    public TranslatorSTranslatePage(ITranslator vm)
     {
-        public TranslatorSTranslatePage(ITranslator vm)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            DataContext = vm;
-        }
+        DataContext = vm;
+    }
 
-        /// <summary>
-        /// 通过缓存加载View时刷新ViewModel
-        /// </summary>
-        /// <param name="vm"></param>
-        public void UpdateVM(ITranslator vm)
-        {
-            DataContext = vm;
-        }
+    /// <summary>
+    ///     通过缓存加载View时刷新ViewModel
+    /// </summary>
+    /// <param name="vm"></param>
+    public void UpdateVM(ITranslator vm)
+    {
+        DataContext = vm;
     }
 }

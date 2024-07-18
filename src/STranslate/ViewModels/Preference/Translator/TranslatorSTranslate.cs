@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -136,7 +133,8 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
         var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
         var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-        var resp = await LocalMode.ExecuteAsync(req.Text, source, target, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+        var resp = await LocalMode.ExecuteAsync(req.Text, source, target, token).ConfigureAwait(false) ??
+                   throw new Exception("请求结果为空");
 
         // 解析JSON数据
         var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");

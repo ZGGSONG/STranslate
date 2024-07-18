@@ -4,39 +4,41 @@ using System.Windows.Controls;
 using STranslate.Model;
 using STranslate.ViewModels.Preference.OCR;
 
-namespace STranslate.Views.Preference.OCR
+namespace STranslate.Views.Preference.OCR;
+
+public partial class PaddleOCRPage : UserControl
 {
-    public partial class PaddleOCRPage : UserControl
+    public PaddleOCRPage(IOCR vm)
     {
-        public PaddleOCRPage(IOCR vm)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            DataContext = vm;
+        DataContext = vm;
 
-            Check(vm);
-        }
+        Check(vm);
+    }
 
-        /// <summary>
-        /// 通过缓存加载View时刷新ViewModel
-        /// </summary>
-        /// <param name="vm"></param>
-        public void UpdateVM(IOCR vm)
-        {
-            DataContext = vm;
+    /// <summary>
+    ///     通过缓存加载View时刷新ViewModel
+    /// </summary>
+    /// <param name="vm"></param>
+    public void UpdateVM(IOCR vm)
+    {
+        DataContext = vm;
 
-            Check(vm);
-        }
+        Check(vm);
+    }
 
-        private void Check(IOCR vm)
-        {
-            if (vm is not PaddleOCR paddle)
-                return;
+    private void Check(IOCR vm)
+    {
+        if (vm is not PaddleOCR paddle)
+            return;
 
-            paddle.CheckDataCommand.ExecuteAsync(null);
-        }
+        paddle.CheckDataCommand.ExecuteAsync(null);
+    }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e) =>
-            Process.Start(new ProcessStartInfo { FileName = "https://gitee.com/raoyutian/PaddleOCRSharp", UseShellExecute = true });
+    private void Hyperlink_Click(object sender, RoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo
+            { FileName = "https://gitee.com/raoyutian/PaddleOCRSharp", UseShellExecute = true });
     }
 }

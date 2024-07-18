@@ -3,43 +3,43 @@
                     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
                     xmlns:view="clr-namespace:STranslate.Views.Preference">
     <DataTemplate DataType="{x:Type vm:CommonViewModel}">
-        <view:CommonPage/>
+        <view:CommonPage />
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type vm:HotkeyViewModel}">
-        <view:HotkeyPage/>
+        <view:HotkeyPage />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:TranslatorViewModel}">
-        <view:TranslatorPage/>
+        <view:TranslatorPage />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:ReplaceViewModel}">
-        <view:ReplacePage/>
+        <view:ReplacePage />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:OCRScvViewModel}">
-        <view:OCRPage/>
+        <view:OCRPage />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:TTSViewModel}">
-        <view:TTSPage/>
+        <view:TTSPage />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:FavoriteViewModel}">
-        <view:FavoritePage/>
+        <view:FavoritePage />
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type vm:HistoryViewModel}">
-        <view:HistoryPage/>
+        <view:HistoryPage />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:BackupViewModel}">
-        <view:BackupPage/>
+        <view:BackupPage />
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type vm:AboutViewModel}">
-        <view:AboutPage/>
+        <view:AboutPage />
     </DataTemplate>
 
 </ResourceDictionary>

@@ -6,23 +6,24 @@ using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Translator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace STranslate.ViewModels.Preference.History;
 
 public partial class HistoryContentViewModel : ObservableObject
 {
+    [ObservableProperty] private string _inputContent = "";
+
+    [ObservableProperty] private List<Tuple<string, IconType, TranslationResult>>? _outputContents;
+
+    [ObservableProperty] private string _sourceLang = "";
+
+    [ObservableProperty] private string _targetLang = "";
+
+    [ObservableProperty] private DateTime _time;
+
     public HistoryContentViewModel(HistoryModel? history)
     {
-        if (history == null)
-        {
-            return;
-        }
+        if (history == null) return;
 
         var settings = new JsonSerializerSettings { Converters = { new HistoryTranslatorConverter() } };
 
@@ -33,7 +34,8 @@ public partial class HistoryContentViewModel : ObservableObject
         SourceLang = history.SourceLang;
         TargetLang = history.TargetLang;
 
-        OutputContents = outputs?.Select(x => new Tuple<string, IconType, TranslationResult>(x.Name, x.Icon, x.Data)).ToList();
+        OutputContents = outputs?.Select(x => new Tuple<string, IconType, TranslationResult>(x.Name, x.Icon, x.Data))
+            .ToList();
     }
 
     [RelayCommand]
@@ -48,9 +50,7 @@ public partial class HistoryContentViewModel : ObservableObject
     private async Task TTS(object obj, CancellationToken token)
     {
         if (obj is string text && !string.IsNullOrEmpty(text))
-        {
             await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, WindowType.Preference, token);
-        }
     }
 
     [RelayCommand]
@@ -93,26 +93,12 @@ public partial class HistoryContentViewModel : ObservableObject
 
         ToastHelper.Show("大驼峰复制成功", WindowType.Preference);
     }
-
-    [ObservableProperty]
-    private string _inputContent = "";
-
-    [ObservableProperty]
-    private DateTime _time;
-
-    [ObservableProperty]
-    private string _sourceLang = "";
-
-    [ObservableProperty]
-    private string _targetLang = "";
-
-    [ObservableProperty]
-    private List<Tuple<string, IconType, TranslationResult>>? _outputContents;
 }
 
 public class HistoryTranslatorConverter : JsonConverter<ITranslator>
 {
-    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override ITranslator ReadJson(JsonReader reader, Type objectType, ITranslator? existingValue,
+        bool hasExistingValue, JsonSerializer serializer)
     {
         // 从 JSON 数据中加载一个 JObject
         var jsonObject = JObject.Load(reader);

@@ -5,37 +5,53 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- // Themes // -->
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorLight.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorLight.xaml" />
 
                 <!-- // Animations // -->
                 <ResourceDictionary Source="pack://application:,,,/XamlFlair.WPF;component/DefaultAnimations.xaml" />
 
                 <!-- // Navigation // -->
-                <ResourceDictionary Source="pack://application:,,,/STranslate;component/Views/Preference/Navigation.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Page.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Image.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Text.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Button.xaml" />
-                
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate;component/Views/Preference/Navigation.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Page.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Image.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Text.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/Navigation/Button.xaml" />
+
                 <!-- // Styles // -->
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/WindowStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ConverterStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ConverterStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/BorderStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ComboBoxStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ContextMenuStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ExpanderStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ComboBoxStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ContextMenuStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ExpanderStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/FontStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ListBoxItemStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ScrollviewerStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/SeparatorStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/TextBlockStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ListBoxItemStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ScrollviewerStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/SeparatorStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/TextBlockStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/TextBoxStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ToolTipStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ToggleButtonStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ToggleButtonStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/SliderStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ProcessBarStyle.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/STranslate.Style;component/Styles/ProcessBarStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

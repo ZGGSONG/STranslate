@@ -51,7 +51,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译"/>
+                <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译" />
 
                 <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding AutoExecute}" />
             </Grid>

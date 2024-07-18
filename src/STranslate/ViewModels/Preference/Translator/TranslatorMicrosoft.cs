@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -231,7 +226,8 @@ public partial class TranslatorMicrosoft : TranslatorBase, ITranslator
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, reqStr, query, headers, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+            var resp = await HttpUtil.PostAsync(Url, reqStr, query, headers, token).ConfigureAwait(false) ??
+                       throw new Exception("请求结果为空");
             var parseData = JsonConvert.DeserializeObject<JArray>(resp) ?? throw new Exception(resp);
             var data = parseData.First()["translations"]?.FirstOrDefault()?["text"]?.ToString() ??
                        throw new Exception("请求结果为空");

@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -140,7 +138,6 @@ public partial class MainView : Window
         #endregion 初始化时阴影
 
         #region 开启时隐藏主界面
-
 
         // 初始化动画标记
         AnimationHelper.Init();

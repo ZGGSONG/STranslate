@@ -55,12 +55,14 @@
                                  SelectedIndex="{Binding SelectedIndex}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding TogglePageCommand}" CommandParameter="{Binding ElementName=CurrentServiceListBox, Path=SelectedItem}" />
+                                    <i:InvokeCommandAction Command="{Binding TogglePageCommand}"
+                                                           CommandParameter="{Binding ElementName=CurrentServiceListBox, Path=SelectedItem}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border x:Name="ServiceControl" Height="50" Style="{DynamicResource BorderInOutputStyle}">
+                                    <Border x:Name="ServiceControl" Height="50"
+                                            Style="{DynamicResource BorderInOutputStyle}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="40" />
@@ -69,7 +71,8 @@
                                                 <ColumnDefinition Width="50" />
                                             </Grid.ColumnDefinitions>
 
-                                            <Image Width="20" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                            <Image Width="20"
+                                                   Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
 
                                             <TextBlock Grid.Column="1"
                                                        VerticalAlignment="Center"
@@ -93,10 +96,14 @@
                                     </Border>
                                     <DataTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                            <Setter TargetName="ServiceControl" Property="Background"
+                                                    Value="{DynamicResource BtnMouseOverBackground}" />
                                         </Trigger>
-                                        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Value="True">
-                                            <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                                        <DataTrigger
+                                            Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}"
+                                            Value="True">
+                                            <Setter TargetName="ServiceControl" Property="Background"
+                                                    Value="{DynamicResource BtnPressedBackground}" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -142,7 +149,8 @@
                                             <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                                 <i:InvokeCommandAction Command="{Binding AddCommand}">
                                                     <i:InvokeCommandAction.CommandParameter>
-                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                        <MultiBinding
+                                                            Converter="{StaticResource MultiValue2ListConverter}">
                                                             <Binding ElementName="ServiceListBox" Path="SelectedItem" />
                                                             <Binding ElementName="BTN_Add" />
                                                         </MultiBinding>
@@ -152,7 +160,8 @@
                                         </i:Interaction.Triggers>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <Border x:Name="ServiceControl" Style="{DynamicResource BorderPopupStyle}">
+                                                <Border x:Name="ServiceControl"
+                                                        Style="{DynamicResource BorderPopupStyle}">
                                                     <Grid Margin="10,5">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="40" />
@@ -160,9 +169,11 @@
                                                             <ColumnDefinition Width="40" />
                                                         </Grid.ColumnDefinitions>
 
-                                                        <Image Width="20" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                                        <Image Width="20"
+                                                               Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
 
-                                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Name}" />
+                                                        <TextBlock Grid.Column="1" VerticalAlignment="Center"
+                                                                   Text="{Binding Name}" />
 
                                                         <Border Grid.Column="2"
                                                                 Padding="1"
@@ -179,7 +190,8 @@
                                                 </Border>
                                                 <DataTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                        <Setter TargetName="ServiceControl" Property="Background"
+                                                                Value="{DynamicResource BtnMouseOverBackground}" />
                                                     </Trigger>
                                                 </DataTemplate.Triggers>
                                             </DataTemplate>
@@ -193,7 +205,6 @@
                                 Width="50"
                                 Margin="54,0,0,0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
                                 Command="{Binding DeleteCommand}"
@@ -206,11 +217,9 @@
                     <Grid>
                         <Button Margin="0,0,128,0"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
                                 Content="&#xe994; "
-                                FontFamily="{DynamicResource IconFont}"
                                 Style="{DynamicResource ButtonIconStyle}"
                                 Visibility="Collapsed" />
                         <Button Width="60"

@@ -1,28 +1,27 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace STranslate.Views
+namespace STranslate.Views;
+
+/// <summary>
+///     ToastView.xaml 的交互逻辑
+/// </summary>
+public partial class ToastView : UserControl
 {
-    /// <summary>
-    /// ToastView.xaml 的交互逻辑
-    /// </summary>
-    public partial class ToastView : UserControl
+    public ToastView()
     {
-        public ToastView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        public ToastView(VerticalAlignment vertical)
-        {
-            InitializeComponent();
-            VerticalAlignment = vertical;
-        }
+    public ToastView(VerticalAlignment vertical)
+    {
+        InitializeComponent();
+        VerticalAlignment = vertical;
+    }
 
-        public string ToastText
-        {
-            get => toastText.Text;
-            set => toastText.Text = value;
-        }
+    public string ToastText
+    {
+        get => toastText.Text;
+        set => toastText.Text = value;
     }
 }

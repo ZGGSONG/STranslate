@@ -26,7 +26,8 @@
         <WindowChrome ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
         <KeyBinding Key="OemComma" Command="{Binding OCRPreferenceCommand}" Modifiers="Ctrl" />
         <KeyBinding Key="T"
                     Command="{Binding StickyCommand}"
@@ -35,13 +36,15 @@
         <!-- // 快捷键复制 // -->
         <KeyBinding Command="{Binding HotkeyCopyCommand}" Gesture="Ctrl+1" />
         <!-- // 重置图片大小及位置 // -->
-        <KeyBinding Command="{Binding ResetImgCommand}" CommandParameter="{Binding ElementName=ImgCtl}" Gesture="Ctrl+0" />
+        <KeyBinding Command="{Binding ResetImgCommand}" CommandParameter="{Binding ElementName=ImgCtl}"
+                    Gesture="Ctrl+0" />
         <!-- // 重置字体大小 // -->
         <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="StateChanged">
-            <i:InvokeCommandAction Command="{Binding WindowStateChangeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            <i:InvokeCommandAction Command="{Binding WindowStateChangeCommand}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.Resources>
@@ -198,7 +201,8 @@
                                     </Image.RenderTransform>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Drop">
-                                            <i:InvokeCommandAction Command="{Binding DropCommand}" PassEventArgsToCommand="True" />
+                                            <i:InvokeCommandAction Command="{Binding DropCommand}"
+                                                                   PassEventArgsToCommand="True" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Image>
@@ -264,7 +268,9 @@
                                     <Style TargetType="RowDefinition">
                                         <Setter Property="Height" Value="auto" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding QrCodeContent, Converter={StaticResource String2IsEnableConverter}}" Value="true">
+                                            <DataTrigger
+                                                Binding="{Binding QrCodeContent, Converter={StaticResource String2IsEnableConverter}}"
+                                                Value="true">
                                                 <Setter Property="Height" Value="*" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -305,7 +311,8 @@
                                     Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}" CommandParameter="{Binding ElementName=TB}" />
+                                        <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}"
+                                                               CommandParameter="{Binding ElementName=TB}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Button>
@@ -363,7 +370,8 @@
                                    Text="二维码识别结果"
                                    Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
 
-                        <control:LoadingUC Margin="2,5" IsAnimationPlaying="{Binding IsExecuting}" Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <control:LoadingUC Margin="2,5" IsAnimationPlaying="{Binding IsExecuting}"
+                                           Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </Grid>
                 </Border>
             </Grid>
@@ -408,8 +416,7 @@
                           DisplayMemberPath="Name"
                           FontSize="{DynamicResource FontSize_Content}"
                           ItemsSource="{Binding OcrScvVm.CurOCRServiceList}"
-                          SelectedValue="{Binding OcrScvVm.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                </ComboBox>
+                          SelectedValue="{Binding OcrScvVm.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ComboBox Margin="10,0"
                           BorderThickness="1"

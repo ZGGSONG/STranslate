@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Log;
 using STranslate.Model;
@@ -12,20 +7,22 @@ using STranslate.Util;
 namespace STranslate.Helper;
 
 /// <summary>
-/// https://github1s.com/pot-app/pot-desktop/blob/master/src/utils/lang_detect.js
+///     https://github1s.com/pot-app/pot-desktop/blob/master/src/utils/lang_detect.js
 /// </summary>
 public class LangDetectHelper
 {
     /// <summary>
-    /// 识别语种
+    ///     识别语种
     /// </summary>
     /// <param name="content"></param>
     /// <param name="type"></param>
     /// <param name="rate"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public static async Task<LangEnum> DetectAsync(string content, LangDetectType type = LangDetectType.Local, double rate = 0.8, CancellationToken? token = null) =>
-        type switch
+    public static async Task<LangEnum> DetectAsync(string content, LangDetectType type = LangDetectType.Local,
+        double rate = 0.8, CancellationToken? token = null)
+    {
+        return type switch
         {
             LangDetectType.Local => LocalLangDetect(content, rate),
             LangDetectType.Baidu => await BaiduLangDetectAsync(content, token),
@@ -36,10 +33,11 @@ public class LangDetectHelper
             LangDetectType.Google => await GoogleLangDetectAsync(content, token),
             _ => LangEnum.auto
         };
+    }
 
     /// <summary>
-    /// 本地识别
-    /// 仅能识别中英文
+    ///     本地识别
+    ///     仅能识别中英文
     /// </summary>
     /// <param name="content"></param>
     /// <param name="rate"></param>
@@ -51,18 +49,19 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// 百度识别
+    ///     百度识别
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
     /// <returns></returns>
     public static async Task<LangEnum> BaiduLangDetectAsync(string content, CancellationToken? token = null)
     {
-        LangEnum lang = LangEnum.auto;
+        var lang = LangEnum.auto;
         try
         {
             var url = "https://fanyi.baidu.com/langdetect";
-            var resp = await HttpUtil.PostAsync(url, req: null, queryParams: new Dictionary<string, string> { { "query", content } }, headers: [], token ?? CancellationToken.None);
+            var resp = await HttpUtil.PostAsync(url, null, new Dictionary<string, string> { { "query", content } }, [],
+                token ?? CancellationToken.None);
 
             var parseData = JsonConvert.DeserializeObject<JObject>(resp);
             var lan = parseData?["lan"]?.ToString() ?? "";
@@ -104,18 +103,19 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// 腾讯识别
+    ///     腾讯识别
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
     /// <returns></returns>
     public static async Task<LangEnum> TencentLangDetectAsync(string content, CancellationToken? token = null)
     {
-        LangEnum lang = LangEnum.auto;
+        var lang = LangEnum.auto;
         try
         {
             var url = "https://fanyi.qq.com/api/translate";
-            var resp = await HttpUtil.PostAsync(url, new Tuple<string, string>("sourceText", content), token ?? CancellationToken.None);
+            var resp = await HttpUtil.PostAsync(url, new Tuple<string, string>("sourceText", content),
+                token ?? CancellationToken.None);
 
             var parseData = JsonConvert.DeserializeObject<JObject>(resp);
             var lan = parseData?["translate"]?["source"]?.ToString() ?? "";
@@ -152,14 +152,14 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// 小牛识别
+    ///     小牛识别
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
     /// <returns></returns>
     public static async Task<LangEnum> NiutransLangDetectAsync(string content, CancellationToken? token = null)
     {
-        LangEnum lang = LangEnum.auto;
+        var lang = LangEnum.auto;
         try
         {
             var url = "https://test.niutrans.com/NiuTransServer/language";
@@ -214,14 +214,14 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// 必应识别
+    ///     必应识别
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
     /// <returns></returns>
     public static async Task<LangEnum> BingLangDetectAsync(string content, CancellationToken? token = null)
     {
-        LangEnum lang = LangEnum.auto;
+        var lang = LangEnum.auto;
         try
         {
             var tokenUrl = "https://edge.microsoft.com/translate/auth";
@@ -243,7 +243,10 @@ public class LangDetectHelper
                 { "sec-fetch-site", "cross-site" },
                 { "Referer", "https://appsumo.com/" },
                 { "Referrer-Policy", "strict-origin-when-cross-origin" },
-                { "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42" }
+                {
+                    "User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42"
+                }
             };
 
             var queryParams = new Dictionary<string, string> { { "api-version", "3.0" } };
@@ -296,14 +299,14 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// Yandex识别
+    ///     Yandex识别
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
     /// <returns></returns>
     public static async Task<LangEnum> YandexLangDetectAsync(string content, CancellationToken? token = null)
     {
-        LangEnum lang = LangEnum.auto;
+        var lang = LangEnum.auto;
         try
         {
             var url = "https://translate.yandex.net/api/v1/tr.json/detect";
@@ -353,17 +356,18 @@ public class LangDetectHelper
     }
 
     /// <summary>
-    /// 谷歌识别
+    ///     谷歌识别
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
     /// <returns></returns>
     public static async Task<LangEnum> GoogleLangDetectAsync(string content, CancellationToken? token = null)
     {
-        LangEnum lang = LangEnum.auto;
+        var lang = LangEnum.auto;
         try
         {
-            var url = "https://translate.google.com/translate_a/single?dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t";
+            var url =
+                "https://translate.google.com/translate_a/single?dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t";
 
             var queryParams = new Dictionary<string, string>
             {
@@ -377,11 +381,11 @@ public class LangDetectHelper
                 { "ssel", "0" },
                 { "tsel", "0" },
                 { "kc", "7" },
-                { "q", content },
+                { "q", content }
             };
 
             var resp = await HttpUtil.GetAsync(url, queryParams, token ?? CancellationToken.None);
-            JArray jsonArray = JArray.Parse(resp);
+            var jsonArray = JArray.Parse(resp);
             var lan = jsonArray[2]?.ToString() ?? "";
 
             lang = lan switch

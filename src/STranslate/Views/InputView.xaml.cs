@@ -22,40 +22,29 @@ public partial class InputView
             // 根据滚轮事件更改字体大小
             if (e.Delta > 0)
             {
-                if (currentFontSize < 40)
-                {
-                    currentFontSize += 2.0; // 根据需要调整放大的幅度
-                }
+                if (currentFontSize < 40) currentFontSize += 2.0; // 根据需要调整放大的幅度
             }
             else
             {
-                if (currentFontSize > 10)
-                {
-                    currentFontSize -= 2.0; // 根据需要调整放大的幅度
-                }
+                if (currentFontSize > 10) currentFontSize -= 2.0; // 根据需要调整放大的幅度
             }
 
             // 设置新的字体大小
             Application.Current.Resources["FontSize_TextBox"] = currentFontSize;
         }
-        else//修复普通滚动
+        else //修复普通滚动
         {
             // 普通滚动
             if (e.Delta > 0)
             {
                 // 向上滚动
-                if (textBox.VerticalOffset > 0)
-                {
-                    textBox.ScrollToVerticalOffset(textBox.VerticalOffset - 30);
-                }
+                if (textBox.VerticalOffset > 0) textBox.ScrollToVerticalOffset(textBox.VerticalOffset - 30);
             }
             else
             {
                 // 向下滚动
                 if (textBox.VerticalOffset < textBox.ExtentHeight - textBox.ViewportHeight)
-                {
                     textBox.ScrollToVerticalOffset(textBox.VerticalOffset + 30);
-                }
             }
         }
 

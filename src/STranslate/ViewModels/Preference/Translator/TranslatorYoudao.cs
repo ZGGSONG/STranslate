@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -219,7 +214,8 @@ public partial class TranslatorYoudao : TranslatorBase, ITranslator
         var headers = new Dictionary<string, string[]>
             { { "Content-Type", new[] { "application/x-www-form-urlencoded" } } };
 
-        var resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+        var resp = await HttpUtil.PostAsync(Url, headers, paramsMap, token).ConfigureAwait(false) ??
+                   throw new Exception("请求结果为空");
 
         // 解析JSON数据
         var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");

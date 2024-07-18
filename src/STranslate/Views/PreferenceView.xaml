@@ -24,12 +24,14 @@
         <WindowChrome ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
         <KeyBinding Key="S" Command="{Binding SaveCommand}" Modifiers="Ctrl" />
     </Window.InputBindings>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="StateChanged">
-            <i:InvokeCommandAction Command="{Binding WindowStateChangeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            <i:InvokeCommandAction Command="{Binding WindowStateChangeCommand}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
@@ -97,27 +99,39 @@
             <Grid HorizontalAlignment="Left">
 
                 <StackPanel Width="228" Height="640">
-                    <menu:Btn Command="{Binding CommonPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Common}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding CommonPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Common}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="常规设置" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding HotkeyPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Hotkey}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding HotkeyPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Hotkey}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding TranslatorPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding TranslatorPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="翻译服务" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding ReplacePageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Replace}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding ReplacePageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Replace}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="替换翻译" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding OCRPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=OCR}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding OCRPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=OCR}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="OCR服务" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding TTSPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=TTS}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding TTSPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=TTS}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="语音服务" />
                     </menu:Btn>
                     <!-- //  分隔符号  // -->
@@ -130,15 +144,21 @@
                         <TextBlock Style="{StaticResource Text_Style}" Text="收藏夹" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding HistoryPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=History}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding HistoryPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=History}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="历史记录" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding BackupPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Backup}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding BackupPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Backup}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="导入导出" />
                     </menu:Btn>
 
-                    <menu:Btn Command="{Binding AboutPageCommand}" IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=About}" Style="{StaticResource BtnStyle}">
+                    <menu:Btn Command="{Binding AboutPageCommand}"
+                              IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=About}"
+                              Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="关于软件" />
                     </menu:Btn>
 
@@ -172,4 +192,3 @@
                         Visibility="Collapsed" />
     </Grid>
 </Window>
-

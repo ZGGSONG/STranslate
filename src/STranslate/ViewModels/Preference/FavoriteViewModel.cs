@@ -1,13 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace STranslate.ViewModels.Preference
+namespace STranslate.ViewModels.Preference;
+
+public class FavoriteViewModel : ObservableObject
 {
-    public partial class FavoriteViewModel : ObservableObject
-    {
-    }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -183,7 +178,8 @@ public partial class TranslatorCaiyun : TranslatorBase, ITranslator
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, reqStr, null, headers, token).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+            var resp = await HttpUtil.PostAsync(Url, reqStr, null, headers, token).ConfigureAwait(false) ??
+                       throw new Exception("请求结果为空");
 
             // 解析JSON数据
             var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");

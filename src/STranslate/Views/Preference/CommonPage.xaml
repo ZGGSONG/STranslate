@@ -155,7 +155,8 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="全屏模式下忽略热键" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标所处显示器应用全屏时禁用全局热键（建议游戏时打开）" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="鼠标所处显示器应用全屏时禁用全局热键（建议游戏时打开）" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IgnoreHotkeysOnFullscreen}" />
                             </DockPanel>
@@ -412,7 +413,8 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="主窗口阴影(比较占用性能)" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主窗口是否显示显示阴影&#13;比较占用性能请自行选择" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="主窗口是否显示显示阴影&#13;比较占用性能请自行选择" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding MainViewShadow}" />
                             </DockPanel>

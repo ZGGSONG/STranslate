@@ -1,20 +1,22 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using System.IO;
+using System.Net;
+using System.Text;
+using CommunityToolkit.Mvvm.Messaging;
 using Newtonsoft.Json;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels;
-using System;
-using System.IO;
-using System.Net;
-using System.Text;
 
 namespace STranslate.Helper;
 
 public class ExternalCallHelper
 {
+    private HttpListener? _listener;
+
+    public bool IsStarted { get; private set; }
+
     /// <summary>
-    ///
     /// </summary>
     /// <param name="prefix"></param>
     /// <param name="isStopFirst"></param>
@@ -23,7 +25,7 @@ public class ExternalCallHelper
         if (isStopFirst)
             StopService();
 
-        if (_isStarted)
+        if (IsStarted)
             return;
 
         try
@@ -33,7 +35,7 @@ public class ExternalCallHelper
 
             _listener.Start();
             _listener.BeginGetContext(Callback, _listener);
-            _isStarted = true;
+            IsStarted = true;
         }
         catch (Exception ex)
         {
@@ -45,17 +47,17 @@ public class ExternalCallHelper
 
     public void StopService()
     {
-        if (!_isStarted)
+        if (!IsStarted)
             return;
 
         _listener?.Close();
         _listener = null;
-        _isStarted = false;
+        IsStarted = false;
     }
 
     private void Callback(IAsyncResult ar)
     {
-        if (!_isStarted || _listener == null || !_listener.IsListening)
+        if (!IsStarted || _listener == null || !_listener.IsListening)
             return;
 
         HttpListenerContext context;
@@ -68,6 +70,7 @@ public class ExternalCallHelper
             // HttpListener has been disposed, no need to handle the request
             return;
         }
+
         _listener.BeginGetContext(Callback, _listener);
 
         try
@@ -116,12 +119,16 @@ public class ExternalCallHelper
     }
 
     /// <summary>
-    /// 字符串=>外部调用枚举
+    ///     字符串=>外部调用枚举
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
-    private ExternalCallAction GetExternalCallAction(string source) =>
-        Enum.TryParse<ExternalCallAction>(source, out var eAction) ? eAction : throw new Exception("path does not meet the requirements");
+    private ExternalCallAction GetExternalCallAction(string source)
+    {
+        return Enum.TryParse<ExternalCallAction>(source, out var eAction)
+            ? eAction
+            : throw new Exception("path does not meet the requirements");
+    }
 
     private void ResponseHandler(HttpListenerResponse response, string? error = null)
     {
@@ -130,17 +137,15 @@ public class ExternalCallHelper
         response.ContentEncoding = Encoding.UTF8;
         response.AppendHeader("Content-Type", "application/json;charset=UTF-8");
 
-        var data = new { code = error is null ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, data = error ?? "Call Succeed" };
+        var data = new
+        {
+            code = error is null ? HttpStatusCode.OK : HttpStatusCode.InternalServerError,
+            data = error ?? "Call Succeed"
+        };
 
         using StreamWriter writer = new(response.OutputStream, Encoding.UTF8);
         writer.Write(JsonConvert.SerializeObject(data));
         writer.Close();
         response.Close();
     }
-
-    private HttpListener? _listener;
-
-    private bool _isStarted;
-
-    public bool IsStarted => _isStarted;
 }

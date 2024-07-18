@@ -12,6 +12,10 @@ namespace STranslate.ViewModels;
 
 public partial class PreferenceViewModel : WindowVMBase
 {
+    private readonly ScrollViewer view = new();
+
+    [ObservableProperty] private object? _currentView;
+
     private PerferenceType _pType;
 
     //手动重写取消判断value是否更新，每次都触发避免手动点击切换导航（convertback-donothing）
@@ -73,25 +77,46 @@ public partial class PreferenceViewModel : WindowVMBase
     }
 
     [RelayCommand]
-    private void CommonPage() => CurrentView = Singleton<CommonViewModel>.Instance;
+    private void CommonPage()
+    {
+        CurrentView = Singleton<CommonViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void HotkeyPage() => CurrentView = Singleton<HotkeyViewModel>.Instance;
+    private void HotkeyPage()
+    {
+        CurrentView = Singleton<HotkeyViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void TranslatorPage() => CurrentView = Singleton<TranslatorViewModel>.Instance;
+    private void TranslatorPage()
+    {
+        CurrentView = Singleton<TranslatorViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void ReplacePage() => CurrentView = Singleton<ReplaceViewModel>.Instance;
+    private void ReplacePage()
+    {
+        CurrentView = Singleton<ReplaceViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void OCRPage() => CurrentView = Singleton<OCRScvViewModel>.Instance;
+    private void OCRPage()
+    {
+        CurrentView = Singleton<OCRScvViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void TTSPage() => CurrentView = Singleton<TTSViewModel>.Instance;
+    private void TTSPage()
+    {
+        CurrentView = Singleton<TTSViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void FavoritePage() => CurrentView = Singleton<FavoriteViewModel>.Instance;
+    private void FavoritePage()
+    {
+        CurrentView = Singleton<FavoriteViewModel>.Instance;
+    }
 
     [RelayCommand]
     private void HistoryPage()
@@ -103,22 +128,21 @@ public partial class PreferenceViewModel : WindowVMBase
     }
 
     [RelayCommand]
-    private void BackupPage() => CurrentView = Singleton<BackupViewModel>.Instance;
+    private void BackupPage()
+    {
+        CurrentView = Singleton<BackupViewModel>.Instance;
+    }
 
     [RelayCommand]
-    private void AboutPage() => CurrentView = Singleton<AboutViewModel>.Instance;
-
-    [ObservableProperty]
-    private object? _currentView;
-
-    private readonly ScrollViewer view = new();
+    private void AboutPage()
+    {
+        CurrentView = Singleton<AboutViewModel>.Instance;
+    }
 
     public override void Close(Window win)
     {
-        if (Singleton<HistoryViewModel>.Instance.HistoryDetailContent is UserControl view && view.DataContext is HistoryContentViewModel vm)
-        {
-            vm.TTSCancelCommand.Execute(null);
-        }
+        if (Singleton<HistoryViewModel>.Instance.HistoryDetailContent is UserControl view &&
+            view.DataContext is HistoryContentViewModel vm) vm.TTSCancelCommand.Execute(null);
         Singleton<AboutViewModel>.Instance.CheckUpdateCancelCommand.Execute(null);
         base.Close(win);
     }
@@ -154,9 +178,6 @@ public partial class PreferenceViewModel : WindowVMBase
 
             case BackupViewModel:
                 Singleton<BackupViewModel>.Instance.SaveCommand.Execute(null);
-                break;
-
-            default:
                 break;
         }
     }

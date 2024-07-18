@@ -1,30 +1,31 @@
-﻿using STranslate.Util;
-using STranslate.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using Hardcodet.Wpf.TaskbarNotification;
+using STranslate.Util;
+using STranslate.ViewModels;
 
-namespace STranslate.Views
+namespace STranslate.Views;
+
+/// <summary>
+///     NotifyIcon.xaml 的交互逻辑
+/// </summary>
+public partial class NotifyIcon : UserControl
 {
-    /// <summary>
-    /// NotifyIcon.xaml 的交互逻辑
-    /// </summary>
-    public partial class NotifyIcon : UserControl
+    public NotifyIcon()
     {
-        public NotifyIcon()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            Singleton<NotifyIconViewModel>.Instance.OnShowBalloonTip += msg => TrayIcon.ShowBalloonTip("", msg, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.None);
-        }
+        Singleton<NotifyIconViewModel>.Instance.OnShowBalloonTip +=
+            msg => TrayIcon.ShowBalloonTip("", msg, BalloonIcon.None);
+    }
 
-        /// <summary>
-        /// https://github.com/hardcodet/wpf-notifyicon/issues/19
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TrayIcon_TrayContextMenuOpen(object sender, RoutedEventArgs e)
-        {
-            TrayIconContextMenu.UpdateDefaultStyle();
-        }
+    /// <summary>
+    ///     https://github.com/hardcodet/wpf-notifyicon/issues/19
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void TrayIcon_TrayContextMenuOpen(object sender, RoutedEventArgs e)
+    {
+        TrayIconContextMenu.UpdateDefaultStyle();
     }
 }

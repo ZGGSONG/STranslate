@@ -27,8 +27,8 @@
                 <common:PlaceholderTextBox Grid.Column="1"
                                            MinWidth="160"
                                            HorizontalAlignment="Left"
-                                           VerticalAlignment="Center" 
-                                           
+                                           VerticalAlignment="Center"
+
                                            Placeholder="BaiduOCR"
                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -148,7 +148,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Other: " />
-                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
+                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
+                    <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                </TextBlock>
             </Grid>
         </StackPanel>
     </Border>

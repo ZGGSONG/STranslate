@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -65,6 +62,12 @@ public partial class CommonViewModel : ObservableObject
     ///     历史记录大小
     /// </summary>
     private long _historySizeType = 1;
+
+
+    /// <summary>
+    ///     热键触发复制后是否显示成功提示
+    /// </summary>
+    [ObservableProperty] private bool _hotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
 
     /// <summary>
     ///     全屏模式下忽略热键
@@ -186,11 +189,6 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
 
     /// <summary>
-    ///     显示主界面截图翻译语种选择图标
-    /// </summary>
-    [ObservableProperty] private bool _showMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
-
-    /// <summary>
     ///     是否开机启动
     /// </summary>
     [ObservableProperty] private bool _isStartup = CurConfig?.IsStartup ?? false;
@@ -199,6 +197,11 @@ public partial class CommonViewModel : ObservableObject
     ///     是否开启重复触发显示界面为显示/隐藏
     /// </summary>
     [ObservableProperty] private bool _isTriggerShowHide = CurConfig?.IsTriggerShowHide ?? false;
+
+    /// <summary>
+    ///     主界面截图识别语种
+    /// </summary>
+    [ObservableProperty] private LangEnum _mainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
 
     /// <summary>
     ///     主窗口阴影
@@ -254,6 +257,11 @@ public partial class CommonViewModel : ObservableObject
     private RelayCommand<string>? _showEncryptInfoCommand;
 
     /// <summary>
+    ///     显示主界面截图翻译语种选择图标
+    /// </summary>
+    [ObservableProperty] private bool _showMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
+
+    /// <summary>
     ///     丢失焦点时主界面不隐藏
     /// </summary>
     [ObservableProperty] private bool _stayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
@@ -276,17 +284,6 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
     public long HistorySize = CurConfig?.HistorySize ?? 100;
-
-    /// <summary>
-    /// 主界面截图识别语种
-    /// </summary>
-    [ObservableProperty] private LangEnum _mainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
-
-
-    /// <summary>
-    ///     热键触发复制后是否显示成功提示
-    /// </summary>
-    [ObservableProperty] private bool _hotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
 
     public CommonViewModel()
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -27,8 +24,7 @@ public partial class TranslatorViewModel : ObservableObject
     /// <summary>
     ///     当前已添加的服务列表
     /// </summary>
-    [ObservableProperty]
-    private BindingList<ITranslator> _curTransServiceList =
+    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList =
         Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
 
     [ObservableProperty] private int _selectedIndex;

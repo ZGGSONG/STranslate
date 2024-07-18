@@ -1,28 +1,25 @@
-﻿using STranslate.Model;
-using STranslate.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using STranslate.Model;
+using STranslate.Views;
 
 namespace STranslate.Helper;
 
 public class ToastHelper
 {
     /// <summary>
-    /// 存储每个窗口类型对应的通知信息
-    /// </summary>
-    private static readonly Dictionary<WindowType, ToastInfo> ToastDictionary = [];
-
-    /// <summary>
-    /// 自动收回超时时间
+    ///     自动收回超时时间
     /// </summary>
     private const int Timeout = 2;
 
     /// <summary>
-    /// 显示通知
+    ///     存储每个窗口类型对应的通知信息
+    /// </summary>
+    private static readonly Dictionary<WindowType, ToastInfo> ToastDictionary = [];
+
+    /// <summary>
+    ///     显示通知
     /// </summary>
     /// <param name="message">通知消息</param>
     /// <param name="type">窗口类型</param>
@@ -30,7 +27,7 @@ public class ToastHelper
     {
         EnsureInitialized(type);
 
-        if (!ToastDictionary.TryGetValue(type, out ToastInfo? value)) return;
+        if (!ToastDictionary.TryGetValue(type, out var value)) return;
         var toastInfo = value;
         toastInfo.ToastControl.ToastText = message;
         toastInfo.ToastControl.Visibility = Visibility.Visible;
@@ -46,14 +43,14 @@ public class ToastHelper
     }
 
     /// <summary>
-    /// 确保窗口初始化
+    ///     确保窗口初始化
     /// </summary>
     /// <param name="type">窗口类型</param>
     private static void EnsureInitialized(WindowType type)
     {
         DispatcherTimer t;
         ToastView? tv;
-        if (!ToastDictionary.TryGetValue(type, out ToastInfo? value))
+        if (!ToastDictionary.TryGetValue(type, out var value))
         {
             t = new DispatcherTimer { Interval = TimeSpan.FromSeconds(Timeout) };
             t.Tick += (_, _) => Timer_Tick(type);
@@ -79,19 +76,22 @@ public class ToastHelper
     }
 
     /// <summary>
-    /// 获取ToastView
+    ///     获取ToastView
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static ToastView? GetNotifyControlForWindowType(WindowType type) => type switch
+    private static ToastView? GetNotifyControlForWindowType(WindowType type)
     {
-        WindowType.Preference => Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault()?.Notify,
-        WindowType.OCR => Application.Current.Windows.OfType<OCRView>().FirstOrDefault()?.Notify,
-        _ => Application.Current.Windows.OfType<MainView>().FirstOrDefault()?.Notify
-    };
+        return type switch
+        {
+            WindowType.Preference => Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault()?.Notify,
+            WindowType.OCR => Application.Current.Windows.OfType<OCRView>().FirstOrDefault()?.Notify,
+            _ => Application.Current.Windows.OfType<MainView>().FirstOrDefault()?.Notify
+        };
+    }
 
     /// <summary>
-    /// 滑入动画完成事件处理
+    ///     滑入动画完成事件处理
     /// </summary>
     /// <param name="type">窗口类型</param>
     private static void SlideInStoryboard_Completed(WindowType type)
@@ -101,7 +101,7 @@ public class ToastHelper
     }
 
     /// <summary>
-    /// 计时器触发事件处理
+    ///     计时器触发事件处理
     /// </summary>
     /// <param name="type">窗口类型</param>
     private static void Timer_Tick(WindowType type)
@@ -116,7 +116,7 @@ public class ToastHelper
     }
 
     /// <summary>
-    /// 滑出动画完成事件处理
+    ///     滑出动画完成事件处理
     /// </summary>
     /// <param name="type">窗口类型</param>
     private static void SlideOutStoryboard_Completed(WindowType type)
@@ -126,7 +126,7 @@ public class ToastHelper
     }
 
     /// <summary>
-    /// 存储通知信息的内部类
+    ///     存储通知信息的内部类
     /// </summary>
     private class ToastInfo(ToastView toastControl, DispatcherTimer timer)
     {

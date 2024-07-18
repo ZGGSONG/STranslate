@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -337,7 +332,7 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
             UserDefinePrompts = UserDefinePrompts.Clone(),
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
-            IsExecuting = IsExecuting,
+            IsExecuting = IsExecuting
         };
     }
 

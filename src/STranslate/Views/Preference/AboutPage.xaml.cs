@@ -1,31 +1,17 @@
-﻿using STranslate.Util;
+﻿using System.Windows.Controls;
+using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace STranslate.Views.Preference
+namespace STranslate.Views.Preference;
+
+/// <summary>
+///     AboutPage.xaml 的交互逻辑
+/// </summary>
+public partial class AboutPage : UserControl
 {
-    /// <summary>
-    /// AboutPage.xaml 的交互逻辑
-    /// </summary>
-    public partial class AboutPage : UserControl
+    public AboutPage()
     {
-        public AboutPage()
-        {
-            InitializeComponent();
-            DataContext = Singleton<AboutViewModel>.Instance;
-        }
+        InitializeComponent();
+        DataContext = Singleton<AboutViewModel>.Instance;
     }
 }

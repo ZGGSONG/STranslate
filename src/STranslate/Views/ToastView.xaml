@@ -7,19 +7,7 @@
              Height="40"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Storyboard x:Key="SlideInStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.Y)"
-                             From="-50"
-                             To="0"
-                             Duration="0:0:0.25" />
-        </Storyboard>
 
-        <Storyboard x:Key="SlideOutStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.Y)"
-                             From="0"
-                             To="-50"
-                             Duration="0:0:0.25" />
-        </Storyboard>
     </UserControl.Resources>
 
     <UserControl.RenderTransform>

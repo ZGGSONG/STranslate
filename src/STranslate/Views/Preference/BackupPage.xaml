@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="STranslate.Views.Preference"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
@@ -32,7 +31,8 @@
                     </DockPanel>
 
 
-                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                    <DockPanel Margin="20,10"
+                               Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
                         <TextBlock Text="地址" />
                         <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器地址" />
                         <common:PlaceholderTextBox MinWidth="200"
@@ -43,7 +43,8 @@
                                                    Text="{Binding WebDavUrl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
 
-                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                    <DockPanel Margin="20,10"
+                               Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
                         <TextBlock Text="用户名" />
                         <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器用户名" />
                         <common:PlaceholderTextBox MinWidth="200"
@@ -54,7 +55,8 @@
                                                    Text="{Binding WebDavUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
 
-                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                    <DockPanel Margin="20,10"
+                               Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
                         <TextBlock Text="密码" />
                         <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器密码" />
                         <common:PlaceholderTextBox MinWidth="200"

@@ -35,7 +35,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Grid Background="{DynamicResource NavigationBackground}" MouseDown="Header_MouseDown" WindowChrome.IsHitTestVisibleInChrome="True">
+        <Grid Background="{DynamicResource NavigationBackground}" MouseDown="Header_MouseDown"
+              WindowChrome.IsHitTestVisibleInChrome="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="Auto" />
@@ -118,7 +119,8 @@
                     CommandParameter="{Binding ElementName=promptDialog}"
                     Content="保存"
                     IsDefault="True" />
-            <Button Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=promptDialog}" Content="取消" />
+            <Button Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=promptDialog}"
+                    Content="取消" />
         </WrapPanel>
     </Grid>
 </Window>

@@ -130,7 +130,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Other: " />
-                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
+                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
+                    <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                </TextBlock>
             </Grid>
         </StackPanel>
     </Border>

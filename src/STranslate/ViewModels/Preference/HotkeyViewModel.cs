@@ -175,7 +175,8 @@ public partial class HotkeyViewModel : ObservableObject
 
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (
-            key is Key.LeftShift or Key.RightShift or Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LWin or Key.RWin
+            key is Key.LeftShift or Key.RightShift or Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
+            or Key.LWin or Key.RWin
         )
             return;
         UpdateCnf(hke);
@@ -196,7 +197,8 @@ public partial class HotkeyViewModel : ObservableObject
         _hotkeysText = string.Empty;
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (
-            key is Key.LeftShift or Key.RightShift or Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LWin or Key.RWin
+            key is Key.LeftShift or Key.RightShift or Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
+            or Key.LWin or Key.RWin
         )
             return;
         StringBuilder shortcutText = new();
@@ -228,9 +230,7 @@ public partial class HotkeyViewModel : ObservableObject
         }
 
         if (_hotkeysModifiers == 0 && (key < Key.F1 || key > Key.F12))
-        {
             ToastHelper.Show("单字符可能会影响使用", WindowType.Preference);
-        }
 
         _hotkeysKey = (KeyCodes)KeyInterop.VirtualKeyFromKey(key);
         shortcutText.Append(key.ToString());

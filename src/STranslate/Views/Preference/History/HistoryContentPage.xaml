@@ -45,7 +45,8 @@
             <StackPanel>
                 <Border Margin="6.5" Style="{DynamicResource BorderInOutputStyle}">
                     <Grid>
-                        <TextBox Style="{DynamicResource TextBoxOutputStyle}" Text="{Binding InputContent, Mode=OneWay}" />
+                        <TextBox Style="{DynamicResource TextBoxOutputStyle}"
+                                 Text="{Binding InputContent, Mode=OneWay}" />
 
                         <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
                             <Button Margin="5,0"
@@ -68,11 +69,13 @@
 
                 <StackPanel Margin="10" Orientation="Horizontal">
                     <Border Background="{DynamicResource BtnBackground}" BorderBrush="{x:Null}" CornerRadius="5">
-                        <TextBlock Margin="5" FontSize="{DynamicResource FontSize_Identify}" Text="{Binding SourceLang}" />
+                        <TextBlock Margin="5" FontSize="{DynamicResource FontSize_Identify}"
+                                   Text="{Binding SourceLang}" />
                     </Border>
                     <TextBlock Margin="10,0" Text="&gt;&gt;" />
                     <Border Background="{DynamicResource BtnBackground}" BorderBrush="{x:Null}" CornerRadius="5">
-                        <TextBlock Margin="5" FontSize="{DynamicResource FontSize_Identify}" Text="{Binding TargetLang}" />
+                        <TextBlock Margin="5" FontSize="{DynamicResource FontSize_Identify}"
+                                   Text="{Binding TargetLang}" />
                     </Border>
                 </StackPanel>
                 <ListBox Background="Transparent"
@@ -84,7 +87,8 @@
                         <DataTemplate>
                             <Border Style="{DynamicResource BorderInOutputStyle}">
                                 <Grid>
-                                    <TextBox Style="{DynamicResource TextBoxOutputStyle}" Tag="{Binding Item3.IsSuccess}" Text="{Binding Item3.Result, Mode=OneWay}" />
+                                    <TextBox Style="{DynamicResource TextBoxOutputStyle}"
+                                             Tag="{Binding Item3.IsSuccess}" Text="{Binding Item3.Result, Mode=OneWay}" />
 
                                     <Grid Margin="5" VerticalAlignment="Bottom">
                                         <StackPanel Orientation="Horizontal">
@@ -127,7 +131,8 @@
 
                                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                             <TextBlock Margin="10,0" Text="{Binding Item1}" />
-                                            <Image Width="20" Source="{Binding Item2, Converter={StaticResource String2IconConverter}}" />
+                                            <Image Width="20"
+                                                   Source="{Binding Item2, Converter={StaticResource String2IconConverter}}" />
                                         </StackPanel>
                                     </Grid>
                                 </Grid>

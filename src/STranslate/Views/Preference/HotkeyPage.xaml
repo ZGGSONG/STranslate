@@ -24,7 +24,6 @@
         <Style BasedOn="{StaticResource CommonTB}" TargetType="TextBox">
             <Setter Property="Margin" Value="20,2" />
             <Setter Property="MinWidth" Value="180" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="CaretBrush" Value="Transparent" />
             <Setter Property="Cursor" Value="Hand" />
@@ -61,7 +60,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.InputHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding InputHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding InputHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 划词翻译 // -->
@@ -80,7 +80,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.CrosswordHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding CrosswordHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding CrosswordHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 截图翻译 // -->
@@ -99,7 +100,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.ScreenshotHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding ScreenshotHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding ScreenshotHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 替换翻译 // -->
@@ -118,7 +120,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.ReplaceHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding ReplaceHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding ReplaceHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 显示界面 // -->
@@ -137,7 +140,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.OpenHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding OpenHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding OpenHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 鼠标滑动 // -->
@@ -156,7 +160,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.MousehookHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding MousehookHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding MousehookHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 文字识别 // -->
@@ -175,7 +180,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.OcrHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding OcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding OcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 静默OCR // -->
@@ -194,7 +200,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.SilentOcrHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding SilentOcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding SilentOcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 监听剪贴板 // -->
@@ -213,7 +220,8 @@
                                                              KeyupParam="{x:Static model:HotkeyEnum.ClipboardMonitorHk}" />
                         </i:Interaction.Behaviors>
                     </TextBox>
-                    <TextBlock Grid.Column="2" Visibility="{Binding ClipboardMonitorHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    <TextBlock Grid.Column="2"
+                               Visibility="{Binding ClipboardMonitorHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                 </Grid>
 
                 <!-- // 保存撤销 // -->

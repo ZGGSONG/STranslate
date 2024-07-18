@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -399,7 +394,8 @@ public partial class NotifyIconViewModel : ObservableObject
         {
             var getText = "";
             var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1);
-            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
+            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main,
+                lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
             if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
             getText = ocrResult.Text;
@@ -491,7 +487,8 @@ public partial class NotifyIconViewModel : ObservableObject
                 _inputViewModel.InputContent = " ";
             IsScreenshotExecuting = true;
             var getText = "";
-            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token, lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
+            var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token,
+                _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
             if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;

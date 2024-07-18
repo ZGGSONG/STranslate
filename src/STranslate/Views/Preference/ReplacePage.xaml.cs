@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using STranslate.Util;
+﻿using STranslate.Util;
 using STranslate.ViewModels.Preference;
 
 namespace STranslate.Views.Preference;

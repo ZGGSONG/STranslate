@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -22,17 +17,17 @@ namespace STranslate.ViewModels;
 
 public partial class OutputViewModel : ObservableObject, IDropTarget
 {
+    private static readonly ConfigModel? CurConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
     private readonly InputViewModel _inputVm = Singleton<InputViewModel>.Instance;
     private readonly MainViewModel _mainVm = Singleton<MainViewModel>.Instance;
-    private static readonly ConfigModel? CurConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
 
     [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
 
-    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
+    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
 
     [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
 
-    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
+    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
 
     [ObservableProperty]
     private BindingList<ITranslator> _translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList ?? [];
@@ -252,7 +247,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand]
     private void CanAutoExecute(List<object> list)
     {
-        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service || list.LastOrDefault() is not ToggleButton tb)
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
+            list.LastOrDefault() is not ToggleButton tb)
             return;
 
         service.AutoExecute = !service.AutoExecute;
@@ -263,7 +259,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand]
     private void CloseService(List<object> list)
     {
-        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service || list.LastOrDefault() is not ToggleButton tb)
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
+            list.LastOrDefault() is not ToggleButton tb)
             return;
 
         if (Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled)?.Count() < 2)
@@ -271,6 +268,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             ToastHelper.Show("至少保留一个服务");
             return;
         }
+
         service.IsEnabled = false;
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
         tb.IsChecked = false;
@@ -315,10 +313,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         Translators.Remove(sourceItem);
         Translators.Insert(targetIndex, sourceItem);
         // 检查替换翻译
-        if (tmp == sourceItem.Identify)
-        {
-            replaceVm.ReplaceProp.ActiveService = sourceItem;
-        }
+        if (tmp == sourceItem.Identify) replaceVm.ReplaceProp.ActiveService = sourceItem;
 
         // Save Configuration
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);

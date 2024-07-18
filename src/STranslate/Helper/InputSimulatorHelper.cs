@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using WindowsInput;
+﻿using WindowsInput;
 
 namespace STranslate.Helper;
 
@@ -27,10 +25,7 @@ public class InputSimulatorHelper
         if (lines.All(x => x == ""))
         {
             // 一个换行会分割出两个空字符串，所以长度减一
-            for(var i = 0; i< lines.Length - 1; i++)
-            {
-                InputSimulator.Keyboard.KeyPress(VirtualKeyCode.RETURN);
-            }
+            for (var i = 0; i < lines.Length - 1; i++) InputSimulator.Keyboard.KeyPress(VirtualKeyCode.RETURN);
 
             // 长度为1的情况为空字符串直接返回
             return;
@@ -44,6 +39,7 @@ public class InputSimulatorHelper
                 InputSimulator.Keyboard.KeyPress(VirtualKeyCode.RETURN);
                 continue;
             }
+
             InputSimulator.Keyboard.TextEntry(line);
             // 模拟按下回车键，除了最后一行
             if (!line.Equals(lines.Last())) InputSimulator.Keyboard.KeyPress(VirtualKeyCode.RETURN);

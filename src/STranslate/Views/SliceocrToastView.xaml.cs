@@ -1,16 +1,15 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Animation;
 
 namespace STranslate.Views;
 
 public partial class SliceocrToastView : Window
 {
-    private readonly string SuccessIcon = "\ue66a";
     private readonly string FailIcon = "\ue60a";
+    private readonly string SuccessIcon = "\ue66a";
 
     /// <summary>
-    /// 显示图标
+    ///     显示图标
     /// </summary>
     /// <param name="x">截图结束X坐标</param>
     /// <param name="y">截图结束Y坐标</param>

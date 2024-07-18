@@ -21,9 +21,10 @@
         <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
             <Border Style="{DynamicResource BorderPromptStyle}">
                 <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.SelectedPromptCommand}"
-                            Content="{Binding Name}"
-                            Style="{DynamicResource lbtn}">
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.SelectedPromptCommand}"
+                        Content="{Binding Name}"
+                        Style="{DynamicResource lbtn}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                 <Binding Path="." />
@@ -31,19 +32,21 @@
                         </Button.CommandParameter>
                     </Button>
                     <Separator Style="{DynamicResource verSep}" />
-                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdatePromptCommand}"
-                            CommandParameter="{Binding Path=.}"
-                            Content="&#xe61b;"
-                            FontFamily="{DynamicResource IconFont}"
-                            FontSize="{DynamicResource FontSize_Identify}"
-                            Style="{DynamicResource btn}" />
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdatePromptCommand}"
+                        CommandParameter="{Binding Path=.}"
+                        Content="&#xe61b;"
+                        FontFamily="{DynamicResource IconFont}"
+                        FontSize="{DynamicResource FontSize_Identify}"
+                        Style="{DynamicResource btn}" />
                     <Separator Style="{DynamicResource verSep}" />
-                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeletePromptCommand}"
-                            CommandParameter="{Binding Path=.}"
-                            Content="&#xe74b;"
-                            FontFamily="{DynamicResource IconFont}"
-                            FontSize="{DynamicResource FontSize_Prompt}"
-                            Style="{DynamicResource rbtn}" />
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeletePromptCommand}"
+                        CommandParameter="{Binding Path=.}"
+                        Content="&#xe74b;"
+                        FontFamily="{DynamicResource IconFont}"
+                        FontSize="{DynamicResource FontSize_Prompt}"
+                        Style="{DynamicResource rbtn}" />
                 </StackPanel>
             </Border>
         </DataTemplate>
@@ -147,7 +150,7 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译"/>
+                    <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译" />
 
                     <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding AutoExecute}" />
                 </Grid>
@@ -160,17 +163,17 @@
                     <TextBlock Text="连通测试: " />
 
                     <Button Grid.Column="1"
-                        MinWidth="80"
-                        HorizontalAlignment="Left"
-                        Command="{Binding TestCommand}"
-                        Content="验证"
-                        Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                            MinWidth="80"
+                            HorizontalAlignment="Left"
+                            Command="{Binding TestCommand}"
+                            Content="验证"
+                            Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                     <Button Grid.Column="1"
-                        MinWidth="80"
-                        HorizontalAlignment="Left"
-                        Command="{Binding TestCancelCommand}"
-                        Content="取消"
-                        Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            MinWidth="80"
+                            HorizontalAlignment="Left"
+                            Command="{Binding TestCancelCommand}"
+                            Content="取消"
+                            Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </Grid>
 
                 <Grid Margin="0,10">
@@ -194,7 +197,8 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemsSource>
                             <CompositeCollection>
-                                <CollectionContainer Collection="{Binding Source={StaticResource userdefineprompt}, Path=Data}" />
+                                <CollectionContainer
+                                    Collection="{Binding Source={StaticResource userdefineprompt}, Path=Data}" />
                                 <ListBoxItem>
                                     <Button Width="40"
                                             Command="{Binding AddPromptCommand}"
@@ -213,7 +217,9 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Other: " />
-                    <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
+                    <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
+                        <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                    </TextBlock>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

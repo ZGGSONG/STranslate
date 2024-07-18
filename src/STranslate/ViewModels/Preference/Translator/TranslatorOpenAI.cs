@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -231,7 +226,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
 
     public async Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
     {
-        if (string.IsNullOrEmpty(Url)/* || string.IsNullOrEmpty(AppKey)*/)
+        if (string.IsNullOrEmpty(Url) /* || string.IsNullOrEmpty(AppKey)*/)
             throw new Exception("请先完善配置");
 
         if (request is not RequestModel req)

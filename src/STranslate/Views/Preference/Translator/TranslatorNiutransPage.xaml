@@ -80,7 +80,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译"/>
+                <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译" />
 
                 <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding AutoExecute}" />
             </Grid>
@@ -128,7 +128,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Other: " />
-                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink></TextBlock>
+                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
+                    <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                </TextBlock>
             </Grid>
         </StackPanel>
     </Border>

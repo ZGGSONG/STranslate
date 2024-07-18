@@ -15,7 +15,7 @@ public partial class TranslatorDeepLPage : UserControl
     }
 
     /// <summary>
-    /// 通过缓存加载View时刷新ViewModel
+    ///     通过缓存加载View时刷新ViewModel
     /// </summary>
     /// <param name="vm"></param>
     public void UpdateVM(ITranslator vm)
@@ -23,6 +23,8 @@ public partial class TranslatorDeepLPage : UserControl
         DataContext = vm;
     }
 
-    private void Hyperlink_Click(object sender, RoutedEventArgs e) =>
+    private void Hyperlink_Click(object sender, RoutedEventArgs e)
+    {
         Process.Start(new ProcessStartInfo { FileName = "https://deepl.com/", UseShellExecute = true });
+    }
 }

@@ -1,15 +1,14 @@
-﻿using STranslate.Util;
+﻿using System.Windows.Controls;
+using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using System.Windows.Controls;
 
-namespace STranslate.Views.Preference
+namespace STranslate.Views.Preference;
+
+public partial class HotkeyPage : UserControl
 {
-    public partial class HotkeyPage : UserControl
+    public HotkeyPage()
     {
-        public HotkeyPage()
-        {
-            InitializeComponent();
-            DataContext = Singleton<HotkeyViewModel>.Instance;
-        }
+        InitializeComponent();
+        DataContext = Singleton<HotkeyViewModel>.Instance;
     }
 }

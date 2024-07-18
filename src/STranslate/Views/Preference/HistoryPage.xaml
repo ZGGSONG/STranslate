@@ -63,43 +63,53 @@
                              SelectedIndex="{Binding SelectedIndex}">
                         <ListBox.ContextMenu>
                             <ContextMenu Width="120">
-                                <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
-                                          CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
-                                          Header="刷新记录"
-                                          Icon="&#xe60f;" />
+                                <MenuItem
+                                    Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
+                                    CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
+                                    Header="刷新记录"
+                                    Icon="&#xe60f;" />
                             </ContextMenu>
                         </ListBox.ContextMenu>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding TogglePageCommand}" CommandParameter="{Binding ElementName=HistoryListBox, Path=SelectedItem}" />
+                                <i:InvokeCommandAction Command="{Binding TogglePageCommand}"
+                                                       CommandParameter="{Binding ElementName=HistoryListBox, Path=SelectedItem}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border x:Name="HistoryControl" Height="50" Style="{DynamicResource BorderInOutputStyle}">
-                                    <TextBlock Margin="5,0" Text="{Binding SourceText}" TextTrimming="CharacterEllipsis" />
+                                <Border x:Name="HistoryControl" Height="50"
+                                        Style="{DynamicResource BorderInOutputStyle}">
+                                    <TextBlock Margin="5,0" Text="{Binding SourceText}"
+                                               TextTrimming="CharacterEllipsis" />
                                     <Border.ContextMenu>
                                         <ContextMenu Width="120">
                                             <MenuItem Header="添加收藏"
                                                       Icon="&#xe8b9;"
                                                       Visibility="Collapsed" />
-                                            <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
-                                                      CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
-                                                      Header="刷新记录"
-                                                      Icon="&#xe60f;" />
+                                            <MenuItem
+                                                Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
+                                                CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
+                                                Header="刷新记录"
+                                                Icon="&#xe60f;" />
                                             <Separator />
-                                            <MenuItem Command="{Binding Source={StaticResource vm}, Path=Data.DeleteHistoryCommand}"
-                                                      Header="删除记录"
-                                                      Icon="&#xe74b;" />
+                                            <MenuItem
+                                                Command="{Binding Source={StaticResource vm}, Path=Data.DeleteHistoryCommand}"
+                                                Header="删除记录"
+                                                Icon="&#xe74b;" />
                                         </ContextMenu>
                                     </Border.ContextMenu>
                                 </Border>
                                 <DataTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="HistoryControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                        <Setter TargetName="HistoryControl" Property="Background"
+                                                Value="{DynamicResource BtnMouseOverBackground}" />
                                     </Trigger>
-                                    <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Value="True">
-                                        <Setter TargetName="HistoryControl" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                                    <DataTrigger
+                                        Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}"
+                                        Value="True">
+                                        <Setter TargetName="HistoryControl" Property="Background"
+                                                Value="{DynamicResource BtnPressedBackground}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -119,7 +129,8 @@
 
                 <!-- // Total count // -->
                 <Grid Grid.Row="3" VerticalAlignment="Bottom" Background="{DynamicResource BorderLangBackground}">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{DynamicResource FontSize_Identify}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="{DynamicResource FontSize_Identify}">
                         <Run Text="共 " />
                         <Run Text="{Binding Count}" />
                         <Run Text=" 项" />
@@ -149,12 +160,14 @@
                                      ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                        <i:InvokeCommandAction Command="{Binding DeleteAllHistoryCommand}" CommandParameter="{Binding ElementName=Popup}" />
+                                        <i:InvokeCommandAction Command="{Binding DeleteAllHistoryCommand}"
+                                                               CommandParameter="{Binding ElementName=Popup}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border x:Name="border" Margin="10,5" Style="{DynamicResource BorderPopupStyle}">
+                                        <Border x:Name="border" Margin="10,5"
+                                                Style="{DynamicResource BorderPopupStyle}">
                                             <StackPanel Margin="5" Orientation="Horizontal">
                                                 <TextBlock HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
@@ -166,7 +179,8 @@
                                         </Border>
                                         <DataTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                <Setter TargetName="border" Property="Background"
+                                                        Value="{DynamicResource BtnMouseOverBackground}" />
                                             </Trigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>

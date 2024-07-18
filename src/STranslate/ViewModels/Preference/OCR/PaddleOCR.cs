@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -334,7 +330,8 @@ public partial class PaddleOCR : ObservableObject, IOCR
                 token.ThrowIfCancellationRequested();
 
 #if DEBUG
-                using (var _ = new TimerDisposable(timeElapsed => LogService.Logger.Debug($"PaddleOCR 耗时: {timeElapsed} ms")))
+                using (var _ = new TimerDisposable(timeElapsed =>
+                           LogService.Logger.Debug($"PaddleOCR 耗时: {timeElapsed} ms")))
                 {
 #endif
                     var ocrResult = GetEngine(lang).DetectText(bytes);

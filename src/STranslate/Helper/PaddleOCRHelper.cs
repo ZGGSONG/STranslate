@@ -64,83 +64,76 @@ namespace STranslate.Helper
 #endif
 
 #if true
-using PaddleOCRSharp;
-using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using PaddleOCRSharp;
 
-namespace STranslate.Helper
+namespace STranslate.Helper;
+
+[Obsolete("使用OCRSvcViewModel管理")]
+public class PaddleOCRHelper : IDisposable
 {
-    [Obsolete("使用OCRSvcViewModel管理")]
-    public class PaddleOCRHelper : IDisposable
+    private readonly Architecture _architecture;
+    private readonly PaddleOCREngine? _paddleOCREngine;
+
+    public PaddleOCRHelper()
     {
-        private readonly Architecture _architecture;
-        private readonly PaddleOCREngine? _paddleOCREngine;
+        _architecture = RuntimeInformation.OSArchitecture;
 
-        public PaddleOCRHelper()
+        if (_architecture != Architecture.X64)
+            // 如果不是64位架构，不进行初始化
+            return;
+
+        // 使用默认中英文V4模型
+        OCRModelConfig? config = null;
+
+        // 使用默认参数
+        var oCRParameter = new OCRParameter
         {
-            _architecture = RuntimeInformation.OSArchitecture;
+            cpu_math_library_num_threads = 10, // 预测并发线程数
+            enable_mkldnn = true, // web部署该值建议设置为0, 否则出错，内存如果使用很大，建议该值也设置为0.
+            cls = false, // 是否执行文字方向分类；默认false
+            det = true, // 是否开启方向检测，用于检测识别180旋转
+            use_angle_cls = false, // 是否开启方向检测，用于检测识别180旋转
+            det_db_score_mode = true // 是否使用多段线，即文字区域是用多段线还是用矩形
+        };
 
-            if (_architecture != Architecture.X64)
-            {
-                // 如果不是64位架构，不进行初始化
-                return;
-            }
+        // 建议程序全局初始化一次即可，不必每次识别都初始化，容易报错。
+        _paddleOCREngine = new PaddleOCREngine(config, oCRParameter);
+    }
 
-            // 使用默认中英文V4模型
-            OCRModelConfig? config = null;
+    public void Dispose()
+    {
+        _paddleOCREngine?.Dispose();
+    }
 
-            // 使用默认参数
-            OCRParameter oCRParameter = new OCRParameter
-            {
-                cpu_math_library_num_threads = 10, // 预测并发线程数
-                enable_mkldnn = true, // web部署该值建议设置为0, 否则出错，内存如果使用很大，建议该值也设置为0.
-                cls = false, // 是否执行文字方向分类；默认false
-                det = true, // 是否开启方向检测，用于检测识别180旋转
-                use_angle_cls = false, // 是否开启方向检测，用于检测识别180旋转
-                det_db_score_mode = true // 是否使用多段线，即文字区域是用多段线还是用矩形
-            };
+    /// <summary>
+    ///     执行 OCR
+    /// </summary>
+    /// <param name="bytes">图像字节数组</param>
+    /// <returns>OCR识别结果</returns>
+    public string Execute(byte[] bytes)
+    {
+        try
+        {
+            if (_paddleOCREngine is null) throw new NotSupportedException($"CPU架构不支持({_architecture})");
 
-            // 建议程序全局初始化一次即可，不必每次识别都初始化，容易报错。
-            _paddleOCREngine = new PaddleOCREngine(config, oCRParameter);
+            var sb = new StringBuilder();
+            var ocrResult = _paddleOCREngine.DetectText(bytes);
+
+            ocrResult?.TextBlocks.ForEach(x => sb.AppendLine(x.Text));
+
+            return sb.ToString();
         }
-
-        public void Dispose()
+        catch (NotSupportedException ex)
         {
-            _paddleOCREngine?.Dispose();
+            // 处理特定的不支持异常
+            throw new NotSupportedException($"OCR不支持: {ex.Message}");
         }
-
-        /// <summary>
-        /// 执行 OCR
-        /// </summary>
-        /// <param name="bytes">图像字节数组</param>
-        /// <returns>OCR识别结果</returns>
-        public string Execute(byte[] bytes)
+        catch (Exception ex)
         {
-            try
-            {
-                if (_paddleOCREngine is null)
-                {
-                    throw new NotSupportedException($"CPU架构不支持({_architecture})");
-                }
-
-                var sb = new StringBuilder();
-                var ocrResult = _paddleOCREngine.DetectText(bytes);
-
-                ocrResult?.TextBlocks.ForEach(x => sb.AppendLine(x.Text));
-
-                return sb.ToString();
-            }
-            catch (NotSupportedException ex)
-            {
-                // 处理特定的不支持异常
-                throw new NotSupportedException($"OCR不支持: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                // 处理其他异常
-                throw new Exception($"OCR出错: {ex.Message}");
-            }
+            // 处理其他异常
+            throw new Exception($"OCR出错: {ex.Message}");
         }
     }
 }

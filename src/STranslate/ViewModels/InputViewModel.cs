@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -63,7 +58,7 @@ public partial class InputViewModel : ObservableObject
 
     [ObservableProperty] private string _placeholder = ConstStr.MAINVIEWPLACEHOLDER;
 
-    [ObservableProperty] private bool _mainOcrLangVisibile = false;
+    [ObservableProperty] private bool _mainOcrLangVisibile;
 
     #endregion 属性、字段
 
@@ -148,11 +143,13 @@ public partial class InputViewModel : ObservableObject
             token,
             async (service, cancellationToken) =>
             {
-                await TranslateServiceHandlerAsync(services, service, translatorCacheList, source, target, _userSelectedLang, InputContent, cancellationToken, copyIndex);
+                await TranslateServiceHandlerAsync(services, service, translatorCacheList, source, target,
+                    _userSelectedLang, InputContent, cancellationToken, copyIndex);
             }
         );
         return history;
     }
+
     private async Task TranslateServiceHandlerAsync(List<ITranslator> services, ITranslator service,
         List<ITranslator>? translatorList, LangEnum source, LangEnum target, LangEnum? userSelectedLang,
         string inputContent, CancellationToken cancellationToken, int copyIndex)
@@ -220,17 +217,14 @@ public partial class InputViewModel : ObservableObject
             if (service.IsExecuting) service.IsExecuting = false;
         }
     }
+
     private void UpdateServiceDataFromCache(ITranslator service, List<ITranslator>? translatorList)
     {
         var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
         if (cachedTranslator != null)
-        {
             service.Data = cachedTranslator.Data ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
-        }
         else
-        {
             service.Data = TranslationResult.Fail("未找到缓存数据");
-        }
     }
 
     private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception,
@@ -255,7 +249,8 @@ public partial class InputViewModel : ObservableObject
                 $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
         else
             LogService.Logger.Error(
-                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}", exception);
+                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}",
+                exception);
     }
 
     /// <summary>

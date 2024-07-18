@@ -1,15 +1,14 @@
-﻿using STranslate.Util;
+﻿using System.Windows.Controls;
+using STranslate.Util;
 using STranslate.ViewModels.Preference;
-using System.Windows.Controls;
 
-namespace STranslate.Views.Preference
+namespace STranslate.Views.Preference;
+
+public partial class BackupPage : UserControl
 {
-    public partial class BackupPage : UserControl
+    public BackupPage()
     {
-        public BackupPage()
-        {
-            InitializeComponent();
-            DataContext = Singleton<BackupViewModel>.Instance;
-        }
+        InitializeComponent();
+        DataContext = Singleton<BackupViewModel>.Instance;
     }
 }

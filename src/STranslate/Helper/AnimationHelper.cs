@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Animation;
 using STranslate.Util;
 using STranslate.Views;
@@ -13,15 +10,15 @@ namespace STranslate.Helper;
 /// </summary>
 public class AnimationHelper
 {
-    public static void Init()
-    {
-        _previousAction = !(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false);
-    }
-
     private static readonly Window MainView =
         Application.Current.MainWindow ?? Application.Current.Windows.Cast<MainView>().First();
 
     private static bool _previousAction;
+
+    public static void Init()
+    {
+        _previousAction = !(Singleton<ConfigHelper>.Instance.CurrentConfig?.IsHideOnStart ?? false);
+    }
 
     /// <summary>
     ///     Performs the main view animation.
