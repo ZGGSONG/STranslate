@@ -304,6 +304,7 @@ public partial class BackupViewModel : ObservableObject
         Singleton<InputViewModel>.Instance.Clear();
         Singleton<CommonViewModel>.Instance.ResetCommand.Execute(null);
         Singleton<TranslatorViewModel>.Instance.ResetCommand.Execute(null);
+        Singleton<ReplaceViewModel>.Instance.ResetCommand.Execute(null);
         Singleton<OCRScvViewModel>.Instance.ResetCommand.Execute(null);
         Singleton<TTSViewModel>.Instance.ResetCommand.Execute(null);
 

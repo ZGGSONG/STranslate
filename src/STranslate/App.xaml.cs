@@ -35,11 +35,7 @@ public partial class App : Application
         }
 
         // 3. 开启日志服务
-#if DEBUG
         LogService.Register();
-#elif !DEBUG
-            LogService.Register(minLevel: LogLevel.Info);
-#endif
 
         // 4. 开启监听系统代理
         ProxyUtil.LoadDynamicProxy();

@@ -13,15 +13,9 @@ public partial class ReplaceViewModel : ObservableObject
 {
     private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
     private readonly TranslatorViewModel _translateVm = Singleton<TranslatorViewModel>.Instance;
-
     public ReplaceViewModel()
     {
-        AllServices = _translateVm.CurTransServiceList;
-
-        // load initial value from conf
-        ReplaceProp = _configHelper.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
-        // View 上绑定结果从List中获取
-        ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
+        Reset();
 
         _translateVm.PropertyChanged += (sender, args) =>
         {
@@ -153,9 +147,9 @@ public partial class ReplaceViewModel : ObservableObject
 
     #region Property
 
-    [ObservableProperty] private BindingList<ITranslator> _allServices;
+    [ObservableProperty] private BindingList<ITranslator> _allServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList;
 
-    [ObservableProperty] private ReplaceProp _replaceProp;
+    [ObservableProperty] private ReplaceProp _replaceProp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
 
     #endregion
 
@@ -178,8 +172,12 @@ public partial class ReplaceViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        ReplaceProp = _configHelper.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
+        AllServices.Clear();
+        foreach (var service in _translateVm.CurTransServiceList) AllServices.Add(service);
 
+        // View 上绑定结果从List中获取
+        ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
+        
         ToastHelper.Show("重置配置", WindowType.Preference);
     }
 
