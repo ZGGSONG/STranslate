@@ -3,8 +3,6 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
 	<ApplicationIcon>..\STranslate.Style\Resources\favicon.ico</ApplicationIcon>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<ApplicationManifest>app.manifest</ApplicationManifest>
