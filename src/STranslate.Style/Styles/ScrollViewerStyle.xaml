@@ -15,7 +15,8 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ThumbMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource ThumbMouseOverBackground}" />
                         </Trigger>
                         <!-- // TODO: 更新 // -->
                         <!--<Trigger Property="IsPressed" Value="True">
@@ -35,7 +36,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="{TemplateBinding Background}" />
+                    <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                               Fill="{TemplateBinding Background}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -49,7 +51,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="{TemplateBinding Background}" />
+                    <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                               Fill="{TemplateBinding Background}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -83,29 +86,30 @@
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Grid x:Name="Bg" SnapsToDevicePixels="true">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto">
-                            </RowDefinition>
-                            <RowDefinition Height="*">
-                            </RowDefinition>
-                            <RowDefinition Height="auto">
-                            </RowDefinition>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <RepeatButton Grid.Row="0" Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource VerticalScrollBarPageButton2}" />
+                        <RepeatButton Grid.Row="0" Command="{x:Static ScrollBar.PageUpCommand}"
+                                      Style="{StaticResource VerticalScrollBarPageButton2}" />
                         <Track x:Name="PART_Track"
                                Grid.Row="1"
                                IsDirectionReversed="true"
                                IsEnabled="{TemplateBinding IsMouseOver}">
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}"
+                                              Style="{StaticResource VerticalScrollBarPageButton}" />
                             </Track.DecreaseRepeatButton>
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}"
+                                              Style="{StaticResource VerticalScrollBarPageButton}" />
                             </Track.IncreaseRepeatButton>
                             <Track.Thumb>
                                 <Thumb Style="{StaticResource ScrollBarThumb}" />
                             </Track.Thumb>
                         </Track>
-                        <RepeatButton Grid.Row="2" Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource VerticalScrollBarPageButton2}" />
+                        <RepeatButton Grid.Row="2" Command="{x:Static ScrollBar.PageDownCommand}"
+                                      Style="{StaticResource VerticalScrollBarPageButton2}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -124,10 +128,12 @@
                             <Grid x:Name="Bg" SnapsToDevicePixels="true">
                                 <Track x:Name="PART_Track" IsEnabled="{TemplateBinding IsMouseOver}">
                                     <Track.DecreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource HorizontalScrollBarPageButton}" />
+                                        <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}"
+                                                      Style="{StaticResource HorizontalScrollBarPageButton}" />
                                     </Track.DecreaseRepeatButton>
                                     <Track.IncreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource HorizontalScrollBarPageButton}" />
+                                        <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}"
+                                                      Style="{StaticResource HorizontalScrollBarPageButton}" />
                                     </Track.IncreaseRepeatButton>
                                     <Track.Thumb>
                                         <Thumb Style="{StaticResource ScrollBarThumb}" />
@@ -146,9 +152,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
                         <Grid Background="{TemplateBinding Background}">
-                            <ScrollContentPresenter Margin="{TemplateBinding Padding}" ContentTemplate="{TemplateBinding ContentTemplate}" Cursor="{TemplateBinding Cursor}" />
+                            <ScrollContentPresenter Margin="{TemplateBinding Padding}"
+                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                    Cursor="{TemplateBinding Cursor}" />
                             <ScrollBar x:Name="PART_VerticalScrollBar"
                                        HorizontalAlignment="Right"
                                        Maximum="{TemplateBinding ScrollableHeight}"

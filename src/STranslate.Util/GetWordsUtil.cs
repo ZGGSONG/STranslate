@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
+﻿using System.Runtime.InteropServices;
 using System.Windows.Input;
 
 namespace STranslate.Util;
@@ -11,7 +9,7 @@ public class GetWordsUtil
     public static string Get(int interval = 100)
     {
         SendCtrlCV();
-        System.Threading.Thread.Sleep(interval);
+        Thread.Sleep(interval);
 
         return GetText();
     }
@@ -20,7 +18,7 @@ public class GetWordsUtil
     {
         var oldTxt = GetText();
         SendCtrlCV();
-        System.Threading.Thread.Sleep(interval);
+        Thread.Sleep(interval);
 
         //为了鼠标划词做对比
         var newTxt = GetText();
@@ -28,7 +26,7 @@ public class GetWordsUtil
     }
 
     /// <summary>
-    /// 模拟粘贴操作
+    ///     模拟粘贴操作
     /// </summary>
     public static void Paste()
     {
@@ -38,7 +36,7 @@ public class GetWordsUtil
     [Obsolete]
     public static string WIN32SetText(string text)
     {
-        SetText(text, out string ret);
+        SetText(text, out var ret);
         return ret;
     }
 
@@ -62,7 +60,7 @@ public class GetWordsUtil
     #region Clipboard
 
     /// <summary>
-    /// 向剪贴板中添加文本
+    ///     向剪贴板中添加文本
     /// </summary>
     /// <param name="text">文本</param>
     internal static void SetText(string text, out string error)
@@ -70,15 +68,13 @@ public class GetWordsUtil
         try
         {
             if (!CommonUtil.OpenClipboard(IntPtr.Zero))
-            {
                 throw new InvalidOperationException("Unable to open the clipboard.");
-            }
             CommonUtil.EmptyClipboard();
 
             // 获取 Unicode 文本格式的常量
-            int cfUnicodeText = 13; // CF_UNICODETEXT
+            var cfUnicodeText = 13; // CF_UNICODETEXT
             // 将文本分配到非托管内存
-            IntPtr hGlobal = Marshal.StringToHGlobalUni(text);
+            var hGlobal = Marshal.StringToHGlobalUni(text);
             // 将文本添加到剪贴板
             CommonUtil.SetClipboardData(cfUnicodeText, hGlobal);
             // 关闭剪贴板
@@ -99,16 +95,14 @@ public class GetWordsUtil
 
     internal static string GetText()
     {
-        string value = string.Empty;
+        var value = string.Empty;
         CommonUtil.OpenClipboard(IntPtr.Zero);
         if (CommonUtil.IsClipboardFormatAvailable(13))
         {
-            IntPtr ptr = CommonUtil.GetClipboardData(13);
-            if (ptr != IntPtr.Zero)
-            {
-                value = Marshal.PtrToStringUni(ptr) ?? string.Empty;
-            }
+            var ptr = CommonUtil.GetClipboardData(13);
+            if (ptr != IntPtr.Zero) value = Marshal.PtrToStringUni(ptr) ?? string.Empty;
         }
+
         CommonUtil.CloseClipboard();
         return value;
     }

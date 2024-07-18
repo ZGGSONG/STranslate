@@ -1,13 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace STranslate.Model
-{
-    public partial class HotkeyContentVisibilityModel : ObservableObject
-    {
-        [ObservableProperty]
-        private string _content = string.Empty;
+namespace STranslate.Model;
 
-        [ObservableProperty]
-        private bool _contentVisible = false;
-    }
+public partial class HotkeyContentVisibilityModel : ObservableObject
+{
+    [ObservableProperty] private string _content = string.Empty;
+
+    [ObservableProperty] private bool _contentVisible;
 }

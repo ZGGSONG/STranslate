@@ -20,7 +20,8 @@
 
     <ControlTemplate x:Key="SliderThumbHorizontalDefault" TargetType="{x:Type Thumb}">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True">
-            <Ellipse Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="{TemplateBinding Foreground}" />
+            <Ellipse Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                     Fill="{TemplateBinding Foreground}" />
         </Grid>
     </ControlTemplate>
 
@@ -34,7 +35,8 @@
 
             <Track x:Name="PART_Track">
                 <Track.DecreaseRepeatButton>
-                    <RepeatButton Height="4.0" Background="{TemplateBinding Foreground}" Style="{StaticResource RepeatButtonTransparent}" />
+                    <RepeatButton Height="4.0" Background="{TemplateBinding Foreground}"
+                                  Style="{StaticResource RepeatButtonTransparent}" />
                 </Track.DecreaseRepeatButton>
 
                 <Track.Thumb>

@@ -19,14 +19,17 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         CornerRadius="3">
-                                    <ContentPresenter Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <ContentPresenter Margin="5,0,0,0" HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center" />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Back" Property="Background" Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
+                                        <Setter TargetName="Back" Property="Background"
+                                                Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
                                     </Trigger>
                                     <Trigger Property="IsHighlighted" Value="True">
-                                        <Setter TargetName="Back" Property="Background" Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
+                                        <Setter TargetName="Back" Property="Background"
+                                                Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -49,7 +52,8 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <ToggleButton Background="{TemplateBinding Background}" Content="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}">
+                            <ToggleButton Background="{TemplateBinding Background}" Content="{TemplateBinding Text}"
+                                          Foreground="{TemplateBinding Foreground}">
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton">
                                         <Setter Property="Margin" Value="5,0,0,0" />
@@ -58,11 +62,13 @@
                                         <Setter Property="BorderThickness" Value="0" />
                                         <Setter Property="ClickMode" Value="Press" />
                                         <Setter Property="Focusable" Value="False" />
-                                        <Setter Property="IsChecked" Value="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Setter Property="IsChecked"
+                                                Value="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ToggleButton">
-                                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            BorderThickness="0">
                                                         <TextBlock Margin="4,0,0,0"
                                                                    HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center"
@@ -89,7 +95,8 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ToggleButton">
-                                                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}">
                                                             <Grid>
                                                                 <TextBlock x:Name="arrow_tb"
                                                                            HorizontalAlignment="Center"
@@ -110,14 +117,17 @@
                                                             </Grid>
                                                         </Border>
                                                         <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                            </Trigger>
+                                                            <Trigger Property="IsChecked" Value="True" />
                                                             <EventTrigger RoutedEvent="Checked">
                                                                 <BeginStoryboard>
                                                                     <Storyboard>
-                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="arrow_tb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0" />
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="180" />
+                                                                        <DoubleAnimationUsingKeyFrames
+                                                                            Storyboard.TargetName="arrow_tb"
+                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00"
+                                                                                Value="0" />
+                                                                            <EasingDoubleKeyFrame
+                                                                                KeyTime="00:00:00.2000000" Value="180" />
                                                                         </DoubleAnimationUsingKeyFrames>
                                                                     </Storyboard>
                                                                 </BeginStoryboard>
@@ -126,9 +136,13 @@
                                                             <EventTrigger RoutedEvent="Unchecked">
                                                                 <BeginStoryboard>
                                                                     <Storyboard>
-                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="arrow_tb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="180" />
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0" />
+                                                                        <DoubleAnimationUsingKeyFrames
+                                                                            Storyboard.TargetName="arrow_tb"
+                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00"
+                                                                                Value="180" />
+                                                                            <EasingDoubleKeyFrame
+                                                                                KeyTime="00:00:00.2000000" Value="0" />
                                                                         </DoubleAnimationUsingKeyFrames>
                                                                     </Storyboard>
                                                                 </BeginStoryboard>
@@ -162,7 +176,8 @@
                                                   SnapsToDevicePixels="True"
                                                   VerticalScrollBarVisibility="Auto">
                                         <!-- StackPanel 用于显示子级，方法是将 IsItemsHost 设置为 True -->
-                                        <StackPanel Background="Transparent" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        <StackPanel Background="Transparent" IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Border>
                             </Popup>
@@ -194,15 +209,18 @@
                                         CornerRadius="3">
                                     <StackPanel Margin="5,0" Orientation="Horizontal">
                                         <Image Width="15" Height="15" Source="{Binding Value}" />
-                                        <TextBlock Margin="5,0,0,0" FontSize="{DynamicResource FontSize_Prompt}" Text="{Binding Key, Converter={StaticResource ComboBoxIconConverter}}" />
+                                        <TextBlock Margin="5,0,0,0" FontSize="{DynamicResource FontSize_Prompt}"
+                                                   Text="{Binding Key, Converter={StaticResource ComboBoxIconConverter}}" />
                                     </StackPanel>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Back" Property="Background" Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
+                                        <Setter TargetName="Back" Property="Background"
+                                                Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
                                     </Trigger>
                                     <Trigger Property="IsHighlighted" Value="True">
-                                        <Setter TargetName="Back" Property="Background" Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
+                                        <Setter TargetName="Back" Property="Background"
+                                                Value="{DynamicResource ComboBoxItemMouseOverBackground}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -225,7 +243,8 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <ToggleButton Background="{TemplateBinding Background}" Content="{TemplateBinding Text}" Foreground="{TemplateBinding Foreground}">
+                            <ToggleButton Background="{TemplateBinding Background}" Content="{TemplateBinding Text}"
+                                          Foreground="{TemplateBinding Foreground}">
                                 <ToggleButton.Style>
                                     <Style TargetType="ToggleButton">
                                         <Setter Property="Margin" Value="5,0" />
@@ -234,13 +253,17 @@
                                         <Setter Property="BorderThickness" Value="0" />
                                         <Setter Property="ClickMode" Value="Press" />
                                         <Setter Property="Focusable" Value="False" />
-                                        <Setter Property="IsChecked" Value="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Setter Property="IsChecked"
+                                                Value="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ToggleButton">
-                                                    <StackPanel Background="{TemplateBinding Background}" Orientation="Horizontal">
-                                                        <Image Width="16" Height="16" Source="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=0}" />
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=1}" />
+                                                    <StackPanel Background="{TemplateBinding Background}"
+                                                                Orientation="Horizontal">
+                                                        <Image Width="16" Height="16"
+                                                               Source="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=0}" />
+                                                        <TextBlock Margin="5,0,0,0"
+                                                                   Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=1}" />
                                                     </StackPanel>
                                                 </ControlTemplate>
                                             </Setter.Value>
@@ -261,7 +284,8 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ToggleButton">
-                                                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}">
                                                             <Grid>
                                                                 <TextBlock x:Name="arrow_tb"
                                                                            HorizontalAlignment="Center"
@@ -282,14 +306,17 @@
                                                             </Grid>
                                                         </Border>
                                                         <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                            </Trigger>
+                                                            <Trigger Property="IsChecked" Value="True" />
                                                             <EventTrigger RoutedEvent="Checked">
                                                                 <BeginStoryboard>
                                                                     <Storyboard>
-                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="arrow_tb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0" />
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="180" />
+                                                                        <DoubleAnimationUsingKeyFrames
+                                                                            Storyboard.TargetName="arrow_tb"
+                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00"
+                                                                                Value="0" />
+                                                                            <EasingDoubleKeyFrame
+                                                                                KeyTime="00:00:00.2000000" Value="180" />
                                                                         </DoubleAnimationUsingKeyFrames>
                                                                     </Storyboard>
                                                                 </BeginStoryboard>
@@ -298,9 +325,13 @@
                                                             <EventTrigger RoutedEvent="Unchecked">
                                                                 <BeginStoryboard>
                                                                     <Storyboard>
-                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="arrow_tb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="180" />
-                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0" />
+                                                                        <DoubleAnimationUsingKeyFrames
+                                                                            Storyboard.TargetName="arrow_tb"
+                                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                                                                            <EasingDoubleKeyFrame KeyTime="00:00:00"
+                                                                                Value="180" />
+                                                                            <EasingDoubleKeyFrame
+                                                                                KeyTime="00:00:00.2000000" Value="0" />
                                                                         </DoubleAnimationUsingKeyFrames>
                                                                     </Storyboard>
                                                                 </BeginStoryboard>
@@ -334,7 +365,8 @@
                                                   SnapsToDevicePixels="True"
                                                   VerticalScrollBarVisibility="Auto">
                                         <!-- StackPanel 用于显示子级，方法是将 IsItemsHost 设置为 True -->
-                                        <StackPanel Background="Transparent" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        <StackPanel Background="Transparent" IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Border>
                             </Popup>

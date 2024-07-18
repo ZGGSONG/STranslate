@@ -1,69 +1,61 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace STranslate.Model
+namespace STranslate.Model;
+
+public interface IOCR : INotifyPropertyChanged //需要继承INotifyPropertyChanged，否则切换属性时无法通知
 {
-    public interface IOCR : INotifyPropertyChanged //需要继承INotifyPropertyChanged，否则切换属性时无法通知
+    Guid Identify { get; set; }
+
+    OCRType Type { get; set; }
+
+    IconType Icon { get; set; }
+
+    bool IsEnabled { get; set; }
+
+    string Name { get; set; }
+
+    string Url { get; set; }
+
+    string AppID { get; set; }
+
+    string AppKey { get; set; }
+
+    string? LangConverter(LangEnum lang);
+
+    Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken token);
+
+    IOCR Clone();
+}
+
+public class OCRCollection<T> : BindingList<T>
+    where T : IOCR
+{
+    protected override void OnListChanged(ListChangedEventArgs e)
     {
-        Guid Identify { get; set; }
+        base.OnListChanged(e);
 
-        OCRType Type { get; set; }
-
-        IconType Icon { get; set; }
-
-        bool IsEnabled { get; set; }
-
-        string Name { get; set; }
-
-        string Url { get; set; }
-
-        string AppID { get; set; }
-
-        string AppKey { get; set; }
-
-        string? LangConverter(LangEnum lang);
-
-        Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken token);
-
-        IOCR Clone();
+        // 当项被添加或者属性改变时，检查 IsEnabled 属性
+        if (e.ListChangedType == ListChangedType.ItemAdded || (e.ListChangedType == ListChangedType.ItemChanged &&
+                                                               e.PropertyDescriptor?.Name == nameof(IOCR.IsEnabled)))
+        {
+            var changedItem = this[e.NewIndex];
+            if (changedItem.IsEnabled)
+                // 设置其他所有项的 IsEnabled 为 false
+                foreach (var item in this)
+                    if (!ReferenceEquals(item, changedItem) && item.IsEnabled)
+                        item.IsEnabled = false;
+        }
     }
 
-    public class OCRCollection<T> : BindingList<T>
-        where T : IOCR
+    public OCRCollection<IOCR> DeepCopy()
     {
-        protected override void OnListChanged(ListChangedEventArgs e)
+        var copiedList = new OCRCollection<IOCR>();
+        foreach (var item in this)
         {
-            base.OnListChanged(e);
-
-            // 当项被添加或者属性改变时，检查 IsEnabled 属性
-            if (e.ListChangedType == ListChangedType.ItemAdded || (e.ListChangedType == ListChangedType.ItemChanged && e.PropertyDescriptor?.Name == nameof(IOCR.IsEnabled)))
-            {
-                T changedItem = this[e.NewIndex];
-                if (changedItem.IsEnabled)
-                {
-                    // 设置其他所有项的 IsEnabled 为 false
-                    foreach (T item in this)
-                    {
-                        if (!ReferenceEquals(item, changedItem) && item.IsEnabled)
-                        {
-                            item.IsEnabled = false;
-                        }
-                    }
-                }
-            }
+            var newItem = item.Clone();
+            copiedList.Add(newItem);
         }
 
-        public OCRCollection<IOCR> DeepCopy()
-        {
-            var copiedList = new OCRCollection<IOCR>();
-            foreach (var item in this)
-            {
-                var newItem = item.Clone();
-                copiedList.Add(newItem);
-            }
-            return copiedList;
-        }
+        return copiedList;
     }
 }

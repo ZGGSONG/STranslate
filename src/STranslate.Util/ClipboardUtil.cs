@@ -1,10 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace STranslate.Util;
@@ -14,7 +10,7 @@ public static class ClipboardUtil
     #region UserDefine
 
     /// <summary>
-    /// 获取当前选中的文本。
+    ///     获取当前选中的文本。
     /// </summary>
     /// <param name="interval">获取文本之前的延迟时间（以毫秒为单位）</param>
     /// <returns>返回当前选中的文本。</returns>
@@ -31,7 +27,7 @@ public static class ClipboardUtil
     }
 
     /// <summary>
-    /// 获取当前剪贴板文本与上一次剪贴板文本的差异。
+    ///     获取当前剪贴板文本与上一次剪贴板文本的差异。
     /// </summary>
     /// <param name="interval">获取旧文本和新文本之间的时间延迟（以毫秒为单位）</param>
     /// <returns>如果新文本与旧文本不同，则返回新文本；否则，返回 null。</returns>
@@ -54,7 +50,7 @@ public static class ClipboardUtil
     }
 
     /// <summary>
-    /// 异步获取当前选中的文本。
+    ///     异步获取当前选中的文本。
     /// </summary>
     /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <param name="interval">获取文本之前的延迟时间（以毫秒为单位）</param>
@@ -72,7 +68,7 @@ public static class ClipboardUtil
     }
 
     /// <summary>
-    /// 异步获取当前剪贴板文本与上一次剪贴板文本的差异。
+    ///     异步获取当前剪贴板文本与上一次剪贴板文本的差异。
     /// </summary>
     /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <param name="interval">获取旧文本和新文本之间的时间延迟（以毫秒为单位）</param>
@@ -96,7 +92,7 @@ public static class ClipboardUtil
     }
 
     /// <summary>
-    /// 模拟按下 Ctrl+C 或 Ctrl+V 的键盘操作。
+    ///     模拟按下 Ctrl+C 或 Ctrl+V 的键盘操作。
     /// </summary>
     /// <param name="isCopy">如果为 true，则模拟 Ctrl+C 操作；否则模拟 Ctrl+V 操作。</param>
     private static void SendCtrlCV(bool isCopy = true)
@@ -153,17 +149,11 @@ public static class ClipboardUtil
             var bytes = (text.Length + 1) * 2;
             hGlobal = Marshal.AllocHGlobal(bytes);
 
-            if (hGlobal == default)
-            {
-                ThrowWin32();
-            }
+            if (hGlobal == default) ThrowWin32();
 
             var target = GlobalLock(hGlobal);
 
-            if (target == default)
-            {
-                ThrowWin32();
-            }
+            if (target == default) ThrowWin32();
 
             try
             {
@@ -174,19 +164,13 @@ public static class ClipboardUtil
                 GlobalUnlock(target);
             }
 
-            if (SetClipboardData(cfUnicodeText, hGlobal) == default)
-            {
-                ThrowWin32();
-            }
+            if (SetClipboardData(cfUnicodeText, hGlobal) == default) ThrowWin32();
 
             hGlobal = default;
         }
         finally
         {
-            if (hGlobal != default)
-            {
-                Marshal.FreeHGlobal(hGlobal);
-            }
+            if (hGlobal != default) Marshal.FreeHGlobal(hGlobal);
 
             CloseClipboard();
         }
@@ -197,15 +181,9 @@ public static class ClipboardUtil
         var num = 10;
         while (true)
         {
-            if (OpenClipboard(default))
-            {
-                break;
-            }
+            if (OpenClipboard(default)) break;
 
-            if (--num == 0)
-            {
-                ThrowWin32();
-            }
+            if (--num == 0) ThrowWin32();
 
             await Task.Delay(100, cancellation);
         }
@@ -216,15 +194,9 @@ public static class ClipboardUtil
         var num = 10;
         while (true)
         {
-            if (OpenClipboard(default))
-            {
-                break;
-            }
+            if (OpenClipboard(default)) break;
 
-            if (--num == 0)
-            {
-                ThrowWin32();
-            }
+            if (--num == 0) ThrowWin32();
 
             Thread.Sleep(100);
         }
@@ -232,10 +204,7 @@ public static class ClipboardUtil
 
     public static async Task<string?> GetTextAsync(CancellationToken cancellation)
     {
-        if (!IsClipboardFormatAvailable(cfUnicodeText))
-        {
-            return null;
-        }
+        if (!IsClipboardFormatAvailable(cfUnicodeText)) return null;
         await TryOpenClipboardAsync(cancellation);
 
         return InnerGet();
@@ -243,10 +212,7 @@ public static class ClipboardUtil
 
     public static string? GetText()
     {
-        if (!IsClipboardFormatAvailable(cfUnicodeText))
-        {
-            return null;
-        }
+        if (!IsClipboardFormatAvailable(cfUnicodeText)) return null;
         TryOpenClipboard();
 
         return InnerGet();
@@ -260,16 +226,10 @@ public static class ClipboardUtil
         try
         {
             handle = GetClipboardData(cfUnicodeText);
-            if (handle == default)
-            {
-                return null;
-            }
+            if (handle == default) return null;
 
             pointer = GlobalLock(handle);
-            if (pointer == default)
-            {
-                return null;
-            }
+            if (pointer == default) return null;
 
             var size = GlobalSize(handle);
             var buff = new byte[size];
@@ -280,10 +240,7 @@ public static class ClipboardUtil
         }
         finally
         {
-            if (pointer != default)
-            {
-                GlobalUnlock(handle);
-            }
+            if (pointer != default) GlobalUnlock(handle);
 
             CloseClipboard();
         }

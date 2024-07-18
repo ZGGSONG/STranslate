@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace STranslate.Model;
 
@@ -13,6 +11,7 @@ public partial class ReplaceProp : ObservableObject, ICloneable
     [ObservableProperty] private LangDetectType _detectType;
 
     [ObservableProperty] private LangEnum _targetLang;
+
     public object Clone()
     {
         return new ReplaceProp
@@ -20,7 +19,7 @@ public partial class ReplaceProp : ObservableObject, ICloneable
             ActiveService = ActiveService?.Clone(),
             AutoScale = AutoScale,
             DetectType = DetectType,
-            TargetLang = TargetLang,
+            TargetLang = TargetLang
         };
     }
 }

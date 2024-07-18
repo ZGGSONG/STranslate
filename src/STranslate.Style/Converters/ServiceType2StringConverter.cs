@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using STranslate.Model;
 
@@ -10,10 +9,7 @@ public class ServiceType2StringConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         // 提示词 ContextMenu 是否显示
-        if (parameter is "prompt" && value is ITranslator service)
-        {
-            return service is ITranslatorLlm ? "1" : "0";
-        }
+        if (parameter is "prompt" && value is ITranslator service) return service is ITranslatorLlm ? "1" : "0";
 
         // 服务类型转换为字符串以显示
         return value switch

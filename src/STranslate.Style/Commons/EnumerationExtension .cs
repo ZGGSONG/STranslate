@@ -1,16 +1,23 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Windows.Markup;
 
 namespace STranslate.Style.Commons;
 
 /// <summary>
-/// https://blog.csdn.net/kristen_dou/article/details/133675830
+///     https://blog.csdn.net/kristen_dou/article/details/133675830
 /// </summary>
 public class EnumerationExtension : MarkupExtension
 {
     private Type? _enumType;
+
+    public EnumerationExtension()
+    {
+    }
+
+    public EnumerationExtension(Type enumType)
+    {
+        EnumType = enumType;
+    }
 
     public Type? EnumType
     {
@@ -31,17 +38,11 @@ public class EnumerationExtension : MarkupExtension
         }
     }
 
-    public EnumerationExtension() { }
-
-    public EnumerationExtension(Type enumType)
-    {
-        EnumType = enumType;
-    }
-
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         var enumValues = Enum.GetValues(EnumType!);
-        return (from object enumValue in enumValues select new EnumerationMember { Value = enumValue, Description = GetDescription(enumValue) }).ToArray();
+        return (from object enumValue in enumValues
+            select new EnumerationMember { Value = enumValue, Description = GetDescription(enumValue) }).ToArray();
     }
 
     private string GetDescription(object enumValue)
@@ -50,7 +51,8 @@ public class EnumerationExtension : MarkupExtension
             throw new InvalidOperationException("The EnumType must be specified.");
 
         var descriptionAttribute =
-            EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
+            EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+                .FirstOrDefault() as DescriptionAttribute;
         return descriptionAttribute != null ? descriptionAttribute.Description : enumValue.ToString() ?? "";
     }
 

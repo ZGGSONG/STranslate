@@ -37,7 +37,8 @@
                                          Duration="0:0:0.3" />
 
                         <!-- 主要移动动画，设置一个较大的初始速度，然后在结束时减慢速度，模拟反弹效果 -->
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                        <DoubleAnimationUsingKeyFrames
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
                             <EasingDoubleKeyFrame KeyTime="0:0:0" Value="50">
                                 <EasingDoubleKeyFrame.EasingFunction>
                                     <BackEase Amplitude="0.3" EasingMode="EaseOut" />

@@ -24,7 +24,8 @@
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
                     <!-- Here is where you change the border thickness to zero on the menu -->
                     <Border x:Name="Border" Width="{TemplateBinding Width}" Padding="5" BorderThickness="1"
-                            BorderBrush="{DynamicResource BorderBrushColor}" CornerRadius="5" Background="{DynamicResource BorderBackground}">
+                            BorderBrush="{DynamicResource BorderBrushColor}" CornerRadius="5"
+                            Background="{DynamicResource BorderBackground}">
                         <StackPanel ClipToBounds="True"
                                     IsItemsHost="True"
                                     KeyboardNavigation.DirectionalNavigation="Cycle"

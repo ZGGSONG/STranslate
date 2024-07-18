@@ -48,8 +48,12 @@
                                    Text="预览版" />
                     </Border>
                 </StackPanel>
-                <TextBlock Margin="0,10,0,0" ToolTip="版本简介"><Run x:Name="VersionTitle" Foreground="Gray" /></TextBlock>
-                <TextBlock Margin="0,10,0,0" ToolTip="在浏览器中打开"><Hyperlink Click="Hyperlink_Click">查看详细更新内容</Hyperlink></TextBlock>
+                <TextBlock Margin="0,10,0,0" ToolTip="版本简介">
+                    <Run x:Name="VersionTitle" Foreground="Gray" />
+                </TextBlock>
+                <TextBlock Margin="0,10,0,0" ToolTip="在浏览器中打开">
+                    <Hyperlink Click="Hyperlink_Click">查看详细更新内容</Hyperlink>
+                </TextBlock>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1"

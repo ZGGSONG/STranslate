@@ -32,13 +32,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -70,13 +73,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -110,19 +116,24 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Tag" Value="False">
-                            <Setter TargetName="textblock" Property="Foreground" Value="{DynamicResource BtnForeground}" />
+                            <Setter TargetName="textblock" Property="Foreground"
+                                    Value="{DynamicResource BtnForeground}" />
                         </Trigger>
                         <Trigger Property="Tag" Value="True">
-                            <Setter TargetName="textblock" Property="Foreground" Value="{DynamicResource ThemeAccentColor}" />
+                            <Setter TargetName="textblock" Property="Foreground"
+                                    Value="{DynamicResource ThemeAccentColor}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -160,19 +171,24 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Tag" Value="False">
-                            <Setter TargetName="textblock" Property="Foreground" Value="{DynamicResource BtnForeground}" />
+                            <Setter TargetName="textblock" Property="Foreground"
+                                    Value="{DynamicResource BtnForeground}" />
                         </Trigger>
                         <Trigger Property="Tag" Value="True">
-                            <Setter TargetName="textblock" Property="Foreground" Value="{DynamicResource ThemeAccentColor}" />
+                            <Setter TargetName="textblock" Property="Foreground"
+                                    Value="{DynamicResource ThemeAccentColor}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -214,16 +230,20 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnClosedMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnClosedMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="textblock" Property="Foreground" Value="{DynamicResource BorderBackground}" />
+                            <Setter TargetName="textblock" Property="Foreground"
+                                    Value="{DynamicResource BorderBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnClosedPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnClosedPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -258,16 +278,20 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="tb" Property="Foreground" Value="{DynamicResource TextBlockDisabledForeground}" />
+                            <Setter TargetName="tb" Property="Foreground"
+                                    Value="{DynamicResource TextBlockDisabledForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

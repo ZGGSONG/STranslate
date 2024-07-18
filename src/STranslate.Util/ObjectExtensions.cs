@@ -1,81 +1,65 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
 
-namespace STranslate.Util
+namespace STranslate.Util;
+
+public static class ObjectExtensions
 {
-    public static class ObjectExtensions
+    public static BindingList<T> Clone<T>(this BindingList<T> source) where T : ICloneable
     {
-        public static BindingList<T> Clone<T>(this BindingList<T> source) where T : ICloneable
+        if (source == null)
+            return [];
+
+        var newList = new BindingList<T>();
+        foreach (var item in source)
         {
-            if (source == null)
-                return [];
-
-            var newList = new BindingList<T>();
-            foreach (var item in source)
-            {
-                var clonedItem = (T)item.Clone();
-                newList.Add(clonedItem);
-            }
-
-            return newList;
+            var clonedItem = (T)item.Clone();
+            newList.Add(clonedItem);
         }
 
-        public static T DeepClone<T>(this T source)
-        {
-            if (source == null)
-                return default!;
+        return newList;
+    }
 
-            var json = JsonConvert.SerializeObject(source);
-            return JsonConvert.DeserializeObject<T>(json)!;
-        }
+    public static T DeepClone<T>(this T source)
+    {
+        if (source == null)
+            return default!;
 
-        /// <summary>
-        /// Adds all the data to a binding list
-        /// </summary>
-        public static void AddRange<T>(this BindingList<T>? list, IEnumerable<T>? data)
-        {
-            if (list == null || data == null)
-            {
-                return;
-            }
+        var json = JsonConvert.SerializeObject(source);
+        return JsonConvert.DeserializeObject<T>(json)!;
+    }
 
-            foreach (T t in data)
-            {
-                list.Add(t);
-            }
-        }
+    /// <summary>
+    ///     Adds all the data to a binding list
+    /// </summary>
+    public static void AddRange<T>(this BindingList<T>? list, IEnumerable<T>? data)
+    {
+        if (list == null || data == null) return;
 
-        public static void Insert<T>(this BindingList<T>? list, int index, IEnumerable<T>? data)
-        {
-            if (list == null || data == null || data.Count() < index)
-            {
-                return;
-            }
+        foreach (var t in data) list.Add(t);
+    }
 
-            foreach (T t in data)
-            {
-                list.Insert(index++, t);
-            }
-        }
+    public static void Insert<T>(this BindingList<T>? list, int index, IEnumerable<T>? data)
+    {
+        if (list == null || data == null || data.Count() < index) return;
 
-        /// <summary>
-        /// 比较两个List是否相同
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public static bool SetwiseEquivalentTo<T>(this IList<T> list, IList<T> other)
-            where T : class
-        {
-            if (list.Except(other).Any())
-                return false;
-            if (other.Except(list).Any())
-                return false;
-            return true;
-        }
+        foreach (var t in data) list.Insert(index++, t);
+    }
+
+    /// <summary>
+    ///     比较两个List是否相同
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public static bool SetwiseEquivalentTo<T>(this IList<T> list, IList<T> other)
+        where T : class
+    {
+        if (list.Except(other).Any())
+            return false;
+        if (other.Except(list).Any())
+            return false;
+        return true;
     }
 }

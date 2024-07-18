@@ -42,32 +42,38 @@
                 <ControlTemplate TargetType="ToggleButton">
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="StoryboardChecked">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="thumb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="thumb"
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50">
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <CubicEase EasingMode="EaseInOut" />
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="lightBorder" Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="lightBorder"
+                                                           Storyboard.TargetProperty="Opacity">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
                             </DoubleAnimationUsingKeyFrames>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="innerBorder" Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="innerBorder"
+                                                           Storyboard.TargetProperty="Opacity">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                         <Storyboard x:Key="StoryboardUnChecked">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="thumb" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="thumb"
+                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <CubicEase EasingMode="EaseInOut" />
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="lightBorder" Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="lightBorder"
+                                                           Storyboard.TargetProperty="Opacity">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
                             </DoubleAnimationUsingKeyFrames>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="innerBorder" Storyboard.TargetProperty="Opacity">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="innerBorder"
+                                                           Storyboard.TargetProperty="Opacity">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
@@ -83,15 +89,13 @@
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding Background}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="24">
-                                </Border>
+                                        CornerRadius="24" />
                                 <Border x:Name="lightBorder"
                                         Background="{TemplateBinding Foreground}"
                                         BorderBrush="{TemplateBinding Foreground}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="24"
-                                        Opacity="0">
-                                </Border>
+                                        Opacity="0" />
                                 <Border Name="thumb"
                                         Width="38"
                                         Height="38"
@@ -181,20 +185,23 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- // 普通 ToggleButton // -->
     <Style x:Key="ToggleButtonTextStyle" TargetType="ToggleButton">
         <Setter Property="FontFamily" Value="{DynamicResource UserFont}" />
@@ -225,13 +232,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnMouseOverBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnPressedBackground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource BtnDisabledBackground}" />
+                            <Setter TargetName="border" Property="Background"
+                                    Value="{DynamicResource BtnDisabledBackground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

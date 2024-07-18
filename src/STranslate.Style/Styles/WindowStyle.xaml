@@ -8,5 +8,5 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10" />
     </Style>
-    
+
 </ResourceDictionary>

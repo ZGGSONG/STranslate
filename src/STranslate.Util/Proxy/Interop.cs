@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
@@ -17,7 +16,9 @@ internal static partial class Interop
             private SafeWinHttpHandle? _parentHandle;
 
             public SafeWinHttpHandle()
-                : base(true) { }
+                : base(true)
+            {
+            }
 
             public static void DisposeAndClearHandle(ref SafeWinHttpHandle? safeHandle)
             {
@@ -34,7 +35,7 @@ internal static partial class Interop
                 Debug.Assert(parentHandle != null);
                 Debug.Assert(!parentHandle.IsInvalid);
 
-                bool ignore = false;
+                var ignore = false;
                 parentHandle.DangerousAddRef(ref ignore);
 
                 _parentHandle = parentHandle;
@@ -51,7 +52,7 @@ internal static partial class Interop
                     _parentHandle = null;
                 }
 
-                return Interop.WinHttp.WinHttpCloseHandle(handle);
+                return WinHttpCloseHandle(handle);
             }
         }
     }
@@ -61,7 +62,7 @@ internal static partial class Interop
 {
     internal static partial class WinHttp
     {
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern SafeWinHttpHandle WinHttpOpen(
             IntPtr userAgent,
             uint accessType,
@@ -70,11 +71,11 @@ internal static partial class Interop
             int flags
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpCloseHandle(IntPtr handle);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern SafeWinHttpHandle WinHttpConnect(
             SafeWinHttpHandle sessionHandle,
             string serverName,
@@ -82,7 +83,7 @@ internal static partial class Interop
             uint reserved
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern SafeWinHttpHandle WinHttpOpenRequest(
             SafeWinHttpHandle connectHandle,
             string verb,
@@ -93,7 +94,7 @@ internal static partial class Interop
             uint flags
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpAddRequestHeaders(
             SafeWinHttpHandle requestHandle,
@@ -104,7 +105,7 @@ internal static partial class Interop
             uint modifiers
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpAddRequestHeaders(
             SafeWinHttpHandle requestHandle,
@@ -113,7 +114,7 @@ internal static partial class Interop
             uint modifiers
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpSendRequest(
             SafeWinHttpHandle requestHandle,
@@ -125,18 +126,18 @@ internal static partial class Interop
             IntPtr context
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpReceiveResponse(SafeWinHttpHandle requestHandle, IntPtr reserved);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpQueryDataAvailable(
             SafeWinHttpHandle requestHandle,
             IntPtr parameterIgnoredAndShouldBeNullForAsync
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpReadData(
             SafeWinHttpHandle requestHandle,
@@ -145,7 +146,7 @@ internal static partial class Interop
             IntPtr parameterIgnoredAndShouldBeNullForAsync
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpQueryHeaders(
             SafeWinHttpHandle requestHandle,
@@ -156,7 +157,7 @@ internal static partial class Interop
             ref uint index
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpQueryHeaders(
             SafeWinHttpHandle requestHandle,
@@ -167,19 +168,22 @@ internal static partial class Interop
             IntPtr index
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool WinHttpQueryOption(SafeWinHttpHandle handle, uint option, ref IntPtr buffer, ref uint bufferSize);
+        public static extern bool WinHttpQueryOption(SafeWinHttpHandle handle, uint option, ref IntPtr buffer,
+            ref uint bufferSize);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool WinHttpQueryOption(SafeWinHttpHandle handle, uint option, IntPtr buffer, ref uint bufferSize);
+        public static extern bool WinHttpQueryOption(SafeWinHttpHandle handle, uint option, IntPtr buffer,
+            ref uint bufferSize);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool WinHttpQueryOption(SafeWinHttpHandle handle, uint option, ref uint buffer, ref uint bufferSize);
+        public static extern bool WinHttpQueryOption(SafeWinHttpHandle handle, uint option, ref uint buffer,
+            ref uint bufferSize);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpWriteData(
             SafeWinHttpHandle requestHandle,
@@ -188,7 +192,7 @@ internal static partial class Interop
             IntPtr parameterIgnoredAndShouldBeNullForAsync
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpSetOption(
             SafeWinHttpHandle handle,
@@ -197,11 +201,12 @@ internal static partial class Interop
             uint optionLength = sizeof(uint)
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool WinHttpSetOption(SafeWinHttpHandle handle, uint option, IntPtr optionData, uint optionLength);
+        public static extern bool WinHttpSetOption(SafeWinHttpHandle handle, uint option, IntPtr optionData,
+            uint optionLength);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpSetCredentials(
             SafeWinHttpHandle requestHandle,
@@ -212,7 +217,7 @@ internal static partial class Interop
             IntPtr reserved
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpQueryAuthSchemes(
             SafeWinHttpHandle requestHandle,
@@ -221,7 +226,7 @@ internal static partial class Interop
             out uint authTarget
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpSetTimeouts(
             SafeWinHttpHandle handle,
@@ -231,11 +236,12 @@ internal static partial class Interop
             int receiveTimeout
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool WinHttpGetIEProxyConfigForCurrentUser(out WINHTTP_CURRENT_USER_IE_PROXY_CONFIG proxyConfig);
+        public static extern bool WinHttpGetIEProxyConfigForCurrentUser(
+            out WINHTTP_CURRENT_USER_IE_PROXY_CONFIG proxyConfig);
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WinHttpGetProxyForUrl(
             SafeWinHttpHandle? sessionHandle,
@@ -244,7 +250,7 @@ internal static partial class Interop
             out WINHTTP_PROXY_INFO proxyInfo
         );
 
-        [DllImport(Interop.Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.WinHttp, CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr WinHttpSetStatusCallback(
             SafeWinHttpHandle handle,
             WINHTTP_STATUS_CALLBACK callback,
@@ -256,7 +262,7 @@ internal static partial class Interop
 
 internal static partial class Interop
 {
-    internal static partial class Libraries
+    internal static class Libraries
     {
         internal const string Activeds = "activeds.dll";
         internal const string Advapi32 = "advapi32.dll";
@@ -305,6 +311,31 @@ internal static partial class Interop
 {
     internal static partial class WinHttp
     {
+        public delegate void WINHTTP_STATUS_CALLBACK(
+            IntPtr handle,
+            IntPtr context,
+            uint internetStatus,
+            IntPtr statusInformation,
+            uint statusInformationLength
+        );
+
+        public enum WINHTTP_WEB_SOCKET_BUFFER_TYPE
+        {
+            WINHTTP_WEB_SOCKET_BINARY_MESSAGE_BUFFER_TYPE = 0,
+            WINHTTP_WEB_SOCKET_BINARY_FRAGMENT_BUFFER_TYPE = 1,
+            WINHTTP_WEB_SOCKET_UTF8_MESSAGE_BUFFER_TYPE = 2,
+            WINHTTP_WEB_SOCKET_UTF8_FRAGMENT_BUFFER_TYPE = 3,
+            WINHTTP_WEB_SOCKET_CLOSE_BUFFER_TYPE = 4
+        }
+
+        public enum WINHTTP_WEB_SOCKET_OPERATION
+        {
+            WINHTTP_WEB_SOCKET_SEND_OPERATION = 0,
+            WINHTTP_WEB_SOCKET_RECEIVE_OPERATION = 1,
+            WINHTTP_WEB_SOCKET_CLOSE_OPERATION = 2,
+            WINHTTP_WEB_SOCKET_SHUTDOWN_OPERATION = 3
+        }
+
         public const uint ERROR_SUCCESS = 0;
         public const uint ERROR_FILE_NOT_FOUND = 2;
         public const uint ERROR_INVALID_HANDLE = 6;
@@ -377,7 +408,9 @@ internal static partial class Interop
         public const uint WINHTTP_OPTION_DECOMPRESSION = 118;
         public const uint WINHTTP_DECOMPRESSION_FLAG_GZIP = 0x00000001;
         public const uint WINHTTP_DECOMPRESSION_FLAG_DEFLATE = 0x00000002;
-        public const uint WINHTTP_DECOMPRESSION_FLAG_ALL = WINHTTP_DECOMPRESSION_FLAG_GZIP | WINHTTP_DECOMPRESSION_FLAG_DEFLATE;
+
+        public const uint WINHTTP_DECOMPRESSION_FLAG_ALL =
+            WINHTTP_DECOMPRESSION_FLAG_GZIP | WINHTTP_DECOMPRESSION_FLAG_DEFLATE;
 
         public const uint WINHTTP_OPTION_REDIRECT_POLICY = 88;
         public const uint WINHTTP_OPTION_REDIRECT_POLICY_NEVER = 0;
@@ -415,7 +448,10 @@ internal static partial class Interop
         public const uint SECURITY_FLAG_IGNORE_CERT_WRONG_USAGE = 0x00000200;
 
         public const uint WINHTTP_OPTION_AUTOLOGON_POLICY = 77;
-        public const uint WINHTTP_AUTOLOGON_SECURITY_LEVEL_MEDIUM = 0; // default creds only sent to intranet servers (default)
+
+        public const uint
+            WINHTTP_AUTOLOGON_SECURITY_LEVEL_MEDIUM = 0; // default creds only sent to intranet servers (default)
+
         public const uint WINHTTP_AUTOLOGON_SECURITY_LEVEL_LOW = 1; // default creds set to all servers
         public const uint WINHTTP_AUTOLOGON_SECURITY_LEVEL_HIGH = 2; // default creds never sent
 
@@ -471,15 +507,6 @@ internal static partial class Interop
         public const uint WINHTTP_OPTION_STREAM_ERROR_CODE = 159;
         public const uint WINHTTP_OPTION_REQUIRE_STREAM_END = 160;
 
-        public enum WINHTTP_WEB_SOCKET_BUFFER_TYPE
-        {
-            WINHTTP_WEB_SOCKET_BINARY_MESSAGE_BUFFER_TYPE = 0,
-            WINHTTP_WEB_SOCKET_BINARY_FRAGMENT_BUFFER_TYPE = 1,
-            WINHTTP_WEB_SOCKET_UTF8_MESSAGE_BUFFER_TYPE = 2,
-            WINHTTP_WEB_SOCKET_UTF8_FRAGMENT_BUFFER_TYPE = 3,
-            WINHTTP_WEB_SOCKET_CLOSE_BUFFER_TYPE = 4
-        }
-
         public const uint WINHTTP_OPTION_CONTEXT_VALUE = 45;
 
         public const uint WINHTTP_FLAG_ASYNC = 0x10000000;
@@ -513,7 +540,8 @@ internal static partial class Interop
         public const uint WINHTTP_CALLBACK_FLAG_SEND_REQUEST =
             WINHTTP_CALLBACK_STATUS_SENDING_REQUEST | WINHTTP_CALLBACK_STATUS_REQUEST_SENT;
 
-        public const uint WINHTTP_CALLBACK_FLAG_HANDLES = WINHTTP_CALLBACK_STATUS_HANDLE_CREATED | WINHTTP_CALLBACK_STATUS_HANDLE_CLOSING;
+        public const uint WINHTTP_CALLBACK_FLAG_HANDLES =
+            WINHTTP_CALLBACK_STATUS_HANDLE_CREATED | WINHTTP_CALLBACK_STATUS_HANDLE_CLOSING;
 
         public const uint WINHTTP_CALLBACK_FLAG_REDIRECT = WINHTTP_CALLBACK_STATUS_REDIRECT;
         public const uint WINHTTP_CALLBACK_FLAG_SECURE_FAILURE = WINHTTP_CALLBACK_STATUS_SECURE_FAILURE;
@@ -523,7 +551,9 @@ internal static partial class Interop
         public const uint WINHTTP_CALLBACK_FLAG_READ_COMPLETE = WINHTTP_CALLBACK_STATUS_READ_COMPLETE;
         public const uint WINHTTP_CALLBACK_FLAG_WRITE_COMPLETE = WINHTTP_CALLBACK_STATUS_WRITE_COMPLETE;
         public const uint WINHTTP_CALLBACK_FLAG_REQUEST_ERROR = WINHTTP_CALLBACK_STATUS_REQUEST_ERROR;
-        public const uint WINHTTP_CALLBACK_FLAG_GETPROXYFORURL_COMPLETE = WINHTTP_CALLBACK_STATUS_GETPROXYFORURL_COMPLETE;
+
+        public const uint WINHTTP_CALLBACK_FLAG_GETPROXYFORURL_COMPLETE =
+            WINHTTP_CALLBACK_STATUS_GETPROXYFORURL_COMPLETE;
 
         public const uint WINHTTP_CALLBACK_FLAG_ALL_COMPLETIONS =
             WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE
@@ -540,13 +570,11 @@ internal static partial class Interop
 
         public const int WINHTTP_INVALID_STATUS_CALLBACK = -1;
 
-        public delegate void WINHTTP_STATUS_CALLBACK(
-            IntPtr handle,
-            IntPtr context,
-            uint internetStatus,
-            IntPtr statusInformation,
-            uint statusInformationLength
-        );
+        public const uint API_RECEIVE_RESPONSE = 1;
+        public const uint API_QUERY_DATA_AVAILABLE = 2;
+        public const uint API_READ_DATA = 3;
+        public const uint API_WRITE_DATA = 4;
+        public const uint API_SEND_REQUEST = 5;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct WINHTTP_AUTOPROXY_OPTIONS
@@ -554,21 +582,18 @@ internal static partial class Interop
             public uint Flags;
             public uint AutoDetectFlags;
 
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string? AutoConfigUrl;
+            [MarshalAs(UnmanagedType.LPWStr)] public string? AutoConfigUrl;
 
             public IntPtr Reserved1;
             public uint Reserved2;
 
-            [MarshalAs(UnmanagedType.Bool)]
-            public bool AutoLoginIfChallenged;
+            [MarshalAs(UnmanagedType.Bool)] public bool AutoLoginIfChallenged;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct WINHTTP_CURRENT_USER_IE_PROXY_CONFIG
         {
-            [MarshalAs(UnmanagedType.Bool)]
-            public bool AutoDetect;
+            [MarshalAs(UnmanagedType.Bool)] public bool AutoDetect;
 
             public IntPtr AutoConfigUrl;
             public IntPtr Proxy;
@@ -596,20 +621,6 @@ internal static partial class Interop
             public uint onoff;
             public uint keepalivetime;
             public uint keepaliveinterval;
-        }
-
-        public const uint API_RECEIVE_RESPONSE = 1;
-        public const uint API_QUERY_DATA_AVAILABLE = 2;
-        public const uint API_READ_DATA = 3;
-        public const uint API_WRITE_DATA = 4;
-        public const uint API_SEND_REQUEST = 5;
-
-        public enum WINHTTP_WEB_SOCKET_OPERATION
-        {
-            WINHTTP_WEB_SOCKET_SEND_OPERATION = 0,
-            WINHTTP_WEB_SOCKET_RECEIVE_OPERATION = 1,
-            WINHTTP_WEB_SOCKET_CLOSE_OPERATION = 2,
-            WINHTTP_WEB_SOCKET_SHUTDOWN_OPERATION = 3
         }
     }
 }

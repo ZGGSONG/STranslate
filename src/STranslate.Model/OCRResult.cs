@@ -1,58 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace STranslate.Model;
 
-namespace STranslate.Model
+public class OcrResult
 {
-    public class OcrResult
+    public List<OcrContent> OcrContents { get; set; } = [];
+
+    /// <summary>
+    ///     精简版文本通过换行组合
+    /// </summary>
+    public string Text => string.Join(Environment.NewLine, OcrContents.Select(x => x.Text).ToArray()).Trim();
+
+    public static OcrResult Empty => new();
+
+    public bool Success { get; set; } = true;
+
+    public string ErrorMsg { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     重写ToString方法,以空格组合结果
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
     {
-        public List<OcrContent> OcrContents { get; set; } = [];
-
-        /// <summary>
-        /// 精简版文本通过换行组合
-        /// </summary>
-        public string Text => string.Join(Environment.NewLine, OcrContents.Select((OcrContent x) => x.Text).ToArray()).Trim();
-
-        /// <summary>
-        /// 重写ToString方法,以空格组合结果
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() => string.Join(" ", OcrContents.Select((OcrContent x) => x.Text).ToArray()).Trim();
-
-        public static OcrResult Empty => new();
-
-        public bool Success { get; set; } = true;
-
-        public string ErrorMsg { get; set; } = string.Empty;
-
-        public static OcrResult Fail(string msg) => new() { Success = false, ErrorMsg = msg };
+        return string.Join(" ", OcrContents.Select(x => x.Text).ToArray()).Trim();
     }
 
-    public class OcrContent
+    public static OcrResult Fail(string msg)
     {
-        public string Text { get; set; } = string.Empty;
+        return new OcrResult { Success = false, ErrorMsg = msg };
+    }
+}
 
-        public List<BoxPoint> BoxPoints { get; set; } = [];
-
-        public OcrContent()
-        { }
-
-        public OcrContent(string text)
-        {
-            Text = text;
-        }
-
-        public OcrContent(string text, List<BoxPoint> boxPoints)
-        {
-            Text = text;
-            BoxPoints = boxPoints;
-        }
+public class OcrContent
+{
+    public OcrContent()
+    {
     }
 
-    public class BoxPoint(int x, int y)
+    public OcrContent(string text)
     {
-        public int X { get; set; } = x;
-
-        public int Y { get; set; } = y;
+        Text = text;
     }
+
+    public OcrContent(string text, List<BoxPoint> boxPoints)
+    {
+        Text = text;
+        BoxPoints = boxPoints;
+    }
+
+    public string Text { get; set; } = string.Empty;
+
+    public List<BoxPoint> BoxPoints { get; set; } = [];
+}
+
+public class BoxPoint(int x, int y)
+{
+    public int X { get; set; } = x;
+
+    public int Y { get; set; } = y;
 }

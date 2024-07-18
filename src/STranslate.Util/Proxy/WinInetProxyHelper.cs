@@ -1,10 +1,10 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+
 namespace STranslate.Util.Proxy;
 
 /// <summary>
-/// Copy From https://github.com/dotnet/runtime/tree/v6.0.5/src/libraries/System.Net.Http
+///     Copy From https://github.com/dotnet/runtime/tree/v6.0.5/src/libraries/System.Net.Http
 /// </summary>
 [SupportedOSPlatform("windows")]
 // This class is only used on OS versions where WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY
@@ -12,19 +12,20 @@ namespace STranslate.Util.Proxy;
 internal sealed class WinInetProxyHelper
 {
     private const int RecentAutoDetectionInterval = 120_000; // 2 minutes in milliseconds.
-    private readonly string? _autoConfigUrl, _proxy, _proxyBypass;
-    private readonly bool _autoDetect;
-    private readonly bool _useProxy;
-    private bool _autoDetectionFailed;
+
     /// <summary>
-    /// 超时的次数
-    /// </summary>
-    private short _timeoutCount;
-    /// <summary>
-    /// 最大超时次数
+    ///     最大超时次数
     /// </summary>
     private const ushort MaxTimeoutCount = 3;
+
+    private readonly bool _useProxy;
+    private bool _autoDetectionFailed;
     private int _lastTimeAutoDetectionFailed; // Environment.TickCount units (milliseconds).
+
+    /// <summary>
+    ///     超时的次数
+    /// </summary>
+    private short _timeoutCount;
 
     public WinInetProxyHelper()
     {
@@ -34,10 +35,10 @@ internal sealed class WinInetProxyHelper
         {
             if (Interop.WinHttp.WinHttpGetIEProxyConfigForCurrentUser(out proxyConfig))
             {
-                _autoConfigUrl = Marshal.PtrToStringUni(proxyConfig.AutoConfigUrl)!;
-                _autoDetect = proxyConfig.AutoDetect;
-                _proxy = Marshal.PtrToStringUni(proxyConfig.Proxy)!;
-                _proxyBypass = Marshal.PtrToStringUni(proxyConfig.ProxyBypass)!;
+                AutoConfigUrl = Marshal.PtrToStringUni(proxyConfig.AutoConfigUrl)!;
+                AutoDetect = proxyConfig.AutoDetect;
+                Proxy = Marshal.PtrToStringUni(proxyConfig.Proxy)!;
+                ProxyBypass = Marshal.PtrToStringUni(proxyConfig.ProxyBypass)!;
 
                 //if (NetEventSource.Log.IsEnabled())
                 //{
@@ -46,13 +47,10 @@ internal sealed class WinInetProxyHelper
 
                 _useProxy = true;
             }
-            else
-            {
-                // We match behavior of WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY and ignore errors.
-                //int lastError = Marshal.GetLastWin32Error();
-                //if (NetEventSource.Log.IsEnabled()) NetEventSource.Error(this, $"error={lastError}");
-            }
 
+            // We match behavior of WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY and ignore errors.
+            //int lastError = Marshal.GetLastWin32Error();
+            //if (NetEventSource.Log.IsEnabled()) NetEventSource.Error(this, $"error={lastError}");
             //if (NetEventSource.Log.IsEnabled()) NetEventSource.Info(this, $"_useProxy={_useProxy}");
         }
 
@@ -65,9 +63,9 @@ internal sealed class WinInetProxyHelper
         }
     }
 
-    public string? AutoConfigUrl => _autoConfigUrl;
+    public string? AutoConfigUrl { get; }
 
-    public bool AutoDetect => _autoDetect;
+    public bool AutoDetect { get; }
 
     public bool AutoSettingsUsed => AutoDetect || !string.IsNullOrEmpty(AutoConfigUrl);
 
@@ -75,9 +73,9 @@ internal sealed class WinInetProxyHelper
 
     public bool ManualSettingsOnly => !AutoSettingsUsed && ManualSettingsUsed;
 
-    public string? Proxy => _proxy;
+    public string? Proxy { get; }
 
-    public string? ProxyBypass => _proxyBypass;
+    public string? ProxyBypass { get; }
 
     public bool RecentAutoDetectionFailure =>
         _autoDetectionFailed &&
@@ -92,23 +90,18 @@ internal sealed class WinInetProxyHelper
         proxyInfo.Proxy = IntPtr.Zero;
         proxyInfo.ProxyBypass = IntPtr.Zero;
 
-        if (!_useProxy)
-        {
-            return false;
-        }
+        if (!_useProxy) return false;
 
         if (_timeoutCount >= MaxTimeoutCount)
-        {
             // 代理超时次数太多，就不再设置代理
             return false;
-        }
 
-        bool useProxy = false;
+        var useProxy = false;
 
         Interop.WinHttp.WINHTTP_AUTOPROXY_OPTIONS autoProxyOptions;
         autoProxyOptions.AutoConfigUrl = AutoConfigUrl;
         autoProxyOptions.AutoDetectFlags = AutoDetect
-            ? (Interop.WinHttp.WINHTTP_AUTO_DETECT_TYPE_DHCP | Interop.WinHttp.WINHTTP_AUTO_DETECT_TYPE_DNS_A)
+            ? Interop.WinHttp.WINHTTP_AUTO_DETECT_TYPE_DHCP | Interop.WinHttp.WINHTTP_AUTO_DETECT_TYPE_DNS_A
             : 0;
         autoProxyOptions.AutoLoginIfChallenged = false;
         autoProxyOptions.Flags =
@@ -134,15 +127,10 @@ internal sealed class WinInetProxyHelper
 
 #pragma warning disable CA1845 // file is shared with a build that lacks string.Concat for spans
         // Underlying code does not understand WebSockets so we need to convert it to http or https.
-        string destination = uri.AbsoluteUri;
+        var destination = uri.AbsoluteUri;
         if (uri.Scheme == UriScheme.Wss)
-        {
             destination = UriScheme.Https + destination.Substring(UriScheme.Wss.Length);
-        }
-        else if (uri.Scheme == UriScheme.Ws)
-        {
-            destination = UriScheme.Http + destination.Substring(UriScheme.Ws.Length);
-        }
+        else if (uri.Scheme == UriScheme.Ws) destination = UriScheme.Http + destination.Substring(UriScheme.Ws.Length);
 #pragma warning restore CA1845
 
         var repeat = false;
@@ -160,44 +148,40 @@ internal sealed class WinInetProxyHelper
 
                 break;
             }
-            else
+
+            var lastError = Marshal.GetLastWin32Error();
+            //if (NetEventSource.Log.IsEnabled()) NetEventSource.Error(this, $"error={lastError}");
+
+            if (lastError == Interop.WinHttp.ERROR_WINHTTP_LOGIN_FAILURE)
             {
-                var lastError = Marshal.GetLastWin32Error();
-                //if (NetEventSource.Log.IsEnabled()) NetEventSource.Error(this, $"error={lastError}");
-
-                if (lastError == Interop.WinHttp.ERROR_WINHTTP_LOGIN_FAILURE)
+                if (repeat)
                 {
-                    if (repeat)
-                    {
-                        // We don't retry more than once.
-                        break;
-                    }
-                    else
-                    {
-                        repeat = true;
-                        autoProxyOptions.AutoLoginIfChallenged = true;
-                    }
-                }
-                else if ((uint) lastError is Interop.WinHttp.WINHTTP_OPTION_CONNECT_TIMEOUT
-                         or Interop.WinHttp.WINHTTP_OPTION_SEND_TIMEOUT
-                         or Interop.WinHttp.WINHTTP_OPTION_RECEIVE_TIMEOUT
-                         or Interop.WinHttp.ERROR_WINHTTP_TIMEOUT)
-                {
-                    // 超时相关错误，就不要重试了，也不走手动的代理设置
-                    // 记录一下，如果连续超过三次超时，那就再也不走代理了
-                    _timeoutCount++;
-                    return false;
-                }
-                else
-                {
-                    if (lastError == Interop.WinHttp.ERROR_WINHTTP_AUTODETECTION_FAILED)
-                    {
-                        _autoDetectionFailed = true;
-                        _lastTimeAutoDetectionFailed = Environment.TickCount;
-                    }
-
+                    // We don't retry more than once.
                     break;
                 }
+
+                repeat = true;
+                autoProxyOptions.AutoLoginIfChallenged = true;
+            }
+            else if ((uint)lastError is Interop.WinHttp.WINHTTP_OPTION_CONNECT_TIMEOUT
+                     or Interop.WinHttp.WINHTTP_OPTION_SEND_TIMEOUT
+                     or Interop.WinHttp.WINHTTP_OPTION_RECEIVE_TIMEOUT
+                     or Interop.WinHttp.ERROR_WINHTTP_TIMEOUT)
+            {
+                // 超时相关错误，就不要重试了，也不走手动的代理设置
+                // 记录一下，如果连续超过三次超时，那就再也不走代理了
+                _timeoutCount++;
+                return false;
+            }
+            else
+            {
+                if (lastError == Interop.WinHttp.ERROR_WINHTTP_AUTODETECTION_FAILED)
+                {
+                    _autoDetectionFailed = true;
+                    _lastTimeAutoDetectionFailed = Environment.TickCount;
+                }
+
+                break;
             }
         } while (repeat);
 
@@ -217,10 +201,8 @@ internal sealed class WinInetProxyHelper
         //if (NetEventSource.Log.IsEnabled()) NetEventSource.Info(this, $"useProxy={useProxy}");
 
         if (useProxy)
-        {
             // 如果有一次获取代理成功，那就设置非连续超时
             _timeoutCount = 0;
-        }
 
         return useProxy;
     }

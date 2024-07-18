@@ -1,47 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
 
 namespace STranslate.Model;
 
 public partial class TranslationResult : ObservableObject
 {
-    [ObservableProperty]
-    private bool _isSuccess = true;
+    [ObservableProperty] private bool _isSuccess = true;
 
-    [ObservableProperty]
-    private object? _result;
-
-    public Exception? Exception { get; } // 可选，如果你想保留异常的详细信息
+    [ObservableProperty] private object? _result;
 
     /// <summary>
-    /// 静态方法用于创建成功的结果
-    /// </summary>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    public static TranslationResult Success(object result)
-    {
-        return new TranslationResult(result);
-    }
-
-    /// <summary>
-    /// 静态方法用于创建失败的结果
-    /// </summary>
-    /// <param name="errorMessage"></param>
-    /// <param name="exception"></param>
-    /// <returns></returns>
-    public static TranslationResult Fail(string errorMessage, Exception? exception = null)
-    {
-        return new TranslationResult(errorMessage, exception);
-    }
-
-    /// <summary>
-    /// 静态方法用于清空
-    /// </summary>
-    /// <returns></returns>
-    public static TranslationResult Reset => new();
-
-    /// <summary>
-    /// 成功时使用的构造函数
+    ///     成功时使用的构造函数
     /// </summary>
     /// <param name="result"></param>
     private TranslationResult(object result)
@@ -52,7 +20,7 @@ public partial class TranslationResult : ObservableObject
     }
 
     /// <summary>
-    /// 失败时使用的构造函数
+    ///     失败时使用的构造函数
     /// </summary>
     /// <param name="errorMessage"></param>
     /// <param name="exception"></param>
@@ -65,12 +33,41 @@ public partial class TranslationResult : ObservableObject
     }
 
     /// <summary>
-    /// 清空时使用的构造函数
+    ///     清空时使用的构造函数
     /// </summary>
     private TranslationResult()
     {
         IsSuccess = true;
         Result = string.Empty;
         Exception = null;
+    }
+
+    public Exception? Exception { get; } // 可选，如果你想保留异常的详细信息
+
+    /// <summary>
+    ///     静态方法用于清空
+    /// </summary>
+    /// <returns></returns>
+    public static TranslationResult Reset => new();
+
+    /// <summary>
+    ///     静态方法用于创建成功的结果
+    /// </summary>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    public static TranslationResult Success(object result)
+    {
+        return new TranslationResult(result);
+    }
+
+    /// <summary>
+    ///     静态方法用于创建失败的结果
+    /// </summary>
+    /// <param name="errorMessage"></param>
+    /// <param name="exception"></param>
+    /// <returns></returns>
+    public static TranslationResult Fail(string errorMessage, Exception? exception = null)
+    {
+        return new TranslationResult(errorMessage, exception);
     }
 }

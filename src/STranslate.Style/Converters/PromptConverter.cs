@@ -1,13 +1,11 @@
-﻿using STranslate.Model;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
+using STranslate.Model;
 
 namespace STranslate.Style.Converters;
 
-public class PromptConverter: IValueConverter
+public class PromptConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

@@ -83,16 +83,20 @@
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsChecked" Value="True">
-                                                            <Setter TargetName="arrow" Property="Data" Value="M1,4.5L4.5,1 8,4.5" />
+                                                            <Setter TargetName="arrow" Property="Data"
+                                                                    Value="M1,4.5L4.5,1 8,4.5" />
                                                         </Trigger>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="border_arrow" Property="Background" Value="{DynamicResource ExpanderMouseOverBackground}" />
+                                                            <Setter TargetName="border_arrow" Property="Background"
+                                                                    Value="{DynamicResource ExpanderMouseOverBackground}" />
                                                         </Trigger>
                                                         <Trigger Property="IsPressed" Value="True">
-                                                            <Setter TargetName="border_arrow" Property="Background" Value="{DynamicResource ExpanderPressedBackground}" />
+                                                            <Setter TargetName="border_arrow" Property="Background"
+                                                                    Value="{DynamicResource ExpanderPressedBackground}" />
                                                         </Trigger>
                                                         <Trigger Property="IsEnabled" Value="False">
-                                                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource ExpanderStrokeColor}" />
+                                                            <Setter TargetName="arrow" Property="Stroke"
+                                                                    Value="{DynamicResource ExpanderStrokeColor}" />
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
@@ -120,7 +124,8 @@
                                               DockPanel.Dock="Bottom"
                                               Focusable="False">
                                 <ContentPresenter.LayoutTransform>
-                                    <ScaleTransform ScaleX="1" ScaleY="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Expander2ScaleYConverter}}" />
+                                    <ScaleTransform ScaleX="1"
+                                                    ScaleY="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Expander2ScaleYConverter}}" />
                                 </ContentPresenter.LayoutTransform>
                             </ContentPresenter>
                         </DockPanel>

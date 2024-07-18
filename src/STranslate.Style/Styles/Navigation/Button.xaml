@@ -45,14 +45,17 @@
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="Indicator" Property="Visibility" Value="Visible" />
-                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource NavigationMouseOverBackground}" />
-                                <Setter TargetName="Indicator" Property="Background" Value="{DynamicResource NavigationIndicatorMouseOverBackground}" />
+                                <Setter TargetName="Border" Property="Background"
+                                        Value="{DynamicResource NavigationMouseOverBackground}" />
+                                <Setter TargetName="Indicator" Property="Background"
+                                        Value="{DynamicResource NavigationIndicatorMouseOverBackground}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <Trigger Property="IsChecked" Value="True">
 
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource NavigationSelected}" />
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource NavigationSelected}" />
 
                             <Setter TargetName="Indicator" Property="Visibility" Value="Visible" />
 

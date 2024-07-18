@@ -10,9 +10,7 @@ public class LanguageInfo
     [JsonProperty("isTransliterationSupported")]
     public bool IsTransliterationSupported { get; set; }
 
-    [JsonProperty("language")]
-    public string Language { get; set; } = "";
+    [JsonProperty("language")] public string Language { get; set; } = "";
 
-    [JsonProperty("score")]
-    public double Score { get; set; }
+    [JsonProperty("score")] public double Score { get; set; }
 }

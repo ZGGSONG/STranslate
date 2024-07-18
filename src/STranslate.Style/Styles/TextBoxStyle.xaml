@@ -128,10 +128,12 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxMouseOverBrushColor}" />
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{DynamicResource PasswordBoxMouseOverBrushColor}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxKeyboardFocusedBrushColor}" />
+                            <Setter TargetName="border" Property="BorderBrush"
+                                    Value="{DynamicResource PasswordBoxKeyboardFocusedBrushColor}" />
                         </Trigger>
                         <Trigger Property="common:BoundPasswordBox.Password" Value="">
                             <Setter TargetName="markText" Property="Visibility" Value="Visible" />

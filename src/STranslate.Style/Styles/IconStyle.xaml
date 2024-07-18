@@ -14,17 +14,21 @@
     <BitmapImage x:Key="Ali" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ali.png" />
     <BitmapImage x:Key="Niutrans" UriSource="pack://application:,,,/STranslate.Style;component/Resources/niutrans.png" />
     <BitmapImage x:Key="Caiyun" UriSource="pack://application:,,,/STranslate.Style;component/Resources/caiyun.png" />
-    <BitmapImage x:Key="Microsoft" UriSource="pack://application:,,,/STranslate.Style;component/Resources/microsoft.png" />
-    <BitmapImage x:Key="Volcengine" UriSource="pack://application:,,,/STranslate.Style;component/Resources/volcengine.png" />
+    <BitmapImage x:Key="Microsoft"
+                 UriSource="pack://application:,,,/STranslate.Style;component/Resources/microsoft.png" />
+    <BitmapImage x:Key="Volcengine"
+                 UriSource="pack://application:,,,/STranslate.Style;component/Resources/volcengine.png" />
     <BitmapImage x:Key="Ecdict" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ecdict.png" />
     <BitmapImage x:Key="Azure" UriSource="pack://application:,,,/STranslate.Style;component/Resources/azure.png" />
     <BitmapImage x:Key="Chatglm" UriSource="pack://application:,,,/STranslate.Style;component/Resources/chatglm.png" />
     <BitmapImage x:Key="Linyi" UriSource="pack://application:,,,/STranslate.Style;component/Resources/linyi.png" />
     <BitmapImage x:Key="DeepSeek" UriSource="pack://application:,,,/STranslate.Style;component/Resources/deepseek.png" />
     <BitmapImage x:Key="Groq" UriSource="pack://application:,,,/STranslate.Style;component/Resources/groq.png" />
-    <BitmapImage x:Key="PaddleOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/paddleocr.png" />
+    <BitmapImage x:Key="PaddleOCR"
+                 UriSource="pack://application:,,,/STranslate.Style;component/Resources/paddleocr.png" />
     <BitmapImage x:Key="BaiduBce" UriSource="pack://application:,,,/STranslate.Style;component/Resources/baidubce.png" />
-    <BitmapImage x:Key="TencentOCR" UriSource="pack://application:,,,/STranslate.Style;component/Resources/tencent2.png" />
+    <BitmapImage x:Key="TencentOCR"
+                 UriSource="pack://application:,,,/STranslate.Style;component/Resources/tencent2.png" />
     <BitmapImage x:Key="Ollama" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ollama.png" />
     <BitmapImage x:Key="Kimi" UriSource="pack://application:,,,/STranslate.Style;component/Resources/kimi.png" />
 </ResourceDictionary>

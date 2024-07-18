@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace STranslate.Util;
@@ -22,23 +20,16 @@ public static class YoudaoAuthV3Util
 
     public static void AddAuthParams(string appKey, string appSecret, Dictionary<string, string[]> paramsMap)
     {
-        string q = "";
+        var q = "";
         string[] qArray;
         if (paramsMap.ContainsKey("q"))
-        {
             qArray = paramsMap["q"];
-        }
         else
-        {
             qArray = paramsMap["img"];
-        }
-        foreach (var item in qArray)
-        {
-            q += item;
-        }
-        string salt = Guid.NewGuid().ToString();
-        string curtime = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + "";
-        string sign = CalculateSign(appKey, appSecret, q, salt, curtime);
+        foreach (var item in qArray) q += item;
+        var salt = Guid.NewGuid().ToString();
+        var curtime = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() + "";
+        var sign = CalculateSign(appKey, appSecret, q, salt, curtime);
         paramsMap.Add("appKey", [appKey]);
         paramsMap.Add("salt", [salt]);
         paramsMap.Add("curtime", [curtime]);
@@ -60,24 +51,21 @@ public static class YoudaoAuthV3Util
 
     public static string CalculateSign(string appKey, string appSecret, string q, string salt, string curtime)
     {
-        string strSrc = appKey + GetInput(q) + salt + curtime + appSecret;
+        var strSrc = appKey + GetInput(q) + salt + curtime + appSecret;
         return Encrypt(strSrc);
     }
 
     private static string Encrypt(string strSrc)
     {
-        byte[] inputBytes = Encoding.UTF8.GetBytes(strSrc);
-        byte[] hashedBytes = SHA256.HashData(inputBytes);
+        var inputBytes = Encoding.UTF8.GetBytes(strSrc);
+        var hashedBytes = SHA256.HashData(inputBytes);
         return BitConverter.ToString(hashedBytes).Replace("-", "").ToUpperInvariant();
     }
 
     private static string GetInput(string q)
     {
-        if (q == null)
-        {
-            return "";
-        }
-        int len = q.Length;
+        if (q == null) return "";
+        var len = q.Length;
         return len <= 20 ? q : q[..10] + len + q.Substring(len - 10, 10);
     }
 }

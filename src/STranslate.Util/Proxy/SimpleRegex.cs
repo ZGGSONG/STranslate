@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace STranslate.Util.Proxy;
 
@@ -9,8 +8,8 @@ internal static class SimpleRegex
     // https://www.codeproject.com/Articles/1088/Wildcard-string-compare-globbing
 
     /// <summary>
-    /// Perform a match between an input string and a pattern in which the only special character
-    /// is an asterisk, which can map to zero or more of any character in the input.
+    ///     Perform a match between an input string and a pattern in which the only special character
+    ///     is an asterisk, which can map to zero or more of any character in the input.
     /// </summary>
     /// <param name="input">The input to match.</param>
     /// <param name="pattern">The pattern to match against.</param>
@@ -24,7 +23,6 @@ internal static class SimpleRegex
 
         // Loop through each character in the input.
         while (inputPos < input.Length)
-        {
             if (patternPos < pattern.Length && pattern[patternPos] == '*')
             {
                 // If we're currently positioned on a wildcard in the pattern,
@@ -57,15 +55,11 @@ internal static class SimpleRegex
                 inputPos = ++inputPosSaved;
                 patternPos = patternPosSaved;
             }
-        }
 
         // We've reached the end of the input.  Eat all wildcards immediately after where we are
         // in the pattern, as if they're at the end, they'll all just map to nothing (and if it
         // turns out there's something after them, eating them won't matter).
-        while (patternPos < pattern.Length && pattern[patternPos] == '*')
-        {
-            patternPos++;
-        }
+        while (patternPos < pattern.Length && pattern[patternPos] == '*') patternPos++;
 
         // If we are in fact at the end of the pattern, then we successfully matched.
         // If there's anything left, it's not a wildcard, so it doesn't match.

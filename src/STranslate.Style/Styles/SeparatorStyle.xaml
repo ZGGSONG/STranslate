@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+
     <!-- // Separator // -->
     <Style x:Key="SeparatorStyle" TargetType="Separator">
-        
+
         <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">

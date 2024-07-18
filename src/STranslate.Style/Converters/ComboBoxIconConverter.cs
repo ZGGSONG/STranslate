@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Windows.Data;
 using STranslate.Model;
 
@@ -16,7 +14,8 @@ public class ComboBoxIconConverter : IValueConverter
             {
                 var str = pkv.TrimStart('[').TrimEnd(']');
                 const char separator = ',';
-                var type = (IconType)Enum.Parse(typeof(IconType), new string(str.TakeWhile(c => c != separator).ToArray()));
+                var type = (IconType)Enum.Parse(typeof(IconType),
+                    new string(str.TakeWhile(c => c != separator).ToArray()));
                 string icon = new(str.SkipWhile(c => c != separator).Skip(1).ToArray());
                 return param == "0" ? icon : type.GetDescription();
             }
