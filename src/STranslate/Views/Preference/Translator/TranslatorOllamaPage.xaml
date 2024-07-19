@@ -98,7 +98,7 @@
                     <common:PlaceholderTextBox Grid.Column="1"
                                                MinWidth="206"
                                                HorizontalAlignment="Left"
-                                               Placeholder="http://localhost:11443"
+                                               Placeholder="http://localhost:11434"
                                                Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 

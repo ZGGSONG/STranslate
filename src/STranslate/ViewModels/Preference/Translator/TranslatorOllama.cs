@@ -17,7 +17,7 @@ public partial class TranslatorOllama : TranslatorBase, ITranslatorLlm
     #region Constructor
 
     public TranslatorOllama()
-        : this(Guid.NewGuid(), "http://localhost:11443", "Ollama")
+        : this(Guid.NewGuid(), "http://localhost:11434", "Ollama")
     {
     }
 
