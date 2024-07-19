@@ -267,9 +267,18 @@ public partial class NotifyIconViewModel : ObservableObject
         if (!CanOpenScreenshot)
             return;
 
-        if (obj is null) goto Last;
-
-        if (obj.Equals("header")) HideMainView();
+        switch (obj)
+        {
+            case null:
+                var haveActive = Application.Current.Windows.Cast<Window>()
+                    .Aggregate(false, (current, window) => current | window.IsActive);
+                if (haveActive)
+                    break;
+                goto Last;
+            case "header":
+                HideMainView();
+                break;
+        }
 
         Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
 
@@ -316,9 +325,18 @@ public partial class NotifyIconViewModel : ObservableObject
         if (!CanOpenScreenshot)
             return;
 
-        if (obj == null) goto Last;
-
-        if (obj.Equals("header")) HideMainView();
+        switch (obj)
+        {
+            case null:
+                var haveActive = Application.Current.Windows.Cast<Window>()
+                    .Aggregate(false, (current, window) => current | window.IsActive);
+                if (haveActive)
+                    break;
+                goto Last;
+            case "header":
+                HideMainView();
+                break;
+        }
 
         Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
 
@@ -366,9 +384,18 @@ public partial class NotifyIconViewModel : ObservableObject
         if (!CanOpenScreenshot)
             return;
 
-        if (obj == null) goto Last;
-
-        if (obj.Equals("header")) HideMainView();
+        switch (obj)
+        {
+            case null:
+                var haveActive = Application.Current.Windows.Cast<Window>()
+                    .Aggregate(false, (current, window) => current | window.IsActive);
+                if (haveActive)
+                    break;
+                goto Last;
+            case "header":
+                HideMainView();
+                break;
+        }
 
         Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
 
@@ -428,6 +455,10 @@ public partial class NotifyIconViewModel : ObservableObject
         switch (obj)
         {
             case null:
+                var haveActive = Application.Current.Windows.Cast<Window>()
+                    .Aggregate(false, (current, window) => current | window.IsActive);
+                if (haveActive)
+                    break;
                 goto Last;
             case "header":
                 HideMainView();
