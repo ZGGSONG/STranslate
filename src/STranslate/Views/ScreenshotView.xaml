@@ -10,10 +10,10 @@
         Closed="Window_Closed"
         Cursor="Cross"
         IsTabStop="False"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        MouseLeftButtonUp="Window_MouseLeftButtonUp"
-        MouseMove="Window_MouseMove"
-        MouseRightButtonDown="Window_MouseRightButtonDown"
+        PreviewMouseLeftButtonDown="Window_MouseLeftButtonDown"
+        PreviewMouseLeftButtonUp="Window_MouseLeftButtonUp"
+        PreviewMouseMove="Window_MouseMove"
+        PreviewMouseRightButtonDown="Window_MouseRightButtonDown"
         PreviewKeyDown="Window_PreviewKeyDown"
         ResizeMode="NoResize"
         ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -21,7 +21,7 @@
         Topmost="True"
         WindowStyle="None"
         mc:Ignorable="d">
-    <Canvas x:Name="ScreenCanvas">
+    <Canvas>
         <Rectangle x:Name="LeftMask" Fill="#FF000000" Opacity="0.3" />
         <Rectangle x:Name="RightMask" Fill="#FF000000" Opacity="0.3" />
         <Rectangle x:Name="UpMask" Fill="#FF000000" Opacity="0.3" />

@@ -115,24 +115,24 @@ public partial class ScreenshotView : Window
     private void Window_MouseMove(object sender, MouseEventArgs e)
     {
         // Get the current mouse position relative to the canvas
-        var CurrentPoint = e.GetPosition(this);
+        var currentPoint = e.GetPosition(this);
 
         if (!_isMouseDown)
         {
             // Update the horizontal line to match the mouse Y position
-            HorizontalLine.Y1 = CurrentPoint.Y;
-            HorizontalLine.Y2 = CurrentPoint.Y;
+            HorizontalLine.Y1 = currentPoint.Y;
+            HorizontalLine.Y2 = currentPoint.Y;
 
             // Update the vertical line to match the mouse X position
-            VerticalLine.X1 = CurrentPoint.X;
-            VerticalLine.X2 = CurrentPoint.X;
+            VerticalLine.X1 = currentPoint.X;
+            VerticalLine.X2 = currentPoint.X;
         }
         else
         {
             HorizontalLine.Visibility = Visibility.Collapsed;
             VerticalLine.Visibility = Visibility.Collapsed;
 
-            _rectangle = new Rect(_startPoint, CurrentPoint);
+            _rectangle = new Rect(_startPoint, currentPoint);
 
             Canvas.SetLeft(LeftMask, 0);
             Canvas.SetTop(LeftMask, 0);
@@ -164,11 +164,9 @@ public partial class ScreenshotView : Window
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Escape || e.Key == Key.Enter)
-        {
-            OnViewVisibilityChanged?.Invoke(true);
-            Close();
-        }
+        if (e.Key != Key.Escape && e.Key != Key.Enter) return;
+        OnViewVisibilityChanged?.Invoke(true);
+        Close();
     }
 
     private void Window_Closed(object sender, EventArgs e)
