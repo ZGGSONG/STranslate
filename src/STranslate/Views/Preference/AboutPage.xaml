@@ -54,17 +54,16 @@
 
                     <DockPanel Margin="20,10">
                         <TextBlock FontWeight="Bold" Text="工具   " />
-                        <controls:BtnContentMore Padding="5,2" MinWidth="140"
+                        <controls:BtnContentMore MinWidth="140"
                                                  Command="{Binding CleanLogCommand}"
-                                                 Content="清理日志 "
+                                                 Content="清理日志"
                                                  ContentMore="{Binding FileSize}" />
-
 
                         <Grid HorizontalAlignment="Right">
                             <ToggleButton Name="MoreTb"
                                           Width="100"
                                           HorizontalAlignment="Right"
-                                          Content="更多"
+                                          Content="打开目录"
                                           Style="{DynamicResource ToggleButtonTextStyle}" />
                             <Popup MinWidth="80"
                                    AllowsTransparency="True"

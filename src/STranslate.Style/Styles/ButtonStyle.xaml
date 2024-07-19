@@ -304,8 +304,6 @@
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
         <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
-        <Setter Property="Margin" Value="3" />
-        <Setter Property="Padding" Value="3" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:BtnContentMore}">
@@ -316,23 +314,22 @@
                             SnapsToDevicePixels="true">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Name="tb"
-                                       Margin="3,0"
-                                       Padding="3"
+                                       Margin="3 0 0 0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
                                        Foreground="{TemplateBinding Foreground}"
                                        Text="{TemplateBinding Content}" />
+                            <TextBlock Text="(" />
                             <TextBlock x:Name="tbMore"
-                                       Margin="3,0"
-                                       Padding="3"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="{TemplateBinding FontSize}"
                                        Foreground="{TemplateBinding Foreground}"
                                        Text="{TemplateBinding ContentMore}" />
+                            <TextBlock Text=") " />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
