@@ -13,6 +13,7 @@ public class SerilogLogger : BaseLogger
         var logConfiguration = new LoggerConfiguration()
             .WriteTo.File(
                 "logs/log.log",
+                //shared: true,
                 rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Verbose,
                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}"

@@ -71,15 +71,24 @@ public static class ConstStr
 
     public static readonly string AppName = "STranslate";
 
+    /// <summary>
+    ///     用户软件根目录
+    /// </summary>
+    public static readonly string ExecutePath = Environment.CurrentDirectory;
+
+    /// <summary>
+    ///     用户配置目录
+    /// </summary>
     public static readonly string AppData =
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
+
+    public static readonly string LogPath = $"{ExecutePath}\\logs";
 
     public static readonly string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
     public static readonly string DbFullName = $"{AppData}\\{AppName.ToLower()}.db";
     public static readonly string DbConnectionString = $"Data Source={DbFullName}";
     public static readonly string ECDICTPath = Path.Combine(AppData, "stardict.db");
 
-    public static readonly string ExecutePath = Environment.CurrentDirectory;
 
     public static readonly Dictionary<IconType, string> ICONDICT =
         Application.Current.Resources.MergedDictionaries.FirstOrDefault(x =>

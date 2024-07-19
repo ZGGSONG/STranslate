@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+             xmlns:controls="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
              d:DataContext="{d:DesignInstance Type=vm:AboutViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -48,6 +49,41 @@
                                     Command="{Binding CheckUpdateCancelCommand}"
                                     Content="取消检查"
                                     Visibility="{Binding IsChecking, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
+                    </DockPanel>
+
+                    <DockPanel Margin="20,10">
+                        <TextBlock FontWeight="Bold" Text="工具   " />
+                        <controls:BtnContentMore Padding="5,2" MinWidth="140"
+                                                 Command="{Binding CleanLogCommand}"
+                                                 Content="清理日志 "
+                                                 ContentMore="{Binding FileSize}" />
+
+
+                        <Grid HorizontalAlignment="Right">
+                            <ToggleButton Name="MoreTb"
+                                          Width="100"
+                                          HorizontalAlignment="Right"
+                                          Content="更多"
+                                          Style="{DynamicResource ToggleButtonTextStyle}" />
+                            <Popup MinWidth="80"
+                                   AllowsTransparency="True"
+                                   IsOpen="{Binding ElementName=MoreTb, Path=IsChecked}"
+                                   Placement="Center"
+                                   PlacementTarget="{Binding ElementName=MoreTb}"
+                                   PopupAnimation="Fade"
+                                   StaysOpen="False">
+                                <Border Width="100"
+                                        BorderBrush="{DynamicResource BorderBrushColor}"
+                                        BorderThickness="1"
+                                        Style="{DynamicResource BorderPopupStyle}">
+                                    <StackPanel>
+                                        <Button Content="日志目录" Command="{Binding OpenLogCommand}" />
+                                        <Separator />
+                                        <Button Content="配置目录" Command="{Binding OpenConfigCommand}" />
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
                         </Grid>
                     </DockPanel>
 

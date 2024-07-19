@@ -137,6 +137,7 @@ public partial class PreferenceViewModel : WindowVMBase
     private void AboutPage()
     {
         CurrentView = Singleton<AboutViewModel>.Instance;
+        Singleton<AboutViewModel>.Instance.CheckLogCommand.Execute(null);
     }
 
     public override void Close(Window win)

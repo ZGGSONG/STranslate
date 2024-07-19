@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Style.Controls;
@@ -15,11 +16,64 @@ public partial class AboutViewModel : ObservableObject
 {
     [ObservableProperty] private bool _isChecking;
 
-    [ObservableProperty] private string version = "";
+    [ObservableProperty] private string _version = "";
+
+    [ObservableProperty] private string _fileSize = "";
+
+    private readonly DirectoryInfo _logInfo;
 
     public AboutViewModel()
     {
         Version = ConstStr.AppVersion;
+
+        if (!Directory.Exists(ConstStr.LogPath))
+        {
+            Directory.CreateDirectory(ConstStr.LogPath);
+        }
+
+        _logInfo = new DirectoryInfo(ConstStr.LogPath);
+    }
+
+    [RelayCommand]
+    private void CheckLog()
+    {
+        var length = _logInfo.GetFiles().Sum(f => f.Length);
+        FileSize = CommonUtil.CountSize(length);
+    }
+
+    [RelayCommand]
+    private void CleanLog()
+    {
+        LogService.UnRegister();
+
+        foreach (var file in _logInfo.GetFiles())
+        {
+            try
+            {
+                File.Delete(file.FullName);
+            }
+            catch (Exception e)
+            {
+                LogService.Logger.Error($"Delete Log File Failed: {file.Name}", e);
+            }
+        }
+
+        CheckLog();
+
+        LogService.Register();
+
+        ToastHelper.Show("清理成功", WindowType.Preference);
+    }
+
+    [RelayCommand]
+    private void OpenLog()
+    {
+        Process.Start("explorer.exe", ConstStr.LogPath);
+    }
+
+    [RelayCommand] private void OpenConfig()
+    {
+        Process.Start("explorer.exe", ConstStr.AppData);
     }
 
     [RelayCommand]

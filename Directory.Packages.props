@@ -21,8 +21,8 @@
     <PackageVersion Include="WpfScreenHelper" Version="2.1.0" />
     <PackageVersion Include="XamlFlair.WPF" Version="1.2.13" />
     <PackageVersion Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" Version="0.16.7" />
-    <PackageVersion Include="Serilog" Version="3.1.1" />
-    <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageVersion Include="Serilog" Version="4.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageVersion Include="System.Drawing.Common" Version="8.0.4" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
     <PackageVersion Include="System.Management" Version="8.0.0" />
