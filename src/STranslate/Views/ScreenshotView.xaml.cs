@@ -48,9 +48,6 @@ public partial class ScreenshotView : Window
         }
 
         _dpiScale = screen.ScaleFactor;
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UnconventionalScreen ?? false)
-            _bounds = new Rect((int)(_bounds.X * _dpiScale), (int)(_bounds.Y * _dpiScale),
-                (int)(_bounds.Width * _dpiScale), (int)(_bounds.Height * _dpiScale));
 
         Top = _bounds.X;
         Left = _bounds.Y;

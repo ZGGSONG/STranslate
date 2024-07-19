@@ -363,14 +363,6 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="非常规屏幕截图修复" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}"
-                                           ToolTip="非16:9的拓展显示器截图移位的问题&#13;如果出现问题尝试开启一下该选项" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right"
-                                              IsChecked="{Binding UnconventionalScreen}" />
-                            </DockPanel>
-
-                            <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="关闭鼠标划词保持置顶" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="关闭鼠标划词功能后保持窗口置顶" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"

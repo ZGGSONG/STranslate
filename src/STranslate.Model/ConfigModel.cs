@@ -40,11 +40,6 @@ public class ConfigModel
     public bool CloseUIOcrRetTranslate { get; set; }
 
     /// <summary>
-    ///     截图出现问题尝试一下
-    /// </summary>
-    public bool UnconventionalScreen { get; set; }
-
-    /// <summary>
     ///     OCR时是否自动复制文本
     /// </summary>
     public bool IsOcrAutoCopyText { get; set; }
@@ -381,7 +376,6 @@ public class ConfigModel
             ThemeType = ThemeType,
             IsFollowMouse = IsFollowMouse,
             CloseUIOcrRetTranslate = CloseUIOcrRetTranslate,
-            UnconventionalScreen = UnconventionalScreen,
             IsOcrAutoCopyText = IsOcrAutoCopyText,
             IsAdjustContentTranslate = IsAdjustContentTranslate,
             IsRemoveLineBreakGettingWords = IsRemoveLineBreakGettingWords,

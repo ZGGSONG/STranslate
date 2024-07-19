@@ -271,8 +271,6 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private ThemeType _themeType = CurConfig?.ThemeType ?? ThemeType.Light;
 
-    [ObservableProperty] private bool _unconventionalScreen = CurConfig?.UnconventionalScreen ?? false;
-
     /// <summary>
     ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
     /// </summary>
@@ -385,7 +383,6 @@ public partial class CommonViewModel : ObservableObject
         ThemeType = CurConfig?.ThemeType ?? ThemeType.Light;
         IsFollowMouse = CurConfig?.IsFollowMouse ?? false;
         CloseUIOcrRetTranslate = CurConfig?.CloseUIOcrRetTranslate ?? false;
-        UnconventionalScreen = CurConfig?.UnconventionalScreen ?? false;
         IsOcrAutoCopyText = CurConfig?.IsOcrAutoCopyText ?? false;
         IsAdjustContentTranslate = CurConfig?.IsAdjustContentTranslate ?? false;
         IsRemoveLineBreakGettingWords = CurConfig?.IsRemoveLineBreakGettingWords ?? false;

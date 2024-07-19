@@ -198,7 +198,6 @@ public class ConfigHelper
         CurrentConfig.ThemeType = model.ThemeType;
         CurrentConfig.IsFollowMouse = model.IsFollowMouse;
         CurrentConfig.CloseUIOcrRetTranslate = model.CloseUIOcrRetTranslate;
-        CurrentConfig.UnconventionalScreen = model.UnconventionalScreen;
         CurrentConfig.IsOcrAutoCopyText = model.IsOcrAutoCopyText;
         CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
         CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
@@ -660,7 +659,6 @@ public class ConfigHelper
             IsStartup = false,
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
-            UnconventionalScreen = false,
             CloseUIOcrRetTranslate = false,
             IsAdjustContentTranslate = false,
             IsRemoveLineBreakGettingWords = false,
