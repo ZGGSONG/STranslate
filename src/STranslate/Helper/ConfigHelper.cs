@@ -77,7 +77,7 @@ public class ConfigHelper
         MainViewIconOperate();
 
         //初始化外部调用服务
-        ExternalCallOperate(CurrentConfig?.ExternalCallPort ?? 50020);
+        ExternalCallOperate(CurrentConfig?.ExternalCall ?? false, CurrentConfig?.ExternalCallPort ?? 50020);
     }
 
     /// <summary>
@@ -234,6 +234,7 @@ public class ConfigHelper
         CurrentConfig.ChangedLang2Execute = model.ChangedLang2Execute;
         CurrentConfig.OcrChangedLang2Execute = model.OcrChangedLang2Execute;
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
+        CurrentConfig.ExternalCall = model.ExternalCall;
         CurrentConfig.ExternalCallPort = model.ExternalCallPort;
         CurrentConfig.DetectType = model.DetectType;
         CurrentConfig.DisableGlobalHotkeys = model.DisableGlobalHotkeys;
@@ -268,7 +269,7 @@ public class ConfigHelper
         );
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
-        ExternalCallOperate(CurrentConfig.ExternalCallPort ?? 50020, true);
+        ExternalCallOperate(CurrentConfig?.ExternalCall ?? false, CurrentConfig.ExternalCallPort ?? 50020, true);
         MainViewShadowOperate(CurrentConfig.MainViewShadow);
         MainViewStayOperate(CurrentConfig.StayMainViewWhenLoseFocus);
 
@@ -588,11 +589,15 @@ public class ConfigHelper
     /// <summary>
     ///     外部调用功能
     /// </summary>
+    /// <param name="can"></param>
     /// <param name="port"></param>
     /// <param name="isStop"></param>
-    private void ExternalCallOperate(int port, bool isStop = false)
+    private void ExternalCallOperate(bool can, int port, bool isStop = false)
     {
-        Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
+        if (can)
+            Singleton<ExternalCallHelper>.Instance.StartService($"http://127.0.0.1:{port}/", isStop);
+        else
+            Singleton<ExternalCallHelper>.Instance.StopService();
     }
 
     /// <summary>
@@ -697,6 +702,7 @@ public class ConfigHelper
             TargetLang = LangEnum.auto,
             ChangedLang2Execute = false,
             UseFormsCopy = false,
+            ExternalCall = false,
             ExternalCallPort = 50020,
             OcrViewHeight = 400,
             OcrViewWidth = 1000,

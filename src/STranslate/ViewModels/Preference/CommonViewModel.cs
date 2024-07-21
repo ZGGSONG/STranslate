@@ -52,9 +52,14 @@ public partial class CommonViewModel : ObservableObject
     private DoubleTapFuncEnum _doubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
 
     /// <summary>
-    ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
+    ///     外部调用服务端口
     /// </summary>
     [ObservableProperty] private int? _externalCallPort = CurConfig?.ExternalCallPort ?? 50020;
+
+    /// <summary>
+    ///     是否启用外部调用服务
+    /// </summary>
+    [ObservableProperty] private bool _externalCall = CurConfig?.ExternalCall ?? false;
 
     [ObservableProperty] private List<string> _getFontFamilys;
 
@@ -419,6 +424,7 @@ public partial class CommonViewModel : ObservableObject
         OcrChangedLang2Execute = CurConfig?.OcrChangedLang2Execute ?? false;
         UseFormsCopy = CurConfig?.UseFormsCopy ?? false;
         ExternalCallPort = CurConfig?.ExternalCallPort ?? 50020;
+        ExternalCall = CurConfig?.ExternalCall ?? false;
         DetectType = CurConfig?.DetectType ?? LangDetectType.Local;
         DisableGlobalHotkeys = CurConfig?.DisableGlobalHotkeys ?? false;
         MainViewMaxHeight = CurConfig?.MainViewMaxHeight ?? 840;

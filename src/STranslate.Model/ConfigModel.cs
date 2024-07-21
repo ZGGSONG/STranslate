@@ -255,6 +255,11 @@ public class ConfigModel
     public bool UseFormsCopy { get; set; }
 
     /// <summary>
+    ///     开启外部调用服务
+    /// </summary>
+    public bool ExternalCall { get; set; }
+
+    /// <summary>
     ///     外部调用端口
     /// </summary>
     public int? ExternalCallPort { get; set; }
@@ -419,6 +424,7 @@ public class ConfigModel
             ChangedLang2Execute = ChangedLang2Execute,
             OcrChangedLang2Execute = OcrChangedLang2Execute,
             UseFormsCopy = UseFormsCopy,
+            ExternalCall = ExternalCall,
             ExternalCallPort = ExternalCallPort,
             OcrViewHeight = OcrViewHeight,
             OcrViewWidth = OcrViewWidth,
