@@ -261,8 +261,7 @@ public partial class NotifyIconViewModel : ObservableObject
         OnMousehook?.Invoke(view);
     }
 
-    [RelayCommand]
-    private void QRCode(object obj)
+    private void ScreenshotHandler(object? obj, Action? action)
     {
         if (!CanOpenScreenshot)
             return;
@@ -280,13 +279,43 @@ public partial class NotifyIconViewModel : ObservableObject
                 break;
         }
 
-        Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => QRCodeHandler()));
+        Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => action?.Invoke()));
 
         return;
 
-        Last:
-        QRCodeHandler();
+    Last:
+        action?.Invoke();
     }
+
+    private async Task ScreenshotHandlerAsync(object? obj, Action<CancellationToken?>? action, CancellationToken token)
+    {
+        if (!CanOpenScreenshot)
+            return;
+
+        switch (obj)
+        {
+            case null:
+                var haveActive = Application.Current.Windows.Cast<Window>()
+                    .Aggregate(false, (current, window) => current | window.IsActive);
+                if (haveActive)
+                    break;
+                goto Last;
+            case "header":
+                HideMainView();
+                break;
+        }
+
+        await Task.Delay(200, token)
+            .ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => action?.Invoke(token)), token);
+
+        return;
+
+    Last:
+        action?.Invoke(token);
+    }
+
+    [RelayCommand]
+    private void QRCode(object obj) => ScreenshotHandler(obj, QRCodeHandler);
 
     internal void QRCodeHandler()
     {
@@ -320,31 +349,7 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void OCR(object obj)
-    {
-        if (!CanOpenScreenshot)
-            return;
-
-        switch (obj)
-        {
-            case null:
-                var haveActive = Application.Current.Windows.Cast<Window>()
-                    .Aggregate(false, (current, window) => current | window.IsActive);
-                if (haveActive)
-                    break;
-                goto Last;
-            case "header":
-                HideMainView();
-                break;
-        }
-
-        Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => OCRHandler()));
-
-        return;
-
-        Last:
-        OCRHandler();
-    }
+    private void OCR(object obj) => ScreenshotHandler(obj, OCRHandler);
 
     internal void OCRHandler()
     {
@@ -379,31 +384,7 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void SilentOCR(object? obj)
-    {
-        if (!CanOpenScreenshot)
-            return;
-
-        switch (obj)
-        {
-            case null:
-                var haveActive = Application.Current.Windows.Cast<Window>()
-                    .Aggregate(false, (current, window) => current | window.IsActive);
-                if (haveActive)
-                    break;
-                goto Last;
-            case "header":
-                HideMainView();
-                break;
-        }
-
-        Task.Delay(200).ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => SilentOCRHandler()));
-
-        return;
-
-        Last:
-        SilentOCRHandler();
-    }
+    private void SilentOCR(object? obj) => ScreenshotHandler(obj, SilentOCRHandler);
 
     internal void SilentOCRHandler()
     {
@@ -447,31 +428,7 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
-    private async Task ScreenShotTranslateAsync(object obj, CancellationToken token)
-    {
-        if (!CanOpenScreenshot)
-            return;
-
-        switch (obj)
-        {
-            case null:
-                var haveActive = Application.Current.Windows.Cast<Window>()
-                    .Aggregate(false, (current, window) => current | window.IsActive);
-                if (haveActive)
-                    break;
-                goto Last;
-            case "header":
-                HideMainView();
-                break;
-        }
-
-        await Task.Delay(200, token)
-            .ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => ScreenShotHandler(token)), token);
-        return;
-
-        Last:
-        ScreenShotHandler(token);
-    }
+    private async Task ScreenShotTranslateAsync(object obj, CancellationToken token) => await ScreenshotHandlerAsync(obj, ScreenShotHandler, token);
 
     internal void ScreenShotHandler(CancellationToken? token = null)
     {
