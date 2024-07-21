@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -44,6 +45,9 @@ public partial class AboutViewModel : ObservableObject
     [RelayCommand]
     private void CleanLog()
     {
+        if (MessageBox_S.Show("确定要清理所有日志吗?", "警告", MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
+            return;
+
         LogService.UnRegister();
 
         foreach (var file in _logInfo.GetFiles())
