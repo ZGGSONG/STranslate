@@ -351,6 +351,19 @@ public partial class MainViewModel : ObservableObject
         if (Config?.IsRemoveLineBreakGettingWords ?? false)
             content = StringUtil.RemoveLineBreaks(content);
 
+
+        //增量翻译
+        //if (Config?.IncrementalTranslation ?? false)
+        //{
+        //    ClearOutput();
+        //    var input = _inputViewModel.InputContent;
+        //    _inputViewModel.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+        //}
+        //else
+        //{
+        //    ClearAll();
+        //}
+
         InputVM.InputContent = content;
 
         //如果重复执行先取消上一步操作

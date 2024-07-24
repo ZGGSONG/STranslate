@@ -74,6 +74,7 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="PaddleOCRSharp" />
+    <PackageReference Include="PracticalToolkit.Screenshot" />
     <PackageReference Include="System.Speech" />
     <PackageReference Include="TencentCloudSDK.Tmt" />
     <PackageReference Include="WebDav.Client" />

@@ -62,6 +62,7 @@ public class BitmapUtil
         var encoder = new BmpBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(source));
         encoder.Save(stream);
+        stream.Seek(0, SeekOrigin.Begin);
         var bmp = new Bitmap(stream);
         return bmp;
     }

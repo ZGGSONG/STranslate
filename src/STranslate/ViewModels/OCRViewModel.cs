@@ -116,6 +116,15 @@ public partial class OCRViewModel : WindowVMBase
         Application.Current.Resources["FontSize_TextBox"] = 18.0;
     }
 
+    public void FreeBitmapSource()
+    {
+        Bs?.Freeze();
+        GetImg?.Freeze();
+        Bs = null;
+        GetImg = null;
+        MemoUtil.FlushMemory();
+    }
+
     public override void Close(Window win)
     {
         Save();
@@ -129,6 +138,7 @@ public partial class OCRViewModel : WindowVMBase
         ClipboardImgCancelCommand.Execute(null);
         TTSCancelCommand.Execute(null);
 
+        FreeBitmapSource();
         base.Close(win);
     }
 

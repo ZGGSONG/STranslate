@@ -19,6 +19,7 @@ public class MemoUtil
         GC.Collect();
         // GC还提供了WaitForPendingFinalizers方法。
         GC.WaitForPendingFinalizers();
+        GC.Collect();
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, -1, -1);
     }
@@ -26,16 +27,16 @@ public class MemoUtil
     /// <summary>
     ///     GC回收，释放占用内存并重新分配
     /// </summary>
-    /// <param name="viltualMemo">是否将不需要的内容放进虚拟内存</param>
+    /// <param name="virtualMemo">是否将不需要的内容放进虚拟内存</param>
     /// <param name="sleepSpan">定时</param>
-    public static void CrackerOnlyGC(bool viltualMemo = false, int sleepSpan = 30)
+    public static void CrackerOnlyGC(bool virtualMemo = false, int sleepSpan = 30)
     {
-        new Thread(s =>
+        new Thread(_ =>
         {
             while (true)
                 try
                 {
-                    if (viltualMemo)
+                    if (virtualMemo)
                     {
                         FlushMemory();
                     }
@@ -43,12 +44,14 @@ public class MemoUtil
                     {
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
+                        GC.Collect();
                     }
 
                     Thread.Sleep(TimeSpan.FromSeconds(sleepSpan));
                 }
-                catch (Exception)
+                catch
                 {
+                    // ignored
                 }
         })
         {

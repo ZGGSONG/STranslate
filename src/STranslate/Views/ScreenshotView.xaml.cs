@@ -15,6 +15,7 @@ using Size = System.Drawing.Size;
 
 namespace STranslate.Views;
 
+[Obsolete("使用PracticalToolkit.Screenshot库替代")]
 public partial class ScreenshotView : Window
 {
     private readonly Bitmap? _bitmap; // 截屏图片
