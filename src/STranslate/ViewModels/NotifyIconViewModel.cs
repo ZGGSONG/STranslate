@@ -492,7 +492,7 @@ public partial class NotifyIconViewModel : ObservableObject
             ShowAndActive(view);
     }
 
-    internal void ClearOutput()
+    public void ClearOutput()
     {
         //清空输出相关
         Singleton<OutputViewModel>.Instance.Clear();

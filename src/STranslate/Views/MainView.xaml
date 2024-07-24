@@ -29,6 +29,7 @@
         <KeyBinding Key="Q" Command="{Binding NotifyIconVM.ExitCommand}" Modifiers="Ctrl+Shift" />
         <KeyBinding Key="OemComma" Command="{Binding NotifyIconVM.OpenPreferenceCommand}" Modifiers="Ctrl" />
         <KeyBinding Key="OemQuestion" Command="{Binding NotifyIconVM.OpenHistoryCommand}" Modifiers="Ctrl" />
+        <KeyBinding Key="E" Command="{Binding IncrementalTranslationCommand}" Modifiers="Ctrl" />
         <KeyBinding Key="T"
                     Command="{Binding StickyCommand}"
                     CommandParameter="{Binding ElementName=MainWindow}"

@@ -353,18 +353,18 @@ public partial class MainViewModel : ObservableObject
 
 
         //增量翻译
-        //if (Config?.IncrementalTranslation ?? false)
-        //{
-        //    ClearOutput();
-        //    var input = _inputViewModel.InputContent;
-        //    _inputViewModel.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
-        //}
-        //else
-        //{
-        //    ClearAll();
-        //}
+        if (Config?.IncrementalTranslation ?? false)
+        {
+            NotifyIconVM.ClearOutput();
+            var input = InputVM.InputContent;
+            InputVM.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
+        }
+        else
+        {
+            NotifyIconVM.ClearAll();
+        }
 
-        InputVM.InputContent = content;
+        InputVM.InputContent += content;
 
         //如果重复执行先取消上一步操作
         OutputVM.ExpanderHeaderCancelCommand.Execute(null);
