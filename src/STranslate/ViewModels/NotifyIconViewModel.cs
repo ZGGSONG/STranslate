@@ -286,12 +286,8 @@ public partial class NotifyIconViewModel : ObservableObject
 
     private void QrCodeCallback(Bitmap? bitmap)
     {
-        if (bitmap == null)
-        {
-            ShowBalloonTip("图像不存在");
-            return;
-        }
-
+        if (bitmap == null) return;
+        
         //显示OCR窗口
         var view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
         view ??= new OCRView();
@@ -316,11 +312,7 @@ public partial class NotifyIconViewModel : ObservableObject
 
     private void OcrCallback(Bitmap? bitmap)
     {
-        if (bitmap == null)
-        {
-            ShowBalloonTip("图像不存在");
-            return;
-        }
+        if (bitmap == null) return;
 
         //显示OCR窗口
         var view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
@@ -348,11 +340,8 @@ public partial class NotifyIconViewModel : ObservableObject
 
     private async Task SilentOcrCallbackAsync(Tuple<Bitmap?, double, double> tuple)
     {
-        if (tuple.Item1 == null)
-        {
-            ShowBalloonTip("图像不存在");
-            return;
-        }
+        if (tuple.Item1 == null) return;
+
         try
         {
             var getText = "";
@@ -415,11 +404,7 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal async Task ScreenshotCallback(Bitmap? bitmap, CancellationToken? token = null)
     {
-        if (bitmap == null)
-        {
-            ShowBalloonTip("图像不存在");
-            return;
-        }
+        if (bitmap == null) return;
 
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
