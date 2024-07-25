@@ -249,10 +249,8 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private string _proxyUsername = CurConfig?.ProxyUsername ?? string.Empty;
 
-    /// <summary>
-    ///     截图是否显示辅助线
-    /// </summary>
-    [ObservableProperty] private bool _showAuxiliaryLine = CurConfig?.ShowAuxiliaryLine ?? true;
+    [ObservableProperty] private bool _showShotBorder = CurConfig?.ShowShotBorder ?? false;
+    [ObservableProperty] private bool _showShotMagnifier = CurConfig?.ShowShotMagnifier ?? false;
 
     /// <summary>
     ///     收缩框是否显示复制按钮
@@ -419,7 +417,8 @@ public partial class CommonViewModel : ObservableObject
         IncrementalTranslation = CurConfig?.IncrementalTranslation ?? false;
         IsTriggerShowHide = CurConfig?.IsTriggerShowHide ?? false;
         IsShowMainPlaceholder = CurConfig?.IsShowMainPlaceholder ?? true;
-        ShowAuxiliaryLine = CurConfig?.ShowAuxiliaryLine ?? true;
+        ShowShotBorder = CurConfig?.ShowShotBorder ?? false;
+        ShowShotMagnifier = CurConfig?.ShowShotMagnifier ?? false;
         ChangedLang2Execute = CurConfig?.ChangedLang2Execute ?? false;
         OcrChangedLang2Execute = CurConfig?.OcrChangedLang2Execute ?? false;
         UseFormsCopy = CurConfig?.UseFormsCopy ?? false;

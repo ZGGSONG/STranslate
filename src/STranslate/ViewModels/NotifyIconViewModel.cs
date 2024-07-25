@@ -280,7 +280,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void QrCodeHandler()
     {
-        using var runner = new ScreenshotRunner();
+        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
+        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
+        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
         OcrCallback(runner.Screenshot());
     }
 
@@ -306,7 +308,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void OcrHandler()
     {
-        using var runner = new ScreenshotRunner();
+        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
+        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
+        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
         OcrCallback(runner.Screenshot());
     }
 
@@ -334,7 +338,9 @@ public partial class NotifyIconViewModel : ObservableObject
     internal void SilentOcrHandler()
     {
         var position = CommonUtil.GetPositionInfos().Item1;
-        using var runner = new ScreenshotRunner();
+        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
+        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
+        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
         _ = SilentOcrCallbackAsync(new Tuple<Bitmap?, double, double>(runner.Screenshot(), position.X, position.Y));
     }
 
@@ -398,7 +404,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal async Task ScreenShotHandlerAsync(CancellationToken? token = null)
     {
-        using var runner = new ScreenshotRunner();
+        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
+        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
+        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
         await ScreenshotCallback(await runner.ScreenshotAsync(), token);
     }
 

@@ -39,7 +39,7 @@ public partial class ScreenshotView : Window
 
         _bounds = screen.WpfBounds;
 
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowAuxiliaryLine ?? true)
+        //if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowAuxiliaryLine ?? true)
         {
             //设置辅助线宽高
             HorizontalLine.X1 = 0;
