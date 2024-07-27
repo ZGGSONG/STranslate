@@ -17,6 +17,8 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     private static readonly ConfigHelper ConfigHelper = Singleton<ConfigHelper>.Instance;
 
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
+
     /// <summary>
     ///     当前配置实例
     /// </summary>
@@ -286,6 +288,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
+    /// <summary>
+    ///     常用语言
+    /// </summary>
+    [ObservableProperty] private string _oftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
+
     public long HistorySize = CurConfig?.HistorySize ?? 100;
 
     public CommonViewModel()
@@ -439,6 +446,7 @@ public partial class CommonViewModel : ObservableObject
         MainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
         ShowMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
         HotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
+        OftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);
@@ -463,6 +471,16 @@ public partial class CommonViewModel : ObservableObject
     {
         if (obj is nameof(ProxyPassword)) IsProxyPasswordHide = !IsProxyPasswordHide;
     }
+
+    [RelayCommand]
+    private void OftenUsedLangChange()
+    {
+        //TODO: 添加View进行配置 OftenUsedLang
+
+
+        OnOftenUsedLang?.Invoke();
+    }
+    public Action? OnOftenUsedLang;
 
     #region 主界面调整
 

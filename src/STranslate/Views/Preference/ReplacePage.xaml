@@ -39,12 +39,19 @@
                             <TextBlock Text="目标语种" />
                             <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译目标语种" />
                             <ComboBox Height="30"
+                                      x:Name="LangCb"
                                       BorderThickness="1"
                                       HorizontalAlignment="Right"
                                       DisplayMemberPath="Description"
-                                      ItemsSource="{Binding Source={commons:Enumeration {x:Type model:LangEnum}}}"
                                       SelectedValue="{Binding ReplaceProp.TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      SelectedValuePath="Value" />
+                                      SelectedValuePath="Value">
+                                <ComboBox.ItemsSource>
+                                    <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                        <Binding Source="{commons:Enumeration {x:Type model:LangEnum}}" />
+                                        <Binding Path="InputVm.OftenUsedLang" />
+                                    </MultiBinding>
+                                </ComboBox.ItemsSource>
+                            </ComboBox>
                         </DockPanel>
 
                         <DockPanel Margin="20,10"

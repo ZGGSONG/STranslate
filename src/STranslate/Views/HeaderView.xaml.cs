@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using STranslate.Util;
+using STranslate.ViewModels.Preference;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace STranslate.Views;
@@ -9,6 +12,8 @@ public partial class HeaderView : UserControl
     public HeaderView()
     {
         InitializeComponent();
+        Singleton<CommonViewModel>.Instance.OnOftenUsedLang +=
+            () => BindingOperations.GetMultiBindingExpression(MainOcrLangLb, ListBox.ItemsSourceProperty)?.UpdateTarget();
     }
 
     /// <summary>

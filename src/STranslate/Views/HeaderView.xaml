@@ -333,8 +333,13 @@
                                  Background="Transparent"
                                  BorderThickness="0"
                                  PreviewMouseWheel="ServiceListBox_PreviewMouseWheel"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                 ItemsSource="{Binding Source={proxy:Enumeration {x:Type model:LangEnum}}}">
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsSource>
+                                <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                    <Binding Source="{proxy:Enumeration {x:Type model:LangEnum}}" />
+                                    <Binding Path="InputVM.OftenUsedLang" />
+                                </MultiBinding>
+                            </ListBox.ItemsSource>
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type model:LangEnum}">
                                     <Border x:Name="MainOcrLangBorder"

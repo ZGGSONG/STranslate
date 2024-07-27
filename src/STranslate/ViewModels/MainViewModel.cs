@@ -116,6 +116,7 @@ public partial class MainViewModel : ObservableObject
         _isInitial = true;
         SourceLang = Config?.SourceLang ?? LangEnum.auto;
         TargetLang = Config?.TargetLang ?? LangEnum.auto;
+        InputVM.OftenUsedLang = Config?.OftenUsedLang ?? string.Empty;
         IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
         _ = ReplaceVm.ReplaceProp.ActiveService; //激活ReplaceVm
         _isInitial = false;
@@ -460,6 +461,7 @@ public partial class MainViewModel : ObservableObject
         IsShowHistory = Config?.IsShowHistory ?? false;
         ShowMainOcrLang = Config?.ShowMainOcrLang ?? false;
     }
+
 
     [RelayCommand]
     private void SelectedService(List<object> list)

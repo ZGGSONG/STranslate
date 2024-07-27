@@ -1,10 +1,12 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using STranslate.Util;
 using STranslate.ViewModels;
+using STranslate.ViewModels.Preference;
 
 namespace STranslate.Views;
 
@@ -42,6 +44,9 @@ public partial class OCRView : Window
 #if false
             Topmost = true;
 #endif
+
+        Singleton<CommonViewModel>.Instance.OnOftenUsedLang +=
+            () => BindingOperations.GetMultiBindingExpression(LangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
     }
 
     [DllImport("user32.dll")]

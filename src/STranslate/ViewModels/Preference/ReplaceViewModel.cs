@@ -13,6 +13,7 @@ public partial class ReplaceViewModel : ObservableObject
 {
     private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
     private readonly TranslatorViewModel _translateVm = Singleton<TranslatorViewModel>.Instance;
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
     public ReplaceViewModel()
     {
         // View 上绑定结果从List中获取

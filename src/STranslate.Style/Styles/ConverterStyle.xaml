@@ -29,4 +29,5 @@
     <converter:StringBoolean2VisibilityConverter x:Key="StringBoolean2VisibilityConverter" />
     <converter:ReplaceMultiProp2VisibilityConverter x:Key="ReplaceMultiProp2VisibilityConverter" />
     <converter:LangEnumDescriptionConverter x:Key="LangEnumDescriptionConverter" />
+    <converter:MultiLangFilterConverter x:Key="MultiLangFilterConverter" />
 </ResourceDictionary>

@@ -121,13 +121,17 @@
                             <Border Style="{DynamicResource BorderStyle}">
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                               MaxHeight="400">
-                                    <ListBox
-                                        Name="IdentifyLb"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        PreviewMouseWheel="ListBox_PreviewMouseWheel"
-                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}">
+                                    <ListBox Name="IdentifyLb"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <ListBox.ItemsSource>
+                                            <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                                <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                                <Binding Path="OftenUsedLang" />
+                                            </MultiBinding>
+                                        </ListBox.ItemsSource>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate DataType="{x:Type model:LangEnum}">
                                                 <Border x:Name="IdentifyBorder"

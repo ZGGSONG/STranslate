@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using STranslate.Util;
+using STranslate.ViewModels.Preference;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace STranslate.Views;
 
@@ -10,5 +13,11 @@ public partial class LangView : UserControl
     public LangView()
     {
         InitializeComponent();
+
+        Singleton<CommonViewModel>.Instance.OnOftenUsedLang += () =>
+        {
+            BindingOperations.GetMultiBindingExpression(SourceLangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
+            BindingOperations.GetMultiBindingExpression(TargetLangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
+        };
     }
 }

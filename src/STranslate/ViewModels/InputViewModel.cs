@@ -30,6 +30,11 @@ public partial class InputViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private string _identifyLanguage = string.Empty;
 
+    /// <summary>
+    ///     常用语言
+    /// </summary>
+    [ObservableProperty] private string _oftenUsedLang = string.Empty;
+
     private LangEnum? _userSelectedLang;
 
     /// <summary>
@@ -392,6 +397,11 @@ public partial class InputViewModel : ObservableObject
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
         TranslateCommand.Execute(null);
+    }
+
+    internal void UpdateOftenUsedLang()
+    {
+        OftenUsedLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.OftenUsedLang ?? string.Empty;
     }
 
     #region ContextMenu

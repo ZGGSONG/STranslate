@@ -19,12 +19,19 @@
 
         <!-- // SourceLang // -->
         <ComboBox Grid.Column="0"
+                  x:Name="SourceLangCb"
                   Width="130"
                   HorizontalAlignment="Right"
-                  DisplayMemberPath="Description"
-                  ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
+                  DisplayMemberPath="Description"                  
                   SelectedValue="{Binding SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedValuePath="Value" />
+                  SelectedValuePath="Value">
+            <ComboBox.ItemsSource>
+                <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                    <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                    <Binding Path="InputVM.OftenUsedLang" />
+                </MultiBinding>
+            </ComboBox.ItemsSource>
+        </ComboBox>
 
         <!-- // Exchange Button // -->
         <Button Grid.Column="1"
@@ -34,11 +41,18 @@
 
         <!-- // TargetLang // -->
         <ComboBox Grid.Column="2"
+                  x:Name="TargetLangCb"
                   Width="130"
                   HorizontalAlignment="Left"
                   DisplayMemberPath="Description"
-                  ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                   SelectedValue="{Binding TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedValuePath="Value" />
+                  SelectedValuePath="Value">
+            <ComboBox.ItemsSource>
+                <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                    <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                    <Binding Path="InputVM.OftenUsedLang" />
+                </MultiBinding>
+            </ComboBox.ItemsSource>
+        </ComboBox>
     </Grid>
 </UserControl>

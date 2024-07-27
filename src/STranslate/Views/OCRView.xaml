@@ -419,12 +419,19 @@
                           SelectedValue="{Binding OcrScvVm.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ComboBox Margin="10,0"
+                          x:Name="LangCb"
                           BorderThickness="1"
                           DisplayMemberPath="Description"
                           FontSize="{DynamicResource FontSize_Content}"
-                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                           SelectedValue="{Binding Lang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValuePath="Value" />
+                          SelectedValuePath="Value">
+                    <ComboBox.ItemsSource>
+                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                            <Binding Path="InputVm.OftenUsedLang" />
+                        </MultiBinding>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
 
                 <Button Margin="10,0,10,10"
                         Command=""

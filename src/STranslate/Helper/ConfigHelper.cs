@@ -250,6 +250,7 @@ public class ConfigHelper
         CurrentConfig.MainOcrLang = model.MainOcrLang;
         CurrentConfig.ShowMainOcrLang = model.ShowMainOcrLang;
         CurrentConfig.HotkeyCopySuccessToast = model.HotkeyCopySuccessToast;
+        CurrentConfig.OftenUsedLang = model.OftenUsedLang;
 
         //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
@@ -269,7 +270,8 @@ public class ConfigHelper
         );
         PlaceholderOperate(CurrentConfig.IsShowMainPlaceholder);
         MainViewIconOperate();
-        ExternalCallOperate(CurrentConfig?.ExternalCall ?? false, CurrentConfig.ExternalCallPort ?? 50020, true);
+        MainViewOftenUsedLangOperate();
+        ExternalCallOperate(CurrentConfig.ExternalCall, CurrentConfig.ExternalCallPort ?? 50020, true);
         MainViewShadowOperate(CurrentConfig.MainViewShadow);
         MainViewStayOperate(CurrentConfig.StayMainViewWhenLoseFocus);
 
@@ -586,6 +588,11 @@ public class ConfigHelper
         Singleton<MainViewModel>.Instance.UpdateMainViewIcons();
     }
 
+    private void MainViewOftenUsedLangOperate()
+    {
+        Singleton<MainViewModel>.Instance.InputVM.UpdateOftenUsedLang();
+    }
+
     /// <summary>
     ///     外部调用功能
     /// </summary>
@@ -719,6 +726,7 @@ public class ConfigHelper
             MainOcrLang = LangEnum.auto,
             ShowMainOcrLang = false,
             HotkeyCopySuccessToast = true,
+            OftenUsedLang = string.Empty,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

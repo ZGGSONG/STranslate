@@ -57,6 +57,8 @@ public partial class OCRViewModel : WindowVMBase
 
     [ObservableProperty] private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
 
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
+
     public OCRViewModel()
     {
         Singleton<NotifyIconViewModel>.Instance.OnExit += Save;

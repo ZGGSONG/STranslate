@@ -162,15 +162,31 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
+                                <TextBlock Text="常用语言" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}"
+                                           ToolTip="配置选择语言时显示的语种列表" />
+                                <Button Height="26" HorizontalAlignment="Right"
+                                        BorderThickness="1" Content="点击设置"
+                                        Command="{Binding OftenUsedLangChangeCommand}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
                                 <TextBlock Text="截图翻译识别语种" />
                                 <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图翻译时OCR的语种(包括静默OCR)" />
                                 <ComboBox Height="30"
+                                          x:Name="LangCb"
                                           BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           DisplayMemberPath="Description"
-                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangEnum}}}"
                                           SelectedValue="{Binding MainOcrLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SelectedValuePath="Value" />
+                                          SelectedValuePath="Value">
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                            <Binding Path="InputVm.OftenUsedLang" />
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
                             </DockPanel>
                         </StackPanel>
                     </Border>

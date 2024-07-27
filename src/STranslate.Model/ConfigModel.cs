@@ -342,6 +342,11 @@ public class ConfigModel
     public bool HotkeyCopySuccessToast { get; set; } = true;
 
     /// <summary>
+    ///    常用语种
+    /// </summary>
+    public string OftenUsedLang { get; set; } = string.Empty;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -442,6 +447,7 @@ public class ConfigModel
             MainOcrLang = MainOcrLang,
             ShowMainOcrLang = ShowMainOcrLang,
             HotkeyCopySuccessToast = HotkeyCopySuccessToast,
+            OftenUsedLang = OftenUsedLang,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
