@@ -67,7 +67,10 @@ public partial class MainView : Window
             ret &= double.TryParse(args[1], out var top);
 
             // 判断是否在屏幕上
-            _ = Screen.AllScreens.FirstOrDefault(screen => screen.Bounds.Contains(new Point(left, top))) ??
+            // 增加偏移量，防止窗口被遮挡
+            var hOffset = 50;   // 水平偏移量
+            var vOffset = 80;   // 垂直偏移量
+            _ = Screen.AllScreens.FirstOrDefault(screen => screen.WpfBounds.Contains(new Point(left + hOffset, top + vOffset))) ??
                 throw new Exception();
 
             Left = left;
