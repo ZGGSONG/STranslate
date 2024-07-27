@@ -15,7 +15,6 @@ using Size = System.Drawing.Size;
 
 namespace STranslate.Views;
 
-[Obsolete("使用PracticalToolkit.Screenshot库替代")]
 public partial class ScreenshotView : Window
 {
     private readonly Bitmap? _bitmap; // 截屏图片
@@ -39,7 +38,7 @@ public partial class ScreenshotView : Window
 
         _bounds = screen.WpfBounds;
 
-        //if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowAuxiliaryLine ?? true)
+        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.ShowAuxiliaryLine ?? true)
         {
             //设置辅助线宽高
             HorizontalLine.X1 = 0;

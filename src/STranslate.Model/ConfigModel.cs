@@ -213,9 +213,10 @@ public class ConfigModel
     /// </summary>
     public bool IsShowMainPlaceholder { get; set; } = true;
 
-    public bool ShowShotBorder { get; set; }
-
-    public bool ShowShotMagnifier { get; set; }
+    /// <summary>
+    ///     截图是否显示辅助线
+    /// </summary>
+    public bool ShowAuxiliaryLine { get; set; } = true;
 
     /// <summary>
     ///     WebDav Type
@@ -415,8 +416,7 @@ public class ConfigModel
             IncrementalTranslation = IncrementalTranslation,
             IsTriggerShowHide = IsTriggerShowHide,
             IsShowMainPlaceholder = IsShowMainPlaceholder,
-            ShowShotBorder = ShowShotBorder,
-            ShowShotMagnifier = ShowShotMagnifier,
+            ShowAuxiliaryLine = ShowAuxiliaryLine,
             BackupType = BackupType,
             WebDavUrl = WebDavUrl,
             WebDavUsername = WebDavUsername,

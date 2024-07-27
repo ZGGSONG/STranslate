@@ -230,8 +230,7 @@ public class ConfigHelper
         CurrentConfig.IncrementalTranslation = model.IncrementalTranslation;
         CurrentConfig.IsTriggerShowHide = model.IsTriggerShowHide;
         CurrentConfig.IsShowMainPlaceholder = model.IsShowMainPlaceholder;
-        CurrentConfig.ShowShotBorder = model.ShowShotBorder;
-        CurrentConfig.ShowShotMagnifier = model.ShowShotMagnifier;
+        CurrentConfig.ShowAuxiliaryLine = model.ShowAuxiliaryLine;
         CurrentConfig.ChangedLang2Execute = model.ChangedLang2Execute;
         CurrentConfig.OcrChangedLang2Execute = model.OcrChangedLang2Execute;
         CurrentConfig.UseFormsCopy = model.UseFormsCopy;
@@ -695,8 +694,7 @@ public class ConfigHelper
             IncrementalTranslation = false,
             IsTriggerShowHide = false,
             IsShowMainPlaceholder = true,
-            ShowShotBorder = false,
-            ShowShotMagnifier = false,
+            ShowAuxiliaryLine = true,
             WebDavUrl = string.Empty,
             WebDavUsername = string.Empty,
             WebDavPassword = string.Empty,

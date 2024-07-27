@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Win32;
-using PracticalToolkit.Screenshot;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -46,6 +45,11 @@ public partial class NotifyIconViewModel : ObservableObject
     public NotifyIconModel NIModel { get; } = new();
 
     /// <summary>
+    ///     是否可以调用截图View
+    /// </summary>
+    public bool CanOpenScreenshot { get; set; } = true;
+
+    /// <summary>
     ///     屏蔽快捷键事件
     /// </summary>
     public event Action<Window, bool>? OnForbiddenShortcuts;
@@ -74,7 +78,8 @@ public partial class NotifyIconViewModel : ObservableObject
         var actions = new Dictionary<ExternalCallAction, Action<Window, string>>
         {
             {
-                ExternalCallAction.translate, (view, content) =>
+                ExternalCallAction.translate,
+                (view, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
                         InputTranslate(view);
@@ -83,7 +88,8 @@ public partial class NotifyIconViewModel : ObservableObject
                 }
             },
             {
-                ExternalCallAction.translate_force, (view, content) =>
+                ExternalCallAction.translate_force,
+                (view, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
                         InputTranslate(view);
@@ -93,10 +99,11 @@ public partial class NotifyIconViewModel : ObservableObject
             },
             { ExternalCallAction.translate_input, (view, _) => InputTranslate(view) },
             {
-                ExternalCallAction.translate_ocr, async (_, content) =>
+                ExternalCallAction.translate_ocr,
+                async (_, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
-                        await ScreenShotHandlerAsync();
+                        ScreenShotHandler();
                     else
                         await ScreenshotCallback(BitmapUtil.ReadImageFile(content));
                 }
@@ -105,25 +112,27 @@ public partial class NotifyIconViewModel : ObservableObject
             { ExternalCallAction.translate_mousehook, (view, _) => MousehookTranslate(view) },
             { ExternalCallAction.listenclipboard, (view, _) => ClipboardMonitor(view) },
             {
-                ExternalCallAction.ocr, (_, content) =>
+                ExternalCallAction.ocr,
+                async (_, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
-                        OcrHandler();
+                        OCRHandler();
                     else
-                        OcrCallback(BitmapUtil.ReadImageFile(content));
+                        await OCRCallback(BitmapUtil.ReadImageFile(content));
                 }
             },
             {
-                ExternalCallAction.ocr_silence, async (_, content) =>
+                ExternalCallAction.ocr_silence,
+                async (_, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
                     {
-                        SilentOcrHandler();
+                        SilentOCRHandler();
                     }
                     else
                     {
                         var bitmap = BitmapUtil.ReadImageFile(content);
-                        if (bitmap != null) await SilentOcrCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
+                        if (bitmap != null) await SilentOCRCallback(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
                     }
                 }
             },
@@ -132,9 +141,9 @@ public partial class NotifyIconViewModel : ObservableObject
                 (_, content) =>
                 {
                     if (string.IsNullOrWhiteSpace(content))
-                        QrCodeHandler();
+                        QRCodeHandler();
                     else
-                        QrCodeCallback(BitmapUtil.ReadImageFile(content));
+                        QRCodeCallback(BitmapUtil.ReadImageFile(content));
                 }
             },
             { ExternalCallAction.open_window, (view, _) => OpenMainWindow(view) },
@@ -254,6 +263,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     private void ScreenshotHandler(object? obj, Action? action)
     {
+        if (!CanOpenScreenshot)
+            return;
+
         switch (obj)
         {
             case null:
@@ -275,21 +287,54 @@ public partial class NotifyIconViewModel : ObservableObject
         action?.Invoke();
     }
 
-    [RelayCommand]
-    private void QRCode(object obj) => ScreenshotHandler(obj, QrCodeHandler);
-
-    internal void QrCodeHandler()
+    private async Task ScreenshotHandlerAsync(object? obj, Action<CancellationToken?>? action, CancellationToken token)
     {
-        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
-        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
-        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
-        OcrCallback(runner.Screenshot());
+        if (!CanOpenScreenshot)
+            return;
+
+        switch (obj)
+        {
+            case null:
+                var haveActive = Application.Current.Windows.Cast<Window>()
+                    .Aggregate(false, (current, window) => current | window.IsActive);
+                if (haveActive)
+                    break;
+                goto Last;
+            case "header":
+                HideMainView();
+                break;
+        }
+
+        await Task.Delay(200, token)
+            .ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => action?.Invoke(token)), token);
+
+        return;
+
+    Last:
+        action?.Invoke(token);
     }
 
-    private void QrCodeCallback(Bitmap? bitmap)
+    [RelayCommand]
+    private void QRCode(object obj) => ScreenshotHandler(obj, QRCodeHandler);
+
+    internal void QRCodeHandler()
     {
-        if (bitmap == null) return;
-        
+        ScreenshotView view = new();
+        ShowAndActive(view);
+
+        view.BitmapCallback += tuple => QRCodeCallback(tuple.Item1);
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
+        view.InvokeCanOpen();
+    }
+
+    private void QRCodeCallback(Bitmap? bitmap)
+    {
+        if (bitmap == null)
+        {
+            ShowBalloonTip("图像不存在");
+            return;
+        }
+
         //显示OCR窗口
         var view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
         view ??= new OCRView();
@@ -304,19 +349,25 @@ public partial class NotifyIconViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void OCR(object obj) => ScreenshotHandler(obj, OcrHandler);
+    private void OCR(object obj) => ScreenshotHandler(obj, OCRHandler);
 
-    internal void OcrHandler()
+    internal void OCRHandler()
     {
-        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
-        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
-        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
-        OcrCallback(runner.Screenshot());
+        ScreenshotView view = new();
+        ShowAndActive(view);
+
+        view.BitmapCallback += async tuple => await OCRCallback(tuple.Item1);
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
+        view.InvokeCanOpen();
     }
 
-    private void OcrCallback(Bitmap? bitmap)
+    private async Task OCRCallback(Bitmap? bitmap)
     {
-        if (bitmap == null) return;
+        if (bitmap == null)
+        {
+            ShowBalloonTip("图像不存在");
+            return;
+        }
 
         //显示OCR窗口
         var view = Application.Current.Windows.OfType<OCRView>().FirstOrDefault();
@@ -329,25 +380,24 @@ public partial class NotifyIconViewModel : ObservableObject
         Singleton<OCRViewModel>.Instance.GetImg = bs;
         Singleton<OCRViewModel>.Instance.Bs = bs.Clone();
 
-        Singleton<OCRViewModel>.Instance.RecertificationCommand.Execute(bs);
+        await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(bs);
     }
 
     [RelayCommand]
-    private void SilentOCR(object? obj) => ScreenshotHandler(obj, SilentOcrHandler);
+    private void SilentOCR(object? obj) => ScreenshotHandler(obj, SilentOCRHandler);
 
-    internal void SilentOcrHandler()
+    internal void SilentOCRHandler()
     {
-        var position = CommonUtil.GetPositionInfos().Item1;
-        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
-        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
-        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
-        _ = SilentOcrCallbackAsync(new Tuple<Bitmap?, double, double>(runner.Screenshot(), position.X, position.Y));
+        ScreenshotView view = new();
+        ShowAndActive(view);
+
+        view.BitmapCallback += async tuple => await SilentOCRCallback(tuple);
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
+        view.InvokeCanOpen();
     }
 
-    private async Task SilentOcrCallbackAsync(Tuple<Bitmap?, double, double> tuple)
+    private async Task SilentOCRCallback(Tuple<Bitmap, double, double> tuple)
     {
-        if (tuple.Item1 == null) return;
-
         try
         {
             var getText = "";
@@ -375,44 +425,27 @@ public partial class NotifyIconViewModel : ObservableObject
                 CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
             LogService.Logger.Error("静默OCR失败", ex);
         }
-        finally
-        {
-            DisposeBitmap(tuple?.Item1);
-        }
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
-    private async Task ScreenShotTranslateAsync(object obj, CancellationToken token)
+    private async Task ScreenShotTranslateAsync(object obj, CancellationToken token) => await ScreenshotHandlerAsync(obj, ScreenShotHandler, token);
+
+    internal void ScreenShotHandler(CancellationToken? token = null)
     {
-        switch (obj)
-        {
-            case null:
-                goto Last;
-            case "header":
-                HideMainView();
-                break;
-        }
-
-        await Task.Delay(200, token)
-            .ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => _ = ScreenShotHandlerAsync(token)), token);
-
-        return;
-
-        Last:
-        await ScreenShotHandlerAsync(token);
-    }
-
-    internal async Task ScreenShotHandlerAsync(CancellationToken? token = null)
-    {
-        var border = _configHelper.CurrentConfig?.ShowShotBorder ?? false;
-        var magnifier = _configHelper.CurrentConfig?.ShowShotMagnifier ?? false;
-        using var runner = new ScreenshotRunner(new RunnerOptions(border, magnifier));
-        await ScreenshotCallback(await runner.ScreenshotAsync(), token);
+        ScreenshotView view = new();
+        ShowAndActive(view);
+        view.BitmapCallback += async tuple => await ScreenshotCallback(tuple.Item1, token);
+        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
+        view.InvokeCanOpen();
     }
 
     internal async Task ScreenshotCallback(Bitmap? bitmap, CancellationToken? token = null)
     {
-        if (bitmap == null) return;
+        if (bitmap == null)
+        {
+            ShowBalloonTip("图像不存在");
+            return;
+        }
 
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
@@ -461,7 +494,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
         catch (OperationCanceledException)
         {
-            LogService.Logger.Debug("Screenshot Translate 取消");
+            LogService.Logger.Debug("Screenshoot Translate 取消");
         }
         catch (Exception ex)
         {
@@ -469,15 +502,8 @@ public partial class NotifyIconViewModel : ObservableObject
         }
         finally
         {
-            DisposeBitmap(bitmap);
             IsScreenshotExecuting = false;
         }
-    }
-
-    internal void DisposeBitmap(Bitmap? bitmap)
-    {
-        bitmap?.Dispose();
-        MemoUtil.FlushMemory();
     }
 
     /// <summary>

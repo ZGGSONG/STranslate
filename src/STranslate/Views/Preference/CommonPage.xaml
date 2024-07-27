@@ -406,17 +406,10 @@
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="截图边框" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图时是否显示边框" />
+                                <TextBlock HorizontalAlignment="Left" Text="截图辅助线" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图时是否显示辅助线" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
-                                              IsChecked="{Binding ShowShotBorder}" />
-                            </DockPanel>
-
-                            <DockPanel Margin="20,10">
-                                <TextBlock HorizontalAlignment="Left" Text="截图放大镜" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图时是否显示放大镜" />
-                                <ToggleButton Height="26" HorizontalAlignment="Right"
-                                              IsChecked="{Binding ShowShotMagnifier}" />
+                                              IsChecked="{Binding ShowAuxiliaryLine}" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
