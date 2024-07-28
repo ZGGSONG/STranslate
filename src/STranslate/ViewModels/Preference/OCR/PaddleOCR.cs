@@ -310,7 +310,7 @@ public partial class PaddleOCR : ObservableObject, IOCR
 
         if (!DataIntegrity())
         {
-            var msg = "离线数据不完整";
+            var msg = "离线数据不完整,请前往PaddleOCR配置页面进行下载";
 
             ToastHelper.Show(msg, WindowType.OCR);
 
@@ -329,11 +329,8 @@ public partial class PaddleOCR : ObservableObject, IOCR
             {
                 token.ThrowIfCancellationRequested();
 
-#if DEBUG
-                using (var _ = new TimerDisposable(timeElapsed =>
-                           LogService.Logger.Debug($"PaddleOCR 耗时: {timeElapsed} ms")))
+                using (var _ = new TimerDisposable(timeElapsed => LogService.Logger.Debug($"PaddleOCR 耗时: {timeElapsed} ms")))
                 {
-#endif
                     var ocrResult = GetEngine(lang).DetectText(bytes);
 
                     // 在耗时操作后再次检查取消标志
@@ -345,9 +342,7 @@ public partial class PaddleOCR : ObservableObject, IOCR
                         tb.BoxPoints.ForEach(bp => ocrContent.BoxPoints.Add(new BoxPoint(bp.X, bp.Y)));
                         result.OcrContents.Add(ocrContent);
                     });
-#if DEBUG
                 }
-#endif
 
                 // 设置任务结果
                 tcs.SetResult(result);

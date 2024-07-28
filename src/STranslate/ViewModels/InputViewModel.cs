@@ -240,6 +240,7 @@ public partial class InputViewModel : ObservableObject
         {
             case TaskCanceledException:
                 errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时";
+                errorMessage += "(请检查网络环境是否正常或服务是否可用)\n";
                 isCancelMsg = token.IsCancellationRequested;
                 break;
             case HttpRequestException:
