@@ -52,12 +52,13 @@
 
 - 特别鸣谢 [zu1k](https://github.com/zu1k)
 - 感谢 [Bob](https://bobtranslate.com/guide/) 的启发
-- 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对paddleocr的封装
-- 感谢 [WpfTool](https://github.com/NPCDW/WpfTool) 截图功能
-- 感谢 [Tai](https://github.com/Planshit/Tai) 升级功能
-- 感谢 ChatGPT
-- 感谢 [pot-desktop](https://pot-app.com/) 参考prompt设计
+- 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对 `PaddleOCR` 的封装
+- 感谢 [WpfTool](https://github.com/NPCDW/WpfTool)  截图功能
+- 感谢 [Tai](https://github.com/Planshit/Tai) 升级模块
+- 感谢 [pot-desktop](https://pot-app.com/) `Prompt` 设计思路
+- 感谢 `ChatGPT`、`Github Copilot`
 - 感谢 JetBrains 提供开源项目免费License
+- 感谢 [发文分享](Sponsor.md#分享支持)
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
 
@@ -65,7 +66,7 @@
 
 觉得不错的话可以请作者喝杯阔落
 
-> 感谢打赏的朋友
+> 感谢打赏的朋友 [赞赏列表](Sponsor.md)
 
 | 微信 | 支付宝 |
 | :--: | :--: |

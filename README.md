@@ -51,11 +51,13 @@ Or group discussion
 
 - Special thanks to [zu1k](https://github.com/zu1k)
 - Thanks to [Bob](https://bobtranslate.com/guide/) for inspiration
-- Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing paddleocr
+- Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing `PaddleOCR`
 - Thanks to [WpfTool](https://github.com/NPCDW/WpfTool) for screenshot functionality
 - Thanks to [Tai](https://github.com/Planshit/Tai) for upgrade functionality
-- Thanks to [pot-desktop](https://pot-app.com/) for prompt design reference
+- Thanks to [pot-desktop](https://pot-app.com/) for `Prompt` design ideas
+- Thanks to `ChatGPT`、`Github Copilot`
 - Thanks to JetBrains for providing open-source project free License
+- Thanks for [Posting Sharing](Sponsor.md#分享支持)
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
 
@@ -63,7 +65,7 @@ Or group discussion
 
 If you like it, you can buy the author a cup of coffee.
 
-> Thank you to those who rewarded me
+> Thank you to those who rewarded me [Sponsor List](Sponsor.md)
 
 | WeChat | Alipay |
 | :--: | :--: |
