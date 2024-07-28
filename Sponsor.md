@@ -17,6 +17,7 @@
 
 - [STranslate – 免费的划词翻译工具，支持 DeepL｜还拥有 OCR 文字识别与翻译功能](https://www.appinn.com/stranslate/)
 - [WPF开源的一款免费、开箱即用的翻译、OCR工具 ](https://www.cnblogs.com/Can-daydayup/p/18062151)
+- [STranslate——开箱即用的机翻引擎大集成](https://www.musingpages.com/technology/2024/02/20/stranslate-out-of-box)
 - [Stranslate，开源免费支持翻译、OpenAI接口的 OCR 工具](https://www.ittel.cn/archives/31325.html)
 - [STranslate，即开即用，便捷高效的划词翻译与OCR识别工具](https://post.smzdm.com/p/axoeo3ew/)
 
