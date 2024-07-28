@@ -591,13 +591,22 @@ public static class EnumExtensions
     }
 
     /// <summary>
+	///     获取枚举类型的所有枚举值集合
+	/// </summary>
+	/// <typeparam name="T">枚举类型</typeparam>
+	/// <returns>枚举值的集合</returns>
+	public static T[] GetEnumArray<T>() where T : Enum
+    {
+        return (T[])Enum.GetValues(typeof(T));
+    }
+
+    /// <summary>
     ///     通过枚举类型获取枚举列表;
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static List<T> GetEnumList<T>()
-        where T : Enum
+    public static List<T> GetEnumList<T>() where T : Enum
     {
         return Enum.GetValues(typeof(T)).OfType<T>().ToList();
     }

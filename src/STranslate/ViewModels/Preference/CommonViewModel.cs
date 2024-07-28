@@ -7,6 +7,8 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
+using STranslate.Views;
+using STranslate.Views.Preference;
 
 namespace STranslate.ViewModels.Preference;
 
@@ -476,7 +478,11 @@ public partial class CommonViewModel : ObservableObject
     private void OftenUsedLangChange()
     {
         //TODO: 添加View进行配置 OftenUsedLang
-
+        var view = new LangSettingView(CurConfig?.OftenUsedLang ?? string.Empty);
+        //view.Owner = Application.Current.Windows.Cast<PreferenceView>().FirstOrDefault();
+        //view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        if (view.ShowDialog() == false) return;
+        //获取返回值
 
         OnOftenUsedLang?.Invoke();
     }

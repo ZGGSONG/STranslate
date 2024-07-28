@@ -1,0 +1,33 @@
+﻿<Window x:Class="STranslate.Views.Preference.LangSettingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:STranslate.Views.Preference"
+        xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Height="450" Width="600"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{DynamicResource UserFont}"
+        FontSize="{DynamicResource FontSize_Content}"
+        d:DataContext="{d:DesignInstance Type=vm:LangSettingViewModel}"
+        Title="LangSettingView">
+    <Border Style="{DynamicResource WindowStyle}">
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="35" />
+            </Grid.RowDefinitions>
+
+
+            <DockPanel Grid.Row="2">
+                <Button Content="撤销" Command="{Binding ResetCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+
+                <Button Content="保存" Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            </DockPanel>
+        </Grid>
+    </Border>
+</Window>
