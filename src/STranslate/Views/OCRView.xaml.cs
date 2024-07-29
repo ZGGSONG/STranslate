@@ -46,7 +46,7 @@ public partial class OCRView : Window
 #endif
 
         Singleton<CommonViewModel>.Instance.OnOftenUsedLang +=
-            () => BindingOperations.GetMultiBindingExpression(LangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
+            () => BindingOperations.GetMultiBindingExpression(LangCb, ItemsControl.ItemsSourceProperty)?.UpdateTarget();
     }
 
     [DllImport("user32.dll")]

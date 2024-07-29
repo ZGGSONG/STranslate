@@ -13,7 +13,7 @@ public partial class HeaderView : UserControl
     {
         InitializeComponent();
         Singleton<CommonViewModel>.Instance.OnOftenUsedLang +=
-            () => BindingOperations.GetMultiBindingExpression(MainOcrLangLb, ListBox.ItemsSourceProperty)?.UpdateTarget();
+            () => BindingOperations.GetMultiBindingExpression(MainOcrLangLb, ItemsControl.ItemsSourceProperty)?.UpdateTarget();
     }
 
     /// <summary>

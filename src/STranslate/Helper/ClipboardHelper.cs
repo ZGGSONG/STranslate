@@ -2,6 +2,7 @@
 using System.Windows.Interop;
 using STranslate.Log;
 using STranslate.Util;
+using STranslate.Views;
 
 namespace STranslate.Helper;
 
@@ -16,7 +17,7 @@ public class ClipboardHelper
     {
         var result = false;
         _source =
-            PresentationSource.FromVisual(Application.Current.Windows.Cast<Window>().FirstOrDefault()) as HwndSource;
+            PresentationSource.FromVisual(Application.Current.Windows.OfType<MainView>().First()) as HwndSource;
         if (_source is null)
         {
             error = "监听剪贴板失败，请重新监听...";

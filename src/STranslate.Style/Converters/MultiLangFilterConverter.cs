@@ -8,16 +8,16 @@ public class MultiLangFilterConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length != 2 || values[0] is not EnumerationMember[] enums || values[1] is not string content)
+        if (values is not [EnumerationMember[] enums, string content])
             return values;
 
-        var langEnableds = (content.Length != enums.Length || string.IsNullOrEmpty(content))
+        var langEnables = (content.Length != enums.Length || string.IsNullOrEmpty(content))
             ? Enumerable.Repeat(true, enums.Length).ToArray()
             : content.Select(c => c == '1').ToArray();
 
-        for (int i = 0; i < enums.Length; i++)
+        for (var i = 0; i < enums.Length; i++)
         {
-            enums[i].IsEnabled = langEnableds[i];
+            enums[i].IsEnabled = langEnables[i];
         }
         return enums.Where(x => x.IsEnabled).ToArray();
     }

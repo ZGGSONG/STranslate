@@ -19,8 +19,6 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     private static readonly ConfigHelper ConfigHelper = Singleton<ConfigHelper>.Instance;
 
-    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
-
     /// <summary>
     ///     当前配置实例
     /// </summary>
@@ -56,14 +54,14 @@ public partial class CommonViewModel : ObservableObject
     private DoubleTapFuncEnum _doubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
 
     /// <summary>
-    ///     外部调用服务端口
-    /// </summary>
-    [ObservableProperty] private int? _externalCallPort = CurConfig?.ExternalCallPort ?? 50020;
-
-    /// <summary>
     ///     是否启用外部调用服务
     /// </summary>
     [ObservableProperty] private bool _externalCall = CurConfig?.ExternalCall ?? false;
+
+    /// <summary>
+    ///     外部调用服务端口
+    /// </summary>
+    [ObservableProperty] private int? _externalCallPort = CurConfig?.ExternalCallPort ?? 50020;
 
     [ObservableProperty] private List<string> _getFontFamilys;
 
@@ -229,6 +227,11 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _ocrChangedLang2Execute = CurConfig?.OcrChangedLang2Execute ?? true;
 
     /// <summary>
+    ///     常用语言
+    /// </summary>
+    [ObservableProperty] private string _oftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
+
+    /// <summary>
     ///     代理服务器IP
     /// </summary>
     [ObservableProperty] private string _proxyIp = CurConfig?.ProxyIp ?? string.Empty;
@@ -290,12 +293,8 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
-    /// <summary>
-    ///     常用语言
-    /// </summary>
-    [ObservableProperty] private string _oftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
-
     public long HistorySize = CurConfig?.HistorySize ?? 100;
+    public Action? OnOftenUsedLang;
 
     public CommonViewModel()
     {
@@ -307,6 +306,8 @@ public partial class CommonViewModel : ObservableObject
         // 加载历史记录类型
         LoadHistorySizeType();
     }
+
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
     public long HistorySizeType
     {
@@ -475,18 +476,22 @@ public partial class CommonViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void OftenUsedLangChange()
+    private async Task OftenUsedLangChangeAsync()
     {
-        //TODO: 添加View进行配置 OftenUsedLang
-        var view = new LangSettingView(CurConfig?.OftenUsedLang ?? string.Empty);
-        //view.Owner = Application.Current.Windows.Cast<PreferenceView>().FirstOrDefault();
-        //view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        var view = new LangSettingView(OftenUsedLang)
+        {
+            Owner = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault(),
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
         if (view.ShowDialog() == false) return;
-        //获取返回值
-
+        OftenUsedLang = view.LangResult;
         OnOftenUsedLang?.Invoke();
+
+        // 不等待上面回调可能会导致绑定出错
+        await Task.Delay(1000);
+
+        Save();
     }
-    public Action? OnOftenUsedLang;
 
     #region 主界面调整
 

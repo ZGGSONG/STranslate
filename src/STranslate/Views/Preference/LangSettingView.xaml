@@ -3,31 +3,89 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:STranslate.Views.Preference"
         xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
         mc:Ignorable="d"
         WindowStyle="None"
+        ShowInTaskbar="False"
         Height="450" Width="600"
+        Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         FontFamily="{DynamicResource UserFont}"
         FontSize="{DynamicResource FontSize_Content}"
         d:DataContext="{d:DesignInstance Type=vm:LangSettingViewModel}"
         Title="LangSettingView">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+    </Window.InputBindings>
     <Border Style="{DynamicResource WindowStyle}">
         <Grid Background="Transparent">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="35" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
 
+            <!--#region // Header //-->
+            <Grid Grid.Row="0" Background="{DynamicResource TitleBackground}">
+                <TextBlock Text="语言设置" VerticalAlignment="Center" Margin="10" />
+            </Grid>
+            <!--#endregion-->
 
-            <DockPanel Grid.Row="2">
-                <Button Content="撤销" Command="{Binding ResetCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            <!--#region // Body //-->
+            <ListBox Grid.Row="1"
+                     Margin="20 10"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ItemsSource="{Binding LangSettings}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="LangBorder"
+                                Margin="5"
+                                Background="{DynamicResource BorderBackground}"
+                                BorderBrush="{x:Null}"
+                                CornerRadius="5">
+                            <DockPanel Margin="10 0">
+                                <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" />
+                                <ToggleButton HorizontalAlignment="Right" IsChecked="{Binding IsEnabled}" />
+                            </DockPanel>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LangBorder" Property="Background"
+                                        Value="{DynamicResource BtnMouseOverBackground}" />
+                            </Trigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <!--#endregion-->
 
-                <Button Content="保存" Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+            <!--#region // Footer //-->
+            <DockPanel Grid.Row="2"
+                       Margin="20 0"
+                       VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+                    <Button Content="全不选" Command="{Binding SelectCommand}" />
+                    <Button Content="全选" Command="{Binding SelectCommand}" CommandParameter="1" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            FlowDirection="RightToLeft">
+                    <Button Content="保存" Command="{Binding SaveCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+
+                    <Button Content="取消" Command="{Binding CancelCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                </StackPanel>
             </DockPanel>
+            <!--#endregion-->
         </Grid>
     </Border>
 </Window>

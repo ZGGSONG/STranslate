@@ -1,9 +1,8 @@
 ﻿using STranslate.ViewModels.Preference;
-using System.Windows;
 
 namespace STranslate.Views.Preference;
 
-public partial class LangSettingView : Window
+public partial class LangSettingView
 {
     public LangSettingView(string lang)
     {
@@ -12,4 +11,6 @@ public partial class LangSettingView : Window
         var vm = new LangSettingViewModel(lang);
         DataContext = vm;
     }
+
+    public string LangResult { get; set; } = string.Empty;
 }

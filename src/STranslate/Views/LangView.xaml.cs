@@ -16,8 +16,8 @@ public partial class LangView : UserControl
 
         Singleton<CommonViewModel>.Instance.OnOftenUsedLang += () =>
         {
-            BindingOperations.GetMultiBindingExpression(SourceLangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
-            BindingOperations.GetMultiBindingExpression(TargetLangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
+            BindingOperations.GetMultiBindingExpression(SourceLangCb, ItemsControl.ItemsSourceProperty)?.UpdateTarget();
+            BindingOperations.GetMultiBindingExpression(TargetLangCb, ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         };
     }
 }

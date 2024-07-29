@@ -11,7 +11,7 @@ namespace STranslate.Helper;
 public class AnimationHelper
 {
     private static readonly Window MainView =
-        Application.Current.MainWindow ?? Application.Current.Windows.Cast<MainView>().First();
+        Application.Current.MainWindow ?? Application.Current.Windows.OfType<MainView>().First();
 
     private static bool _previousAction;
 

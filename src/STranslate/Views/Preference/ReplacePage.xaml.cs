@@ -13,6 +13,6 @@ public partial class ReplacePage
         DataContext = Singleton<ReplaceViewModel>.Instance;
 
         Singleton<CommonViewModel>.Instance.OnOftenUsedLang +=
-            () => BindingOperations.GetMultiBindingExpression(LangCb, ComboBox.ItemsSourceProperty)?.UpdateTarget();
+            () => BindingOperations.GetMultiBindingExpression(LangCb, ItemsControl.ItemsSourceProperty)?.UpdateTarget();
     }
 }
