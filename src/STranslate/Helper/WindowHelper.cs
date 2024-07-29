@@ -105,7 +105,7 @@ public class WindowHelper
 
     [DllImport("user32.DLL")]
     public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass,
-        string lpszWindow);
+        string? lpszWindow);
 
     [DllImport("user32.dll")]
     public static extern int GetClassName(IntPtr hWnd, StringBuilder lpString, int nMaxCount);

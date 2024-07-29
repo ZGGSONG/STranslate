@@ -383,9 +383,9 @@ public class ConfigHelper
         catch (Exception ex)
         {
             // 备份当前config
-            BackupCurrentConfig();
+            var path = BackupCurrentConfig();
 
-            //LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
+            LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
             return InitialConfig();
         }
     }
@@ -819,13 +819,11 @@ public class ReplaceConverter : JsonConverter<ReplaceProp>
             TargetLang = (LangEnum)targetLang
         };
 
-        var obj = jsonObject["ActiveService"]!.Value<object>();
-        if (obj is not null)
-        {
-            var service = JsonConvert.DeserializeObject<ITranslator>(obj.ToString(),
-                new JsonSerializerSettings { Converters = { new TranslatorConverter() } });
-            model.ActiveService = service;
-        }
+        var obj = jsonObject["ActiveService"]?.Value<object>();
+        if (obj is null) return model;
+        var service = JsonConvert.DeserializeObject<ITranslator>(obj.ToString() ?? string.Empty,
+            new JsonSerializerSettings { Converters = { new TranslatorConverter() } });
+        model.ActiveService = service;
 
         return model;
     }

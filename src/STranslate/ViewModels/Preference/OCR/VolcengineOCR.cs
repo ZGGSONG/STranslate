@@ -147,15 +147,15 @@ public partial class VolcengineOCR : ObservableObject, IOCR
         switch (parsedData)
         {
             case Root root when root.code != 10000:
-                return OcrResult.Fail(root.ResponseMetadata.Error.Message);
-            case Root root when root.data.line_texts.Count != root.data.line_rects.Count:
+                return OcrResult.Fail(root?.ResponseMetadata?.Error?.Message ?? "空Error信息");
+            case Root root when root?.data?.line_texts?.Count != root?.data?.line_rects?.Count:
                 return OcrResult.Fail("识别和位置结果数量不匹配\n原始数据:" + resp);
             case Root root:
             {
-                for (var i = 0; i < root.data.line_texts.Count; i++)
+                for (var i = 0; i < root?.data?.line_texts?.Count; i++)
                 {
                     var content = new OcrContent(root.data.line_texts[i]);
-                    Converter(root.data.line_rects[i]).ForEach(pg =>
+                    Converter(root?.data?.line_rects?[i]).ForEach(pg =>
                     {
                         //仅位置不全为0时添加
                         if (pg.X != pg.Y || pg.X != 0)
@@ -167,13 +167,13 @@ public partial class VolcengineOCR : ObservableObject, IOCR
                 break;
             }
             case RootMultiLang rootMultiLang when rootMultiLang.code != 10000:
-                return OcrResult.Fail(rootMultiLang.ResponseMetadata.Error.Message);
+                return OcrResult.Fail(rootMultiLang?.ResponseMetadata?.Error?.Message ?? "空Error信息");
             case RootMultiLang rootMultiLang:
             {
-                foreach (var item in rootMultiLang.data.ocr_infos)
+                foreach (var item in rootMultiLang?.data?.ocr_infos ?? [])
                 {
-                    var content = new OcrContent(item.text);
-                    Converter(item.rect).ForEach(pg =>
+                    var content = new OcrContent(item?.text ?? "");
+                    Converter(item?.rect).ForEach(pg =>
                     {
                         //仅位置不全为0时添加
                         if (pg.X != pg.Y || pg.X != 0)
@@ -215,8 +215,10 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
     #region Volcengine Offcial Support
 
-    public List<BoxPoint> Converter(Line_rectsItem rect)
+    private List<BoxPoint> Converter(Line_rectsItem? rect)
     {
+        if (rect is null)
+            return [];
         return
         [
             //left top
@@ -233,8 +235,10 @@ public partial class VolcengineOCR : ObservableObject, IOCR
         ];
     }
 
-    public List<BoxPoint> Converter(List<List<int>> rect)
+    private List<BoxPoint> Converter(List<List<int>>? rect)
     {
+        if (rect is null)
+            return [];
         return
         [
             //left top
@@ -259,38 +263,38 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
         /// <summary>
         /// </summary>
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
         /// <summary>
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
     }
 
     public class ResponseMetadata
     {
         /// <summary>
         /// </summary>
-        public string RequestId { get; set; }
+        public string? RequestId { get; set; }
 
         /// <summary>
         /// </summary>
-        public string Service { get; set; }
+        public string? Service { get; set; }
 
         /// <summary>
         /// </summary>
-        public string Region { get; set; }
+        public string? Region { get; set; }
 
         /// <summary>
         /// </summary>
-        public string Action { get; set; }
+        public string? Action { get; set; }
 
         /// <summary>
         /// </summary>
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         /// <summary>
         /// </summary>
-        public Error Error { get; set; }
+        public Error? Error { get; set; }
     }
 
     public class Line_rectsItem
@@ -336,41 +340,41 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
         /// <summary>
         /// </summary>
-        public string @char { get; set; }
+        public string? @char { get; set; }
     }
 
     public class Data
     {
         /// <summary>
         /// </summary>
-        public List<string> line_texts { get; set; }
+        public List<string>? line_texts { get; set; }
 
         /// <summary>
         /// </summary>
-        public List<Line_rectsItem> line_rects { get; set; }
+        public List<Line_rectsItem>? line_rects { get; set; }
 
         /// <summary>
         /// </summary>
-        public List<List<CharsItemItem>> chars { get; set; }
+        public List<List<CharsItemItem>>? chars { get; set; }
 
         /// <summary>
         /// </summary>
-        public List<List<List<int>>> polygons { get; set; }
+        public List<List<List<int>>>? polygons { get; set; }
     }
 
     public class Root
     {
         /// <summary>
         /// </summary>
-        public ResponseMetadata ResponseMetadata { get; set; }
+        public ResponseMetadata? ResponseMetadata { get; set; }
 
         /// <summary>
         /// </summary>
-        public string request_id { get; set; }
+        public string? request_id { get; set; }
 
         /// <summary>
         /// </summary>
-        public string time_elapsed { get; set; }
+        public string? time_elapsed { get; set; }
 
         /// <summary>
         /// </summary>
@@ -378,11 +382,11 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
         /// <summary>
         /// </summary>
-        public string message { get; set; }
+        public string? message { get; set; }
 
         /// <summary>
         /// </summary>
-        public Data data { get; set; }
+        public Data? data { get; set; }
     }
 
 
@@ -390,15 +394,15 @@ public partial class VolcengineOCR : ObservableObject, IOCR
     {
         /// <summary>
         /// </summary>
-        public ResponseMetadata ResponseMetadata { get; set; }
+        public ResponseMetadata? ResponseMetadata { get; set; }
 
         /// <summary>
         /// </summary>
-        public string request_id { get; set; }
+        public string? request_id { get; set; }
 
         /// <summary>
         /// </summary>
-        public string time_elapsed { get; set; }
+        public string? time_elapsed { get; set; }
 
         /// <summary>
         /// </summary>
@@ -406,18 +410,18 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
         /// <summary>
         /// </summary>
-        public string message { get; set; }
+        public string? message { get; set; }
 
         /// <summary>
         /// </summary>
-        public DataMultiLang data { get; set; }
+        public DataMultiLang? data { get; set; }
     }
 
     public class Ocr_infosItem
     {
         /// <summary>
         /// </summary>
-        public string lang { get; set; }
+        public string? lang { get; set; }
 
         /// <summary>
         /// </summary>
@@ -425,18 +429,18 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
         /// <summary>
         /// </summary>
-        public List<List<int>> rect { get; set; }
+        public List<List<int>>? rect { get; set; }
 
         /// <summary>
         /// </summary>
-        public string text { get; set; }
+        public string? text { get; set; }
     }
 
     public class DataMultiLang
     {
         /// <summary>
         /// </summary>
-        public List<Ocr_infosItem> ocr_infos { get; set; }
+        public List<Ocr_infosItem>? ocr_infos { get; set; }
     }
 
     #endregion Volcengine Offcial Support
