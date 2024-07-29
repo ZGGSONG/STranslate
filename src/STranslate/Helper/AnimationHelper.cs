@@ -99,7 +99,7 @@ public class AnimationHelper
         }
     }
 
-    internal static void AnimationCompleted(object? sender, EventArgs e)
+    private static void AnimationCompleted(object? sender, EventArgs e)
     {
         MainView.Visibility = Visibility.Hidden;
     }
