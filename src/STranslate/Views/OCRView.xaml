@@ -432,12 +432,6 @@
                         </MultiBinding>
                     </ComboBox.ItemsSource>
                 </ComboBox>
-
-                <Button Margin="10,0,10,10"
-                        Command=""
-                        Content="转换"
-                        ToolTip="原图/标注图转换"
-                        Visibility="Collapsed" />
             </StackPanel>
 
             <StackPanel Grid.Column="1"
