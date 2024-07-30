@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Win32;
+using ScreenGrab;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -43,11 +44,6 @@ public partial class NotifyIconViewModel : ObservableObject
     ///     图标、提示
     /// </summary>
     public NotifyIconModel NIModel { get; } = new();
-
-    /// <summary>
-    ///     是否可以调用截图View
-    /// </summary>
-    public bool CanOpenScreenshot { get; set; } = true;
 
     /// <summary>
     ///     屏蔽快捷键事件
@@ -105,7 +101,7 @@ public partial class NotifyIconViewModel : ObservableObject
                     if (string.IsNullOrWhiteSpace(content))
                         ScreenShotHandler();
                     else
-                        await ScreenshotCallback(BitmapUtil.ReadImageFile(content));
+                        await ScreenshotCallbackAsync(BitmapUtil.ReadImageFile(content));
                 }
             },
             { ExternalCallAction.translate_crossword, (view, _) => CrossWordTranslate(view) },
@@ -118,7 +114,7 @@ public partial class NotifyIconViewModel : ObservableObject
                     if (string.IsNullOrWhiteSpace(content))
                         OCRHandler();
                     else
-                        await OCRCallback(BitmapUtil.ReadImageFile(content));
+                        await OCRCallbackAsync(BitmapUtil.ReadImageFile(content));
                 }
             },
             {
@@ -132,7 +128,7 @@ public partial class NotifyIconViewModel : ObservableObject
                     else
                     {
                         var bitmap = BitmapUtil.ReadImageFile(content);
-                        if (bitmap != null) await SilentOCRCallback(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
+                        if (bitmap != null) await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
                     }
                 }
             },
@@ -263,9 +259,6 @@ public partial class NotifyIconViewModel : ObservableObject
 
     private void ScreenshotHandler(object? obj, Action? action)
     {
-        if (!CanOpenScreenshot)
-            return;
-
         switch (obj)
         {
             case null:
@@ -289,9 +282,6 @@ public partial class NotifyIconViewModel : ObservableObject
 
     private async Task ScreenshotHandlerAsync(object? obj, Action<CancellationToken?>? action, CancellationToken token)
     {
-        if (!CanOpenScreenshot)
-            return;
-
         switch (obj)
         {
             case null:
@@ -319,12 +309,8 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void QRCodeHandler()
     {
-        ScreenshotView view = new();
-        ShowAndActive(view);
-
-        view.BitmapCallback += tuple => QRCodeCallback(tuple.Item1);
-        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
-        view.InvokeCanOpen();
+        ScreenGrabber.OnCaptured = bitmap => QRCodeCallback(bitmap);
+        ScreenGrabber.Capture();
     }
 
     private void QRCodeCallback(Bitmap? bitmap)
@@ -353,15 +339,11 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void OCRHandler()
     {
-        ScreenshotView view = new();
-        ShowAndActive(view);
-
-        view.BitmapCallback += async tuple => await OCRCallback(tuple.Item1);
-        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
-        view.InvokeCanOpen();
+        ScreenGrabber.OnCaptured = async bitmap => await OCRCallbackAsync(bitmap);
+        ScreenGrabber.Capture();
     }
 
-    private async Task OCRCallback(Bitmap? bitmap)
+    private async Task OCRCallbackAsync(Bitmap? bitmap)
     {
         if (bitmap == null)
         {
@@ -388,15 +370,12 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void SilentOCRHandler()
     {
-        ScreenshotView view = new();
-        ShowAndActive(view);
-
-        view.BitmapCallback += async tuple => await SilentOCRCallback(tuple);
-        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
-        view.InvokeCanOpen();
+        var position = CommonUtil.GetPositionInfos().Item1;
+        ScreenGrabber.OnCaptured = async bitmap => await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, position.X, position.Y));
+        ScreenGrabber.Capture();
     }
 
-    private async Task SilentOCRCallback(Tuple<Bitmap, double, double> tuple)
+    private async Task SilentOCRCallbackAsync(Tuple<Bitmap, double, double> tuple)
     {
         try
         {
@@ -432,14 +411,11 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void ScreenShotHandler(CancellationToken? token = null)
     {
-        ScreenshotView view = new();
-        ShowAndActive(view);
-        view.BitmapCallback += async tuple => await ScreenshotCallback(tuple.Item1, token);
-        view.OnViewVisibilityChanged += o => CanOpenScreenshot = o;
-        view.InvokeCanOpen();
+        ScreenGrabber.OnCaptured = async bitmap => await ScreenshotCallbackAsync(bitmap, token);
+        ScreenGrabber.Capture();
     }
 
-    internal async Task ScreenshotCallback(Bitmap? bitmap, CancellationToken? token = null)
+    internal async Task ScreenshotCallbackAsync(Bitmap? bitmap, CancellationToken? token = null)
     {
         if (bitmap == null)
         {

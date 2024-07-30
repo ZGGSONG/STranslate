@@ -15,6 +15,7 @@ using Size = System.Drawing.Size;
 
 namespace STranslate.Views;
 
+[Obsolete]
 public partial class ScreenshotView : Window
 {
     private readonly Bitmap? _bitmap; // 截屏图片
