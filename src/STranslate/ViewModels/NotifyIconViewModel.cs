@@ -309,8 +309,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void QRCodeHandler()
     {
+        if (ScreenGrabber.IsCapturing) return;
         ScreenGrabber.OnCaptured = bitmap => QRCodeCallback(bitmap);
-        ScreenGrabber.Capture();
+        ScreenGrabber.Capture(_configHelper.CurrentConfig?.ShowAuxiliaryLine ?? true);
     }
 
     private void QRCodeCallback(Bitmap? bitmap)
@@ -339,8 +340,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void OCRHandler()
     {
+        if (ScreenGrabber.IsCapturing) return;
         ScreenGrabber.OnCaptured = async bitmap => await OCRCallbackAsync(bitmap);
-        ScreenGrabber.Capture();
+        ScreenGrabber.Capture(_configHelper.CurrentConfig?.ShowAuxiliaryLine ?? true);
     }
 
     private async Task OCRCallbackAsync(Bitmap? bitmap)
@@ -370,9 +372,10 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void SilentOCRHandler()
     {
+        if (ScreenGrabber.IsCapturing) return;
         var position = CommonUtil.GetPositionInfos().Item1;
         ScreenGrabber.OnCaptured = async bitmap => await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, position.X, position.Y));
-        ScreenGrabber.Capture();
+        ScreenGrabber.Capture(_configHelper.CurrentConfig?.ShowAuxiliaryLine ?? true);
     }
 
     private async Task SilentOCRCallbackAsync(Tuple<Bitmap, double, double> tuple)
@@ -411,8 +414,9 @@ public partial class NotifyIconViewModel : ObservableObject
 
     internal void ScreenShotHandler(CancellationToken? token = null)
     {
+        if (ScreenGrabber.IsCapturing) return;
         ScreenGrabber.OnCaptured = async bitmap => await ScreenshotCallbackAsync(bitmap, token);
-        ScreenGrabber.Capture();
+        ScreenGrabber.Capture(_configHelper.CurrentConfig?.ShowAuxiliaryLine ?? true);
     }
 
     internal async Task ScreenshotCallbackAsync(Bitmap? bitmap, CancellationToken? token = null)
