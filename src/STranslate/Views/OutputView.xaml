@@ -405,6 +405,8 @@
                             </Expander.Triggers>
                             <Grid>
                                 <TextBox PreviewMouseWheel="TextBox_PreviewMouseWheel"
+                                         dd:DragDrop.IsDragSource="False"
+                                         dd:DragDrop.IsDropTarget="False"
                                          Style="{DynamicResource TextBoxOutputStyle}"
                                          Tag="{Binding Data.IsSuccess}"
                                          Text="{Binding Data.Result}" />
