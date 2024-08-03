@@ -26,8 +26,6 @@ public partial class MainView : Window
         _vm.NotifyIconVM.OnExit += UnLoadPosition;
 
         InitializeComponent();
-
-        LoadPosition();
     }
 
     /// <summary>
@@ -78,19 +76,6 @@ public partial class MainView : Window
 
             LogService.Logger.Warn($"加载上次窗口位置({position})失败，启用默认位置");
         }
-
-        // 首次加载时是否隐藏界面
-        if (!(_configHelper.CurrentConfig?.IsHideOnStart ?? false))
-        {
-            // 尝试移动窗口到屏幕最上层
-            WindowHelper.SetWindowInForeground(this);
-            // 第一次加载页面激活输入框
-            (InputView.FindName("InputTB") as TextBox)?.Focus();
-        }
-        else
-        {
-            MainWindow.Visibility = Visibility.Hidden;
-        }
     }
 
     private void MainWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -118,6 +103,12 @@ public partial class MainView : Window
 
     protected override void OnSourceInitialized(EventArgs e)
     {
+        #region 加载缓存位置
+
+        LoadPosition();
+
+        #endregion
+
         #region 初始化失焦保持显示
 
         _configHelper.MainViewStayOperate(_configHelper.CurrentConfig?.StayMainViewWhenLoseFocus ?? false);
@@ -147,6 +138,13 @@ public partial class MainView : Window
 
             // 显示信息
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
+        }
+        else
+        {
+            // 尝试移动窗口到屏幕最上层
+            WindowHelper.SetWindowInForeground(this);
+            // 第一次加载页面激活输入框
+            (InputView.FindName("InputTB") as TextBox)?.Focus();
         }
 
         #endregion 开启时隐藏主界面
