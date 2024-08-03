@@ -85,7 +85,7 @@ public partial class App : Application
         ProcessStartInfo startInfo =
             new()
             {
-                FileName = $"{ConstStr.ExecutePath}\\{ConstStr.AppName}.exe",
+                FileName = $"{ConstStr.ExecutePath}{ConstStr.AppName}.exe",
                 UseShellExecute = true,
                 Verb = "runas" // 提升权限
             };

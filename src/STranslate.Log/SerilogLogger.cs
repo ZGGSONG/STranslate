@@ -12,7 +12,7 @@ public class SerilogLogger : BaseLogger
     {
         var logConfiguration = new LoggerConfiguration()
             .WriteTo.File(
-                "logs/log.log",
+                string.Format("{0}logs/log.log", AppDomain.CurrentDomain.BaseDirectory),    //使用绝对路径创建日志文件
                 //shared: true,
                 rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Verbose,

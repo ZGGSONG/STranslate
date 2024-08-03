@@ -74,7 +74,7 @@ public static class ConstStr
     /// <summary>
     ///     用户软件根目录
     /// </summary>
-    public static readonly string ExecutePath = Environment.CurrentDirectory;
+    public static readonly string ExecutePath = AppDomain.CurrentDomain.BaseDirectory; //Environment.CurrentDirectory使用批处理时会出现问题
 
     /// <summary>
     ///     用户配置目录
@@ -82,7 +82,7 @@ public static class ConstStr
     public static readonly string AppData =
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\{AppName}";
 
-    public static readonly string LogPath = $"{ExecutePath}\\logs";
+    public static readonly string LogPath = $"{ExecutePath}logs";
 
     public static readonly string CnfFullName = $"{AppData}\\{AppName.ToLower()}.json";
     public static readonly string DbFullName = $"{AppData}\\{AppName.ToLower()}.db";
@@ -99,10 +99,9 @@ public static class ConstStr
             .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
                 entry => entry.Value!.ToString() ?? ICON) ?? [];
 
-    public static readonly string PaddleOCRInterfaceDir = "inference";
-    public static readonly string PaddleOCRModelPath = $"{ExecutePath}\\{PaddleOCRInterfaceDir}\\";
+    public static readonly string PaddleOcrModelPath = $@"{ExecutePath}inference\";
 
-    public static readonly List<string> PaddleOCRDlls =
+    public static readonly List<string> PaddleOcrDlls =
     [
         "common.dll",
         "libiomp5md.dll",

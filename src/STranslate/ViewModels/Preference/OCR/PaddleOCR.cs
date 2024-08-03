@@ -60,18 +60,18 @@ public partial class PaddleOCR : ObservableObject, IOCR
             LangEnum.ja
                 => new OCRModelConfig
                 {
-                    det_infer = ConstStr.PaddleOCRModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
-                    rec_infer = ConstStr.PaddleOCRModelPath + "japan_PP-OCRv3_rec_infer",
-                    cls_infer = ConstStr.PaddleOCRModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
-                    keys = ConstStr.PaddleOCRModelPath + "japan_dict.txt"
+                    det_infer = ConstStr.PaddleOcrModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
+                    rec_infer = ConstStr.PaddleOcrModelPath + "japan_PP-OCRv3_rec_infer",
+                    cls_infer = ConstStr.PaddleOcrModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
+                    keys = ConstStr.PaddleOcrModelPath + "japan_dict.txt"
                 },
             LangEnum.ko
                 => new OCRModelConfig
                 {
-                    det_infer = ConstStr.PaddleOCRModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
-                    rec_infer = ConstStr.PaddleOCRModelPath + "korean_PP-OCRv3_rec_infer",
-                    cls_infer = ConstStr.PaddleOCRModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
-                    keys = ConstStr.PaddleOCRModelPath + "korean_dict.txt"
+                    det_infer = ConstStr.PaddleOcrModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
+                    rec_infer = ConstStr.PaddleOcrModelPath + "korean_PP-OCRv3_rec_infer",
+                    cls_infer = ConstStr.PaddleOcrModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
+                    keys = ConstStr.PaddleOcrModelPath + "korean_dict.txt"
                 },
             // 使用默认中英文V4模型
             _ => null
@@ -268,8 +268,9 @@ public partial class PaddleOCR : ObservableObject, IOCR
         return HasData;
 #endif
         HasData = true;
-        HasData &= Directory.Exists(ConstStr.PaddleOCRInterfaceDir);
-        ConstStr.PaddleOCRDlls.ForEach(x => HasData &= File.Exists(x));
+        // 使用绝对路径进行检查
+        HasData &= Directory.Exists(ConstStr.PaddleOcrModelPath);
+        ConstStr.PaddleOcrDlls.ForEach(x => HasData &= File.Exists(string.Format("{0}{1}", ConstStr.ExecutePath, x)));
         return HasData;
     }
 
@@ -284,8 +285,8 @@ public partial class PaddleOCR : ObservableObject, IOCR
     {
         try
         {
-            ConstStr.PaddleOCRDlls.ForEach(File.Delete);
-            Directory.Delete(ConstStr.PaddleOCRInterfaceDir, true);
+            ConstStr.PaddleOcrDlls.ForEach(File.Delete);
+            Directory.Delete(ConstStr.PaddleOcrModelPath, true);    // 使用绝对路径
 
             ToastHelper.Show("删除成功", WindowType.Preference);
 
