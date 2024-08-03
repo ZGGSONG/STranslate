@@ -34,6 +34,10 @@
                     Command="{Binding StickyCommand}"
                     CommandParameter="{Binding ElementName=MainWindow}"
                     Modifiers="Ctrl+Shift" />
+        <KeyBinding Key="M"
+                    Command="{Binding ResetLocationCommand}"
+                    CommandParameter="{Binding ElementName=MainWindow}"
+                    Modifiers="Ctrl+Shift" />
         <KeyBinding Key="R" Command="{Binding ChangeThemeCommand}" Modifiers="Ctrl+Shift" />
         <KeyBinding Key="Esc" Command="{Binding EscCommand}"
                     CommandParameter="{Binding ElementName=MainWindow, Mode=OneWay}" />

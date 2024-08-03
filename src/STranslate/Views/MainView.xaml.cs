@@ -31,17 +31,6 @@ public partial class MainView : Window
     }
 
     /// <summary>
-    ///     退出前取消事件订阅
-    /// </summary>
-    /// <param name="e"></param>
-    protected override void OnClosing(CancelEventArgs e)
-    {
-        _vm.NotifyIconVM.OnExit -= UnLoadPosition;
-
-        base.OnClosing(e);
-    }
-
-    /// <summary>
     ///     保存退出前位置
     /// </summary>
     private void UnLoadPosition()
@@ -65,6 +54,7 @@ public partial class MainView : Window
             var ret = true;
             ret &= double.TryParse(args[0], out var left);
             ret &= double.TryParse(args[1], out var top);
+            if (!ret) throw new Exception();
 
             // 判断是否在屏幕上
             // 增加偏移量，防止窗口被遮挡
@@ -76,7 +66,7 @@ public partial class MainView : Window
             Left = left;
             Top = top;
         }
-        catch (Exception)
+        catch
         {
             // 计算窗口左上角在屏幕上的位置
             var left = (SystemParameters.PrimaryScreenWidth - Width) / 2;

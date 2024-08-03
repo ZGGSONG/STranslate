@@ -512,6 +512,18 @@ public partial class MainViewModel : ObservableObject
         CommonSettingVM.SaveCommand.Execute(null);
     }
 
+    [RelayCommand]
+    private void ResetLocation(Window window)
+    {
+        // 计算窗口左上角在屏幕上的位置
+        var left = (SystemParameters.PrimaryScreenWidth - window.Width) / 2;
+        var top = (SystemParameters.PrimaryScreenHeight - 600) / 2;
+
+        // 设置窗口位置
+        window.Left = left;
+        window.Top = top;
+    }
+
     #region 显示图标
 
     [ObservableProperty] private bool _isShowClose;
