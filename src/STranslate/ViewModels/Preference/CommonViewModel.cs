@@ -293,6 +293,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
+    /// <summary>
+    ///     是否缓存位置
+    /// </summary>
+    [ObservableProperty] private bool _useCacheLocation = CurConfig?.UseCacheLocation ?? false;
+
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -450,6 +455,7 @@ public partial class CommonViewModel : ObservableObject
         ShowMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
         HotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
         OftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
+        UseCacheLocation = CurConfig?.UseCacheLocation ?? false;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

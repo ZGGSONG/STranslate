@@ -345,6 +345,11 @@ public class ConfigModel
     ///    常用语种
     /// </summary>
     public string OftenUsedLang { get; set; } = string.Empty;
+    
+    /// <summary>
+    ///     是否缓存位置
+    /// </summary>
+    public bool UseCacheLocation { get; set; }
 
     /// <summary>
     ///     替换翻译
@@ -448,6 +453,7 @@ public class ConfigModel
             ShowMainOcrLang = ShowMainOcrLang,
             HotkeyCopySuccessToast = HotkeyCopySuccessToast,
             OftenUsedLang = OftenUsedLang,
+            UseCacheLocation = UseCacheLocation,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

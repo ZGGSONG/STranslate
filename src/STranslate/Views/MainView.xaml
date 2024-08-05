@@ -15,6 +15,7 @@
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
         AllowsTransparency="True"
         Background="Transparent"
+        WindowStartupLocation="CenterScreen"
         Deactivated="MainWindow_Deactivated"
         FontFamily="{DynamicResource UserFont}"
         FontSize="{DynamicResource FontSize_Content}"

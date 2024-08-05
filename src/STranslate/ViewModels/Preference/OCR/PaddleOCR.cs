@@ -266,12 +266,13 @@ public partial class PaddleOCR : ObservableObject, IOCR
 #if DEBUG
         HasData = true;
         return HasData;
-#endif
+#else
         HasData = true;
         // 使用绝对路径进行检查
         HasData &= Directory.Exists(ConstStr.PaddleOcrModelPath);
         ConstStr.PaddleOcrDlls.ForEach(x => HasData &= File.Exists(string.Format("{0}{1}", ConstStr.ExecutePath, x)));
         return HasData;
+#endif
     }
 
     /// <summary>

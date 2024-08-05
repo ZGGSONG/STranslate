@@ -188,6 +188,13 @@
                                     </ComboBox.ItemsSource>
                                 </ComboBox>
                             </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="使用缓存位置" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="打开软件时是否使用上次打开位置" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding UseCacheLocation}" />
+                            </DockPanel>
                         </StackPanel>
                     </Border>
 

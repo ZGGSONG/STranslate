@@ -43,6 +43,8 @@ public partial class MainView : Window
     /// </summary>
     private void LoadPosition()
     {
+        if (!(_configHelper.CurrentConfig?.UseCacheLocation ?? false))
+            return;
         var position = _configHelper.CurrentConfig?.Position;
         try
         {
@@ -56,10 +58,16 @@ public partial class MainView : Window
 
             // 判断是否在屏幕上
             // 增加偏移量，防止窗口被遮挡
-            var hOffset = 50;   // 水平偏移量
-            var vOffset = 80;   // 垂直偏移量
-            _ = Screen.AllScreens.FirstOrDefault(screen => screen.WpfBounds.Contains(new Point(left + hOffset, top + vOffset))) ??
-                throw new Exception();
+            const double offsetRatio = 0.1; // 偏移比例
+            var screen = Screen.AllScreens.FirstOrDefault(screen =>
+            {
+                var workingArea = screen.WpfWorkingArea;
+                var hOffset = workingArea.Width * offsetRatio;
+                var vOffset = workingArea.Height * offsetRatio;
+                var point = new Point(left + hOffset, top + vOffset);
+                return screen.WpfBounds.Contains(point);
+            });
+            if (screen == null) throw new Exception();
 
             Left = left;
             Top = top;

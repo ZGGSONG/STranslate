@@ -251,6 +251,7 @@ public class ConfigHelper
         CurrentConfig.ShowMainOcrLang = model.ShowMainOcrLang;
         CurrentConfig.HotkeyCopySuccessToast = model.HotkeyCopySuccessToast;
         CurrentConfig.OftenUsedLang = model.OftenUsedLang;
+        CurrentConfig.UseCacheLocation = model.UseCacheLocation;
 
         //输出界面显示控制
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
@@ -727,6 +728,7 @@ public class ConfigHelper
             ShowMainOcrLang = false,
             HotkeyCopySuccessToast = true,
             OftenUsedLang = string.Empty,
+            UseCacheLocation = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [
