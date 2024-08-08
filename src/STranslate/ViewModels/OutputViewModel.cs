@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
@@ -26,6 +27,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
 
     [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? false;
 
     [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
 
@@ -293,6 +296,25 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         LogService.Logger.Debug("<Start> [Output]");
         InputSimulatorHelper.PrintText(str);
         LogService.Logger.Debug("<End> [Output]");
+    }
+    
+    [RelayCommand]
+    private void TranslateBack(object obj)
+    {
+        if (obj is not string str || string.IsNullOrEmpty(str)) return;
+        //根据Ctrl+LeftClick null is check database first
+        var dbFirst = (Keyboard.Modifiers & ModifierKeys.Control) <= 0 ? null : "";
+        _inputVm.InputContent = str;
+        CancelAndTranslate(dbFirst);
+    }
+
+    private void CancelAndTranslate(string? dbFirst)
+    {
+        ExpanderHeaderCancelCommand.Execute(null);
+        SelectedPromptCancelCommand.Execute(null);
+        SingleTranslateCancelCommand.Execute(null);
+        _inputVm.TranslateCancelCommand.Execute(null);
+        _inputVm.TranslateCommand.Execute(dbFirst);
     }
 
     #region gong-wpf-dragdrop interface implementation

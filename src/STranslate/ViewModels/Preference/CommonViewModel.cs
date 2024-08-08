@@ -155,6 +155,8 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
 
     [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
+    
+    [ObservableProperty] private bool _isShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? false;
 
     /// <summary>
     ///     是否显示主窗口提示词
@@ -449,6 +451,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? true;
         IsShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? true;
         IsShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? true;
+        IsShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? true;
         IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
         StayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
         MainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;

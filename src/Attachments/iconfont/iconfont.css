@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4294789 */
-  src: url('iconfont.woff2?t=1720854753726') format('woff2'),
-       url('iconfont.woff?t=1720854753726') format('woff'),
-       url('iconfont.ttf?t=1720854753726') format('truetype');
+  src: url('iconfont.woff2?t=1723084288942') format('woff2'),
+       url('iconfont.woff?t=1723084288942') format('woff'),
+       url('iconfont.ttf?t=1723084288942') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-huisu:before {
+  content: "\e687";
 }
 
 .icon-icon:before {

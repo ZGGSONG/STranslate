@@ -310,6 +310,8 @@ public class ConfigModel
     public bool IsShowSmallHumpCopyBtn { get; set; }
 
     public bool IsShowLargeHumpCopyBtn { get; set; }
+    
+    public bool IsShowTranslateBackBtn { get; set; }
 
     /// <summary>
     ///     全屏模式下忽略热键
@@ -447,6 +449,7 @@ public class ConfigModel
             IsShowSnakeCopyBtn = IsShowSnakeCopyBtn,
             IsShowSmallHumpCopyBtn = IsShowSmallHumpCopyBtn,
             IsShowLargeHumpCopyBtn = IsShowLargeHumpCopyBtn,
+            IsShowTranslateBackBtn = IsShowTranslateBackBtn,
             IgnoreHotkeysOnFullscreen = IgnoreHotkeysOnFullscreen,
             StayMainViewWhenLoseFocus = StayMainViewWhenLoseFocus,
             MainOcrLang = MainOcrLang,

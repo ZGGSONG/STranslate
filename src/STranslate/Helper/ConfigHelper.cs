@@ -245,6 +245,7 @@ public class ConfigHelper
         CurrentConfig.IsShowSnakeCopyBtn = model.IsShowSnakeCopyBtn;
         CurrentConfig.IsShowSmallHumpCopyBtn = model.IsShowSmallHumpCopyBtn;
         CurrentConfig.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
+        CurrentConfig.IsShowTranslateBackBtn = model.IsShowTranslateBackBtn;
         CurrentConfig.IgnoreHotkeysOnFullscreen = model.IgnoreHotkeysOnFullscreen;
         CurrentConfig.StayMainViewWhenLoseFocus = model.StayMainViewWhenLoseFocus;
         CurrentConfig.MainOcrLang = model.MainOcrLang;
@@ -253,11 +254,6 @@ public class ConfigHelper
         CurrentConfig.OftenUsedLang = model.OftenUsedLang;
         CurrentConfig.UseCacheLocation = model.UseCacheLocation;
 
-        //输出界面显示控制
-        Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = model.IsPromptToggleVisible;
-        Singleton<OutputViewModel>.Instance.IsShowSnakeCopyBtn = model.IsShowSnakeCopyBtn;
-        Singleton<OutputViewModel>.Instance.IsShowSmallHumpCopyBtn = model.IsShowSmallHumpCopyBtn;
-        Singleton<OutputViewModel>.Instance.IsShowLargeHumpCopyBtn = model.IsShowLargeHumpCopyBtn;
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
         ThemeOperate(CurrentConfig.ThemeType);
@@ -275,6 +271,13 @@ public class ConfigHelper
         ExternalCallOperate(CurrentConfig.ExternalCall, CurrentConfig.ExternalCallPort ?? 50020, true);
         MainViewShadowOperate(CurrentConfig.MainViewShadow);
         MainViewStayOperate(CurrentConfig.StayMainViewWhenLoseFocus);
+        //输出界面显示控制
+        OutputViewOperate(
+            CurrentConfig.IsPromptToggleVisible,
+            CurrentConfig.IsShowSnakeCopyBtn,
+            CurrentConfig.IsShowSmallHumpCopyBtn,
+            CurrentConfig.IsShowLargeHumpCopyBtn,
+            CurrentConfig.IsShowTranslateBackBtn);
 
         if (!isHotkeyConfSame)
             DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys,
@@ -637,6 +640,23 @@ public class ConfigHelper
         Singleton<NotifyIconViewModel>.Instance.InvokeForbiddenShotcuts(view, value);
     }
 
+    /// <summary>
+    ///     输出界面显示按钮控制
+    /// </summary>
+    /// <param name="isPromptToggleVisible"></param>
+    /// <param name="isShowSnakeCopyBtn"></param>
+    /// <param name="isShowSmallHumpCopyBtn"></param>
+    /// <param name="isShowLargeHumpCopyBtn"></param>
+    /// <param name="isShowTranslateBackBtn"></param>
+    private void OutputViewOperate(bool isPromptToggleVisible, bool isShowSnakeCopyBtn, bool isShowSmallHumpCopyBtn, bool isShowLargeHumpCopyBtn, bool isShowTranslateBackBtn)
+    {
+        Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = isPromptToggleVisible;
+        Singleton<OutputViewModel>.Instance.IsShowSnakeCopyBtn = isShowSnakeCopyBtn;
+        Singleton<OutputViewModel>.Instance.IsShowSmallHumpCopyBtn = isShowSmallHumpCopyBtn;
+        Singleton<OutputViewModel>.Instance.IsShowLargeHumpCopyBtn = isShowLargeHumpCopyBtn;
+        Singleton<OutputViewModel>.Instance.IsShowTranslateBackBtn = isShowTranslateBackBtn;
+    }
+
     #endregion 私有方法
 
     #region 字段 && 属性
@@ -723,6 +743,7 @@ public class ConfigHelper
             IsShowSnakeCopyBtn = false,
             IsShowSmallHumpCopyBtn = false,
             IsShowLargeHumpCopyBtn = false,
+            IsShowTranslateBackBtn = false,
             IgnoreHotkeysOnFullscreen = false,
             MainOcrLang = LangEnum.auto,
             ShowMainOcrLang = false,

@@ -496,6 +496,29 @@
                                             </MultiBinding>
                                         </Button.CommandParameter>
                                     </Button>
+                                    
+                                    <!-- 回译该结果 -->
+                                    <Button Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
+                                            Content="&#xe687;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="回译(Ctrl+点击:强制回译)">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
+                                                                       CommandParameter="{Binding Data.Result}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <Button.Visibility>
+                                            <MultiBinding
+                                                Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                <Binding Path="Data.Result" />
+                                                <Binding Source="{StaticResource OutputVm}"
+                                                         Path="Data.IsShowTranslateBackBtn" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
                                 </StackPanel>
                                 <!-- // 加载动画 // -->
                                 <control:LoadingUC IsAnimationPlaying="{Binding IsExecuting}"
