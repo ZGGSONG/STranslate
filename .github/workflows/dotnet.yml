@@ -41,7 +41,7 @@ jobs:
       with:
         tag_name: ${{ github.ref_name }}
         body_path: CHANGELOG.md
-        draft: false # 设置为 false 可立即发布版本
+        draft: true # 设置为 false 可立即发布版本
         files: |
           STranslate_${{ github.ref_name }}_win-x64.zip
           STranslate_${{ github.ref_name }}_win-x64_7z.7z
