@@ -506,7 +506,7 @@
                                             Content="&#xe687;"
                                             Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="回译(Ctrl+点击:强制回译)">
+                                            ToolTip="回译[强制回译](Ctrl+点击)">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
