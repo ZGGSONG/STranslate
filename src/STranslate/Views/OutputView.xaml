@@ -404,13 +404,49 @@
                                 </EventTrigger>
                             </Expander.Triggers>
                             <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition>
+                                        <RowDefinition.Style>
+                                            <Style TargetType="RowDefinition">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Data.IsSuccess}" Value="True">
+                                                        <Setter Property="Height" Value="*" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Data.IsSuccess}" Value="False">
+                                                        <Setter Property="Height" Value="*" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </RowDefinition.Style>
+                                    </RowDefinition>
+                                    <RowDefinition>
+                                        <RowDefinition.Style>
+                                            <Style TargetType="RowDefinition">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Data.IsSuccess}" Value="True">
+                                                        <Setter Property="Height" Value="35" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Data.IsSuccess}" Value="False">
+                                                        <Setter Property="Height" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </RowDefinition.Style>
+                                    </RowDefinition>
+                                </Grid.RowDefinitions>
                                 <TextBox PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                          dd:DragDrop.IsDragSource="False"
                                          dd:DragDrop.IsDropTarget="False"
+                                         VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch"
                                          Style="{DynamicResource TextBoxOutputStyle}"
                                          Tag="{Binding Data.IsSuccess}"
                                          Text="{Binding Data.Result}" />
-                                <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                <StackPanel Grid.Row="1"
+                                            Margin="5"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch"
+                                            Orientation="Horizontal">
                                     <!-- TTS -->
                                     <Button Margin="5,0,0,0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
