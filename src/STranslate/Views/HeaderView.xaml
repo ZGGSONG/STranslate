@@ -252,6 +252,17 @@
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                     Visibility="{Binding IsShowClose, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button HorizontalAlignment="Right"
+                    Content="&#xe676;"
+                    FontSize="21"
+                    Height="28"
+                    FontWeight="Bold"
+                    Width="28"
+                    Style="{DynamicResource ButtonCloseStyle}"
+                    ToolTip="最小化窗口"
+                    Command="{Binding MinimalCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Visibility="{Binding ShowMinimalBtn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button HorizontalAlignment="Right"
                     Command="{Binding NotifyIconVM.OpenPreferenceCommand}"
                     Content="&#xe656;"
                     Style="{DynamicResource ButtonIconStyle}"

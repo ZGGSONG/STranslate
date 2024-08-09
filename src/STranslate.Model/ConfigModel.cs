@@ -352,6 +352,12 @@ public class ConfigModel
     ///     是否缓存位置
     /// </summary>
     public bool UseCacheLocation { get; set; }
+    
+    /// <summary>
+    ///     是否显示主界面最小化按钮
+    ///     * 仅在开启丢失焦点不隐藏项时有效 <see cref="StayMainViewWhenLoseFocus"/>
+    /// </summary>
+    public bool ShowMinimalBtn { get; set; }
 
     /// <summary>
     ///     替换翻译
@@ -457,6 +463,7 @@ public class ConfigModel
             HotkeyCopySuccessToast = HotkeyCopySuccessToast,
             OftenUsedLang = OftenUsedLang,
             UseCacheLocation = UseCacheLocation,
+            ShowMinimalBtn = ShowMinimalBtn,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

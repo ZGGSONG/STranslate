@@ -253,6 +253,7 @@ public class ConfigHelper
         CurrentConfig.HotkeyCopySuccessToast = model.HotkeyCopySuccessToast;
         CurrentConfig.OftenUsedLang = model.OftenUsedLang;
         CurrentConfig.UseCacheLocation = model.UseCacheLocation;
+        CurrentConfig.ShowMinimalBtn = model.ShowMinimalBtn;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -750,6 +751,7 @@ public class ConfigHelper
             HotkeyCopySuccessToast = true,
             OftenUsedLang = string.Empty,
             UseCacheLocation = false,
+            ShowMinimalBtn = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

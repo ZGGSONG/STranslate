@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.Views;
 using STranslate.Views.Preference;
@@ -299,6 +300,12 @@ public partial class CommonViewModel : ObservableObject
     ///     是否缓存位置
     /// </summary>
     [ObservableProperty] private bool _useCacheLocation = CurConfig?.UseCacheLocation ?? false;
+    
+    /// <summary>
+    ///     是否显示主界面最小化按钮
+    ///     * 仅在开启丢失焦点不隐藏项时有效 <see cref="StayMainViewWhenLoseFocus"/>
+    /// </summary>
+    [ObservableProperty] private bool _showMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
 
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
@@ -382,6 +389,16 @@ public partial class CommonViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
+        // 保存时如果未开启丢失焦点不隐藏则关闭最小化按钮配置
+        if (!StayMainViewWhenLoseFocus && ShowMinimalBtn)
+        {
+            var mainView = Application.Current.MainWindow;
+            if (mainView is { WindowState: WindowState.Minimized })
+                mainView.WindowState = WindowState.Normal;
+            ShowMinimalBtn = false;
+            LogService.Logger.Info("关闭丢失焦点不隐藏取消显示最小化按钮");
+        }
+        
         if (ConfigHelper.WriteConfig(this))
         {
             //通知增量翻译配置到主界面
@@ -459,6 +476,7 @@ public partial class CommonViewModel : ObservableObject
         HotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
         OftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
         UseCacheLocation = CurConfig?.UseCacheLocation ?? false;
+        ShowMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

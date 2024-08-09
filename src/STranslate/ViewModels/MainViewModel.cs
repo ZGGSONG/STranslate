@@ -449,6 +449,7 @@ public partial class MainViewModel : ObservableObject
     internal void UpdateMainViewIcons()
     {
         IsShowClose = Config?.IsShowClose ?? false;
+        ShowMinimalBtn = Config?.ShowMinimalBtn ?? false;
         IsShowPreference = Config?.IsShowPreference ?? false;
         IsShowConfigureService = Config?.IsShowConfigureService ?? false;
         IsShowMousehook = Config?.IsShowMousehook ?? false;
@@ -524,9 +525,17 @@ public partial class MainViewModel : ObservableObject
         window.Top = top;
     }
 
+    [RelayCommand]
+    private void Minimal(Window window)
+    {
+        window.WindowState = WindowState.Minimized;
+    }
+
     #region 显示图标
 
     [ObservableProperty] private bool _isShowClose;
+    
+    [ObservableProperty] private bool _showMinimalBtn;
 
     [ObservableProperty] private bool _isShowPreference;
 

@@ -496,6 +496,14 @@
                                 <ToggleButton Height="26" HorizontalAlignment="Right"
                                               IsChecked="{Binding IsShowClose}" />
                             </DockPanel>
+                            
+                            <DockPanel Margin="20,10"
+                                       Visibility="{Binding StayMainViewWhenLoseFocus, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="显示最小化图标" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示最小化图标, 丢失焦点时主界面不隐藏选项" />
+                                <ToggleButton Height="26" HorizontalAlignment="Right"
+                                              IsChecked="{Binding ShowMinimalBtn}" />
+                            </DockPanel>
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="显示设置图标" />
