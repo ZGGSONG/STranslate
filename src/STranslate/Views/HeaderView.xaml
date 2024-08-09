@@ -257,7 +257,7 @@
                     Height="28"
                     FontWeight="Bold"
                     Width="28"
-                    Style="{DynamicResource ButtonCloseStyle}"
+                    Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="最小化窗口"
                     Command="{Binding MinimalCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
