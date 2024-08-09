@@ -92,7 +92,10 @@ public class BitmapUtil
     public static byte[] ConvertBitmap2Bytes(Bitmap bitmap)
     {
         using var stream = new MemoryStream();
-        bitmap.Save(stream, ImageFormat.Bmp);
+        using (bitmap)
+        {
+            bitmap.Save(stream, ImageFormat.Bmp);
+        }
         var data = new byte[stream.Length];
         stream.Seek(0, SeekOrigin.Begin);
         stream.Read(data, 0, Convert.ToInt32(stream.Length));
