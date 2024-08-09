@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{8B472084
 		publish.ps1 = publish.ps1
 		README.md = README.md
 		README_ZH.md = README_ZH.md
+		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.Log", "src\STranslate.Log\STranslate.Log.csproj", "{92255394-9202-40FF-941F-C617A9CC8739}"
