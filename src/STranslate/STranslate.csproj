@@ -3,12 +3,12 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-	<ApplicationIcon>..\STranslate.Style\Resources\favicon.ico</ApplicationIcon>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<ApplicationManifest>app.manifest</ApplicationManifest>
-	<PlatformTarget>x64</PlatformTarget>
-	<AssemblyVersion>1.1.7.0808</AssemblyVersion>
-	<FileVersion>1.1.7.0808</FileVersion>
+    <ApplicationIcon>..\STranslate.Style\Resources\favicon.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyVersion>1.1.8.0810</AssemblyVersion>
+    <FileVersion>1.1.8.0810</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>ZGGSONG</Copyright>
   </PropertyGroup>
