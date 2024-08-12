@@ -125,4 +125,12 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Views\Preference\OCR\GoogleOCRPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

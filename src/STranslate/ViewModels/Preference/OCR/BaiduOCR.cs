@@ -87,12 +87,17 @@ public partial class BaiduOCR : ObservableObject, IOCR
 
     private void ShowEncryptInfo(string? obj)
     {
-        if (obj == null)
-            return;
-
-        if (obj.Equals(nameof(AppID)))
-            IdHide = !IdHide;
-        else if (obj.Equals(nameof(AppKey))) KeyHide = !KeyHide;
+        switch (obj)
+        {
+            case null:
+                return;
+            case nameof(AppID):
+                IdHide = !IdHide;
+                break;
+            case nameof(AppKey):
+                KeyHide = !KeyHide;
+                break;
+        }
     }
 
     private RelayCommand<string>? showEncryptInfoCommand;
