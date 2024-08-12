@@ -105,6 +105,19 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
+                        <TextBlock FontWeight="Bold" Text="官网    " />
+                        <TextBlock Cursor="Hand" Text="https://stranslate.zggsong.com"
+                                   ToolTip="https://stranslate.zggsong.com/">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding OpenLinkCommand}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBlock}, Path=ToolTip}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                    </WrapPanel>
+
+                    <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold" Text="源码    " />
                         <TextBlock Cursor="Hand" Text="https://github.com/zggsong/stranslate"
                                    ToolTip="https://github.com/zggsong/stranslate">
