@@ -102,6 +102,11 @@ public partial class GoogleOCR : ObservableObject, IOCR
 
     #endregion Show/Hide Encrypt Info
 
+    /// <summary>
+    ///     是否使用短语位置
+    /// </summary>
+    [ObservableProperty] private bool _useWordPosition;
+
     #endregion Properties
 
     #region Interface Implementation
@@ -111,14 +116,10 @@ public partial class GoogleOCR : ObservableObject, IOCR
         const string path = "/v1/images:annotate";
         var query = $"?key={AppKey}";
         var uri = new Uri(Url);
-        if (uri.AbsolutePath != path)
-        {
-            uri = new Uri(uri, path);
-        }
-        if (uri.Query != query)
-        {
-            uri = new Uri(uri, query);
-        }
+        if (uri.AbsolutePath != path) uri = new Uri(uri, path);
+
+        if (uri.Query != query) uri = new Uri(uri, query);
+
         var base64Str = Convert.ToBase64String(bytes);
         const string ocrType = "TEXT_DETECTION";
         var req = new
@@ -149,18 +150,47 @@ public partial class GoogleOCR : ObservableObject, IOCR
         // 判断是否出错
         if (parsedData.Error != null) return OcrResult.Fail(parsedData.Error.Message);
 
-        var getRet = parsedData.Responses?.FirstOrDefault()?.TextAnnotations?.FirstOrDefault();
-        if (getRet == null) throw new Exception($"解析出错: {resp}");
         // 提取content的值
         var ocrResult = new OcrResult();
-        var content = new OcrContent(getRet.Description);
-        Converter(getRet.BoundingPoly?.Vertices).ForEach(pg =>
+
+        if (UseWordPosition)
         {
-            //仅位置不全为0时添加
-            if (pg.X != pg.Y || pg.X != 0)
-                content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-        });
-        ocrResult.OcrContents.Add(content);
+            var originStr = "";
+            var getRets = parsedData.Responses?.FirstOrDefault()?.TextAnnotations;
+            for (var i = 0; i < getRets?.Count; i++)
+            {
+                // 第一行为整体结果
+                if (i == 0)
+                {
+                    originStr = getRets[i].Description;
+                    continue;
+                }
+
+                var getRet = getRets[i];
+
+                var content = new OcrContent(getRet.Description);
+                Converter(getRet.BoundingPoly?.Vertices).ForEach(pg =>
+                {
+                    //仅位置不全为0时添加
+                    if (pg.X != pg.Y || pg.X != 0)
+                        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                });
+                ocrResult.OcrContents.Add(content);
+            }
+        }
+        else
+        {
+            var getRet = parsedData.Responses?.FirstOrDefault()?.TextAnnotations?.FirstOrDefault();
+            if (getRet == null) throw new Exception($"解析出错: {resp}");
+            var content = new OcrContent(getRet.Description);
+            Converter(getRet.BoundingPoly?.Vertices).ForEach(pg =>
+            {
+                //仅位置不全为0时添加
+                if (pg.X != pg.Y || pg.X != 0)
+                    content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+            });
+            ocrResult.OcrContents.Add(content);
+        }
 
         return ocrResult;
     }
@@ -177,7 +207,8 @@ public partial class GoogleOCR : ObservableObject, IOCR
             Url = Url,
             AppID = AppID,
             AppKey = AppKey,
-            Icons = Icons
+            Icons = Icons,
+            UseWordPosition = UseWordPosition
         };
     }
 
