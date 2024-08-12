@@ -16,7 +16,10 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        // 1. 检查是否已经具有管理员权限
+        // 开启日志服务
+        LogService.Register();
+
+        // 检查是否已经具有管理员权限
         if (NeedAdministrator())
             // 如果没有管理员权限，可以提示用户提升权限
             if (TryRunAsAdministrator())
@@ -26,7 +29,7 @@ public partial class App : Application
                 return;
             }
 
-        // 2. 多开检测
+        // 多开检测
         if (IsAnotherInstanceRunning())
         {
             MessageBox_S.Show($"{ConstStr.AppName} 应用程序已经在运行中。", "多开检测");
@@ -34,19 +37,16 @@ public partial class App : Application
             return;
         }
 
-        // 3. 开启日志服务
-        LogService.Register();
-
-        // 4. 开启监听系统代理
+        // 开启监听系统代理
         ProxyUtil.LoadDynamicProxy();
 
-        // 5. 软件配置涉及初始化操作
+        // 软件配置涉及初始化操作
         Singleton<ConfigHelper>.Instance.InitialOperate();
 
-        // 6. 启动应用程序
+        // 启动应用程序
         StartProgram();
 
-        // 7. 全局异常处理
+        // 全局异常处理
         ExceptionHandler();
     }
 
