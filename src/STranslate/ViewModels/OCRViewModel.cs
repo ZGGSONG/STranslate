@@ -388,7 +388,9 @@ public partial class OCRViewModel : WindowVMBase
         }
         catch (TaskCanceledException)
         {
-            LogService.Logger.Debug("OCR操作取消");
+            const string msg = "OCR操作取消或超时";
+            GetContent = msg;
+            LogService.Logger.Debug(msg);
         }
         catch (Exception ex)
         {

@@ -61,16 +61,6 @@
                                            Placeholder="https://vision.googleapis.com"
                                            Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
-            
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="位置类型: " ToolTip="获取结果时是否定位到每个词语的位置" />
-
-                <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding UseWordPosition}" />
-            </Grid>
 
             <Grid Margin="0,10">
                 <Grid.ColumnDefinitions>
@@ -101,6 +91,16 @@
                         CommandParameter="AppKey"
                         Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                         Style="{DynamicResource ButtonIconStyle}" />
+            </Grid>
+            
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="词语位置: " ToolTip="获取结果时是否定位到每个词语的位置" />
+
+                <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding UseWordPosition}" />
             </Grid>
 
             <Grid Margin="0,10">
