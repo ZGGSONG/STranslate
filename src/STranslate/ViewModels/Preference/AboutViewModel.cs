@@ -45,7 +45,7 @@ public partial class AboutViewModel : ObservableObject
     [RelayCommand]
     private void CleanLog()
     {
-        if (MessageBox_S.Show("确定要清理所有日志吗?", "警告", MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes)
+        if (MessageBox_S.Show("确定要清理所有日志吗?", "警告", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             return;
 
         LogService.UnRegister();
