@@ -27,7 +27,18 @@ public partial class TranslatorViewModel : ObservableObject
     [ObservableProperty] private BindingList<ITranslator> _curTransServiceList =
         Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
 
-    [ObservableProperty] private int _selectedIndex;
+    private int _selectedIndex;
+    public int SelectedIndex
+    {
+        get => _selectedIndex;
+        set
+        {
+            SetProperty(ref _selectedIndex, value);
+            OnSelectedServiceChanged?.Invoke();
+        }
+    }
+
+    public Action? OnSelectedServiceChanged;
 
     [ObservableProperty] private UIElement? _serviceContent;
 

@@ -12,7 +12,11 @@ public partial class TranslatorPage : UserControl
     public TranslatorPage()
     {
         InitializeComponent();
-        DataContext = Singleton<TranslatorViewModel>.Instance;
+        var vm = Singleton<TranslatorViewModel>.Instance;
+        // 设置滚动到当前选中的服务
+        vm.OnSelectedServiceChanged = () =>
+            CurrentServiceListBox.ScrollIntoView(CurrentServiceListBox.SelectedItem);
+        DataContext = vm;
     }
 
     public static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
