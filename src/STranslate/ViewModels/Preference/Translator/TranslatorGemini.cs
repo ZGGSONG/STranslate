@@ -263,7 +263,16 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
 
         // 构建请求数据
         var reqData = new
-            { contents = a_messages.Select(e => new { role = e.Role, parts = new[] { new { text = e.Content } } }) };
+        {
+            contents = a_messages.Select(e => new { role = e.Role, parts = new[] { new { text = e.Content } } }),
+            safetySettings = new[]
+            {
+                new { category = "HARM_CATEGORY_HARASSMENT", threshold = "BLOCK_NONE"},         //骚扰内容。
+                new { category = "HARM_CATEGORY_HATE_SPEECH", threshold = "BLOCK_NONE"},        //仇恨言论和内容。
+                new { category = "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold = "BLOCK_NONE"},  //露骨色情内容。
+                new { category = "HARM_CATEGORY_DANGEROUS_CONTENT", threshold = "BLOCK_NONE"},  //危险内容。
+            }
+        };
 
         // 为了流式输出与MVVM还是放这里吧
         var jsonData = JsonConvert.SerializeObject(reqData);
