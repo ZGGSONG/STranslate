@@ -259,7 +259,7 @@ public partial class InputViewModel : ObservableObject
     }
 
     /// <summary>
-    ///     插入数据库
+    ///     如果获取到缓存为空则插入翻译结果到数据库
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="history"></param>
