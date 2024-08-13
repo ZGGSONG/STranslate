@@ -237,7 +237,7 @@ public partial class InputViewModel : ObservableObject
     private bool GetCache(ITranslator service, List<ITranslator>? translatorList)
     {
         var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
-        if (cachedTranslator == null)
+        if (cachedTranslator?.Data is null || cachedTranslator.Data.IsSuccess == false)
             return false;
 
         service.Data = cachedTranslator.Data;
@@ -595,7 +595,8 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            translator.Data = data?.Result is null ? TranslationResult.Fail(ConstStr.INPUTERRORCONTENT) : data;
+            // 如果结果为空则设置为失败，移除提示信息，当前直接访问服务获取新结果
+            translator.Data = data?.Result is null ? TranslationResult.Fail("") : data;
         }
         catch (Exception)
         {
