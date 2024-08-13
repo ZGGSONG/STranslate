@@ -49,6 +49,8 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
     [ObservableProperty] private Guid _identify = Guid.Empty;
 
     [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
+    
+    [JsonIgnore] [ObservableProperty] private double _temperature = 1.0;
 
     [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
 
@@ -264,6 +266,9 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
             item.Content = item.Content.Replace("$source", source).Replace("$target", target)
                 .Replace("$content", content));
 
+        // 温度限定
+        var a_temperature = Math.Clamp(Temperature, 0, 2);
+
         #region 获取accesstoken
 
         var accessToken = string.Empty;
@@ -309,7 +314,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
         var reqData = new
         {
             messages = a_messages,
-            //temperature = 1.0,
+            temperature = a_temperature,
             stream = true
         };
 
@@ -365,7 +370,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
         catch (Exception ex)
         {
             var msg = ex.Message;
-            if (ex.InnerException is Exception innEx)
+            if (ex.InnerException is { } innEx)
             {
                 var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
                 msg += $" {innMsg?["error_msg"]}";
@@ -389,6 +394,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
         {
             Identify = Identify,
             Type = Type,
+            Temperature = Temperature,
             IsEnabled = IsEnabled,
             Icon = Icon,
             Name = Name,

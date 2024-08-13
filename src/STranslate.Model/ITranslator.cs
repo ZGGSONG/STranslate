@@ -45,4 +45,5 @@ public interface ITranslator : INotifyPropertyChanged
 
 public interface ITranslatorLlm : ITranslator
 {
+    double Temperature { get; set; }
 }
