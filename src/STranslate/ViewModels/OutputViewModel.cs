@@ -59,6 +59,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
     {
         var content = _inputVm.InputContent;
+        var originSource = _mainVm.SourceLang;
         var sourceLang = _mainVm.SourceLang;
         var targetLang = _mainVm.TargetLang;
         // 选中的目标语种
@@ -93,11 +94,11 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
                 //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
                 //Auto则转换为识别语种
                 sourceLang = sourceLang == LangEnum.auto ? identify : sourceLang;
-                await _inputVm.StreamHandlerAsync(service, _inputVm.InputContent, sourceLang, targetLang, token);
+                await _inputVm.StreamHandlerAsync(service, content, sourceLang, targetLang, token);
             }
             else
             {
-                await _inputVm.NonStreamHandlerAsync(service, _inputVm.InputContent, sourceLang, targetLang, token);
+                await _inputVm.NonStreamHandlerAsync(service, content, sourceLang, targetLang, token);
             }
         }
         catch (Exception exception)
@@ -133,7 +134,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         {
             if (service.IsExecuting) service.IsExecuting = false;
 
-            await HandleHistoryAsync(content, sourceLang, selectTargetLang);
+            await HandleHistoryAsync(content, originSource, selectTargetLang);
         }
     }
 
