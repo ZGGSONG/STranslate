@@ -61,13 +61,12 @@ public class SqlHelper
     }
 
     /// <summary>
-    ///     插入数据-异步
+    ///     插入数据(如果存在则更新)-异步
     /// </summary>
-    /// <param name="data"></param>
+    /// <param name="history"></param>
     /// <param name="count"></param>
-    /// <param name="forceWrite"></param>
     /// <returns></returns>
-    public static async Task InsertDataAsync(HistoryModel history, long count, bool forceWrite = false)
+    public static async Task InsertDataAsync(HistoryModel history, long count)
     {
         await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
         await connection.OpenAsync();
@@ -80,27 +79,24 @@ public class SqlHelper
             await connection.ExecuteAsync(sql, new { Limit = curCount - count + 1 });
         }
 
-        if (forceWrite)
-        {
-            // 使用 Dapper 的 FirstOrDefault 方法进行查询
-            var existingHistory = await connection.QueryFirstOrDefaultAsync<HistoryModel>(
-                "SELECT * FROM History WHERE SourceText = @SourceText AND SourceLang = @SourceLang AND TargetLang = @TargetLang",
-                new
-                {
-                    history.SourceText,
-                    history.SourceLang,
-                    history.TargetLang
-                }
-            );
-
-            if (existingHistory != null)
+        // 使用 Dapper 的 FirstOrDefault 方法进行查询
+        var existingHistory = await connection.QueryFirstOrDefaultAsync<HistoryModel>(
+            "SELECT * FROM History WHERE SourceText = @SourceText AND SourceLang = @SourceLang AND TargetLang = @TargetLang",
+            new
             {
-                // 使用 Dapper.Contrib 的 Update 方法更新数据
-                existingHistory.Time = history.Time;
-                existingHistory.Data = history.Data;
-                await connection.UpdateAsync(existingHistory);
-                return;
+                history.SourceText,
+                history.SourceLang,
+                history.TargetLang
             }
+        );
+
+        if (existingHistory != null)
+        {
+            // 使用 Dapper.Contrib 的 Update 方法更新数据
+            existingHistory.Time = history.Time;
+            existingHistory.Data = history.Data;
+            await connection.UpdateAsync(existingHistory);
+            return;
         }
 
         // 使用 Dapper.Contrib 的 Insert 方法插入数据

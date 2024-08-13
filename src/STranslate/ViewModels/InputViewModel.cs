@@ -95,7 +95,7 @@ public partial class InputViewModel : ObservableObject
             var history = await TranslateServiceAsync(obj, sourceLang, dbTarget, targetLang, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
-            await HandleHistoryAsync(obj, history, sourceLang, dbTarget, size);
+            await HandleHistoryAsync(history, sourceLang, dbTarget, size);
         }
         catch (OperationCanceledException)
         {
@@ -143,28 +143,37 @@ public partial class InputViewModel : ObservableObject
             }
         }
 
+        var allCache = true;
         await Parallel.ForEachAsync(
             services.Where(x => x.AutoExecute),
             token,
             async (service, cancellationToken) =>
             {
-                await TranslateServiceHandlerAsync(services, service, translatorCacheList, source, target,
+                allCache &= await TranslateServiceHandlerAsync(services, service, translatorCacheList, source, target,
                     _userSelectedLang, InputContent, cancellationToken, copyIndex);
             }
         );
+
+        // 只要有一个服务未获取到缓存则更新缓存
+        if (!allCache)
+        {
+            history = null;
+        }
+        
         return history;
     }
 
-    private async Task TranslateServiceHandlerAsync(List<ITranslator> services, ITranslator service,
+    private async Task<bool> TranslateServiceHandlerAsync(List<ITranslator> services, ITranslator service,
         List<ITranslator>? translatorList, LangEnum source, LangEnum target, LangEnum? userSelectedLang,
         string inputContent, CancellationToken cancellationToken, int copyIndex)
     {
+        var hasCache = false;
         try
         {
             service.IsExecuting = true;
-            if (translatorList != null)
+            if (GetCache(service, translatorList))
             {
-                UpdateServiceDataFromCache(service, translatorList);
+                hasCache = true;
                 goto copy;
             }
 
@@ -221,8 +230,21 @@ public partial class InputViewModel : ObservableObject
         {
             if (service.IsExecuting) service.IsExecuting = false;
         }
+
+        return hasCache;
     }
 
+    private bool GetCache(ITranslator service, List<ITranslator>? translatorList)
+    {
+        var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
+        if (cachedTranslator == null)
+            return false;
+
+        service.Data = cachedTranslator.Data;
+        return true;
+    }
+
+    [Obsolete]
     private void UpdateServiceDataFromCache(ITranslator service, List<ITranslator>? translatorList)
     {
         var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
@@ -267,7 +289,7 @@ public partial class InputViewModel : ObservableObject
     /// <param name="dbTarget"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    private async Task HandleHistoryAsync(object? obj, HistoryModel? history, LangEnum source, LangEnum dbTarget,
+    private async Task HandleHistoryAsync(HistoryModel? history, LangEnum source, LangEnum dbTarget,
         long size)
     {
         if (history is null && size > 0)
@@ -284,9 +306,8 @@ public partial class InputViewModel : ObservableObject
                 SourceText = InputContent,
                 Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
             };
-            var isForceWrite = obj != null;
             //翻译结果插入数据库
-            await SqlHelper.InsertDataAsync(data, size, isForceWrite);
+            await SqlHelper.InsertDataAsync(data, size);
         }
     }
 
