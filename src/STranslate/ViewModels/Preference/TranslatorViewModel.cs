@@ -105,6 +105,13 @@ public partial class TranslatorViewModel : ObservableObject
         }
     }
 
+    public void ExternalTogglePage(ITranslator? service)
+    {
+        if (service is null) return;
+        SelectedIndex = CurTransServiceList.IndexOf(service);
+        TogglePage(service);
+    }
+    
     [RelayCommand]
     private void TogglePage(ITranslator? service)
     {

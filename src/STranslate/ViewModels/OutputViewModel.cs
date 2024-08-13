@@ -13,6 +13,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
+using STranslate.Views;
 
 namespace STranslate.ViewModels;
 
@@ -258,6 +259,25 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         service.AutoExecute = !service.AutoExecute;
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
         tb.IsChecked = false;
+    }
+
+    [RelayCommand]
+    private void NavigateToService(List<object> list)
+    {
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
+            list.LastOrDefault() is not ToggleButton tb)
+            return;
+        tb.IsChecked = false;
+        
+        var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
+        view ??= new PreferenceView();
+        view.UpdateNavigation(PerferenceType.Service);
+        view.Show();
+        if (view.WindowState == WindowState.Minimized)
+            view.WindowState = WindowState.Normal;
+        view.Activate();
+        
+        Singleton<TranslatorViewModel>.Instance.ExternalTogglePage(service);
     }
 
     [RelayCommand]

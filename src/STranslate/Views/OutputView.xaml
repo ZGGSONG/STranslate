@@ -318,7 +318,7 @@
                                                StaysOpen="False">
                                             <Border Style="{DynamicResource BorderStyle}">
                                                 <StackPanel FlowDirection="LeftToRight">
-                                                    <!--// 自动翻译 //-->
+                                                    <!-- // 自动翻译 // -->
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
                                                         <i:Interaction.Triggers>
@@ -353,6 +353,35 @@
                                                                        HorizontalAlignment="Left"
                                                                        FontSize="{DynamicResource FontSize_Identify}"
                                                                        Text="自动执行" />
+                                                        </Grid>
+                                                    </Border>
+                                                    
+                                                    <!-- // 配置服务 // -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                            ToolTip="进入服务配置页面">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                <i:InvokeCommandAction
+                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       HorizontalAlignment="Left"
+                                                                       FontSize="{DynamicResource FontSize_Identify}"
+                                                                       Text="配置服务" />
                                                         </Grid>
                                                     </Border>
 
