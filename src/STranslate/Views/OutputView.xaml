@@ -322,7 +322,7 @@
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
                                                         <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                                 <i:InvokeCommandAction
                                                                     Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
@@ -389,7 +389,7 @@
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="进入服务配置页面">
                                                         <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                                 <i:InvokeCommandAction
                                                                     Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
@@ -420,7 +420,7 @@
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="立即关闭服务并保存至配置文件">
                                                         <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                                 <i:InvokeCommandAction
                                                                     Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
