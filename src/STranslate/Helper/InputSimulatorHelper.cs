@@ -33,13 +33,6 @@ public class InputSimulatorHelper
 
         foreach (var line in lines)
         {
-            // 长文本分割后的空字符串为换行，输出换行后跳过
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                InputSimulator.Keyboard.KeyPress(VirtualKeyCode.RETURN);
-                continue;
-            }
-
             InputSimulator.Keyboard.TextEntry(line);
             // 模拟按下回车键，除了最后一行
             if (!line.Equals(lines.Last())) InputSimulator.Keyboard.KeyPress(VirtualKeyCode.RETURN);
