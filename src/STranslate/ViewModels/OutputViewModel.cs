@@ -262,6 +262,17 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     }
 
     [RelayCommand]
+    private void ExecuteTranslate(List<object> list)
+    {
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
+            list.LastOrDefault() is not ToggleButton tb)
+            return;
+
+        SingleTranslateCommand.Execute(service);
+        tb.IsChecked = false;
+    }
+
+    [RelayCommand]
     private void NavigateToService(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||

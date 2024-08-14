@@ -356,6 +356,35 @@
                                                         </Grid>
                                                     </Border>
                                                     
+                                                    <!-- // 执行翻译 // -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                            ToolTip="执行当前服务翻译">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                                <i:InvokeCommandAction
+                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       HorizontalAlignment="Left"
+                                                                       FontSize="{DynamicResource FontSize_Identify}"
+                                                                       Text="执行翻译" />
+                                                        </Grid>
+                                                    </Border>
+                                                    
                                                     <!-- // 配置服务 // -->
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="进入服务配置页面">
