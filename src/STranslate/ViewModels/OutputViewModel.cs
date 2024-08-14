@@ -36,8 +36,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [ObservableProperty]
     private BindingList<ITranslator> _translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList ?? [];
 
-    [RelayCommand(IncludeCancelCommand = true)]
-    private async Task ExpanderHeaderAsync(List<object> e, CancellationToken token)
+    [RelayCommand]
+    private void ExpanderHeader(List<object> e)
     {
         // 使用模式匹配来简化类型检查和转换
         if (e.FirstOrDefault() is not Expander ep || e.LastOrDefault() is not ITranslator service) return;
@@ -53,7 +53,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         if (service.IsExecuting || !string.IsNullOrEmpty(service.Data.Result?.ToString())) return;
 
         // 执行翻译服务
-        await SingleTranslateAsync(service, token);
+        SingleTranslateCommand.Execute(service);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -233,8 +233,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         foreach (var item in Translators) item.Data = TranslationResult.Reset;
     }
 
-    [RelayCommand(IncludeCancelCommand = true)]
-    private async Task SelectedPromptAsync(List<object> list, CancellationToken token)
+    [RelayCommand]
+    private void SelectedPrompt(List<object> list)
     {
         if (list is not [ITranslator service, UserDefinePrompt ud, ToggleButton tb])
             return;
@@ -246,7 +246,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         // 输入内容不为空时才进行翻译
         if (!string.IsNullOrEmpty(_inputVm.InputContent))
-            await SingleTranslateAsync(service, token);
+            SingleTranslateCommand.Execute(service);
     }
 
     [RelayCommand]
@@ -331,8 +331,6 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
     private void CancelAndTranslate(string? dbFirst)
     {
-        ExpanderHeaderCancelCommand.Execute(null);
-        SelectedPromptCancelCommand.Execute(null);
         SingleTranslateCancelCommand.Execute(null);
         _inputVm.TranslateCancelCommand.Execute(null);
         _inputVm.TranslateCommand.Execute(dbFirst);

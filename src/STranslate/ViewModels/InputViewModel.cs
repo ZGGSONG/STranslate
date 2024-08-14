@@ -491,8 +491,6 @@ public partial class InputViewModel : ObservableObject
 
         IdentifyLanguage = lang.GetDescription();
         // 选择语言后自动翻译
-        Singleton<OutputViewModel>.Instance.ExpanderHeaderCancelCommand.Execute(null);
-        Singleton<OutputViewModel>.Instance.SelectedPromptCancelCommand.Execute(null);
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
         await TranslateCommand.ExecuteAsync(string.Empty);
