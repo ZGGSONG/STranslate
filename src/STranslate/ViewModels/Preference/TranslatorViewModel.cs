@@ -27,16 +27,7 @@ public partial class TranslatorViewModel : ObservableObject
     [ObservableProperty] private BindingList<ITranslator> _curTransServiceList =
         Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
 
-    private int _selectedIndex;
-    public int SelectedIndex
-    {
-        get => _selectedIndex;
-        set
-        {
-            SetProperty(ref _selectedIndex, value);
-            OnSelectedServiceChanged?.Invoke();
-        }
-    }
+    [ObservableProperty] private int _selectedIndex;
 
     public Action? OnSelectedServiceChanged;
 
@@ -86,6 +77,7 @@ public partial class TranslatorViewModel : ObservableObject
     private void ResetView(ActionType type = ActionType.Initialize)
     {
         ServiceCounter = CurTransServiceList.Count;
+        OnSelectedServiceChanged?.Invoke();
 
         if (ServiceCounter < 1)
             return;
@@ -121,6 +113,7 @@ public partial class TranslatorViewModel : ObservableObject
         if (service is null) return;
         SelectedIndex = CurTransServiceList.IndexOf(service);
         TogglePage(service);
+        OnSelectedServiceChanged?.Invoke();
     }
     
     [RelayCommand]
