@@ -8,7 +8,7 @@
              xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
              d:DataContext="{d:DesignInstance Type=vm:HotkeyViewModel}"
-             d:DesignHeight="450"
+             d:DesignHeight="800"
              d:DesignWidth="800"
              d:FontFamily="{DynamicResource UserFont}"
              d:FontSize="{DynamicResource FontSize_Content}"
@@ -41,20 +41,26 @@
             <Setter Property="Foreground" Value="{DynamicResource HotkeyCollisionForeground}" />
         </Style>
 
+        <!--#region TabControl Style-->
         <Style TargetType="{x:Type TabControl}">
             <Setter Property="Margin" Value="20 -20 20 20" />
             <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabControl}">
-                        <StackPanel>
-                            <TabPanel IsItemsHost="True" />
-                            <Border CornerRadius="6"
-                                BorderBrush="{DynamicResource BorderBrushColor}"
-                                BorderThickness="1">
-                                <ContentPresenter ContentSource="SelectedContent" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TabPanel IsItemsHost="True" Grid.Row="0" />
+                            <Border Grid.Row="1"
+                                    CornerRadius="6"
+                                    BorderThickness="1"
+                                    BorderBrush="{DynamicResource BorderBrushColor}">
+                                    <ContentPresenter ContentSource="SelectedContent" />
                             </Border>
-                        </StackPanel>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -113,217 +119,257 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion-->
+
+        <!--#region DataGrid Style-->
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserResizeColumns" Value="False"/>
+            <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBackground}" />
+            <Setter Property="HorizontalGridLinesBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource PopupDropShadowEffectColor}"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VerticalGridLinesBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="{DynamicResource PopupDropShadowEffectColor}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Margin" Value="0 5 0 8" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+        </Style>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+            <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <!--#endregion-->
     </UserControl.Resources>
-    <Border CornerRadius="5">
-        <Border Margin="8" Background="{DynamicResource BorderBackground}" CornerRadius="5">
-            <TabControl>
-                <TabItem Header="全局热键">
-                    <StackPanel Margin="0 20 0 0">
-                        <!-- // 输入翻译 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="输入翻译" />
-                            <TextBox Grid.Column="1" Text="{Binding InputHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+    <Border Margin="8" Background="{DynamicResource BorderBackground}" CornerRadius="5">
+        <TabControl>
+            <TabItem Header="全局热键">
+                <StackPanel Margin="0 20 0 0">
+                    <!-- // 输入翻译 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="输入翻译" />
+                        <TextBox Grid.Column="1" Text="{Binding InputHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.InputHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding InputHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 划词翻译 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="划词翻译" />
-                            <TextBox Grid.Column="1" Text="{Binding CrosswordHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 划词翻译 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="划词翻译" />
+                        <TextBox Grid.Column="1" Text="{Binding CrosswordHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.CrosswordHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding CrosswordHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 截图翻译 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="截图翻译" />
-                            <TextBox Grid.Column="1" Text="{Binding ScreenshotHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 截图翻译 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="截图翻译" />
+                        <TextBox Grid.Column="1" Text="{Binding ScreenshotHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.ScreenshotHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding ScreenshotHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 替换翻译 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="替换翻译" />
-                            <TextBox Grid.Column="1" Text="{Binding ReplaceHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 替换翻译 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="替换翻译" />
+                        <TextBox Grid.Column="1" Text="{Binding ReplaceHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.ReplaceHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding ReplaceHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 显示界面 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="显示界面" />
-                            <TextBox Grid.Column="1" Text="{Binding OpenHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 显示界面 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="显示界面" />
+                        <TextBox Grid.Column="1" Text="{Binding OpenHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.OpenHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding OpenHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 鼠标滑动 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="鼠标滑动" />
-                            <TextBox Grid.Column="1" Text="{Binding MousehookHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 鼠标滑动 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="鼠标滑动" />
+                        <TextBox Grid.Column="1" Text="{Binding MousehookHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.MousehookHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding MousehookHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 文字识别 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="文字识别" />
-                            <TextBox Grid.Column="1" Text="{Binding OcrHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 文字识别 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="文字识别" />
+                        <TextBox Grid.Column="1" Text="{Binding OcrHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.OcrHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding OcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 静默OCR // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="静默OCR" />
-                            <TextBox Grid.Column="1" Text="{Binding SilentOcrHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 静默OCR // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="静默OCR" />
+                        <TextBox Grid.Column="1" Text="{Binding SilentOcrHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.SilentOcrHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding SilentOcrHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 监听剪贴板 // -->
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="监听剪贴板" />
-                            <TextBox Grid.Column="1" Text="{Binding ClipboardMonitorHk.Content}">
-                                <i:Interaction.Behaviors>
-                                    <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
+                    <!-- // 监听剪贴板 // -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="监听剪贴板" />
+                        <TextBox Grid.Column="1" Text="{Binding ClipboardMonitorHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior Keydown="{Binding KeydownCommand}"
                                                              KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
                                                              Keyup="{Binding KeyupCommand}"
                                                              KeyupParam="{x:Static model:HotkeyEnum.ClipboardMonitorHk}" />
-                                </i:Interaction.Behaviors>
-                            </TextBox>
-                            <TextBlock Grid.Column="2"
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2"
                                Visibility="{Binding ClipboardMonitorHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-                        </Grid>
+                    </Grid>
 
-                        <!-- // 保存撤销 // -->
-                        <Grid Margin="20,30,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0"
+                    <!-- // 保存撤销 // -->
+                    <Grid Margin="20,30,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
                             MinWidth="160"
                             Margin="10,0"
                             HorizontalAlignment="Right"
                             Command="{Binding SaveCommand}"
                             Content="保存配置" />
-                            <Button Grid.Column="1"
+                        <Button Grid.Column="1"
                             MinWidth="160"
                             HorizontalAlignment="Left"
                             Command="{Binding ResetCommand}"
                             Content="恢复默认" />
-                        </Grid>
-                    </StackPanel>
-                </TabItem>
-                <TabItem Header="软件热键">
-
-                </TabItem>
-            </TabControl>
-        </Border>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="软件热键">
+                <DataGrid ItemsSource="{Binding SoftHotkeyList}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="快捷键" Binding="{Binding  Hotkey}"/>
+                        <DataGridTextColumn Header="功能" Binding="{Binding Name}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Border>
 </UserControl>
