@@ -118,7 +118,7 @@
         <Border Margin="8" Background="{DynamicResource BorderBackground}" CornerRadius="5">
             <TabControl>
                 <TabItem Header="全局热键">
-                    <StackPanel Margin="0 10 0 0">
+                    <StackPanel Margin="0 20 0 0">
                         <!-- // 输入翻译 // -->
                         <Grid Margin="0,0,0,15">
                             <Grid.ColumnDefinitions>
