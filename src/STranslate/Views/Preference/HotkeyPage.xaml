@@ -130,6 +130,7 @@
             <Setter Property="CanUserSortColumns" Value="False"/>
             <Setter Property="CanUserResizeRows" Value="False"/>
             <Setter Property="CanUserResizeColumns" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
             <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource BorderBackground}" />
             <Setter Property="HorizontalGridLinesBrush">
@@ -144,9 +145,25 @@
             </Setter>
         </Style>
         <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Margin" Value="0 5 0 8" />
+            <Setter Property="Margin" Value="5 5 0 8" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
             <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+            <!--<Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0,0,0,1">
+                                --><!-- 添加下边框 --><!--
+                                <ContentPresenter HorizontalAlignment="Left" 
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
         </Style>
         <Style TargetType="{x:Type DataGridRow}">
             <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
