@@ -136,7 +136,7 @@ public partial class MainView : Window
 
         if (_configHelper.CurrentConfig?.IsHideOnStart ?? false)
         {
-            Hide();
+            Visibility = Visibility.Hidden;
 
             var isAdmin = CommonUtil.IsUserAdministrator();
 
