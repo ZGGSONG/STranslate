@@ -407,6 +407,10 @@ public partial class NotifyIconViewModel : ObservableObject
                 CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
             LogService.Logger.Error("静默OCR失败", ex);
         }
+        finally
+        {
+            MemoUtil.FlushMemory();
+        }
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -474,7 +478,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
         catch (OperationCanceledException)
         {
-            LogService.Logger.Debug("Screenshoot Translate 取消");
+            LogService.Logger.Debug("Screenshot Translate 取消");
         }
         catch (Exception ex)
         {
@@ -483,6 +487,7 @@ public partial class NotifyIconViewModel : ObservableObject
         finally
         {
             IsScreenshotExecuting = false;
+            MemoUtil.FlushMemory();
         }
     }
 
