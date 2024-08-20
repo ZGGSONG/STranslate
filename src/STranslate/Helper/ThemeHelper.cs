@@ -7,7 +7,7 @@ namespace STranslate.Helper;
 public class ThemeHelper : IDisposable
 {
     private static readonly RegistryMonitor registryMonitor =
-        new(ConstStr.REGISTRYHIVE, ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
+        new(Constant.ThemeRegistryHive, Constant.ThemeRegistry, Constant.ThemeRegistryKey);
 
     public void Dispose()
     {
@@ -32,7 +32,7 @@ public class ThemeHelper : IDisposable
 
     private void InitialTheme()
     {
-        var SystemUsesLightTheme = RegistryMonitor.GetRegistryValue(ConstStr.REGISTRY, ConstStr.REGISTRYKEY);
+        var SystemUsesLightTheme = RegistryMonitor.GetRegistryValue(Constant.ThemeRegistry, Constant.ThemeRegistryKey);
         OnRegChanged(SystemUsesLightTheme);
     }
 
@@ -49,6 +49,6 @@ public class ThemeHelper : IDisposable
     private void OnRegChanged(string type)
     {
         Application.Current.Resources.MergedDictionaries.First().Source =
-            type == "1" ? ConstStr.LIGHTURI : ConstStr.DARKURI;
+            type == "1" ? Constant.LightUri : Constant.DarkUri;
     }
 }

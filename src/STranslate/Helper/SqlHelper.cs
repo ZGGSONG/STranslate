@@ -15,7 +15,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task InitializeDBAsync()
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         // 创建表的 SQL 语句
@@ -42,7 +42,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<bool> DeleteDataAsync(HistoryModel history)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         return await connection.DeleteAsync(history);
@@ -54,7 +54,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<bool> DeleteAllDataAsync()
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         return await connection.DeleteAllAsync<HistoryModel>();
@@ -68,7 +68,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task InsertDataAsync(HistoryModel history, long count)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         var curCount = await connection.QueryFirstOrDefaultAsync<long>("SELECT COUNT(Id) FROM History");
@@ -110,7 +110,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task UpdateAsync(HistoryModel history)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
         // 使用 Dapper 的 FirstOrDefault 方法进行查询
         var existingHistory = await connection.QueryFirstOrDefaultAsync<HistoryModel>(
@@ -141,7 +141,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<HistoryModel?> GetDataAsync(string content, string source, string target)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         // 使用 Dapper 执行查询数据的 SQL 语句
@@ -163,7 +163,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<IEnumerable<HistoryModel>?> GetDataAsync(string content, CancellationToken? token = null)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync(token ?? CancellationToken.None);
 
         // 构造查询语句
@@ -181,7 +181,7 @@ public class SqlHelper
     public static async Task<int> GetCountAsync()
     {
         // 可能会存在溢出的情况，不瞎搞出现不了，就酱，逃，欸，还是一开始没定义好
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         // 使用 Dapper 执行查询数据的 SQL 语句
@@ -194,7 +194,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<IEnumerable<HistoryModel>> GetDataAsync()
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         // 使用 Dapper 执行查询数据的 SQL 语句
@@ -209,7 +209,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<IEnumerable<HistoryModel>?> GetDataAsync(int pageNum, int pageSize)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         // 计算起始行号
@@ -231,7 +231,7 @@ public class SqlHelper
     /// <returns></returns>
     public static async Task<IEnumerable<HistoryModel>> GetDataCursorPagedAsync(int pageSize, DateTime cursor)
     {
-        await using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        await using var connection = new SqliteConnection(Constant.DbConnectionString);
         await connection.OpenAsync();
 
         // 使用 Dapper 进行分页查询
@@ -246,7 +246,7 @@ public class SqlHelper
 
     public static void InitializeDB()
     {
-        using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        using var connection = new SqliteConnection(Constant.DbConnectionString);
         connection.Open();
 
         // 创建表的 SQL 语句
@@ -273,7 +273,7 @@ public class SqlHelper
     /// <returns></returns>
     public static bool DeleteData(HistoryModel history)
     {
-        using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        using var connection = new SqliteConnection(Constant.DbConnectionString);
         connection.Open();
 
         return connection.Delete(history);
@@ -285,7 +285,7 @@ public class SqlHelper
     /// <returns></returns>
     public static bool DeleteAllData()
     {
-        using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        using var connection = new SqliteConnection(Constant.DbConnectionString);
         connection.Open();
 
         return connection.DeleteAll<HistoryModel>();
@@ -299,7 +299,7 @@ public class SqlHelper
     /// <param name="forceWrite"></param>
     public static void InsertData(HistoryModel history, long count, bool forceWrite = false)
     {
-        using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        using var connection = new SqliteConnection(Constant.DbConnectionString);
         connection.Open();
 
         var curCount = connection.QueryFirstOrDefault<long>("SELECT COUNT(*) FROM History");
@@ -343,7 +343,7 @@ public class SqlHelper
     /// <returns></returns>
     public static IEnumerable<HistoryModel> GetData()
     {
-        using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        using var connection = new SqliteConnection(Constant.DbConnectionString);
         connection.Open();
 
         // 使用 Dapper 执行查询数据的 SQL 语句
@@ -359,7 +359,7 @@ public class SqlHelper
     /// <returns></returns>
     public static HistoryModel? GetData(string content, string source, string target)
     {
-        using var connection = new SqliteConnection(ConstStr.DbConnectionString);
+        using var connection = new SqliteConnection(Constant.DbConnectionString);
         connection.Open();
 
         // 使用 Dapper 执行查询数据的 SQL 语句

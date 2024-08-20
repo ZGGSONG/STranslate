@@ -60,7 +60,7 @@ public class ShortcutUtil
     /// <summary>
     ///     当前程序二进制文件路径
     /// </summary>
-    private static readonly string AppPath = $"{ConstStr.ExecutePath}{ConstStr.AppName}.exe";
+    private static readonly string AppPath = $"{Constant.ExecutePath}{Constant.AppName}.exe";
 
     /// <summary>
     ///     组合的开机启动目录中的快捷方式路径

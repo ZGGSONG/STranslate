@@ -32,7 +32,7 @@ public partial class App
         // 多开检测
         if (IsAnotherInstanceRunning())
         {
-            MessageBox_S.Show($"{ConstStr.AppName} 应用程序已经在运行中。", "多开检测");
+            MessageBox_S.Show($"{Constant.AppName} 应用程序已经在运行中。", "多开检测");
             Current.Shutdown();
             return;
         }
@@ -62,7 +62,7 @@ public partial class App
         if (LogService.Logger != null)
         {
             var adminMsg = CommonUtil.IsUserAdministrator() ? "[Administrator]" : "";
-            LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Closed...\n");
+            LogService.Logger.Info($"{Constant.AppName}_{Constant.AppVersion}{adminMsg} Closed...\n");
             LogService.UnRegister();
         }
 
@@ -85,7 +85,7 @@ public partial class App
         ProcessStartInfo startInfo =
             new()
             {
-                FileName = $"{ConstStr.ExecutePath}{ConstStr.AppName}.exe",
+                FileName = $"{Constant.ExecutePath}{Constant.AppName}.exe",
                 UseShellExecute = true,
                 Verb = "runas" // 提升权限
             };
@@ -111,7 +111,7 @@ public partial class App
     private void StartProgram()
     {
         var adminMsg = CommonUtil.IsUserAdministrator() ? "[Administrator]" : "";
-        LogService.Logger.Info($"{ConstStr.AppName}_{ConstStr.AppVersion}{adminMsg} Opened...");
+        LogService.Logger.Info($"{Constant.AppName}_{Constant.AppVersion}{adminMsg} Opened...");
         new MainView().Show();
     }
 

@@ -82,7 +82,7 @@ public class ConfigModel
     /// <summary>
     ///     自定义字体
     /// </summary>
-    public string CustomFont { get; set; } = ConstStr.DEFAULTFONTNAME;
+    public string CustomFont { get; set; } = Constant.DefaultFontName;
 
     /// <summary>
     ///     鼠标划词取消后是否保留置顶

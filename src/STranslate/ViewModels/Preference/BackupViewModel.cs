@@ -130,7 +130,7 @@ public partial class BackupViewModel : ObservableObject
         {
             //文件内容读取
             var zipFilePath = saveFileDialog.FileName;
-            ZipUtil.CompressFile(ConstStr.CnfFullName, zipFilePath);
+            ZipUtil.CompressFile(Constant.CnfFullName, zipFilePath);
 
             ToastHelper.Show("导出成功", WindowType.Preference);
         }
@@ -152,13 +152,13 @@ public partial class BackupViewModel : ObservableObject
         // 压缩
         var fn = $"stranslate_backup_{DateTime.Now:yyyyMMddHHmmss}.zip";
         var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-        var tmpPath = Path.Combine(ConstStr.ExecutePath, rd);
+        var tmpPath = Path.Combine(Constant.ExecutePath, rd);
         //如果目录不存在则创建
         if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
 
         var zipFilePath = Path.Combine(tmpPath, fn);
         //先压缩文件到程序暂存目录
-        ZipUtil.CompressFile(ConstStr.CnfFullName, zipFilePath);
+        ZipUtil.CompressFile(Constant.CnfFullName, zipFilePath);
         try
         {
             // 上传
@@ -187,7 +187,7 @@ public partial class BackupViewModel : ObservableObject
 
         //创建暂存目录
         var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-        var tmpPath = Path.Combine(ConstStr.ExecutePath, rd);
+        var tmpPath = Path.Combine(Constant.ExecutePath, rd);
         if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
         try
         {
@@ -220,7 +220,7 @@ public partial class BackupViewModel : ObservableObject
         var absolutePath = cRet.Item2;
 
         var rd = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-        var tmpPath = Path.Combine(ConstStr.ExecutePath, rd);
+        var tmpPath = Path.Combine(Constant.ExecutePath, rd);
         //如果目录不存在则创建
         if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
 
@@ -235,7 +235,7 @@ public partial class BackupViewModel : ObservableObject
                 //添加结果到viewmodel
                 foreach (var res in ret.Resources)
                 {
-                    if (res.IsCollection || !res.Uri.Contains(ConstStr.CNFNAME))
+                    if (res.IsCollection || !res.Uri.Contains(Constant.CnfName))
                         continue;
 
                     var fullName = res.Uri.Replace(absolutePath, "").Trim('/');
@@ -265,7 +265,7 @@ public partial class BackupViewModel : ObservableObject
     private async Task<Tuple<WebDavClient, string, bool>> CreateClientAsync()
     {
         var uri = new Uri(WebDavUrl);
-        var absolutePath = $"{uri.LocalPath.TrimEnd('/')}/{ConstStr.CNFNAME}";
+        var absolutePath = $"{uri.LocalPath.TrimEnd('/')}/{Constant.CnfName}";
 
         var clientParams = new WebDavClientParams
         {
@@ -326,7 +326,7 @@ public partial class BackupViewModel : ObservableObject
             var root = new DirectoryInfo(tmpPath);
             foreach (var info in root.GetFiles())
             {
-                if (info.Extension != ConstStr.CNFEXTENSION && info.Name != ConstStr.CNFNAME)
+                if (info.Extension != Constant.CnfExtension && info.Name != Constant.CnfName)
                     continue;
 
                 ret = Singleton<ConfigHelper>.Instance.VerificateConfig(info.FullName);
@@ -334,7 +334,7 @@ public partial class BackupViewModel : ObservableObject
                 if (!ret)
                     return ret;
 
-                File.Move(info.FullName, ConstStr.CnfFullName, true);
+                File.Move(info.FullName, Constant.CnfFullName, true);
 
                 return ret;
             }

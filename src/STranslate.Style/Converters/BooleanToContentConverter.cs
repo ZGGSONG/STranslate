@@ -19,9 +19,9 @@ public class BooleanToContentConverter : IValueConverter
         if (value is bool bValue)
         {
             if (parameter.Equals("ICON"))
-                return bValue ? ConstStr.HIDEICON : ConstStr.SHOWICON;
+                return bValue ? Constant.HideIcon : Constant.ShowIcon;
             if (parameter.Equals("HISTORY"))
-                return bValue ? ConstStr.LOADING : ConstStr.UNLOADING;
+                return bValue ? Constant.Loading : Constant.Unloading;
         }
 
         return "";

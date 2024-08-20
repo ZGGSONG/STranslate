@@ -178,7 +178,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
     {
         ToastHelper.Show("解压资源包", WindowType.Preference);
 
-        var unresult = await Task.Run(() => ZipUtil.DecompressToDirectory(SourceFile, ConstStr.AppData), token);
+        var unresult = await Task.Run(() => ZipUtil.DecompressToDirectory(SourceFile, Constant.CnfPath), token);
 
         if (unresult)
         {
@@ -187,7 +187,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
             File.Delete(SourceFile);
 
             HasDB = true;
-            DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
+            DbFileSize = CommonUtil.CountSize(new FileInfo(Constant.EcDictPath).Length);
         }
         else
         {
@@ -201,7 +201,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
     {
         try
         {
-            File.Delete(ConstStr.ECDICTPath);
+            File.Delete(Constant.EcDictPath);
 
             ToastHelper.Show("删除成功", WindowType.Preference);
 
@@ -229,9 +229,9 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
     internal bool DataIntegrity()
     {
         HasDB = true;
-        HasDB &= File.Exists(ConstStr.ECDICTPath);
+        HasDB &= File.Exists(Constant.EcDictPath);
 
-        if (HasDB) DbFileSize = CommonUtil.CountSize(new FileInfo(ConstStr.ECDICTPath).Length);
+        if (HasDB) DbFileSize = CommonUtil.CountSize(new FileInfo(Constant.EcDictPath).Length);
 
         return HasDB;
     }
@@ -242,7 +242,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
 
     public async Task<TranslationResult> TranslateAsync(object request, CancellationToken token)
     {
-        if (!File.Exists(ConstStr.ECDICTPath)) return TranslationResult.Success("");
+        if (!File.Exists(Constant.EcDictPath)) return TranslationResult.Success("");
 
         if (request is not RequestModel req)
             throw new Exception($"请求数据出错: {request}");

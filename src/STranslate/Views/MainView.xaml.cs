@@ -142,7 +142,7 @@ public partial class MainView : Window
 
             var toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
 
-            var msg = string.Format(toolTipFormat, ConstStr.AppVersion);
+            var msg = string.Format(toolTipFormat, Constant.AppVersion);
 
             // 显示信息
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);

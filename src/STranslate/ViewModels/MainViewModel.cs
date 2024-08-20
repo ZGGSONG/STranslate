@@ -17,9 +17,9 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty] private bool _isDebug;
 
-    [ObservableProperty] private string _isEnableIncrementalTranslation = ConstStr.TAGFALSE;
+    [ObservableProperty] private string _isEnableIncrementalTranslation = Constant.TagFalse;
 
-    [ObservableProperty] private string _isEnableMosehook = ConstStr.TAGFALSE;
+    [ObservableProperty] private string _isEnableMosehook = Constant.TagFalse;
 
     /// <summary>
     ///     是否为重置状态
@@ -28,7 +28,7 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private bool _isOnlyShowRet;
 
-    [ObservableProperty] private string _isTopMost = ConstStr.TAGFALSE;
+    [ObservableProperty] private string _isTopMost = Constant.TagFalse;
 
     /// <summary>
     ///     原始语言
@@ -40,7 +40,7 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     private LangEnum _targetLang;
 
-    [ObservableProperty] private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
+    [ObservableProperty] private string _topMostContent = Constant.UnTopmostContent;
 
     public bool IsHotkeyCopy = false;
 
@@ -117,7 +117,7 @@ public partial class MainViewModel : ObservableObject
         SourceLang = Config?.SourceLang ?? LangEnum.auto;
         TargetLang = Config?.TargetLang ?? LangEnum.auto;
         InputVM.OftenUsedLang = Config?.OftenUsedLang ?? string.Empty;
-        IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? Constant.TagTrue : Constant.TagFalse;
         _ = ReplaceVm.ReplaceProp.ActiveService; //激活ReplaceVm
         _isInitial = false;
     }
@@ -178,7 +178,7 @@ public partial class MainViewModel : ObservableObject
     /// <param name="value"></param>
     private void OnIncrementalChanged(bool value)
     {
-        IsEnableIncrementalTranslation = value ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        IsEnableIncrementalTranslation = value ? Constant.TagTrue : Constant.TagFalse;
     }
 
     private void RegisterHotkeys(Window view)
@@ -297,13 +297,13 @@ public partial class MainViewModel : ObservableObject
     private void MouseHook(Window view)
     {
         NotifyIconVM.IsMousehook = !NotifyIconVM.IsMousehook;
-        IsEnableMosehook = NotifyIconVM.IsMousehook ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        IsEnableMosehook = NotifyIconVM.IsMousehook ? Constant.TagTrue : Constant.TagFalse;
 
         if (NotifyIconVM.IsMousehook)
         {
             view.Topmost = true;
-            IsTopMost = ConstStr.TAGTRUE;
-            TopMostContent = ConstStr.TOPMOSTCONTENT;
+            IsTopMost = Constant.TagTrue;
+            TopMostContent = Constant.TopmostContent;
             Singleton<MouseHookHelper>.Instance.MouseHookStart();
             Singleton<MouseHookHelper>.Instance.OnGetwordsHandler += OnGetwordsHandlerChanged;
             ToastHelper.Show("启用鼠标划词");
@@ -313,8 +313,8 @@ public partial class MainViewModel : ObservableObject
             if (!(Config?.IsKeepTopmostAfterMousehook ?? false))
             {
                 view.Topmost = false;
-                IsTopMost = ConstStr.TAGFALSE;
-                TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+                IsTopMost = Constant.TagFalse;
+                TopMostContent = Constant.UnTopmostContent;
             }
 
             Singleton<MouseHookHelper>.Instance.MouseHookStop();
@@ -332,7 +332,7 @@ public partial class MainViewModel : ObservableObject
             return;
 
         conf.IncrementalTranslation = !conf.IncrementalTranslation;
-        IsEnableIncrementalTranslation = conf?.IncrementalTranslation ?? false ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        IsEnableIncrementalTranslation = conf?.IncrementalTranslation ?? false ? Constant.TagTrue : Constant.TagFalse;
 
         common.IncrementalTranslation = !common.IncrementalTranslation;
         common.SaveCommand.Execute(null);
@@ -386,8 +386,8 @@ public partial class MainViewModel : ObservableObject
         }
 
         var tmp = !win.Topmost;
-        IsTopMost = tmp ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
-        TopMostContent = tmp ? ConstStr.TOPMOSTCONTENT : ConstStr.UNTOPMOSTCONTENT;
+        IsTopMost = tmp ? Constant.TagTrue : Constant.TagFalse;
+        TopMostContent = tmp ? Constant.TopmostContent : Constant.UnTopmostContent;
         win.Topmost = tmp;
 
         ToastHelper.Show(tmp ? "启用置顶" : "关闭置顶");
@@ -407,8 +407,8 @@ public partial class MainViewModel : ObservableObject
         }
 
         win.Topmost = false;
-        IsTopMost = ConstStr.TAGFALSE;
-        TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+        IsTopMost = Constant.TagFalse;
+        TopMostContent = Constant.UnTopmostContent;
         AnimationHelper.MainViewAnimation(false);
 
         //如果重复执行先取消上一步操作

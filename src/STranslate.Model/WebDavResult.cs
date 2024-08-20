@@ -17,7 +17,7 @@ public partial class WebDavResult : ObservableObject
     public WebDavResult(string fullName, bool isEdit = false)
     {
         FullName = fullName;
-        Name = FullName.Replace(ConstStr.ZIP, string.Empty);
+        Name = FullName.Replace(".zip", "");
         IsEdit = isEdit;
     }
 }

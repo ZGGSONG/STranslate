@@ -62,7 +62,7 @@ public partial class TTSOffline : ObservableObject, ITTS
         Type = type;
     }
 
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
+    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
     public async Task SpeakTextAsync(string text, CancellationToken token)
     {

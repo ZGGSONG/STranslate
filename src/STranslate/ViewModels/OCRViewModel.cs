@@ -40,7 +40,7 @@ public partial class OCRViewModel : WindowVMBase
 
     [ObservableProperty] private bool _isExecuting;
 
-    [ObservableProperty] private string _isTopMost = ConstStr.TAGFALSE;
+    [ObservableProperty] private string _isTopMost = Constant.TagFalse;
 
     /// <summary>
     ///     语言类型
@@ -55,7 +55,7 @@ public partial class OCRViewModel : WindowVMBase
 
     [ObservableProperty] private string _qrCodeContent = "";
 
-    [ObservableProperty] private string _topMostContent = ConstStr.UNTOPMOSTCONTENT;
+    [ObservableProperty] private string _topMostContent = Constant.UnTopmostContent;
 
     public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
@@ -102,8 +102,8 @@ public partial class OCRViewModel : WindowVMBase
     private void Sticky(Window win)
     {
         var tmp = !win.Topmost;
-        IsTopMost = tmp ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
-        TopMostContent = tmp ? ConstStr.TOPMOSTCONTENT : ConstStr.UNTOPMOSTCONTENT;
+        IsTopMost = tmp ? Constant.TagTrue : Constant.TagFalse;
+        TopMostContent = tmp ? Constant.TopmostContent : Constant.UnTopmostContent;
         win.Topmost = tmp;
 
         ToastHelper.Show(tmp ? "启用置顶" : "关闭置顶", WindowType.OCR);
@@ -131,8 +131,8 @@ public partial class OCRViewModel : WindowVMBase
     {
         Save();
         win.Topmost = false;
-        IsTopMost = ConstStr.TAGFALSE;
-        TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+        IsTopMost = Constant.TagFalse;
+        TopMostContent = Constant.UnTopmostContent;
 
         RecertificationCancelCommand.Execute(null);
         DropCancelCommand.Execute(null);

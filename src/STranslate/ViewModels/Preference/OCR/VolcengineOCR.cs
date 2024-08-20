@@ -70,7 +70,7 @@ public partial class VolcengineOCR : ObservableObject, IOCR
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string _appKey = string.Empty;
 
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
+    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
     /// <summary>
     ///     火山OCR版本(默认多语种OCR)

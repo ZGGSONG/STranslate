@@ -61,7 +61,7 @@ public partial class InputViewModel : ObservableObject
 
     private bool CanTranslate => !string.IsNullOrEmpty(InputContent);
 
-    [ObservableProperty] private string _placeholder = ConstStr.MAINVIEWPLACEHOLDER;
+    [ObservableProperty] private string _placeholder = Constant.PlaceHolderContent;
 
     [ObservableProperty] private bool _mainOcrLangVisibile;
 
@@ -600,7 +600,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             //兼容旧版结果
             var data = jsonObject["Data"]?.Value<string>();
-            translator.Data.Result = data ?? ConstStr.INPUTERRORCONTENT;
+            translator.Data.Result = data ?? Constant.InputErrorContent;
         }
 
         // 返回构建好的 translator 对象

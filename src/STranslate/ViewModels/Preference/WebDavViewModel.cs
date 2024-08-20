@@ -87,7 +87,7 @@ public partial class WebDavViewModel : WindowVMBase
         //保存原始名
         var originFullName = fullName;
         var selectedValue = Find(fullName);
-        var targetFullname = selectedValue.Name + ConstStr.ZIP;
+        var targetFullname = selectedValue.Name + ".zip";
 
         if (originFullName == targetFullname)
         {
@@ -121,7 +121,7 @@ public partial class WebDavViewModel : WindowVMBase
     private void Cancel(string fullName)
     {
         var selectedValue = Find(fullName);
-        selectedValue.Name = selectedValue.FullName.Replace(ConstStr.ZIP, string.Empty);
+        selectedValue.Name = selectedValue.FullName.Replace(".zip", "");
         selectedValue.IsEdit = false;
     }
 

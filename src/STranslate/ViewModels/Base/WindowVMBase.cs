@@ -7,7 +7,7 @@ namespace STranslate.ViewModels.Base;
 
 public partial class WindowVMBase : ObservableObject
 {
-    [ObservableProperty] private string _maximizeContent = ConstStr.MAXIMIZECONTENT;
+    [ObservableProperty] private string _maximizeContent = Constant.MaximizeContent;
 
     [RelayCommand]
     private void Minimize(Window win)
@@ -32,8 +32,8 @@ public partial class WindowVMBase : ObservableObject
     {
         MaximizeContent = win.WindowState switch
         {
-            WindowState.Normal => ConstStr.MAXIMIZECONTENT,
-            WindowState.Maximized => ConstStr.MAXIMIZEBACKCONTENT,
+            WindowState.Normal => Constant.MaximizeContent,
+            WindowState.Maximized => Constant.MaximizeBackContent,
             _ => MaximizeContent
         };
     }

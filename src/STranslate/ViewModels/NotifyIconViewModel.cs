@@ -25,7 +25,7 @@ public partial class NotifyIconViewModel : ObservableObject
 
     [ObservableProperty] private bool _isClipboardMonitor;
 
-    [ObservableProperty] private string _isEnabledClipboardMonitor = ConstStr.TAGFALSE;
+    [ObservableProperty] private string _isEnabledClipboardMonitor = Constant.TagFalse;
 
     [ObservableProperty] private bool _isForbiddenShortcuts;
 
@@ -162,7 +162,7 @@ public partial class NotifyIconViewModel : ObservableObject
 
         var toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
 
-        NIModel.ToolTip = string.Format(toolTipFormat, ConstStr.AppVersion, msg);
+        NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, msg);
     }
 
     [RelayCommand]
@@ -596,14 +596,14 @@ public partial class NotifyIconViewModel : ObservableObject
     public void ForbiddenShortcuts(bool isForbidden)
     {
         IsForbiddenShortcuts = isForbidden;
-        NIModel.IconSource = IsForbiddenShortcuts ? ConstStr.ICONFORBIDDEN : ConstStr.ICON;
+        NIModel.IconSource = IsForbiddenShortcuts ? Constant.IconForbidden : Constant.Icon;
     }
 
     [RelayCommand]
     private void ClipboardMonitor(Window view)
     {
         IsClipboardMonitor = !IsClipboardMonitor;
-        IsEnabledClipboardMonitor = IsClipboardMonitor ? ConstStr.TAGTRUE : ConstStr.TAGFALSE;
+        IsEnabledClipboardMonitor = IsClipboardMonitor ? Constant.TagTrue : Constant.TagFalse;
 
         if (IsClipboardMonitor)
         {
@@ -721,7 +721,7 @@ public partial class NotifyIconViewModel : ObservableObject
     /// <param name="e"></param>
     private void DisplaySettingsChanged(object? sender, EventArgs e)
     {
-        NIModel.IconSource = ConstStr.ICON;
+        NIModel.IconSource = Constant.Icon;
     }
 
     /// <summary>

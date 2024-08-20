@@ -76,7 +76,7 @@ public partial class TencentOCR : ObservableObject, IOCR
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string _appKey = string.Empty;
 
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
+    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
     #region Show/Hide Encrypt Info
 

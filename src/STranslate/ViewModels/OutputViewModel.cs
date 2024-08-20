@@ -316,8 +316,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             return;
 
         win.Topmost = false;
-        _mainVm.IsTopMost = ConstStr.TAGFALSE;
-        _mainVm.TopMostContent = ConstStr.UNTOPMOSTCONTENT;
+        _mainVm.IsTopMost = Constant.TagFalse;
+        _mainVm.TopMostContent = Constant.UnTopmostContent;
 
         LogService.Logger.Debug("<Start> [Animation]");
         await AnimationHelper.MainViewAnimationAsync(false);

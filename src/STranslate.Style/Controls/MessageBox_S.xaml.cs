@@ -15,7 +15,7 @@ public partial class MessageBox_S : Window
     /// <summary>
     ///     默认标题名为主项目程序集名称
     /// </summary>
-    private readonly string PruductName = ConstStr.AppName;
+    private readonly string PruductName = Constant.AppName;
 
     /// <summary>
     ///     默认按钮

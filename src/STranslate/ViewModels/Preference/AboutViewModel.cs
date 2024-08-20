@@ -25,14 +25,14 @@ public partial class AboutViewModel : ObservableObject
 
     public AboutViewModel()
     {
-        Version = ConstStr.AppVersion;
+        Version = Constant.AppVersion;
 
-        if (!Directory.Exists(ConstStr.LogPath))
+        if (!Directory.Exists(Constant.LogPath))
         {
-            Directory.CreateDirectory(ConstStr.LogPath);
+            Directory.CreateDirectory(Constant.LogPath);
         }
 
-        _logInfo = new DirectoryInfo(ConstStr.LogPath);
+        _logInfo = new DirectoryInfo(Constant.LogPath);
     }
 
     [RelayCommand]
@@ -72,12 +72,12 @@ public partial class AboutViewModel : ObservableObject
     [RelayCommand]
     private void OpenLog()
     {
-        Process.Start("explorer.exe", ConstStr.LogPath);
+        Process.Start("explorer.exe", Constant.LogPath);
     }
 
     [RelayCommand] private void OpenConfig()
     {
-        Process.Start("explorer.exe", ConstStr.AppData);
+        Process.Start("explorer.exe", Constant.CnfPath);
     }
 
     [RelayCommand]
@@ -123,9 +123,9 @@ public partial class AboutViewModel : ObservableObject
             try
             {
                 IsChecking = true;
-                var resp = await HttpUtil.GetAsync(ConstStr.GITHUBRELEASEURL, token);
+                var resp = await HttpUtil.GetAsync(Constant.GithubReleaseUrl, token);
                 var parseData = JsonConvert.DeserializeObject<JObject>(resp);
-                var remoteVer = parseData?["tag_name"]?.ToString() ?? ConstStr.DEFAULTVERSION;
+                var remoteVer = parseData?["tag_name"]?.ToString() ?? Constant.DefaultVersion;
                 var canUpdate = StringUtil.IsCanUpdate(remoteVer, Version);
                 MessageBox_S.Show(canUpdate ? $"检测到最新版本: {remoteVer}\n当前版本: {Version}" : "恭喜您, 当前为最新版本!");
             }

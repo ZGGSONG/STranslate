@@ -22,15 +22,15 @@ public class ConfigHelper
 
     public ConfigHelper()
     {
-        if (!Directory.Exists(ConstStr.AppData)) //判断是否存在
+        if (!Directory.Exists(Constant.CnfPath)) //判断是否存在
         {
-            Directory.CreateDirectory(ConstStr.AppData); //创建新路径
+            Directory.CreateDirectory(Constant.CnfPath); //创建新路径
             ShortcutUtil.SetDesktopShortcut(); //创建桌面快捷方式
         }
 
-        if (!File.Exists(ConstStr.CnfFullName)) //文件不存在
+        if (!File.Exists(Constant.CnfFullName)) //文件不存在
         {
-            FileStream fs = new(ConstStr.CnfFullName, FileMode.Create, FileAccess.ReadWrite);
+            FileStream fs = new(Constant.CnfFullName, FileMode.Create, FileAccess.ReadWrite);
             fs.Close();
             WriteConfig(InitialConfig());
         }
@@ -379,7 +379,7 @@ public class ConfigHelper
                 Converters =
                     { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() }
             };
-            var content = File.ReadAllText(ConstStr.CnfFullName);
+            var content = File.ReadAllText(Constant.CnfFullName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                          throw new Exception("反序列化失败...");
             Decryption(config);
@@ -407,11 +407,11 @@ public class ConfigHelper
     /// </summary>
     private string BackupCurrentConfig()
     {
-        var backupFilePath = $"{ConstStr.AppData}\\{ConstStr.AppName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
-        File.Move(ConstStr.CnfFullName, backupFilePath, true);
+        var backupFilePath = $"{Constant.CnfPath}\\{Constant.AppName.ToLower()}_{DateTime.Now:yyyyMMdd_HHmmssfff}.json";
+        File.Move(Constant.CnfFullName, backupFilePath, true);
 
         // 重新创建配置文件
-        FileStream fs = new(ConstStr.CnfFullName, FileMode.Create, FileAccess.ReadWrite);
+        FileStream fs = new(Constant.CnfFullName, FileMode.Create, FileAccess.ReadWrite);
         fs.Close();
         WriteConfig(InitialConfig());
 
@@ -422,7 +422,7 @@ public class ConfigHelper
     {
         var copy = conf.Clone();
         Encryption(copy);
-        File.WriteAllText(ConstStr.CnfFullName, JsonConvert.SerializeObject(copy, Formatting.Indented));
+        File.WriteAllText(Constant.CnfFullName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
 
     /// <summary>
@@ -560,16 +560,16 @@ public class ConfigHelper
     {
         try
         {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] =
-                CurrentConfig!.CustomFont.Equals(ConstStr.DEFAULTFONTNAME)
-                    ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+            Application.Current.Resources[Constant.UserDefineFontKey] =
+                CurrentConfig!.CustomFont.Equals(Constant.DefaultFontName)
+                    ? Application.Current.Resources[Constant.DefaultFontName]
                     : new FontFamily(CurrentConfig!.CustomFont);
         }
         catch (Exception)
         {
-            Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] =
-                Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
-            CurrentConfig!.CustomFont = ConstStr.DEFAULTFONTNAME;
+            Application.Current.Resources[Constant.UserDefineFontKey] =
+                Application.Current.Resources[Constant.DefaultFontName];
+            CurrentConfig!.CustomFont = Constant.DefaultFontName;
         }
     }
 
@@ -595,7 +595,7 @@ public class ConfigHelper
     private void PlaceholderOperate(bool isShowMainPlaceholder)
     {
         Singleton<InputViewModel>.Instance.Placeholder =
-            isShowMainPlaceholder ? ConstStr.MAINVIEWPLACEHOLDER : string.Empty;
+            isShowMainPlaceholder ? Constant.PlaceHolderContent : string.Empty;
     }
 
     /// <summary>
@@ -686,17 +686,17 @@ public class ConfigHelper
     private ConfigModel InitialConfig()
     {
         var hk = new Hotkeys();
-        hk.InputTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.A, ConstStr.DEFAULTINPUTHOTKEY);
-        hk.CrosswordTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.D, ConstStr.DEFAULTCROSSWORDHOTKEY);
-        hk.ScreenShotTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.S, ConstStr.DEFAULTSCREENSHOTHOTKEY);
-        hk.OpenMainWindow.Update(KeyModifiers.MOD_ALT, KeyCodes.G, ConstStr.DEFAULTOPENHOTKEY);
-        hk.ReplaceTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.F, ConstStr.DEFAULTREPLACEHOTKEY);
+        hk.InputTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.A, Constant.DefaultInputHotkey);
+        hk.CrosswordTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.D, Constant.DefaultCrosswordHotkey);
+        hk.ScreenShotTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.S, Constant.DefaultScreenshotHotkey);
+        hk.OpenMainWindow.Update(KeyModifiers.MOD_ALT, KeyCodes.G, Constant.DefaultOpenHotkey);
+        hk.ReplaceTranslate.Update(KeyModifiers.MOD_ALT, KeyCodes.F, Constant.DefaultReplaceHotkey);
         hk.MousehookTranslate.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.D,
-            ConstStr.DEFAULTMOUSEHOOKHOTKEY);
-        hk.OCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.S, ConstStr.DEFAULTOCRHOTKEY);
-        hk.SilentOCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.F, ConstStr.DEFAULTSILENTOCRHOTKEY);
+            Constant.DefaultMouseHookHotkey);
+        hk.OCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.S, Constant.DefaultOcrHotkey);
+        hk.SilentOCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.F, Constant.DefaultSilentOcrHotkey);
         hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A,
-            ConstStr.DEFAULTCLIPBOARDMONITORHOTKEY);
+            Constant.DefaultClipboardMonitorHotkey);
         return new ConfigModel
         {
             HistorySize = 100,
@@ -711,7 +711,7 @@ public class ConfigHelper
             IsRemoveLineBreakGettingWords = false,
             IsRemoveLineBreakGettingWordsOCR = false,
             DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
-            CustomFont = ConstStr.DEFAULTFONTNAME,
+            CustomFont = Constant.DefaultFontName,
             IsKeepTopmostAfterMousehook = false,
             IsShowClose = false,
             IsShowPreference = false,

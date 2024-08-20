@@ -38,7 +38,7 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _copyResultAfterTranslateIndex = CurConfig?.CopyResultAfterTranslateIndex ?? 0;
 
-    private string _customFont = CurConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
+    private string _customFont = CurConfig?.CustomFont ?? Constant.DefaultFontName;
 
     /// <summary>
     ///     语种识别类型
@@ -314,7 +314,7 @@ public partial class CommonViewModel : ObservableObject
         // 获取系统已安装字体
         GetFontFamilys = Fonts.SystemFontFamilies.Select(font => font.Source).ToList();
         // 判断是否已安装软件字体，没有则插入到列表中
-        if (!GetFontFamilys.Contains(ConstStr.DEFAULTFONTNAME)) GetFontFamilys.Insert(0, ConstStr.DEFAULTFONTNAME);
+        if (!GetFontFamilys.Contains(Constant.DefaultFontName)) GetFontFamilys.Insert(0, Constant.DefaultFontName);
 
         // 加载历史记录类型
         LoadHistorySizeType();
@@ -360,16 +360,16 @@ public partial class CommonViewModel : ObservableObject
             try
             {
                 // 切换字体
-                Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] = value.Equals(ConstStr.DEFAULTFONTNAME)
-                    ? Application.Current.Resources[ConstStr.DEFAULTFONTNAME]
+                Application.Current.Resources[Constant.UserDefineFontKey] = value.Equals(Constant.DefaultFontName)
+                    ? Application.Current.Resources[Constant.DefaultFontName]
                     : new FontFamily(value);
                 _customFont = value;
             }
             catch (Exception)
             {
-                Application.Current.Resources[ConstStr.USERDEFINEFONTKEY] =
-                    Application.Current.Resources[ConstStr.DEFAULTFONTNAME];
-                _customFont = ConstStr.DEFAULTFONTNAME;
+                Application.Current.Resources[Constant.UserDefineFontKey] =
+                    Application.Current.Resources[Constant.DefaultFontName];
+                _customFont = Constant.DefaultFontName;
             }
 
             OnPropertyChanged();
@@ -426,7 +426,7 @@ public partial class CommonViewModel : ObservableObject
         IsRemoveLineBreakGettingWords = CurConfig?.IsRemoveLineBreakGettingWords ?? false;
         IsRemoveLineBreakGettingWordsOCR = CurConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
         DoubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
-        CustomFont = CurConfig?.CustomFont ?? ConstStr.DEFAULTFONTNAME;
+        CustomFont = CurConfig?.CustomFont ?? Constant.DefaultFontName;
         IsKeepTopmostAfterMousehook = CurConfig?.IsKeepTopmostAfterMousehook ?? false;
         IsShowClose = CurConfig?.IsShowClose ?? false;
         IsShowPreference = CurConfig?.IsShowPreference ?? false;

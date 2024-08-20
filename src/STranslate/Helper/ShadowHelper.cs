@@ -12,13 +12,13 @@ public class ShadowHelper
     private static readonly Collection<ResourceDictionary> AllDict = Application.Current.Resources.MergedDictionaries;
 
     private static ResourceDictionary _oldResource =
-        AllDict.First(x => x.Source.AbsoluteUri == ConstStr.WindowResourcePath);
+        AllDict.First(x => x.Source.AbsoluteUri == Constant.WindowResourcePath);
 
     private static ResourceDictionary GetResourceDictionary()
     {
         var dict = new ResourceDictionary
         {
-            Source = new Uri(ConstStr.WindowResourcePath, UriKind.Absolute)
+            Source = new Uri(Constant.WindowResourcePath, UriKind.Absolute)
         };
         return dict;
     }
@@ -90,7 +90,7 @@ public class ShadowHelper
     public static void ShadowEffect(bool mainViewShadow)
     {
         var dict = GetResourceDictionary();
-        if (dict[ConstStr.WindowResourceName] is not System.Windows.Style windowStyle) return;
+        if (dict[Constant.WindowResourceName] is not System.Windows.Style windowStyle) return;
 
         if (mainViewShadow)
             AddShadow(dict, windowStyle);

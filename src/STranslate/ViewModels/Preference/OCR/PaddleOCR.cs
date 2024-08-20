@@ -60,18 +60,18 @@ public partial class PaddleOCR : ObservableObject, IOCR
             LangEnum.ja
                 => new OCRModelConfig
                 {
-                    det_infer = ConstStr.PaddleOcrModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
-                    rec_infer = ConstStr.PaddleOcrModelPath + "japan_PP-OCRv3_rec_infer",
-                    cls_infer = ConstStr.PaddleOcrModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
-                    keys = ConstStr.PaddleOcrModelPath + "japan_dict.txt"
+                    det_infer = Constant.PaddleOcrModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
+                    rec_infer = Constant.PaddleOcrModelPath + "japan_PP-OCRv3_rec_infer",
+                    cls_infer = Constant.PaddleOcrModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
+                    keys = Constant.PaddleOcrModelPath + "japan_dict.txt"
                 },
             LangEnum.ko
                 => new OCRModelConfig
                 {
-                    det_infer = ConstStr.PaddleOcrModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
-                    rec_infer = ConstStr.PaddleOcrModelPath + "korean_PP-OCRv3_rec_infer",
-                    cls_infer = ConstStr.PaddleOcrModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
-                    keys = ConstStr.PaddleOcrModelPath + "korean_dict.txt"
+                    det_infer = Constant.PaddleOcrModelPath + "Multilingual_PP-OCRv3_det_slim_infer",
+                    rec_infer = Constant.PaddleOcrModelPath + "korean_PP-OCRv3_rec_infer",
+                    cls_infer = Constant.PaddleOcrModelPath + "ch_ppocr_mobile_v2.0_cls_infer",
+                    keys = Constant.PaddleOcrModelPath + "korean_dict.txt"
                 },
             // 使用默认中英文V4模型
             _ => null
@@ -140,7 +140,7 @@ public partial class PaddleOCR : ObservableObject, IOCR
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string _appKey = string.Empty;
 
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = ConstStr.ICONDICT;
+    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
     [ObservableProperty] [JsonIgnore] [property: JsonIgnore]
     private bool _hasData;
@@ -269,8 +269,8 @@ public partial class PaddleOCR : ObservableObject, IOCR
 #else
         HasData = true;
         // 使用绝对路径进行检查
-        HasData &= Directory.Exists(ConstStr.PaddleOcrModelPath);
-        ConstStr.PaddleOcrDlls.ForEach(x => HasData &= File.Exists(string.Format("{0}{1}", ConstStr.ExecutePath, x)));
+        HasData &= Directory.Exists(Constant.PaddleOcrModelPath);
+        Constant.PaddleOcrDlls.ForEach(x => HasData &= File.Exists(string.Format("{0}{1}", Constant.ExecutePath, x)));
         return HasData;
 #endif
     }
@@ -286,8 +286,8 @@ public partial class PaddleOCR : ObservableObject, IOCR
     {
         try
         {
-            ConstStr.PaddleOcrDlls.ForEach(File.Delete);
-            Directory.Delete(ConstStr.PaddleOcrModelPath, true);    // 使用绝对路径
+            Constant.PaddleOcrDlls.ForEach(File.Delete);
+            Directory.Delete(Constant.PaddleOcrModelPath, true);    // 使用绝对路径
 
             ToastHelper.Show("删除成功", WindowType.Preference);
 

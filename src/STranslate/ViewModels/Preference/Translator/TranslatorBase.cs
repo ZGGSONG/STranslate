@@ -6,7 +6,7 @@ namespace STranslate.ViewModels.Preference.Translator;
 
 public class TranslatorBase : ObservableObject
 {
-    [JsonIgnore] public Dictionary<IconType, string> Icons => ConstStr.ICONDICT;
+    [JsonIgnore] public Dictionary<IconType, string> Icons => Constant.IconDict;
 
     public void ManualPropChanged(params string[] array)
     {

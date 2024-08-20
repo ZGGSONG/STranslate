@@ -6,7 +6,7 @@ namespace STranslate.Helper;
 
 public class EcdictHelper
 {
-    private static string _connectionString = $"Data Source={ConstStr.ECDICTPath}";
+    private static string _connectionString = $"Data Source={Constant.EcDictPath}";
 
     public static string ConnectionString
     {
