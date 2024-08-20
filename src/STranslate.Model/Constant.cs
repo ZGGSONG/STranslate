@@ -82,11 +82,17 @@ public static class Constant
     public const string CnfExtension = ".json";
     public const string CnfName = "stranslate";
     public const string AppName = "STranslate";
+    public const string PortableConfig = "portable_config";
     
     /// <summary>
     ///     用户配置目录
     /// </summary>
     public static readonly string CnfPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{AppName}";
+
+    /// <summary>
+    ///     便携用户配置目录
+    /// </summary>
+    public static readonly string PortableCnfPath = $"{ExecutePath}{PortableConfig}";
 
     /// <summary>
     ///     用户软件根目录
@@ -105,6 +111,13 @@ public static class Constant
     public static readonly string CnfFullName = $"{CnfPath}\\{CnfName}.json";
     public static readonly string DbConnectionString = $"Data Source={CnfPath}\\{CnfName}.db";
     public static readonly string EcDictPath = Path.Combine(CnfPath, "stardict.db");
+    
+    /// <summary>
+    ///     便携用户配置路径
+    /// </summary>
+    public static readonly string PortableCnfFullName = $"{PortableCnfPath}\\{CnfName}.json";
+    public static readonly string PortableDbConnectionString = $"Data Source={PortableCnfPath}\\{CnfName}.db";
+    public static readonly string PortableEcDictPath = Path.Combine(PortableCnfPath, "stardict.db");
 
     public static readonly string PaddleOcrModelPath = $@"{ExecutePath}inference\";
 
