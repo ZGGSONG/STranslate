@@ -19,13 +19,15 @@ public static class Constant
     public static readonly Uri DarkUri = new(ThemeDark);
 
     #endregion
-    
+
     #region Resources
 
     public const string Icon = "pack://application:,,,/STranslate.Style;component/Resources/favicon.ico";
     public const string IconForbidden = "pack://application:,,,/STranslate.Style;component/Resources/forbidden.ico";
 
-    public const string WindowResourcePath = "pack://application:,,,/STranslate.Style;component/Styles/WindowStyle.xaml";
+    public const string WindowResourcePath =
+        "pack://application:,,,/STranslate.Style;component/Styles/WindowStyle.xaml";
+
     public const string WindowResourceName = "WindowStyle";
 
     public const string TopmostContent = "\xe637";
@@ -42,14 +44,14 @@ public static class Constant
 
     public const string Loading = "加载中...";
     public const string Unloading = "加载结束...";
-    
+
     public const string UserDefineFontKey = "UserFont";
     public const string DefaultFontName = "LXGW WenKai";
 
     public const string PlaceHolderContent = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
     public const string InputErrorContent = "该服务未获取到缓存Ctrl+Enter更新";
     public const string HistoryErrorContent = "该服务翻译时未正确返回Ctrl+Enter以更新";
-    
+
     public static readonly Dictionary<IconType, string> IconDict =
         Application.Current.Resources.MergedDictionaries.FirstOrDefault(x =>
                 x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml",
@@ -77,22 +79,14 @@ public static class Constant
 
     public const string GithubReleaseUrl = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
     public const string DefaultVersion = "1.0.0.0";
-    public static readonly string AppVersion = Application.ResourceAssembly.GetName().Version?.ToString() ?? DefaultVersion;
+
+    public static readonly string AppVersion =
+        Application.ResourceAssembly.GetName().Version?.ToString() ?? DefaultVersion;
 
     public const string CnfExtension = ".json";
     public const string CnfName = "stranslate";
     public const string AppName = "STranslate";
-    public const string PortableConfig = "portable_config";
-    
-    /// <summary>
-    ///     用户配置目录
-    /// </summary>
-    public static readonly string CnfPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{AppName}";
-
-    /// <summary>
-    ///     便携用户配置目录
-    /// </summary>
-    public static readonly string PortableCnfPath = $"{ExecutePath}{PortableConfig}";
+    private const string PortableConfig = "portable_config";
 
     /// <summary>
     ///     用户软件根目录
@@ -103,21 +97,29 @@ public static class Constant
     /// </remarks>
     public static readonly string ExecutePath = AppDomain.CurrentDomain.BaseDirectory;
 
-    public static readonly string LogPath = $"{ExecutePath}logs";
-    
+    private static readonly string PortableCnfPath = $"{ExecutePath}{PortableConfig}";
+
     /// <summary>
-    ///     全局配置路径
+    ///     是否为便携模式
+    /// </summary>
+    private static readonly bool IsPortable = Directory.Exists(PortableCnfPath);
+
+    /// <summary>
+    ///     用户配置目录
+    /// </summary>
+    public static readonly string CnfPath = IsPortable
+            ? PortableCnfPath
+            : $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\{AppName}";
+
+    /// <summary>
+    ///     配置路径
     /// </summary>
     public static readonly string CnfFullName = $"{CnfPath}\\{CnfName}.json";
+
     public static readonly string DbConnectionString = $"Data Source={CnfPath}\\{CnfName}.db";
     public static readonly string EcDictPath = Path.Combine(CnfPath, "stardict.db");
-    
-    /// <summary>
-    ///     便携用户配置路径
-    /// </summary>
-    public static readonly string PortableCnfFullName = $"{PortableCnfPath}\\{CnfName}.json";
-    public static readonly string PortableDbConnectionString = $"Data Source={PortableCnfPath}\\{CnfName}.db";
-    public static readonly string PortableEcDictPath = Path.Combine(PortableCnfPath, "stardict.db");
+
+    public static readonly string LogPath = $"{ExecutePath}logs";
 
     public static readonly string PaddleOcrModelPath = $@"{ExecutePath}inference\";
 
