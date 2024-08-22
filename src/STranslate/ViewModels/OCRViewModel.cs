@@ -467,7 +467,7 @@ public partial class OCRViewModel : WindowVMBase
         var reader = new BarcodeReader();
         reader.Options.CharacterSet = "UTF-8";
         using var stream = new MemoryStream();
-        var encoder = new BmpBitmapEncoder();
+        var encoder = new JpegBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bs));
         encoder.Save(stream);
         var map = new System.DrawingCore.Bitmap(stream);

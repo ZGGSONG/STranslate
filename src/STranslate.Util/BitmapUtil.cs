@@ -59,7 +59,7 @@ public class BitmapUtil
     public static Bitmap ConvertBitmapSource2Bitmap(BitmapSource source)
     {
         using var stream = new MemoryStream();
-        var encoder = new BmpBitmapEncoder();
+        var encoder = new JpegBitmapEncoder();
         encoder.Frames.Add(BitmapFrame.Create(source));
         encoder.Save(stream);
         stream.Seek(0, SeekOrigin.Begin);
@@ -75,7 +75,7 @@ public class BitmapUtil
     public static byte[] ConvertBitmapSource2Bytes(BitmapSource bitmapSource)
     {
         // 可根据需要选择其他编码器
-        BitmapEncoder encoder = new BmpBitmapEncoder();
+        BitmapEncoder encoder = new JpegBitmapEncoder();
         // 将BitmapSource转换为byte[]
         encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
 
@@ -94,7 +94,7 @@ public class BitmapUtil
         using var stream = new MemoryStream();
         using (bitmap)
         {
-            bitmap.Save(stream, ImageFormat.Bmp);
+            bitmap.Save(stream, ImageFormat.Jpeg);
         }
         var data = new byte[stream.Length];
         stream.Seek(0, SeekOrigin.Begin);
