@@ -142,7 +142,8 @@ public partial class BackupViewModel : ObservableObject
         var cRet = await CreateClientAsync();
         if (!cRet.Item3)
         {
-            ToastHelper.Show("请检查配置是否正确", WindowType.Preference);
+            ToastHelper.Show("请检查配置或查看日志", WindowType.Preference);
+            LogService.Logger.Error($"Backup|CreateWebDavClient|Error {cRet.Item2}");
             return;
         }
 
@@ -168,7 +169,10 @@ public partial class BackupViewModel : ObservableObject
             if (response.IsSuccessful && response.StatusCode == 201)
                 ToastHelper.Show("导出成功", WindowType.Preference);
             else
+            {
                 ToastHelper.Show("导出失败", WindowType.Preference);
+                LogService.Logger.Error($"Backup|PutFile|Error Code: {response.StatusCode} Description: {response.Description}");
+            }
         }
         finally
         {
@@ -212,7 +216,8 @@ public partial class BackupViewModel : ObservableObject
         var cRet = await CreateClientAsync();
         if (!cRet.Item3)
         {
-            ToastHelper.Show("请检查配置是否正确", WindowType.Preference);
+            ToastHelper.Show("请检查配置或查看日志", WindowType.Preference);
+            LogService.Logger.Error($"Restore|CreateWebDavClient|Error {cRet.Item2}");
             return;
         }
 
@@ -274,11 +279,19 @@ public partial class BackupViewModel : ObservableObject
             Credentials = new NetworkCredential(WebDavUsername, WebDavPassword)
         };
         var client = new WebDavClient(clientParams);
-        var linkTest = await client.Propfind(string.Empty);
-        if (!linkTest.IsSuccessful)
-            return new Tuple<WebDavClient, string, bool>(new WebDavClient(), string.Empty, false);
-
-        return new Tuple<WebDavClient, string, bool>(client, absolutePath, true);
+        try
+        {
+            var linkTest = await client.Propfind(string.Empty);
+            var ret = linkTest.IsSuccessful;
+            return new Tuple<WebDavClient, string, bool>(
+                ret ? client : new WebDavClient(),
+                ret ? absolutePath : $"Code: {linkTest.StatusCode} Description: {linkTest.Description}",
+                ret);
+        }
+        catch (Exception e)
+        {
+            return new Tuple<WebDavClient, string, bool>(new WebDavClient(), e.Message, false);
+        }
     }
 
     /// <summary>
