@@ -801,6 +801,7 @@ public class OCRConverter : JsonConverter<IOCR>
             (int)OCRType.TencentOCR => new TencentOCR(),
             (int)OCRType.VolcengineOCR => new VolcengineOCR(),
             (int)OCRType.GoogleOCR => new GoogleOCR(),
+            (int)OCRType.OpenAIOCR => new OpenAIOCR(),
             _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
         };
 

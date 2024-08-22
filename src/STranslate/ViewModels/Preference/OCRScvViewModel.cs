@@ -52,6 +52,7 @@ public partial class OCRScvViewModel : ObservableObject
         OcrServices.Add(new BaiduOCR());
         OcrServices.Add(new VolcengineOCR());
         OcrServices.Add(new GoogleOCR());
+        OcrServices.Add(new OpenAIOCR());
 
         ResetView();
     }
@@ -158,6 +159,7 @@ public partial class OCRScvViewModel : ObservableObject
                 OCRType.BaiduOCR => string.Format($"{head}{nameof(BaiduOCRPage)}"),
                 OCRType.VolcengineOCR => string.Format($"{head}{nameof(VolcengineOCRPage)}"),
                 OCRType.GoogleOCR => string.Format($"{head}{nameof(GoogleOCRPage)}"),
+                OCRType.OpenAIOCR => string.Format($"{head}{nameof(OpenAIOCRPage)}"),
                 _ => string.Format($"{head}{nameof(PaddleOCRPage)}")
             };
 
@@ -186,6 +188,7 @@ public partial class OCRScvViewModel : ObservableObject
                 BaiduOCR baiduocr => baiduocr.Clone(),
                 VolcengineOCR volcengineocr => volcengineocr.Clone(),
                 GoogleOCR googleocr => googleocr.Clone(),
+                OpenAIOCR openaiocr => openaiocr.Clone(),
                 _ => throw new InvalidOperationException($"Unsupported ocr type: {ocr.GetType().Name}")
             }
         );

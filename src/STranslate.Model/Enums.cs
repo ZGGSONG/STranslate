@@ -173,6 +173,7 @@ public enum OCRType
     [Description("腾讯OCR")] TencentOCR,
     [Description("火山OCR")] VolcengineOCR,
     [Description("谷歌OCR")] GoogleOCR,
+    [Description("OpenAIOCR")] OpenAIOCR,
 }
 
 public enum BaiduOCRAction
