@@ -159,35 +159,10 @@ public partial class OpenAIOCR : ObservableObject, IOCR
                            "properties": {
                                "words": {
                                    "type": "string"
-                               },
-                               "location": {
-                                   "type": "object",
-                                   "properties": {
-                                       "top": {
-                                           "type": "number"
-                                       },
-                                       "left": {
-                                           "type": "number"
-                                       },
-                                       "width": {
-                                           "type": "number"
-                                       },
-                                       "height": {
-                                           "type": "number"
-                                       }
-                                   },
-                                   "required": [
-                                       "top",
-                                       "left",
-                                       "width",
-                                       "height"
-                                   ],
-                                   "additionalProperties": false
                                }
                            },
                            "required": [
-                               "words",
-                               "location"
+                               "words"
                            ],
                            "additionalProperties": false
                        }
