@@ -47,6 +47,8 @@ public partial class OpenAIOCR : ObservableObject, IOCR
 
     [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.BaiduOCR;
 
+    [JsonIgnore][ObservableProperty] private double _temperature = 1.0;
+
     [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
 
     [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
@@ -145,6 +147,8 @@ public partial class OpenAIOCR : ObservableObject, IOCR
             uriBuilder.Path = "/v1/chat/completions";
 
         #region 构造请求数据
+        // 温度限定
+        var aTemperature = Math.Clamp(Temperature, 0, 2);
 
         var openAiModel = Model.Trim();
         var base64Str = Convert.ToBase64String(bytes);
@@ -183,6 +187,7 @@ public partial class OpenAIOCR : ObservableObject, IOCR
         {
             model = openAiModel,
             messages = messages.ToArray(),
+            temperature = aTemperature,
             response_format = new
             {
                 type = "json_schema",
