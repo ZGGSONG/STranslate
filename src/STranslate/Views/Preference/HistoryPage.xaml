@@ -121,7 +121,7 @@
                 <TextBlock Grid.Row="2"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="14"
+                           FontSize="{DynamicResource FontSize_Identify}"
                            FontWeight="Thin"
                            Foreground="Gray"
                            Text="{Binding IsLoading, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=HISTORY}"

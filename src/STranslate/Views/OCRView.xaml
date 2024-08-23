@@ -113,7 +113,7 @@
                         Command="{Binding StickyCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         Content="{Binding TopMostContent}"
-                        FontSize="22"
+                        FontSize="{DynamicResource FontSize_Title}"
                         Style="{DynamicResource ButtonStickyIconStyle}"
                         Tag="{Binding IsTopMost}" />
 
@@ -125,7 +125,7 @@
                     <Image Height="30" Source="{DynamicResource STranslate}" />
                     <TextBlock Margin="20,0,0,0"
                                VerticalAlignment="Center"
-                               FontSize="24"
+                               FontSize="{DynamicResource FontSize_Backup}"
                                FontWeight="Bold"
                                Foreground="{DynamicResource NavigationForeground}"
                                Text="STranslate OCR" />
@@ -139,7 +139,7 @@
                     <Button Command="{Binding MinimizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe676;"
-                            FontSize="20"
+                            FontSize="{DynamicResource FontSize_Title}"
                             Style="{DynamicResource ButtonIconStyle}" />
                     <Button Command="{Binding MaximizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
@@ -149,7 +149,7 @@
                     <Button Command="{Binding CloseCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe64d;"
-                            FontSize="16"
+                            FontSize="{DynamicResource FontSize_Prompt}"
                             Style="{DynamicResource ButtonCloseStyle}" />
                 </StackPanel>
             </Grid>
@@ -240,7 +240,7 @@
                                 <Button Command="{Binding ResetImgCommand}"
                                         CommandParameter="{Binding ElementName=ImgCtl}"
                                         Content="&#xe64f;"
-                                        FontSize="21"
+                                        FontSize="{DynamicResource FontSize_Title}"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
                                         ToolTip="适应窗口"
                                         Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
@@ -319,7 +319,7 @@
                             <Button Command="{Binding RemoveSpaceCommand}"
                                     CommandParameter="{Binding ElementName=TB}"
                                     Content="&#xe6ab;"
-                                    FontSize="20"
+                                    FontSize="{DynamicResource FontSize_Title}"
                                     FontWeight="Bold"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="移除空格"

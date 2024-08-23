@@ -48,13 +48,13 @@
                            Margin="10,0,0,0"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource IconFont}"
-                           FontSize="16"
+                           FontSize="{DynamicResource FontSize_Prompt}"
                            Foreground="{DynamicResource BtnForeground}"
                            Text="{TemplateBinding Icon}" />
                 <TextBlock MaxWidth="120"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center"
-                           FontSize="14"
+                           FontSize="{DynamicResource FontSize_Identify}"
                            Foreground="{DynamicResource TextForeground}"
                            Text="{TemplateBinding Header}"
                            TextTrimming="CharacterEllipsis"
@@ -63,7 +63,7 @@
                            Margin="10,0,0,0"
                            VerticalAlignment="Center"
                            FontFamily="{DynamicResource IconFont}"
-                           FontSize="14"
+                           FontSize="{DynamicResource FontSize_Identify}"
                            Text="&#xec9e;"
                            Visibility="Collapsed" />
             </StackPanel>
@@ -86,11 +86,11 @@
                     <TextBlock Margin="10,0,10,0"
                                VerticalAlignment="Center"
                                FontFamily="{DynamicResource IconFont}"
-                               FontSize="16"
+                               FontSize="{DynamicResource FontSize_Prompt}"
                                Foreground="{DynamicResource BtnForeground}"
                                Text="{TemplateBinding Icon}" />
                     <TextBlock VerticalAlignment="Center"
-                               FontSize="14"
+                               FontSize="{DynamicResource FontSize_Identify}"
                                Foreground="{DynamicResource TextForeground}"
                                Text="{TemplateBinding Header}" />
                 </StackPanel>

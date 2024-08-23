@@ -48,6 +48,15 @@ public static class Constant
     public const string UserDefineFontKey = "UserFont";
     public const string DefaultFontName = "LXGW WenKai";
 
+    public const string FontSizeAbout = "FontSize_About";       //30
+    public const string FontSizeTitle = "FontSize_Title";       //20
+    public const string FontSizeContent = "FontSize_Content";   //18
+    public const string FontSizePrompt = "FontSize_Prompt";     //16
+    public const string FontSizeIdentify = "FontSize_Identify"; //14
+    public const string FontSizeTextBox = "FontSize_TextBox";   //18...输入框文字大小可调整
+    public const string FontSizeService = "FontSize_Service";   //12
+    public const string FontSizeBackup = "FontSize_Backup";     //24
+
     public const string PlaceHolderContent = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
     public const string InputErrorContent = "该服务未获取到缓存Ctrl+Enter更新";
     public const string HistoryErrorContent = "该服务翻译时未正确返回Ctrl+Enter以更新";

@@ -4,6 +4,7 @@
     <Style x:Key="LanguageMarkTextBlockStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource TextBlockLangForeground}" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize_Identify}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="TextBlock">

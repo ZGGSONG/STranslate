@@ -117,7 +117,7 @@ public partial class OCRViewModel : WindowVMBase
     [RelayCommand]
     private void ResetFontSize()
     {
-        Application.Current.Resources["FontSize_TextBox"] = 18.0;
+        Application.Current.Resources[Constant.FontSizeTextBox] = Application.Current.Resources[Constant.FontSizeContent];
     }
 
     public void FreeBitmapSource()

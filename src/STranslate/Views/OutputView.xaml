@@ -208,7 +208,6 @@
                                                 CommandParameter="{Binding}"
                                                 Content="&#xe60f;"
                                                 Cursor="Hand"
-                                                FontSize="17"
                                                 Background="Transparent"
                                                 Style="{DynamicResource ButtonIconStyle}"
                                                 ToolTip="重试"

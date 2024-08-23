@@ -235,14 +235,14 @@
                 Command="{Binding StickyCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="{Binding TopMostContent}"
-                FontSize="21"
+                FontSize="{DynamicResource FontSize_Title}"
                 Style="{DynamicResource ButtonStickyIconStyle}"
                 Tag="{Binding IsTopMost}"
                 ToolTip="置顶" />
         <StackPanel Margin="0,0,10,0" FlowDirection="RightToLeft" Orientation="Horizontal">
             <Button HorizontalAlignment="Right"
                     Content="&#xe660;"
-                    FontSize="21"
+                    FontSize="{DynamicResource FontSize_Title}"
                     Height="28"
                     FontWeight="Bold"
                     Width="28"
@@ -253,7 +253,7 @@
                     Visibility="{Binding IsShowClose, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button HorizontalAlignment="Right"
                     Content="&#xe676;"
-                    FontSize="21"
+                    FontSize="{DynamicResource FontSize_Title}"
                     Height="28"
                     FontWeight="Bold"
                     Width="28"
@@ -271,7 +271,6 @@
             <ToggleButton x:Name="BTN_Service"
                           HorizontalAlignment="Right"
                           Content="&#xe726;"
-                          FontSize="19"
                           Style="{DynamicResource ToggleButtonIconStyle}"
                           ToolTip="配置服务"
                           Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -454,7 +453,7 @@
                     Command="{Binding NotifyIconVM.OpenHistoryCommand}"
                     CommandParameter="header"
                     Content="&#xe63f;"
-                    FontSize="20"
+                    FontSize="{DynamicResource FontSize_Title}"
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="历史记录"
                     Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />

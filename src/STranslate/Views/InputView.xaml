@@ -87,7 +87,7 @@
                 <Button Command="{Binding RemoveSpaceCommand}"
                         CommandParameter="{Binding ElementName=InputTB}"
                         Content="&#xe6ab;"
-                        FontSize="20"
+                        FontSize="{DynamicResource FontSize_Title}"
                         FontWeight="Bold"
                         Style="{DynamicResource ButtonCopyIconStyle}"
                         ToolTip="移除空格"
@@ -106,7 +106,7 @@
                                       Content="{Binding IdentifyLanguage}"
                                       Cursor="Hand"
                                       Background="Transparent"
-                                      Height="20"
+                                      Height="auto"
                                       Margin="0"
                                       Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup Name="IdentifyPopup"

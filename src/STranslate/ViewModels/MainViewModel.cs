@@ -434,7 +434,76 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ResetFontSize()
     {
-        Application.Current.Resources["FontSize_TextBox"] = 18.0;
+        Application.Current.Resources[Constant.FontSizeTextBox] = Application.Current.Resources[Constant.FontSizeContent];
+    }
+
+    /// <summary>
+    ///     增加全局字体大小
+    /// </summary>
+    [RelayCommand]
+    private void IncreaseGlobalFontSize()
+    {
+        ChangeGlobalFontSize(2.0);
+    }
+
+    /// <summary>
+    ///     降低全局字体大小
+    /// </summary>
+    [RelayCommand]
+    private void ReduceGlobalFontSize()
+    {
+        ChangeGlobalFontSize(-2.0);
+    }
+
+    private void ChangeGlobalFontSize(double sizeChanged)
+    {
+        var fontSizeLimits = new Dictionary<string, (double min, double max)>
+        {
+            { Constant.FontSizeAbout, (24, 36) },   //30
+            { Constant.FontSizeTitle, (14, 26) },   //20
+            { Constant.FontSizeContent, (12, 24) }, //18
+            { Constant.FontSizePrompt, (10, 12) },  //16
+            { Constant.FontSizeIdentify, (8, 20) }, //14
+            { Constant.FontSizeTextBox, (12, 24) }, //18
+            { Constant.FontSizeService, (6, 18) },  //12
+            { Constant.FontSizeBackup, (18, 30) }   //24
+        };
+
+        foreach (var key in fontSizeLimits.Keys)
+        {
+            if (Application.Current.Resources[key] is not double currentSize) continue;
+            var (min, max) = fontSizeLimits[key];
+            var newSize = currentSize + sizeChanged;
+            if (newSize < min || newSize > max)
+            {
+                continue;
+            }
+            Application.Current.Resources[key] = newSize;
+        }
+    }
+
+    /// <summary>
+    ///     重置全局字体大小
+    /// </summary>
+    [RelayCommand]
+    private void ResetGlobalFontSize()
+    {
+        var fontSizeDict = new Dictionary<string, double>
+        {
+            { Constant.FontSizeAbout, 30 },     //30
+            { Constant.FontSizeTitle, 20 },     //20
+            { Constant.FontSizeContent, 18 },   //18
+            { Constant.FontSizePrompt, 16 },    //16
+            { Constant.FontSizeIdentify, 14 },  //14
+            { Constant.FontSizeTextBox, 18 },   //18
+            { Constant.FontSizeService, 12 },   //12
+            { Constant.FontSizeBackup, 24 }     //24
+        };
+
+        foreach (var font in fontSizeDict)
+        {
+            Application.Current.Resources[font.Key] = font.Value;
+        }
     }
 
     /// <summary>

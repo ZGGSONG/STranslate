@@ -54,7 +54,7 @@
                     <Image Height="30" Margin="20,0,0,0" Source="{DynamicResource STranslate}" />
                     <TextBlock Margin="20,0,0,0"
                                VerticalAlignment="Center"
-                               FontSize="24"
+                               FontSize="{DynamicResource FontSize_Backup}"
                                FontWeight="Bold"
                                Foreground="{DynamicResource NavigationForeground}"
                                Text="首选项" />
@@ -68,7 +68,7 @@
                     <Button Command="{Binding MinimizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe676;"
-                            FontSize="20"
+                            FontSize="{DynamicResource FontSize_Title}"
                             Style="{DynamicResource ButtonIconStyle}" />
                     <Button Command="{Binding MaximizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
@@ -78,7 +78,7 @@
                     <Button Command="{Binding CloseCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe64d;"
-                            FontSize="16"
+                            FontSize="{DynamicResource FontSize_Prompt}"
                             Style="{DynamicResource ButtonCloseStyle}" />
                 </StackPanel>
             </Grid>

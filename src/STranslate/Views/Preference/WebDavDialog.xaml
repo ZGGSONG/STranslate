@@ -61,7 +61,7 @@
                     <Button Command="{Binding MinimizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe676;"
-                            FontSize="20"
+                            FontSize="{DynamicResource FontSize_Title}"
                             Style="{DynamicResource ButtonIconStyle}"
                             Visibility="Collapsed" />
                     <Button Command="{Binding MaximizeCommand}"
@@ -73,7 +73,7 @@
                     <Button Command="{Binding CloseCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe64d;"
-                            FontSize="16"
+                            FontSize="{DynamicResource FontSize_Prompt}"
                             Style="{DynamicResource ButtonCloseStyle}" />
                 </StackPanel>
             </Grid>
