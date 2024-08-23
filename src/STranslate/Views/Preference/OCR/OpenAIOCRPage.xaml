@@ -4,7 +4,6 @@
              xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
              xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
              d:DataContext="{d:DesignInstance Type=vm:OpenAIOCR}"
              d:DesignHeight="450"
@@ -16,111 +15,141 @@
             BorderBrush="{DynamicResource BorderBrushColor}"
             BorderThickness="1"
             CornerRadius="4">
-        <StackPanel>
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="名称: " />
+        <ScrollViewer>
+            <StackPanel>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="名称: " />
 
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="160"
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="160"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+
+                                               Placeholder="OpenAIOCR"
+                                               Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="图标: " />
+
+                    <ComboBox Grid.Column="1"
+                              HorizontalAlignment="Left"
+                              BorderThickness="1"
+                              ItemsSource="{Binding Icons}"
+                              SelectedValue="{Binding Icon}"
+                              SelectedValuePath="Key"
+                              Style="{DynamicResource IconComboBoxStyle}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="接口: " />
+
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="30"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Placeholder="https://api.openai.com"
+                                               Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="模型: " />
+
+                    <ComboBox Grid.Column="1"
+                              MinWidth="120"
+                              HorizontalAlignment="Left"
+                              BorderThickness="1"
+                              ItemsSource="{Binding Models}"
+                              SelectedItem="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="ApiKey: " />
+
+                    <common:PlaceholderTextBox Grid.Column="1"
+                                               MinWidth="160"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Placeholder="ApiKey"
+                                               Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                    <PasswordBox Grid.Column="1"
+                                 MinWidth="160"
+                                 HorizontalAlignment="Left"
+                                 common:BoundPasswordBox.Attach="True"
+                                 common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Tag="ApiKey"
+                                 ToolTip="{Binding AppKey}"
+                                 Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <Button Grid.Column="2"
+                            Command="{Binding ShowEncryptInfoCommand}"
+                            CommandParameter="AppKey"
+                            Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                </Grid>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Top" Text="Prompts: " />
+                    <TextBlock Grid.Column="1"
+                               FontSize="{DynamicResource FontSize_Identify}"
+                               Text="通过自定义Prompt自定义OpenAI行为, $target 将会被替换为目标语种。"
+                               TextWrapping="Wrap" />
+                </Grid>
+
+                <TextBlock Margin="0 10 0 0" Width="120" HorizontalAlignment="Left" Text="SystemPrompt: " />
+                <common:PlaceholderTextBox Margin="0 0 0 10"
+                                           MinWidth="206"
                                            HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
+                                           Placeholder="SystemPrompt"
+                                           TextWrapping="Wrap"
+                                           Text="{Binding SystemPrompt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-                                           Placeholder="OpenAIOCR"
-                                           Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
-
-            <Grid Margin="0,10" Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="图标: " />
-
-                <ComboBox Grid.Column="1"
-                          HorizontalAlignment="Left"
-                          BorderThickness="1"
-                          ItemsSource="{Binding Icons}"
-                          SelectedValue="{Binding Icon}"
-                          SelectedValuePath="Key"
-                          Style="{DynamicResource IconComboBoxStyle}" />
-            </Grid>
-
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="接口: " />
-
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="30"
+                <TextBlock Margin="0 10 0 0" Width="120" HorizontalAlignment="Left" Text="UserPropmt: " />
+                <common:PlaceholderTextBox Margin="0 0 0 10"
+                                           MinWidth="206"
                                            HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Placeholder="https://api.openai.com"
-                                           Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
+                                           Placeholder="UserPrompt"
+                                           TextWrapping="Wrap"
+                                           Text="{Binding UserPrompt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-            <!--<Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="模型: " />
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Other: " />
+                    <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
+                        <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                    </TextBlock>
+                </Grid>
 
-                <ComboBox Grid.Column="1"
-                          HorizontalAlignment="Left"
-                          BorderThickness="1"
-                          DisplayMemberPath="Description"
-                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:BaiduOCRAction}}}"
-                          SelectedValue="{Binding BaiduOcrAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValuePath="Value" />
-            </Grid>-->
-
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="38" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="ApiKey: " />
-
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="160"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Placeholder="ApiKey"
-                                           Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <PasswordBox Grid.Column="1"
-                             MinWidth="160"
-                             HorizontalAlignment="Left"
-                             common:BoundPasswordBox.Attach="True"
-                             common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Tag="ApiKey"
-                             ToolTip="{Binding AppKey}"
-                             Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
-                <Button Grid.Column="2"
-                        Command="{Binding ShowEncryptInfoCommand}"
-                        CommandParameter="AppKey"
-                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
-                        Style="{DynamicResource ButtonIconStyle}" />
-            </Grid>
-
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Other: " />
-                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
-                    <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
-                </TextBlock>
-            </Grid>
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Border>
 </UserControl>

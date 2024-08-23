@@ -73,6 +73,34 @@ public partial class OpenAIOCR : ObservableObject, IOCR
 
     [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
+    #region Llm Profile
+
+    [JsonIgnore]
+    [ObservableProperty]
+    [property: DefaultValue("")]
+    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    private string _model = "gpt-4o-2024-08-06";
+
+    [JsonIgnore]
+    public List<string> Models { get; set; } =
+    [
+        "gpt-4o-2024-08-06",
+    ];
+    
+    [JsonIgnore]
+    [ObservableProperty]
+    [property: DefaultValue("")]
+    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    private string _systemPrompt = "You are a specialized OCR engine that accurately extracts each text from the image.";
+    
+    [JsonIgnore]
+    [ObservableProperty]
+    [property: DefaultValue("")]
+    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    private string _userPrompt = "Please recognize the text in the picture, the language in the picture is $target";
+
+    #endregion
+
     #region Show/Hide Encrypt Info
 
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
@@ -115,74 +143,90 @@ public partial class OpenAIOCR : ObservableObject, IOCR
         // 兼容旧版API: https://platform.openai.com/docs/guides/text-generation
         if (!uriBuilder.Path.EndsWith("/v1/chat/completions"))
             uriBuilder.Path = "/v1/chat/completions";
-        // 选择模型
-        const string openAiModel = "gpt-4o-2024-08-06";
-        var base64Str = Convert.ToBase64String(bytes);
 
-        var jsonData = """
-                       {
-                          "model": "$model",
-                          "messages": [
-                              {
-                                  "role": "system",
-                                  "content": "You are a specialized OCR engine that accurately extracts each text from the image and gets its position."
-                              },
-                              {
-                                  "role": "user",
-                                  "content": [
-                                      {
-                                          "type": "text",
-                                          "text": "Please recognize the text in the image and return its location, return by paragraph, save each paragraph as a word and each immediately following position as the top, left, width and height in pixels in the image."
-                                      },
-                                      {
-                                          "type": "image_url",
-                                          "image_url":
-                                          {
-                                               "url": "data:image/png;base64,$image"
-                                          }
-                                      }
-                                  ]
-                              }
-                          ],
-                          "response_format": {
-                              "type": "json_schema",
-                              "json_schema": {
-                                  "name": "ocr_response",
-                                  "strict": true,
-                                  "schema": {
-                                      "type": "object",
-                                      "properties": {
-                                          "words_result": {
-                       "type": "array",
-                       "items": {
-                           "type": "object",
-                           "properties": {
-                               "words": {
-                                   "type": "string"
-                               }
-                           },
-                           "required": [
-                               "words"
-                           ],
-                           "additionalProperties": false
-                       }
-                                          }
-                                      },
-                                      "required": [
-                                          "words_result"
-                                      ],
-                                      "additionalProperties": false
-                                  }
-                              }
-                          }
-                       }
-                       """;
-        jsonData = jsonData.Replace("$model", openAiModel).Replace("$image", base64Str);
+        #region 构造请求数据
+
+        var openAiModel = Model.Trim();
+        var base64Str = Convert.ToBase64String(bytes);
+        
+        var messages = new List<object>();
+        if (!string.IsNullOrWhiteSpace(SystemPrompt))
+        {
+            messages.Add(new
+            {
+                role = "system",
+                content = SystemPrompt
+            });
+        }
+        messages.Add(new
+        {
+            role = "user",
+            content = new object[]
+            {
+                new
+                {
+                    type = "text",
+                    text = UserPrompt
+                },
+                new
+                {
+                    type = "image_url",
+                    image_url = new
+                    {
+                        url = $"data:image/png;base64,{base64Str}"
+                    }
+                }
+            }
+        });
+        
+        var data = new
+        {
+            model = openAiModel,
+            messages = messages.ToArray(),
+            response_format = new
+            {
+                type = "json_schema",
+                json_schema = new
+                {
+                    name = "ocr_response",
+                    strict = true,
+                    schema = new
+                    {
+                        type = "object",
+                        properties = new
+                        {
+                            words_result = new
+                            {
+                                type = "array",
+                                items = new
+                                {
+                                    type = "object",
+                                    properties = new
+                                    {
+                                        words = new
+                                        {
+                                            type = "string"
+                                        }
+                                    },
+                                    required = new[] { "words" },
+                                    additionalProperties = false
+                                }
+                            }
+                        },
+                        required = new[] { "words_result" },
+                        additionalProperties = false
+                    }
+                }
+            }
+        };
+
+        #endregion
+        
+        var jsonData = JsonConvert.SerializeObject(data);
+        var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
+        jsonData = jsonData.Replace("$target", target);
 
         var headers = new Dictionary<string, string> { { "Authorization", $"Bearer {AppKey}" } };
-
-        //TODO: 暂不使用
-        var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
 
         // 提取content的值
         var ocrResult = new OcrResult();
@@ -244,7 +288,10 @@ public partial class OpenAIOCR : ObservableObject, IOCR
             Url = Url,
             AppID = AppID,
             AppKey = AppKey,
-            Icons = Icons
+            Icons = Icons,
+            Model = Model,
+            SystemPrompt = SystemPrompt,
+            UserPrompt = UserPrompt
         };
     }
 
@@ -294,7 +341,7 @@ public partial class OpenAIOCR : ObservableObject, IOCR
 
     #endregion Interface Implementation
 
-    #region Baidu Offcial Support
+    #region Support
 
     public List<BoxPoint> Converter(Location location)
     {
@@ -351,5 +398,5 @@ public partial class OpenAIOCR : ObservableObject, IOCR
         public List<Words_resultItem> words_result { get; set; } = [];
     }
 
-    #endregion Baidu Offcial Support
+    #endregion Support
 }
