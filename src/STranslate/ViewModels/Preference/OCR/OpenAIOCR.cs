@@ -235,47 +235,27 @@ public partial class OpenAIOCR : ObservableObject, IOCR
 
         // 提取content的值
         var ocrResult = new OcrResult();
-        try
+        var resp = await HttpUtil.PostAsync(uriBuilder.Uri.AbsoluteUri, jsonData, null, headers, cancelToken)
+            .ConfigureAwait(false);
+        if (string.IsNullOrEmpty(resp))
+            throw new Exception("请求结果为空");
+
+        // 解析JSON数据
+        var rawData = JsonConvert.DeserializeObject<JObject>(resp)?["choices"]?[0]?["message"]?["content"] ??
+                        throw new Exception($"反序列化失败: {resp}");
+        var parsedData = JsonConvert.DeserializeObject<Root>(rawData.ToString()) ??
+                            throw new Exception($"反序列化失败: {resp}");
+
+        foreach (var item in parsedData.words_result)
         {
-            var resp = await HttpUtil.PostAsync(uriBuilder.Uri.AbsoluteUri, jsonData, null, headers, cancelToken);
-            if (string.IsNullOrEmpty(resp))
-                throw new Exception("请求结果为空");
-
-            // 解析JSON数据
-            var rawData = JsonConvert.DeserializeObject<JObject>(resp)?["choices"]?[0]?["message"]?["content"] ??
-                          throw new Exception($"反序列化失败: {resp}");
-            var parsedData = JsonConvert.DeserializeObject<Root>(rawData.ToString()) ??
-                             throw new Exception($"反序列化失败: {resp}");
-
-            foreach (var item in parsedData.words_result)
+            var content = new OcrContent(item.words);
+            Converter(item.location).ForEach(pg =>
             {
-                var content = new OcrContent(item.words);
-                Converter(item.location).ForEach(pg =>
-                {
-                    //仅位置不全为0时添加
-                    if (pg.X != pg.Y || pg.X != 0)
-                        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-                });
-                ocrResult.OcrContents.Add(content);
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            ocrResult.Success = false;
-            ocrResult.ErrorMsg = "请求取消...";
-        }
-        catch (Exception ex)
-        {
-            var msg = ex.Message;
-            if (ex.InnerException is { } innEx)
-            {
-                var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
-                msg += $" {innMsg?["error"]?["message"]}";
-                LogService.Logger.Error($"({Name})({Identify}) raw content:\n{innEx.Message}");
-            }
-
-            ocrResult.Success = false;
-            ocrResult.ErrorMsg = msg.Trim();
+                //仅位置不全为0时添加
+                if (pg.X != pg.Y || pg.X != 0)
+                    content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+            });
+            ocrResult.OcrContents.Add(content);
         }
         
         return ocrResult;

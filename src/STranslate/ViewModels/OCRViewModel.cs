@@ -8,6 +8,8 @@ using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -395,7 +397,11 @@ public partial class OCRViewModel : WindowVMBase
         catch (Exception ex)
         {
             GetContent = ex.Message;
-            LogService.Logger.Error("OCR失败", ex);
+            if (ex.InnerException is { } innEx)
+            {
+                GetContent += " " + innEx.Message;
+            }
+            LogService.Logger.Error($"OCR失败: {GetContent}", ex);
         }
         finally
         {

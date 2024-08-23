@@ -142,19 +142,19 @@
                                TextWrapping="Wrap" />
                 </Grid>
 
-                <TextBlock Margin="0 10 0 0" Width="120" HorizontalAlignment="Left" Text="SystemPrompt: " />
+                <TextBlock Margin="0 10 0 0" Width="140" HorizontalAlignment="Left" Text="SystemPrompt: " />
                 <common:PlaceholderTextBox Margin="0 0 0 10"
-                                           MinWidth="206"
+                                           MinWidth="300"
                                            HorizontalAlignment="Left"
-                                           Placeholder="SystemPrompt"
+                                           Placeholder="SystemPrompt(can be empty)"
                                            TextWrapping="Wrap"
                                            Text="{Binding SystemPrompt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-                <TextBlock Margin="0 10 0 0" Width="120" HorizontalAlignment="Left" Text="UserPropmt: " />
+                <TextBlock Margin="0 10 0 0" Width="140" HorizontalAlignment="Left" Text="UserPropmt: " />
                 <common:PlaceholderTextBox Margin="0 0 0 10"
-                                           MinWidth="206"
+                                           MinWidth="300"
                                            HorizontalAlignment="Left"
-                                           Placeholder="UserPrompt"
+                                           Placeholder="UserPrompt(not be empty)"
                                            TextWrapping="Wrap"
                                            Text="{Binding UserPrompt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
