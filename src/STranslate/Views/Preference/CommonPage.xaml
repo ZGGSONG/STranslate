@@ -35,7 +35,7 @@
                             x:Key="ExpanderHeaderTextBlock"
                             BasedOn="{StaticResource {x:Type TextBlock}}"
                             TargetType="{x:Type TextBlock}">
-                            <Setter Property="Padding" Value="5,0" />
+                            <Setter Property="Padding" Value="5,8" />
                             <Setter Property="FontSize" Value="{DynamicResource FontSize19}" />
                             <Setter Property="Foreground" Value="{DynamicResource TextBlockLangForeground}" />
                             <Setter Property="FontWeight" Value="Bold" />
