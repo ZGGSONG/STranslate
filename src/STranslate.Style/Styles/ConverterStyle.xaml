@@ -33,4 +33,5 @@
     <converter:MultiLangFilterConverter x:Key="MultiLangFilterConverter" />
     <converter:StringToVisibilityHiddenConverter x:Key="StringToVisibilityHiddenConverter" />
     <converter:GlobalFontSizeToFontSizeConverter x:Key="GlobalFontSizeToFontSizeConverter" />
+    <converter:GlobalFontSizeToDescriptionConverter x:Key="GlobalFontSizeToDescriptionConverter" />
 </ResourceDictionary>

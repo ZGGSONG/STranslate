@@ -328,13 +328,6 @@ public partial class CommonViewModel : ObservableObject
         LoadHistorySizeType();
     }
 
-    public BindingList<GlobalFontSizeWithDescription> GlobalFontSizeList { get; set; } =
-        new(Enum.GetValues(typeof(GlobalFontSizeEnum))
-            .Cast<GlobalFontSizeEnum>()
-            .OrderBy(x => (int)x)
-            .Select(x => new GlobalFontSizeWithDescription { Value = x, Description = x.GetDescription() })
-            .ToArray());
-
     public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
     /// <summary>

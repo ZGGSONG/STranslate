@@ -98,15 +98,15 @@
                                         HorizontalAlignment="Right"
                                         BorderThickness="1"
                                         DisplayMemberPath="Description"
-                                        ItemsSource="{Binding GlobalFontSizeList}"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:GlobalFontSizeEnum}}}"
                                         SelectedValue="{Binding GlobalFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         SelectedValuePath="Value">
                                         <!--  InvalidOperationException: 无法同时设置 DisplayMemberPath 和 ItemTemplate。  -->
                                         <!--  https://stackoverflow.org.cn/questions/18273415  -->
                                         <ComboBox.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="{x:Type ComboBoxItem}">
-                                                <Setter Property="TextBlock.Text" Value="{Binding Description}" />
-                                                <Setter Property="TextBlock.FontSize" Value="{Binding Value, Converter={StaticResource GlobalFontSizeToFontSizeConverter}}" />
+                                                <Setter Property="TextBlock.Text" Value="{Binding ., Converter={StaticResource GlobalFontSizeToDescriptionConverter}}" />
+                                                <Setter Property="TextBlock.FontSize" Value="{Binding ., Converter={StaticResource GlobalFontSizeToFontSizeConverter}}" />
                                             </Style>
                                         </ComboBox.ItemContainerStyle>
                                     </ComboBox>
