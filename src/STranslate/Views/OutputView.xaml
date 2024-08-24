@@ -55,27 +55,10 @@
                                   common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
                                   ExpandDirection="Down"
                                   SnapsToDevicePixels="True">
-                            <!-- // BindingProxy 传递 ITranslator // -->
-                            <Expander.Resources>
-                                <common:BindingProxy x:Key="TranslatorService" Data="{Binding .}" />
-                            </Expander.Resources>
-
-                            <!-- // 手动触发Expander的Expanded事件 // -->
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Expanded">
-                                    <i:InvokeCommandAction
-                                        Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExpanderHeaderCommand}">
-                                        <i:InvokeCommandAction.CommandParameter>
-                                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                <Binding ElementName="TranslatorExpander" />
-                                                <Binding Path="." />
-                                            </MultiBinding>
-                                        </i:InvokeCommandAction.CommandParameter>
-                                    </i:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
+                            <!--#region Header-->
                             <Expander.Header>
-                                <Grid Height="30" Background="Transparent">
+                                <Grid Height="30"
+                                      Background="Transparent">
                                     <i:Interaction.Triggers>
                                         <!-- // https://stackoverflow.com/questions/3870214/eventtrigger-with-setter-in-wpf // -->
                                         <i:EventTrigger EventName="MouseEnter">
@@ -355,7 +338,7 @@
                                                                        Text="自动执行" />
                                                         </Grid>
                                                     </Border>
-                                                    
+
                                                     <!-- // 执行翻译 // -->
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="执行当前服务翻译">
@@ -364,8 +347,10 @@
                                                                 <i:InvokeCommandAction
                                                                     Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                        <MultiBinding
+                                                                            Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data"
+                                                                                Source="{StaticResource TranslatorService}" />
                                                                             <Binding ElementName="ExtraSettingsTb" />
                                                                         </MultiBinding>
                                                                     </i:InvokeCommandAction.CommandParameter>
@@ -384,7 +369,7 @@
                                                                        Text="执行翻译" />
                                                         </Grid>
                                                     </Border>
-                                                    
+
                                                     <!-- // 配置服务 // -->
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}"
                                                             ToolTip="进入服务配置页面">
@@ -393,8 +378,10 @@
                                                                 <i:InvokeCommandAction
                                                                     Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                        <MultiBinding
+                                                                            Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data"
+                                                                                Source="{StaticResource TranslatorService}" />
                                                                             <Binding ElementName="ExtraSettingsTb" />
                                                                         </MultiBinding>
                                                                     </i:InvokeCommandAction.CommandParameter>
@@ -452,7 +439,28 @@
                                     </StackPanel>
                                 </Grid>
                             </Expander.Header>
-                            <!-- // Expander Header Copy Button Fade In/Out Animation // -->
+                            <!--#endregion-->
+                            <!--#region Resources-BindingProxy 传递 ITranslator -->
+                            <Expander.Resources>
+                                <common:BindingProxy x:Key="TranslatorService" Data="{Binding .}" />
+                            </Expander.Resources>
+                            <!--#endregion-->
+                            <!--#region Interaction Triggers-手动触发Expander的Expanded事件 -->
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Expanded">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExpanderHeaderCommand}">
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                <Binding ElementName="TranslatorExpander" />
+                                                <Binding Path="." />
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <!--#endregion-->
+                            <!--#region Triggers Expander Header Copy Button Fade In/Out Animation -->
                             <Expander.Triggers>
                                 <EventTrigger RoutedEvent="Expander.Expanded">
                                     <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}" />
@@ -461,14 +469,15 @@
                                     <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}" />
                                 </EventTrigger>
                             </Expander.Triggers>
-                            <Grid>
+                            <!--#endregion-->
+                            <!--#region Content-->
+                            <Grid dd:DragDrop.IsDragSource="False"
+                                  dd:DragDrop.IsDropTarget="False">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
                                 <TextBox PreviewMouseWheel="TextBox_PreviewMouseWheel"
-                                         dd:DragDrop.IsDragSource="False"
-                                         dd:DragDrop.IsDropTarget="False"
                                          Style="{DynamicResource TextBoxOutputStyle}"
                                          Tag="{Binding Data.IsSuccess}"
                                          Text="{Binding Data.Result}" />
@@ -562,7 +571,7 @@
                                             </MultiBinding>
                                         </Button.CommandParameter>
                                     </Button>
-                                    
+
                                     <!-- 回译该结果 -->
                                     <Button Margin="5,0,0,0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
@@ -572,8 +581,9 @@
                                             ToolTip="回译[强制回译](Ctrl+点击)">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
-                                                                       CommandParameter="{Binding Data.Result}" />
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
+                                                    CommandParameter="{Binding Data.Result}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <Button.Visibility>
@@ -591,6 +601,7 @@
                                                    IsAnimationPlaying="{Binding IsExecuting}"
                                                    Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Grid>
+                            <!--#endregion-->
                         </Expander>
                     </Border>
                 </DataTemplate>
