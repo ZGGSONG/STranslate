@@ -539,6 +539,11 @@ public partial class MainViewModel : ObservableObject
             case ITranslator it:
                 it.IsEnabled = !it.IsEnabled;
                 Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
+
+                // 如果服务开启并且输入框有内容则立即翻译
+                if (it.IsEnabled  && !string.IsNullOrEmpty(InputVM.InputContent))
+                    OutputVM.SingleTranslateCommand.Execute(it);
+
                 break;
             case IOCR io:
                 Singleton<OCRScvViewModel>.Instance.ActivedOCR = io;
