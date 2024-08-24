@@ -55,6 +55,11 @@
                                   common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
                                   ExpandDirection="Down"
                                   SnapsToDevicePixels="True">
+                            <!--#region Resources-BindingProxy 传递 ITranslator -->
+                            <Expander.Resources>
+                                <common:BindingProxy x:Key="TranslatorService" Data="{Binding .}" />
+                            </Expander.Resources>
+                            <!--#endregion-->
                             <!--#region Header-->
                             <Expander.Header>
                                 <Grid Height="30"
@@ -439,11 +444,6 @@
                                     </StackPanel>
                                 </Grid>
                             </Expander.Header>
-                            <!--#endregion-->
-                            <!--#region Resources-BindingProxy 传递 ITranslator -->
-                            <Expander.Resources>
-                                <common:BindingProxy x:Key="TranslatorService" Data="{Binding .}" />
-                            </Expander.Resources>
                             <!--#endregion-->
                             <!--#region Interaction Triggers-手动触发Expander的Expanded事件 -->
                             <i:Interaction.Triggers>
