@@ -62,7 +62,7 @@
         <!-- // 调整全局字体大小 // -->
         <KeyBinding Command="{Binding ReduceGlobalFontSizeCommand}" Gesture="Ctrl+OemOpenBrackets" />
         <KeyBinding Command="{Binding IncreaseGlobalFontSizeCommand}" Gesture="Ctrl+OemCloseBrackets" />
-        <KeyBinding Command="{Binding ResetGlobalFontSizeCommand}" Gesture="Ctrl+Shift+OemCloseBrackets" />
+        <KeyBinding Command="{Binding ResetGlobalFontSizeCommand}" Gesture="Ctrl+OemQuotes" />
         
 
         <!-- // 宽、最大高快捷键调整 START // -->

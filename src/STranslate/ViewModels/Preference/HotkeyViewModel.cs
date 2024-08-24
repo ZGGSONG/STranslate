@@ -58,6 +58,9 @@ public partial class HotkeyViewModel : ObservableObject
         new SoftHotkey("Ctrl + Alt + -", "宽度减少"),
         new SoftHotkey("Ctrl + Shift + +", "最大高度增加"),
         new SoftHotkey("Ctrl + Shift + -", "最大高度减少"),
+        new SoftHotkey("Ctrl + [", "全局字体减小"),
+        new SoftHotkey("Ctrl + ]", "全局字体增大"),
+        new SoftHotkey("Ctrl + '", "全局字体恢复默认"),
     ];
 
     [ObservableProperty] private HotkeyContentVisibilityModel _inputHk = new();
