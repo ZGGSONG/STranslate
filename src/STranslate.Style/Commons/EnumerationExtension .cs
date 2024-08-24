@@ -8,48 +8,31 @@ namespace STranslate.Style.Commons;
 /// </summary>
 public class EnumerationExtension : MarkupExtension
 {
-    private Type? _enumType;
+    public Type EnumType { get; set; }
 
-    public EnumerationExtension()
+    public EnumerationExtension(Type? enumType)
     {
-    }
-
-    public EnumerationExtension(Type enumType)
-    {
+        ArgumentNullException.ThrowIfNull(enumType);
+        if (!enumType.IsEnum)
+            throw new ArgumentException("Type must be an Enum.");
         EnumType = enumType;
-    }
-
-    public Type? EnumType
-    {
-        get => _enumType;
-        set
-        {
-            if (_enumType != value)
-            {
-                if (value != null)
-                {
-                    var enumType = Nullable.GetUnderlyingType(value) ?? value;
-                    if (!enumType.IsEnum)
-                        throw new ArgumentException("Type must be an Enum.");
-                }
-
-                _enumType = value;
-            }
-        }
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        var enumValues = Enum.GetValues(EnumType!);
+        var enumValues = Enum.GetValues(EnumType).Cast<object>();
+
+        // 检查枚举的底层类型是否为 int
+        if (Enum.GetUnderlyingType(EnumType) == typeof(int))
+        {
+            enumValues = enumValues.OrderBy(e => (int)e);
+        }
         return (from object enumValue in enumValues
             select new EnumerationMember { Value = enumValue, Description = GetDescription(enumValue) }).ToArray();
     }
 
     private string GetDescription(object enumValue)
     {
-        if (EnumType == null)
-            throw new InvalidOperationException("The EnumType must be specified.");
-
         var descriptionAttribute =
             EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false)
                 .FirstOrDefault() as DescriptionAttribute;

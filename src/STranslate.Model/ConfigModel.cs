@@ -360,6 +360,11 @@ public class ConfigModel
     public bool ShowMinimalBtn { get; set; }
 
     /// <summary>
+    ///     全局字体大小
+    /// </summary>
+    public GlobalFontSizeEnum GlobalFontSize { get; set; } = GlobalFontSizeEnum.General;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -464,6 +469,7 @@ public class ConfigModel
             OftenUsedLang = OftenUsedLang,
             UseCacheLocation = UseCacheLocation,
             ShowMinimalBtn = ShowMinimalBtn,
+            GlobalFontSize = GlobalFontSize,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

@@ -429,91 +429,12 @@ public partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
-    ///     重置字体大小
+    ///     重置文本框字体大小
     /// </summary>
     [RelayCommand]
     private void ResetFontSize()
     {
         Application.Current.Resources[Constant.FontSize18TextBox] = Application.Current.Resources[Constant.FontSize18];
-    }
-
-    /// <summary>
-    ///     增加全局字体大小
-    /// </summary>
-    [RelayCommand]
-    private void IncreaseGlobalFontSize()
-    {
-        ChangeGlobalFontSize(1.0);
-    }
-
-    /// <summary>
-    ///     降低全局字体大小
-    /// </summary>
-    [RelayCommand]
-    private void ReduceGlobalFontSize()
-    {
-        ChangeGlobalFontSize(-1.0);
-    }
-
-    private void ChangeGlobalFontSize(double sizeChanged)
-    {
-        var fontSizeLimits = new Dictionary<string, (double min, double max)>
-        {
-            { Constant.FontSize30, (24, 36) },
-            { Constant.FontSize24, (18, 30) },
-            { Constant.FontSize22, (16, 28) },
-            { Constant.FontSize21, (15, 27) },
-            { Constant.FontSize20, (14, 26) },
-            { Constant.FontSize19, (13, 25) },
-            { Constant.FontSize18, (12, 24) },
-            { Constant.FontSize17, (11, 23) },
-            { Constant.FontSize16, (10, 22) },
-            { Constant.FontSize14, (8, 20) },
-            { Constant.FontSize12, (6, 18) },
-            { Constant.FontSize10, (4, 16) },
-            { Constant.FontSize18TextBox, (12, 24) },
-        };
-
-        foreach (var key in fontSizeLimits.Keys)
-        {
-            if (Application.Current.Resources[key] is not double currentSize) continue;
-            var (min, max) = fontSizeLimits[key];
-            var newSize = currentSize + sizeChanged;
-            if (newSize < min || newSize > max)
-            {
-                continue;
-            }
-            Application.Current.Resources[key] = newSize;
-        }
-    }
-
-    /// <summary>
-    ///     重置全局字体大小
-    /// </summary>
-    [RelayCommand]
-    private void ResetGlobalFontSize()
-    {
-        var fontSizeDict = new Dictionary<string, double>
-        {
-            { Constant.FontSize30, 30 },
-            { Constant.FontSize24, 24 },
-            { Constant.FontSize22, 22 },
-            { Constant.FontSize21, 21 },
-            { Constant.FontSize20, 20 },
-            { Constant.FontSize19, 19 },
-            { Constant.FontSize18, 18 },
-            { Constant.FontSize17, 17 },
-            { Constant.FontSize16, 16 },
-            { Constant.FontSize14, 14 },
-            { Constant.FontSize12, 12 },
-            { Constant.FontSize10, 10 },
-            { Constant.FontSize18TextBox, 18 },
-        };
-
-        foreach (var font in fontSizeDict)
-        {
-            Application.Current.Resources[font.Key] = font.Value;
-        }
     }
 
     /// <summary>
@@ -608,6 +529,42 @@ public partial class MainViewModel : ObservableObject
     {
         window.WindowState = WindowState.Minimized;
     }
+
+    #region 全局字体大小
+
+    /// <summary>
+    ///     重置全局字体大小
+    /// </summary>
+    [RelayCommand]
+    private void ResetGlobalFontSize()
+    {
+        Constant.GlobalFontSizeList.ForEach(font => Application.Current.Resources[font.Item1] = font.Item2);
+        CommonSettingVM.GlobalFontSize = GlobalFontSizeEnum.General;
+    }
+
+    /// <summary>
+    ///     增加全局字体大小
+    /// </summary>
+    [RelayCommand]
+    private void IncreaseGlobalFontSize()
+    {
+        if (CommonSettingVM.GlobalFontSize == CommonSettingVM.GlobalFontSize.Max())
+            return;
+        CommonSettingVM.GlobalFontSize = CommonSettingVM.GlobalFontSize.Increment();
+    }
+
+    /// <summary>
+    ///     降低全局字体大小
+    /// </summary>
+    [RelayCommand]
+    private void ReduceGlobalFontSize()
+    {
+        if (CommonSettingVM.GlobalFontSize == CommonSettingVM.GlobalFontSize.Min())
+            return;
+        CommonSettingVM.GlobalFontSize = CommonSettingVM.GlobalFontSize.Decrement();
+    }
+
+    #endregion
 
     #region 显示图标
 

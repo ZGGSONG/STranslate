@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -38,7 +40,7 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _copyResultAfterTranslateIndex = CurConfig?.CopyResultAfterTranslateIndex ?? 0;
 
-    private string _customFont = CurConfig?.CustomFont ?? Constant.DefaultFontName;
+    [ObservableProperty] private string _customFont = CurConfig?.CustomFont ?? Constant.DefaultFontName;
 
     /// <summary>
     ///     语种识别类型
@@ -68,7 +70,7 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     ///     历史记录大小
     /// </summary>
-    private long _historySizeType = 1;
+    [ObservableProperty] private long _historySizeType = 1;
 
 
     /// <summary>
@@ -306,6 +308,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _showMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
 
+    /// <summary>
+    ///     全局字体大小
+    /// </summary>
+    [ObservableProperty] private GlobalFontSizeEnum _globalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
+
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -322,58 +329,42 @@ public partial class CommonViewModel : ObservableObject
 
     public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
-    public long HistorySizeType
+    
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        get => _historySizeType;
-        set
+        switch (e.PropertyName)
         {
-            if (_historySizeType == value)
-                return;
-            OnPropertyChanging();
-            _historySizeType = value;
-
-            HistorySize = value switch
-            {
-                0 => 50,
-                1 => 100,
-                2 => 200,
-                3 => 500,
-                4 => 1000,
-                5 => long.MaxValue,
-                6 => 0,
-                _ => 100
-            };
-
-            OnPropertyChanged();
+            case nameof(CustomFont):
+                {
+                    // 切换字体
+                    Application.Current.Resources[Constant.UserDefineFontKey] = CustomFont.Equals(Constant.DefaultFontName)
+                        ? Application.Current.Resources[Constant.DefaultFontName]
+                        : new FontFamily(CustomFont);
+                    break;
+                }
+            case nameof(HistorySizeType):
+                {
+                    HistorySize = HistorySizeType switch
+                    {
+                        0 => 50,
+                        1 => 100,
+                        2 => 200,
+                        3 => 500,
+                        4 => 1000,
+                        5 => long.MaxValue,
+                        6 => 0,
+                        _ => 100
+                    };
+                    break;
+                }
+            case nameof(GlobalFontSize):
+                {
+                    Constant.GlobalFontSizeList.ForEach(font
+                        => Application.Current.Resources[font.Item1] = font.Item2 + GlobalFontSize.ToInt());
+                    break;
+                }
         }
-    }
-
-    public string CustomFont
-    {
-        get => _customFont;
-        set
-        {
-            if (_customFont == value)
-                return;
-            OnPropertyChanging();
-
-            try
-            {
-                // 切换字体
-                Application.Current.Resources[Constant.UserDefineFontKey] = value.Equals(Constant.DefaultFontName)
-                    ? Application.Current.Resources[Constant.DefaultFontName]
-                    : new FontFamily(value);
-                _customFont = value;
-            }
-            catch (Exception)
-            {
-                Application.Current.Resources[Constant.UserDefineFontKey] =
-                    Application.Current.Resources[Constant.DefaultFontName];
-                _customFont = Constant.DefaultFontName;
-            }
-
-            OnPropertyChanged();
-        }
+        base.OnPropertyChanged(e);
     }
 
     /// <summary>
@@ -476,6 +467,7 @@ public partial class CommonViewModel : ObservableObject
         OftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
         UseCacheLocation = CurConfig?.UseCacheLocation ?? false;
         ShowMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
+        GlobalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

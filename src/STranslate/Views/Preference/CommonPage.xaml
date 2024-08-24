@@ -333,12 +333,24 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock Text="字体选择[立即生效]" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择系统中自带字体[立即生效]" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择系统中自带字体" />
                                 <ComboBox Height="30"
                                           BorderThickness="1"
                                           HorizontalAlignment="Right"
                                           ItemsSource="{Binding GetFontFamilys}"
                                           SelectedValue="{Binding CustomFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="全局字体大小[立即生效]" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="全局字体大小配置" />
+                                <ComboBox Height="30"
+                                          BorderThickness="1"
+                                          HorizontalAlignment="Right"
+                                          DisplayMemberPath="Description"
+                                          ItemsSource="{Binding Source={common:Enumeration {x:Type model:GlobalFontSizeEnum}}}"
+                                          SelectedValue="{Binding GlobalFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedValuePath="Value" />
                             </DockPanel>
 
                             <DockPanel Margin="20,10">
@@ -417,7 +429,7 @@
 
                             <DockPanel Margin="20,10">
                                 <TextBlock HorizontalAlignment="Left" Text="光标移动至末尾[立即生效]" />
-                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="激活窗口时光标移动至末尾[立即生效]" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="激活窗口时光标移动至末尾" />
                                 <ToggleButton Height="26" HorizontalAlignment="Right" IsChecked="{Binding IsCaretLast}" />
                             </DockPanel>
 

@@ -60,6 +60,9 @@ public class ConfigHelper
         //初始化字体
         FontOperate();
 
+        //初始化全局字体大小
+        GlobalFontSizeOperate();
+
         //初始化代理设置
         ProxyOperate(
             CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理,
@@ -254,6 +257,7 @@ public class ConfigHelper
         CurrentConfig.OftenUsedLang = model.OftenUsedLang;
         CurrentConfig.UseCacheLocation = model.UseCacheLocation;
         CurrentConfig.ShowMinimalBtn = model.ShowMinimalBtn;
+        CurrentConfig.GlobalFontSize = model.GlobalFontSize;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -574,6 +578,15 @@ public class ConfigHelper
     }
 
     /// <summary>
+    ///     初始化全局字体大小
+    /// </summary>
+    private void GlobalFontSizeOperate()
+    {
+        Constant.GlobalFontSizeList.ForEach(font
+            => Application.Current.Resources[font.Item1] = font.Item2 + CurrentConfig!.GlobalFontSize.ToInt());
+    }
+
+    /// <summary>
     ///     代理操作
     /// </summary>
     /// <param name="proxyMethod"></param>
@@ -765,6 +778,7 @@ public class ConfigHelper
             OftenUsedLang = string.Empty,
             UseCacheLocation = false,
             ShowMinimalBtn = false,
+            GlobalFontSize = GlobalFontSizeEnum.General,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

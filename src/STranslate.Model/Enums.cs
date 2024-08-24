@@ -549,6 +549,22 @@ public enum GithubProxy
 }
 
 /// <summary>
+///     全局字体大小
+/// </summary>
+public enum GlobalFontSizeEnum
+{
+    [Description("特小(14px)")] ExtremelySmall = -4,
+    [Description("超小(15px)")] UltraSmall,
+    [Description("很小(16px)")] VerySmall,
+    [Description("小(17px)")] Small,
+    [Description("标准(18px)")] General = 0,
+    [Description("大(19px)")] Big,
+    [Description("很大(20px)")] VeryBig,
+    [Description("超大(21px)")] UltraBig,
+    [Description("特大(22px)")] ExtremelyBig,
+}
+
+/// <summary>
 ///     获取Description
 /// </summary>
 public static class EnumExtensions
@@ -612,25 +628,31 @@ public static class EnumExtensions
     {
         return Enum.GetValues(typeof(T)).OfType<T>().ToList();
     }
-
-    public static T Increment<T>(this T value)
-        where T : Enum
+    private static T[] GetSortedEnumValues<T>() where T : Enum
     {
         var enumValues = (T[])Enum.GetValues(typeof(T));
-        var index = Array.IndexOf(enumValues, value);
-        if (index < enumValues.Length - 1)
-            return enumValues[index + 1];
-        return value;
+        // 检查枚举的底层类型是否为 int
+        if (Enum.GetUnderlyingType(typeof(T)) == typeof(int))
+        {
+            enumValues = enumValues
+                .OrderBy(e => Convert.ToInt32(e))
+                .ToArray();
+        }
+        return enumValues;
     }
 
-    public static T Decrement<T>(this T value)
-        where T : Enum
+    public static T Increment<T>(this T value) where T : Enum
     {
-        var enumValues = (T[])Enum.GetValues(typeof(T));
+        var enumValues = GetSortedEnumValues<T>();
         var index = Array.IndexOf(enumValues, value);
-        if (index > 0)
-            return enumValues[index - 1];
-        return value;
+        return index < enumValues.Length - 1 ? enumValues[index + 1] : value;
+    }
+
+    public static T Decrement<T>(this T value) where T : Enum
+    {
+        var enumValues = GetSortedEnumValues<T>();
+        var index = Array.IndexOf(enumValues, value);
+        return index > 0 ? enumValues[index - 1] : value;
     }
 
     /// <summary>
@@ -641,9 +663,19 @@ public static class EnumExtensions
     /// <returns></returns>
     public static T Increase<T>(this T @enum) where T : Enum
     {
-        var values = (T[])Enum.GetValues(typeof(T));
-        var currentIndex = Array.IndexOf(values, @enum);
-        var nextIndex = (currentIndex + 1) % values.Length;
-        return values[nextIndex];
+        var enumValues = GetSortedEnumValues<T>();
+        var currentIndex = Array.IndexOf(enumValues, @enum);
+        var nextIndex = (currentIndex + 1) % enumValues.Length;
+        return enumValues[nextIndex];
+    }
+
+    public static T Max<T>(this T @enum) where T : Enum
+    {
+        return GetSortedEnumValues<T>().Max()!;
+    }
+
+    public static T Min<T>(this T @enum) where T : Enum
+    {
+        return GetSortedEnumValues<T>().Min()!;
     }
 }

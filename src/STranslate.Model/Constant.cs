@@ -7,90 +7,7 @@ namespace STranslate.Model;
 
 public static class Constant
 {
-    #region Theme
-
-    private const string ThemeLight = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorLight.xaml";
-    private const string ThemeDark = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorDark.xaml";
-
-    public const RegistryHive ThemeRegistryHive = RegistryHive.CurrentUser;
-    public const string ThemeRegistry = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-    public const string ThemeRegistryKey = "SystemUsesLightTheme";
-    public static readonly Uri LightUri = new(ThemeLight);
-    public static readonly Uri DarkUri = new(ThemeDark);
-
-    #endregion
-
-    #region Resources
-
-    public const string Icon = "pack://application:,,,/STranslate.Style;component/Resources/favicon.ico";
-    public const string IconForbidden = "pack://application:,,,/STranslate.Style;component/Resources/forbidden.ico";
-
-    public const string WindowResourcePath =
-        "pack://application:,,,/STranslate.Style;component/Styles/WindowStyle.xaml";
-
-    public const string WindowResourceName = "WindowStyle";
-
-    public const string TopmostContent = "\xe637";
-    public const string UnTopmostContent = "\xe9ba";
-
-    public const string MaximizeContent = "\xe651";
-    public const string MaximizeBackContent = "\xe693";
-
-    public const string ShowIcon = "\xe608";
-    public const string HideIcon = "\xe725";
-
-    public const string TagTrue = "True";
-    public const string TagFalse = "False";
-
-    public const string Loading = "加载中...";
-    public const string Unloading = "加载结束...";
-
-    public const string UserDefineFontKey = "UserFont";
-    public const string DefaultFontName = "LXGW WenKai";
-
-    public const string FontSize30 = "FontSize30";
-    public const string FontSize24 = "FontSize24";
-    public const string FontSize22 = "FontSize22";
-    public const string FontSize21 = "FontSize21";
-    public const string FontSize20 = "FontSize20";
-    public const string FontSize19 = "FontSize19";
-    public const string FontSize18 = "FontSize18";
-    public const string FontSize17 = "FontSize17";
-    public const string FontSize16 = "FontSize16";
-    public const string FontSize14 = "FontSize14";
-    public const string FontSize12 = "FontSize12";
-    public const string FontSize10 = "FontSize10";
-    public const string FontSize18TextBox = "FontSize18TextBox";   //输入框文字大小可独立调整
-
-    public const string PlaceHolderContent = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
-    public const string InputErrorContent = "该服务未获取到缓存Ctrl+Enter更新";
-    public const string HistoryErrorContent = "该服务翻译时未正确返回Ctrl+Enter以更新";
-
-    public static readonly Dictionary<IconType, string> IconDict =
-        Application.Current.Resources.MergedDictionaries.FirstOrDefault(x =>
-                x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml",
-                    UriKind.Absolute)
-            )!
-            .OfType<DictionaryEntry>()
-            .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
-                entry => entry.Value!.ToString() ?? Icon);
-
-    #endregion
-
-    #region Hotkeys
-
-    public const string DefaultInputHotkey = "Alt + A";
-    public const string DefaultCrosswordHotkey = "Alt + D";
-    public const string DefaultScreenshotHotkey = "Alt + S";
-    public const string DefaultOpenHotkey = "Alt + G";
-    public const string DefaultReplaceHotkey = "Alt + F";
-    public const string DefaultMouseHookHotkey = "Alt + Shift + D";
-    public const string DefaultOcrHotkey = "Alt + Shift + S";
-    public const string DefaultSilentOcrHotkey = "Alt + Shift + F";
-    public const string DefaultClipboardMonitorHotkey = "Alt + Shift + A";
-
-    #endregion
-
+    #region Path
     public const string GithubReleaseUrl = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
     public const string DefaultVersion = "1.0.0.0";
 
@@ -152,4 +69,95 @@ public static class Constant
         "vcruntime140.dll",
         "vcruntime140_1.dll"
     ];
+    #endregion
+
+    #region Theme
+
+    private const string ThemeLight = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorLight.xaml";
+    private const string ThemeDark = "pack://application:,,,/STranslate.Style;component/Styles/Themes/ColorDark.xaml";
+
+    public const RegistryHive ThemeRegistryHive = RegistryHive.CurrentUser;
+    public const string ThemeRegistry = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+    public const string ThemeRegistryKey = "SystemUsesLightTheme";
+    public static readonly Uri LightUri = new(ThemeLight);
+    public static readonly Uri DarkUri = new(ThemeDark);
+
+    #endregion
+
+    #region Resources
+
+    public const string Icon = "pack://application:,,,/STranslate.Style;component/Resources/favicon.ico";
+    public const string IconForbidden = "pack://application:,,,/STranslate.Style;component/Resources/forbidden.ico";
+
+    public const string WindowResourcePath =
+        "pack://application:,,,/STranslate.Style;component/Styles/WindowStyle.xaml";
+
+    public const string WindowResourceName = "WindowStyle";
+
+    public const string TopmostContent = "\xe637";
+    public const string UnTopmostContent = "\xe9ba";
+
+    public const string MaximizeContent = "\xe651";
+    public const string MaximizeBackContent = "\xe693";
+
+    public const string ShowIcon = "\xe608";
+    public const string HideIcon = "\xe725";
+
+    public const string TagTrue = "True";
+    public const string TagFalse = "False";
+
+    public const string Loading = "加载中...";
+    public const string Unloading = "加载结束...";
+
+    public const string UserDefineFontKey = "UserFont";
+    public const string DefaultFontName = "LXGW WenKai";
+
+    public const string FontSize18 = "FontSize18";
+    public const string FontSize18TextBox = "FontSize18TextBox";   //输入框文字大小可独立调整
+
+    public static readonly List<Tuple<string, double>> GlobalFontSizeList =
+    [
+        new Tuple<string, double>("FontSize30", 30),
+        new Tuple<string, double>("FontSize24", 24),
+        new Tuple<string, double>("FontSize22", 22),
+        new Tuple<string, double>("FontSize21", 21),
+        new Tuple<string, double>("FontSize20", 20),
+        new Tuple<string, double>("FontSize19", 19),
+        new Tuple<string, double>(FontSize18, 18),
+        new Tuple<string, double>("FontSize17", 17),
+        new Tuple<string, double>("FontSize16", 16),
+        new Tuple<string, double>("FontSize14", 14),
+        new Tuple<string, double>("FontSize12", 12),
+        new Tuple<string, double>("FontSize10", 10),
+        new Tuple<string, double>(FontSize18TextBox, 18),
+    ];
+
+    public const string PlaceHolderContent = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
+    public const string InputErrorContent = "该服务未获取到缓存Ctrl+Enter更新";
+    public const string HistoryErrorContent = "该服务翻译时未正确返回Ctrl+Enter以更新";
+
+    public static readonly Dictionary<IconType, string> IconDict =
+        Application.Current.Resources.MergedDictionaries.FirstOrDefault(x =>
+                x.Source == new Uri("pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml",
+                    UriKind.Absolute)
+            )!
+            .OfType<DictionaryEntry>()
+            .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
+                entry => entry.Value!.ToString() ?? Icon);
+
+    #endregion
+
+    #region Hotkeys
+
+    public const string DefaultInputHotkey = "Alt + A";
+    public const string DefaultCrosswordHotkey = "Alt + D";
+    public const string DefaultScreenshotHotkey = "Alt + S";
+    public const string DefaultOpenHotkey = "Alt + G";
+    public const string DefaultReplaceHotkey = "Alt + F";
+    public const string DefaultMouseHookHotkey = "Alt + Shift + D";
+    public const string DefaultOcrHotkey = "Alt + Shift + S";
+    public const string DefaultSilentOcrHotkey = "Alt + Shift + F";
+    public const string DefaultClipboardMonitorHotkey = "Alt + Shift + A";
+
+    #endregion
 }
