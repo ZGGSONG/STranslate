@@ -33,10 +33,8 @@ public class EnumerationExtension : MarkupExtension
 
     private string GetDescription(object enumValue)
     {
-        var descriptionAttribute =
-            EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false)
-                .FirstOrDefault() as DescriptionAttribute;
-        return descriptionAttribute != null ? descriptionAttribute.Description : enumValue.ToString() ?? "";
+        return EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+            .FirstOrDefault() is DescriptionAttribute descriptionAttribute ? descriptionAttribute.Description : enumValue.ToString() ?? "";
     }
 
     public class EnumerationMember
