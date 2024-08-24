@@ -46,7 +46,7 @@
                    Source="{DynamicResource STranslate}" />
             <TextBlock x:Name="TitleTxt"
                        Grid.Column="1"
-                       FontSize="{DynamicResource FontSize_Title}"
+                       FontSize="{DynamicResource FontSize20}"
                        Foreground="{DynamicResource NavigationForeground}"
                        Text="" />
         </Grid>
@@ -55,7 +55,7 @@
                    Grid.Row="1"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   FontSize="{DynamicResource FontSize_Content}"
+                   FontSize="{DynamicResource FontSize18}"
                    Text="Message"
                    TextWrapping="Wrap" />
         <StackPanel Grid.Row="2"

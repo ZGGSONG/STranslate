@@ -9,7 +9,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Transparent"
-             FontSize="{DynamicResource FontSize_Content}"
+             FontSize="{DynamicResource FontSize18}"
              mc:Ignorable="d">
     <Border Padding="10,20"
             BorderBrush="{DynamicResource BorderBrushColor}"
@@ -137,7 +137,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Top" Text="Prompts: " />
                     <TextBlock Grid.Column="1"
-                               FontSize="{DynamicResource FontSize_Identify}"
+                               FontSize="{DynamicResource FontSize14}"
                                Text="通过自定义Prompt自定义OpenAI行为, $target 将会被替换为目标语种。"
                                TextWrapping="Wrap" />
                 </Grid>

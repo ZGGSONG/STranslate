@@ -18,7 +18,7 @@
         WindowStartupLocation="CenterScreen"
         Deactivated="MainWindow_Deactivated"
         FontFamily="{DynamicResource UserFont}"
-        FontSize="{DynamicResource FontSize_Content}"
+        FontSize="{DynamicResource FontSize18}"
         Icon="{DynamicResource STranslate}"
         MouseLeftButtonDown="MainWindow_MouseLeftButtonDown"
         ResizeMode="NoResize"
@@ -122,7 +122,7 @@
                     <local:InputView x:Name="InputView"
                                      Margin="10,0"
                                      DataContext="{Binding InputVM}"
-                                     FontSize="{DynamicResource FontSize_TextBox}"
+                                     FontSize="{DynamicResource FontSize18TextBox}"
                                      Visibility="{Binding ElementName=MainWindow, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!-- // Mid // -->
@@ -134,7 +134,7 @@
                     <local:OutputView Margin="10,0,10,10"
                                       DataContext="{Binding OutputVM}"
                                       Focusable="False"
-                                      FontSize="{DynamicResource FontSize_TextBox}" />
+                                      FontSize="{DynamicResource FontSize18TextBox}" />
                 </StackPanel>
             </ScrollViewer>
 

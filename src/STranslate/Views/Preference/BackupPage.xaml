@@ -10,7 +10,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:FontFamily="{DynamicResource UserFont}"
-             d:FontSize="{DynamicResource FontSize_Content}"
+             d:FontSize="{DynamicResource FontSize18}"
              Style="{StaticResource ResourceKey=Page_Style}"
              mc:Ignorable="d">
     <Border CornerRadius="5">
@@ -95,13 +95,13 @@
                 <Button Margin="40,0"
                         Command="{Binding BackupCommand}"
                         Content="导出配置"
-                        FontSize="{DynamicResource FontSize_Backup}" />
+                        FontSize="{DynamicResource FontSize24}" />
 
                 <Button Grid.Column="1"
                         Margin="40,0"
                         Command="{Binding RestoreCommand}"
                         Content="导入配置"
-                        FontSize="{DynamicResource FontSize_Backup}" />
+                        FontSize="{DynamicResource FontSize24}" />
             </Grid>
         </StackPanel>
     </Border>

@@ -4,7 +4,7 @@
     <Style x:Key="Page_Style" TargetType="{x:Type UserControl}">
 
         <!-- // 设置内容字体 // -->
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
 
         <!-- // 设置背景色 // -->
         <Setter Property="Background" Value="Transparent" />

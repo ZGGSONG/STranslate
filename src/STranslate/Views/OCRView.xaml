@@ -113,7 +113,7 @@
                         Command="{Binding StickyCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         Content="{Binding TopMostContent}"
-                        FontSize="{DynamicResource FontSize_Title}"
+                        FontSize="{DynamicResource FontSize20}"
                         Style="{DynamicResource ButtonStickyIconStyle}"
                         Tag="{Binding IsTopMost}" />
 
@@ -125,7 +125,7 @@
                     <Image Height="30" Source="{DynamicResource STranslate}" />
                     <TextBlock Margin="20,0,0,0"
                                VerticalAlignment="Center"
-                               FontSize="{DynamicResource FontSize_Backup}"
+                               FontSize="{DynamicResource FontSize24}"
                                FontWeight="Bold"
                                Foreground="{DynamicResource NavigationForeground}"
                                Text="STranslate OCR" />
@@ -139,7 +139,7 @@
                     <Button Command="{Binding MinimizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe676;"
-                            FontSize="{DynamicResource FontSize_Title}"
+                            FontSize="{DynamicResource FontSize20}"
                             Style="{DynamicResource ButtonIconStyle}" />
                     <Button Command="{Binding MaximizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
@@ -149,7 +149,8 @@
                     <Button Command="{Binding CloseCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe64d;"
-                            FontSize="{DynamicResource FontSize_Prompt}"
+                            FontWeight="Bold"
+                            FontSize="{DynamicResource FontSize16}"
                             Style="{DynamicResource ButtonCloseStyle}" />
                 </StackPanel>
             </Grid>
@@ -240,7 +241,7 @@
                                 <Button Command="{Binding ResetImgCommand}"
                                         CommandParameter="{Binding ElementName=ImgCtl}"
                                         Content="&#xe64f;"
-                                        FontSize="{DynamicResource FontSize_Title}"
+                                        FontSize="{DynamicResource FontSize21}"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
                                         ToolTip="适应窗口"
                                         Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
@@ -283,7 +284,7 @@
                         <TextBox x:Name="TB"
                                  Margin="3,3,3,24"
                                  ContextMenu="{StaticResource TBCM}"
-                                 FontSize="{DynamicResource FontSize_TextBox}"
+                                 FontSize="{DynamicResource FontSize18TextBox}"
                                  PreviewMouseWheel="InputTB_PreviewMouseWheel"
                                  Style="{DynamicResource TextBoxOCRStyle}"
                                  Text="{Binding GetContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -319,7 +320,7 @@
                             <Button Command="{Binding RemoveSpaceCommand}"
                                     CommandParameter="{Binding ElementName=TB}"
                                     Content="&#xe6ab;"
-                                    FontSize="{DynamicResource FontSize_Title}"
+                                    FontSize="{DynamicResource FontSize20}"
                                     FontWeight="Bold"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="移除空格"
@@ -335,7 +336,7 @@
                                  Grid.Row="1"
                                  Margin="3,23,3,3"
                                  ContextMenu="{StaticResource QrTBCM}"
-                                 FontSize="{DynamicResource FontSize_TextBox}"
+                                 FontSize="{DynamicResource FontSize18TextBox}"
                                  PreviewMouseWheel="InputTB_PreviewMouseWheel"
                                  Style="{DynamicResource TextBoxOCRStyle}"
                                  Text="{Binding QrCodeContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -348,7 +349,7 @@
                                 VerticalAlignment="Top"
                                 Command="{Binding ClearQrContentCommand}"
                                 Content="&#xe64d;"
-                                FontSize="{DynamicResource FontSize_Service}"
+                                FontSize="{DynamicResource FontSize12}"
                                 Foreground="{DynamicResource ThemeAccentColor}"
                                 Style="{DynamicResource ButtonIconStyle}"
                                 Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
@@ -356,7 +357,7 @@
                                    Margin="4"
                                    VerticalAlignment="Top"
                                    FontFamily="{DynamicResource IconFont}"
-                                   FontSize="{DynamicResource FontSize_Identify}"
+                                   FontSize="{DynamicResource FontSize14}"
                                    Foreground="{DynamicResource ThemeAccentColor}"
                                    IsHitTestVisible="False"
                                    Text="&#xe642;"
@@ -364,7 +365,7 @@
                         <TextBlock Grid.Row="1"
                                    Margin="22,2,2,2"
                                    VerticalAlignment="Top"
-                                   FontSize="{DynamicResource FontSize_Identify}"
+                                   FontSize="{DynamicResource FontSize14}"
                                    Foreground="{DynamicResource ThemeAccentColor}"
                                    IsHitTestVisible="False"
                                    Text="二维码识别结果"
@@ -414,7 +415,7 @@
                           Margin="10,0"
                           BorderThickness="1"
                           DisplayMemberPath="Name"
-                          FontSize="{DynamicResource FontSize_Content}"
+                          FontSize="{DynamicResource FontSize18}"
                           ItemsSource="{Binding OcrScvVm.CurOCRServiceList}"
                           SelectedValue="{Binding OcrScvVm.ActivedOCR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -422,7 +423,7 @@
                           x:Name="LangCb"
                           BorderThickness="1"
                           DisplayMemberPath="Description"
-                          FontSize="{DynamicResource FontSize_Content}"
+                          FontSize="{DynamicResource FontSize18}"
                           SelectedValue="{Binding Lang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedValuePath="Value">
                     <ComboBox.ItemsSource>

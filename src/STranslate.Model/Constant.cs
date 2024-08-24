@@ -48,14 +48,19 @@ public static class Constant
     public const string UserDefineFontKey = "UserFont";
     public const string DefaultFontName = "LXGW WenKai";
 
-    public const string FontSizeAbout = "FontSize_About";       //30
-    public const string FontSizeTitle = "FontSize_Title";       //20
-    public const string FontSizeContent = "FontSize_Content";   //18
-    public const string FontSizePrompt = "FontSize_Prompt";     //16
-    public const string FontSizeIdentify = "FontSize_Identify"; //14
-    public const string FontSizeTextBox = "FontSize_TextBox";   //18...输入框文字大小可调整
-    public const string FontSizeService = "FontSize_Service";   //12
-    public const string FontSizeBackup = "FontSize_Backup";     //24
+    public const string FontSize30 = "FontSize30";
+    public const string FontSize24 = "FontSize24";
+    public const string FontSize22 = "FontSize22";
+    public const string FontSize21 = "FontSize21";
+    public const string FontSize20 = "FontSize20";
+    public const string FontSize19 = "FontSize19";
+    public const string FontSize18 = "FontSize18";
+    public const string FontSize17 = "FontSize17";
+    public const string FontSize16 = "FontSize16";
+    public const string FontSize14 = "FontSize14";
+    public const string FontSize12 = "FontSize12";
+    public const string FontSize10 = "FontSize10";
+    public const string FontSize18TextBox = "FontSize18TextBox";   //输入框文字大小可独立调整
 
     public const string PlaceHolderContent = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
     public const string InputErrorContent = "该服务未获取到缓存Ctrl+Enter更新";

@@ -3,14 +3,14 @@
                     xmlns:common="clr-namespace:STranslate.Style.Commons">
     <!-- // 输入框 // -->
     <Style x:Key="TextBoxInputStyle" TargetType="TextBox">
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_TextBox}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18TextBox}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource TextForeground}" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Margin" Value="10,10,5,35" />
+        <Setter Property="Margin" Value="10 10 10 0" />
         <Setter Property="MinHeight" Value="70" />
         <Setter Property="MaxHeight" Value="200" />
         <Setter Property="AcceptsReturn" Value="True" />
@@ -22,7 +22,7 @@
 
     <!-- // 输出框 // -->
     <Style x:Key="TextBoxOutputStyle" TargetType="TextBox">
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_TextBox}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18TextBox}" />
         <Setter Property="ContextMenu" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
@@ -30,7 +30,7 @@
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="IsReadOnly" Value="True" />
-        <Setter Property="Margin" Value="10,10,5,35" />
+        <Setter Property="Margin" Value="10 5 10 0" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Style.Triggers>

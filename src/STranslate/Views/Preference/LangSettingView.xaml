@@ -12,7 +12,7 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         FontFamily="{DynamicResource UserFont}"
-        FontSize="{DynamicResource FontSize_Content}"
+        FontSize="{DynamicResource FontSize18}"
         d:DataContext="{d:DesignInstance Type=vm:LangSettingViewModel}"
         Title="LangSettingView">
     <Window.InputBindings>

@@ -154,7 +154,7 @@
     <!-- // 普通 Icon ToggleButton // -->
     <Style x:Key="ToggleButtonIconStyle" TargetType="ToggleButton">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -205,7 +205,7 @@
     <!-- // 普通 ToggleButton // -->
     <Style x:Key="ToggleButtonTextStyle" TargetType="ToggleButton">
         <Setter Property="FontFamily" Value="{DynamicResource UserFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="Height" Value="30" />

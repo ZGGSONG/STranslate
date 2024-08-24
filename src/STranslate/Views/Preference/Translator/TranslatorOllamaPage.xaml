@@ -11,7 +11,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Transparent"
-             FontSize="{DynamicResource FontSize_Content}"
+             FontSize="{DynamicResource FontSize18}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <common:BindingProxy x:Key="userdefineprompt" Data="{Binding UserDefinePrompts}" />
@@ -38,7 +38,7 @@
                         CommandParameter="{Binding Path=.}"
                         Content="&#xe61b;"
                         FontFamily="{DynamicResource IconFont}"
-                        FontSize="{DynamicResource FontSize_Identify}"
+                        FontSize="{DynamicResource FontSize14}"
                         Style="{DynamicResource btn}" />
                     <Separator Style="{DynamicResource verSep}" />
                     <Button
@@ -46,7 +46,7 @@
                         CommandParameter="{Binding Path=.}"
                         Content="&#xe74b;"
                         FontFamily="{DynamicResource IconFont}"
-                        FontSize="{DynamicResource FontSize_Prompt}"
+                        FontSize="{DynamicResource FontSize16}"
                         Style="{DynamicResource rbtn}" />
                 </StackPanel>
             </Border>
@@ -204,7 +204,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock VerticalAlignment="Top" Text="Prompts: " />
                     <TextBlock Grid.Column="1"
-                               FontSize="{DynamicResource FontSize_Identify}"
+                               FontSize="{DynamicResource FontSize14}"
                                Text="通过自定义Prompt自定义Ollama行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。"
                                TextWrapping="Wrap" />
                 </Grid>

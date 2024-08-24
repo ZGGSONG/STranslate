@@ -9,7 +9,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              Background="Transparent"
-             FontSize="{DynamicResource FontSize_Content}"
+             FontSize="{DynamicResource FontSize18}"
              mc:Ignorable="d">
     <Border Padding="10,20"
             BorderBrush="{DynamicResource BorderBrushColor}"

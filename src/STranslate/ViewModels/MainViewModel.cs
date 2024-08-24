@@ -434,7 +434,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ResetFontSize()
     {
-        Application.Current.Resources[Constant.FontSizeTextBox] = Application.Current.Resources[Constant.FontSizeContent];
+        Application.Current.Resources[Constant.FontSize18TextBox] = Application.Current.Resources[Constant.FontSize18];
     }
 
     /// <summary>
@@ -443,7 +443,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void IncreaseGlobalFontSize()
     {
-        ChangeGlobalFontSize(2.0);
+        ChangeGlobalFontSize(1.0);
     }
 
     /// <summary>
@@ -452,21 +452,26 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ReduceGlobalFontSize()
     {
-        ChangeGlobalFontSize(-2.0);
+        ChangeGlobalFontSize(-1.0);
     }
 
     private void ChangeGlobalFontSize(double sizeChanged)
     {
         var fontSizeLimits = new Dictionary<string, (double min, double max)>
         {
-            { Constant.FontSizeAbout, (24, 36) },   //30
-            { Constant.FontSizeTitle, (14, 26) },   //20
-            { Constant.FontSizeContent, (12, 24) }, //18
-            { Constant.FontSizePrompt, (10, 12) },  //16
-            { Constant.FontSizeIdentify, (8, 20) }, //14
-            { Constant.FontSizeTextBox, (12, 24) }, //18
-            { Constant.FontSizeService, (6, 18) },  //12
-            { Constant.FontSizeBackup, (18, 30) }   //24
+            { Constant.FontSize30, (24, 36) },
+            { Constant.FontSize24, (18, 30) },
+            { Constant.FontSize22, (16, 28) },
+            { Constant.FontSize21, (15, 27) },
+            { Constant.FontSize20, (14, 26) },
+            { Constant.FontSize19, (13, 25) },
+            { Constant.FontSize18, (12, 24) },
+            { Constant.FontSize17, (11, 23) },
+            { Constant.FontSize16, (10, 22) },
+            { Constant.FontSize14, (8, 20) },
+            { Constant.FontSize12, (6, 18) },
+            { Constant.FontSize10, (4, 16) },
+            { Constant.FontSize18TextBox, (12, 24) },
         };
 
         foreach (var key in fontSizeLimits.Keys)
@@ -490,14 +495,19 @@ public partial class MainViewModel : ObservableObject
     {
         var fontSizeDict = new Dictionary<string, double>
         {
-            { Constant.FontSizeAbout, 30 },     //30
-            { Constant.FontSizeTitle, 20 },     //20
-            { Constant.FontSizeContent, 18 },   //18
-            { Constant.FontSizePrompt, 16 },    //16
-            { Constant.FontSizeIdentify, 14 },  //14
-            { Constant.FontSizeTextBox, 18 },   //18
-            { Constant.FontSizeService, 12 },   //12
-            { Constant.FontSizeBackup, 24 }     //24
+            { Constant.FontSize30, 30 },
+            { Constant.FontSize24, 24 },
+            { Constant.FontSize22, 22 },
+            { Constant.FontSize21, 21 },
+            { Constant.FontSize20, 20 },
+            { Constant.FontSize19, 19 },
+            { Constant.FontSize18, 18 },
+            { Constant.FontSize17, 17 },
+            { Constant.FontSize16, 16 },
+            { Constant.FontSize14, 14 },
+            { Constant.FontSize12, 12 },
+            { Constant.FontSize10, 10 },
+            { Constant.FontSize18TextBox, 18 },
         };
 
         foreach (var font in fontSizeDict)

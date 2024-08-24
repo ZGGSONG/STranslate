@@ -17,7 +17,7 @@ public partial class InputView
         var textBox = (TextBox)sender;
 
         // 检查是否按住 Ctrl 键，如果按住则进行缩放等特殊操作，否则进行滚动
-        var currentFontSize = (double)Application.Current.Resources[Constant.FontSizeTextBox];
+        var currentFontSize = (double)Application.Current.Resources[Constant.FontSize18TextBox];
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
         {
             // 根据滚轮事件更改字体大小
@@ -31,7 +31,7 @@ public partial class InputView
             }
 
             // 设置新的字体大小
-            Application.Current.Resources[Constant.FontSizeTextBox] = currentFontSize;
+            Application.Current.Resources[Constant.FontSize18TextBox] = currentFontSize;
         }
         else //修复普通滚动
         {

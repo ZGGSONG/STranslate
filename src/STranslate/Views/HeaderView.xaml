@@ -78,7 +78,7 @@
                     <Label HorizontalAlignment="Left"
                            Content="&#xec9e;"
                            FontFamily="{DynamicResource IconFont}"
-                           FontSize="{DynamicResource FontSize_Identify}"
+                           FontSize="{DynamicResource FontSize14}"
                            FontWeight="Bold"
                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
@@ -89,7 +89,7 @@
 
                     <TextBlock Grid.Column="2"
                                HorizontalAlignment="Left"
-                               FontSize="{DynamicResource FontSize_Identify}"
+                               FontSize="{DynamicResource FontSize14}"
                                Text="{Binding Name}"
                                TextTrimming="CharacterEllipsis" />
 
@@ -101,7 +101,7 @@
                             Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                             CornerRadius="6">
                         <TextBlock Padding="2,0"
-                                   FontSize="{DynamicResource FontSize_Service}"
+                                   FontSize="{DynamicResource FontSize12}"
                                    Foreground="{DynamicResource ServiceTypeForeground}"
                                    Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
@@ -132,7 +132,7 @@
                     <Label HorizontalAlignment="Left"
                            Content="&#xec9e;"
                            FontFamily="{DynamicResource IconFont}"
-                           FontSize="{DynamicResource FontSize_Identify}"
+                           FontSize="{DynamicResource FontSize14}"
                            FontWeight="Bold"
                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
@@ -143,7 +143,7 @@
 
                     <TextBlock Grid.Column="2"
                                HorizontalAlignment="Left"
-                               FontSize="{DynamicResource FontSize_Identify}"
+                               FontSize="{DynamicResource FontSize14}"
                                Text="{Binding Name}"
                                TextTrimming="CharacterEllipsis" />
 
@@ -155,7 +155,7 @@
                             Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                             CornerRadius="6">
                         <TextBlock Padding="2,0"
-                                   FontSize="{DynamicResource FontSize_Service}"
+                                   FontSize="{DynamicResource FontSize12}"
                                    Foreground="{DynamicResource ServiceTypeForeground}"
                                    Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
@@ -186,7 +186,7 @@
                     <Label HorizontalAlignment="Left"
                            Content="&#xec9e;"
                            FontFamily="{DynamicResource IconFont}"
-                           FontSize="{DynamicResource FontSize_Identify}"
+                           FontSize="{DynamicResource FontSize14}"
                            FontWeight="Bold"
                            Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
@@ -197,7 +197,7 @@
 
                     <TextBlock Grid.Column="2"
                                HorizontalAlignment="Left"
-                               FontSize="{DynamicResource FontSize_Identify}"
+                               FontSize="{DynamicResource FontSize14}"
                                Text="{Binding Name}"
                                TextTrimming="CharacterEllipsis" />
 
@@ -209,7 +209,7 @@
                             Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                             CornerRadius="6">
                         <TextBlock Padding="2,0"
-                                   FontSize="{DynamicResource FontSize_Service}"
+                                   FontSize="{DynamicResource FontSize12}"
                                    Foreground="{DynamicResource ServiceTypeForeground}"
                                    Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
@@ -235,14 +235,14 @@
                 Command="{Binding StickyCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="{Binding TopMostContent}"
-                FontSize="{DynamicResource FontSize_Title}"
+                FontSize="{DynamicResource FontSize21}"
                 Style="{DynamicResource ButtonStickyIconStyle}"
                 Tag="{Binding IsTopMost}"
                 ToolTip="置顶" />
         <StackPanel Margin="0,0,10,0" FlowDirection="RightToLeft" Orientation="Horizontal">
             <Button HorizontalAlignment="Right"
                     Content="&#xe660;"
-                    FontSize="{DynamicResource FontSize_Title}"
+                    FontSize="{DynamicResource FontSize21}"
                     Height="28"
                     FontWeight="Bold"
                     Width="28"
@@ -253,7 +253,7 @@
                     Visibility="{Binding IsShowClose, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button HorizontalAlignment="Right"
                     Content="&#xe676;"
-                    FontSize="{DynamicResource FontSize_Title}"
+                    FontSize="{DynamicResource FontSize21}"
                     Height="28"
                     FontWeight="Bold"
                     Width="28"
@@ -271,6 +271,7 @@
             <ToggleButton x:Name="BTN_Service"
                           HorizontalAlignment="Right"
                           Content="&#xe726;"
+                          FontSize="{DynamicResource FontSize19}"
                           Style="{DynamicResource ToggleButtonIconStyle}"
                           ToolTip="配置服务"
                           Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -359,7 +360,7 @@
                                             CornerRadius="5">
                                         <TextBlock HorizontalAlignment="Left"
                                                    Margin="3 5"
-                                                   FontSize="{DynamicResource FontSize_Identify}"
+                                                   FontSize="{DynamicResource FontSize14}"
                                                    Text="{Binding Description}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </Border>
@@ -453,7 +454,7 @@
                     Command="{Binding NotifyIconVM.OpenHistoryCommand}"
                     CommandParameter="header"
                     Content="&#xe63f;"
-                    FontSize="{DynamicResource FontSize_Title}"
+                    FontSize="{DynamicResource FontSize20}"
                     Style="{DynamicResource ButtonIconStyle}"
                     ToolTip="历史记录"
                     Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />

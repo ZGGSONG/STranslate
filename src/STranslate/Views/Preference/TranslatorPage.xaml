@@ -10,7 +10,7 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              d:FontFamily="{DynamicResource UserFont}"
-             d:FontSize="{DynamicResource FontSize_Content}"
+             d:FontSize="{DynamicResource FontSize18}"
              Style="{StaticResource ResourceKey=Page_Style}"
              mc:Ignorable="d">
     <Border CornerRadius="5">
@@ -22,8 +22,8 @@
 
             <!-- // Header // -->
             <StackPanel Margin="10">
-                <TextBlock FontSize="{DynamicResource FontSize_Title}" Text="服务" />
-                <TextBlock FontSize="{DynamicResource FontSize_Content}" Text="翻译功能的核心服务支持配置，下方开启的服务将被使用。" />
+                <TextBlock FontSize="{DynamicResource FontSize20}" Text="服务" />
+                <TextBlock FontSize="{DynamicResource FontSize18}" Text="翻译功能的核心服务支持配置，下方开启的服务将被使用。" />
             </StackPanel>
 
             <Grid Grid.Row="1">
@@ -87,7 +87,7 @@
                                                     Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                                                     CornerRadius="6">
                                                 <TextBlock Padding="2,0"
-                                                           FontSize="{DynamicResource FontSize_Service}"
+                                                           FontSize="{DynamicResource FontSize12}"
                                                            Foreground="{DynamicResource ServiceTypeForeground}"
                                                            Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                                             </Border>
@@ -182,7 +182,7 @@
                                                                 Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                                                                 CornerRadius="6">
                                                             <TextBlock Padding="2,0"
-                                                                       FontSize="{DynamicResource FontSize_Service}"
+                                                                       FontSize="{DynamicResource FontSize12}"
                                                                        Foreground="{DynamicResource ServiceTypeForeground}"
                                                                        Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                                                         </Border>

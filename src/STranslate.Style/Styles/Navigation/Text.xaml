@@ -11,7 +11,7 @@
         <Setter Property="Foreground"
                 Value="{DynamicResource NavigationForeground}" />
         <Setter Property="FontSize"
-                Value="{DynamicResource FontSize_Title}" />
+                Value="{DynamicResource FontSize20}" />
         <Setter Property="Margin"
                 Value="20,0,0,0" />
 

@@ -21,6 +21,10 @@
     <!-- // 输入框 // -->
     <Border Style="{DynamicResource BorderInOutputStyle}">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
             <common:PlaceholderTextBox x:Name="InputTB"
                                        Placeholder="{Binding Placeholder}"
                                        PreviewMouseWheel="InputTB_PreviewMouseWheel"
@@ -58,7 +62,10 @@
                     </ContextMenu>
                 </common:PlaceholderTextBox.ContextMenu>
             </common:PlaceholderTextBox>
-            <StackPanel Margin="10,5" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <StackPanel Grid.Row="1"
+                        Margin="10,5"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
                 <!-- TTS -->
                 <Button Command="{Binding TTSCommand}"
                         CommandParameter="{Binding InputContent}"
@@ -87,7 +94,7 @@
                 <Button Command="{Binding RemoveSpaceCommand}"
                         CommandParameter="{Binding ElementName=InputTB}"
                         Content="&#xe6ab;"
-                        FontSize="{DynamicResource FontSize_Title}"
+                        FontSize="{DynamicResource FontSize20}"
                         FontWeight="Bold"
                         Style="{DynamicResource ButtonCopyIconStyle}"
                         ToolTip="移除空格"
@@ -96,12 +103,12 @@
                         Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
                     <StackPanel Margin="5,2" Orientation="Horizontal">
                         <TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />
-                        <TextBlock FontSize="{DynamicResource FontSize_Identify}"
+                        <TextBlock FontSize="{DynamicResource FontSize14}"
                                    Visibility="Collapsed"
                                    Foreground="{DynamicResource ThemeAccentColor}" Text="{Binding IdentifyLanguage}" />
                         <ToggleButton Name="IdentifyTb"
                                       FontFamily="{DynamicResource UserFont}"
-                                      FontSize="{DynamicResource FontSize_Identify}"
+                                      FontSize="{DynamicResource FontSize14}"
                                       Foreground="{DynamicResource ThemeAccentColor}"
                                       Content="{Binding IdentifyLanguage}"
                                       Cursor="Hand"
@@ -141,7 +148,7 @@
                                                         CornerRadius="5">
                                                     <TextBlock HorizontalAlignment="Left"
                                                                Margin="3 5"
-                                                               FontSize="{DynamicResource FontSize_Identify}"
+                                                               FontSize="{DynamicResource FontSize14}"
                                                                Text="{Binding Description}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </Border>
@@ -176,7 +183,9 @@
                 </Border>
             </StackPanel>
 
-            <control:LoadingUC Margin="10,6,0,0" IsAnimationPlaying="{Binding NotifyIconVM.IsScreenshotExecuting}"
+            <control:LoadingUC Grid.Row="0"
+                               Margin="10,6,0,0"
+                               IsAnimationPlaying="{Binding NotifyIconVM.IsScreenshotExecuting}"
                                Visibility="{Binding NotifyIconVM.IsScreenshotExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </Grid>
     </Border>

@@ -47,7 +47,7 @@
                     <Image Height="24" Source="{DynamicResource STranslate}" />
                     <TextBlock Margin="16,0,0,0"
                                VerticalAlignment="Center"
-                               FontSize="{DynamicResource FontSize_Title}"
+                               FontSize="{DynamicResource FontSize20}"
                                FontWeight="Bold"
                                Foreground="{DynamicResource NavigationForeground}"
                                Text="选择配置" />
@@ -61,7 +61,7 @@
                     <Button Command="{Binding MinimizeCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe676;"
-                            FontSize="{DynamicResource FontSize_Title}"
+                            FontSize="{DynamicResource FontSize20}"
                             Style="{DynamicResource ButtonIconStyle}"
                             Visibility="Collapsed" />
                     <Button Command="{Binding MaximizeCommand}"
@@ -73,13 +73,13 @@
                     <Button Command="{Binding CloseCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             Content="&#xe64d;"
-                            FontSize="{DynamicResource FontSize_Prompt}"
+                            FontSize="{DynamicResource FontSize16}"
                             Style="{DynamicResource ButtonCloseStyle}" />
                 </StackPanel>
             </Grid>
         </Border>
 
-        <ScrollViewer Grid.Row="1" FontSize="{DynamicResource FontSize_Content}">
+        <ScrollViewer Grid.Row="1" FontSize="{DynamicResource FontSize18}">
             <ListBox x:Name="listbox"
                      Background="Transparent"
                      BorderThickness="0"
@@ -171,7 +171,7 @@
             <TextBlock Margin="0,10"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="{DynamicResource FontSize_Title}"
+                       FontSize="{DynamicResource FontSize20}"
                        FontWeight="Bold"
                        Text="当前路径下尚未找到备份内容..." />
         </Border>

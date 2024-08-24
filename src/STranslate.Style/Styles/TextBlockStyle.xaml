@@ -3,7 +3,7 @@
 
     <Style x:Key="LanguageMarkTextBlockStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource TextBlockLangForeground}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Identify}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize14}" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
@@ -19,7 +19,7 @@
     <Style x:Key="InfoTextBlock" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Identify}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize14}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Text" Value="&#xe60b;" />
         <Setter Property="Margin" Value="6,0,0,0" />

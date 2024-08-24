@@ -5,7 +5,7 @@
     <!-- // 普通图标按钮 // -->
     <Style x:Key="ButtonIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -53,7 +53,7 @@
     <!-- // 复制按钮 // -->
     <Style x:Key="ButtonCopyIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Template">
@@ -95,7 +95,7 @@
     <Style x:Key="ButtonCrosswordsIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Height" Value="35" />
         <Setter Property="Width" Value="35" />
@@ -146,7 +146,7 @@
     <Style x:Key="ButtonStickyIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="30" />
@@ -200,7 +200,7 @@
     <!-- // 关闭按钮 // -->
     <Style x:Key="ButtonCloseStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -254,7 +254,7 @@
 
     <!-- // 默认Style // -->
     <Style TargetType="Button">
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -304,7 +304,7 @@
     </Style>
 
     <Style TargetType="{x:Type controls:BtnContentMore}">
-        <Setter Property="FontSize" Value="{DynamicResource FontSize_Content}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="Template">
@@ -360,7 +360,7 @@
         </Setter>
     </Style>
 
-    <!-- // Preset Prompt Start // -->
+    <!--#region // Preset Prompt Start // -->
     <ControlTemplate x:Key="lbtnt" TargetType="Button">
         <Border x:Name="border"
                 MinHeight="20"
@@ -476,5 +476,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- // Preset Prompt End // -->
+    <!--#endregion // Preset Prompt End // -->
 </ResourceDictionary>
