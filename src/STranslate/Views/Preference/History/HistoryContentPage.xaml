@@ -45,10 +45,14 @@
             <StackPanel>
                 <Border Margin="6.5" Style="{DynamicResource BorderInOutputStyle}">
                     <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
                         <TextBox Style="{DynamicResource TextBoxOutputStyle}"
                                  Text="{Binding InputContent, Mode=OneWay}" />
 
-                        <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <StackPanel Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
                             <Button Margin="5,0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
                                     CommandParameter="{Binding InputContent}"
@@ -87,10 +91,16 @@
                         <DataTemplate>
                             <Border Style="{DynamicResource BorderInOutputStyle}">
                                 <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
                                     <TextBox Style="{DynamicResource TextBoxOutputStyle}"
                                              Tag="{Binding Item3.IsSuccess}" Text="{Binding Item3.Result, Mode=OneWay}" />
 
-                                    <Grid Margin="5" VerticalAlignment="Bottom">
+                                    <Grid Grid.Row="1"
+                                          Margin="5"
+                                          VerticalAlignment="Bottom">
                                         <StackPanel Orientation="Horizontal">
                                             <Button Margin="5,0,0,0"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
