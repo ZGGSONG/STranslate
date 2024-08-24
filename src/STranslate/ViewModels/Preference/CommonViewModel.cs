@@ -4,7 +4,6 @@ using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -66,6 +65,12 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private int? _externalCallPort = CurConfig?.ExternalCallPort ?? 50020;
 
     [ObservableProperty] private List<string> _getFontFamilys;
+
+    /// <summary>
+    ///     全局字体大小
+    /// </summary>
+    [ObservableProperty]
+    private GlobalFontSizeEnum _globalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
 
     /// <summary>
     ///     历史记录大小
@@ -157,8 +162,6 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
 
     [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
-    
-    [ObservableProperty] private bool _isShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? false;
 
     /// <summary>
     ///     是否显示主窗口提示词
@@ -198,6 +201,8 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
 
     [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
+
+    [ObservableProperty] private bool _isShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? false;
 
     /// <summary>
     ///     是否开机启动
@@ -278,6 +283,12 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _showMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
 
     /// <summary>
+    ///     是否显示主界面最小化按钮
+    ///     * 仅在开启丢失焦点不隐藏项时有效 <see cref="StayMainViewWhenLoseFocus" />
+    /// </summary>
+    [ObservableProperty] private bool _showMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
+
+    /// <summary>
     ///     丢失焦点时主界面不隐藏
     /// </summary>
     [ObservableProperty] private bool _stayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
@@ -286,6 +297,11 @@ public partial class CommonViewModel : ObservableObject
     ///     主题类型
     /// </summary>
     [ObservableProperty] private ThemeType _themeType = CurConfig?.ThemeType ?? ThemeType.Light;
+
+    /// <summary>
+    ///     是否缓存位置
+    /// </summary>
+    [ObservableProperty] private bool _useCacheLocation = CurConfig?.UseCacheLocation ?? false;
 
     /// <summary>
     ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
@@ -297,21 +313,6 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
 
-    /// <summary>
-    ///     是否缓存位置
-    /// </summary>
-    [ObservableProperty] private bool _useCacheLocation = CurConfig?.UseCacheLocation ?? false;
-    
-    /// <summary>
-    ///     是否显示主界面最小化按钮
-    ///     * 仅在开启丢失焦点不隐藏项时有效 <see cref="StayMainViewWhenLoseFocus"/>
-    /// </summary>
-    [ObservableProperty] private bool _showMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
-
-    /// <summary>
-    ///     全局字体大小
-    /// </summary>
-    [ObservableProperty] private GlobalFontSizeEnum _globalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
 
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
@@ -327,45 +328,14 @@ public partial class CommonViewModel : ObservableObject
         LoadHistorySizeType();
     }
 
-    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
+    public BindingList<GlobalFontSizeWithDescription> GlobalFontSizeList { get; set; } =
+        new(Enum.GetValues(typeof(GlobalFontSizeEnum))
+            .Cast<GlobalFontSizeEnum>()
+            .OrderBy(x => (int)x)
+            .Select(x => new GlobalFontSizeWithDescription { Value = x, Description = x.GetDescription() })
+            .ToArray());
 
-    
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        switch (e.PropertyName)
-        {
-            case nameof(CustomFont):
-                {
-                    // 切换字体
-                    Application.Current.Resources[Constant.UserDefineFontKey] = CustomFont.Equals(Constant.DefaultFontName)
-                        ? Application.Current.Resources[Constant.DefaultFontName]
-                        : new FontFamily(CustomFont);
-                    break;
-                }
-            case nameof(HistorySizeType):
-                {
-                    HistorySize = HistorySizeType switch
-                    {
-                        0 => 50,
-                        1 => 100,
-                        2 => 200,
-                        3 => 500,
-                        4 => 1000,
-                        5 => long.MaxValue,
-                        6 => 0,
-                        _ => 100
-                    };
-                    break;
-                }
-            case nameof(GlobalFontSize):
-                {
-                    Constant.GlobalFontSizeList.ForEach(font
-                        => Application.Current.Resources[font.Item1] = font.Item2 + GlobalFontSize.ToInt());
-                    break;
-                }
-        }
-        base.OnPropertyChanged(e);
-    }
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
     /// <summary>
     ///     显示/隐藏密码Command
@@ -373,6 +343,45 @@ public partial class CommonViewModel : ObservableObject
     [JsonIgnore]
     public IRelayCommand<string> ShowEncryptInfoCommand =>
         _showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
+
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(CustomFont):
+            {
+                // 切换字体
+                Application.Current.Resources[Constant.UserDefineFontKey] = CustomFont.Equals(Constant.DefaultFontName)
+                    ? Application.Current.Resources[Constant.DefaultFontName]
+                    : new FontFamily(CustomFont);
+                break;
+            }
+            case nameof(HistorySizeType):
+            {
+                HistorySize = HistorySizeType switch
+                {
+                    0 => 50,
+                    1 => 100,
+                    2 => 200,
+                    3 => 500,
+                    4 => 1000,
+                    5 => long.MaxValue,
+                    6 => 0,
+                    _ => 100
+                };
+                break;
+            }
+            case nameof(GlobalFontSize):
+            {
+                Constant.GlobalFontSizeList.ForEach(font
+                    => Application.Current.Resources[font.Item1] = font.Item2 + GlobalFontSize.ToInt());
+                break;
+            }
+        }
+
+        base.OnPropertyChanged(e);
+    }
 
     public event Action<bool>? OnIncrementalChanged;
 
@@ -388,7 +397,7 @@ public partial class CommonViewModel : ObservableObject
             ShowMinimalBtn = false;
             LogService.Logger.Info("关闭丢失焦点不隐藏取消显示最小化按钮");
         }
-        
+
         if (ConfigHelper.WriteConfig(this))
         {
             //通知增量翻译配置到主界面
