@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
     <FontFamily x:Key="IconFont">/STranslate.Style;component/Fonts/#iconfont</FontFamily>
     <FontFamily x:Key="UserFont">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>

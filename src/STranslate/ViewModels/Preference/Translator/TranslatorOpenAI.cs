@@ -1,7 +1,11 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Net.Http;
+using System.Text;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Helper;
@@ -183,6 +187,86 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
         userDefinePrompt.Prompts = tmp.Prompts;
         UserDefinePrompts.Add(userDefinePrompt);
         ManualPropChanged(nameof(UserDefinePrompts));
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    private void AddPromptFromFile()
+    {
+        var openFileDialog = new OpenFileDialog { Filter = "json(*.json)|*.json" };
+        if (openFileDialog.ShowDialog() != true)
+            return;
+        var jsonStr = File.ReadAllText(openFileDialog.FileName);
+        try
+        {
+            var prompt = JsonConvert.DeserializeObject<UserDefinePrompt>(jsonStr);
+            if (prompt is { Name: not null, Prompts: not null })
+            {
+                prompt.Enabled = false;
+                UserDefinePrompts.Add(prompt);
+                ManualPropChanged(nameof(UserDefinePrompts));
+            }
+            else
+            {
+                ToastHelper.Show("导入内容为空", WindowType.Preference);
+            }
+        }
+        catch
+        {
+            try
+            {
+                var prompt = JsonConvert.DeserializeObject<List<UserDefinePrompt>>(jsonStr);
+                if (prompt != null)
+                {
+                    foreach (var item in prompt)
+                    {
+                        item.Enabled = false;
+                        UserDefinePrompts.Add(item);
+                    }
+                    ManualPropChanged(nameof(UserDefinePrompts));
+                }
+                else
+                {
+                    ToastHelper.Show("导入内容为空", WindowType.Preference);
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.Logger.Error($"导入Prompt失败: {e.Message}", e);
+                ToastHelper.Show("导入失败", WindowType.Preference);
+                return;
+            }
+        }
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    private void Export()
+    {
+        string jsonStr;
+        StringBuilder sb = new($"{Name}_Prompt_");
+        if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
+        {
+            var selectedPrompt = UserDefinePrompts.FirstOrDefault(x => x.Enabled);
+            if (selectedPrompt == null)
+            {
+                ToastHelper.Show("未选择Prompt", WindowType.Preference);
+                return;
+            }
+            jsonStr = JsonConvert.SerializeObject(selectedPrompt, Formatting.Indented);
+            sb.Append(selectedPrompt.Name);
+        }
+        else
+        {
+            jsonStr = JsonConvert.SerializeObject(UserDefinePrompts, Formatting.Indented);
+            sb.Append("All");
+        }
+        sb.Append($"_{DateTime.Now:yyyyMMddHHmmss}");
+        var saveFileDialog = new SaveFileDialog { Filter = "json(*.json)|*.json", FileName = sb.ToString() };
+
+        if (saveFileDialog.ShowDialog() != true) return;
+        File.WriteAllText(saveFileDialog.FileName, jsonStr);
+        ToastHelper.Show("导出成功", WindowType.Preference);
     }
 
     #endregion Prompt

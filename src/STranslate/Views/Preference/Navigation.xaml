@@ -1,7 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
-                    xmlns:view="clr-namespace:STranslate.Views.Preference">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:view="clr-namespace:STranslate.Views.Preference"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference">
     <DataTemplate DataType="{x:Type vm:CommonViewModel}">
         <view:CommonPage />
     </DataTemplate>

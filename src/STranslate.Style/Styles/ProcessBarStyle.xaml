@@ -1,7 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- // https://www.cnblogs.com/xiaomingg/p/8886884.html // -->
+    <!--  // https://www.cnblogs.com/xiaomingg/p/8886884.html //  -->
     <Style TargetType="{x:Type ProgressBar}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -21,15 +20,21 @@
                         </Grid.RowDefinitions>
 
                         <Grid Height="{TemplateBinding Height}">
-                            <Border Background="{DynamicResource TextBoxBorderBrushColor}" CornerRadius="7.5"
-                                    Opacity="0.05" />
-                            <Border BorderBrush="{DynamicResource TextBoxBorderBrushColor}"
-                                    BorderThickness="1"
-                                    CornerRadius="7.5"
-                                    Opacity="0.1" />
+                            <Border
+                                Background="{DynamicResource TextBoxBorderBrushColor}"
+                                CornerRadius="7.5"
+                                Opacity="0.05" />
+                            <Border
+                                BorderBrush="{DynamicResource TextBoxBorderBrushColor}"
+                                BorderThickness="1"
+                                CornerRadius="7.5"
+                                Opacity="0.1" />
                             <Grid Margin="{TemplateBinding BorderThickness}">
                                 <Border x:Name="PART_Track" />
-                                <Grid x:Name="PART_Indicator" HorizontalAlignment="Left" ClipToBounds="True">
+                                <Grid
+                                    x:Name="PART_Indicator"
+                                    HorizontalAlignment="Left"
+                                    ClipToBounds="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition x:Name="width1" />
                                         <ColumnDefinition x:Name="width2" Width="0" />
@@ -44,16 +49,18 @@
                                             </TransformGroup>
                                         </Grid.RenderTransform>
                                         <Border Background="{TemplateBinding Background}" CornerRadius="7.5">
-                                            <Viewbox Margin="{TemplateBinding Padding}"
-                                                     HorizontalAlignment="Left"
-                                                     SnapsToDevicePixels="True"
-                                                     StretchDirection="DownOnly">
-                                                <TextBlock VerticalAlignment="Center"
-                                                           FontSize="{TemplateBinding FontSize}"
-                                                           Foreground="{DynamicResource TextForeground}"
-                                                           RenderTransformOrigin="0.5,0.5"
-                                                           SnapsToDevicePixels="True"
-                                                           Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value, StringFormat={}{0}%}">
+                                            <Viewbox
+                                                Margin="{TemplateBinding Padding}"
+                                                HorizontalAlignment="Left"
+                                                SnapsToDevicePixels="True"
+                                                StretchDirection="DownOnly">
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    FontSize="{TemplateBinding FontSize}"
+                                                    Foreground="{DynamicResource TextForeground}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    SnapsToDevicePixels="True"
+                                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value, StringFormat={}{0}%}">
                                                     <TextBlock.RenderTransform>
                                                         <TransformGroup>
                                                             <ScaleTransform ScaleX="-1" ScaleY="1" />
@@ -65,10 +72,11 @@
                                                 </TextBlock>
                                             </Viewbox>
                                         </Border>
-                                        <Border BorderBrush="{DynamicResource TextForeground}"
-                                                BorderThickness="1"
-                                                CornerRadius="7.5"
-                                                Opacity="0.1" />
+                                        <Border
+                                            BorderBrush="{DynamicResource TextForeground}"
+                                            BorderThickness="1"
+                                            CornerRadius="7.5"
+                                            Opacity="0.1" />
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -78,8 +86,7 @@
                                 <VisualState x:Name="Determinate" />
                                 <VisualState x:Name="Indeterminate">
                                     <Storyboard RepeatBehavior="Forever">
-                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation"
-                                                                      Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
                                             <EasingPointKeyFrame KeyTime="0:0:0" Value="0.5,0.5" />
                                             <EasingPointKeyFrame KeyTime="0:0:1.5" Value="1.95,0.5" />
                                             <EasingPointKeyFrame KeyTime="0:0:3" Value="0.5,0.5" />
