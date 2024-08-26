@@ -9,7 +9,7 @@
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
     x:Name="openAIServicesPage"
     d:DataContext="{d:DesignInstance Type=vm:TranslatorOpenAI}"
-    d:DesignHeight="450"
+    d:DesignHeight="850"
     d:DesignWidth="800"
     Background="Transparent"
     FontSize="{DynamicResource FontSize18}"
@@ -26,7 +26,8 @@
                     <Button
                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.SelectedPromptCommand}"
                         Content="{Binding Name}"
-                        Style="{DynamicResource lbtn}">
+                        Style="{DynamicResource lbtn}"
+                        ToolTip="点击启用">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                 <Binding Path="." />
@@ -40,7 +41,8 @@
                         Content="&#xe61b;"
                         FontFamily="{DynamicResource IconFont}"
                         FontSize="{DynamicResource FontSize14}"
-                        Style="{DynamicResource btn}" />
+                        Style="{DynamicResource btn}"
+                        ToolTip="更新" />
                     <Separator Style="{DynamicResource verSep}" />
                     <Button
                         Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeletePromptCommand}"
@@ -48,7 +50,8 @@
                         Content="&#xe74b;"
                         FontFamily="{DynamicResource IconFont}"
                         FontSize="{DynamicResource FontSize16}"
-                        Style="{DynamicResource rbtn}" />
+                        Style="{DynamicResource rbtn}"
+                        ToolTip="删除" />
                 </StackPanel>
             </Border>
         </DataTemplate>
@@ -240,25 +243,26 @@
                                     <Button
                                         Command="{Binding AddPromptCommand}"
                                         Content="&#xe710;"
-                                        FontWeight="Bold"
                                         Style="{DynamicResource ButtonIconStyle}"
                                         ToolTip="添加Prompt" />
                                 </ListBoxItem>
                                 <ListBoxItem>
                                     <Button
                                         Command="{Binding AddPromptFromFileCommand}"
-                                        Content="入"
+                                        Content="&#xe664;"
+                                        FontSize="{DynamicResource FontSize16}"
                                         FontWeight="Bold"
                                         Style="{DynamicResource ButtonIconStyle}"
-                                        ToolTip="从文件添加Prompt" />
+                                        ToolTip="导入Prompt&#13;从文件添加" />
                                 </ListBoxItem>
                                 <ListBoxItem>
                                     <Button
                                         Command="{Binding ExportCommand}"
-                                        Content="出"
+                                        Content="&#xe6a2;"
+                                        FontSize="{DynamicResource FontSize16}"
                                         FontWeight="Bold"
                                         Style="{DynamicResource ButtonIconStyle}"
-                                        ToolTip="导出&#13;默认选中&#13;Ctrl点击全部" />
+                                        ToolTip="导出Prompt&#13;默认导出选中项&#13;Ctrl点击导出全部" />
                                 </ListBoxItem>
                             </CompositeCollection>
                         </ListBox.ItemsSource>
