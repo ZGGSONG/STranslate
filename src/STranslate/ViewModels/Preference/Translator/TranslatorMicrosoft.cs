@@ -238,6 +238,11 @@ public partial class TranslatorMicrosoft : TranslatorBase, ITranslator
         {
             throw;
         }
+        catch (HttpRequestException ex) when (ex.StatusCode == null)
+        {
+            var msg = $"请检查服务是否可以正常访问: {Name} ({Url}).";
+            throw new HttpRequestException(msg);
+        }
         catch (HttpRequestException)
         {
             throw;
