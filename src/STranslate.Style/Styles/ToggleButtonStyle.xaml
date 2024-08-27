@@ -184,7 +184,8 @@
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
                             Foreground="{TemplateBinding Foreground}"
-                            Text="{TemplateBinding Content}" />
+                            Text="{TemplateBinding Content}"
+                            TextTrimming="CharacterEllipsis" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

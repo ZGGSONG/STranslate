@@ -1,175 +1,189 @@
-﻿<UserControl x:Class="STranslate.Views.OutputView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
-             xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dd="urn:gong-wpf-dragdrop"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
-             xmlns:vm="clr-namespace:STranslate.ViewModels"
-             xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
-             d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="STranslate.Views.OutputView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:vm="clr-namespace:STranslate.ViewModels"
+    xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+    d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <common:BindingProxy x:Key="OutputVm" Data="{Binding}" />
         <Storyboard x:Key="FadeInStoryboard">
-            <DoubleAnimation Storyboard.TargetName="HeaderCopySP"
-                             Storyboard.TargetProperty="Opacity"
-                             To="1"
-                             Duration="0:0:1" />
+            <DoubleAnimation
+                Storyboard.TargetName="HeaderCopySP"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:1" />
         </Storyboard>
         <Storyboard x:Key="FadeOutStoryboard">
-            <DoubleAnimation Storyboard.TargetName="HeaderCopySP"
-                             Storyboard.TargetProperty="Opacity"
-                             To="0"
-                             Duration="0:0:1" />
+            <DoubleAnimation
+                Storyboard.TargetName="HeaderCopySP"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:1" />
         </Storyboard>
     </UserControl.Resources>
     <StackPanel>
-        <ListBox dd:DragDrop.DropHandler="{Binding}"
-                 dd:DragDrop.IsDragSource="True"
-                 dd:DragDrop.IsDropTarget="True"
-                 dd:DragDrop.UseDefaultDragAdorner="True"
-                 Background="Transparent"
-                 BorderThickness="0"
-                 ItemsSource="{Binding Translators}"
-                 PreviewMouseWheel="ListBox_PreviewMouseWheel"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListBox
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            dd:DragDrop.UseDefaultDragAdorner="True"
+            Background="Transparent"
+            BorderThickness="0"
+            ItemsSource="{Binding Translators}"
+            PreviewMouseWheel="ListBox_PreviewMouseWheel"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <!-- 宽度需要绑定到StackPanel上，而非ListBox上 -->
+                    <!--  宽度需要绑定到StackPanel上，而非ListBox上  -->
                     <Border
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Path=Width}"
                         xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow},
-                                                               Delay=10,
-                                                               TransformOn=Render}"
+                                                           Delay=10,
+                                                           TransformOn=Render}"
                         Style="{DynamicResource BorderInOutputStyle}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Expander x:Name="TranslatorExpander"
-                                  VerticalAlignment="Top"
-                                  common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
-                                  common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
-                                  ExpandDirection="Down"
-                                  SnapsToDevicePixels="True">
-                            <!--#region Resources-BindingProxy 传递 ITranslator -->
+                        <Expander
+                            x:Name="TranslatorExpander"
+                            VerticalAlignment="Top"
+                            common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
+                            common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
+                            ExpandDirection="Down"
+                            SnapsToDevicePixels="True">
+                            <!--#region Resources-BindingProxy 传递 ITranslator-->
                             <Expander.Resources>
                                 <common:BindingProxy x:Key="TranslatorService" Data="{Binding .}" />
                             </Expander.Resources>
                             <!--#endregion-->
                             <!--#region Header-->
                             <Expander.Header>
-                                <Grid Height="30"
-                                      Background="Transparent">
+                                <Grid Height="30" Background="Transparent">
                                     <i:Interaction.Triggers>
-                                        <!-- // https://stackoverflow.com/questions/3870214/eventtrigger-with-setter-in-wpf // -->
+                                        <!--  // https://stackoverflow.com/questions/3870214/eventtrigger-with-setter-in-wpf //  -->
                                         <i:EventTrigger EventName="MouseEnter">
-                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Visible"
-                                                                    TargetName="ExtraSettingsTb" />
+                                            <i:ChangePropertyAction
+                                                PropertyName="Visibility"
+                                                TargetName="ExtraSettingsTb"
+                                                Value="Visible" />
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="MouseLeave">
-                                            <i:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"
-                                                                    TargetName="ExtraSettingsTb" />
+                                            <i:ChangePropertyAction
+                                                PropertyName="Visibility"
+                                                TargetName="ExtraSettingsTb"
+                                                Value="Collapsed" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <!-- // 左侧服务图标、名称 // -->
-                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
-                                        <Image Width="18" Margin="10,0,0,0"
-                                               Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
-                                        <TextBlock Margin="10,0,0,0"
-                                                   FontSize="{DynamicResource FontSize14}"
-                                                   Foreground="{DynamicResource TextForeground}"
-                                                   Text="{Binding Name}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                        <ToggleButton Name="ExpanderPromptTb"
-                                                      Height="22"
-                                                      Margin="10,0,0,0"
-                                                      Padding="4,0"
-                                                      Background="Transparent"
-                                                      BorderBrush="{DynamicResource ThemeAccentColor}"
-                                                      BorderThickness="1"
-                                                      Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
-                                                      Cursor="Hand"
-                                                      FontFamily="{DynamicResource UserFont}"
-                                                      FontSize="{DynamicResource FontSize14}"
-                                                      Style="{DynamicResource ToggleButtonIconStyle}">
+                                    <!--  // 左侧服务图标、名称 //  -->
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <Image
+                                            Width="18"
+                                            Margin="10,0,0,0"
+                                            Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                        <TextBlock
+                                            MaxWidth="100"
+                                            Margin="10,0,0,0"
+                                            FontSize="{DynamicResource FontSize14}"
+                                            Foreground="{DynamicResource TextForeground}"
+                                            Text="{Binding Name}"
+                                            TextTrimming="CharacterEllipsis" />
+                                        <ToggleButton
+                                            Name="ExpanderPromptTb"
+                                            Height="22"
+                                            MaxWidth="60"
+                                            Margin="10,0,0,0"
+                                            Padding="4,0"
+                                            Background="Transparent"
+                                            BorderBrush="{DynamicResource ThemeAccentColor}"
+                                            BorderThickness="1"
+                                            Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
+                                            Cursor="Hand"
+                                            FontFamily="{DynamicResource UserFont}"
+                                            FontSize="{DynamicResource FontSize14}"
+                                            Style="{DynamicResource ToggleButtonIconStyle}">
                                             <ToggleButton.Visibility>
-                                                <MultiBinding
-                                                    Converter="{StaticResource PromptToVisibilityMultiConverter}">
+                                                <MultiBinding Converter="{StaticResource PromptToVisibilityMultiConverter}">
                                                     <Binding Path="UserDefinePrompts" />
-                                                    <Binding Source="{StaticResource OutputVm}"
-                                                             Path="Data.IsPromptToggleVisible" />
+                                                    <Binding Path="Data.IsPromptToggleVisible" Source="{StaticResource OutputVm}" />
                                                 </MultiBinding>
                                             </ToggleButton.Visibility>
                                         </ToggleButton>
-                                        <Popup MinWidth="40"
-                                               MinHeight="30"
-                                               AllowsTransparency="True"
-                                               IsOpen="{Binding ElementName=ExpanderPromptTb, Path=IsChecked}"
-                                               Placement="Bottom"
-                                               PlacementTarget="{Binding ElementName=ExpanderPromptTb}"
-                                               PopupAnimation="Slide"
-                                               StaysOpen="False">
+                                        <Popup
+                                            MinWidth="40"
+                                            MinHeight="30"
+                                            AllowsTransparency="True"
+                                            IsOpen="{Binding ElementName=ExpanderPromptTb, Path=IsChecked}"
+                                            Placement="Bottom"
+                                            PlacementTarget="{Binding ElementName=ExpanderPromptTb}"
+                                            PopupAnimation="Slide"
+                                            StaysOpen="False">
                                             <Border Style="{DynamicResource BorderStyle}">
-                                                <ListBox x:Name="PromptLb"
-                                                         Background="Transparent"
-                                                         BorderThickness="0"
-                                                         ItemsSource="{Binding Source={StaticResource TranslatorService}, Path=Data.UserDefinePrompts}">
+                                                <ListBox
+                                                    x:Name="PromptLb"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    ItemsSource="{Binding Source={StaticResource TranslatorService}, Path=Data.UserDefinePrompts}">
                                                     <ListBox.ItemTemplate>
                                                         <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
-                                                            <Border x:Name="PromptBorder"
-                                                                    Margin="3"
-                                                                    HorizontalAlignment="Center"
-                                                                    Background="{DynamicResource BorderBackground}"
-                                                                    BorderBrush="{x:Null}"
-                                                                    CornerRadius="5">
+                                                            <Border
+                                                                x:Name="PromptBorder"
+                                                                Margin="3"
+                                                                HorizontalAlignment="Center"
+                                                                Background="{DynamicResource BorderBackground}"
+                                                                BorderBrush="{x:Null}"
+                                                                CornerRadius="5">
                                                                 <Grid Margin="0,5">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="30" />
                                                                         <ColumnDefinition Width="50" />
                                                                     </Grid.ColumnDefinitions>
 
-                                                                    <Label HorizontalAlignment="Left"
-                                                                           Content="&#xec9e;"
-                                                                           FontFamily="{DynamicResource IconFont}"
-                                                                           FontSize="{DynamicResource FontSize14}"
-                                                                           FontWeight="Bold"
-                                                                           Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                    <Label
+                                                                        HorizontalAlignment="Left"
+                                                                        Content="&#xec9e;"
+                                                                        FontFamily="{DynamicResource IconFont}"
+                                                                        FontSize="{DynamicResource FontSize14}"
+                                                                        FontWeight="Bold"
+                                                                        Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                                                                    <TextBlock Grid.Column="1"
-                                                                               HorizontalAlignment="Left"
-                                                                               FontSize="{DynamicResource FontSize14}"
-                                                                               Text="{Binding Name}"
-                                                                               TextTrimming="CharacterEllipsis" />
+                                                                    <TextBlock
+                                                                        Grid.Column="1"
+                                                                        HorizontalAlignment="Left"
+                                                                        FontSize="{DynamicResource FontSize14}"
+                                                                        Text="{Binding Name}"
+                                                                        TextTrimming="CharacterEllipsis" />
                                                                 </Grid>
                                                             </Border>
                                                             <DataTemplate.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter TargetName="PromptBorder"
-                                                                            Property="Background"
-                                                                            Value="{DynamicResource BtnMouseOverBackground}" />
+                                                                    <Setter TargetName="PromptBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                                                 </Trigger>
                                                             </DataTemplate.Triggers>
                                                         </DataTemplate>
                                                     </ListBox.ItemTemplate>
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                                            <i:InvokeCommandAction
-                                                                Command="{Binding Source={StaticResource OutputVm}, Path=Data.SelectedPromptCommand}">
+                                                            <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.SelectedPromptCommand}">
                                                                 <i:InvokeCommandAction.CommandParameter>
-                                                                    <MultiBinding
-                                                                        Converter="{StaticResource MultiValue2ListConverter}">
-                                                                        <Binding Path="Data"
-                                                                            Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="PromptLb"
-                                                                            Path="SelectedItem" />
+                                                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                        <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                        <Binding ElementName="PromptLb" Path="SelectedItem" />
                                                                         <Binding ElementName="ExpanderPromptTb" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
@@ -181,143 +195,139 @@
                                         </Popup>
                                     </StackPanel>
 
-                                    <!-- // 右侧其他按钮 // -->
-                                    <StackPanel Grid.Column="1"
-                                                Margin="0,0,30,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                FlowDirection="RightToLeft"
-                                                Orientation="Horizontal">
+                                    <!--  // 右侧其他按钮 //  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="0,0,30,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FlowDirection="RightToLeft"
+                                        Orientation="Horizontal">
 
-                                        <!-- // 重试按钮 // -->
-                                        <Button Margin="2,2,0,2"
-                                                HorizontalAlignment="Right"
-                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
-                                                CommandParameter="{Binding}"
-                                                Content="&#xe60f;"
-                                                Cursor="Hand"
-                                                FontSize="{DynamicResource FontSize17}"
-                                                Background="Transparent"
-                                                Style="{DynamicResource ButtonIconStyle}"
-                                                ToolTip="重试"
-                                                Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                                        <!--  // 重试按钮 //  -->
+                                        <Button
+                                            Margin="2,2,0,2"
+                                            HorizontalAlignment="Right"
+                                            Background="Transparent"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
+                                            CommandParameter="{Binding}"
+                                            Content="&#xe60f;"
+                                            Cursor="Hand"
+                                            FontSize="{DynamicResource FontSize17}"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="重试"
+                                            Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
-                                        <!-- // 复制按钮到Expander上 Expander收起时显示// -->
+                                        <!--  // 复制按钮到Expander上 Expander收起时显示//  -->
                                         <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
                                             <StackPanel.Visibility>
-                                                <MultiBinding
-                                                    Converter="{StaticResource MultiValue2VisibilityConverter}">
-                                                    <Binding Path="IsExpanded"
-                                                             RelativeSource="{RelativeSource AncestorType=Expander}" />
-                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader"
-                                                             RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                <MultiBinding Converter="{StaticResource MultiValue2VisibilityConverter}">
+                                                    <Binding Path="IsExpanded" RelativeSource="{RelativeSource AncestorType=Expander}" />
+                                                    <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
                                                     <Binding Path="Data.IsSuccess" />
                                                 </MultiBinding>
                                             </StackPanel.Visibility>
-                                            <!-- TTS -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe610;"
-                                                    Cursor="Hand"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="文字转语音"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
-                                            <!-- 大驼峰复制 -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe601;"
-                                                    Cursor="Hand"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="复制为大驼峰字符串">
+                                            <!--  TTS  -->
+                                            <Button
+                                                Margin="2,2,0,2"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                                CommandParameter="{Binding Data.Result}"
+                                                Content="&#xe610;"
+                                                Cursor="Hand"
+                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                ToolTip="文字转语音"
+                                                Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!--  大驼峰复制  -->
+                                            <Button
+                                                Margin="2,2,0,2"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
+                                                CommandParameter="{Binding Data.Result}"
+                                                Content="&#xe601;"
+                                                Cursor="Hand"
+                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                ToolTip="复制为大驼峰字符串">
                                                 <Button.Visibility>
-                                                    <MultiBinding
-                                                        Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                    <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                         <Binding Path="Data.Result" />
-                                                        <Binding Source="{StaticResource OutputVm}"
-                                                                 Path="Data.IsShowLargeHumpCopyBtn" />
+                                                        <Binding Path="Data.IsShowLargeHumpCopyBtn" Source="{StaticResource OutputVm}" />
                                                     </MultiBinding>
                                                 </Button.Visibility>
                                             </Button>
-                                            <!-- 小驼峰复制 -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe602;"
-                                                    Cursor="Hand"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="复制为小驼峰字符串">
+                                            <!--  小驼峰复制  -->
+                                            <Button
+                                                Margin="2,2,0,2"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
+                                                CommandParameter="{Binding Data.Result}"
+                                                Content="&#xe602;"
+                                                Cursor="Hand"
+                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                ToolTip="复制为小驼峰字符串">
                                                 <Button.Visibility>
-                                                    <MultiBinding
-                                                        Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                    <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                         <Binding Path="Data.Result" />
-                                                        <Binding Source="{StaticResource OutputVm}"
-                                                                 Path="Data.IsShowSmallHumpCopyBtn" />
+                                                        <Binding Path="Data.IsShowSmallHumpCopyBtn" Source="{StaticResource OutputVm}" />
                                                     </MultiBinding>
                                                 </Button.Visibility>
                                             </Button>
-                                            <!-- 蛇形复制 -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe600;"
-                                                    Cursor="Hand"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="复制为蛇形字符串">
+                                            <!--  蛇形复制  -->
+                                            <Button
+                                                Margin="2,2,0,2"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
+                                                CommandParameter="{Binding Data.Result}"
+                                                Content="&#xe600;"
+                                                Cursor="Hand"
+                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                ToolTip="复制为蛇形字符串">
                                                 <Button.Visibility>
-                                                    <MultiBinding
-                                                        Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                    <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                         <Binding Path="Data.Result" />
-                                                        <Binding Source="{StaticResource OutputVm}"
-                                                                 Path="Data.IsShowSnakeCopyBtn" />
+                                                        <Binding Path="Data.IsShowSnakeCopyBtn" Source="{StaticResource OutputVm}" />
                                                     </MultiBinding>
                                                 </Button.Visibility>
                                             </Button>
-                                            <!-- 普通复制 -->
-                                            <Button Margin="2,2,0,2"
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
-                                                    CommandParameter="{Binding Data.Result}"
-                                                    Content="&#xe692;"
-                                                    Cursor="Hand"
-                                                    Style="{DynamicResource ButtonCopyIconStyle}"
-                                                    ToolTip="直接复制结果"
-                                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                            <!--  普通复制  -->
+                                            <Button
+                                                Margin="2,2,0,2"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                                CommandParameter="{Binding Data.Result}"
+                                                Content="&#xe692;"
+                                                Cursor="Hand"
+                                                Style="{DynamicResource ButtonCopyIconStyle}"
+                                                ToolTip="直接复制结果"
+                                                Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                         </StackPanel>
 
-                                        <!-- // 更多设置按钮 // -->
-                                        <ToggleButton Name="ExtraSettingsTb"
-                                                      Background="Transparent"
-                                                      Content="&#xe8b7;"
-                                                      Cursor="Hand"
-                                                      Margin="3,0"
-                                                      Height="26"
-                                                      Width="26"
-                                                      Visibility="Collapsed"
-                                                      Style="{DynamicResource ToggleButtonIconStyle}" />
-                                        <Popup Name="ExtraSettingsPopup"
-                                               MinWidth="40"
-                                               MinHeight="30"
-                                               AllowsTransparency="True"
-                                               IsOpen="{Binding ElementName=ExtraSettingsTb, Path=IsChecked}"
-                                               Placement="Bottom"
-                                               PlacementTarget="{Binding ElementName=ExtraSettingsTb}"
-                                               PopupAnimation="Slide"
-                                               StaysOpen="False">
+                                        <!--  // 更多设置按钮 //  -->
+                                        <ToggleButton
+                                            Name="ExtraSettingsTb"
+                                            Width="26"
+                                            Height="26"
+                                            Margin="3,0"
+                                            Background="Transparent"
+                                            Content="&#xe8b7;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ToggleButtonIconStyle}"
+                                            Visibility="Collapsed" />
+                                        <Popup
+                                            Name="ExtraSettingsPopup"
+                                            MinWidth="40"
+                                            MinHeight="30"
+                                            AllowsTransparency="True"
+                                            IsOpen="{Binding ElementName=ExtraSettingsTb, Path=IsChecked}"
+                                            Placement="Bottom"
+                                            PlacementTarget="{Binding ElementName=ExtraSettingsTb}"
+                                            PopupAnimation="Slide"
+                                            StaysOpen="False">
                                             <Border Style="{DynamicResource BorderStyle}">
                                                 <StackPanel FlowDirection="LeftToRight">
-                                                    <!-- // 自动翻译 // -->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                            ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
+                                                    <!--  // 自动翻译 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                                <i:InvokeCommandAction
-                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding
-                                                                            Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data"
-                                                                                Source="{StaticResource TranslatorService}" />
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
                                                                             <Binding ElementName="ExtraSettingsTb" />
                                                                         </MultiBinding>
                                                                     </i:InvokeCommandAction.CommandParameter>
@@ -330,32 +340,30 @@
                                                                 <ColumnDefinition Width="80" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <Label HorizontalAlignment="Left"
-                                                                   Content="&#xec9e;"
-                                                                   FontFamily="{DynamicResource IconFont}"
-                                                                   FontSize="{DynamicResource FontSize14}"
-                                                                   FontWeight="Bold"
-                                                                   Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExecute, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <Label
+                                                                HorizontalAlignment="Left"
+                                                                Content="&#xec9e;"
+                                                                FontFamily="{DynamicResource IconFont}"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                FontWeight="Bold"
+                                                                Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExecute, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                                                            <TextBlock Grid.Column="1"
-                                                                       HorizontalAlignment="Left"
-                                                                       FontSize="{DynamicResource FontSize14}"
-                                                                       Text="自动执行" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                Text="自动执行" />
                                                         </Grid>
                                                     </Border>
 
-                                                    <!-- // 执行翻译 // -->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                            ToolTip="执行当前服务翻译">
+                                                    <!--  // 执行翻译 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行当前服务翻译">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                                <i:InvokeCommandAction
-                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding
-                                                                            Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data"
-                                                                                Source="{StaticResource TranslatorService}" />
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
                                                                             <Binding ElementName="ExtraSettingsTb" />
                                                                         </MultiBinding>
                                                                     </i:InvokeCommandAction.CommandParameter>
@@ -368,25 +376,22 @@
                                                                 <ColumnDefinition Width="80" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <TextBlock Grid.Column="1"
-                                                                       HorizontalAlignment="Left"
-                                                                       FontSize="{DynamicResource FontSize14}"
-                                                                       Text="执行翻译" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                Text="执行翻译" />
                                                         </Grid>
                                                     </Border>
 
-                                                    <!-- // 配置服务 // -->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                            ToolTip="进入服务配置页面">
+                                                    <!--  // 配置服务 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="进入服务配置页面">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                                <i:InvokeCommandAction
-                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding
-                                                                            Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data"
-                                                                                Source="{StaticResource TranslatorService}" />
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
                                                                             <Binding ElementName="ExtraSettingsTb" />
                                                                         </MultiBinding>
                                                                     </i:InvokeCommandAction.CommandParameter>
@@ -399,27 +404,24 @@
                                                                 <ColumnDefinition Width="80" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <TextBlock Grid.Column="1"
-                                                                       HorizontalAlignment="Left"
-                                                                       FontSize="{DynamicResource FontSize14}"
-                                                                       Text="配置服务" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                Text="配置服务" />
                                                         </Grid>
                                                     </Border>
 
                                                     <Separator />
 
-                                                    <!--// 关闭服务 //-->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                            ToolTip="立即关闭服务并保存至配置文件">
+                                                    <!--  // 关闭服务 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="立即关闭服务并保存至配置文件">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                                <i:InvokeCommandAction
-                                                                    Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
-                                                                        <MultiBinding
-                                                                            Converter="{StaticResource MultiValue2ListConverter}">
-                                                                            <Binding Path="Data"
-                                                                                Source="{StaticResource TranslatorService}" />
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
                                                                             <Binding ElementName="ExtraSettingsTb" />
                                                                         </MultiBinding>
                                                                     </i:InvokeCommandAction.CommandParameter>
@@ -432,10 +434,11 @@
                                                                 <ColumnDefinition Width="80" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <TextBlock Grid.Column="1"
-                                                                       HorizontalAlignment="Left"
-                                                                       FontSize="{DynamicResource FontSize14}"
-                                                                       Text="关闭服务" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                Text="关闭服务" />
                                                         </Grid>
                                                     </Border>
                                                 </StackPanel>
@@ -445,11 +448,10 @@
                                 </Grid>
                             </Expander.Header>
                             <!--#endregion-->
-                            <!--#region Interaction Triggers-手动触发Expander的Expanded事件 -->
+                            <!--#region Interaction Triggers-手动触发Expander的Expanded事件-->
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Expanded">
-                                    <i:InvokeCommandAction
-                                        Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExpanderHeaderCommand}">
+                                    <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExpanderHeaderCommand}">
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="TranslatorExpander" />
@@ -460,7 +462,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <!--#endregion-->
-                            <!--#region Triggers Expander Header Copy Button Fade In/Out Animation -->
+                            <!--#region Triggers Expander Header Copy Button Fade In/Out Animation-->
                             <Expander.Triggers>
                                 <EventTrigger RoutedEvent="Expander.Expanded">
                                     <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}" />
@@ -471,99 +473,100 @@
                             </Expander.Triggers>
                             <!--#endregion-->
                             <!--#region Content-->
-                            <Grid dd:DragDrop.IsDragSource="False"
-                                  dd:DragDrop.IsDropTarget="False">
+                            <Grid dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="False">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <TextBox PreviewMouseWheel="TextBox_PreviewMouseWheel"
-                                         Style="{DynamicResource TextBoxOutputStyle}"
-                                         Tag="{Binding Data.IsSuccess}"
-                                         Text="{Binding Data.Result}" />
-                                <StackPanel Grid.Row="1"
-                                            Margin="5"
-                                            Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                            VerticalAlignment="Bottom"
-                                            Orientation="Horizontal">
-                                    <!-- TTS -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
-                                            CommandParameter="{Binding Data.Result}"
-                                            Content="&#xe610;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="文字转语音"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
-                                    <!-- 蛇形复制 -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
-                                            CommandParameter="{Binding Data.Result}"
-                                            Content="&#xe600;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为蛇形字符串">
+                                <TextBox
+                                    PreviewMouseWheel="TextBox_PreviewMouseWheel"
+                                    Style="{DynamicResource TextBoxOutputStyle}"
+                                    Tag="{Binding Data.IsSuccess}"
+                                    Text="{Binding Data.Result}" />
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Margin="5"
+                                    VerticalAlignment="Bottom"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <!--  TTS  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                        CommandParameter="{Binding Data.Result}"
+                                        Content="&#xe610;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="文字转语音"
+                                        Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                    <!--  蛇形复制  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
+                                        CommandParameter="{Binding Data.Result}"
+                                        Content="&#xe600;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="复制为蛇形字符串">
                                         <Button.Visibility>
-                                            <MultiBinding
-                                                Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.Result" />
-                                                <Binding Source="{StaticResource OutputVm}"
-                                                         Path="Data.IsShowSnakeCopyBtn" />
+                                                <Binding Path="Data.IsShowSnakeCopyBtn" Source="{StaticResource OutputVm}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
-                                    <!-- 小驼峰复制 -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
-                                            CommandParameter="{Binding Data.Result}"
-                                            Content="&#xe602;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为小驼峰字符串">
+                                    <!--  小驼峰复制  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
+                                        CommandParameter="{Binding Data.Result}"
+                                        Content="&#xe602;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="复制为小驼峰字符串">
                                         <Button.Visibility>
-                                            <MultiBinding
-                                                Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.Result" />
-                                                <Binding Source="{StaticResource OutputVm}"
-                                                         Path="Data.IsShowSmallHumpCopyBtn" />
+                                                <Binding Path="Data.IsShowSmallHumpCopyBtn" Source="{StaticResource OutputVm}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
-                                    <!-- 大驼峰复制 -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
-                                            CommandParameter="{Binding Data.Result}"
-                                            Content="&#xe601;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为大驼峰字符串">
+                                    <!--  大驼峰复制  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
+                                        CommandParameter="{Binding Data.Result}"
+                                        Content="&#xe601;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="复制为大驼峰字符串">
                                         <Button.Visibility>
-                                            <MultiBinding
-                                                Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.Result" />
-                                                <Binding Source="{StaticResource OutputVm}"
-                                                         Path="Data.IsShowLargeHumpCopyBtn" />
+                                                <Binding Path="Data.IsShowLargeHumpCopyBtn" Source="{StaticResource OutputVm}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
-                                    <!-- 普通复制 -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
-                                            CommandParameter="{Binding Data.Result}"
-                                            Content="&#xe692;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="直接复制结果"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                    <!--  普通复制  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                        CommandParameter="{Binding Data.Result}"
+                                        Content="&#xe692;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="直接复制结果"
+                                        Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
 
-                                    <!-- // 插入文本 // -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
-                                            Content="&#xe677;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="插入结果"
-                                            Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}">
+                                    <!--  // 插入文本 //  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
+                                        Content="&#xe677;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="插入结果"
+                                        Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}">
                                         <Button.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding Path="Data.Result" />
@@ -572,34 +575,32 @@
                                         </Button.CommandParameter>
                                     </Button>
 
-                                    <!-- 回译该结果 -->
-                                    <Button Margin="5,0,0,0"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
-                                            Content="&#xe687;"
-                                            Cursor="Hand"
-                                            Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="回译[强制回译](Ctrl+点击)">
+                                    <!--  回译该结果  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
+                                        Content="&#xe687;"
+                                        Cursor="Hand"
+                                        Style="{DynamicResource ButtonCopyIconStyle}"
+                                        ToolTip="回译[强制回译](Ctrl+点击)">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                <i:InvokeCommandAction
-                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
-                                                    CommandParameter="{Binding Data.Result}" />
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}" CommandParameter="{Binding Data.Result}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <Button.Visibility>
-                                            <MultiBinding
-                                                Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                            <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.Result" />
-                                                <Binding Source="{StaticResource OutputVm}"
-                                                         Path="Data.IsShowTranslateBackBtn" />
+                                                <Binding Path="Data.IsShowTranslateBackBtn" Source="{StaticResource OutputVm}" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>
                                 </StackPanel>
-                                <!-- // 加载动画 // -->
-                                <control:LoadingUC Grid.Row="0"
-                                                   IsAnimationPlaying="{Binding IsExecuting}"
-                                                   Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <!--  // 加载动画 //  -->
+                                <control:LoadingUC
+                                    Grid.Row="0"
+                                    IsAnimationPlaying="{Binding IsExecuting}"
+                                    Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </Grid>
                             <!--#endregion-->
                         </Expander>
