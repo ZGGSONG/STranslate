@@ -112,6 +112,8 @@ public partial class App
     {
         var adminMsg = CommonUtil.IsUserAdministrator() ? "[Administrator]" : "";
         LogService.Logger.Info($"{Constant.AppName}_{Constant.AppVersion}{adminMsg} Opened...");
+        // 当前配置目录
+        LogService.Logger.Info($"Config Path: {Constant.CnfPath}");
         new MainView().Show();
     }
 
