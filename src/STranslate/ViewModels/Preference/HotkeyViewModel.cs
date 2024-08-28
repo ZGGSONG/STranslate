@@ -37,7 +37,7 @@ public partial class HotkeyViewModel : ObservableObject
 
     public List<SoftHotkey> SoftHotkeyList { get; set; } =
     [
-        new SoftHotkey("ESC", "隐藏/退出界面(若有请求则同时取消该请求)"),
+        new SoftHotkey("ESC", "隐藏/退出界面(若有请求则同时取消该请求: 翻译、OCR、TTS)"),
         new SoftHotkey("Ctrl + ,", "打开设置"),
         new SoftHotkey("Ctrl + /", "打开历史记录"),
         new SoftHotkey("Ctrl + E", "打开/关闭增量翻译"),
@@ -48,7 +48,7 @@ public partial class HotkeyViewModel : ObservableObject
         new SoftHotkey("Ctrl + Shift + Q", "退出程序"),
         new SoftHotkey("Ctrl + 滚轮上", "在输入输出文本框配合Ctrl滚动放大文字"),
         new SoftHotkey("Ctrl + 滚轮下", "在输入输出文本框配合Ctrl滚动缩小文字"),
-        new SoftHotkey("Ctrl + `", "恢复默认文字大小"),
+        new SoftHotkey("Ctrl + `", "文本框恢复默认文字大小"),
         new SoftHotkey("Ctrl + 1...8", "按服务顺序复制翻译结果"),
         new SoftHotkey("Ctrl + 9", "复制最后一条服务翻译结果"),
         new SoftHotkey("Ctrl + +", "放大界面(宽度、最大高度)"),
