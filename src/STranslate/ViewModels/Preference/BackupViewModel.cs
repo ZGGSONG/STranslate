@@ -163,7 +163,7 @@ public partial class BackupViewModel : ObservableObject
         try
         {
             // 上传
-            var response = await client.PutFile($"{absolutePath}/{fn}", FileUtil.FileToStream(zipFilePath));
+            var response = await client.PutFile($"{absolutePath}{fn}", FileUtil.FileToStream(zipFilePath));
 
             // 打印通知
             if (response.IsSuccessful && response.StatusCode == 201)
