@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -191,12 +192,36 @@ public partial class TranslatorOllama : TranslatorBase, ITranslatorLlm
 
     [RelayCommand]
     [property: JsonIgnore]
+    private void AddPromptFromDrop(DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+        if (e.Data.GetData(DataFormats.FileDrop) is not string[] files) return;
+        // 取第一个文件
+        var filePath = files[0];
+
+        if (Path.GetExtension(filePath).Equals(".json", StringComparison.CurrentCultureIgnoreCase))
+        {
+            PromptFileHandle(filePath);
+            ToastHelper.Show("导入成功", WindowType.Preference);
+        }
+        else
+            ToastHelper.Show("请拖入Prompt文件", WindowType.Preference);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
     private void AddPromptFromFile()
     {
         var openFileDialog = new OpenFileDialog { Filter = "json(*.json)|*.json" };
         if (openFileDialog.ShowDialog() != true)
             return;
-        var jsonStr = File.ReadAllText(openFileDialog.FileName);
+        PromptFileHandle(openFileDialog.FileName);
+    }
+
+    private void PromptFileHandle(string path)
+    {
+        var jsonStr = File.ReadAllText(path);
         try
         {
             var prompt = JsonConvert.DeserializeObject<UserDefinePrompt>(jsonStr);
@@ -234,7 +259,6 @@ public partial class TranslatorOllama : TranslatorBase, ITranslatorLlm
             {
                 LogService.Logger.Error($"导入Prompt失败: {e.Message}", e);
                 ToastHelper.Show("导入失败", WindowType.Preference);
-                return;
             }
         }
     }

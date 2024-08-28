@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
@@ -241,44 +242,85 @@
                 </Grid>
 
                 <!--  // Preset Prompts //  -->
-                <Border Margin="0,10" Style="{DynamicResource BorderStyle}">
-                    <ListBox
-                        Background="Transparent"
-                        BorderThickness="0"
-                        ItemsPanel="{StaticResource prompttemplate}"
-                        PreviewMouseWheel="ListBox_PreviewMouseWheel"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListBox.ItemsSource>
-                            <CompositeCollection>
-                                <CollectionContainer Collection="{Binding Source={StaticResource userdefineprompt}, Path=Data}" />
-                                <ListBoxItem>
-                                    <Button
-                                        Command="{Binding AddPromptCommand}"
-                                        Content="&#xe710;"
-                                        Style="{DynamicResource ButtonIconStyle}"
-                                        ToolTip="添加Prompt" />
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <Button
-                                        Command="{Binding AddPromptFromFileCommand}"
-                                        Content="&#xe664;"
-                                        FontSize="{DynamicResource FontSize16}"
-                                        FontWeight="Bold"
-                                        Style="{DynamicResource ButtonIconStyle}"
-                                        ToolTip="导入Prompt&#13;从文件添加" />
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <Button
-                                        Command="{Binding ExportCommand}"
-                                        Content="&#xe6a2;"
-                                        FontSize="{DynamicResource FontSize16}"
-                                        FontWeight="Bold"
-                                        Style="{DynamicResource ButtonIconStyle}"
-                                        ToolTip="导出Prompt&#13;默认导出选中项&#13;Ctrl点击导出全部" />
-                                </ListBoxItem>
-                            </CompositeCollection>
-                        </ListBox.ItemsSource>
-                    </ListBox>
+                <Border
+                    Margin="0,10"
+                    AllowDrop="True"
+                    Style="{DynamicResource BorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DragEnter">
+                            <i:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=DropFilePanel}"
+                                Value="Visible" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="DragLeave">
+                            <i:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=DropFilePanel}"
+                                Value="Hidden" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Drop">
+                            <i:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=DropFilePanel}"
+                                Value="Hidden" />
+                            <i:InvokeCommandAction Command="{Binding AddPromptFromDropCommand}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid>
+                        <ListBox
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ItemsPanel="{StaticResource prompttemplate}"
+                            PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsSource>
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource userdefineprompt}, Path=Data}" />
+                                    <ListBoxItem>
+                                        <Button
+                                            Command="{Binding AddPromptCommand}"
+                                            Content="&#xe710;"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="添加Prompt" />
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Button
+                                            Command="{Binding AddPromptFromFileCommand}"
+                                            Content="&#xe664;"
+                                            FontSize="{DynamicResource FontSize16}"
+                                            FontWeight="Bold"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="导入Prompt&#13;从文件添加" />
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Button
+                                            Command="{Binding ExportCommand}"
+                                            Content="&#xe6a2;"
+                                            FontSize="{DynamicResource FontSize16}"
+                                            FontWeight="Bold"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="导出Prompt&#13;默认导出选中项&#13;Ctrl点击导出全部" />
+                                    </ListBoxItem>
+                                </CompositeCollection>
+                            </ListBox.ItemsSource>
+                        </ListBox>
+                        <Grid Name="DropFilePanel" Visibility="Hidden">
+                            <Border Background="{DynamicResource BorderContentBackground}" Opacity="0.8" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="将Prompt拖放到此处" />
+                            <Rectangle
+                                Width="250"
+                                MaxHeight="80"
+                                RadiusX="10"
+                                RadiusY="10"
+                                Stroke="{DynamicResource TextForeground}"
+                                StrokeDashArray="3,4"
+                                StrokeThickness="2" />
+                        </Grid>
+                    </Grid>
                 </Border>
 
                 <Grid Margin="0,10">
