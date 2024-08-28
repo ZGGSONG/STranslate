@@ -269,8 +269,14 @@ public partial class BackupViewModel : ObservableObject
     /// <returns></returns>
     private async Task<Tuple<WebDavClient, string, bool>> CreateClientAsync()
     {
-        var uri = new Uri(WebDavUrl);
-        var absolutePath = $"{uri.LocalPath.TrimEnd('/')}/{Constant.CnfName}";
+        // 如果没有/结尾则添加
+        // * TeraCloud强制需要以/结尾
+        // * 群晖、坚果云有无均可
+        var uri = new Uri(WebDavUrl.EndsWith("/") ? WebDavUrl : $"{WebDavUrl}/");
+        
+        // TeraCloud强制需要以/结尾
+        // * 群晖、坚果云有无均可
+        var absolutePath = $"{uri.LocalPath.TrimEnd('/')}/{Constant.CnfName}/";
 
         var clientParams = new WebDavClientParams
         {
