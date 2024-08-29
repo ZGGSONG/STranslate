@@ -280,8 +280,7 @@ public partial class InputViewModel : ObservableObject
                 $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
         else
             LogService.Logger.Error(
-                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}",
-                exception);
+                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
     }
 
     /// <summary>

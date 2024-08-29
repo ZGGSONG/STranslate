@@ -95,11 +95,18 @@ public partial class TTSAzure : ObservableObject, ITTS
                 while (!token.IsCancellationRequested && !hasDone)
                     // 使用小睡眠来减少CPU使用，这里的时间可以根据需要调整
                     Task.Delay(100).Wait();
-                await speechSynthesizer.StopSpeakingAsync();
+                try
+                {
+                    await speechSynthesizer.StopSpeakingAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
             });
             var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(text);
             if (speechSynthesisResult.AudioDuration == TimeSpan.Zero)
-                throw new Exception("Azure TTS 返回空结果");
+                throw new Exception("Azure TTS 返回空结果, 请尝试选择其他声音进行文本转语音");
             OutputSpeechSynthesisResult(speechSynthesisResult, text);
         }
         catch (Exception ex) when (ex is ApplicationException)
@@ -108,7 +115,7 @@ public partial class TTSAzure : ObservableObject, ITTS
         }
         catch (Exception ex)
         {
-            LogService.Logger.Error($"TTS|Azure TTS|Error Occured: {ex.Message}", ex);
+            LogService.Logger.Error($"TTS|Azure TTS|Error Occured: {ex.Message}");
         }
         finally
         {
