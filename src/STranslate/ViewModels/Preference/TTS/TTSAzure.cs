@@ -72,6 +72,12 @@ public partial class TTSAzure : ObservableObject, ITTS
 
     [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
+    /// <summary>
+    ///     <see href="https://learn.microsoft.com/zh-cn/azure/ai-services/speech-service/get-started-text-to-speech?tabs=windows%2Cterminal&pivots=programming-language-csharp"/>
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="token"></param>
+    /// <exception cref="Exception"></exception>
     public async Task SpeakTextAsync(string text, CancellationToken token)
     {
         var hasDone = false;
