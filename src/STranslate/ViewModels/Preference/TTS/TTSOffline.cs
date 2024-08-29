@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Speech.Synthesis;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Controls;
 
 namespace STranslate.ViewModels.Preference.TTS;
 
@@ -30,6 +33,11 @@ public partial class TTSOffline : ObservableObject, ITTS
 
     [JsonIgnore] [ObservableProperty] private TTSType _type = TTSType.OfflineTTS;
 
+    /// <summary>
+    ///     设置 SpeechSynthesizer 对象的语速。
+    /// </summary>
+    [JsonIgnore] [ObservableProperty] private int _rate = 1;
+    
     [JsonIgnore]
     [ObservableProperty]
     [property: DefaultValue("")]
@@ -64,13 +72,27 @@ public partial class TTSOffline : ObservableObject, ITTS
 
     [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
+    [RelayCommand]
+    private void GetSystemInfo()
+    {
+        var installedVoices = new SpeechSynthesizer().GetInstalledVoices();
+        LogService.Logger.Info($"TTS|TTSOffline|SystemSupportLanguage:{string.Join(",", installedVoices.Select(x => x.VoiceInfo.Culture.DisplayName))}");
+        MessageBox_S.Show("系统支持的语音：" + string.Join(",", installedVoices.Select(x => x.VoiceInfo.Culture.DisplayName)));
+    }
+
     public async Task SpeakTextAsync(string text, CancellationToken token)
     {
         var hasDone = false;
+        // 避免有人瞎改配置文件
+        if (Rate is < -10 or > 10)
+        {
+            Rate = 1;
+            LogService.Logger.Warn("TTS|TTSOffline|Speech rate is out of range, set to default value 1.");
+        }
         var synth = new SpeechSynthesizer
         {
-            Volume = 100
-            //Rate = 2,
+            Volume = 100,
+            Rate = Rate,
         };
         _ = Task.Run(() =>
         {
