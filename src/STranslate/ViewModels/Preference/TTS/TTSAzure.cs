@@ -76,24 +76,40 @@ public partial class TTSAzure : ObservableObject, ITTS
     {
         var hasDone = false;
 
-        var speechConfig = SpeechConfig.FromSubscription(AppKey, AppID);
-
-        // The language of the voice that speaks.
-        speechConfig.SpeechSynthesisVoiceName = Voice.ToString().Replace("_", "-");
-
-        using var speechSynthesizer = new SpeechSynthesizer(speechConfig);
-        _ = Task.Run(async () =>
+        try
         {
-            while (!token.IsCancellationRequested && !hasDone)
-                // 使用小睡眠来减少CPU使用，这里的时间可以根据需要调整
-                Task.Delay(100).Wait();
-            await speechSynthesizer.StopSpeakingAsync();
-        });
-        var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(text);
-        OutputSpeechSynthesisResult(speechSynthesisResult, text);
+            var speechConfig = SpeechConfig.FromSubscription(AppKey, AppID);
 
-        // 手动跳出循环
-        hasDone = true;
+            // The language of the voice that speaks.
+            speechConfig.SpeechSynthesisVoiceName = Voice.ToString().Replace("_", "-");
+
+            using var speechSynthesizer = new SpeechSynthesizer(speechConfig);
+            _ = Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested && !hasDone)
+                    // 使用小睡眠来减少CPU使用，这里的时间可以根据需要调整
+                    Task.Delay(100).Wait();
+                await speechSynthesizer.StopSpeakingAsync();
+            });
+            var speechSynthesisResult = await speechSynthesizer.SpeakTextAsync(text);
+            if (speechSynthesisResult.AudioDuration == TimeSpan.Zero)
+                throw new Exception("Azure TTS 返回空结果");
+            OutputSpeechSynthesisResult(speechSynthesisResult, text);
+        }
+        catch (Exception ex) when (ex is ApplicationException)
+        {
+            LogService.Logger.Error("TTS|Azure TTS|Please check the account password...");
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error($"TTS|Azure TTS|Error Occured: {ex.Message}", ex);
+        }
+        finally
+        {
+            // 手动跳出循环
+            hasDone = true;
+        }
+
     }
 
     public ITTS Clone()
