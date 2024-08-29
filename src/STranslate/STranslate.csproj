@@ -72,6 +72,7 @@
     <PackageReference Include="Microsoft.CognitiveServices.Speech" />
     <PackageReference Include="Microsoft.Data.Sqlite" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <PackageReference Include="NAudio" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="PaddleOCRSharp" />
     <PackageReference Include="ScreenGrab" />
@@ -132,6 +133,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Preference\OCR\OpenAIOCRPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Preference\TTS\TTSLingvaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

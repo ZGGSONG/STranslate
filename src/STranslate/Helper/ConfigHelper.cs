@@ -842,6 +842,7 @@ public class TTSConverter : JsonConverter<ITTS>
         {
             (int)TTSType.AzureTTS => new TTSAzure(),
             (int)TTSType.OfflineTTS => new TTSOffline(),
+            (int)TTSType.LingvaTTS => new TTSLingva(),
             //TODO: 新TTS服务需要适配
             _ => throw new NotSupportedException($"Unsupported TTSServiceType: {type}")
         };

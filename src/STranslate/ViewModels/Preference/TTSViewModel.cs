@@ -10,6 +10,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.TTS;
+using STranslate.Views.Preference.TTS;
 
 namespace STranslate.ViewModels.Preference;
 
@@ -41,6 +42,7 @@ public partial class TTSViewModel : ObservableObject
         //TODO: 新TTS服务需要适配
         TtsServices.Add(new TTSAzure());
         TtsServices.Add(new TTSOffline());
+        TtsServices.Add(new TTSLingva());
 
         ResetView();
     }
@@ -120,9 +122,10 @@ public partial class TTSViewModel : ObservableObject
             //TODO: 新TTS服务需要适配
             var name = tts.Type switch
             {
-                TTSType.OfflineTTS => string.Format("{0}TTSOfflinePage", head),
-                TTSType.AzureTTS => string.Format("{0}TTSAzurePage", head),
-                _ => string.Format("{0}TTSOfflinePage", head)
+                TTSType.OfflineTTS => string.Format("{0}{1}", head, nameof(TTSOfflinePage)),
+                TTSType.AzureTTS => string.Format("{0}{1}", head, nameof(TTSAzurePage)),
+                TTSType.LingvaTTS => string.Format("{0}{1}", head, nameof(TTSLingvaPage)),
+                _ => string.Format("{0}{1}", head, nameof(TTSOfflinePage))
             };
 
             NavigationPage(name, tts);
@@ -147,6 +150,7 @@ public partial class TTSViewModel : ObservableObject
             {
                 TTSAzure azure => azure.Clone(),
                 TTSOffline offline => offline.Clone(),
+                TTSLingva lingva => lingva.Clone(),
                 _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
             });
 

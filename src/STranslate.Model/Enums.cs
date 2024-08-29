@@ -163,7 +163,8 @@ public enum ServiceType
 public enum TTSType
 {
     AzureTTS,
-    OfflineTTS
+    OfflineTTS,
+    LingvaTTS,
 }
 
 public enum OCRType
@@ -251,7 +252,9 @@ public enum IconType
 
     [Description("Ollama")] Ollama,
 
-    [Description("Kimi")] Kimi
+    [Description("Kimi")] Kimi,
+    
+    [Description("Lingva")] Lingva,
 }
 
 /// <summary>

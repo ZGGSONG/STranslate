@@ -110,6 +110,9 @@
 	  <Resource Include="Resources\youdao.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
+      <Resource Include="Resources\lingva.png">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Resource>
   </ItemGroup>
 
   <ItemGroup>
