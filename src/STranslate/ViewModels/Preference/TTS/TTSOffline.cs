@@ -129,7 +129,8 @@ public partial class TTSOffline : ObservableObject, ITTS
             Url = Url,
             AppID = AppID,
             AppKey = AppKey,
-            Icons = Icons
+            Icons = Icons,
+            Rate = Rate
         };
     }
 }
