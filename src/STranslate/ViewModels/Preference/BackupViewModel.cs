@@ -162,6 +162,12 @@ public partial class BackupViewModel : ObservableObject
         ZipUtil.CompressFile(Constant.CnfFullName, zipFilePath);
         try
         {
+            // 检查该路径是否存在
+            var ret = await client.Propfind(absolutePath);
+            if (!ret.IsSuccessful)
+                // 不存在则创建目录
+                await client.Mkcol(absolutePath);
+            
             // 上传
             var response = await client.PutFile($"{absolutePath}{fn}", FileUtil.FileToStream(zipFilePath));
 
