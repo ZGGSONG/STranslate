@@ -564,10 +564,10 @@ public class ConfigHelper
     {
         try
         {
-            Application.Current.Resources[Constant.UserDefineFontKey] =
-                CurrentConfig!.CustomFont.Equals(Constant.DefaultFontName)
-                    ? Application.Current.Resources[Constant.DefaultFontName]
-                    : new FontFamily(CurrentConfig!.CustomFont);
+            var isAppFont = new List<string> { Constant.DefaultFontName, Constant.PingFangFontName }.Contains(CurrentConfig!.CustomFont);
+            Application.Current.Resources[Constant.UserDefineFontKey] = isAppFont
+                ? Application.Current.Resources[CurrentConfig!.CustomFont]
+                : new FontFamily(CurrentConfig!.CustomFont);
         }
         catch (Exception)
         {

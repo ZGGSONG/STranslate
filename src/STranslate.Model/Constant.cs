@@ -111,6 +111,7 @@ public static class Constant
 
     public const string UserDefineFontKey = "UserFont";
     public const string DefaultFontName = "LXGW WenKai";
+    public const string PingFangFontName = "PingFang SC";
 
     public const string FontSize18 = "FontSize18";
     public const string FontSize18TextBox = "FontSize18TextBox";   //输入框文字大小可独立调整

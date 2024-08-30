@@ -6,6 +6,7 @@
     <FontFamily x:Key="IconFont">/STranslate.Style;component/Fonts/#iconfont</FontFamily>
     <FontFamily x:Key="UserFont">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
     <FontFamily x:Key="LXGW WenKai">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
+    <FontFamily x:Key="PingFang SC">pack://application:,,,/STranslate.Style;component/Fonts/#PingFang SC</FontFamily>
 
     <sys:Double x:Key="FontSize30">30</sys:Double>
     <sys:Double x:Key="FontSize24">24</sys:Double>

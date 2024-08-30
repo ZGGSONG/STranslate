@@ -25,6 +25,9 @@
     <Resource Include="Fonts\LXGWWenKai-Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Fonts\PingFangSC-Regular.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\ali.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

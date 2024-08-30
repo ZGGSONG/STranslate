@@ -322,7 +322,10 @@ public partial class CommonViewModel : ObservableObject
         // 获取系统已安装字体
         GetFontFamilys = Fonts.SystemFontFamilies.Select(font => font.Source).ToList();
         // 判断是否已安装软件字体，没有则插入到列表中
-        if (!GetFontFamilys.Contains(Constant.DefaultFontName)) GetFontFamilys.Insert(0, Constant.DefaultFontName);
+        if (!GetFontFamilys.Contains(Constant.DefaultFontName))
+            GetFontFamilys.Insert(0, Constant.DefaultFontName);
+        if (!GetFontFamilys.Contains(Constant.PingFangFontName))
+            GetFontFamilys.Insert(0, Constant.PingFangFontName);
 
         // 加载历史记录类型
         LoadHistorySizeType();
@@ -345,8 +348,9 @@ public partial class CommonViewModel : ObservableObject
             case nameof(CustomFont):
             {
                 // 切换字体
-                Application.Current.Resources[Constant.UserDefineFontKey] = CustomFont.Equals(Constant.DefaultFontName)
-                    ? Application.Current.Resources[Constant.DefaultFontName]
+                var isAppFont = new List<string> { Constant.DefaultFontName, Constant.PingFangFontName }.Contains(CustomFont);
+                Application.Current.Resources[Constant.UserDefineFontKey] = isAppFont
+                    ? Application.Current.Resources[CustomFont]
                     : new FontFamily(CustomFont);
                 break;
             }
