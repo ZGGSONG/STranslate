@@ -365,6 +365,11 @@ public class ConfigModel
     public GlobalFontSizeEnum GlobalFontSize { get; set; } = GlobalFontSizeEnum.General;
 
     /// <summary>
+    ///     自动执行翻译
+    /// </summary>
+    public bool AutoTranslate { get; set; } = false;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -470,6 +475,7 @@ public class ConfigModel
             UseCacheLocation = UseCacheLocation,
             ShowMinimalBtn = ShowMinimalBtn,
             GlobalFontSize = GlobalFontSize,
+            AutoTranslate = AutoTranslate,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

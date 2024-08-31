@@ -81,6 +81,9 @@ public class ConfigHelper
 
         //初始化外部调用服务
         ExternalCallOperate(CurrentConfig?.ExternalCall ?? false, CurrentConfig?.ExternalCallPort ?? 50020);
+
+        //初始化自动翻译
+        AutoTrasnalteOperate(CurrentConfig?.AutoTranslate ?? false);
     }
 
     /// <summary>
@@ -258,6 +261,7 @@ public class ConfigHelper
         CurrentConfig.UseCacheLocation = model.UseCacheLocation;
         CurrentConfig.ShowMinimalBtn = model.ShowMinimalBtn;
         CurrentConfig.GlobalFontSize = model.GlobalFontSize;
+        CurrentConfig.AutoTranslate = model.AutoTranslate;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -287,6 +291,8 @@ public class ConfigHelper
         if (!isHotkeyConfSame)
             DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys,
                 Application.Current.Windows.OfType<MainView>().First());
+
+        AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -668,6 +674,15 @@ public class ConfigHelper
     }
 
     /// <summary>
+    ///     自动执行翻译操作
+    /// </summary>
+    /// <param name="autoTranslate"></param>
+    private void AutoTrasnalteOperate(bool autoTranslate)
+    {
+        Singleton<InputViewModel>.Instance.InvokeTimer(autoTranslate);
+    }
+
+    /// <summary>
     ///     输出界面显示按钮控制
     /// </summary>
     /// <param name="isPromptToggleVisible"></param>
@@ -779,6 +794,7 @@ public class ConfigHelper
             UseCacheLocation = false,
             ShowMinimalBtn = false,
             GlobalFontSize = GlobalFontSizeEnum.General,
+            AutoTranslate = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

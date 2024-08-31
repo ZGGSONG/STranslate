@@ -66,6 +66,16 @@
                                         HorizontalAlignment="Right"
                                         IsChecked="{Binding NeedAdmin}" />
                                 </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="自动翻译" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入内容以后自动执行翻译" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding AutoTranslate}" />
+                                </DockPanel>
+
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="主题选择" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、自动主题切换" />

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.ComponentModel;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -24,6 +25,8 @@ public partial class InputViewModel : ObservableObject
 
     public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
     public CommonViewModel CommonVm => Singleton<CommonViewModel>.Instance;
+    public OutputViewModel OutputVm => Singleton<OutputViewModel>.Instance;
+    public ConfigHelper CnfHelper => Singleton<ConfigHelper>.Instance;
 
     /// <summary>
     ///     自动识别的语言
@@ -38,34 +41,77 @@ public partial class InputViewModel : ObservableObject
     private LangEnum? _userSelectedLang;
 
     /// <summary>
+    ///     判断是否完成翻译，避免自动翻译重复执行
+    /// </summary>
+    private bool _hasDown = false;
+
+    /// <summary>
     ///     输入内容
     /// </summary>
     private string _inputContent = string.Empty;
-
     public string InputContent
     {
         get => _inputContent;
         set
         {
-            SetProperty(ref _inputContent, value);
+            var previousValue = _inputContent;
+            if (SetProperty(ref _inputContent, value))
+            {
+                _hasDown = false;
+                //清空识别语种
+                if (!string.IsNullOrEmpty(IdentifyLanguage))
+                    IdentifyLanguage = string.Empty;
 
-            //清空识别语种
-            if (!string.IsNullOrEmpty(IdentifyLanguage))
-                IdentifyLanguage = string.Empty;
+                CanTranslate = !string.IsNullOrWhiteSpace(value);
 
-            //输入框中有值时才可以执行翻译
-            if (value != "")
-                TranslateCommand.NotifyCanExecuteChanged();
+                //如果增加的为非空格字符则进行自动翻译
+                if (previousValue.Trim() != value.Trim())
+                {
+                    _autoTranslateTimer?.Change(AutoTranslateDelay, Timeout.Infinite);
+                }
+
+            }
         }
     }
 
-    private bool CanTranslate => !string.IsNullOrEmpty(InputContent);
+    private bool _canTranslate = true;
+    private bool CanTranslate
+    {
+        get => _canTranslate;
+        set
+        {
+            _canTranslate = value;
+            TranslateCommand.NotifyCanExecuteChanged();
+        }
+    }
 
     [ObservableProperty] private string _placeholder = Constant.PlaceHolderContent;
 
     [ObservableProperty] private bool _mainOcrLangVisibile;
 
+
+    private const int AutoTranslateDelay = 1000; // 设置延迟时间
+
+    private Timer? _autoTranslateTimer; // 延时搜索定时器
+
     #endregion 属性、字段
+
+    internal void InvokeTimer(bool value)
+    {
+        _autoTranslateTimer = value ? new Timer(async _ => await AutoTrasnslateAsync(), null, Timeout.Infinite, Timeout.Infinite) : null;
+    }
+
+    private async Task AutoTrasnslateAsync()
+    {
+        if (string.IsNullOrEmpty(InputContent) || !CanTranslate || _hasDown)
+        {
+            return;
+        }
+        //如果重复执行先取消上一步操作
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
+        TranslateCancelCommand.Execute(null);
+        await TranslateCommand.ExecuteAsync(null);
+    }
 
     #region 命令
 
@@ -80,18 +126,19 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanTranslate), IncludeCancelCommand = true)]
     private async Task TranslateAsync(object? obj, CancellationToken token)
     {
-        //翻译前清空旧数据
-        Singleton<OutputViewModel>.Instance.Clear();
-        var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
-        var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
-        var size = Singleton<ConfigHelper>.Instance.CurrentConfig?.HistorySize ?? 100;
-        var dbTarget = targetLang;
-
-        if (!PreviousHandle())
-            return;
+        CanTranslate = false;
 
         try
         {
+            //翻译前清空旧数据
+            OutputVm.Clear();
+            var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
+            var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
+            var size = CnfHelper.CurrentConfig?.HistorySize ?? 100;
+            var dbTarget = targetLang;
+
+            if (!PreviousHandle())
+                return;
             var history = await TranslateServiceAsync(obj, sourceLang, dbTarget, targetLang, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
@@ -103,6 +150,11 @@ public partial class InputViewModel : ObservableObject
         catch (Exception ex)
         {
             LogService.Logger.Error("[TranslateAsync]", ex);
+        }
+        finally
+        {
+            _hasDown = true;
+            CanTranslate = true;
         }
     }
 
@@ -128,7 +180,7 @@ public partial class InputViewModel : ObservableObject
         HistoryModel? history = null;
         List<ITranslator>? translatorCacheList = null;
         // 读取配置翻译后复制服务索引
-        var copyIndex = Singleton<ConfigHelper>.Instance.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
+        var copyIndex = CnfHelper.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
 
         // 读取缓存
         var isCheckCacheFirst = obj == null;
@@ -159,7 +211,7 @@ public partial class InputViewModel : ObservableObject
         {
             history = null;
         }
-        
+
         return history;
     }
 
@@ -186,8 +238,8 @@ public partial class InputViewModel : ObservableObject
             {
                 if (source == LangEnum.auto)
                 {
-                    var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
-                    var rate = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
+                    var detectType = CnfHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
+                    var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
                     identify = await LangDetectHelper.DetectAsync(inputContent, detectType, rate, cancellationToken);
                     IdentifyLanguage = identify.GetDescription();
                 }
@@ -208,11 +260,11 @@ public partial class InputViewModel : ObservableObject
                 await NonStreamHandlerAsync(service, inputContent, source, target, cancellationToken);
             }
 
-            copy:
+        copy:
             var currentServiceIndex = services.IndexOf(service) + 1;
             if (currentServiceIndex == copyIndex)
                 CommonUtil.InvokeOnUIThread(() =>
-                    Singleton<OutputViewModel>.Instance.HotkeyCopyCommand.Execute(copyIndex.ToString()));
+                    OutputVm.HotkeyCopyCommand.Execute(copyIndex.ToString()));
         }
         catch (TaskCanceledException ex)
         {
@@ -298,7 +350,7 @@ public partial class InputViewModel : ObservableObject
         {
             var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
             var jsonSerializerSettings = new JsonSerializerSettings
-                { ContractResolver = new CustomizeContractResolver() };
+            { ContractResolver = new CustomizeContractResolver() };
 
             var data = new HistoryModel
             {
@@ -389,10 +441,9 @@ public partial class InputViewModel : ObservableObject
             return;
         }
 
-        var vm = Singleton<CommonViewModel>.Instance;
-        vm.IsRemoveLineBreakGettingWords = !vm.IsRemoveLineBreakGettingWords;
-        vm.SaveCommand.Execute(null);
-        ToastHelper.Show($"{(vm.IsRemoveLineBreakGettingWords ? "打开" : "关闭")}始终移除换行");
+        CommonVm.IsRemoveLineBreakGettingWords = !CommonVm.IsRemoveLineBreakGettingWords;
+        CommonVm.SaveCommand.Execute(null);
+        ToastHelper.Show($"{(CommonVm.IsRemoveLineBreakGettingWords ? "打开" : "关闭")}始终移除换行");
     }
 
     [RelayCommand]
@@ -414,17 +465,17 @@ public partial class InputViewModel : ObservableObject
         textBox.SelectAll();
         textBox.SelectedText = newTxt;
 
-        if (!Singleton<ConfigHelper>.Instance.CurrentConfig?.IsAdjustContentTranslate ?? false)
+        if (!CnfHelper.CurrentConfig?.IsAdjustContentTranslate ?? false)
             return;
 
-        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
         TranslateCommand.Execute(null);
     }
 
     internal void UpdateOftenUsedLang()
     {
-        OftenUsedLang = Singleton<ConfigHelper>.Instance.CurrentConfig?.OftenUsedLang ?? string.Empty;
+        OftenUsedLang = CnfHelper.CurrentConfig?.OftenUsedLang ?? string.Empty;
     }
 
     #region ContextMenu
@@ -493,7 +544,7 @@ public partial class InputViewModel : ObservableObject
 
         IdentifyLanguage = lang.GetDescription();
         // 选择语言后自动翻译
-        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
         await TranslateCommand.ExecuteAsync(string.Empty);
 
