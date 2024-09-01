@@ -1,23 +1,23 @@
 ﻿<UserControl
-    Background="Transparent"
-    FontSize="{DynamicResource FontSize18}"
-    d:DataContext="{d:DesignInstance Type=vm:TTSLingva}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d"
     x:Class="STranslate.Views.Preference.TTS.TTSLingvaPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.TTS"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    d:DataContext="{d:DesignInstance Type=vm:TTSLingva}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    FontSize="{DynamicResource FontSize18}"
+    mc:Ignorable="d">
     <Border
+        Padding="10,20"
         BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
-        CornerRadius="4"
-        Padding="10,20">
+        CornerRadius="4">
         <StackPanel>
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
@@ -28,8 +28,8 @@
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
                     MinWidth="160"
+                    HorizontalAlignment="Left"
                     Placeholder="Lingva TTS"
                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
@@ -42,9 +42,9 @@
                 <TextBlock Text="图标: " />
 
                 <ComboBox
-                    BorderThickness="1"
                     Grid.Column="1"
                     HorizontalAlignment="Left"
+                    BorderThickness="1"
                     ItemsSource="{Binding Icons}"
                     SelectedValue="{Binding Icon}"
                     SelectedValuePath="Key"
@@ -60,10 +60,23 @@
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
                     MinWidth="206"
-                    Placeholder="http://localhost:3000"
+                    HorizontalAlignment="Left"
+                    Placeholder="https://lingva.zggsong.com"
                     Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Top" Text="说明: " />
+                <TextBlock
+                    Grid.Column="1"
+                    FontSize="{DynamicResource FontSize14}"
+                    Text="该服务依赖语种，请在常规设置-常用设置-语种识别中选择可用服务，有时可能因为网络问题或服务问题而无法正常识别(需要注意的是本地识别目前仅支持中英文，请避免使用本地识别方案配合Lingva进行除中英文外的文本转语音操作)"
+                    TextWrapping="WrapWithOverflow" />
             </Grid>
 
             <Grid Margin="0,10">

@@ -318,6 +318,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _autoTranslate = CurConfig?.AutoTranslate ?? false;
 
+    /// <summary>
+    ///     是否显示自动执行翻译
+    /// </summary>
+    [ObservableProperty] private bool _isShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
+
 
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
@@ -385,7 +390,7 @@ public partial class CommonViewModel : ObservableObject
         base.OnPropertyChanged(e);
     }
 
-    public event Action<bool>? OnIncrementalChanged;
+    public event Action<bool, bool>? OnIncreAutoTranslateChanged;
 
     [RelayCommand]
     private void Save()
@@ -403,7 +408,7 @@ public partial class CommonViewModel : ObservableObject
         if (ConfigHelper.WriteConfig(this))
         {
             //通知增量翻译配置到主界面
-            OnIncrementalChanged?.Invoke(IncrementalTranslation);
+            OnIncreAutoTranslateChanged?.Invoke(IncrementalTranslation, AutoTranslate);
             ToastHelper.Show("保存常规配置成功", WindowType.Preference);
         }
         else
@@ -480,6 +485,7 @@ public partial class CommonViewModel : ObservableObject
         ShowMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
         GlobalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
         AutoTranslate = CurConfig?.AutoTranslate ?? false;
+        IsShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

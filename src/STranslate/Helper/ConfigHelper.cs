@@ -262,6 +262,7 @@ public class ConfigHelper
         CurrentConfig.ShowMinimalBtn = model.ShowMinimalBtn;
         CurrentConfig.GlobalFontSize = model.GlobalFontSize;
         CurrentConfig.AutoTranslate = model.AutoTranslate;
+        CurrentConfig.IsShowAutoTranslate = model.IsShowAutoTranslate;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -795,6 +796,7 @@ public class ConfigHelper
             ShowMinimalBtn = false,
             GlobalFontSize = GlobalFontSizeEnum.General,
             AutoTranslate = false,
+            IsShowAutoTranslate = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [
@@ -803,7 +805,7 @@ public class ConfigHelper
                 new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", isEnabled: false)
             ],
             OCRList = [new PaddleOCR()],
-            TTSList = [new TTSOffline()]
+            TTSList = [new TTSOffline() { IsEnabled = true }, new TTSLingva()]
         };
     }
 

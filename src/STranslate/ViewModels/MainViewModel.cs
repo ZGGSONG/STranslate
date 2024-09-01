@@ -19,6 +19,8 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private string _isEnableIncrementalTranslation = Constant.TagFalse;
 
+    [ObservableProperty] private string _isAutoTranslate = Constant.TagFalse;
+
     [ObservableProperty] private string _isEnableMosehook = Constant.TagFalse;
 
     /// <summary>
@@ -118,6 +120,7 @@ public partial class MainViewModel : ObservableObject
         TargetLang = Config?.TargetLang ?? LangEnum.auto;
         InputVM.OftenUsedLang = Config?.OftenUsedLang ?? string.Empty;
         IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? Constant.TagTrue : Constant.TagFalse;
+        IsAutoTranslate = Config?.AutoTranslate ?? false ? Constant.TagTrue : Constant.TagFalse;
         _ = ReplaceVm.ReplaceProp.ActiveService; //激活ReplaceVm
         _isInitial = false;
     }
@@ -131,7 +134,7 @@ public partial class MainViewModel : ObservableObject
 
             NotifyIconVM.OnMousehook += MouseHook;
             NotifyIconVM.OnForbiddenShortcuts += OnForbiddenShortcutsChanged;
-            CommonSettingVM.OnIncrementalChanged += OnIncrementalChanged;
+            CommonSettingVM.OnIncreAutoTranslateChanged += OnIncreAutoTranslateChanged;
             // 由于需要使用windows句柄，需要window加载完成后处理热键注册相关逻辑
             // 所以不放在ConfigHelper中处理,而使用读取配置判断,如果禁用则不注册并更新提示
             if (Config?.DisableGlobalHotkeys ?? false)
@@ -155,7 +158,7 @@ public partial class MainViewModel : ObservableObject
     {
         NotifyIconVM.OnMousehook -= MouseHook;
         NotifyIconVM.OnForbiddenShortcuts -= OnForbiddenShortcutsChanged;
-        CommonSettingVM.OnIncrementalChanged -= OnIncrementalChanged;
+        CommonSettingVM.OnIncreAutoTranslateChanged -= OnIncreAutoTranslateChanged;
         UnRegisterHotkeys(view);
     }
 
@@ -176,9 +179,10 @@ public partial class MainViewModel : ObservableObject
     ///     监听增量翻译更新
     /// </summary>
     /// <param name="value"></param>
-    private void OnIncrementalChanged(bool value)
+    private void OnIncreAutoTranslateChanged(bool incrementalTranslation, bool autoTranslate)
     {
-        IsEnableIncrementalTranslation = value ? Constant.TagTrue : Constant.TagFalse;
+        IsEnableIncrementalTranslation = incrementalTranslation ? Constant.TagTrue : Constant.TagFalse;
+        IsAutoTranslate = autoTranslate ? Constant.TagTrue : Constant.TagFalse;
     }
 
     private void RegisterHotkeys(Window view)
@@ -324,6 +328,24 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void AutoTranslate()
+    {
+        var conf = Config;
+        var common = Singleton<CommonViewModel>.Instance;
+        if (conf is null)
+            return;
+
+        conf.AutoTranslate = !conf.AutoTranslate;
+        IsAutoTranslate = conf?.AutoTranslate ?? false ? Constant.TagTrue : Constant.TagFalse;
+
+        common.AutoTranslate = !common.AutoTranslate;
+        common.SaveCommand.Execute(null);
+
+        var msg = (common.AutoTranslate ? "打开" : "关闭") + "自动翻译";
+        ToastHelper.Show(msg);
+    }
+
+    [RelayCommand]
     private void IncrementalTranslation()
     {
         var conf = Config;
@@ -447,6 +469,7 @@ public partial class MainViewModel : ObservableObject
         IsShowPreference = Config?.IsShowPreference ?? false;
         IsShowConfigureService = Config?.IsShowConfigureService ?? false;
         IsShowMousehook = Config?.IsShowMousehook ?? false;
+        IsShowAutoTranslate = Config?.IsShowAutoTranslate ?? false;
         IsShowIncrementalTranslation = Config?.IsShowIncrementalTranslation ?? false;
         IsShowScreenshot = Config?.IsShowScreenshot ?? false;
         IsShowOCR = Config?.IsShowOCR ?? false;
@@ -577,6 +600,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private bool _isShowConfigureService;
 
     [ObservableProperty] private bool _isShowMousehook;
+
+    [ObservableProperty] private bool _isShowAutoTranslate;
 
     [ObservableProperty] private bool _isShowIncrementalTranslation;
 

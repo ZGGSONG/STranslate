@@ -370,6 +370,11 @@ public class ConfigModel
     public bool AutoTranslate { get; set; } = false;
 
     /// <summary>
+    ///     主界面是否显示自动执行翻译
+    /// </summary>
+    public bool IsShowAutoTranslate { get; set; } = false;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -476,6 +481,7 @@ public class ConfigModel
             ShowMinimalBtn = ShowMinimalBtn,
             GlobalFontSize = GlobalFontSize,
             AutoTranslate = AutoTranslate,
+            IsShowAutoTranslate = IsShowAutoTranslate,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

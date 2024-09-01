@@ -44,7 +44,7 @@ public partial class TTSLingva : ObservableObject, ITTS
     public string _url = string.Empty;
 
     public TTSLingva()
-        : this(Guid.NewGuid(), "http://localhost:3000", "Lingva", isEnabled: false)
+        : this(Guid.NewGuid(), "https://lingva.zggsong.com", "Lingva", isEnabled: false)
     {
     }
 

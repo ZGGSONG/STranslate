@@ -40,6 +40,7 @@ public partial class HotkeyViewModel : ObservableObject
         new SoftHotkey("ESC", "隐藏/退出界面(若有请求则同时取消该请求: 翻译、OCR、TTS)"),
         new SoftHotkey("Ctrl + ,", "打开设置"),
         new SoftHotkey("Ctrl + /", "打开历史记录"),
+        new SoftHotkey("Ctrl + B", "打开/关闭自动翻译"),
         new SoftHotkey("Ctrl + E", "打开/关闭增量翻译"),
         new SoftHotkey("Ctrl + Shift + A", "隐藏/显示输入框"),
         new SoftHotkey("Ctrl + Shift + M", "重置窗口至主显示器中央"),

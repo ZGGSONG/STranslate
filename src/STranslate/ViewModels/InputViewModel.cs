@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -27,6 +26,11 @@ public partial class InputViewModel : ObservableObject
     public CommonViewModel CommonVm => Singleton<CommonViewModel>.Instance;
     public OutputViewModel OutputVm => Singleton<OutputViewModel>.Instance;
     public ConfigHelper CnfHelper => Singleton<ConfigHelper>.Instance;
+
+    /// <summary>
+    ///     是否正在执行自动翻译
+    /// </summary>
+    [ObservableProperty] private bool _isAutoTranslateExecuting = false;
 
     /// <summary>
     ///     自动识别的语言
@@ -107,10 +111,12 @@ public partial class InputViewModel : ObservableObject
         {
             return;
         }
+        IsAutoTranslateExecuting = true;
         //如果重复执行先取消上一步操作
         OutputVm.SingleTranslateCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
         await TranslateCommand.ExecuteAsync(null);
+        IsAutoTranslateExecuting = false;
     }
 
     #region 命令
