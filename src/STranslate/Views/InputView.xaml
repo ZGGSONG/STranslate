@@ -113,12 +113,77 @@
                     ToolTip="移除空格" />
                 <Border Style="{DynamicResource LanguageMarkBorderStyle}" Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
                     <StackPanel Margin="5,2" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />
-                        <TextBlock
+                        <!--<TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />-->
+                        <ToggleButton
+                            Name="DetectTb"
+                            Height="auto"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            Content="识别为 "
+                            Cursor="Hand"
+                            FontFamily="{DynamicResource UserFont}"
                             FontSize="{DynamicResource FontSize14}"
-                            Foreground="{DynamicResource ThemeAccentColor}"
-                            Text="{Binding IdentifyLanguage}"
-                            Visibility="Collapsed" />
+                            Foreground="{DynamicResource TextBlockLangForeground}"
+                            Style="{DynamicResource ToggleButtonIconStyle}" />
+                        <Popup
+                            Name="DetectPopup"
+                            MinWidth="40"
+                            MinHeight="30"
+                            AllowsTransparency="True"
+                            IsOpen="{Binding ElementName=DetectTb, Path=IsChecked}"
+                            Placement="Bottom"
+                            PlacementTarget="{Binding ElementName=DetectTb}"
+                            PopupAnimation="Slide"
+                            StaysOpen="False">
+                            <Border Style="{DynamicResource BorderStyle}">
+                                <ListBox
+                                    Name="DetectLb"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
+                                    SelectedValue="{Binding CommonVm.DetectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type model:LangDetectType}">
+                                            <Border
+                                                x:Name="DetectBorder"
+                                                Margin="3"
+                                                Background="{DynamicResource BorderBackground}"
+                                                BorderBrush="{x:Null}"
+                                                CornerRadius="5">
+                                                <TextBlock
+                                                    Margin="3,5"
+                                                    HorizontalAlignment="Left"
+                                                    FontSize="{DynamicResource FontSize14}"
+                                                    Text="{Binding Description}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                            </Border>
+                                            <DataTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="DetectBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                                                    <Setter TargetName="DetectBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                            <i:InvokeCommandAction Command="{Binding Source={StaticResource InputVm}, Path=Data.SelectedLangDetectTypeCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                        <Binding ElementName="DetectLb" Path="SelectedItem" />
+                                                        <Binding ElementName="DetectTb" />
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ListBox>
+                            </Border>
+                        </Popup>
+
                         <ToggleButton
                             Name="IdentifyTb"
                             Height="auto"

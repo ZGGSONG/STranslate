@@ -557,6 +557,26 @@ public partial class InputViewModel : ObservableObject
         _userSelectedLang = null;
     }
 
+    [RelayCommand]
+    private async Task SelectedLangDetectTypeAsync(List<object> list)
+    {
+        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+            list.Last() is not ToggleButton tb)
+            return;
+
+        tb.IsChecked = false;
+
+        if (!Enum.TryParse(typeof(LangDetectType), member.Value?.ToString() ?? "", out var obj) ||
+            obj is not LangDetectType detectType) return;
+
+        CommonVm.SaveCommand.Execute(null);
+
+        // 选择语言后自动翻译
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
+        TranslateCancelCommand.Execute(null);
+        await TranslateCommand.ExecuteAsync(string.Empty);
+    }
+
     #endregion 命令
 }
 
