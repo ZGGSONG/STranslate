@@ -175,6 +175,7 @@ public enum OCRType
     [Description("火山OCR")] VolcengineOCR,
     [Description("谷歌OCR")] GoogleOCR,
     [Description("OpenAIOCR")] OpenAIOCR,
+    [Description("WindowsOCR")] WindowsOCR,
 }
 
 public enum BaiduOCRAction
@@ -255,6 +256,8 @@ public enum IconType
     [Description("Kimi")] Kimi,
     
     [Description("Lingva")] Lingva,
+    
+    [Description("Windows")] Windows,
 }
 
 /// <summary>

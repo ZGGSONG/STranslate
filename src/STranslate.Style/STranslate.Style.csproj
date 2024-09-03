@@ -116,6 +116,8 @@
       <Resource Include="Resources\lingva.png">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Resource>
+      <None Remove="Resources\windows.png" />
+      <Resource Include="Resources\windows.png" />
   </ItemGroup>
 
   <ItemGroup>
