@@ -21,13 +21,20 @@ public class HttpUtil
     }
 
     public static async Task<string> GetAsync(string url, Dictionary<string, string>? queryParams,
-        CancellationToken token, int timeout = 10)
+        CancellationToken token, Dictionary<string, string>? headers = null, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
         if (queryParams is { Count: > 0 })
         {
             var uriBuilder = new UriBuilder(url) { Query = BuildQueryString(queryParams) };
             url = uriBuilder.ToString();
+        }
+        if (headers is { Count: > 0 })
+        {
+            foreach (var header in headers)
+            {
+                client.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
         }
 
         var response = await client.GetAsync(url, token).ConfigureAwait(false);

@@ -8,6 +8,7 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
+using Exception = System.Exception;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
@@ -54,6 +55,10 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
     [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
 
     [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.DeepL;
+    
+    [JsonIgnore] [ObservableProperty] private double _usage = 0;
+    
+    [JsonIgnore] [ObservableProperty] private string _usageStr = string.Empty;
 
     [JsonIgnore]
     [ObservableProperty]
@@ -118,10 +123,7 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
 
     #endregion Properties
 
-    #region Service Test
-
-    [property: JsonIgnore] [ObservableProperty]
-    private bool _isTesting;
+    #region Commands
 
     [property: JsonIgnore]
     [RelayCommand(IncludeCancelCommand = true)]
@@ -131,7 +133,6 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
         var isCancel = false;
         try
         {
-            IsTesting = true;
             var reqModel = new RequestModel("你好", LangEnum.zh_cn, LangEnum.en);
             var ret = await TranslateAsync(reqModel, token);
 
@@ -147,12 +148,51 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
         }
         finally
         {
-            IsTesting = false;
             if (!isCancel) ToastHelper.Show(result, WindowType.Preference);
         }
     }
 
-    #endregion Service Test
+    [property: JsonIgnore]
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task UsageAsync(CancellationToken token)
+    {
+        var result = "";
+        const string path = "/v2/usage";
+        var uriBuilder = new UriBuilder(Url);
+        uriBuilder.Path = path;
+        var authToken = string.IsNullOrEmpty(AppKey)
+            ? []
+            : new Dictionary<string, string> { { "Authorization", $"DeepL-Auth-Key {AppKey}" } };
+        try
+        {
+            var resp =
+                await HttpUtil.GetAsync(uriBuilder.Uri.ToString(), null, token, authToken) ??
+                throw new Exception("请求结果为空");
+            var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
+            var count = parseData["character_count"]?.ToString() ?? throw new Exception("用量为空");
+            var limit = parseData["character_limit"]?.ToString() ?? throw new Exception("用量上限为空");
+            UsageStr = $"{count}/{limit}";
+            Usage = double.Parse(count) / double.Parse(limit) * 100;
+            result = "查询成功";
+        }
+        catch (OperationCanceledException)
+        {
+            // ignored
+            result = "取消查询";
+        }
+        catch (Exception ex)
+        {
+            if (ex.InnerException is { } innEx) ex = innEx;
+            LogService.Logger.Error($"TranslatorDeepL|UsageAsync: {ex.Message}");
+            result = "查询失败";
+        }
+        finally
+        {
+            ToastHelper.Show(result, WindowType.Preference);
+        }
+    }
+
+    #endregion
 
     #region Interface Implementation
 
@@ -240,7 +280,9 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             AppID = AppID,
             AppKey = AppKey,
             AutoExecute = AutoExecute,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            Usage = Usage,
+            UsageStr = UsageStr,
         };
     }
 
