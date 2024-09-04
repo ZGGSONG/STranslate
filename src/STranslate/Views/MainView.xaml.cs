@@ -115,7 +115,7 @@ public partial class MainView : Window
             Opacity = 0;
             // 修复闪烁问题, 参考: https://github.com/Flow-Launcher/Flow.Launcher/pull/810/commits/e30af374c9854c60c5fba55a9273d54d4b5e6665
             await Task.Delay(100);
-            Hide();
+            Visibility = Visibility.Hidden;
             return;
         }
         
@@ -189,7 +189,7 @@ public partial class MainView : Window
         if (_configHelper.CurrentConfig?.IsHideOnStart ?? false)
         {
             Opacity = 0;
-            Hide();
+            Visibility = Visibility.Hidden;
 
             var isAdmin = CommonUtil.IsUserAdministrator();
 
