@@ -263,6 +263,7 @@ public class ConfigHelper
         CurrentConfig.GlobalFontSize = model.GlobalFontSize;
         CurrentConfig.AutoTranslate = model.AutoTranslate;
         CurrentConfig.IsShowAutoTranslate = model.IsShowAutoTranslate;
+        CurrentConfig.AnimationSpeed = model.AnimationSpeed;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -797,6 +798,7 @@ public class ConfigHelper
             GlobalFontSize = GlobalFontSizeEnum.General,
             AutoTranslate = false,
             IsShowAutoTranslate = false,
+            AnimationSpeed = AnimationSpeedEnum.Middle,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

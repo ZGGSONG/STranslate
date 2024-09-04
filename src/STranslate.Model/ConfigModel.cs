@@ -375,6 +375,11 @@ public class ConfigModel
     public bool IsShowAutoTranslate { get; set; } = false;
 
     /// <summary>
+    ///     动画速度
+    /// </summary>
+    public AnimationSpeedEnum AnimationSpeed { get; set; } = AnimationSpeedEnum.Middle;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -482,6 +487,7 @@ public class ConfigModel
             GlobalFontSize = GlobalFontSize,
             AutoTranslate = AutoTranslate,
             IsShowAutoTranslate = IsShowAutoTranslate,
+            AnimationSpeed = AnimationSpeed,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

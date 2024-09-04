@@ -1046,6 +1046,16 @@ public enum GlobalFontSizeEnum
 }
 
 /// <summary>
+///     主界面动画速度
+/// </summary>
+public enum AnimationSpeedEnum
+{
+    [Description("较慢(300ms)")] Slow = 300,
+    [Description("适中(200ms)")] Middle = 200,
+    [Description("较快(150ms)")] Fast = 150,
+}
+
+/// <summary>
 ///     获取Description
 /// </summary>
 public static class EnumExtensions

@@ -538,6 +538,19 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Left" Text="动画速度" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示时的动画速度" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:AnimationSpeedEnum}}}"
+                                        SelectedValue="{Binding AnimationSpeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock HorizontalAlignment="Left" Text="输入框水印" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否显示主界面输入框水印提示" />
                                     <ToggleButton

@@ -323,6 +323,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _isShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
 
+    /// <summary>
+    ///     动画速度
+    /// </summary>
+    [ObservableProperty] private AnimationSpeedEnum _animationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
+
 
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
@@ -486,6 +491,7 @@ public partial class CommonViewModel : ObservableObject
         GlobalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
         AutoTranslate = CurConfig?.AutoTranslate ?? false;
         IsShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
+        AnimationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

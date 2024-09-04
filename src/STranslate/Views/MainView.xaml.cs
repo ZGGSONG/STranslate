@@ -126,20 +126,22 @@ public partial class MainView : Window
         inputTb.Focus();
         if (_configHelper.CurrentConfig?.IsCaretLast ?? false)
             inputTb.CaretIndex = inputTb.Text.Length;
+
+        var duration = (_configHelper.CurrentConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle).ToInt();
         
         var windowSb = new Storyboard();
         var windowOpacity = new DoubleAnimation
         {
             From = 0,
             To = 1,
-            Duration = TimeSpan.FromMilliseconds(150),
+            Duration = TimeSpan.FromMilliseconds(duration),
             FillBehavior = FillBehavior.Stop
         };
         var windowMotion = new DoubleAnimation
         {
             From = Top + 10,
             To = Top,
-            Duration = TimeSpan.FromMilliseconds(150),
+            Duration = TimeSpan.FromMilliseconds(duration),
             FillBehavior = FillBehavior.Stop
         };
         Storyboard.SetTarget(windowOpacity, this);
