@@ -139,14 +139,6 @@
         <KeyBinding Command="{Binding CommonSettingVM.ResetMainViewCommand}" Gesture="Ctrl+0" />
 
     </Window.InputBindings>
-    <Window.Resources>
-        <Storyboard x:Key="MainViewAnimation">
-            <DoubleAnimation
-                Storyboard.TargetName="MainWindow"
-                Storyboard.TargetProperty="Opacity"
-                Duration="0:0:0.15" />
-        </Storyboard>
-    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=MainWindow}" />

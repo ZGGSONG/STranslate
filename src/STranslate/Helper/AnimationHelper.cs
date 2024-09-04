@@ -8,6 +8,7 @@ namespace STranslate.Helper;
 /// <summary>
 ///     Helper class for handling animations in the application.
 /// </summary>
+[Obsolete("Use the WindowAnimation in MainView.xaml.cs class instead.")]
 public class AnimationHelper
 {
     private static readonly Window MainView =

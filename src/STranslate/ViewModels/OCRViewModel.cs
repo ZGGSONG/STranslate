@@ -514,7 +514,7 @@ public partial class OCRViewModel : WindowVMBase
 
         //获取主窗口
         var window = Application.Current.Windows.OfType<MainView>().First();
-        AnimationHelper.MainViewAnimation();
+        window.WindowAnimation();
         window.Activate();
 
         //获取文本

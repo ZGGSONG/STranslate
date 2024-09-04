@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Animation;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -96,12 +96,65 @@ public partial class MainView : Window
     {
         if (Topmost || StayView()) return;
 
-        AnimationHelper.MainViewAnimation(false);
+        WindowAnimation(false);
     }
 
     internal bool StayView()
     {
         return _configHelper.CurrentConfig?.StayMainViewWhenLoseFocus ?? false;
+    }
+
+    private bool _animating;
+    public async void WindowAnimation(bool isShow = true)
+    {
+        if (isShow == (Visibility == Visibility.Visible) || _animating)
+            return;
+        
+        if (!isShow)
+        {
+            Opacity = 0;
+            // 修复闪烁问题, 参考: https://github.com/Flow-Launcher/Flow.Launcher/pull/810/commits/e30af374c9854c60c5fba55a9273d54d4b5e6665
+            await Task.Delay(100);
+            Visibility = Visibility.Collapsed;
+            return;
+        }
+        
+        _animating = true;
+        Visibility = Visibility.Visible;
+
+        var inputTb = (TextBox)((UserControl)FindName("InputView")!).FindName("InputTB")!;
+        inputTb.Focus();
+        if (_configHelper.CurrentConfig?.IsCaretLast ?? false)
+            inputTb.CaretIndex = inputTb.Text.Length;
+        
+        var windowSb = new Storyboard();
+        var windowOpacity = new DoubleAnimation
+        {
+            From = 0,
+            To = 1,
+            Duration = TimeSpan.FromMilliseconds(150),
+            FillBehavior = FillBehavior.Stop
+        };
+        var windowMotion = new DoubleAnimation
+        {
+            From = Top + 10,
+            To = Top,
+            Duration = TimeSpan.FromMilliseconds(150),
+            FillBehavior = FillBehavior.Stop
+        };
+        Storyboard.SetTarget(windowOpacity, this);
+        Storyboard.SetTarget(windowMotion, this);
+        Storyboard.SetTargetProperty(windowOpacity, new PropertyPath(Window.OpacityProperty));
+        Storyboard.SetTargetProperty(windowMotion, new PropertyPath(Window.TopProperty));
+        windowSb.Children.Add(windowOpacity);
+        windowSb.Children.Add(windowMotion);
+        
+        windowSb.Completed += (_, _) =>
+        {
+            _animating = false;
+            Opacity = 1;
+        };
+        windowSb.Begin(MainWindow);
     }
 
     #region 隐藏系统窗口菜单
@@ -131,12 +184,10 @@ public partial class MainView : Window
 
         #region 开启时隐藏主界面
 
-        // 初始化动画标记
-        AnimationHelper.Init();
-
         if (_configHelper.CurrentConfig?.IsHideOnStart ?? false)
         {
-            Visibility = Visibility.Hidden;
+            Visibility = Visibility.Collapsed;
+            Opacity = 0;
 
             var isAdmin = CommonUtil.IsUserAdministrator();
 

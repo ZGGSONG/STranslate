@@ -312,22 +312,18 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand]
     private async Task InsertResultAsync(List<object> obj)
     {
-        if (obj?.Count != 2 || obj.First() is not string str || obj.Last() is not Window win)
+        if (obj?.Count != 2 || obj.First() is not string str || obj.Last() is not MainView win)
             return;
 
         win.Topmost = false;
         _mainVm.IsTopMost = Constant.TagFalse;
         _mainVm.TopMostContent = Constant.UnTopmostContent;
 
-        LogService.Logger.Debug("<Start> [Animation]");
-        await AnimationHelper.MainViewAnimationAsync(false);
-        LogService.Logger.Debug("<End> [Animation]");
+        win.WindowAnimation(false);
 
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
         await Task.Delay(100);
-        LogService.Logger.Debug("<Start> [Output]");
         InputSimulatorHelper.PrintText(str);
-        LogService.Logger.Debug("<End> [Output]");
     }
     
     [RelayCommand]

@@ -431,7 +431,7 @@ public partial class MainViewModel : ObservableObject
         win.Topmost = false;
         IsTopMost = Constant.TagFalse;
         TopMostContent = Constant.UnTopmostContent;
-        AnimationHelper.MainViewAnimation(false);
+        win.WindowAnimation(false);
 
         //如果重复执行先取消上一步操作
         OutputVM.SingleTranslateCancelCommand.Execute(null);

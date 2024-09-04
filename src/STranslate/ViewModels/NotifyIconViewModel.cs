@@ -498,7 +498,7 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         var view = Application.Current.Windows.OfType<MainView>().First();
         // 判断是否置顶，置顶的话则不隐藏
-        if (!view.Topmost) AnimationHelper.MainViewAnimation(false);
+        if (!view.Topmost) view.WindowAnimation(false);
     }
 
     [RelayCommand]
@@ -536,22 +536,12 @@ public partial class NotifyIconViewModel : ObservableObject
 
         SpecialWindowActiveHandler(view);
 
-        if (view is MainView)
-            AnimationHelper.MainViewAnimation();
+        if (view is MainView mView)
+            mView.WindowAnimation();
         else
             view.Show();
         view.Activate();
         WindowHelper.SetWindowInForeground(view);
-
-        //激活输入框
-        if (view is not MainView mainView ||
-            (mainView.FindName("InputView") as UserControl)?.FindName("InputTB") is not TextBox inputTextBox) return;
-        // 获取焦点
-        inputTextBox.Focus();
-
-        // 光标移动至末尾
-        if (_configHelper.CurrentConfig?.IsCaretLast ?? false)
-            inputTextBox.CaretIndex = inputTextBox.Text.Length;
     }
 
     [RelayCommand]
