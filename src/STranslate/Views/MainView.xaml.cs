@@ -115,14 +115,14 @@ public partial class MainView : Window
             Opacity = 0;
             // 修复闪烁问题, 参考: https://github.com/Flow-Launcher/Flow.Launcher/pull/810/commits/e30af374c9854c60c5fba55a9273d54d4b5e6665
             await Task.Delay(100);
-            Visibility = Visibility.Collapsed;
+            Hide();
             return;
         }
         
         _animating = true;
         Visibility = Visibility.Visible;
 
-        var inputTb = (TextBox)((UserControl)FindName("InputView")!).FindName("InputTB")!;
+        var inputTb = (TextBox)InputView.FindName("InputTB")!;
         inputTb.Focus();
         if (_configHelper.CurrentConfig?.IsCaretLast ?? false)
             inputTb.CaretIndex = inputTb.Text.Length;
@@ -188,8 +188,8 @@ public partial class MainView : Window
 
         if (_configHelper.CurrentConfig?.IsHideOnStart ?? false)
         {
-            Visibility = Visibility.Collapsed;
             Opacity = 0;
+            Hide();
 
             var isAdmin = CommonUtil.IsUserAdministrator();
 
