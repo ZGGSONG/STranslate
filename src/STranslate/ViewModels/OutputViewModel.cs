@@ -322,7 +322,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         win.WindowAnimation(false);
 
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
-        await Task.Delay(100);
+        await Task.Delay(150);
         InputSimulatorHelper.PrintText(str);
     }
     
