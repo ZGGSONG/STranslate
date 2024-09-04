@@ -112,7 +112,7 @@
                     Style="{DynamicResource ButtonCopyIconStyle}"
                     ToolTip="移除空格" />
                 <Border Style="{DynamicResource LanguageMarkBorderStyle}" Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
-                    <StackPanel Margin="5,2" Orientation="Horizontal">
+                    <StackPanel Margin="5,0" Orientation="Horizontal">
                         <!--<TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />-->
                         <ToggleButton
                             Name="DetectTb"
