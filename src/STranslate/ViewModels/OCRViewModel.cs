@@ -453,18 +453,24 @@ public partial class OCRViewModel : WindowVMBase
     [RelayCommand]
     private void QRCode()
     {
-        IsExecuting = true;
-        ClearQrContent();
+        try
+        {
+            IsExecuting = true;
+            ClearQrContent();
 
-        if (Bs == null)
-            return;
-        var ret = QrCodeHandler(Bs);
-        if (!string.IsNullOrEmpty(ret))
-            GetContent = ret;
-        else
-            ToastHelper.Show("未识别到二维码", WindowType.OCR);
+            if (Bs == null)
+                return;
+            var ret = QrCodeHandler(Bs);
+            if (!string.IsNullOrEmpty(ret))
+                GetContent = ret;
+            else
+                ToastHelper.Show("未识别到二维码", WindowType.OCR);
+        }
+        finally
+        {
+            IsExecuting = false;
+        }
 
-        IsExecuting = false;
     }
 
     private string QrCodeHandler(BitmapSource bs)
