@@ -178,7 +178,7 @@
                     <local:LangView
                         DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
                         Focusable="False"
-                        Visibility="{Binding IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                        Visibility="{Binding IsOnlyShowRet4Lang, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!--  // Output //  -->
                     <local:OutputView

@@ -264,6 +264,7 @@ public class ConfigHelper
         CurrentConfig.AutoTranslate = model.AutoTranslate;
         CurrentConfig.IsShowAutoTranslate = model.IsShowAutoTranslate;
         CurrentConfig.AnimationSpeed = model.AnimationSpeed;
+        CurrentConfig.IsShowLangViewOnShowRet = model.IsShowLangViewOnShowRet;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -295,6 +296,7 @@ public class ConfigHelper
                 Application.Current.Windows.OfType<MainView>().First());
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
+        ShowLangViewOnShowRetOperate(CurrentConfig.IsShowLangViewOnShowRet);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -685,6 +687,15 @@ public class ConfigHelper
     }
 
     /// <summary>
+    ///     仅显示输出界面时是否显示语言选择界面
+    /// </summary>
+    /// <param name="value"></param>
+    private void ShowLangViewOnShowRetOperate(bool value)
+    {
+        Singleton<MainViewModel>.Instance.IsShowLangViewOnShowRet = value;
+    }
+
+    /// <summary>
     ///     输出界面显示按钮控制
     /// </summary>
     /// <param name="isPromptToggleVisible"></param>
@@ -799,6 +810,7 @@ public class ConfigHelper
             AutoTranslate = false,
             IsShowAutoTranslate = false,
             AnimationSpeed = AnimationSpeedEnum.Middle,
+            IsShowLangViewOnShowRet = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

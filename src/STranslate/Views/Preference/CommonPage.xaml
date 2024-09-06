@@ -560,6 +560,15 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="仅显示输出界面时(Ctrl+Shift+A)是否显示语言框" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅显示输出界面时(Ctrl+Shift+A)是否显示语言选择界面" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsShowLangViewOnShowRet}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="显示界面重复触发显/隐" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
                                     <ToggleButton

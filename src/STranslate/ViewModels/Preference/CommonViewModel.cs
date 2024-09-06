@@ -15,6 +15,8 @@ namespace STranslate.ViewModels.Preference;
 
 public partial class CommonViewModel : ObservableObject
 {
+    #region 属性 & 字段
+    
     /// <summary>
     ///     ConfigHelper单例
     /// </summary>
@@ -328,10 +330,16 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private AnimationSpeedEnum _animationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
 
-
+    /// <summary>
+    ///     仅显示输出结果时是否显示语言选择界面
+    /// </summary>
+    [ObservableProperty] private bool _isShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
+    
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
+    #endregion
+    
     public CommonViewModel()
     {
         // 获取系统已安装字体
@@ -492,6 +500,7 @@ public partial class CommonViewModel : ObservableObject
         AutoTranslate = CurConfig?.AutoTranslate ?? false;
         IsShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
         AnimationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
+        IsShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

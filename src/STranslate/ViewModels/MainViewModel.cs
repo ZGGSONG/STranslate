@@ -29,6 +29,13 @@ public partial class MainViewModel : ObservableObject
     private bool _isInitial;
 
     [ObservableProperty] private bool _isOnlyShowRet;
+    
+    [ObservableProperty] private bool _isOnlyShowRet4Lang;
+    
+    /// <summary>
+    ///     在仅显示输出时是否显示语言选择部分
+    /// </summary>
+    [ObservableProperty] private bool _isShowLangViewOnShowRet;
 
     [ObservableProperty] private string _isTopMost = Constant.TagFalse;
 
@@ -122,6 +129,7 @@ public partial class MainViewModel : ObservableObject
         IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? Constant.TagTrue : Constant.TagFalse;
         IsAutoTranslate = Config?.AutoTranslate ?? false ? Constant.TagTrue : Constant.TagFalse;
         _ = ReplaceVm.ReplaceProp.ActiveService; //激活ReplaceVm
+        IsShowLangViewOnShowRet = Config?.IsShowLangViewOnShowRet ?? false;
         _isInitial = false;
     }
 
@@ -448,6 +456,11 @@ public partial class MainViewModel : ObservableObject
     private void ShowHideInput()
     {
         IsOnlyShowRet = !IsOnlyShowRet;
+        IsOnlyShowRet4Lang = IsOnlyShowRet switch
+        {
+            true when !IsShowLangViewOnShowRet => true, //不显示LangView
+            _ => false //显示LangView
+        };
     }
 
     /// <summary>
