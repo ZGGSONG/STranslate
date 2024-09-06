@@ -32,17 +32,18 @@ public class ToastHelper
 
     private static bool EnsureInitialized(WindowType type)
     {
+        var tv = GetNotifyControlForWindowType(type);
+        if (tv is null) return false;
+
         if (ToastDictionary.TryGetValue(type, out var value))
         {
+            value.UpdateToast(tv);
             value.Timer.Stop();
             return true;
         }
 
         var t = new DispatcherTimer { Interval = TimeSpan.FromSeconds(Timeout) };
         t.Tick += (_, _) => Timer_Tick(type);
-
-        var tv = GetNotifyControlForWindowType(type);
-        if (tv is null) return false;
 
         ToastDictionary[type] = new ToastInfo(tv, t);
         return true;
@@ -80,7 +81,12 @@ public class ToastHelper
 
     private class ToastInfo(ToastView toast, DispatcherTimer timer)
     {
-        public ToastView Toast { get; } = toast;
+        public ToastView Toast { get; private set; } = toast;
         public DispatcherTimer Timer { get; } = timer;
+
+        public void UpdateToast(ToastView newToastView)
+        {
+            Toast = newToastView;
+        }
     }
 }
