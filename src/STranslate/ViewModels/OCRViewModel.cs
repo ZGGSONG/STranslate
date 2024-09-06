@@ -135,6 +135,7 @@ public partial class OCRViewModel : WindowVMBase
         win.Topmost = false;
         IsTopMost = Constant.TagFalse;
         TopMostContent = Constant.UnTopmostContent;
+        GetContent = string.Empty;
 
         RecertificationCancelCommand.Execute(null);
         DropCancelCommand.Execute(null);
