@@ -364,6 +364,7 @@
                         Text="{Binding GetContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <!--  // content footer //  -->
                     <StackPanel
+                        Grid.Row="0"
                         Margin="3,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
@@ -406,6 +407,7 @@
                     </StackPanel>
 
                     <Separator
+                        Grid.Row="0"
                         VerticalAlignment="Bottom"
                         BorderBrush="{DynamicResource TextForeground}"
                         BorderThickness="3"
@@ -455,6 +457,7 @@
                         Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
 
                     <control:LoadingUC
+                        Grid.Row="0"
                         Margin="2,5"
                         IsAnimationPlaying="{Binding IsExecuting}"
                         Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -560,6 +563,7 @@
         <!--  // Notify //  -->
         <view:ToastView
             x:Name="Notify"
+            Grid.Row="0"
             Grid.RowSpan="2"
             Margin="0,8,0,0"
             VerticalAlignment="Top"

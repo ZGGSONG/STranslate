@@ -160,6 +160,7 @@
             <!--  // Header //  -->
             <local:HeaderView
                 x:Name="HeaderView"
+                Grid.Row="0"
                 DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
                 Focusable="False"
                 WindowChrome.IsHitTestVisibleInChrome="True" />
@@ -192,6 +193,7 @@
             <!--  // Notify //  -->
             <view:ToastView
                 x:Name="Notify"
+                Grid.Row="0"
                 Grid.RowSpan="2"
                 VerticalAlignment="Top"
                 Focusable="False"

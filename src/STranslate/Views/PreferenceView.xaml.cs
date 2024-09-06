@@ -7,7 +7,7 @@ using STranslate.ViewModels;
 
 namespace STranslate.Views;
 
-public partial class PreferenceView : Window
+public partial class PreferenceView
 {
     //Windows消息: https://www.cnblogs.com/cncc/articles/8004771.html
     /// <summary>
@@ -81,12 +81,7 @@ public partial class PreferenceView : Window
     /// <param name="e"></param>
     private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (e.ClickCount == 2)
-        {
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else
-                WindowState = WindowState.Maximized;
-        }
+        if (e.ClickCount != 2) return;
+        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
     }
 }
