@@ -112,6 +112,7 @@
                                             Background="Transparent"
                                             BorderBrush="{DynamicResource ThemeAccentColor}"
                                             BorderThickness="1"
+                                            ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                             Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                             Cursor="Hand"
                                             FontFamily="{DynamicResource UserFont}"
@@ -151,7 +152,7 @@
                                                                 <Grid Margin="0,5">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="30" />
-                                                                        <ColumnDefinition Width="50" />
+                                                                        <ColumnDefinition Width="70" />
                                                                     </Grid.ColumnDefinitions>
 
                                                                     <Label
@@ -160,13 +161,14 @@
                                                                         FontFamily="{DynamicResource IconFont}"
                                                                         FontSize="{DynamicResource FontSize14}"
                                                                         FontWeight="Bold"
-                                                                        Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                        Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
 
                                                                     <TextBlock
                                                                         Grid.Column="1"
                                                                         HorizontalAlignment="Left"
                                                                         FontSize="{DynamicResource FontSize14}"
                                                                         Text="{Binding Name}"
+                                                                        ToolTip="{Binding Name}"
                                                                         TextTrimming="CharacterEllipsis" />
                                                                 </Grid>
                                                             </Border>
