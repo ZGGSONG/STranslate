@@ -390,6 +390,11 @@ public class ConfigModel
     public bool IsPurify { get; set; } = true;
 
     /// <summary>
+    ///     主界面是否仅显示输出结果
+    /// </summary>
+    public bool IsOnlyShowRet { get; set; } = false;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -500,6 +505,7 @@ public class ConfigModel
             AnimationSpeed = AnimationSpeed,
             IsShowLangViewOnShowRet = IsShowLangViewOnShowRet,
             IsPurify = IsPurify,
+            IsOnlyShowRet = IsOnlyShowRet,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

@@ -465,6 +465,8 @@ public partial class MainViewModel : ObservableObject
             true when !IsShowLangViewOnShowRet => true, //不显示LangView
             _ => false //显示LangView
         };
+        
+        CommonSettingVM.SaveCommand.Execute(null);
     }
 
     /// <summary>

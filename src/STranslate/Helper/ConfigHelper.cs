@@ -266,6 +266,7 @@ public class ConfigHelper
         CurrentConfig.AnimationSpeed = model.AnimationSpeed;
         CurrentConfig.IsShowLangViewOnShowRet = model.IsShowLangViewOnShowRet;
         CurrentConfig.IsPurify = model.IsPurify;
+        CurrentConfig.IsOnlyShowRet = model.IsOnlyShowRet;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -297,7 +298,7 @@ public class ConfigHelper
                 Application.Current.Windows.OfType<MainView>().First());
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
-        ShowLangViewOnShowRetOperate(CurrentConfig.IsShowLangViewOnShowRet);
+        ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsShowLangViewOnShowRet);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -690,10 +691,12 @@ public class ConfigHelper
     /// <summary>
     ///     仅显示输出界面时是否显示语言选择界面
     /// </summary>
-    /// <param name="value"></param>
-    private void ShowLangViewOnShowRetOperate(bool value)
+    /// <param name="isOnlyShowRet"></param>
+    /// <param name="isShowLangViewOnShowRet"></param>
+    private void ShowLangViewOnShowRetOperate(bool isOnlyShowRet, bool isShowLangViewOnShowRet)
     {
-        Singleton<MainViewModel>.Instance.IsShowLangViewOnShowRet = value;
+        Singleton<MainViewModel>.Instance.IsOnlyShowRet = isOnlyShowRet;
+        Singleton<MainViewModel>.Instance.IsShowLangViewOnShowRet = isShowLangViewOnShowRet;
     }
 
     /// <summary>

@@ -331,6 +331,11 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private AnimationSpeedEnum _animationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
 
     /// <summary>
+    ///     主界面是否仅显示输出结果
+    /// </summary>
+    [ObservableProperty] private bool _isOnlyShowRet = CurConfig?.IsOnlyShowRet ?? false;
+
+    /// <summary>
     ///     仅显示输出结果时是否显示语言选择界面
     /// </summary>
     [ObservableProperty] private bool _isShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
@@ -507,6 +512,7 @@ public partial class CommonViewModel : ObservableObject
         AnimationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
         IsShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
         IsPurify = CurConfig?.IsPurify ?? true;
+        IsOnlyShowRet = CurConfig?.IsOnlyShowRet ?? true;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

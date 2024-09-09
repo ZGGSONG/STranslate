@@ -569,8 +569,17 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="仅显示输出界面时(Ctrl+Shift+A)是否显示语言框" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅显示输出界面时(Ctrl+Shift+A)是否显示语言选择界面" />
+                                    <TextBlock Text="主界面仅显示输出界面" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面是否只显示输出结果部分" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsOnlyShowRet}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10" Visibility="{Binding IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <TextBlock Text="主界面仅显示输出界面显示语言界面" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面仅显示输出结果时是否显示语言选择界面" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
