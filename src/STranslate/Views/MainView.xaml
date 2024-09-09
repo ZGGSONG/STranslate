@@ -178,8 +178,14 @@
                     <!--  // Mid //  -->
                     <local:LangView
                         DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
-                        Focusable="False"
-                        Visibility="{Binding IsOnlyShowRet4Lang, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                        Focusable="False">
+                        <local:LangView.Visibility>
+                            <MultiBinding Converter="{StaticResource MultiValue2VisibilityReverseConverter}">
+                                <Binding ElementName="MainWindow" Path="DataContext.IsOnlyShowRet" />
+                                <Binding ElementName="MainWindow" Path="DataContext.IsHideLangWhenOnlyShowOutput" />
+                            </MultiBinding>
+                        </local:LangView.Visibility>
+                    </local:LangView>
 
                     <!--  // Output //  -->
                     <local:OutputView

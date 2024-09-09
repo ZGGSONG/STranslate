@@ -577,13 +577,13 @@
                                         IsChecked="{Binding IsOnlyShowRet}" />
                                 </DockPanel>
 
-                                <DockPanel Margin="20,10" Visibility="{Binding IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <TextBlock Text="主界面仅显示输出界面显示语言界面" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面仅显示输出结果时是否显示语言选择界面" />
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="主界面仅显示输出界面时隐藏语言框" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面仅显示输出结果时是否时隐藏语言界面" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
-                                        IsChecked="{Binding IsShowLangViewOnShowRet}" />
+                                        IsChecked="{Binding IsHideLangWhenOnlyShowOutput}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">

@@ -84,6 +84,10 @@ public class ConfigHelper
 
         //初始化自动翻译
         AutoTrasnalteOperate(CurrentConfig?.AutoTranslate ?? false);
+        
+        //初始化隐藏输入界面
+        ShowLangViewOnShowRetOperate(CurrentConfig?.IsOnlyShowRet ?? false,
+            CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? true);
     }
 
     /// <summary>
@@ -264,7 +268,7 @@ public class ConfigHelper
         CurrentConfig.AutoTranslate = model.AutoTranslate;
         CurrentConfig.IsShowAutoTranslate = model.IsShowAutoTranslate;
         CurrentConfig.AnimationSpeed = model.AnimationSpeed;
-        CurrentConfig.IsShowLangViewOnShowRet = model.IsShowLangViewOnShowRet;
+        CurrentConfig.IsHideLangWhenOnlyShowOutput = model.IsHideLangWhenOnlyShowOutput;
         CurrentConfig.IsPurify = model.IsPurify;
         CurrentConfig.IsOnlyShowRet = model.IsOnlyShowRet;
 
@@ -298,7 +302,7 @@ public class ConfigHelper
                 Application.Current.Windows.OfType<MainView>().First());
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
-        ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsShowLangViewOnShowRet);
+        ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -692,11 +696,11 @@ public class ConfigHelper
     ///     仅显示输出界面时是否显示语言选择界面
     /// </summary>
     /// <param name="isOnlyShowRet"></param>
-    /// <param name="isShowLangViewOnShowRet"></param>
-    private void ShowLangViewOnShowRetOperate(bool isOnlyShowRet, bool isShowLangViewOnShowRet)
+    /// <param name="isHideLangWhenOnlyShowOutput"></param>
+    private void ShowLangViewOnShowRetOperate(bool isOnlyShowRet, bool isHideLangWhenOnlyShowOutput)
     {
         Singleton<MainViewModel>.Instance.IsOnlyShowRet = isOnlyShowRet;
-        Singleton<MainViewModel>.Instance.IsShowLangViewOnShowRet = isShowLangViewOnShowRet;
+        Singleton<MainViewModel>.Instance.IsHideLangWhenOnlyShowOutput = isHideLangWhenOnlyShowOutput;
     }
 
     /// <summary>
@@ -814,7 +818,7 @@ public class ConfigHelper
             AutoTranslate = false,
             IsShowAutoTranslate = false,
             AnimationSpeed = AnimationSpeedEnum.Middle,
-            IsShowLangViewOnShowRet = false,
+            IsHideLangWhenOnlyShowOutput = true,
             IsPurify = true,
             ReplaceProp = new ReplaceProp(),
             Services =

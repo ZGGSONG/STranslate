@@ -336,9 +336,9 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isOnlyShowRet = CurConfig?.IsOnlyShowRet ?? false;
 
     /// <summary>
-    ///     仅显示输出结果时是否显示语言选择界面
+    ///     仅显示输出结果时是否隐藏语言界面
     /// </summary>
-    [ObservableProperty] private bool _isShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
+    [ObservableProperty] private bool _isHideLangWhenOnlyShowOutput = CurConfig?.IsHideLangWhenOnlyShowOutput ?? false;
     
     /// <summary>
     ///     是否净化内容格式
@@ -510,7 +510,7 @@ public partial class CommonViewModel : ObservableObject
         AutoTranslate = CurConfig?.AutoTranslate ?? false;
         IsShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
         AnimationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
-        IsShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
+        IsHideLangWhenOnlyShowOutput = CurConfig?.IsHideLangWhenOnlyShowOutput ?? false;
         IsPurify = CurConfig?.IsPurify ?? true;
         IsOnlyShowRet = CurConfig?.IsOnlyShowRet ?? true;
 

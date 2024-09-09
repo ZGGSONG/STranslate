@@ -378,11 +378,11 @@ public class ConfigModel
     ///     动画速度
     /// </summary>
     public AnimationSpeedEnum AnimationSpeed { get; set; } = AnimationSpeedEnum.Middle;
-    
+
     /// <summary>
-    ///     显示结果时是否显示语言选择界面
+    ///     显示结果时是否隐藏语言选择界面
     /// </summary>
-    public bool IsShowLangViewOnShowRet { get; set; }
+    public bool IsHideLangWhenOnlyShowOutput { get; set; } = true;
 
     /// <summary>
     ///     是否净化获取内容
@@ -503,7 +503,7 @@ public class ConfigModel
             AutoTranslate = AutoTranslate,
             IsShowAutoTranslate = IsShowAutoTranslate,
             AnimationSpeed = AnimationSpeed,
-            IsShowLangViewOnShowRet = IsShowLangViewOnShowRet,
+            IsHideLangWhenOnlyShowOutput = IsHideLangWhenOnlyShowOutput,
             IsPurify = IsPurify,
             IsOnlyShowRet = IsOnlyShowRet,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),

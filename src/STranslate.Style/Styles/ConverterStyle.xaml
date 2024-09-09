@@ -35,4 +35,5 @@
     <converter:GlobalFontSizeToFontSizeConverter x:Key="GlobalFontSizeToFontSizeConverter" />
     <converter:GlobalFontSizeToDescriptionConverter x:Key="GlobalFontSizeToDescriptionConverter" />
     <converter:JsonSerializeConverter x:Key="JsonSerializeConverter" />
+    <converter:MultiValue2VisibilityReverseConverter x:Key="MultiValue2VisibilityReverseConverter" />
 </ResourceDictionary>
