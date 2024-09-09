@@ -425,6 +425,15 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="净化取词" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="所有取词(包括OCR)自动整理格式，主要针对PDF移除多余换行" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsPurify}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="主窗口取词时移除换行" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="取词时移除所有换行" />
                                     <ToggleButton

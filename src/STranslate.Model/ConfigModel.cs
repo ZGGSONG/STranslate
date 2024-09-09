@@ -385,6 +385,11 @@ public class ConfigModel
     public bool IsShowLangViewOnShowRet { get; set; }
 
     /// <summary>
+    ///     是否净化获取内容
+    /// </summary>
+    public bool IsPurify { get; set; } = true;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -494,6 +499,7 @@ public class ConfigModel
             IsShowAutoTranslate = IsShowAutoTranslate,
             AnimationSpeed = AnimationSpeed,
             IsShowLangViewOnShowRet = IsShowLangViewOnShowRet,
+            IsPurify = IsPurify,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

@@ -374,17 +374,17 @@ public partial class OCRViewModel : WindowVMBase
 
             //更新图片
             GetImg = GenerateImg(ocrResult, Bs!);
+            
+            //处理剪贴板内容格式
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsPurify ?? true)
+                getText = StringUtil.NormalizeText(getText);
 
             //取词前移除换行
-            getText =
-                Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ??
-                (false && !string.IsNullOrEmpty(getText))
-                    ? StringUtil.RemoveLineBreaks(getText)
-                    : getText;
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false)
+                getText = StringUtil.RemoveLineBreaks(getText);
 
             //OCR后自动复制
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ??
-                (false && !string.IsNullOrEmpty(getText)))
+            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false)
                 ClipboardHelper.Copy(getText);
 
             GetContent = getText;

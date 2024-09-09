@@ -265,6 +265,7 @@ public class ConfigHelper
         CurrentConfig.IsShowAutoTranslate = model.IsShowAutoTranslate;
         CurrentConfig.AnimationSpeed = model.AnimationSpeed;
         CurrentConfig.IsShowLangViewOnShowRet = model.IsShowLangViewOnShowRet;
+        CurrentConfig.IsPurify = model.IsPurify;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -811,6 +812,7 @@ public class ConfigHelper
             IsShowAutoTranslate = false,
             AnimationSpeed = AnimationSpeedEnum.Middle,
             IsShowLangViewOnShowRet = false,
+            IsPurify = true,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

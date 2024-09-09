@@ -167,12 +167,57 @@ public class StringUtil
     /// <summary>
     ///     检查是否为单词
     /// </summary>
-    /// <param name="input"></param>
+    /// <param name="text"></param>
     /// <returns></returns>
-    public static bool IsWord(string input)
+    public static bool IsWord(string text)
     {
-        return input.All(char.IsLetter);
+        if (text.Length > 100)
+        {
+            return false;
+        }
+        var regex = new Regex(@"^[a-zA-Z0-9 ]+$");
+        return regex.IsMatch(text) && text.Split(" ").Length <= 3;
     }
+
+    #region 处理文本
+
+    // 定义两个正则表达式模式列表，一个用于英文标点，一个用于中文标点
+    private static readonly List<Regex> Patterns =
+    [
+        new Regex(@"([?!.])[ ]?\n"), // 匹配英文标点符号后跟随换行符
+        new Regex(@"([？！。])[ ]?\n")
+    ];
+    // 定义一个正则表达式，用于匹配特定标点符号并用换行符替换
+    private static readonly Regex SentenceEnds = new Regex(@"#([?？！!.。])#");
+    
+    /// <summary>
+    /// 规范化给定的文本，通过移除或替换某些字符和模式。
+    /// <see href="https://github1s.com/CopyTranslator/CopyTranslator/blob/master/src/common/translate/helper.ts#L172"/>
+    /// </summary>
+    /// <param name="src">要规范的源文本。</param>
+    /// <returns>规范化后的文本。</returns>
+    public static string NormalizeText(string src)
+    {
+        // 将所有的回车换行符替换为换行符
+        src = src.Replace("\r\n", "\n");
+        // 将所有的回车符替换为换行符
+        src = src.Replace("\r", "\n");
+        // 将所有的连字符换行符组合替换为空字符串
+        src = src.Replace("-\n", "");
+
+        // 遍历每个正则表达式模式，并进行替换
+        src = Patterns.Aggregate(src, (current, pattern) => pattern.Replace(current, "#$1#"));
+
+        // 将所有的换行符替换为空格
+        src = src.Replace("\n", " ");
+        // 使用sentenceEnds正则表达式进行替换
+        src = SentenceEnds.Replace(src, "$1\n");
+
+        // 返回处理后的字符串
+        return src;
+    }
+
+    #endregion
 
     /// <summary>
     ///     是否可以升级

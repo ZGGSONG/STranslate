@@ -219,6 +219,10 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         if (!TryGetWord(out var content) || content == null) return;
 
+        //处理剪贴板内容格式
+        if (_configHelper.CurrentConfig?.IsPurify ?? true)
+            content = StringUtil.NormalizeText(content);
+        
         //取词前移除换行
         if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
             content = StringUtil.RemoveLineBreaks(content);
@@ -391,10 +395,13 @@ public partial class NotifyIconViewModel : ObservableObject
             if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
             getText = ocrResult.Text;
 
+            //处理剪贴板内容格式
+            if (_configHelper.CurrentConfig?.IsPurify ?? true)
+                getText = StringUtil.NormalizeText(getText);
+            
             //取词前移除换行
-            getText = _configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false
-                ? StringUtil.RemoveLineBreaks(getText)
-                : getText;
+            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+                getText = StringUtil.RemoveLineBreaks(getText);
 
             //写入剪贴板
             ClipboardHelper.Copy(getText);
@@ -465,11 +472,15 @@ public partial class NotifyIconViewModel : ObservableObject
             //判断结果
             if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;
+            
+            //处理剪贴板内容格式
+            if (_configHelper.CurrentConfig?.IsPurify ?? true)
+                getText = StringUtil.NormalizeText(getText);
             //取词前移除换行
-            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? (false && !string.IsNullOrEmpty(getText)))
+            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
                 getText = StringUtil.RemoveLineBreaks(getText);
             //OCR后自动复制
-            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? (false && !string.IsNullOrEmpty(getText)))
+            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false)
                 ClipboardHelper.Copy(getText);
             // 如果仅有空格则移除
             if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
@@ -640,6 +651,9 @@ public partial class NotifyIconViewModel : ObservableObject
             Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
             return;
         }
+        //处理剪贴板内容格式
+        if (_configHelper.CurrentConfig?.IsPurify ?? true)
+            content = StringUtil.NormalizeText(content);
 
         //取词前移除换行
         if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)

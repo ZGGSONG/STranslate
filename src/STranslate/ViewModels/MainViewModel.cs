@@ -375,6 +375,10 @@ public partial class MainViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(content))
             return;
+        
+        //处理剪贴板内容格式
+        if (Config?.IsPurify ?? true)
+            content = StringUtil.NormalizeText(content);
 
         //取词前移除换行
         if (Config?.IsRemoveLineBreakGettingWords ?? false)

@@ -335,6 +335,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _isShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
     
+    /// <summary>
+    ///     是否净化内容格式
+    /// </summary>
+    [ObservableProperty] private bool _isPurify = CurConfig?.IsPurify ?? true;
+    
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -501,6 +506,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
         AnimationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
         IsShowLangViewOnShowRet = CurConfig?.IsShowLangViewOnShowRet ?? false;
+        IsPurify = CurConfig?.IsPurify ?? true;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);
