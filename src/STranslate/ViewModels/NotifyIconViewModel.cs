@@ -335,7 +335,7 @@ public partial class NotifyIconViewModel : ObservableObject
         var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
 
         Singleton<OCRViewModel>.Instance.Bs = bs;
-        Singleton<OCRViewModel>.Instance.GetImg = bs.Clone();
+        Singleton<OCRViewModel>.Instance.GetImg = bs;
 
         Singleton<OCRViewModel>.Instance.QRCodeCommand.Execute(bs);
     }
@@ -367,9 +367,8 @@ public partial class NotifyIconViewModel : ObservableObject
         var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
         Singleton<OCRViewModel>.Instance.ResetImgCommand.Execute(view.FindName("ImgCtl"));
         Singleton<OCRViewModel>.Instance.Bs = bs;
-        Singleton<OCRViewModel>.Instance.GetImg = bs.Clone();
 
-        await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(bs);
+        await Singleton<OCRViewModel>.Instance.RecertificationCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
