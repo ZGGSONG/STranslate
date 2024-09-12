@@ -87,7 +87,7 @@ public partial class TranslatorAzureOpenAI : TranslatorBase, ITranslatorLlm
     [ObservableProperty]
     [property: DefaultValue("")]
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _model = "gpt-35-turbo";
+    private string _model = "gpt35";
 
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private TranslationResult _data = TranslationResult.Reset;
@@ -351,7 +351,7 @@ public partial class TranslatorAzureOpenAI : TranslatorBase, ITranslatorLlm
 
         // 选择模型
         var a_model = Model.Trim();
-        a_model = string.IsNullOrEmpty(a_model) ? "gpt-35-turbo" : a_model;
+        a_model = string.IsNullOrEmpty(a_model) ? "gpt35" : a_model;
 
         var path = $"/openai/deployments/{a_model}/chat/completions";
         if (!uriBuilder.Path.EndsWith(path))

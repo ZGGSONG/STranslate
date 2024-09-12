@@ -132,9 +132,9 @@
 
                     <common:PlaceholderTextBox
                         Grid.Column="1"
-                        MinWidth="275"
+                        MinWidth="220"
                         HorizontalAlignment="Left"
-                        Placeholder="gpt-35-turbo(模型名与OpenAI不同)"
+                        Placeholder="gpt35(模型名与OpenAI不同)"
                         Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
