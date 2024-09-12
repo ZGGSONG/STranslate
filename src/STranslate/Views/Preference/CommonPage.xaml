@@ -516,6 +516,19 @@
                                         HorizontalAlignment="Right"
                                         IsChecked="{Binding HotkeyCopySuccessToast}" />
                                 </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="文字识别图片质量" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="文字识别时图片质量选择" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:OcrImageQualityEnum}}}"
+                                        SelectedValue="{Binding OcrImageQuality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
+                                </DockPanel>
                             </StackPanel>
                         </Border>
                     </Expander>

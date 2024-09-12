@@ -395,6 +395,11 @@ public class ConfigModel
     public bool IsOnlyShowRet { get; set; } = false;
 
     /// <summary>
+    ///     OCR时图片质量
+    /// </summary>
+    public OcrImageQualityEnum OcrImageQuality { get; set; } = OcrImageQualityEnum.Medium;
+    
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -506,6 +511,7 @@ public class ConfigModel
             IsHideLangWhenOnlyShowOutput = IsHideLangWhenOnlyShowOutput,
             IsPurify = IsPurify,
             IsOnlyShowRet = IsOnlyShowRet,
+            OcrImageQuality = OcrImageQuality,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

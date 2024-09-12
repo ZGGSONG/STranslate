@@ -33,22 +33,28 @@ public class BitmapUtil
     ///     Bitmap转为BitmapSource
     /// </summary>
     /// <param name="bitmap"></param>
+    /// <param name="imageFormat"></param>
     /// <returns></returns>
-    public static BitmapSource ConvertBitmap2BitmapSource(Bitmap bitmap)
+    public static BitmapSource ConvertBitmap2BitmapSource(Bitmap bitmap, ImageFormat imageFormat)
     {
-        var ptr = bitmap.GetHbitmap(); //obtain the Hbitmap
-        BitmapSource? bitmapSource = null;
-        try
-        {
-            bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(ptr, IntPtr.Zero, Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
-        }
-        finally
-        {
-            CommonUtil.DeleteObject(ptr); //release the HBitmap
-        }
+        
+        using var memory = new MemoryStream();
+        using var wrapper = new ScreenGrab.Utilities.WrappingStream(memory);
 
-        return bitmapSource;
+        bitmap.Save(wrapper, imageFormat);
+        wrapper.Position = 0;
+        BitmapImage bitmapImage = new();
+        bitmapImage.BeginInit();
+        bitmapImage.StreamSource = wrapper;
+        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+        bitmapImage.EndInit();
+        bitmapImage.StreamSource = null;
+        bitmapImage.Freeze();
+
+        memory.Flush();
+        wrapper.Flush();
+
+        return bitmapImage;
     }
 
     /// <summary>
@@ -71,11 +77,10 @@ public class BitmapUtil
     ///     BitmapSource转为byte[]
     /// </summary>
     /// <param name="bitmapSource"></param>
+    /// <param name="encoder"></param>
     /// <returns></returns>
-    public static byte[] ConvertBitmapSource2Bytes(BitmapSource bitmapSource)
+    public static byte[] ConvertBitmapSource2Bytes(BitmapSource bitmapSource, BitmapEncoder encoder)
     {
-        // 可根据需要选择其他编码器
-        BitmapEncoder encoder = new PngBitmapEncoder();
         // 将BitmapSource转换为byte[]
         encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
 
@@ -88,13 +93,14 @@ public class BitmapUtil
     ///     Bitmap转byte
     /// </summary>
     /// <param name="bitmap"></param>
+    /// <param name="imageFormat"></param>
     /// <returns></returns>
-    public static byte[] ConvertBitmap2Bytes(Bitmap bitmap)
+    public static byte[] ConvertBitmap2Bytes(Bitmap bitmap, ImageFormat imageFormat)
     {
         using var stream = new MemoryStream();
         using (bitmap)
         {
-            bitmap.Save(stream, ImageFormat.Jpeg);
+            bitmap.Save(stream, imageFormat);
         }
         var data = new byte[stream.Length];
         stream.Seek(0, SeekOrigin.Begin);

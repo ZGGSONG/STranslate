@@ -345,6 +345,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _isPurify = CurConfig?.IsPurify ?? true;
     
+    /// <summary>
+    ///     OCR时图片质量
+    /// </summary>
+    [ObservableProperty] private OcrImageQualityEnum _ocrImageQuality = CurConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
+    
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -513,6 +518,7 @@ public partial class CommonViewModel : ObservableObject
         IsHideLangWhenOnlyShowOutput = CurConfig?.IsHideLangWhenOnlyShowOutput ?? false;
         IsPurify = CurConfig?.IsPurify ?? true;
         IsOnlyShowRet = CurConfig?.IsOnlyShowRet ?? true;
+        OcrImageQuality = CurConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

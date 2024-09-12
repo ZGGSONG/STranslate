@@ -271,6 +271,7 @@ public class ConfigHelper
         CurrentConfig.IsHideLangWhenOnlyShowOutput = model.IsHideLangWhenOnlyShowOutput;
         CurrentConfig.IsPurify = model.IsPurify;
         CurrentConfig.IsOnlyShowRet = model.IsOnlyShowRet;
+        CurrentConfig.OcrImageQuality = model.OcrImageQuality;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -820,6 +821,7 @@ public class ConfigHelper
             AnimationSpeed = AnimationSpeedEnum.Middle,
             IsHideLangWhenOnlyShowOutput = true,
             IsPurify = true,
+            OcrImageQuality = OcrImageQualityEnum.Medium,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

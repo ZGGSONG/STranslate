@@ -50,16 +50,18 @@ public partial class OCRViewModel : WindowVMBase
     private LangEnum _lang = LangEnum.auto;
 
     [ObservableProperty]
-    private double _ocrViewHeight = Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrViewHeight ?? 400;
+    private double _ocrViewHeight = _curConfig?.OcrViewHeight ?? 400;
 
     [ObservableProperty]
-    private double _ocrViewWidth = Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrViewWidth ?? 1000;
+    private double _ocrViewWidth = _curConfig?.OcrViewWidth ?? 1000;
 
     [ObservableProperty] private string _qrCodeContent = "";
 
     [ObservableProperty] private string _topMostContent = Constant.UnTopmostContent;
 
     public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
+    
+    private static ConfigModel? _curConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
 
     public OCRViewModel()
     {
@@ -86,7 +88,7 @@ public partial class OCRViewModel : WindowVMBase
 
     private void OnChangeOcrServiceorLang()
     {
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrChangedLang2Execute ?? false)
+        if (_curConfig?.OcrChangedLang2Execute ?? false)
             Task.Run(() => CommonUtil.InvokeOnUIThread(async () => await RecertificationCommand.ExecuteAsync(null)));
     }
 
@@ -171,29 +173,25 @@ public partial class OCRViewModel : WindowVMBase
                 AddToRecent = true
             };
         // 打开 SaveFileDialog，并获取用户选择的文件路径
-        if (saveFileDialog.ShowDialog() == true)
-        {
-            var fileName = saveFileDialog.FileName;
-            // 根据文件扩展名选择图像格式
-            BitmapEncoder encoder;
-            if (fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
-                encoder = new PngBitmapEncoder();
-            else
-                encoder = new JpegBitmapEncoder();
+        if (saveFileDialog.ShowDialog() != true)
+            return;
 
-            // 将 BitmapSource 添加到 BitmapEncoder
-            encoder.Frames.Add(BitmapFrame.Create(Bs));
-
-            // 使用 FileStream 保存到文件
-            using FileStream fs = new(fileName, FileMode.Create);
-            encoder.Save(fs);
-
-            ToastHelper.Show("保存图片成功", WindowType.OCR);
-        }
+        var fileName = saveFileDialog.FileName;
+        // 根据文件扩展名选择图像格式
+        BitmapEncoder encoder;
+        if (fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            encoder = new PngBitmapEncoder();
         else
-        {
-            ToastHelper.Show("取消保存图片", WindowType.OCR);
-        }
+            encoder = new JpegBitmapEncoder();
+
+        // 将 BitmapSource 添加到 BitmapEncoder
+        encoder.Frames.Add(BitmapFrame.Create(Bs));
+
+        // 使用 FileStream 保存到文件
+        using FileStream fs = new(fileName, FileMode.Create);
+        encoder.Save(fs);
+
+        ToastHelper.Show("保存图片成功", WindowType.OCR);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -302,7 +300,7 @@ public partial class OCRViewModel : WindowVMBase
         var img = Clipboard.GetImage();
         if (img != null)
         {
-            var bytes = BitmapUtil.ConvertBitmapSource2Bytes(img);
+            var bytes = BitmapUtil.ConvertBitmapSource2Bytes(img, GetEncoder());
 
             //TODO: 很奇怪的现象，获取出来直接赋值给前台绑定的Img不显示，转成Byte再转回来就可以显示了
             Bs = BitmapUtil.ConvertBytes2BitmapSource(bytes);
@@ -346,8 +344,8 @@ public partial class OCRViewModel : WindowVMBase
 
         //首先重置显示的内容为原始图片
         GetImg = Bs;
-
-        var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs);
+        
+        var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs, GetEncoder());
 
         await OCRHandler(bytes, token);
 
@@ -376,15 +374,15 @@ public partial class OCRViewModel : WindowVMBase
             GetImg = GenerateImg(ocrResult, Bs!);
             
             //处理剪贴板内容格式
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsPurify ?? true)
+            if (_curConfig?.IsPurify ?? true)
                 getText = StringUtil.NormalizeText(getText);
 
             //取词前移除换行
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false)
+            if (_curConfig?.IsRemoveLineBreakGettingWordsOCR ?? false)
                 getText = StringUtil.RemoveLineBreaks(getText);
 
             //OCR后自动复制
-            if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IsOcrAutoCopyText ?? false)
+            if (_curConfig?.IsOcrAutoCopyText ?? false)
                 ClipboardHelper.Copy(getText);
 
             GetContent = getText;
@@ -480,7 +478,7 @@ public partial class OCRViewModel : WindowVMBase
         var reader = new BarcodeReader();
         reader.Options.CharacterSet = "UTF-8";
         using var stream = new MemoryStream();
-        var encoder = new JpegBitmapEncoder();
+        var encoder = GetEncoder();
         encoder.Frames.Add(BitmapFrame.Create(bs));
         encoder.Save(stream);
         var map = new System.DrawingCore.Bitmap(stream);
@@ -499,14 +497,14 @@ public partial class OCRViewModel : WindowVMBase
         var ocrView = obj.LastOrDefault() as Window;
 
         //OCR结果翻译关闭界面
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.CloseUIOcrRetTranslate ?? false)
+        if (_curConfig?.CloseUIOcrRetTranslate ?? false)
             ocrView?.Close();
 
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
         Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
         //增量翻译
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.IncrementalTranslation ?? false)
+        if (_curConfig?.IncrementalTranslation ?? false)
         {
             var input = Singleton<InputViewModel>.Instance.InputContent;
             Singleton<InputViewModel>.Instance.InputContent = string.IsNullOrEmpty(input) ? string.Empty : input + " ";
@@ -556,6 +554,16 @@ public partial class OCRViewModel : WindowVMBase
     private void ClearQrContent()
     {
         QrCodeContent = "";
+    }
+    
+    private BitmapEncoder GetEncoder()
+    {
+        return (_curConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
+        {
+            OcrImageQualityEnum.Medium => new PngBitmapEncoder(),
+            OcrImageQualityEnum.Low => new JpegBitmapEncoder(),
+            _ => new BmpBitmapEncoder()
+        };
     }
 
     #region 鼠标缩放、拖拽

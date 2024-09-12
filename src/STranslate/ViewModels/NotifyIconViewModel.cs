@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -332,7 +333,7 @@ public partial class NotifyIconViewModel : ObservableObject
         ShowAndActive(view);
 
         //显示截图
-        var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
+        var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap, GetImageFormat());
 
         Singleton<OCRViewModel>.Instance.Bs = bs;
         Singleton<OCRViewModel>.Instance.GetImg = bs;
@@ -364,7 +365,7 @@ public partial class NotifyIconViewModel : ObservableObject
         ShowAndActive(view);
 
         //显示截图
-        var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap);
+        var bs = BitmapUtil.ConvertBitmap2BitmapSource(bitmap, GetImageFormat());
         Singleton<OCRViewModel>.Instance.ResetImgCommand.Execute(view.FindName("ImgCtl"));
         Singleton<OCRViewModel>.Instance.Bs = bs;
 
@@ -387,7 +388,7 @@ public partial class NotifyIconViewModel : ObservableObject
         try
         {
             var getText = "";
-            var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1);
+            var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1, GetImageFormat());
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main,
                 lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
@@ -458,7 +459,7 @@ public partial class NotifyIconViewModel : ObservableObject
         //var view = Application.Current.MainWindow!;
         ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
 
-        var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap);
+        var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap, GetImageFormat());
         try
         {
             // 显示水印的情况下，如果输入框为空则填充一个空格，以显示动画避免与水印重叠
@@ -500,6 +501,20 @@ public partial class NotifyIconViewModel : ObservableObject
             IsScreenshotExecuting = false;
             MemoUtil.FlushMemory();
         }
+    }
+
+    /// <summary>
+    ///     根据配置获取图片格式
+    /// </summary>
+    /// <returns></returns>
+    private ImageFormat GetImageFormat()
+    {
+        return (_configHelper.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
+        {
+            OcrImageQualityEnum.Medium => ImageFormat.Png,
+            OcrImageQualityEnum.Low => ImageFormat.Jpeg,
+            _ => ImageFormat.Bmp
+        };
     }
 
     /// <summary>

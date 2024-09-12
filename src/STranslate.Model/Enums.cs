@@ -1056,6 +1056,16 @@ public enum AnimationSpeedEnum
 }
 
 /// <summary>
+///     OCR 时图片质量
+/// </summary>
+public enum OcrImageQualityEnum
+{
+    [Description("低质量")] Low,
+    [Description("中等质量")] Medium,
+    [Description("高质量")] High
+}
+
+/// <summary>
 ///     获取Description
 /// </summary>
 public static class EnumExtensions
