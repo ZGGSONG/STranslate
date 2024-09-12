@@ -664,6 +664,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.OllamaService => new TranslatorOllama(),
                 (int)ServiceType.BaiduBceService => new TranslatorBaiduBce(),
                 (int)ServiceType.DeepLService => new TranslatorDeepL(),
+                (int)ServiceType.AzureOpenAIService => new TranslatorAzureOpenAI(),
                 _ => new TranslatorApi()
             };
 

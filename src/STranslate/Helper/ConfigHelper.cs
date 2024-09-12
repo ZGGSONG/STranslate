@@ -961,6 +961,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.OllamaService => new TranslatorOllama(),
             (int)ServiceType.BaiduBceService => new TranslatorBaiduBce(),
             (int)ServiceType.DeepLService => new TranslatorDeepL(),
+            (int)ServiceType.AzureOpenAIService => new TranslatorAzureOpenAI(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

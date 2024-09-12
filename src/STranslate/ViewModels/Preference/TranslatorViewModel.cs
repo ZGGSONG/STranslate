@@ -64,6 +64,7 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorOllama());
         TransServices.Add(new TranslatorBaiduBce());
         TransServices.Add(new TranslatorDeepL());
+        TransServices.Add(new TranslatorAzureOpenAI());
 
         ResetView();
     }
@@ -145,6 +146,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.OllamaService => $"{head}{nameof(TranslatorOllamaPage)}",
             ServiceType.BaiduBceService => $"{head}{nameof(TranslatorBaiduBcePage)}",
             ServiceType.DeepLService => $"{head}{nameof(TranslatorDeepLPage)}",
+            ServiceType.AzureOpenAIService => $"{head}{nameof(TranslatorAzureOpenAIPage)}",
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
 
@@ -178,6 +180,7 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorOllama ollama => ollama.Clone(),
                 TranslatorBaiduBce baiduBce => baiduBce.Clone(),
                 TranslatorDeepL deepl => deepl.Clone(),
+                TranslatorAzureOpenAI azureopenai => azureopenai.Clone(),
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });
 

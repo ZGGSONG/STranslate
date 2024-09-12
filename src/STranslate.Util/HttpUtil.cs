@@ -146,12 +146,26 @@ public class HttpUtil
     public static async Task PostAsync(Uri uri, string req, string? key, Action<string> onDataReceived,
         CancellationToken token, int timeout = 10)
     {
+        var header = new Dictionary<string, string>
+        {
+            { "Authorization", $"Bearer {key}" }
+        };
+        await PostAsync(uri, header, req, onDataReceived, token, timeout);
+    }
+
+    public static async Task PostAsync(Uri uri, Dictionary<string, string>? header, string req,  Action<string> onDataReceived,
+        CancellationToken token, int timeout = 10)
+    {
         using var client = CreateHttpClient(timeout);
 
         var request = new HttpRequestMessage(HttpMethod.Post, uri)
             { Content = new StringContent(req, Encoding.UTF8, "application/json") };
 
-        if (!string.IsNullOrEmpty(key)) request.Headers.Add("Authorization", $"Bearer {key}");
+        if (header != null)
+            foreach (var item in header)
+            {
+                request.Headers.Add(item.Key, item.Value);
+            }
 
         using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
             .ConfigureAwait(false);

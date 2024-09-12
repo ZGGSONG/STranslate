@@ -157,7 +157,8 @@ public enum ServiceType
     ChatglmService,
     OllamaService,
     BaiduBceService,
-    DeepLService
+    DeepLService,
+    AzureOpenAIService,
 }
 
 public enum TTSType
