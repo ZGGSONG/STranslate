@@ -599,7 +599,7 @@
                                     </Button>
                                 </StackPanel>
                                 <!--  // 加载动画 //  -->
-                                <control:LoadingUC
+                                <control:LoadingUc
                                     Grid.Row="0"
                                     IsAnimationPlaying="{Binding IsExecuting}"
                                     Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />

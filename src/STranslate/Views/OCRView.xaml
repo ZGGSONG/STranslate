@@ -456,7 +456,7 @@
                         Text="二维码识别结果"
                         Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
 
-                    <control:LoadingUC
+                    <control:LoadingUc
                         Grid.Row="0"
                         Margin="2,5"
                         IsAnimationPlaying="{Binding IsExecuting}"

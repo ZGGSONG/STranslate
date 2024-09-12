@@ -119,7 +119,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\LoadingUC.xaml.cs">
+    <Compile Update="Controls\LoadingUc.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

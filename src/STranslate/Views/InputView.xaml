@@ -262,7 +262,7 @@
                 </Border>
             </StackPanel>
 
-            <control:LoadingUC
+            <control:LoadingUc
                 Grid.Row="0"
                 Margin="10,6,0,0"
                 IsAnimationPlaying="{Binding NotifyIconVM.IsScreenshotExecuting}"
