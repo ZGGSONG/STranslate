@@ -433,23 +433,43 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private void RemoveLineBreaks(PlaceholderTextBox textBox)
     {
-        //根据Ctrl+LeftClick
-        if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
         {
-            var oldTxt = textBox.Text;
-            var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-            if (string.Equals(oldTxt, newTxt))
-                return;
-
-            ToastHelper.Show("移除换行");
-
-            RemoveHandler(textBox, newTxt);
-            return;
+            TogglePurify();
         }
+        else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+        {
+            ToggleRemoveLineBreak();
+        }
+        else
+        {
+            RemoveLineBreaksFromTextBox(textBox);
+        }
+    }
 
+    private void TogglePurify()
+    {
+        CommonVm.IsPurify = !CommonVm.IsPurify;
+        CommonVm.SaveCommand.Execute(null);
+        ToastHelper.Show($"{(CommonVm.IsPurify ? "打开" : "关闭")}OCR净化结果");
+    }
+
+    private void ToggleRemoveLineBreak()
+    {
         CommonVm.IsRemoveLineBreakGettingWords = !CommonVm.IsRemoveLineBreakGettingWords;
         CommonVm.SaveCommand.Execute(null);
         ToastHelper.Show($"{(CommonVm.IsRemoveLineBreakGettingWords ? "打开" : "关闭")}始终移除换行");
+    }
+
+    private void RemoveLineBreaksFromTextBox(PlaceholderTextBox textBox)
+    {
+        var oldTxt = textBox.Text;
+        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+        if (string.Equals(oldTxt, newTxt))
+            return;
+
+        ToastHelper.Show("移除换行");
+        RemoveHandler(textBox, newTxt);
     }
 
     [RelayCommand]

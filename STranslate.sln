@@ -15,10 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{8B472084
 		Directory.Packages.props = Directory.Packages.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		LICENSE = LICENSE
+		nuget.config = nuget.config
 		publish.ps1 = publish.ps1
 		README.md = README.md
 		README_ZH.md = README_ZH.md
-		nuget.config = nuget.config
 		Sponsor.md = Sponsor.md
 	EndProjectSection
 EndProject

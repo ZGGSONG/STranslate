@@ -785,7 +785,7 @@ public class ConfigHelper
             CopyResultAfterTranslateIndex = 0,
             IncrementalTranslation = false,
             IsTriggerShowHide = false,
-            IsShowMainPlaceholder = true,
+            IsShowMainPlaceholder = false,
             ShowAuxiliaryLine = true,
             WebDavUrl = string.Empty,
             WebDavUsername = string.Empty,
@@ -859,6 +859,7 @@ public class OCRConverter : JsonConverter<IOCR>
             (int)OCRType.VolcengineOCR => new VolcengineOCR(),
             (int)OCRType.GoogleOCR => new GoogleOCR(),
             (int)OCRType.OpenAIOCR => new OpenAIOCR(),
+            (int)OCRType.WeChatOCR => new WeChatOCR(),
             _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
         };
 

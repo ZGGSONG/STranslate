@@ -16,6 +16,8 @@
     MinWidth="700"
     MinHeight="300"
     d:DataContext="{d:DesignInstance Type=vm:OCRViewModel}"
+    d:Height="400"
+    d:Width="1000"
     Background="{DynamicResource BorderBackground}"
     BorderBrush="{DynamicResource BorderBrushColor}"
     BorderThickness="1"

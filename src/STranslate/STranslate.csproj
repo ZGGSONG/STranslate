@@ -11,6 +11,7 @@
     <FileVersion>1.2.2.0904</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>ZGGSONG</Copyright>
+    <BaseOutputPath>..\..\bin\</BaseOutputPath>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->
@@ -91,8 +92,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\STranslate.Util\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="localmode">
       <HintPath>..\STranslate.Util\localmode.dll</HintPath>
+    </Reference>
+    <Reference Include="WeChatOcr">
+      <HintPath>..\STranslate.Util\WeChatOcr.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -138,6 +145,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Preference\TTS\TTSLingvaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Preference\OCR\WeChatOCRPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

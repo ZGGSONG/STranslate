@@ -8,8 +8,6 @@ using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -28,6 +26,8 @@ namespace STranslate.ViewModels;
 
 public partial class OCRViewModel : WindowVMBase
 {
+    private static readonly ConfigModel? _curConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
+
     /// <summary>
     ///     原始数据
     /// </summary>
@@ -49,25 +49,21 @@ public partial class OCRViewModel : WindowVMBase
     /// </summary>
     private LangEnum _lang = LangEnum.auto;
 
-    [ObservableProperty]
-    private double _ocrViewHeight = _curConfig?.OcrViewHeight ?? 400;
+    [ObservableProperty] private double _ocrViewHeight = _curConfig?.OcrViewHeight ?? 400;
 
-    [ObservableProperty]
-    private double _ocrViewWidth = _curConfig?.OcrViewWidth ?? 1000;
+    [ObservableProperty] private double _ocrViewWidth = _curConfig?.OcrViewWidth ?? 1000;
 
     [ObservableProperty] private string _qrCodeContent = "";
 
     [ObservableProperty] private string _topMostContent = Constant.UnTopmostContent;
-
-    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
-    
-    private static ConfigModel? _curConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
 
     public OCRViewModel()
     {
         Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
         OcrScvVm.OnChangeActivedOcrService += OnChangeOcrServiceorLang;
     }
+
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
     public OCRScvViewModel OcrScvVm => Singleton<OCRScvViewModel>.Instance;
 
@@ -213,25 +209,46 @@ public partial class OCRViewModel : WindowVMBase
     [RelayCommand]
     private void RemoveLineBreaks(TextBox textBox)
     {
-        //根据Ctrl+LeftClick
-        if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
-        {
-            var oldTxt = textBox.Text;
-            var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-            if (string.Equals(oldTxt, newTxt))
-                return;
-
-            ToastHelper.Show("移除换行", WindowType.OCR);
-
-            textBox.SelectAll();
-            textBox.SelectedText = newTxt;
-            return;
-        }
-
         var vm = Singleton<CommonViewModel>.Instance;
+
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
+        {
+            TogglePurify(vm);
+        }
+        else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+        {
+            ToggleRemoveLineBreak(vm);
+        }
+        else
+        {
+            RemoveLineBreaksFromTextBox(textBox);
+        }
+    }
+    private void TogglePurify(CommonViewModel vm)
+    {
+        vm.IsPurify = !vm.IsPurify;
+        vm.SaveCommand.Execute(null);
+        ToastHelper.Show($"{(vm.IsPurify ? "打开" : "关闭")}OCR净化结果", WindowType.OCR);
+    }
+
+    private void ToggleRemoveLineBreak(CommonViewModel vm)
+    {
         vm.IsRemoveLineBreakGettingWordsOCR = !vm.IsRemoveLineBreakGettingWordsOCR;
         vm.SaveCommand.Execute(null);
         ToastHelper.Show($"{(vm.IsRemoveLineBreakGettingWordsOCR ? "打开" : "关闭")}OCR始终移除换行", WindowType.OCR);
+    }
+
+    private void RemoveLineBreaksFromTextBox(TextBox textBox)
+    {
+        var oldTxt = textBox.Text;
+        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+        if (string.Equals(oldTxt, newTxt))
+            return;
+
+        ToastHelper.Show("移除换行", WindowType.OCR);
+
+        textBox.SelectAll();
+        textBox.SelectedText = newTxt;
     }
 
     [RelayCommand]
@@ -344,7 +361,7 @@ public partial class OCRViewModel : WindowVMBase
 
         //首先重置显示的内容为原始图片
         GetImg = Bs;
-        
+
         var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs, GetEncoder());
 
         await OCRHandler(bytes, token);
@@ -372,7 +389,7 @@ public partial class OCRViewModel : WindowVMBase
 
             //更新图片
             GetImg = GenerateImg(ocrResult, Bs!);
-            
+
             //处理剪贴板内容格式
             if (_curConfig?.IsPurify ?? true)
                 getText = StringUtil.NormalizeText(getText);
@@ -396,10 +413,7 @@ public partial class OCRViewModel : WindowVMBase
         catch (Exception ex)
         {
             GetContent = ex.Message;
-            if (ex.InnerException is { } innEx)
-            {
-                GetContent += " " + innEx.Message;
-            }
+            if (ex.InnerException is { } innEx) GetContent += " " + innEx.Message;
             LogService.Logger.Error($"OCR失败: {GetContent}", ex);
         }
         finally
@@ -412,22 +426,23 @@ public partial class OCRViewModel : WindowVMBase
     ///     图像上生成位置信息
     /// </summary>
     /// <param name="ocrResult"></param>
-    /// <param name="bitmapSource"></param>
+    /// <param name="bs"></param>
     /// <returns></returns>
-    private BitmapSource GenerateImg(OcrResult ocrResult, BitmapSource bitmapSource)
+    private BitmapSource GenerateImg(OcrResult ocrResult, BitmapSource bs)
     {
         //没有位置信息的话返回原图
-        if (ocrResult!.OcrContents.All(x => x.BoxPoints.Count == 0)) return bitmapSource;
+        if (ocrResult!.OcrContents.All(x => x.BoxPoints.Count == 0)) return bs;
         // 创建一个WritableBitmap，用于绘制
-        var writableBitmap = new WriteableBitmap(bitmapSource);
+        var writableBitmap = new WriteableBitmap(bs);
         // 使用锁定位图来确保线程安全
         writableBitmap.Lock();
 
         try
         {
+            // 矢量图计算恢复原始大小
             var backBitmap = new Bitmap(
-                (int)Bs!.Width,
-                (int)Bs!.Height,
+                (int)(bs.Width * bs.DpiX / 96.0),
+                (int)(bs.Height * bs.DpiY / 96.0),
                 writableBitmap.BackBufferStride,
                 PixelFormat.Format32bppArgb,
                 writableBitmap.BackBuffer
@@ -469,7 +484,6 @@ public partial class OCRViewModel : WindowVMBase
         {
             IsExecuting = false;
         }
-
     }
 
     private string QrCodeHandler(BitmapSource bs)
@@ -555,7 +569,7 @@ public partial class OCRViewModel : WindowVMBase
     {
         QrCodeContent = "";
     }
-    
+
     private BitmapEncoder GetEncoder()
     {
         return (_curConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
