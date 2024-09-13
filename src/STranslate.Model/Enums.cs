@@ -176,6 +176,7 @@ public enum OCRType
     [Description("火山OCR")] VolcengineOCR,
     [Description("谷歌OCR")] GoogleOCR,
     [Description("OpenAIOCR")] OpenAIOCR,
+    [Description("微信OCR")] WeChatOCR,
 }
 
 public enum BaiduOCRAction
@@ -256,6 +257,8 @@ public enum IconType
     [Description("Kimi")] Kimi,
     
     [Description("Lingva")] Lingva,
+    
+    [Description("微信")] WeChat,
 }
 
 /// <summary>

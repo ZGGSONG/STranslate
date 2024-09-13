@@ -11,10 +11,12 @@
     <FileVersion>1.2.2.0904</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>ZGGSONG</Copyright>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>X64</Platforms>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <DebugType>none</DebugType>
   </PropertyGroup>
 
@@ -58,6 +60,9 @@
     </Content>
     <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdmodel">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="wcocr.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -138,6 +143,11 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Preference\TTS\TTSLingvaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Preference\OCR\WeChatOCRPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

@@ -27,4 +27,5 @@
     <BitmapImage x:Key="Ollama" UriSource="pack://application:,,,/STranslate.Style;component/Resources/ollama.png" />
     <BitmapImage x:Key="Kimi" UriSource="pack://application:,,,/STranslate.Style;component/Resources/kimi.png" />
     <BitmapImage x:Key="Lingva" UriSource="pack://application:,,,/STranslate.Style;component/Resources/lingva.png" />
+    <BitmapImage x:Key="WeChat" UriSource="pack://application:,,,/STranslate.Style;component/Resources/wechat.png" />
 </ResourceDictionary>
