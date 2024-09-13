@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
+using STranslate.WeChatOcr;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
@@ -109,13 +110,13 @@ public partial class WeChatOCR : ObservableObject, IOCR
     ///     微信OCR可执行文件路径
     /// </summary>
     [ObservableProperty] private string _weChatPath = string.Empty;
-    
+
 
     #endregion Properties
 
     #region Interface Implementation
 
-    public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
+    public async Task<Model.OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
     {
         var extension =
             (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
@@ -125,43 +126,52 @@ public partial class WeChatOCR : ObservableObject, IOCR
                 _ => ".bmp"
             };
         var imgPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{extension}");
-        
+
         try
         {
             await File.WriteAllBytesAsync(imgPath, bytes, cancelToken);
-            var weChatOcrExe = WeChatOcrHelper.FindWeChatOcrExe();
-            if (weChatOcrExe == null)
-                throw new Exception("未找到微信OCR可执行文件");
-            var ret = WeChatOcrHelper.GetOcrResult(weChatOcrExe, WeChatPath, imgPath);
-            if (!ret.Item1)
-                throw new Exception("OCR执行失败");
-            var resp = ret.Item2.Replace(@"\", @"\\");
 
-            // 解析JSON数据
-            var jObject = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+            //var weChatOcrExe = WeChatOcrHelper.FindWeChatOcrExe();
+            //if (weChatOcrExe == null)
+            //    throw new Exception("未找到微信OCR可执行文件");
 
-            if (jObject["errcode"]?.ToString() != "0") return OcrResult.Fail(resp);
+            var ocr = new ImageOcr();
+            ocr.Run(imgPath, (path, result) =>
+            {
+                if (result == null) return;
 
-            var ocrResponse = jObject["ocr_response"] as JArray;
+                var ocrResult = new Model.OcrResult();
+                var list = result?.OcrResult?.SingleResult;
+                for (int i = 0; i < list?.Count; i++)
+                {
+                    SingleResult? item = list[i];
+                    Log.LogService.Logger.Debug(item?.SingleStrUtf8);
+                    foreach (var item2 in item.OneResult)
+                    {
+                        Log.LogService.Logger.Debug($"{string.Join(",", item2.OnePos.Pos.Select(x => (x.X, x.Y)))}");
+                    }
+                }
+
+            });
 
             // 提取content的值
-            var ocrResult = new OcrResult();
-            foreach (var item in ocrResponse)
-            {
-                var content = new OcrContent(item["text"]?.ToString() ?? "");
-                var left = double.Parse(item["left"]?.ToString() ?? "0");
-                var top = double.Parse(item["top"]?.ToString() ?? "0");
-                var right = double.Parse(item["right"]?.ToString() ?? "0");
-                var bottom = double.Parse(item["bottom"]?.ToString() ?? "0");
-                //content.BoxPoints.Add(new BoxPoint())
-                //Converter(item.location).ForEach(pg =>
-                //{
-                //    //仅位置不全为0时添加
-                //    if (pg.X != pg.Y || pg.X != 0)
-                //        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-                //});
-                ocrResult.OcrContents.Add(content);
-            }
+            var ocrResult = new Model.OcrResult();
+            //foreach (var item in ocrResponse)
+            //{
+            //    var content = new OcrContent(item["text"]?.ToString() ?? "");
+            //    var left = double.Parse(item["left"]?.ToString() ?? "0");
+            //    var top = double.Parse(item["top"]?.ToString() ?? "0");
+            //    var right = double.Parse(item["right"]?.ToString() ?? "0");
+            //    var bottom = double.Parse(item["bottom"]?.ToString() ?? "0");
+            //    //content.BoxPoints.Add(new BoxPoint())
+            //    //Converter(item.location).ForEach(pg =>
+            //    //{
+            //    //    //仅位置不全为0时添加
+            //    //    if (pg.X != pg.Y || pg.X != 0)
+            //    //        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+            //    //});
+            //    ocrResult.OcrContents.Add(content);
+            //}
 
             return ocrResult;
         }
@@ -234,6 +244,6 @@ public partial class WeChatOCR : ObservableObject, IOCR
         /// </summary>
         public int height { get; set; }
     }
-    
+
     #endregion
 }
