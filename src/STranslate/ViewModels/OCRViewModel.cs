@@ -23,6 +23,8 @@ using Image = System.Windows.Controls.Image;
 using Pen = System.Drawing.Pen;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Windows.Point;
+using System;
+using System.Linq;
 
 namespace STranslate.ViewModels;
 
@@ -412,22 +414,23 @@ public partial class OCRViewModel : WindowVMBase
     ///     图像上生成位置信息
     /// </summary>
     /// <param name="ocrResult"></param>
-    /// <param name="bitmapSource"></param>
+    /// <param name="bs"></param>
     /// <returns></returns>
-    private BitmapSource GenerateImg(OcrResult ocrResult, BitmapSource bitmapSource)
+    private BitmapSource GenerateImg(OcrResult ocrResult, BitmapSource bs)
     {
         //没有位置信息的话返回原图
-        if (ocrResult!.OcrContents.All(x => x.BoxPoints.Count == 0)) return bitmapSource;
+        if (ocrResult!.OcrContents.All(x => x.BoxPoints.Count == 0)) return bs;
         // 创建一个WritableBitmap，用于绘制
-        var writableBitmap = new WriteableBitmap(bitmapSource);
+        var writableBitmap = new WriteableBitmap(bs);
         // 使用锁定位图来确保线程安全
         writableBitmap.Lock();
 
         try
         {
+            // 矢量图计算恢复原始大小
             var backBitmap = new Bitmap(
-                (int)Bs!.Width,
-                (int)Bs!.Height,
+                (int)(bs.Width * bs.DpiX / 96.0),
+                (int)(bs.Height * bs.DpiY / 96.0),
                 writableBitmap.BackBufferStride,
                 PixelFormat.Format32bppArgb,
                 writableBitmap.BackBuffer
@@ -435,7 +438,9 @@ public partial class OCRViewModel : WindowVMBase
             // 在这里你可以直接通过指针操作位图的像素数据
             using var g = Graphics.FromImage(backBitmap);
             foreach (var item in ocrResult.OcrContents)
+            {
                 g.DrawPolygon(new Pen(Brushes.Red, 2), item.BoxPoints.Select(x => new PointF(x.X, x.Y)).ToArray());
+            }
         }
         finally
         {
