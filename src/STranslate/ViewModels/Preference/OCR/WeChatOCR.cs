@@ -108,7 +108,7 @@ public partial class WeChatOCR : ObservableObject, IOCR
     /// <summary>
     ///     微信OCR可执行文件路径
     /// </summary>
-    [ObservableProperty] private string _weChatPath = string.Empty;
+    [ObservableProperty] private string _weChatPath = @"C:\Program Files\Tencent\WeChat";
 
     #endregion Properties
 

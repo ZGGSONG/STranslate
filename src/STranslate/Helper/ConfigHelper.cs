@@ -785,7 +785,7 @@ public class ConfigHelper
             CopyResultAfterTranslateIndex = 0,
             IncrementalTranslation = false,
             IsTriggerShowHide = false,
-            IsShowMainPlaceholder = true,
+            IsShowMainPlaceholder = false,
             ShowAuxiliaryLine = true,
             WebDavUrl = string.Empty,
             WebDavUsername = string.Empty,
