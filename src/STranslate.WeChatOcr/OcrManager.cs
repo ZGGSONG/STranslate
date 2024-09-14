@@ -62,7 +62,7 @@ public class OcrManager : XPluginManager, IDisposable
         var numTry = 0;
         while (!isConnected)
         {
-            Console.WriteLine("等待Ocr服务连接成功!");
+            //Console.WriteLine("等待Ocr服务连接成功!");
             Thread.Sleep(100);
             if (numTry++ > 3) throw new TimeoutException("连接Ocr服务超时！");
         }
@@ -123,7 +123,7 @@ public class OcrManager : XPluginManager, IDisposable
         queueIds.Enqueue(taskId);
         var lastStr = dicImageID[taskId].Substring(dicImageID[taskId].Length - 16, 16);
         timers[taskId].Stop();
-        Console.WriteLine($"【…{lastStr}】由任务{taskId,2}完成，耗费【{(int)timers[taskId].Elapsed.TotalMilliseconds}】毫秒");
+        //Console.WriteLine($"【…{lastStr}】由任务{taskId,2}完成，耗费【{(int)timers[taskId].Elapsed.TotalMilliseconds}】毫秒");
     }
 
     public void SetDefaultCallbacks()
@@ -166,12 +166,11 @@ public class OcrManager : XPluginManager, IDisposable
         var ocrResponseArray = new byte[dataSize];
         Marshal.Copy(serializedData, ocrResponseArray, 0, dataSize);
         var ocrResponse = OcrResponse.Parser.ParseFrom(ocrResponseArray);
-        if (ocrResponse.ErrCode != 0)
-            Console.WriteLine($"回调函数【{nameof(CallUserCallback)}】被调用，ErrCode: {ocrResponse.ErrCode}");
+        //if (ocrResponse.ErrCode != 0)
+        //    Console.WriteLine($"回调函数【{nameof(CallUserCallback)}】被调用，ErrCode: {ocrResponse.ErrCode}");
         var jsonResponseStr = ocrResponse.ToString();
         var taskId = ocrResponse.TaskId;
-        if (!dicImageID.ContainsKey(taskId)) return;
-        var picPath = dicImageID[taskId];
+        if (!dicImageID.TryGetValue(taskId, out var picPath)) return;
         Callback?.Invoke(picPath, ParseJsonResponse(jsonResponseStr));
         SetTaskIdIdle(taskId);
     }

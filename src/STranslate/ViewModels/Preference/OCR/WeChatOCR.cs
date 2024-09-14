@@ -129,18 +129,39 @@ public partial class WeChatOCR : ObservableObject, IOCR
         ocr.Run(bytes, (path, result) =>
         {
             if (result == null) return;
-
+            //System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(result));
             var ocrResult = new OcrResult();
-            LogService.Logger.Info(JsonConvert.SerializeObject(result));
             var list = result?.OcrResult?.SingleResult;
+            if (list == null)
+                tcs.SetResult(OcrResult.Fail("WeChatOCR get result is null"));
+
             for (var i = 0; i < list?.Count; i++)
             {
-                var item = list[i];
-                var content = new OcrContent(item?.SingleStrUtf8 ?? "");
+                if (list[i] is not { } item || string.IsNullOrEmpty(item.SingleStrUtf8))
+                    continue;
+
+                var content = new OcrContent(item.SingleStrUtf8);
+                var width = Convert.ToInt32(item.Right - item.Left);
+                var height = Convert.ToInt32(item.Bottom - item.Top);
+                var x = Convert.ToInt32(item.Left);
+                var y = Convert.ToInt32(item.Top);
+                Converter(x, y, width, height).ForEach(pg =>
+                {
+                    //仅位置不全为0时添加
+                    if (pg.X != pg.Y || pg.X != 0)
+                        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+                });
                 ocrResult.OcrContents.Add(content);
-                //LogService.Logger.Debug(item?.SingleStrUtf8);
-                //foreach (var item2 in item.OneResult)
-                //    LogService.Logger.Debug($"{string.Join(",", item2.OnePos.Pos.Select(x => (x.X, x.Y)))}");
+            }
+
+            try
+            {
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+            }
+            catch
+            {
+                // ignore
             }
 
             tcs.SetResult(ocrResult);
@@ -186,41 +207,22 @@ public partial class WeChatOCR : ObservableObject, IOCR
 
     #region Location Support
 
-    public List<BoxPoint> Converter(Location location)
+    public List<BoxPoint> Converter(int x, int y, int width, int height)
     {
         return
         [
             //left top
-            new BoxPoint(location.left, location.top),
+            new BoxPoint(x, y),
 
             //right top
-            new BoxPoint(location.left + location.width, location.top),
+            new BoxPoint(x + width, y),
 
             //right bottom
-            new BoxPoint(location.left + location.width, location.top + location.height),
+            new BoxPoint(x + width, y + height),
 
             //left bottom
-            new BoxPoint(location.left, location.top + location.height)
+            new BoxPoint(x, y + height)
         ];
-    }
-
-    public class Location
-    {
-        /// <summary>
-        /// </summary>
-        public int top { get; set; }
-
-        /// <summary>
-        /// </summary>
-        public int left { get; set; }
-
-        /// <summary>
-        /// </summary>
-        public int width { get; set; }
-
-        /// <summary>
-        /// </summary>
-        public int height { get; set; }
     }
 
     #endregion
