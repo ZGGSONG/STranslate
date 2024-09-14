@@ -52,9 +52,9 @@ public class OcrContent
     public List<BoxPoint> BoxPoints { get; set; } = [];
 }
 
-public class BoxPoint(int x, int y)
+public class BoxPoint(float x, float y)
 {
-    public int X { get; set; } = x;
+    public float X { get; set; } = x;
 
-    public int Y { get; set; } = y;
+    public float Y { get; set; } = y;
 }

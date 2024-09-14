@@ -152,7 +152,7 @@ public partial class BaiduOCR : ObservableObject, IOCR
             Converter(item.location).ForEach(pg =>
             {
                 //仅位置不全为0时添加
-                if (pg.X != pg.Y || pg.X != 0)
+                if (!pg.X.Equals(pg.Y) || pg.X != 0)
                     content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
             });
             ocrResult.OcrContents.Add(content);

@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Helper;
-using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.WeChatOcr;
@@ -141,14 +140,14 @@ public partial class WeChatOCR : ObservableObject, IOCR
                     continue;
 
                 var content = new OcrContent(item.SingleStrUtf8);
-                var width = Convert.ToInt32(item.Right - item.Left);
-                var height = Convert.ToInt32(item.Bottom - item.Top);
-                var x = Convert.ToInt32(item.Left);
-                var y = Convert.ToInt32(item.Top);
+                var width = item.Right - item.Left;
+                var height = item.Bottom - item.Top;
+                var x = item.Left;
+                var y = item.Top;
                 Converter(x, y, width, height).ForEach(pg =>
                 {
                     //仅位置不全为0时添加
-                    if (pg.X != pg.Y || pg.X != 0)
+                    if (!pg.X.Equals(pg.Y) || pg.X != 0)
                         content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
                 });
                 ocrResult.OcrContents.Add(content);
@@ -207,7 +206,7 @@ public partial class WeChatOCR : ObservableObject, IOCR
 
     #region Location Support
 
-    public List<BoxPoint> Converter(int x, int y, int width, int height)
+    public List<BoxPoint> Converter(float x, float y, float width, float height)
     {
         return
         [

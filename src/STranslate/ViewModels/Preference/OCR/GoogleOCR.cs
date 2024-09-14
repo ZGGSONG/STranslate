@@ -155,14 +155,12 @@ public partial class GoogleOCR : ObservableObject, IOCR
 
         if (UseWordPosition)
         {
-            var originStr = "";
             var getRets = parsedData.Responses?.FirstOrDefault()?.TextAnnotations;
             for (var i = 0; i < getRets?.Count; i++)
             {
                 // 第一行为整体结果
                 if (i == 0)
                 {
-                    originStr = getRets[i].Description;
                     continue;
                 }
 
@@ -172,7 +170,7 @@ public partial class GoogleOCR : ObservableObject, IOCR
                 Converter(getRet.BoundingPoly?.Vertices).ForEach(pg =>
                 {
                     //仅位置不全为0时添加
-                    if (pg.X != pg.Y || pg.X != 0)
+                    if (!pg.X.Equals(pg.Y) || pg.X != 0)
                         content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
                 });
                 ocrResult.OcrContents.Add(content);
