@@ -15,7 +15,6 @@ public class ImageOcr : IDisposable
         var wechatDir = Utilities.GetWeChatDir(path) ??
                         throw new Exception($"get wechat path failed: {path ?? "NULL"}");
 
-
         Utilities.CopyMmmojoDll(wechatDir, AppDomain.CurrentDomain.BaseDirectory);
 
         var ocrPtr = GCHandle.ToIntPtr(GCHandle.Alloc(_ocrManager));

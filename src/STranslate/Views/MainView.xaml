@@ -14,6 +14,8 @@
     Width="{Binding CommonSettingVM.MainViewWidth, Mode=TwoWay}"
     MaxHeight="{Binding CommonSettingVM.MainViewMaxHeight, Mode=TwoWay}"
     d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+    d:Height="300"
+    d:Width="500"
     AllowsTransparency="True"
     Background="Transparent"
     Deactivated="MainWindow_Deactivated"
@@ -176,9 +178,7 @@
                         Visibility="{Binding ElementName=MainWindow, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                     <!--  // Mid //  -->
-                    <local:LangView
-                        DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
-                        Focusable="False">
+                    <local:LangView DataContext="{Binding ElementName=MainWindow, Path=DataContext}" Focusable="False">
                         <local:LangView.Visibility>
                             <MultiBinding Converter="{StaticResource MultiValue2VisibilityReverseConverter}">
                                 <Binding ElementName="MainWindow" Path="DataContext.IsOnlyShowRet" />

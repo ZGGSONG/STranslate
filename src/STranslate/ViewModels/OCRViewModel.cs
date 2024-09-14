@@ -8,8 +8,6 @@ using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -23,13 +21,13 @@ using Image = System.Windows.Controls.Image;
 using Pen = System.Drawing.Pen;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Point = System.Windows.Point;
-using System;
-using System.Linq;
 
 namespace STranslate.ViewModels;
 
 public partial class OCRViewModel : WindowVMBase
 {
+    private static readonly ConfigModel? _curConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
+
     /// <summary>
     ///     原始数据
     /// </summary>
@@ -51,25 +49,21 @@ public partial class OCRViewModel : WindowVMBase
     /// </summary>
     private LangEnum _lang = LangEnum.auto;
 
-    [ObservableProperty]
-    private double _ocrViewHeight = _curConfig?.OcrViewHeight ?? 400;
+    [ObservableProperty] private double _ocrViewHeight = _curConfig?.OcrViewHeight ?? 400;
 
-    [ObservableProperty]
-    private double _ocrViewWidth = _curConfig?.OcrViewWidth ?? 1000;
+    [ObservableProperty] private double _ocrViewWidth = _curConfig?.OcrViewWidth ?? 1000;
 
     [ObservableProperty] private string _qrCodeContent = "";
 
     [ObservableProperty] private string _topMostContent = Constant.UnTopmostContent;
-
-    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
-    
-    private static ConfigModel? _curConfig = Singleton<ConfigHelper>.Instance.CurrentConfig;
 
     public OCRViewModel()
     {
         Singleton<NotifyIconViewModel>.Instance.OnExit += Save;
         OcrScvVm.OnChangeActivedOcrService += OnChangeOcrServiceorLang;
     }
+
+    public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
 
     public OCRScvViewModel OcrScvVm => Singleton<OCRScvViewModel>.Instance;
 
@@ -215,25 +209,46 @@ public partial class OCRViewModel : WindowVMBase
     [RelayCommand]
     private void RemoveLineBreaks(TextBox textBox)
     {
-        //根据Ctrl+LeftClick
-        if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
-        {
-            var oldTxt = textBox.Text;
-            var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-            if (string.Equals(oldTxt, newTxt))
-                return;
-
-            ToastHelper.Show("移除换行", WindowType.OCR);
-
-            textBox.SelectAll();
-            textBox.SelectedText = newTxt;
-            return;
-        }
-
         var vm = Singleton<CommonViewModel>.Instance;
+
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
+        {
+            TogglePurify(vm);
+        }
+        else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+        {
+            ToggleRemoveLineBreak(vm);
+        }
+        else
+        {
+            RemoveLineBreaksFromTextBox(textBox);
+        }
+    }
+    private void TogglePurify(CommonViewModel vm)
+    {
+        vm.IsPurify = !vm.IsPurify;
+        vm.SaveCommand.Execute(null);
+        ToastHelper.Show($"{(vm.IsPurify ? "打开" : "关闭")}OCR净化结果", WindowType.OCR);
+    }
+
+    private void ToggleRemoveLineBreak(CommonViewModel vm)
+    {
         vm.IsRemoveLineBreakGettingWordsOCR = !vm.IsRemoveLineBreakGettingWordsOCR;
         vm.SaveCommand.Execute(null);
         ToastHelper.Show($"{(vm.IsRemoveLineBreakGettingWordsOCR ? "打开" : "关闭")}OCR始终移除换行", WindowType.OCR);
+    }
+
+    private void RemoveLineBreaksFromTextBox(TextBox textBox)
+    {
+        var oldTxt = textBox.Text;
+        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
+        if (string.Equals(oldTxt, newTxt))
+            return;
+
+        ToastHelper.Show("移除换行", WindowType.OCR);
+
+        textBox.SelectAll();
+        textBox.SelectedText = newTxt;
     }
 
     [RelayCommand]
@@ -346,7 +361,7 @@ public partial class OCRViewModel : WindowVMBase
 
         //首先重置显示的内容为原始图片
         GetImg = Bs;
-        
+
         var bytes = BitmapUtil.ConvertBitmapSource2Bytes(Bs, GetEncoder());
 
         await OCRHandler(bytes, token);
@@ -374,7 +389,7 @@ public partial class OCRViewModel : WindowVMBase
 
             //更新图片
             GetImg = GenerateImg(ocrResult, Bs!);
-            
+
             //处理剪贴板内容格式
             if (_curConfig?.IsPurify ?? true)
                 getText = StringUtil.NormalizeText(getText);
@@ -398,10 +413,7 @@ public partial class OCRViewModel : WindowVMBase
         catch (Exception ex)
         {
             GetContent = ex.Message;
-            if (ex.InnerException is { } innEx)
-            {
-                GetContent += " " + innEx.Message;
-            }
+            if (ex.InnerException is { } innEx) GetContent += " " + innEx.Message;
             LogService.Logger.Error($"OCR失败: {GetContent}", ex);
         }
         finally
@@ -438,9 +450,7 @@ public partial class OCRViewModel : WindowVMBase
             // 在这里你可以直接通过指针操作位图的像素数据
             using var g = Graphics.FromImage(backBitmap);
             foreach (var item in ocrResult.OcrContents)
-            {
                 g.DrawPolygon(new Pen(Brushes.Red, 2), item.BoxPoints.Select(x => new PointF(x.X, x.Y)).ToArray());
-            }
         }
         finally
         {
@@ -474,7 +484,6 @@ public partial class OCRViewModel : WindowVMBase
         {
             IsExecuting = false;
         }
-
     }
 
     private string QrCodeHandler(BitmapSource bs)
@@ -560,7 +569,7 @@ public partial class OCRViewModel : WindowVMBase
     {
         QrCodeContent = "";
     }
-    
+
     private BitmapEncoder GetEncoder()
     {
         return (_curConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
