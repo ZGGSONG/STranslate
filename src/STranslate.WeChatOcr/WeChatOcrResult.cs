@@ -4,7 +4,7 @@ using System.Text;
 namespace STranslate.WeChatOcr;
 
 
-public class WeiOcrResult
+public class WeChatOcrResult
 {
     public int TaskId { get; set; }
     public OcrResult? OcrResult { get; set; }
@@ -47,15 +47,13 @@ public class OnePos
 
 public class ParseOcrResult
 {
-    public static WeiOcrResult? ParseJson(string jsonResponseStr)
+    public static WeChatOcrResult? ParseJson(string jsonResponseStr)
     {
-        var rt = JsonConvert.DeserializeObject<WeiOcrResult>(jsonResponseStr);
-        if (rt != null && rt.OcrResult != null && rt.OcrResult.SingleResult != null)
+        var rt = JsonConvert.DeserializeObject<WeChatOcrResult>(jsonResponseStr);
+        if (rt is not { OcrResult.SingleResult: not null }) return rt;
+        foreach (var item in rt.OcrResult.SingleResult)
         {
-            foreach (var item in rt.OcrResult.SingleResult)
-            {
-                if (item.SingleStrUtf8 != null) item.SingleStrUtf8 = Encoding.UTF8.GetString(Convert.FromBase64String(item.SingleStrUtf8));
-            }
+            if (item.SingleStrUtf8 != null) item.SingleStrUtf8 = Encoding.UTF8.GetString(Convert.FromBase64String(item.SingleStrUtf8));
         }
         return rt;
     }

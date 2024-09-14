@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
-using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using STranslate.Helper;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.WeChatOcr;
+using OcrResult = STranslate.Model.OcrResult;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
@@ -105,81 +105,59 @@ public partial class WeChatOCR : ObservableObject, IOCR
         showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
 
     #endregion Show/Hide Encrypt Info
-    
+
     /// <summary>
     ///     微信OCR可执行文件路径
     /// </summary>
     [ObservableProperty] private string _weChatPath = string.Empty;
 
-
     #endregion Properties
 
     #region Interface Implementation
 
-    public async Task<Model.OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
+    public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
     {
-        var extension =
-            (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
-            {
-                OcrImageQualityEnum.Medium => ".png",
-                OcrImageQualityEnum.Low => ".jpg",
-                _ => ".bmp"
-            };
-        var imgPath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{extension}");
-
-        try
+        var imgType = (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
         {
-            await File.WriteAllBytesAsync(imgPath, bytes, cancelToken);
+            OcrImageQualityEnum.Medium => ImageType.Png,
+            OcrImageQualityEnum.Low => ImageType.Jpeg,
+            _ => ImageType.Bmp
+        };
+        var tcs = new TaskCompletionSource<OcrResult>();
 
-            //var weChatOcrExe = WeChatOcrHelper.FindWeChatOcrExe();
-            //if (weChatOcrExe == null)
-            //    throw new Exception("未找到微信OCR可执行文件");
-
-            var ocr = new ImageOcr();
-            ocr.Run(imgPath, (path, result) =>
-            {
-                if (result == null) return;
-
-                var ocrResult = new Model.OcrResult();
-                var list = result?.OcrResult?.SingleResult;
-                for (int i = 0; i < list?.Count; i++)
-                {
-                    SingleResult? item = list[i];
-                    Log.LogService.Logger.Debug(item?.SingleStrUtf8);
-                    foreach (var item2 in item.OneResult)
-                    {
-                        Log.LogService.Logger.Debug($"{string.Join(",", item2.OnePos.Pos.Select(x => (x.X, x.Y)))}");
-                    }
-                }
-
-            });
-
-            // 提取content的值
-            var ocrResult = new Model.OcrResult();
-            //foreach (var item in ocrResponse)
-            //{
-            //    var content = new OcrContent(item["text"]?.ToString() ?? "");
-            //    var left = double.Parse(item["left"]?.ToString() ?? "0");
-            //    var top = double.Parse(item["top"]?.ToString() ?? "0");
-            //    var right = double.Parse(item["right"]?.ToString() ?? "0");
-            //    var bottom = double.Parse(item["bottom"]?.ToString() ?? "0");
-            //    //content.BoxPoints.Add(new BoxPoint())
-            //    //Converter(item.location).ForEach(pg =>
-            //    //{
-            //    //    //仅位置不全为0时添加
-            //    //    if (pg.X != pg.Y || pg.X != 0)
-            //    //        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-            //    //});
-            //    ocrResult.OcrContents.Add(content);
-            //}
-
-            return ocrResult;
-        }
-        finally
+        using var ocr = new ImageOcr(WeChatPath);
+        ocr.Run(bytes, (path, result) =>
         {
-            if (File.Exists(imgPath))
-                File.Delete(imgPath);
+            if (result == null) return;
+
+            var ocrResult = new OcrResult();
+            LogService.Logger.Info(JsonConvert.SerializeObject(result));
+            var list = result?.OcrResult?.SingleResult;
+            for (var i = 0; i < list?.Count; i++)
+            {
+                var item = list[i];
+                var content = new OcrContent(item?.SingleStrUtf8 ?? "");
+                ocrResult.OcrContents.Add(content);
+                //LogService.Logger.Debug(item?.SingleStrUtf8);
+                //foreach (var item2 in item.OneResult)
+                //    LogService.Logger.Debug($"{string.Join(",", item2.OnePos.Pos.Select(x => (x.X, x.Y)))}");
+            }
+
+            tcs.SetResult(ocrResult);
+
+        }, imgType);
+
+        var timeoutTask = Task.Delay(10000, cancelToken);
+        var completedTask = await Task.WhenAny(tcs.Task, timeoutTask);
+
+        if (completedTask == timeoutTask)
+        {
+            throw new TimeoutException("WeChatOCR operation timed out.");
         }
+        // 提取content的值
+        var finalResult = await tcs.Task;
+
+        return finalResult;
     }
 
     public IOCR Clone()
@@ -195,7 +173,7 @@ public partial class WeChatOCR : ObservableObject, IOCR
             AppID = AppID,
             AppKey = AppKey,
             Icons = Icons,
-            WeChatPath = WeChatPath,
+            WeChatPath = WeChatPath
         };
     }
 
