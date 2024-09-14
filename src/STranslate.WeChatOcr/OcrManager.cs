@@ -43,7 +43,7 @@ public class OcrManager : XPluginManager, IDisposable
     {
         SetCallbackUsrData(ocrManager);
         SetDefaultCallbacks();
-        InitMMMojoEnv();
+        InitMmMojoEnv();
         isWeChatOcrRunning = true;
     }
 
@@ -51,7 +51,7 @@ public class OcrManager : XPluginManager, IDisposable
     {
         isConnected = false;
         isWeChatOcrRunning = false;
-        StopMMMojoEnv();
+        StopMmMojoEnv();
     }
 
     public void DoOcrTask(string imgPath)

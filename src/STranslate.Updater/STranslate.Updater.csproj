@@ -5,8 +5,6 @@
     <TargetFramework>net8.0-windows</TargetFramework>
 	<ApplicationIcon>.\favicon.ico</ApplicationIcon>
 	<AssemblyName>Updater</AssemblyName>
-	<Configurations>Debug;Release</Configurations>
-	<Platforms>AnyCPU;X64</Platforms>
   </PropertyGroup>
 
   <!--// Release 模式下禁用 Debug 信息 //-->
