@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -12,6 +13,28 @@ namespace STranslate.ViewModels.Preference.OCR;
 
 public partial class WeChatOCR : ObservableObject, IOCR
 {
+    #region Location Support
+
+    public List<BoxPoint> Converter(float x, float y, float width, float height)
+    {
+        return
+        [
+            //left top
+            new BoxPoint(x, y),
+
+            //right top
+            new BoxPoint(x + width, y),
+
+            //right bottom
+            new BoxPoint(x + width, y + height),
+
+            //left bottom
+            new BoxPoint(x, y + height)
+        ];
+    }
+
+    #endregion
+
     #region Constructor
 
     public WeChatOCR()
@@ -116,12 +139,13 @@ public partial class WeChatOCR : ObservableObject, IOCR
 
     public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
     {
-        var imgType = (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
-        {
-            OcrImageQualityEnum.Medium => ImageType.Png,
-            OcrImageQualityEnum.Low => ImageType.Jpeg,
-            _ => ImageType.Bmp
-        };
+        var imgType =
+            (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
+            {
+                OcrImageQualityEnum.Medium => ImageType.Png,
+                OcrImageQualityEnum.Low => ImageType.Jpeg,
+                _ => ImageType.Bmp
+            };
         var tcs = new TaskCompletionSource<OcrResult>();
 
         using var ocr = new ImageOcr(WeChatPath);
@@ -155,8 +179,8 @@ public partial class WeChatOCR : ObservableObject, IOCR
 
             try
             {
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
+                if (File.Exists(path))
+                    File.Delete(path);
             }
             catch
             {
@@ -164,16 +188,12 @@ public partial class WeChatOCR : ObservableObject, IOCR
             }
 
             tcs.SetResult(ocrResult);
-
         }, imgType);
 
         var timeoutTask = Task.Delay(10000, cancelToken);
         var completedTask = await Task.WhenAny(tcs.Task, timeoutTask);
 
-        if (completedTask == timeoutTask)
-        {
-            throw new TimeoutException("WeChatOCR operation timed out.");
-        }
+        if (completedTask == timeoutTask) throw new TimeoutException("WeChatOCR operation timed out.");
         // 提取content的值
         var finalResult = await tcs.Task;
 
@@ -203,26 +223,4 @@ public partial class WeChatOCR : ObservableObject, IOCR
     }
 
     #endregion Interface Implementation
-
-    #region Location Support
-
-    public List<BoxPoint> Converter(float x, float y, float width, float height)
-    {
-        return
-        [
-            //left top
-            new BoxPoint(x, y),
-
-            //right top
-            new BoxPoint(x + width, y),
-
-            //right bottom
-            new BoxPoint(x + width, y + height),
-
-            //left bottom
-            new BoxPoint(x, y + height)
-        ];
-    }
-
-    #endregion
 }
