@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
-using STranslate.WeChatOcr;
+using WeChatOcr;
 using OcrResult = STranslate.Model.OcrResult;
 
 namespace STranslate.ViewModels.Preference.OCR;

@@ -38,8 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2F5CEE1D-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FE39D4E9-A735-41ED-9EBE-F434187F31FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STranslate.WeChatOcr", "src\STranslate.WeChatOcr\STranslate.WeChatOcr.csproj", "{2E151920-A46C-4890-B2B1-6F12EF3D45B2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,10 +72,6 @@ Global
 		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E151920-A46C-4890-B2B1-6F12EF3D45B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E151920-A46C-4890-B2B1-6F12EF3D45B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E151920-A46C-4890-B2B1-6F12EF3D45B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E151920-A46C-4890-B2B1-6F12EF3D45B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,7 +84,6 @@ Global
 		{74E3C5AB-6702-4AAC-8D56-2A72EFD437D2} = {FE39D4E9-A735-41ED-9EBE-F434187F31FA}
 		{D0BFF6B4-4B15-4BFF-A15F-2B3538CE4546} = {FE39D4E9-A735-41ED-9EBE-F434187F31FA}
 		{DF7E8591-6A90-4FEF-B4B3-C8D1760697EE} = {2F5CEE1D-25FD-48A9-84E3-D4D67E8E96CA}
-		{2E151920-A46C-4890-B2B1-6F12EF3D45B2} = {FE39D4E9-A735-41ED-9EBE-F434187F31FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC3F2BB2-F582-4F51-95DF-661E334363FD}
