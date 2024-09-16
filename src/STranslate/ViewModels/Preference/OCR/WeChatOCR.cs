@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Helper;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using WeChatOcr;
@@ -132,6 +133,20 @@ public partial class WeChatOCR : ObservableObject, IOCR
     ///     微信OCR可执行文件路径
     /// </summary>
     [ObservableProperty] private string _weChatPath = @"C:\Program Files\Tencent\WeChat";
+
+    [RelayCommand]
+    private void RemoveMmmojoDll()
+    {
+        if (!Utilities.RemoveMmmojoDll(out var error))
+        {
+            ToastHelper.Show("清理失败重启再试", WindowType.Preference);
+            LogService.Logger.Error($"WeChatOCR|CleanMmMo Error: {error}");
+        }
+        else
+        {
+            ToastHelper.Show("清理成功", WindowType.Preference);
+        }
+    }
 
     #endregion Properties
 
