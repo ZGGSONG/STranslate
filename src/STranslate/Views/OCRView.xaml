@@ -38,6 +38,10 @@
             Command="{Binding OCRPreferenceCommand}"
             Modifiers="Ctrl" />
         <KeyBinding
+            Key="R"
+            Command="{Binding RecertificationCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
             Key="T"
             Command="{Binding StickyCommand}"
             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
