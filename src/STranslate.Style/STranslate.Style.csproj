@@ -49,6 +49,7 @@
     <Resource Include="Resources\chatglm.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\claude.png" />
     <Resource Include="Resources\deepl.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

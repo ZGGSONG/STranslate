@@ -46,7 +46,6 @@ public partial class TranslatorViewModel : ObservableObject
     public TranslatorViewModel()
     {
         //添加默认支持服务
-        //TODO: 新接口需要适配
         TransServices.Add(new TranslatorSTranslate());
         TransServices.Add(new TranslatorEcdict());
         TransServices.Add(new TranslatorApi());
@@ -65,6 +64,8 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorBaiduBce());
         TransServices.Add(new TranslatorDeepL());
         TransServices.Add(new TranslatorAzureOpenAI());
+        TransServices.Add(new TranslatorClaude());
+        //TODO: 新接口需要适配
 
         ResetView();
     }
@@ -147,6 +148,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.BaiduBceService => $"{head}{nameof(TranslatorBaiduBcePage)}",
             ServiceType.DeepLService => $"{head}{nameof(TranslatorDeepLPage)}",
             ServiceType.AzureOpenAIService => $"{head}{nameof(TranslatorAzureOpenAIPage)}",
+            ServiceType.ClaudeService => $"{head}{nameof(TranslatorClaudePage)}",
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
 
@@ -160,7 +162,6 @@ public partial class TranslatorViewModel : ObservableObject
         {
             var service = list.First();
 
-            //TODO: 新接口需要适配
             CurTransServiceList.Add(service switch
             {
                 TranslatorSTranslate stranslate => stranslate.Clone(),
@@ -181,6 +182,8 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorBaiduBce baiduBce => baiduBce.Clone(),
                 TranslatorDeepL deepl => deepl.Clone(),
                 TranslatorAzureOpenAI azureopenai => azureopenai.Clone(),
+                TranslatorClaude claude => claude.Clone(),
+                //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });
 

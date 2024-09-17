@@ -664,7 +664,6 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
 
         var translator =
             // 根据 Identify 查找匹配的翻译服务
-            //TODO: 新接口需要适配
             translators.FirstOrDefault(x => x.Identify.ToString() == identify)
             ?? type switch
             {
@@ -685,6 +684,8 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.BaiduBceService => new TranslatorBaiduBce(),
                 (int)ServiceType.DeepLService => new TranslatorDeepL(),
                 (int)ServiceType.AzureOpenAIService => new TranslatorAzureOpenAI(),
+                (int)ServiceType.ClaudeService => new TranslatorClaude(),
+                //TODO: 新接口需要适配
                 _ => new TranslatorApi()
             };
 

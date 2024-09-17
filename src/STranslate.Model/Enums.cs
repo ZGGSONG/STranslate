@@ -159,6 +159,7 @@ public enum ServiceType
     BaiduBceService,
     DeepLService,
     AzureOpenAIService,
+    ClaudeService,
 }
 
 public enum TTSType
@@ -205,60 +206,34 @@ public enum VolcengineOCRAction
 public enum IconType
 {
     [Description("本地")] STranslate,
-
     [Description("DeepL")] DeepL,
-
     [Description("百度")] Baidu,
-
     [Description("谷歌")] Google,
-
     [Description("爱词霸")] Iciba,
-
     [Description("有道")] Youdao,
-
     [Description("必应")] Bing,
-
     [Description("OpenAI")] OpenAI,
-
     [Description("Gemini")] Gemini,
-
     [Description("腾讯")] Tencent,
-
     [Description("阿里")] Ali,
-
     [Description("小牛")] Niutrans,
-
     [Description("彩云")] Caiyun,
-
     [Description("微软")] Microsoft,
-
     [Description("火山")] Volcengine,
-
     [Description("简明汉字词典")] Ecdict,
-
     [Description("Azure")] Azure,
-
     [Description("智谱清言")] Chatglm,
-
     [Description("零一万物")] Linyi,
-
     [Description("DeepSeek")] DeepSeek,
-
     [Description("Groq")] Groq,
-
     [Description("PaddleOCR")] PaddleOCR,
-
     [Description("百度云平台")] BaiduBce,
-
     [Description("腾讯OCR")] TencentOCR,
-
     [Description("Ollama")] Ollama,
-
     [Description("Kimi")] Kimi,
-    
     [Description("Lingva")] Lingva,
-    
     [Description("微信")] WeChat,
+    [Description("Claude")] Claude,
 }
 
 /// <summary>
