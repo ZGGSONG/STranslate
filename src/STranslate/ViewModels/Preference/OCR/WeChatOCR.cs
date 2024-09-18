@@ -171,7 +171,11 @@ public partial class WeChatOCR : ObservableObject, IOCR
             var ocrResult = new OcrResult();
             var list = result?.OcrResult?.SingleResult;
             if (list == null)
+            {
+                //避免重复set
                 tcs.SetResult(OcrResult.Fail("WeChatOCR get result is null"));
+                return;
+            }
 
             for (var i = 0; i < list?.Count; i++)
             {
