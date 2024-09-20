@@ -4,8 +4,13 @@ using STranslate.Model;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public class TranslatorBase : ObservableObject
+public partial class TranslatorBase : ObservableObject
 {
+    [JsonIgnore]
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private bool _isTranslateBackExecuting;
+
     [JsonIgnore] public Dictionary<IconType, string> Icons => Constant.IconDict;
 
     public void ManualPropChanged(params string[] array)

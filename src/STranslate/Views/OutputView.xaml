@@ -112,12 +112,12 @@
                                             Background="Transparent"
                                             BorderBrush="{DynamicResource ThemeAccentColor}"
                                             BorderThickness="1"
-                                            ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                             Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                             Cursor="Hand"
                                             FontFamily="{DynamicResource UserFont}"
                                             FontSize="{DynamicResource FontSize14}"
-                                            Style="{DynamicResource ToggleButtonIconStyle}">
+                                            Style="{DynamicResource ToggleButtonIconStyle}"
+                                            ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}">
                                             <ToggleButton.Visibility>
                                                 <MultiBinding Converter="{StaticResource PromptToVisibilityMultiConverter}">
                                                     <Binding Path="UserDefinePrompts" />
@@ -168,8 +168,8 @@
                                                                         HorizontalAlignment="Left"
                                                                         FontSize="{DynamicResource FontSize14}"
                                                                         Text="{Binding Name}"
-                                                                        ToolTip="{Binding Name}"
-                                                                        TextTrimming="CharacterEllipsis" />
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        ToolTip="{Binding Name}" />
                                                                 </Grid>
                                                             </Border>
                                                             <DataTemplate.Triggers>
@@ -478,7 +478,8 @@
                             <Grid dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="False">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <TextBox
                                     PreviewMouseWheel="TextBox_PreviewMouseWheel"
@@ -603,6 +604,21 @@
                                     Grid.Row="0"
                                     IsAnimationPlaying="{Binding IsExecuting}"
                                     Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                <!--  回译结果  -->
+                                <Grid Grid.Row="2">
+                                    <Separator
+                                        Margin="0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        Style="{DynamicResource SeparatorStyle}" />
+                                    <TextBox
+                                        PreviewMouseWheel="TextBox_PreviewMouseWheel"
+                                        Style="{DynamicResource TextBoxOutputStyle}"
+                                        Tag="{Binding Data.IsTranslateBackSuccess}"
+                                        Text="{Binding Data.TranslateBackResult}" />
+                                    <control:LoadingUc IsAnimationPlaying="{Binding IsTranslateBackExecuting}" Visibility="{Binding IsTranslateBackExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                </Grid>
                             </Grid>
                             <!--#endregion-->
                         </Expander>

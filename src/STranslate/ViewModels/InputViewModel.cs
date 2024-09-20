@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -141,14 +142,16 @@ public partial class InputViewModel : ObservableObject
             var sourceLang = Singleton<MainViewModel>.Instance.SourceLang;
             var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
             var size = CnfHelper.CurrentConfig?.HistorySize ?? 100;
-            var dbTarget = targetLang;
 
             if (!PreviousHandle())
                 return;
-            var history = await TranslateServiceAsync(obj, sourceLang, dbTarget, targetLang, size, token);
+            var history = await TranslateServiceAsync(obj, sourceLang, targetLang, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
-            await HandleHistoryAsync(history, sourceLang, dbTarget, size);
+            await HandleHistoryAsync(history, sourceLang, targetLang, size);
+
+            //TODO: 回译
+            await TranslateBackAsync(sourceLang, targetLang, token);
         }
         catch (OperationCanceledException)
         {
@@ -178,8 +181,7 @@ public partial class InputViewModel : ObservableObject
         return false;
     }
 
-    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LangEnum source, LangEnum dbTarget,
-        LangEnum target, long size, CancellationToken token)
+    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LangEnum source, LangEnum target, long size, CancellationToken token)
     {
         // 过滤非启用的翻译服务
         var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
@@ -192,7 +194,7 @@ public partial class InputViewModel : ObservableObject
         var isCheckCacheFirst = obj == null;
         if (size != 0 && isCheckCacheFirst)
         {
-            history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), dbTarget.GetDescription());
+            history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), target.GetDescription());
             if (history != null)
             {
                 IdentifyLanguage = "缓存";
@@ -302,6 +304,65 @@ public partial class InputViewModel : ObservableObject
         return true;
     }
 
+    private async Task TranslateBackAsync(LangEnum source, LangEnum target, CancellationToken token)
+    {
+        // 过滤非启用的翻译服务
+        var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
+        await Parallel.ForEachAsync(
+            services.Where(x => x.AutoExecute),
+            token,
+            async (service, cancellationToken) =>
+            {
+                try
+                {
+                    service.IsTranslateBackExecuting = true;
+
+                    var identify = LangEnum.auto;
+                    if (source == LangEnum.auto)
+                    {
+                        var detectType = CnfHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
+                        var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
+                        identify = await LangDetectHelper.DetectAsync(service.Data.Result, detectType, rate, cancellationToken);
+                        IdentifyLanguage = identify.GetDescription();
+                    }
+
+                    if (target == LangEnum.auto)
+                        target = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
+                            ? LangEnum.en
+                            : LangEnum.zh_cn;
+
+                    source = source == LangEnum.auto ? identify : source;
+
+                    //if (source != LangEnum.auto)
+                    //{
+                    //    (source, target) = (target, source);
+                    //}
+
+                    if (service is ITranslatorLlm)
+                    {
+                        await TranslationBackStreamHandlerAsync(service, source, target, cancellationToken);
+                    }
+                    else
+                    {
+                        await TranslationBackNonStreamHandlerAsync(service, source, target, cancellationToken);
+                    }
+                }
+                catch (TaskCanceledException ex)
+                {
+                }
+                catch (Exception ex)
+                {
+                    service.Data.IsTranslateBackSuccess = false;
+                    service.Data.TranslateBackResult = ex.Message;
+                }
+                finally
+                {
+                    if (service.IsTranslateBackExecuting) service.IsTranslateBackExecuting = false;
+                }
+            }
+        );
+    }
+
     [Obsolete]
     private void UpdateServiceDataFromCache(ITranslator service, List<ITranslator>? translatorList)
     {
@@ -386,6 +447,13 @@ public partial class InputViewModel : ObservableObject
         service.Data = await service.TranslateAsync(new RequestModel(content, source, target), token);
     }
 
+    public async Task TranslationBackNonStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
+        CancellationToken token)
+    {
+        var data = await service.TranslateAsync(new RequestModel(service.Data.Result, source, target), token);
+        service.Data.TranslateBackResult = data.Result;
+    }
+
     /// <summary>
     ///     流式数据处理
     /// </summary>
@@ -410,6 +478,25 @@ public partial class InputViewModel : ObservableObject
                     service.IsExecuting = false;
                 service.Data.IsSuccess = true;
                 service.Data.Result += msg;
+            },
+            token
+        );
+    }
+    public async Task TranslationBackStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
+        CancellationToken token)
+    {
+        //先清空
+        service.Data.TranslateBackResult = string.Empty;
+
+        await service.TranslateAsync(
+            new RequestModel(service.Data.Result, source, target),
+            msg =>
+            {
+                //开始有数据就停止加载动画
+                if (service.IsTranslateBackExecuting)
+                    service.IsTranslateBackExecuting = false;
+                service.Data.IsTranslateBackSuccess = true;
+                service.Data.TranslateBackResult += msg;
             },
             token
         );

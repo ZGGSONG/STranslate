@@ -5,17 +5,25 @@ namespace STranslate.Model;
 public partial class TranslationResult : ObservableObject
 {
     [ObservableProperty] private bool _isSuccess = true;
-
     [ObservableProperty] private string _result = string.Empty;
+
+    [ObservableProperty] private bool _isTranslateBackSuccess = true;
+    [ObservableProperty] private string _translateBackResult = string.Empty;
 
     /// <summary>
     ///     成功时使用的构造函数
     /// </summary>
     /// <param name="result"></param>
-    private TranslationResult(string result)
+    private TranslationResult(string result) : this (result, string.Empty)
+    {
+    }
+
+    private TranslationResult(string result, string translateBackResult)
     {
         IsSuccess = true;
         Result = result;
+        IsTranslateBackSuccess = true;
+        TranslateBackResult = translateBackResult;
         Exception = null;
     }
 
@@ -28,7 +36,8 @@ public partial class TranslationResult : ObservableObject
     {
         IsSuccess = false;
         Result = errorMessage;
-        //Exception = null;//暂时不记录异常
+        IsTranslateBackSuccess = false;
+        TranslateBackResult = errorMessage;
         Exception = exception;
     }
 
@@ -39,6 +48,8 @@ public partial class TranslationResult : ObservableObject
     {
         IsSuccess = true;
         Result = string.Empty;
+        IsTranslateBackSuccess = true;
+        TranslateBackResult = string.Empty;
         Exception = null;
     }
 

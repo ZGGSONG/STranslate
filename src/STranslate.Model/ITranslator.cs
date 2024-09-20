@@ -28,6 +28,8 @@ public interface ITranslator : INotifyPropertyChanged
 
     bool IsExecuting { get; set; }
 
+    bool IsTranslateBackExecuting { get; set; }
+
     /// <summary>
     ///     手动通知属性更新
     /// </summary>
