@@ -6,13 +6,13 @@ public partial class TranslationResult : ObservableObject
 {
     [ObservableProperty] private bool _isSuccess = true;
 
-    [ObservableProperty] private object? _result;
+    [ObservableProperty] private string _result = string.Empty;
 
     /// <summary>
     ///     成功时使用的构造函数
     /// </summary>
     /// <param name="result"></param>
-    private TranslationResult(object result)
+    private TranslationResult(string result)
     {
         IsSuccess = true;
         Result = result;
@@ -55,7 +55,7 @@ public partial class TranslationResult : ObservableObject
     /// </summary>
     /// <param name="result"></param>
     /// <returns></returns>
-    public static TranslationResult Success(object result)
+    public static TranslationResult Success(string result)
     {
         return new TranslationResult(result);
     }
