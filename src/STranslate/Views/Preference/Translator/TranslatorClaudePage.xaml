@@ -15,9 +15,7 @@
     FontSize="{DynamicResource FontSize18}"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <common:BindingProxy x:Key="userdefineprompt" Data="{Binding UserDefinePrompts}" />
-
-        <ItemsPanelTemplate x:Key="prompttemplate">
+        <ItemsPanelTemplate x:Key="PromptTemplate">
             <WrapPanel Orientation="Horizontal" />
         </ItemsPanelTemplate>
         <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
@@ -37,9 +35,9 @@
                         </Style>
                     </StackPanel.Resources>
                     <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.SelectedPromptCommand}"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectedPromptCommand}"
                         Content="{Binding Name}"
-                        Style="{DynamicResource lbtn}"
+                        Style="{DynamicResource PromptLeftBtnStyle}"
                         ToolTip="{Binding ., Converter={StaticResource JsonSerializeConverter}}">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
@@ -47,23 +45,23 @@
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
-                    <Separator Style="{DynamicResource verSep}" />
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
                     <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.UpdatePromptCommand}"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.UpdatePromptCommand}"
                         CommandParameter="{Binding Path=.}"
                         Content="&#xe61b;"
                         FontFamily="{DynamicResource IconFont}"
                         FontSize="{DynamicResource FontSize14}"
-                        Style="{DynamicResource btn}"
+                        Style="{DynamicResource PromptBtnStyle}"
                         ToolTip="更新" />
-                    <Separator Style="{DynamicResource verSep}" />
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
                     <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DeletePromptCommand}"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DeletePromptCommand}"
                         CommandParameter="{Binding Path=.}"
                         Content="&#xe74b;"
                         FontFamily="{DynamicResource IconFont}"
                         FontSize="{DynamicResource FontSize16}"
-                        Style="{DynamicResource rbtn}"
+                        Style="{DynamicResource PromptRightBtnStyle}"
                         ToolTip="删除" />
                 </StackPanel>
             </Border>
@@ -271,12 +269,15 @@
                         <ListBox
                             Background="Transparent"
                             BorderThickness="0"
-                            ItemsPanel="{StaticResource prompttemplate}"
+                            ItemsPanel="{StaticResource PromptTemplate}"
                             PreviewMouseWheel="ListBox_PreviewMouseWheel"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.Resources>
+                                <CollectionViewSource x:Key="UdpCollectionViewSource" Source="{Binding UserDefinePrompts}" />
+                            </ListBox.Resources>
                             <ListBox.ItemsSource>
                                 <CompositeCollection>
-                                    <CollectionContainer Collection="{Binding Source={StaticResource userdefineprompt}, Path=Data}" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource UdpCollectionViewSource}}" />
                                     <ListBoxItem>
                                         <Button
                                             Command="{Binding AddPromptCommand}"

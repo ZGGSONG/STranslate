@@ -348,7 +348,7 @@
     </Style>
 
     <!--#region // Preset Prompt Start //-->
-    <ControlTemplate x:Key="lbtnt" TargetType="Button">
+    <ControlTemplate x:Key="LeftBtnTemplate" TargetType="Button">
         <Border
             x:Name="border"
             MinHeight="20"
@@ -380,7 +380,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <ControlTemplate x:Key="rbtnt" TargetType="Button">
+    <ControlTemplate x:Key="RightBtnTemplate" TargetType="Button">
         <Border
             x:Name="border"
             MinHeight="20"
@@ -412,7 +412,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <ControlTemplate x:Key="btnt" TargetType="Button">
+    <ControlTemplate x:Key="BtnTemplate" TargetType="Button">
         <Border
             x:Name="border"
             MinHeight="20"
@@ -443,30 +443,30 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <Style x:Key="promptbase" TargetType="Button">
+    <Style x:Key="PromptBaseStyle" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
     <Style
-        x:Key="btn"
-        BasedOn="{StaticResource promptbase}"
+        x:Key="PromptBtnStyle"
+        BasedOn="{StaticResource PromptBaseStyle}"
         TargetType="Button">
-        <Setter Property="Template" Value="{DynamicResource btnt}" />
+        <Setter Property="Template" Value="{DynamicResource BtnTemplate}" />
     </Style>
     <Style
-        x:Key="lbtn"
-        BasedOn="{StaticResource promptbase}"
+        x:Key="PromptLeftBtnStyle"
+        BasedOn="{StaticResource PromptBaseStyle}"
         TargetType="Button">
-        <Setter Property="Template" Value="{DynamicResource lbtnt}" />
+        <Setter Property="Template" Value="{DynamicResource LeftBtnTemplate}" />
     </Style>
     <Style
-        x:Key="rbtn"
-        BasedOn="{StaticResource promptbase}"
+        x:Key="PromptRightBtnStyle"
+        BasedOn="{StaticResource PromptBaseStyle}"
         TargetType="Button">
-        <Setter Property="Template" Value="{DynamicResource rbtnt}" />
+        <Setter Property="Template" Value="{DynamicResource RightBtnTemplate}" />
     </Style>
-    <Style x:Key="verSep" TargetType="Separator">
+    <Style x:Key="VerticalSeparatorStyle" TargetType="Separator">
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
         <Setter Property="BorderThickness" Value="1" />
