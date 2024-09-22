@@ -606,9 +606,16 @@
                                     Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                 <!--  回译结果  -->
-                                <Grid Grid.Row="2">
+                                <Grid
+                                    Grid.Row="2"
+                                    dd:DragDrop.IsDragSource="False"
+                                    dd:DragDrop.IsDropTarget="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
                                     <Separator
-                                        Margin="0,2"
+                                        Margin="0,0,0,5"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
                                         Style="{DynamicResource SeparatorStyle}" />
@@ -618,6 +625,99 @@
                                         Tag="{Binding Data.IsTranslateBackSuccess}"
                                         Text="{Binding Data.TranslateBackResult}" />
                                     <control:LoadingUc IsAnimationPlaying="{Binding IsTranslateBackExecuting}" Visibility="{Binding IsTranslateBackExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Margin="5"
+                                        VerticalAlignment="Bottom"
+                                        Orientation="Horizontal"
+                                        Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <!--  TTS  -->
+                                        <Button
+                                            Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                            CommandParameter="{Binding Data.TranslateBackResult}"
+                                            Content="&#xe610;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="文字转语音"
+                                            Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}" />
+                                        <!--  蛇形复制  -->
+                                        <Button
+                                            Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
+                                            CommandParameter="{Binding Data.TranslateBackResult}"
+                                            Content="&#xe600;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="复制为蛇形字符串">
+                                            <Button.Visibility>
+                                                <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                    <Binding Path="Data.TranslateBackResult" />
+                                                    <Binding Path="Data.IsShowSnakeCopyBtn" Source="{StaticResource OutputVm}" />
+                                                </MultiBinding>
+                                            </Button.Visibility>
+                                        </Button>
+                                        <!--  小驼峰复制  -->
+                                        <Button
+                                            Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
+                                            CommandParameter="{Binding Data.TranslateBackResult}"
+                                            Content="&#xe602;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="复制为小驼峰字符串">
+                                            <Button.Visibility>
+                                                <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                    <Binding Path="Data.TranslateBackResult" />
+                                                    <Binding Path="Data.IsShowSmallHumpCopyBtn" Source="{StaticResource OutputVm}" />
+                                                </MultiBinding>
+                                            </Button.Visibility>
+                                        </Button>
+                                        <!--  大驼峰复制  -->
+                                        <Button
+                                            Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
+                                            CommandParameter="{Binding Data.TranslateBackResult}"
+                                            Content="&#xe601;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="复制为大驼峰字符串">
+                                            <Button.Visibility>
+                                                <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
+                                                    <Binding Path="Data.TranslateBackResult" />
+                                                    <Binding Path="Data.IsShowLargeHumpCopyBtn" Source="{StaticResource OutputVm}" />
+                                                </MultiBinding>
+                                            </Button.Visibility>
+                                        </Button>
+                                        <!--  普通复制  -->
+                                        <Button
+                                            Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                            CommandParameter="{Binding Data.TranslateBackResult}"
+                                            Content="&#xe692;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="直接复制结果"
+                                            Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}" />
+
+                                        <!--  // 插入文本 //  -->
+                                        <Button
+                                            Margin="5,0,0,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
+                                            Content="&#xe677;"
+                                            Cursor="Hand"
+                                            Style="{DynamicResource ButtonCopyIconStyle}"
+                                            ToolTip="插入结果"
+                                            Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                    <Binding Path="Data.TranslateBackResult" />
+                                                    <Binding RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
                             </Grid>
                             <!--#endregion-->
