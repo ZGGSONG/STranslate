@@ -557,21 +557,7 @@ public class ConfigHelper
     /// <param name="themeType"></param>
     private void ThemeOperate(ThemeType themeType)
     {
-        switch (themeType)
-        {
-            case ThemeType.Auto:
-                Singleton<ThemeHelper>.Instance.StartListenRegistry();
-                break;
-            case ThemeType.Light:
-                Singleton<ThemeHelper>.Instance.LightTheme();
-                goto default;
-            case ThemeType.Dark:
-                Singleton<ThemeHelper>.Instance.DarkTheme();
-                goto default;
-            default:
-                Singleton<ThemeHelper>.Instance.StopListenRegistry();
-                break;
-        }
+        Singleton<ThemeHelper>.Instance.SetTheme(themeType);
     }
 
     /// <summary>

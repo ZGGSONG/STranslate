@@ -78,7 +78,8 @@ public static class Constant
 
     public const RegistryHive ThemeRegistryHive = RegistryHive.CurrentUser;
     public const string ThemeRegistry = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-    public const string ThemeRegistryKey = "SystemUsesLightTheme";
+    public const string SystemThemeRegistryKey = "SystemUsesLightTheme";
+    public const string AppThemeRegistryKey = "AppsUseLightTheme";
     public static readonly Uri LightUri = new(ThemeLight);
     public static readonly Uri DarkUri = new(ThemeDark);
 
