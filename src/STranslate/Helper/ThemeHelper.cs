@@ -34,14 +34,11 @@ public class ThemeHelper : IDisposable
 
     private void StartAutoApplyTheme(string monitorKey)
     {
-        if (_registryMonitor == null)
-        {
-            _registryMonitor = new RegistryMonitor(Constant.ThemeRegistryHive, Constant.ThemeRegistry, monitorKey);
-        }
-        else if (_registryMonitor.IsMonitoring)
+        if (_registryMonitor is { IsMonitoring: true })
         {
             StopAutoApplyTheme();
         }
+        _registryMonitor = new RegistryMonitor(Constant.ThemeRegistryHive, Constant.ThemeRegistry, monitorKey);
 
         _registryMonitor.RegChanged += ApplyTheme;
         _registryMonitor.Start();
