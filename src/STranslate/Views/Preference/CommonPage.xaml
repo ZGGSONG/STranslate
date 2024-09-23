@@ -78,7 +78,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="主题选择" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、自动主题切换" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、跟随系统Windows模式、跟随系统应用模式" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
