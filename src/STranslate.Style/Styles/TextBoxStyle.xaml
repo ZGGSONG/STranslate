@@ -37,7 +37,7 @@
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Tag}" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource TextErrorForeground}" />
+                <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextErrorForeground}" />
             </DataTrigger>
         </Style.Triggers>
     </Style>

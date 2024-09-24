@@ -63,7 +63,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
             </Trigger>
         </Style.Triggers>
     </Style>

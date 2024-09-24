@@ -387,7 +387,7 @@
                     </Grid>
 
                     <!--  // 保存撤销 //  -->
-                    <Grid Margin="20,30,0,10">
+                    <Grid Margin="20,10,0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="2*" />

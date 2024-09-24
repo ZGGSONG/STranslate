@@ -209,8 +209,9 @@
 
                                         <!--  // 重试按钮 //  -->
                                         <Button
-                                            Margin="2,2,0,2"
-                                            HorizontalAlignment="Right"
+                                            Width="26"
+                                            Height="26"
+                                            Margin="2,0"
                                             Background="Transparent"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateCommand}"
                                             CommandParameter="{Binding}"
@@ -479,7 +480,7 @@
                             <Grid dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="False">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" MinHeight="20" />
                                 </Grid.RowDefinitions>
                                 <TextBox
                                     PreviewMouseWheel="TextBox_PreviewMouseWheel"
