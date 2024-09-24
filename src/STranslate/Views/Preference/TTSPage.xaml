@@ -1,18 +1,20 @@
-﻿<UserControl x:Class="STranslate.Views.Preference.TTSPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dd="urn:gong-wpf-dragdrop"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
-             d:DataContext="{d:DesignInstance Type=vm:TTSViewModel}"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             d:FontFamily="{DynamicResource UserFont}"
-             d:FontSize="{DynamicResource FontSize18}"
-             Style="{StaticResource ResourceKey=Page_Style}"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.TTSPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+    d:DataContext="{d:DesignInstance Type=vm:TTSViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:FontFamily="{DynamicResource UserFont}"
+    d:FontSize="{DynamicResource FontSize18}"
+    Style="{StaticResource ResourceKey=Page_Style}"
+    mc:Ignorable="d">
     <Border CornerRadius="5">
         <Grid>
             <Grid.RowDefinitions>
@@ -20,7 +22,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- // Header // -->
+            <!--  // Header //  -->
             <StackPanel Margin="10">
                 <TextBlock FontSize="{DynamicResource FontSize20}" Text="TTS" />
                 <TextBlock FontSize="{DynamicResource FontSize18}" Text="文本转语音服务，添加你的TTS服务并选择使用" />
@@ -37,32 +39,35 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- // TTS // -->
-                    <Border Margin="10"
-                            Background="{DynamicResource BorderBackground}"
-                            BorderBrush="{DynamicResource BorderBrushColor}"
-                            BorderThickness="1"
-                            CornerRadius="6">
-                        <ListBox x:Name="TTSListBox"
-                                 dd:DragDrop.IsDragSource="True"
-                                 dd:DragDrop.IsDropTarget="True"
-                                 dd:DragDrop.UseDefaultDragAdorner="True"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 ItemsSource="{Binding CurTTSServiceList}"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                 SelectedIndex="{Binding SelectedIndex}">
+                    <!--  // TTS //  -->
+                    <Border
+                        Margin="10"
+                        props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <ListBox
+                            x:Name="TTSListBox"
+                            dd:DragDrop.IsDragSource="True"
+                            dd:DragDrop.IsDropTarget="True"
+                            dd:DragDrop.UseDefaultDragAdorner="True"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ItemsSource="{Binding CurTTSServiceList}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedIndex="{Binding SelectedIndex}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding TogglePageCommand}"
-                                                           CommandParameter="{Binding ElementName=TTSListBox, Path=SelectedItem}" />
+                                    <i:InvokeCommandAction Command="{Binding TogglePageCommand}" CommandParameter="{Binding ElementName=TTSListBox, Path=SelectedItem}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border x:Name="TTSServiceControl" Height="50"
-                                            Style="{DynamicResource BorderInOutputStyle}">
+                                    <Border
+                                        x:Name="TTSServiceControl"
+                                        Height="50"
+                                        Style="{DynamicResource BorderInOutputStyle}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="40" />
@@ -71,25 +76,27 @@
                                                 <ColumnDefinition Width="50" />
                                             </Grid.ColumnDefinitions>
 
-                                            <Image Width="20"
-                                                   Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                            <Image Width="20" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
 
-                                            <TextBlock Grid.Column="1"
-                                                       VerticalAlignment="Center"
-                                                       Text="{Binding Name}"
-                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Name}"
+                                                TextTrimming="CharacterEllipsis" />
 
-                                            <Border Grid.Column="2"
-                                                    Margin="0,0,6,0"
-                                                    Padding="1"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
-                                                    CornerRadius="6">
-                                                <TextBlock Padding="2,0"
-                                                           FontSize="{DynamicResource FontSize12}"
-                                                           Foreground="{DynamicResource ServiceTypeForeground}"
-                                                           Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                                            <Border
+                                                Grid.Column="2"
+                                                Margin="0,0,6,0"
+                                                Padding="1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
+                                                CornerRadius="6">
+                                                <TextBlock
+                                                    Padding="2,0"
+                                                    props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
+                                                    FontSize="{DynamicResource FontSize12}"
+                                                    Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                                             </Border>
 
                                             <ToggleButton Grid.Column="3" IsChecked="{Binding IsEnabled}" />
@@ -97,14 +104,10 @@
                                     </Border>
                                     <DataTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="TTSServiceControl" Property="Background"
-                                                    Value="{DynamicResource BtnMouseOverBackground}" />
+                                            <Setter TargetName="TTSServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                         </Trigger>
-                                        <DataTrigger
-                                            Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}"
-                                            Value="True">
-                                            <Setter TargetName="TTSServiceControl" Property="Background"
-                                                    Value="{DynamicResource BtnPressedBackground}" />
+                                        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Value="True">
+                                            <Setter TargetName="TTSServiceControl" Property="Background" Value="{DynamicResource BtnPressedBackground}" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -112,39 +115,45 @@
                         </ListBox>
                     </Border>
 
-                    <!-- // Content // -->
-                    <ContentControl Grid.Column="1" Margin="0,10,10,10" Content="{Binding TtsServiceContent}" />
+                    <!--  // Content //  -->
+                    <ContentControl
+                        Grid.Column="1"
+                        Margin="0,10,10,10"
+                        Content="{Binding TtsServiceContent}" />
                 </Grid>
 
-                <!-- // Footer // -->
+                <!--  // Footer //  -->
                 <Grid Grid.Row="1" Margin="20,0">
 
-                    <!-- // Add Service // -->
+                    <!--  // Add Service //  -->
                     <Grid>
-                        <Button x:Name="BTN_Add"
-                                Width="50"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                Command="{Binding PopupCommand}"
-                                CommandParameter="{Binding ElementName=Popup_Add}"
-                                Content="+" />
-                        <Popup x:Name="Popup_Add"
-                               MinWidth="80"
-                               MinHeight="30"
-                               AllowsTransparency="True"
-                               Placement="Bottom"
-                               PlacementTarget="{Binding ElementName=BTN_Add}"
-                               PopupAnimation="Slide"
-                               StaysOpen="False">
+                        <Button
+                            x:Name="BTN_Add"
+                            Width="50"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding PopupCommand}"
+                            CommandParameter="{Binding ElementName=Popup_Add}"
+                            Content="+" />
+                        <Popup
+                            x:Name="Popup_Add"
+                            MinWidth="80"
+                            MinHeight="30"
+                            AllowsTransparency="True"
+                            Placement="Bottom"
+                            PlacementTarget="{Binding ElementName=BTN_Add}"
+                            PopupAnimation="Slide"
+                            StaysOpen="False">
                             <Border Style="{DynamicResource BorderStyle}">
-                                <ListBox Name="TTSServiceListBox"
-                                         Background="Transparent"
-                                         BorderThickness="0"
-                                         ItemsSource="{Binding TtsServices}"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                <ListBox
+                                    Name="TTSServiceListBox"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding TtsServices}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                                             <i:InvokeCommandAction Command="{Binding AddCommand}">
@@ -159,8 +168,7 @@
                                     </i:Interaction.Triggers>
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Border x:Name="TTSServiceControl"
-                                                    Style="{DynamicResource BorderPopupStyle}">
+                                            <Border x:Name="TTSServiceControl" Style="{DynamicResource BorderPopupStyle}">
                                                 <Grid Margin="10,5">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="40" />
@@ -168,29 +176,31 @@
                                                         <ColumnDefinition Width="40" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Image Width="20"
-                                                           Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                                    <Image Width="20" Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
 
-                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
-                                                               Text="{Binding Name}" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Text="{Binding Name}" />
 
-                                                    <Border Grid.Column="2"
-                                                            Padding="1"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
-                                                            CornerRadius="6">
-                                                        <TextBlock Padding="2,0"
-                                                                   FontSize="{DynamicResource FontSize12}"
-                                                                   Foreground="{DynamicResource ServiceTypeForeground}"
-                                                                   Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                                                    <Border
+                                                        Grid.Column="2"
+                                                        Padding="1"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
+                                                        CornerRadius="6">
+                                                        <TextBlock
+                                                            Padding="2,0"
+                                                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
+                                                            FontSize="{DynamicResource FontSize12}"
+                                                            Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                                                     </Border>
                                                 </Grid>
                                             </Border>
                                             <DataTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="TTSServiceControl" Property="Background"
-                                                            Value="{DynamicResource BtnMouseOverBackground}" />
+                                                    <Setter TargetName="TTSServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                                 </Trigger>
                                             </DataTemplate.Triggers>
                                         </DataTemplate>
@@ -199,42 +209,46 @@
                             </Border>
                         </Popup>
 
-                        <Button x:Name="BTN_Del"
-                                Width="50"
-                                Margin="54,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                Command="{Binding DeleteCommand}"
-                                CommandParameter="{Binding ElementName=TTSListBox, Path=SelectedItem}"
-                                Content="-" />
+                        <Button
+                            x:Name="BTN_Del"
+                            Width="50"
+                            Margin="54,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding DeleteCommand}"
+                            CommandParameter="{Binding ElementName=TTSListBox, Path=SelectedItem}"
+                            Content="-" />
                     </Grid>
 
-                    <!-- // Save // -->
+                    <!--  // Save //  -->
                     <Grid>
-                        <Button Margin="0,0,128,0"
-                                HorizontalAlignment="Right"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                Content="&#xe994; "
-                                Style="{DynamicResource ButtonIconStyle}"
-                                Visibility="Collapsed" />
-                        <Button Width="60"
-                                Margin="0,0,76,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                Command="{Binding ResetCommand}"
-                                Content="撤销" />
-                        <Button Width="60"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                Command="{Binding SaveCommand}"
-                                Content="保存" />
+                        <Button
+                            Margin="0,0,128,0"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="&#xe994; "
+                            Style="{DynamicResource ButtonIconStyle}"
+                            Visibility="Collapsed" />
+                        <Button
+                            Width="60"
+                            Margin="0,0,76,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding ResetCommand}"
+                            Content="撤销" />
+                        <Button
+                            Width="60"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding SaveCommand}"
+                            Content="保存" />
                     </Grid>
                 </Grid>
             </Grid>

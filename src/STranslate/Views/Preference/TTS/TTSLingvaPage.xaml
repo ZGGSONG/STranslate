@@ -5,7 +5,7 @@
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.TTS"
     d:DataContext="{d:DesignInstance Type=vm:TTSLingva}"
     d:DesignHeight="450"
@@ -15,7 +15,7 @@
     mc:Ignorable="d">
     <Border
         Padding="10,20"
-        BorderBrush="{DynamicResource BorderBrushColor}"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         CornerRadius="4">
         <StackPanel>

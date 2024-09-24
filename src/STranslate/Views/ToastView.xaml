@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     Width="200"
     Height="40"
     mc:Ignorable="d">
@@ -20,8 +21,8 @@
             Margin="0,5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            props:ThemeProps.Foreground="{DynamicResource TextBlockToastViewForeground}"
             FontSize="{DynamicResource FontSize18}"
-            FontWeight="Bold"
-            Foreground="{DynamicResource TextBlockToastViewForeground}" />
+            FontWeight="Bold" />
     </Border>
 </UserControl>

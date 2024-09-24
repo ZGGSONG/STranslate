@@ -6,6 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:proxy="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
     d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
@@ -22,7 +23,7 @@
                 x:Name="ServiceControl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                Background="{DynamicResource BorderBackground}"
+                props:ThemeProps.Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
                 <Border.Resources>
@@ -101,8 +102,8 @@
                         CornerRadius="6">
                         <TextBlock
                             Padding="2,0"
+                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
                             FontSize="{DynamicResource FontSize12}"
-                            Foreground="{DynamicResource ServiceTypeForeground}"
                             Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
                 </Grid>
@@ -118,7 +119,7 @@
                 x:Name="OcrControl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                Background="{DynamicResource BorderBackground}"
+                props:ThemeProps.Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
                 <Grid Margin="0,5">
@@ -160,8 +161,8 @@
                         CornerRadius="6">
                         <TextBlock
                             Padding="2,0"
+                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
                             FontSize="{DynamicResource FontSize12}"
-                            Foreground="{DynamicResource ServiceTypeForeground}"
                             Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
                 </Grid>
@@ -177,7 +178,7 @@
                 x:Name="OcrControl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                Background="{DynamicResource BorderBackground}"
+                props:ThemeProps.Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
                 <Grid Margin="0,5">
@@ -219,8 +220,8 @@
                         CornerRadius="6">
                         <TextBlock
                             Padding="2,0"
+                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
                             FontSize="{DynamicResource FontSize12}"
-                            Foreground="{DynamicResource ServiceTypeForeground}"
                             Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
                 </Grid>
@@ -380,7 +381,7 @@
                                     <Border
                                         x:Name="MainOcrLangBorder"
                                         Margin="3"
-                                        Background="{DynamicResource BorderBackground}"
+                                        props:ThemeProps.Background="{DynamicResource BorderBackground}"
                                         BorderBrush="{x:Null}"
                                         CornerRadius="5">
                                         <TextBlock
@@ -420,6 +421,7 @@
                 Command="{Binding MouseHookCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="&#xeb94;"
+                FontWeight="Bold"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding IsEnableMosehook}"
                 ToolTip="监听鼠标划词"
@@ -502,8 +504,8 @@
                 ToolTip="历史记录"
                 Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <TextBlock
+                props:ThemeProps.Foreground="Red"
                 FontWeight="Bold"
-                Foreground="Red"
                 Text="[开发版]"
                 Visibility="{Binding IsDebug, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>

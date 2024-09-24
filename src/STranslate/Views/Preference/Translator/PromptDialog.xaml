@@ -1,36 +1,37 @@
 ﻿<Window
-    Background="{DynamicResource NavigationBackground}"
-    BorderBrush="{DynamicResource BorderBrushColor}"
-    BorderThickness="1"
-    FontFamily="{DynamicResource UserFont}"
-    Icon="{DynamicResource Icon}"
-    Loaded="promptDialog_Loaded"
-    MaxHeight="600"
-    SizeToContent="Height"
-    Topmost="True"
-    Width="400"
-    WindowStartupLocation="CenterScreen"
-    d:DataContext="{d:DesignInstance Type=vm:PromptViewModel}"
-    mc:Ignorable="d"
     x:Class="STranslate.Views.Preference.Translator.PromptDialog"
-    x:Name="promptDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    x:Name="promptDialog"
+    Width="400"
+    MaxHeight="600"
+    d:DataContext="{d:DesignInstance Type=vm:PromptViewModel}"
+    props:ThemeProps.Background="{DynamicResource NavigationBackground}"
+    props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+    BorderThickness="1"
+    FontFamily="{DynamicResource UserFont}"
+    Icon="{DynamicResource Icon}"
+    Loaded="promptDialog_Loaded"
+    SizeToContent="Height"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
     <Window.InputBindings>
         <KeyBinding
+            Key="S"
             Command="{Binding SaveCommand}"
             CommandParameter="{Binding ElementName=promptDialog}"
-            Key="S"
             Modifiers="Ctrl" />
         <KeyBinding
+            Key="Escape"
             Command="{Binding CancelCommand}"
-            CommandParameter="{Binding ElementName=promptDialog}"
-            Key="Escape" />
+            CommandParameter="{Binding ElementName=promptDialog}" />
     </Window.InputBindings>
     <WindowChrome.WindowChrome>
         <WindowChrome />
@@ -42,7 +43,7 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Grid
-            Background="{DynamicResource NavigationBackground}"
+            props:ThemeProps.Background="{DynamicResource NavigationBackground}"
             MouseDown="Header_MouseDown"
             WindowChrome.IsHitTestVisibleInChrome="True">
             <Grid.ColumnDefinitions>
@@ -58,62 +59,62 @@
             </Grid.ColumnDefinitions>
             <Image
                 Grid.Column="0"
-                HorizontalAlignment="Left"
+                Width="24"
                 Margin="10,3"
-                Source="{DynamicResource STranslate}"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Width="24" />
+                Source="{DynamicResource STranslate}" />
             <TextBlock
-                FontSize="{DynamicResource FontSize20}"
-                Foreground="{DynamicResource NavigationForeground}"
+                x:Name="TitleTxt"
                 Grid.Column="1"
-                x:Name="TitleTxt">
+                props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
+                FontSize="{DynamicResource FontSize20}">
                 <Run Text="编辑Prompt: " />
                 <Run Text="{Binding UserDefinePrompt.Name}" />
             </TextBlock>
         </Grid>
 
-        <ScrollViewer FontSize="{DynamicResource FontSize18}" Grid.Row="1">
+        <ScrollViewer Grid.Row="1" FontSize="{DynamicResource FontSize18}">
             <StackPanel>
                 <common:PlaceholderTextBox
-                    Margin="5,0"
+                    x:Name="TbName"
                     MinWidth="200"
+                    Margin="5,0"
                     Placeholder="Input your prompt name"
-                    Text="{Binding UserDefinePrompt.Name, UpdateSourceTrigger=PropertyChanged}"
-                    x:Name="TbName" />
+                    Text="{Binding UserDefinePrompt.Name, UpdateSourceTrigger=PropertyChanged}" />
                 <ListBox
+                    x:Name="listbox"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.UseDefaultDragAdorner="True"
                     Background="Transparent"
                     BorderThickness="0"
                     ItemsSource="{Binding UserDefinePrompt.Prompts}"
                     PreviewMouseWheel="ListBox_PreviewMouseWheel"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
-                    dd:DragDrop.UseDefaultDragAdorner="True"
-                    x:Name="listbox">
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{DynamicResource BorderInOutputStyle}">
                                 <StackPanel>
                                     <Grid HorizontalAlignment="Stretch">
                                         <TextBlock
-                                            FontWeight="Bold"
                                             Margin="5,2,0,0"
-                                            Text="{Binding Role}"
-                                            VerticalAlignment="Top" />
+                                            VerticalAlignment="Top"
+                                            FontWeight="Bold"
+                                            Text="{Binding Role}" />
                                         <Button
+                                            HorizontalAlignment="Right"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.DelCommand}"
                                             CommandParameter="{Binding .}"
                                             Content="&#xe74b;"
-                                            HorizontalAlignment="Right"
                                             Style="{DynamicResource ButtonIconStyle}"
                                             ToolTip="删除Prompt" />
                                     </Grid>
                                     <common:PlaceholderTextBox
-                                        AcceptsReturn="True"
-                                        Margin="5,0"
-                                        MinHeight="60"
                                         MinWidth="200"
+                                        MinHeight="60"
+                                        Margin="5,0"
+                                        AcceptsReturn="True"
                                         Placeholder="Input your prompt..."
                                         Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         TextWrapping="Wrap" />
@@ -123,10 +124,10 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <Button
+                    x:Name="Add"
                     Command="{Binding AddCommand}"
                     Content="添加Prompt"
-                    FontWeight="Bold"
-                    x:Name="Add" />
+                    FontWeight="Bold" />
             </StackPanel>
         </ScrollViewer>
 

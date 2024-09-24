@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
     <!--  // 出处: https://www.cnblogs.com/xiaomingg/p/8733258.html //  -->
 
     <!--  ScrollViewer 滚动条  -->
@@ -12,7 +15,7 @@
                         <!--  滚动条颜色  -->
                         <Border
                             x:Name="border"
-                            Background="{DynamicResource ThumbBackground}"
+                            props:ThemeProps.Background="{DynamicResource ThumbBackground}"
                             CornerRadius="3" />
                     </Grid>
                     <ControlTemplate.Triggers>

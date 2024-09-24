@@ -8,6 +8,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:view="clr-namespace:STranslate.Views"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
     Title="STranslate OCR"
@@ -18,8 +19,8 @@
     d:DataContext="{d:DesignInstance Type=vm:OCRViewModel}"
     d:Height="400"
     d:Width="1000"
-    Background="{DynamicResource BorderBackground}"
-    BorderBrush="{DynamicResource BorderBrushColor}"
+    props:ThemeProps.Background="{DynamicResource BorderBackground}"
+    props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
     BorderThickness="1"
     FontFamily="{DynamicResource UserFont}"
     Icon="{DynamicResource Icon}"
@@ -123,7 +124,7 @@
         <!--  // Header //  -->
         <Border
             Name="Header"
-            Background="{DynamicResource BorderBackground}"
+            props:ThemeProps.Background="{DynamicResource BorderBackground}"
             CornerRadius="5"
             MouseDown="Header_MouseDown"
             MouseLeftButtonDown="Header_MouseLeftButtonDown"
@@ -151,9 +152,9 @@
                     <TextBlock
                         Margin="20,0,0,0"
                         VerticalAlignment="Center"
+                        props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                         FontSize="{DynamicResource FontSize24}"
                         FontWeight="Bold"
-                        Foreground="{DynamicResource NavigationForeground}"
                         Text="STranslate OCR" />
                 </StackPanel>
 
@@ -217,7 +218,7 @@
             <!--  // img //  -->
             <Border
                 Margin="10"
-                Background="{DynamicResource BorderContentBackground}"
+                props:ThemeProps.Background="{DynamicResource BorderContentBackground}"
                 CornerRadius="5">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -319,7 +320,7 @@
                 Name="DropFilePanel"
                 Grid.Column="0"
                 Visibility="Hidden">
-                <Border Background="{DynamicResource BorderContentBackground}" Opacity="0.8" />
+                <Border props:ThemeProps.Background="{DynamicResource BorderContentBackground}" Opacity="0.8" />
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -415,7 +416,7 @@
                     <Separator
                         Grid.Row="0"
                         VerticalAlignment="Bottom"
-                        BorderBrush="{DynamicResource TextForeground}"
+                        props:ThemeProps.BorderBrush="{DynamicResource TextForeground}"
                         BorderThickness="3"
                         Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
                     <!--  // QrCode Content //  -->

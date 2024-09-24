@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
 
     <!--  // Slider //  -->
     <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
@@ -31,7 +34,7 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
-        <Grid Background="Transparent" SnapsToDevicePixels="True">
+        <Grid props:ThemeProps.Background="Transparent" SnapsToDevicePixels="True">
             <Border
                 x:Name="TrackBackground"
                 Height="4.0"
@@ -65,8 +68,8 @@
 
     <Style TargetType="{x:Type Slider}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
-        <Setter Property="Background" Value="{DynamicResource ThumbBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleBtnForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource ThumbBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource ToggleBtnForeground}" />
         <Setter Property="Template" Value="{StaticResource SliderHorizontal}" />
     </Style>
 </ResourceDictionary>

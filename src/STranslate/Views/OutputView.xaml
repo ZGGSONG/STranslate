@@ -9,6 +9,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
     xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
     d:DataContext="{d:DesignInstance Type=vm:OutputViewModel}"
@@ -99,8 +100,8 @@
                                         <TextBlock
                                             MaxWidth="100"
                                             Margin="10,0,0,0"
+                                            props:ThemeProps.Foreground="{DynamicResource TextForeground}"
                                             FontSize="{DynamicResource FontSize14}"
-                                            Foreground="{DynamicResource TextForeground}"
                                             Text="{Binding Name}"
                                             TextTrimming="CharacterEllipsis" />
                                         <ToggleButton
@@ -112,12 +113,12 @@
                                             Background="Transparent"
                                             BorderBrush="{DynamicResource ThemeAccentColor}"
                                             BorderThickness="1"
-                                            ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                             Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
                                             Cursor="Hand"
                                             FontFamily="{DynamicResource UserFont}"
                                             FontSize="{DynamicResource FontSize14}"
-                                            Style="{DynamicResource ToggleButtonIconStyle}">
+                                            Style="{DynamicResource ToggleButtonIconStyle}"
+                                            ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}">
                                             <ToggleButton.Visibility>
                                                 <MultiBinding Converter="{StaticResource PromptToVisibilityMultiConverter}">
                                                     <Binding Path="UserDefinePrompts" />
@@ -146,7 +147,7 @@
                                                                 x:Name="PromptBorder"
                                                                 Margin="3"
                                                                 HorizontalAlignment="Center"
-                                                                Background="{DynamicResource BorderBackground}"
+                                                                props:ThemeProps.Background="{DynamicResource BorderBackground}"
                                                                 BorderBrush="{x:Null}"
                                                                 CornerRadius="5">
                                                                 <Grid Margin="0,5">
@@ -168,8 +169,8 @@
                                                                         HorizontalAlignment="Left"
                                                                         FontSize="{DynamicResource FontSize14}"
                                                                         Text="{Binding Name}"
-                                                                        ToolTip="{Binding Name}"
-                                                                        TextTrimming="CharacterEllipsis" />
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        ToolTip="{Binding Name}" />
                                                                 </Grid>
                                                             </Border>
                                                             <DataTemplate.Triggers>

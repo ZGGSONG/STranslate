@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
     d:DataContext="{d:DesignInstance Type=vm:CommonViewModel}"
     d:DesignHeight="1000"
@@ -28,7 +29,7 @@
                             <Setter Property="Margin" Value="8" />
                         </Style>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="Background" Value="{DynamicResource BorderContentBackground}" />
+                            <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderContentBackground}" />
                             <Setter Property="CornerRadius" Value="5" />
                         </Style>
                         <Style
@@ -37,7 +38,7 @@
                             TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5,8" />
                             <Setter Property="FontSize" Value="{DynamicResource FontSize19}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextBlockLangForeground}" />
+                            <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextBlockLangForeground}" />
                             <Setter Property="FontWeight" Value="Bold" />
                         </Style>
                     </StackPanel.Resources>

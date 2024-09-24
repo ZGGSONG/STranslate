@@ -1,21 +1,24 @@
-﻿<UserControl x:Class="STranslate.Views.Preference.OCR.PaddleOCRPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
-             xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
-             d:DataContext="{d:DesignInstance Type=vm:PaddleOCR}"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             Background="Transparent"
-             FontSize="{DynamicResource FontSize18}"
-             mc:Ignorable="d">
-    <Border Padding="10,20"
-            BorderBrush="{DynamicResource BorderBrushColor}"
-            BorderThickness="1"
-            CornerRadius="4">
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.OCR.PaddleOCRPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
+    d:DataContext="{d:DesignInstance Type=vm:PaddleOCR}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    FontSize="{DynamicResource FontSize18}"
+    mc:Ignorable="d">
+    <Border
+        Padding="10,20"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        CornerRadius="4">
         <StackPanel>
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
@@ -24,12 +27,13 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="名称: " />
 
-                <common:PlaceholderTextBox Grid.Column="1"
-                                           MinWidth="160"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center"
-                                           Placeholder="PaddleOCR"
-                                           Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Placeholder="PaddleOCR"
+                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <Grid Margin="0,10">
@@ -39,13 +43,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="图标: " />
 
-                <ComboBox Grid.Column="1"
-                          HorizontalAlignment="Left"
-                          BorderThickness="1"
-                          ItemsSource="{Binding Icons}"
-                          SelectedValue="{Binding Icon}"
-                          SelectedValuePath="Key"
-                          Style="{DynamicResource IconComboBoxStyle}" />
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    BorderThickness="1"
+                    ItemsSource="{Binding Icons}"
+                    SelectedValue="{Binding Icon}"
+                    SelectedValuePath="Key"
+                    Style="{DynamicResource IconComboBoxStyle}" />
             </Grid>
 
             <Grid Margin="0,10">
@@ -55,26 +60,29 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="数据包: " />
 
-                <ToggleButton Name="BTN_Down"
-                              Grid.Column="1"
-                              Width="100"
-                              HorizontalAlignment="Left"
-                              Content="下载数据包"
-                              Style="{DynamicResource ToggleButtonTextStyle}"
-                              Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <Popup MinWidth="80"
-                       MinHeight="30"
-                       MaxHeight="400"
-                       AllowsTransparency="True"
-                       IsOpen="{Binding ElementName=BTN_Down, Path=IsChecked}"
-                       Placement="Center"
-                       PlacementTarget="{Binding ElementName=BTN_Down}"
-                       PopupAnimation="Fade"
-                       StaysOpen="False">
-                    <Border Width="100"
-                            BorderBrush="{DynamicResource BorderBrushColor}"
-                            BorderThickness="1"
-                            Style="{DynamicResource BorderPopupStyle}">
+                <ToggleButton
+                    Name="BTN_Down"
+                    Grid.Column="1"
+                    Width="100"
+                    HorizontalAlignment="Left"
+                    Content="下载数据包"
+                    Style="{DynamicResource ToggleButtonTextStyle}"
+                    Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <Popup
+                    MinWidth="80"
+                    MinHeight="30"
+                    MaxHeight="400"
+                    AllowsTransparency="True"
+                    IsOpen="{Binding ElementName=BTN_Down, Path=IsChecked}"
+                    Placement="Center"
+                    PlacementTarget="{Binding ElementName=BTN_Down}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <Border
+                        Width="100"
+                        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                        BorderThickness="1"
+                        Style="{DynamicResource BorderPopupStyle}">
                         <StackPanel>
                             <Button Command="{Binding DownloadCommand}" Content="Github">
                                 <Button.CommandParameter>
@@ -95,33 +103,37 @@
                         </StackPanel>
                     </Border>
                 </Popup>
-                <Button Grid.Column="1"
-                        Width="100"
-                        HorizontalAlignment="Left"
-                        Command="{Binding DownloadCancelCommand}"
-                        Content="取消"
-                        Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button
+                    Grid.Column="1"
+                    Width="100"
+                    HorizontalAlignment="Left"
+                    Command="{Binding DownloadCancelCommand}"
+                    Content="取消"
+                    Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <ProgressBar Grid.Column="1"
-                             Margin="110,0,0,0"
-                             FontSize="{DynamicResource FontSize16}"
-                             Maximum="100"
-                             Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}"
-                             Value="{Binding ProcessValue}" />
-                <Button Grid.Column="1"
-                        Width="100"
-                        HorizontalAlignment="Left"
-                        Command="{Binding CheckDataCommand}"
-                        Content="检查数据包"
-                        Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <Button Grid.Column="1"
-                        Width="60"
-                        Margin="110,0,0,0"
-                        HorizontalAlignment="Left"
-                        Command="{Binding DeleteDataCommand}"
-                        Content="删除"
-                        Visibility="Collapsed" />
-                <!-- Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" -->
+                <ProgressBar
+                    Grid.Column="1"
+                    Margin="110,0,0,0"
+                    FontSize="{DynamicResource FontSize16}"
+                    Maximum="100"
+                    Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Value="{Binding ProcessValue}" />
+                <Button
+                    Grid.Column="1"
+                    Width="100"
+                    HorizontalAlignment="Left"
+                    Command="{Binding CheckDataCommand}"
+                    Content="检查数据包"
+                    Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button
+                    Grid.Column="1"
+                    Width="60"
+                    Margin="110,0,0,0"
+                    HorizontalAlignment="Left"
+                    Command="{Binding DeleteDataCommand}"
+                    Content="删除"
+                    Visibility="Collapsed" />
+                <!--  Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}"  -->
             </Grid>
 
             <Grid Margin="0,10">
@@ -130,7 +142,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Other: " />
-                <TextBlock Grid.Column="1" Margin="10,0" ToolTip="在浏览器中打开">
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="10,0"
+                    ToolTip="在浏览器中打开">
                     <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
                 </TextBlock>
             </Grid>
