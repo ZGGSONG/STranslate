@@ -23,7 +23,7 @@
                 x:Name="ServiceControl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
                 <Border.Resources>
@@ -119,7 +119,7 @@
                 x:Name="OcrControl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
                 <Grid Margin="0,5">
@@ -178,7 +178,7 @@
                 x:Name="OcrControl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
                 <Grid Margin="0,5">
@@ -381,7 +381,7 @@
                                     <Border
                                         x:Name="MainOcrLangBorder"
                                         Margin="3"
-                                        props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                                        Background="{DynamicResource BorderBackground}"
                                         BorderBrush="{x:Null}"
                                         CornerRadius="5">
                                         <TextBlock
