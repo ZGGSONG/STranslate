@@ -369,7 +369,9 @@
                             Background="Transparent"
                             BorderThickness="0"
                             PreviewMouseWheel="ServiceListBox_PreviewMouseWheel"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            SelectedValue="{Binding CommonSettingVM.MainOcrLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="Value">
                             <ListBox.ItemsSource>
                                 <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
                                     <Binding Source="{proxy:Enumeration {x:Type model:LangEnum}}" />
@@ -395,6 +397,9 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="MainOcrLangBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                         </Trigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                                            <Setter TargetName="MainOcrLangBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                        </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
