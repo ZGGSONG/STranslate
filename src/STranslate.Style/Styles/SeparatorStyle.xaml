@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
 
     <!--  // Separator //  -->
     <Style x:Key="SeparatorStyle" TargetType="Separator">
@@ -8,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">
-                    <Border Height="0.7" Background="{DynamicResource SeparatorBackground}" />
+                    <Border Height="0.7" props:ThemeProps.Background="{DynamicResource SeparatorBackground}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

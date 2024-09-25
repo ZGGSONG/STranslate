@@ -1,14 +1,15 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:STranslate.Style.Controls">
+    xmlns:controls="clr-namespace:STranslate.Style.Controls"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
 
     <!--  // 普通图标按钮 //  -->
     <Style x:Key="ButtonIconStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
-        <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Focusable" Value="False" />
@@ -29,9 +30,9 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            props:ThemeProps.Foreground="{TemplateBinding Foreground}"
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
-                            Foreground="{TemplateBinding Foreground}"
                             Text="{TemplateBinding Content}" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -55,7 +56,7 @@
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -95,7 +96,7 @@
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
-        <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="Height" Value="35" />
         <Setter Property="Width" Value="35" />
         <Setter Property="Template">
@@ -113,6 +114,7 @@
                             VerticalAlignment="Center"
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
+                            FontWeight="{TemplateBinding FontWeight}"
                             Tag="{TemplateBinding Tag}"
                             Text="{TemplateBinding Content}" />
                     </Border>
@@ -143,7 +145,8 @@
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
-        <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="30" />
         <Setter Property="Margin" Value="3" />
@@ -165,6 +168,7 @@
                             VerticalAlignment="Center"
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
+                            Foreground="{TemplateBinding Foreground}"
                             Tag="{TemplateBinding Tag}"
                             Text="{TemplateBinding Content}" />
                     </Border>
@@ -194,8 +198,8 @@
     <Style x:Key="ButtonCloseStyle" TargetType="Button">
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
-        <Setter Property="Background" Value="{DynamicResource BorderBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource BtnForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Height" Value="30" />
@@ -219,9 +223,9 @@
                             x:Name="textblock"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            props:ThemeProps.Foreground="{TemplateBinding Foreground}"
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
-                            Foreground="{TemplateBinding Foreground}"
                             Text="{TemplateBinding Content}" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -246,8 +250,8 @@
     <!--  // 默认Style //  -->
     <Style TargetType="Button">
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
-        <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BtnBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="3" />
         <Setter Property="Padding" Value="3" />
@@ -294,8 +298,8 @@
 
     <Style TargetType="{x:Type controls:BtnContentMore}">
         <Setter Property="FontSize" Value="{DynamicResource FontSize18}" />
-        <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BtnBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:BtnContentMore}">
@@ -444,8 +448,8 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="PromptBaseStyle" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource BtnBackground}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BtnBackground}" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
     <Style
@@ -468,7 +472,7 @@
     </Style>
     <Style x:Key="VerticalSeparatorStyle" TargetType="Separator">
         <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+        <Setter Property="props:ThemeProps.BorderBrush" Value="{DynamicResource BorderBrushColor}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Width" Value="16" />
         <Setter Property="FontWeight" Value="Bold" />

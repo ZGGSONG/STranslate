@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="STranslate.Style.Controls.LoadingUc"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="STranslate.Style.Controls.LoadingUc"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="RectangleStyle" TargetType="Rectangle">
             <Setter Property="Height" Value="5" />
@@ -16,34 +17,46 @@
             <Setter Property="RadiusY" Value="2" />
         </Style>
         <Storyboard x:Key="OpacityAnimation">
-            <DoubleAnimation AutoReverse="True"
-                             BeginTime="0:0:.2"
-                             RepeatBehavior="Forever"
-                             Storyboard.TargetName="LineThree"
-                             Storyboard.TargetProperty="Opacity"
-                             From="0.3"
-                             To="1.0"
-                             Duration="0:0:.6" />
-            <DoubleAnimation AutoReverse="True"
-                             RepeatBehavior="Forever"
-                             Storyboard.TargetName="LineOne"
-                             Storyboard.TargetProperty="Opacity"
-                             From="0.3"
-                             To="1.0"
-                             Duration="0:0:.6" />
-            <DoubleAnimation AutoReverse="True"
-                             BeginTime="0:0:.1"
-                             RepeatBehavior="Forever"
-                             Storyboard.TargetName="LineTwo"
-                             Storyboard.TargetProperty="Opacity"
-                             From="0.3"
-                             To="1.0"
-                             Duration="0:0:.6" />
+            <DoubleAnimation
+                AutoReverse="True"
+                BeginTime="0:0:.2"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="LineThree"
+                Storyboard.TargetProperty="Opacity"
+                From="0.3"
+                To="1.0"
+                Duration="0:0:.6" />
+            <DoubleAnimation
+                AutoReverse="True"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="LineOne"
+                Storyboard.TargetProperty="Opacity"
+                From="0.3"
+                To="1.0"
+                Duration="0:0:.6" />
+            <DoubleAnimation
+                AutoReverse="True"
+                BeginTime="0:0:.1"
+                RepeatBehavior="Forever"
+                Storyboard.TargetName="LineTwo"
+                Storyboard.TargetProperty="Opacity"
+                From="0.3"
+                To="1.0"
+                Duration="0:0:.6" />
         </Storyboard>
     </UserControl.Resources>
     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-        <Rectangle x:Name="LineThree" Width="140" Style="{DynamicResource RectangleStyle}" />
-        <Rectangle x:Name="LineOne" Width="100" Style="{DynamicResource RectangleStyle}" />
-        <Rectangle x:Name="LineTwo" Width="120" Style="{DynamicResource RectangleStyle}" />
+        <Rectangle
+            x:Name="LineThree"
+            Width="140"
+            Style="{DynamicResource RectangleStyle}" />
+        <Rectangle
+            x:Name="LineOne"
+            Width="100"
+            Style="{DynamicResource RectangleStyle}" />
+        <Rectangle
+            x:Name="LineTwo"
+            Width="120"
+            Style="{DynamicResource RectangleStyle}" />
     </StackPanel>
 </UserControl>

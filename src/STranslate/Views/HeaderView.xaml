@@ -6,6 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:proxy="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
     d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
@@ -101,8 +102,8 @@
                         CornerRadius="6">
                         <TextBlock
                             Padding="2,0"
+                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
                             FontSize="{DynamicResource FontSize12}"
-                            Foreground="{DynamicResource ServiceTypeForeground}"
                             Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
                 </Grid>
@@ -160,8 +161,8 @@
                         CornerRadius="6">
                         <TextBlock
                             Padding="2,0"
+                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
                             FontSize="{DynamicResource FontSize12}"
-                            Foreground="{DynamicResource ServiceTypeForeground}"
                             Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
                 </Grid>
@@ -219,8 +220,8 @@
                         CornerRadius="6">
                         <TextBlock
                             Padding="2,0"
+                            props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
                             FontSize="{DynamicResource FontSize12}"
-                            Foreground="{DynamicResource ServiceTypeForeground}"
                             Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
                     </Border>
                 </Grid>
@@ -368,7 +369,9 @@
                             Background="Transparent"
                             BorderThickness="0"
                             PreviewMouseWheel="ServiceListBox_PreviewMouseWheel"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            SelectedValue="{Binding CommonSettingVM.MainOcrLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="Value">
                             <ListBox.ItemsSource>
                                 <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
                                     <Binding Source="{proxy:Enumeration {x:Type model:LangEnum}}" />
@@ -394,6 +397,9 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="MainOcrLangBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                         </Trigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                                            <Setter TargetName="MainOcrLangBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                        </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -420,6 +426,7 @@
                 Command="{Binding MouseHookCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 Content="&#xeb94;"
+                FontWeight="Bold"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding IsEnableMosehook}"
                 ToolTip="监听鼠标划词"
@@ -502,8 +509,8 @@
                 ToolTip="历史记录"
                 Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <TextBlock
+                props:ThemeProps.Foreground="Red"
                 FontWeight="Bold"
-                Foreground="Red"
                 Text="[开发版]"
                 Visibility="{Binding IsDebug, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>

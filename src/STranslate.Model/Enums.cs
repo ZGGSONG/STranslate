@@ -160,6 +160,7 @@ public enum ServiceType
     DeepLService,
     AzureOpenAIService,
     ClaudeService,
+    DeepSeekService,
 }
 
 public enum TTSType
@@ -375,10 +376,9 @@ public enum PerferenceType
 public enum ThemeType
 {
     [Description("明亮主题")] Light,
-
     [Description("黑暗主题")] Dark,
-
-    [Description("跟随系统")] Auto
+    [Description("跟随系统")] FollowSystem,
+    [Description("跟随应用")] FollowApp,
 }
 
 /// <summary>

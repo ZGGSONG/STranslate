@@ -6,6 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:menu="clr-namespace:STranslate.Style.Styles.Navigation;assembly=STranslate.Style"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:view="clr-namespace:STranslate.Views"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
     Title="STranslate 首选项"
@@ -14,8 +15,8 @@
     MinWidth="800"
     MinHeight="650"
     d:DataContext="{d:DesignInstance Type=vm:PreferenceViewModel}"
-    Background="{DynamicResource BorderBackground}"
-    BorderBrush="{DynamicResource BorderBrushColor}"
+    props:ThemeProps.Background="{DynamicResource BorderBackground}"
+    props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
     BorderThickness="1"
     FontFamily="{DynamicResource UserFont}"
     Icon="{DynamicResource Icon}"
@@ -48,7 +49,7 @@
         <!--  // Header //  -->
         <Border
             Name="Header"
-            Background="{DynamicResource BorderBackground}"
+            props:ThemeProps.Background="{DynamicResource BorderBackground}"
             CornerRadius="5"
             MouseDown="Header_MouseDown"
             MouseLeftButtonDown="Header_MouseLeftButtonDown"
@@ -67,9 +68,9 @@
                     <TextBlock
                         Margin="20,0,0,0"
                         VerticalAlignment="Center"
+                        props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                         FontSize="{DynamicResource FontSize24}"
                         FontWeight="Bold"
-                        Foreground="{DynamicResource NavigationForeground}"
                         Text="首选项" />
                 </StackPanel>
 

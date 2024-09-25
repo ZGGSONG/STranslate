@@ -7,6 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
     d:DataContext="{d:DesignInstance Type=vm:TranslatorOpenAI}"
     d:DesignHeight="850"
@@ -69,7 +70,7 @@
     </UserControl.Resources>
     <Border
         Padding="10,20"
-        BorderBrush="{DynamicResource BorderBrushColor}"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         CornerRadius="4">
         <ScrollViewer>

@@ -6,49 +6,71 @@ namespace STranslate.Helper;
 
 public class ThemeHelper : IDisposable
 {
-    private static readonly RegistryMonitor registryMonitor =
-        new(Constant.ThemeRegistryHive, Constant.ThemeRegistry, Constant.ThemeRegistryKey);
+    private RegistryMonitor? _registryMonitor;
 
     public void Dispose()
     {
-        registryMonitor?.Dispose();
+        _registryMonitor?.Dispose();
     }
 
-    public void StartListenRegistry()
+    public void SetTheme(ThemeType themeType)
     {
-        if (registryMonitor.IsMonitoring)
+        switch (themeType)
+        {
+            case ThemeType.Dark:
+                ManualApplyTheme("0");
+                break;
+            case ThemeType.Light:
+                ManualApplyTheme("1");
+                break;
+            case ThemeType.FollowSystem:
+                StartAutoApplyTheme(Constant.SystemThemeRegistryKey);
+                break;
+            case ThemeType.FollowApp:
+                StartAutoApplyTheme(Constant.AppThemeRegistryKey);
+                break;
+        }
+    }
+
+    private void StartAutoApplyTheme(string monitorKey)
+    {
+        if (_registryMonitor is { IsMonitoring: true })
+        {
+            StopAutoApplyTheme();
+        }
+        _registryMonitor = new RegistryMonitor(Constant.ThemeRegistryHive, Constant.ThemeRegistry, monitorKey);
+
+        _registryMonitor.RegChanged += ApplyTheme;
+        _registryMonitor.Start();
+        InitialTheme(monitorKey);
+    }
+
+    private void StopAutoApplyTheme()
+    {
+        if (_registryMonitor == null)
             return;
 
-        registryMonitor.RegChanged += OnRegChanged;
-        registryMonitor.Start();
-        InitialTheme();
+        _registryMonitor.Stop();
+        _registryMonitor.RegChanged -= ApplyTheme;
+        _registryMonitor.Dispose();
+        _registryMonitor = null;
     }
 
-    public void StopListenRegistry()
+    private void InitialTheme(string monitorKey)
     {
-        registryMonitor.Stop();
-        registryMonitor.RegChanged -= OnRegChanged;
+        var systemUsesLightTheme = RegistryMonitor.GetRegistryValue(Constant.ThemeRegistry, monitorKey);
+        ApplyTheme(systemUsesLightTheme);
     }
 
-    private void InitialTheme()
+    private void ManualApplyTheme(string isLight)
     {
-        var SystemUsesLightTheme = RegistryMonitor.GetRegistryValue(Constant.ThemeRegistry, Constant.ThemeRegistryKey);
-        OnRegChanged(SystemUsesLightTheme);
+        ApplyTheme(isLight);
+        StopAutoApplyTheme();
     }
 
-    public void LightTheme()
-    {
-        OnRegChanged("1");
-    }
-
-    public void DarkTheme()
-    {
-        OnRegChanged("0");
-    }
-
-    private void OnRegChanged(string type)
+    private void ApplyTheme(string isLight)
     {
         Application.Current.Resources.MergedDictionaries.First().Source =
-            type == "1" ? Constant.LightUri : Constant.DarkUri;
+            isLight == "1" ? Constant.LightUri : Constant.DarkUri;
     }
 }

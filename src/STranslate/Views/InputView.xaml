@@ -8,6 +8,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
     d:DataContext="{d:DesignInstance Type=vm:InputViewModel}"
     d:DesignHeight="200"
@@ -118,12 +119,12 @@
                             Name="DetectTb"
                             Height="auto"
                             VerticalAlignment="Center"
-                            Background="Transparent"
+                            props:ThemeProps.Background="Transparent"
+                            props:ThemeProps.Foreground="{DynamicResource TextBlockLangForeground}"
                             Content="识别为 "
                             Cursor="Hand"
                             FontFamily="{DynamicResource UserFont}"
                             FontSize="{DynamicResource FontSize14}"
-                            Foreground="{DynamicResource TextBlockLangForeground}"
                             Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup
                             Name="DetectPopup"
@@ -188,12 +189,12 @@
                             Name="IdentifyTb"
                             Height="auto"
                             Margin="0"
-                            Background="Transparent"
+                            props:ThemeProps.Background="Transparent"
+                            props:ThemeProps.Foreground="{DynamicResource ThemeAccentColor}"
                             Content="{Binding IdentifyLanguage}"
                             Cursor="Hand"
                             FontFamily="{DynamicResource UserFont}"
                             FontSize="{DynamicResource FontSize14}"
-                            Foreground="{DynamicResource ThemeAccentColor}"
                             Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup
                             Name="IdentifyPopup"

@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
 
     <Style x:Key="BtnStyle" TargetType="RadioButton">
 
@@ -15,7 +18,7 @@
                         x:Name="Border"
                         Width="228"
                         Height="50"
-                        Background="{DynamicResource NavigationBackground}"
+                        props:ThemeProps.Background="{DynamicResource NavigationBackground}"
                         BorderThickness="0">
 
                         <Grid>
