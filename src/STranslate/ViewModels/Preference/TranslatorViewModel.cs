@@ -65,6 +65,7 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorDeepL());
         TransServices.Add(new TranslatorAzureOpenAI());
         TransServices.Add(new TranslatorClaude());
+        TransServices.Add(new TranslatorDeepSeek());
         //TODO: 新接口需要适配
 
         ResetView();
@@ -149,6 +150,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.DeepLService => $"{head}{nameof(TranslatorDeepLPage)}",
             ServiceType.AzureOpenAIService => $"{head}{nameof(TranslatorAzureOpenAIPage)}",
             ServiceType.ClaudeService => $"{head}{nameof(TranslatorClaudePage)}",
+            ServiceType.DeepSeekService => $"{head}{nameof(TranslatorDeepSeekPage)}",
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
 
@@ -183,6 +185,7 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorDeepL deepl => deepl.Clone(),
                 TranslatorAzureOpenAI azureopenai => azureopenai.Clone(),
                 TranslatorClaude claude => claude.Clone(),
+                TranslatorDeepSeek deepSeek => deepSeek.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });

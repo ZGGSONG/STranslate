@@ -160,6 +160,7 @@ public enum ServiceType
     DeepLService,
     AzureOpenAIService,
     ClaudeService,
+    DeepSeekService,
 }
 
 public enum TTSType

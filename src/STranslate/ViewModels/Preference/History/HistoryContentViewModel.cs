@@ -127,6 +127,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.DeepLService => new TranslatorDeepL(),
             (int)ServiceType.AzureOpenAIService => new TranslatorAzureOpenAI(),
             (int)ServiceType.ClaudeService => new TranslatorClaude(),
+            (int)ServiceType.DeepSeekService => new TranslatorDeepSeek(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
