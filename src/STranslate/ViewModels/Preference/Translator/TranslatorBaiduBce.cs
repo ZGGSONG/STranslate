@@ -520,7 +520,9 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
             IdHide = IdHide,
             KeyHide = KeyHide,
             Model = Model,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

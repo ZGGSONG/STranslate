@@ -464,7 +464,9 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

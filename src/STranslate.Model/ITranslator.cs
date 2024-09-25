@@ -18,6 +18,8 @@ public interface ITranslator : INotifyPropertyChanged
 
     bool AutoExecute { get; set; }
 
+    bool AutoExecuteTranslateBack { get; set; }
+
     TranslationResult Data { get; set; }
 
     BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
@@ -48,4 +50,17 @@ public interface ITranslator : INotifyPropertyChanged
 public interface ITranslatorLlm : ITranslator
 {
     double Temperature { get; set; }
+}
+
+public class TranslatorCompare : IEqualityComparer<ITranslator>
+{
+    public bool Equals(ITranslator? x, ITranslator? y)
+    {
+        return x?.Identify == y?.Identify;
+    }
+
+    public int GetHashCode(ITranslator obj)
+    {
+        return obj.Identify.GetHashCode();
+    }
 }

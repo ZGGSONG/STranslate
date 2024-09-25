@@ -288,7 +288,9 @@ public partial class TranslatorMicrosoft : TranslatorBase, ITranslator
             AutoExecute = AutoExecute,
             IdHide = IdHide,
             KeyHide = KeyHide,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

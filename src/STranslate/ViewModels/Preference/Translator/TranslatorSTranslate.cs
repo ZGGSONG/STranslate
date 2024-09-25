@@ -165,7 +165,9 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
             AppKey = AppKey,
             AutoExecute = AutoExecute,
             Tips = Tips,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

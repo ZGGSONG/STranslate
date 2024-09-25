@@ -283,6 +283,8 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             IsExecuting = IsExecuting,
             Usage = Usage,
             UsageStr = UsageStr,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

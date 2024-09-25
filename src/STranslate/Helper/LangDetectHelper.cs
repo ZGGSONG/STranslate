@@ -7,7 +7,7 @@ using STranslate.Util;
 namespace STranslate.Helper;
 
 /// <summary>
-///     https://github1s.com/pot-app/pot-desktop/blob/master/src/utils/lang_detect.js
+///     <see href="https://github1s.com/pot-app/pot-desktop/blob/master/src/utils/lang_detect.js" />
 /// </summary>
 public class LangDetectHelper
 {
@@ -59,7 +59,7 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            var url = "https://fanyi.baidu.com/langdetect";
+            const string url = "https://fanyi.baidu.com/langdetect";
             var resp = await HttpUtil.PostAsync(url, null, new Dictionary<string, string> { { "query", content } }, [],
                 token ?? CancellationToken.None);
 
@@ -113,7 +113,7 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            var url = "https://fanyi.qq.com/api/translate";
+            const string url = "https://fanyi.qq.com/api/translate";
             var resp = await HttpUtil.PostAsync(url, new Tuple<string, string>("sourceText", content),
                 token ?? CancellationToken.None);
 
@@ -162,14 +162,14 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            var url = "https://test.niutrans.com/NiuTransServer/language";
-            var queryparams = new Dictionary<string, string>
+            const string url = "https://test.niutrans.com/NiuTransServer/language";
+            var @params = new Dictionary<string, string>
             {
                 { "src_text", content },
                 { "source", "text" },
                 { "time", ((long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds).ToString() }
             };
-            var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
+            var resp = await HttpUtil.GetAsync(url, @params, token ?? CancellationToken.None);
 
             var parseData = JsonConvert.DeserializeObject<JObject>(resp);
             var lan = parseData?["language"]?.ToString() ?? "";
@@ -224,10 +224,10 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            var tokenUrl = "https://edge.microsoft.com/translate/auth";
+            const string tokenUrl = "https://edge.microsoft.com/translate/auth";
             var getToken = await HttpUtil.GetAsync(tokenUrl, token ?? CancellationToken.None);
 
-            var url = "https://api-edge.cognitive.microsofttranslator.com/detect";
+            const string url = "https://api-edge.cognitive.microsofttranslator.com/detect";
             var headers = new Dictionary<string, string>
             {
                 { "accept", "*/*" },
@@ -309,14 +309,14 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            var url = "https://translate.yandex.net/api/v1/tr.json/detect";
-            var queryparams = new Dictionary<string, string>
+            const string url = "https://translate.yandex.net/api/v1/tr.json/detect";
+            var @params = new Dictionary<string, string>
             {
                 { "id", Guid.NewGuid().ToString().Replace("-", "") + "-0-0" },
                 { "srv", "android" },
                 { "text", content }
             };
-            var resp = await HttpUtil.GetAsync(url, queryparams, token ?? CancellationToken.None);
+            var resp = await HttpUtil.GetAsync(url, @params, token ?? CancellationToken.None);
 
             var parseData = JsonConvert.DeserializeObject<JObject>(resp);
             var lan = parseData?["lang"]?.ToString() ?? "";
@@ -366,10 +366,10 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            var url =
+            const string url =
                 "https://translate.google.com/translate_a/single?dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t";
 
-            var queryParams = new Dictionary<string, string>
+            var @params = new Dictionary<string, string>
             {
                 { "client", "gtx" },
                 { "sl", "auto" },
@@ -384,7 +384,7 @@ public class LangDetectHelper
                 { "q", content }
             };
 
-            var resp = await HttpUtil.GetAsync(url, queryParams, token ?? CancellationToken.None);
+            var resp = await HttpUtil.GetAsync(url, @params, token ?? CancellationToken.None);
             var jsonArray = JArray.Parse(resp);
             var lan = jsonArray[2]?.ToString() ?? "";
 

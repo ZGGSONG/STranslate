@@ -231,7 +231,9 @@ public partial class TranslatorBaidu : TranslatorBase, ITranslator
             AutoExecute = AutoExecute,
             IdHide = IdHide,
             KeyHide = KeyHide,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

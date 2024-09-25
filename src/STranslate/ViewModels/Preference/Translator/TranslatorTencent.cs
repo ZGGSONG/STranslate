@@ -226,7 +226,9 @@ public partial class TranslatorTencent : TranslatorBase, ITranslator
             ProjectId = ProjectId,
             IdHide = IdHide,
             KeyHide = KeyHide,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

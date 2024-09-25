@@ -59,6 +59,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
     {
+        //TODO: 按照InputViewModel更新
         var content = _inputVm.InputContent;
         var originSource = _mainVm.SourceLang;
         var sourceLang = _mainVm.SourceLang;
@@ -137,6 +138,13 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
             await HandleHistoryAsync(content, originSource, selectTargetLang);
         }
+    }
+
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task SingleTranslateBackAsync(ITranslator service, CancellationToken token)
+    {
+        var (source, target) = await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
+        await _inputVm.DoTranslateBackSingleAsync(service, source, target, token);
     }
 
     private async Task HandleHistoryAsync(string content, LangEnum source, LangEnum dbTarget)
@@ -262,6 +270,18 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     }
 
     [RelayCommand]
+    private void CanAutoExecuteTranslateBack(List<object> list)
+    {
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
+            list.LastOrDefault() is not ToggleButton tb)
+            return;
+
+        service.AutoExecuteTranslateBack = !service.AutoExecuteTranslateBack;
+        Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
+        tb.IsChecked = false;
+    }
+
+    [RelayCommand]
     private void ExecuteTranslate(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
@@ -269,6 +289,17 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             return;
 
         SingleTranslateCommand.Execute(service);
+        tb.IsChecked = false;
+    }
+
+    [RelayCommand]
+    private void ExecuteTranslateBack(List<object> list)
+    {
+        if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
+            list.LastOrDefault() is not ToggleButton tb)
+            return;
+
+        SingleTranslateBackCommand.Execute(service);
         tb.IsChecked = false;
     }
 
@@ -324,23 +355,6 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
         await Task.Delay(150);
         InputSimulatorHelper.PrintText(str);
-    }
-    
-    [RelayCommand]
-    private void TranslateBack(object obj)
-    {
-        if (obj is not string str || string.IsNullOrEmpty(str)) return;
-        //根据Ctrl+LeftClick null is check database first
-        var dbFirst = (Keyboard.Modifiers & ModifierKeys.Control) <= 0 ? null : "";
-        _inputVm.InputContent = str;
-        CancelAndTranslate(dbFirst);
-    }
-
-    private void CancelAndTranslate(string? dbFirst)
-    {
-        SingleTranslateCancelCommand.Execute(null);
-        _inputVm.TranslateCancelCommand.Execute(null);
-        _inputVm.TranslateCommand.Execute(dbFirst);
     }
 
     #region gong-wpf-dragdrop interface implementation

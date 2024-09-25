@@ -11,6 +11,11 @@ public partial class TranslatorBase : ObservableObject
     [property: JsonIgnore]
     private bool _isTranslateBackExecuting;
 
+    [JsonIgnore]
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private bool _autoExecuteTranslateBack;
+
     [JsonIgnore] public Dictionary<IconType, string> Icons => Constant.IconDict;
 
     public void ManualPropChanged(params string[] array)

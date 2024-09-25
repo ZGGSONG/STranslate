@@ -222,7 +222,9 @@ public partial class TranslatorApi : TranslatorBase, ITranslator
             AppKey = AppKey,
             AutoExecute = AutoExecute,
             Token = Token,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

@@ -288,7 +288,9 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
             IsShowProcessBar = IsShowProcessBar,
             HasDB = HasDB,
             DbFileSize = DbFileSize,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

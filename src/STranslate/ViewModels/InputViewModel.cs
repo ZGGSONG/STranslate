@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -21,6 +20,16 @@ namespace STranslate.ViewModels;
 
 public partial class InputViewModel : ObservableObject
 {
+    #region 文本转语音
+
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task TTS(string text, CancellationToken token)
+    {
+        await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, WindowType.Main, token);
+    }
+
+    #endregion
+
     #region 属性、字段
 
     public NotifyIconViewModel NotifyIconVM => Singleton<NotifyIconViewModel>.Instance;
@@ -31,7 +40,7 @@ public partial class InputViewModel : ObservableObject
     /// <summary>
     ///     是否正在执行自动翻译
     /// </summary>
-    [ObservableProperty] private bool _isAutoTranslateExecuting = false;
+    [ObservableProperty] private bool _isAutoTranslateExecuting;
 
     /// <summary>
     ///     自动识别的语言
@@ -43,43 +52,44 @@ public partial class InputViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private string _oftenUsedLang = string.Empty;
 
+    /// <summary>
+    ///     手动指定识别语种
+    /// </summary>
     private LangEnum? _userSelectedLang;
 
     /// <summary>
     ///     判断是否完成翻译，避免自动翻译重复执行
     /// </summary>
-    private bool _hasDown = false;
+    private bool _hasDown;
 
     /// <summary>
     ///     输入内容
     /// </summary>
     private string _inputContent = string.Empty;
+
     public string InputContent
     {
         get => _inputContent;
         set
         {
             var previousValue = _inputContent;
-            if (SetProperty(ref _inputContent, value))
-            {
-                _hasDown = false;
-                //清空识别语种
-                if (!string.IsNullOrEmpty(IdentifyLanguage))
-                    IdentifyLanguage = string.Empty;
+            if (!SetProperty(ref _inputContent, value))
+                return;
 
-                CanTranslate = !string.IsNullOrWhiteSpace(value);
+            _hasDown = false;
+            //清空识别语种
+            if (!string.IsNullOrEmpty(IdentifyLanguage))
+                IdentifyLanguage = string.Empty;
 
-                //如果增加的为非空格字符则进行自动翻译
-                if (previousValue.Trim() != value.Trim())
-                {
-                    _autoTranslateTimer?.Change(AutoTranslateDelay, Timeout.Infinite);
-                }
+            CanTranslate = !string.IsNullOrWhiteSpace(value);
 
-            }
+            //如果增加的为非空格字符则进行自动翻译
+            if (previousValue.Trim() != value.Trim()) _autoTranslateTimer?.Change(AutoTranslateDelay, Timeout.Infinite);
         }
     }
 
     private bool _canTranslate = true;
+
     private bool CanTranslate
     {
         get => _canTranslate;
@@ -101,17 +111,17 @@ public partial class InputViewModel : ObservableObject
 
     #endregion 属性、字段
 
+    #region 自动翻译
+
     internal void InvokeTimer(bool value)
     {
-        _autoTranslateTimer = value ? new Timer(async _ => await AutoTrasnslateAsync(), null, Timeout.Infinite, Timeout.Infinite) : null;
+        _autoTranslateTimer =
+            value ? new Timer(AutoTranslate, null, Timeout.Infinite, Timeout.Infinite) : null;
     }
 
-    private async Task AutoTrasnslateAsync()
+    private async void AutoTranslate(object? _)
     {
-        if (string.IsNullOrEmpty(InputContent) || !CanTranslate || _hasDown)
-        {
-            return;
-        }
+        if (string.IsNullOrEmpty(InputContent) || !CanTranslate || _hasDown) return;
         IsAutoTranslateExecuting = true;
         //如果重复执行先取消上一步操作
         OutputVm.SingleTranslateCancelCommand.Execute(null);
@@ -120,15 +130,9 @@ public partial class InputViewModel : ObservableObject
         IsAutoTranslateExecuting = false;
     }
 
-    #region 命令
+    #endregion
 
-    [RelayCommand(IncludeCancelCommand = true)]
-    private async Task TTS(string text, CancellationToken token)
-    {
-        await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, WindowType.Main, token);
-    }
-
-    #region Translatehandle
+    #region 文本翻译
 
     [RelayCommand(CanExecute = nameof(CanTranslate), IncludeCancelCommand = true)]
     private async Task TranslateAsync(object? obj, CancellationToken token)
@@ -143,18 +147,16 @@ public partial class InputViewModel : ObservableObject
             var targetLang = Singleton<MainViewModel>.Instance.TargetLang;
             var size = CnfHelper.CurrentConfig?.HistorySize ?? 100;
 
-            if (!PreviousHandle())
+            if (!PreTranslate())
                 return;
-            var history = await TranslateServiceAsync(obj, sourceLang, targetLang, size, token);
+            var history = await DoTranslateAsync(obj, sourceLang, targetLang, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
-            await HandleHistoryAsync(history, sourceLang, targetLang, size);
-
-            //TODO: 回译
-            await TranslateBackAsync(sourceLang, targetLang, token);
+            await PostTranslateAsync(history, sourceLang, targetLang, size);
         }
         catch (OperationCanceledException)
         {
+            // ignore
         }
         catch (Exception ex)
         {
@@ -167,11 +169,9 @@ public partial class InputViewModel : ObservableObject
         }
     }
 
-    /// <summary>
-    ///     前置处理
-    /// </summary>
-    /// <returns></returns>
-    private bool PreviousHandle()
+    #region 翻译前操作
+
+    private bool PreTranslate()
     {
         if (!string.IsNullOrWhiteSpace(InputContent))
             return true;
@@ -181,94 +181,93 @@ public partial class InputViewModel : ObservableObject
         return false;
     }
 
-    private async Task<HistoryModel?> TranslateServiceAsync(object? obj, LangEnum source, LangEnum target, long size, CancellationToken token)
+    #endregion
+
+    #region 翻译操作
+
+    #region 回译操作
+
+    public async Task DoTranslateBackSingleAsync(ITranslator service, LangEnum source, LangEnum target,
+        CancellationToken cancellationToken)
     {
-        // 过滤非启用的翻译服务
-        var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
-        HistoryModel? history = null;
-        List<ITranslator>? translatorCacheList = null;
-        // 读取配置翻译后复制服务索引
-        var copyIndex = CnfHelper.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
-
-        // 读取缓存
-        var isCheckCacheFirst = obj == null;
-        if (size != 0 && isCheckCacheFirst)
+        try
         {
-            history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), target.GetDescription());
-            if (history != null)
-            {
-                IdentifyLanguage = "缓存";
-                var settings = new JsonSerializerSettings { Converters = { new CurrentTranslatorConverter() } };
-                translatorCacheList = JsonConvert.DeserializeObject<List<ITranslator>>(history.Data, settings);
-            }
+            service.Data.TranslateBackResult = string.Empty;
+            service.IsTranslateBackExecuting = true;
+
+            //替换源和目标语言
+            (source, target) = (target, source);
+
+            if (service is ITranslatorLlm)
+                await TranslateBackStreamHandlerAsync(service, source, target, cancellationToken);
+            else
+                await TranslateBackNonStreamHandlerAsync(service, source, target, cancellationToken);
         }
-
-        var allCache = true;
-        await Parallel.ForEachAsync(
-            services.Where(x => x.AutoExecute),
-            token,
-            async (service, cancellationToken) =>
-            {
-                allCache &= await TranslateServiceHandlerAsync(services, service, translatorCacheList, source, target,
-                    _userSelectedLang, InputContent, cancellationToken, copyIndex);
-            }
-        );
-
-        // 只要有一个服务未获取到缓存则更新缓存
-        if (!allCache)
+        catch (TaskCanceledException)
         {
-            history = null;
         }
-
-        return history;
+        catch (Exception ex)
+        {
+            service.Data.IsTranslateBackSuccess = false;
+            service.Data.TranslateBackResult = ex.Message;
+        }
+        finally
+        {
+            if (service.IsTranslateBackExecuting) service.IsTranslateBackExecuting = false;
+        }
     }
 
-    private async Task<bool> TranslateServiceHandlerAsync(List<ITranslator> services, ITranslator service,
-        List<ITranslator>? translatorList, LangEnum source, LangEnum target, LangEnum? userSelectedLang,
-        string inputContent, CancellationToken cancellationToken, int copyIndex)
+    public async Task TranslateBackNonStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
+        CancellationToken token)
+    {
+        var data = await service.TranslateAsync(new RequestModel(service.Data.Result, source, target), token);
+        service.Data.IsTranslateBackSuccess = true;
+        service.Data.TranslateBackResult = data.Result;
+    }
+
+    public async Task TranslateBackStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
+        CancellationToken token)
+    {
+        //先清空
+        service.Data.TranslateBackResult = string.Empty;
+
+        await service.TranslateAsync(
+            new RequestModel(service.Data.Result, source, target),
+            msg =>
+            {
+                //开始有数据就停止加载动画
+                if (service.IsTranslateBackExecuting)
+                    service.IsTranslateBackExecuting = false;
+                service.Data.IsTranslateBackSuccess = true;
+                service.Data.TranslateBackResult += msg;
+            },
+            token
+        );
+    }
+
+    #endregion
+
+    private async Task<bool> DoTranslateSingleAsync(List<ITranslator> services, ITranslator service,
+        List<ITranslator>? servicesCache, LangEnum source, LangEnum target, CancellationToken cancellationToken,
+        int copyIndex)
     {
         var hasCache = false;
         try
         {
             service.IsExecuting = true;
-            if (GetCache(service, translatorList))
+
+            if (GetCache(service, servicesCache))
             {
                 hasCache = true;
                 goto copy;
             }
 
-            var identify = LangEnum.auto;
-            if (userSelectedLang != null)
-            {
-                identify = (LangEnum)userSelectedLang;
-            }
-            else
-            {
-                if (source == LangEnum.auto)
-                {
-                    var detectType = CnfHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
-                    var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
-                    identify = await LangDetectHelper.DetectAsync(inputContent, detectType, rate, cancellationToken);
-                    IdentifyLanguage = identify.GetDescription();
-                }
-            }
-
-            if (target == LangEnum.auto)
-                target = identify == LangEnum.zh_cn || identify == LangEnum.zh_tw || identify == LangEnum.yue
-                    ? LangEnum.en
-                    : LangEnum.zh_cn;
-
             if (service is ITranslatorLlm)
-            {
-                source = source == LangEnum.auto ? identify : source;
-                await StreamHandlerAsync(service, inputContent, source, target, cancellationToken);
-            }
+                await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
             else
-            {
-                await NonStreamHandlerAsync(service, inputContent, source, target, cancellationToken);
-            }
+                await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
 
-        copy:
+            copy:
             var currentServiceIndex = services.IndexOf(service) + 1;
             if (currentServiceIndex == copyIndex)
                 CommonUtil.InvokeOnUIThread(() =>
@@ -294,83 +293,99 @@ public partial class InputViewModel : ObservableObject
         return hasCache;
     }
 
-    private bool GetCache(ITranslator service, List<ITranslator>? translatorList)
+    private async Task<HistoryModel?> DoTranslateAsync(object? obj, LangEnum source, LangEnum target, long size,
+        CancellationToken token)
     {
-        var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
-        if (cachedTranslator?.Data is null || cachedTranslator.Data.IsSuccess == false)
-            return false;
-
-        service.Data = cachedTranslator.Data;
-        return true;
-    }
-
-    private async Task TranslateBackAsync(LangEnum source, LangEnum target, CancellationToken token)
-    {
+        HistoryModel? history = null;
+        List<ITranslator>? servicesCache = null;
         // 过滤非启用的翻译服务
         var services = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled).ToList();
+        // 读取配置翻译后复制服务索引
+        var copyIndex = CnfHelper.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
+
+        // 读取缓存
+        var isCheckCacheFirst = obj == null;
+        if (size != 0 && isCheckCacheFirst)
+        {
+            history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), target.GetDescription());
+            if (history != null)
+            {
+                IdentifyLanguage = "缓存";
+                var settings = new JsonSerializerSettings { Converters = { new CurrentTranslatorConverter() } };
+                servicesCache = JsonConvert.DeserializeObject<List<ITranslator>>(history.Data, settings);
+            }
+        }
+
+        // 获取识别语种
+        (source, target) = await GetLangInfoAsync(services, servicesCache, source, target, token);
+
+        var allCache = true;
         await Parallel.ForEachAsync(
             services.Where(x => x.AutoExecute),
             token,
             async (service, cancellationToken) =>
             {
-                try
-                {
-                    service.IsTranslateBackExecuting = true;
+                allCache &= await DoTranslateSingleAsync(services, service, servicesCache, source, target,
+                    cancellationToken, copyIndex);
 
-                    var identify = LangEnum.auto;
-                    if (source == LangEnum.auto)
-                    {
-                        var detectType = CnfHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
-                        var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
-                        identify = await LangDetectHelper.DetectAsync(service.Data.Result, detectType, rate, cancellationToken);
-                        IdentifyLanguage = identify.GetDescription();
-                    }
-
-                    if (target == LangEnum.auto)
-                        target = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
-                            ? LangEnum.en
-                            : LangEnum.zh_cn;
-
-                    source = source == LangEnum.auto ? identify : source;
-
-                    //if (source != LangEnum.auto)
-                    //{
-                    //    (source, target) = (target, source);
-                    //}
-
-                    if (service is ITranslatorLlm)
-                    {
-                        await TranslationBackStreamHandlerAsync(service, source, target, cancellationToken);
-                    }
-                    else
-                    {
-                        await TranslationBackNonStreamHandlerAsync(service, source, target, cancellationToken);
-                    }
-                }
-                catch (TaskCanceledException ex)
-                {
-                }
-                catch (Exception ex)
-                {
-                    service.Data.IsTranslateBackSuccess = false;
-                    service.Data.TranslateBackResult = ex.Message;
-                }
-                finally
-                {
-                    if (service.IsTranslateBackExecuting) service.IsTranslateBackExecuting = false;
-                }
+                // 回译
+                if (service.AutoExecuteTranslateBack)
+                    await DoTranslateBackSingleAsync(service, source, target, cancellationToken);
             }
         );
+
+        // 只要有一个服务未获取到缓存则更新缓存
+        if (!allCache) history = null;
+
+        return history;
     }
 
-    [Obsolete]
-    private void UpdateServiceDataFromCache(ITranslator service, List<ITranslator>? translatorList)
+    public async Task<(LangEnum, LangEnum)> GetLangInfoAsync(List<ITranslator>? services, List<ITranslator>? servicesCache, LangEnum source, LangEnum target, CancellationToken token)
     {
-        var cachedTranslator = translatorList?.FirstOrDefault(x => x.Identify == service.Identify);
-        if (cachedTranslator != null)
-            service.Data = cachedTranslator.Data ?? TranslationResult.Fail("该服务未获取到缓存Ctrl+Enter更新");
-        else
-            service.Data = TranslationResult.Fail("未找到缓存数据");
+        var identify = LangEnum.auto;
+        //手动指定识别语种优先级最高
+        if (_userSelectedLang != null)
+        {
+            identify = (LangEnum)_userSelectedLang;
+        }
+        else if (source == LangEnum.auto)
+        {
+            // 如果当前启用服务为null(逐个启动)或者与缓存服务一致则无需进行语种识别
+            var servicesMatch = services != null
+                                && services.Count == servicesCache?.Count
+                                && services.All(s => servicesCache.Contains(s, new TranslatorCompare()));
+            if (servicesMatch)
+            {
+                return (source, target);
+            }
+
+            var detectType = CnfHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
+            var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
+            identify = await LangDetectHelper.DetectAsync(InputContent, detectType, rate, token);
+        }
+
+        //TODO: 如果identify也是自动呢？（只有服务识别服务出错的情况下才是auto）
+        identify = identify == LangEnum.auto ? LangEnum.en : identify;
+        // 获取最终的识别语种
+        IdentifyLanguage = identify.GetDescription();
+        source = source == LangEnum.auto ? identify : source;
+
+        if (target == LangEnum.auto)
+            target = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
+                ? LangEnum.en
+                : LangEnum.zh_cn;
+
+        return (source, target);
+    }
+
+    private bool GetCache(ITranslator service, List<ITranslator>? servicesCache)
+    {
+        var cachedTranslator = servicesCache?.FirstOrDefault(x => x.Identify == service.Identify);
+        if (cachedTranslator?.Data is null || cachedTranslator.Data.IsSuccess == false)
+            return false;
+
+        service.Data = cachedTranslator.Data;
+        return true;
     }
 
     private void HandleTranslationException(ITranslator service, string errorMessage, Exception exception,
@@ -384,10 +399,7 @@ public partial class InputViewModel : ObservableObject
                 isCancelMsg = token.IsCancellationRequested;
                 break;
             case HttpRequestException:
-                if (exception.InnerException != null)
-                {
-                    exception = exception.InnerException;
-                }
+                if (exception.InnerException != null) exception = exception.InnerException;
                 errorMessage = "请求出错";
                 break;
         }
@@ -403,36 +415,6 @@ public partial class InputViewModel : ObservableObject
     }
 
     /// <summary>
-    ///     如果获取到缓存为空则插入翻译结果到数据库
-    /// </summary>
-    /// <param name="history"></param>
-    /// <param name="source"></param>
-    /// <param name="dbTarget"></param>
-    /// <param name="size"></param>
-    /// <returns></returns>
-    private async Task HandleHistoryAsync(HistoryModel? history, LangEnum source, LangEnum dbTarget,
-        long size)
-    {
-        if (history is null && size > 0)
-        {
-            var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
-            var jsonSerializerSettings = new JsonSerializerSettings
-            { ContractResolver = new CustomizeContractResolver() };
-
-            var data = new HistoryModel
-            {
-                Time = DateTime.Now,
-                SourceLang = source.GetDescription(),
-                TargetLang = dbTarget.GetDescription(),
-                SourceText = InputContent,
-                Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
-            };
-            //翻译结果插入数据库
-            await SqlHelper.InsertDataAsync(data, size);
-        }
-    }
-
-    /// <summary>
     ///     非流数据处理
     /// </summary>
     /// <param name="service"></param>
@@ -445,13 +427,6 @@ public partial class InputViewModel : ObservableObject
         CancellationToken token)
     {
         service.Data = await service.TranslateAsync(new RequestModel(content, source, target), token);
-    }
-
-    public async Task TranslationBackNonStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
-        CancellationToken token)
-    {
-        var data = await service.TranslateAsync(new RequestModel(service.Data.Result, source, target), token);
-        service.Data.TranslateBackResult = data.Result;
     }
 
     /// <summary>
@@ -482,32 +457,38 @@ public partial class InputViewModel : ObservableObject
             token
         );
     }
-    public async Task TranslationBackStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
-        CancellationToken token)
-    {
-        //先清空
-        service.Data.TranslateBackResult = string.Empty;
 
-        await service.TranslateAsync(
-            new RequestModel(service.Data.Result, source, target),
-            msg =>
+    #endregion
+
+    #region 翻译后操作
+
+    private async Task PostTranslateAsync(HistoryModel? history, LangEnum source, LangEnum dbTarget,
+        long size)
+    {
+        if (history is null && size > 0)
+        {
+            var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
+            var jsonSerializerSettings = new JsonSerializerSettings
+                { ContractResolver = new CustomizeContractResolver() };
+
+            var data = new HistoryModel
             {
-                //开始有数据就停止加载动画
-                if (service.IsTranslateBackExecuting)
-                    service.IsTranslateBackExecuting = false;
-                service.Data.IsTranslateBackSuccess = true;
-                service.Data.TranslateBackResult += msg;
-            },
-            token
-        );
+                Time = DateTime.Now,
+                SourceLang = source.GetDescription(),
+                TargetLang = dbTarget.GetDescription(),
+                SourceText = InputContent,
+                Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
+            };
+            //翻译结果插入数据库
+            await SqlHelper.InsertDataAsync(data, size);
+        }
     }
 
-    #endregion Translatehandle
+    #endregion
 
-    public void Clear()
-    {
-        InputContent = string.Empty;
-    }
+    #endregion
+
+    #region 其他操作
 
     [RelayCommand]
     private void CopyContent(string content)
@@ -518,20 +499,85 @@ public partial class InputViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void RemoveSpace(PlaceholderTextBox textBox)
+    {
+        var oldTxt = textBox.Text;
+        var newTxt = StringUtil.RemoveSpace(oldTxt);
+        if (string.Equals(oldTxt, newTxt))
+            return;
+
+        ToastHelper.Show("移除空格");
+
+        RemoveHandler(textBox, newTxt);
+    }
+
+    [RelayCommand]
     private void RemoveLineBreaks(PlaceholderTextBox textBox)
     {
         if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
-        {
             TogglePurify();
-        }
         else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-        {
             ToggleRemoveLineBreak();
-        }
         else
-        {
             RemoveLineBreaksFromTextBox(textBox);
-        }
+    }
+
+
+    [RelayCommand]
+    private async Task SelectedLanguageAsync(List<object> list)
+    {
+        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+            list.Last() is not ToggleButton tb)
+            return;
+
+        tb.IsChecked = false;
+
+        if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
+            obj is not LangEnum lang) return;
+
+        _userSelectedLang = lang;
+
+        // 选择语言后自动翻译
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
+        TranslateCancelCommand.Execute(null);
+        await TranslateCommand.ExecuteAsync(string.Empty);//填充参数=>不读缓存
+
+        _userSelectedLang = null;
+    }
+
+    [RelayCommand]
+    private async Task SelectedLangDetectTypeAsync(List<object> list)
+    {
+        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+            list.Last() is not ToggleButton tb)
+            return;
+
+        tb.IsChecked = false;
+
+        if (!Enum.TryParse(typeof(LangDetectType), member.Value?.ToString() ?? "", out var obj) ||
+            obj is not LangDetectType detectType) return;
+
+        CommonVm.SaveCommand.Execute(null);
+
+        // 选择语言后自动翻译
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
+        TranslateCancelCommand.Execute(null);
+        await TranslateCommand.ExecuteAsync(string.Empty);
+    }
+
+
+    internal void RemoveHandler(PlaceholderTextBox textBox, string newTxt)
+    {
+        //https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding
+        textBox.SelectAll();
+        textBox.SelectedText = newTxt;
+
+        if (!CnfHelper.CurrentConfig?.IsAdjustContentTranslate ?? false)
+            return;
+
+        OutputVm.SingleTranslateCancelCommand.Execute(null);
+        TranslateCancelCommand.Execute(null);
+        TranslateCommand.Execute(null);
     }
 
     private void TogglePurify()
@@ -559,37 +605,18 @@ public partial class InputViewModel : ObservableObject
         RemoveHandler(textBox, newTxt);
     }
 
-    [RelayCommand]
-    private void RemoveSpace(PlaceholderTextBox textBox)
-    {
-        var oldTxt = textBox.Text;
-        var newTxt = StringUtil.RemoveSpace(oldTxt);
-        if (string.Equals(oldTxt, newTxt))
-            return;
-
-        ToastHelper.Show("移除空格");
-
-        RemoveHandler(textBox, newTxt);
-    }
-
-    internal void RemoveHandler(PlaceholderTextBox textBox, string newTxt)
-    {
-        //https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding
-        textBox.SelectAll();
-        textBox.SelectedText = newTxt;
-
-        if (!CnfHelper.CurrentConfig?.IsAdjustContentTranslate ?? false)
-            return;
-
-        OutputVm.SingleTranslateCancelCommand.Execute(null);
-        TranslateCancelCommand.Execute(null);
-        TranslateCommand.Execute(null);
-    }
 
     internal void UpdateOftenUsedLang()
     {
         OftenUsedLang = CnfHelper.CurrentConfig?.OftenUsedLang ?? string.Empty;
     }
+
+    public void Clear()
+    {
+        InputContent = string.Empty;
+    }
+
+    #endregion
 
     #region ContextMenu
 
@@ -640,51 +667,6 @@ public partial class InputViewModel : ObservableObject
     }
 
     #endregion ContextMenu
-
-    [RelayCommand]
-    private async Task SelectedLanguageAsync(List<object> list)
-    {
-        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
-            list.Last() is not ToggleButton tb)
-            return;
-
-        tb.IsChecked = false;
-
-        if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
-            obj is not LangEnum lang) return;
-
-        _userSelectedLang = lang;
-
-        IdentifyLanguage = lang.GetDescription();
-        // 选择语言后自动翻译
-        OutputVm.SingleTranslateCancelCommand.Execute(null);
-        TranslateCancelCommand.Execute(null);
-        await TranslateCommand.ExecuteAsync(string.Empty);
-
-        _userSelectedLang = null;
-    }
-
-    [RelayCommand]
-    private async Task SelectedLangDetectTypeAsync(List<object> list)
-    {
-        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
-            list.Last() is not ToggleButton tb)
-            return;
-
-        tb.IsChecked = false;
-
-        if (!Enum.TryParse(typeof(LangDetectType), member.Value?.ToString() ?? "", out var obj) ||
-            obj is not LangDetectType detectType) return;
-
-        CommonVm.SaveCommand.Execute(null);
-
-        // 选择语言后自动翻译
-        OutputVm.SingleTranslateCancelCommand.Execute(null);
-        TranslateCancelCommand.Execute(null);
-        await TranslateCommand.ExecuteAsync(string.Empty);
-    }
-
-    #endregion 命令
 }
 
 #region JsonConvert

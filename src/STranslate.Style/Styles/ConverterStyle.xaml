@@ -7,7 +7,7 @@
     <converter:MultiValue2ExpandedConverter x:Key="MultiValue2ExpandedConverter" />
     <converter:String2IconConverter x:Key="String2IconConverter" />
     <converter:MultiValue2ListConverter x:Key="MultiValue2ListConverter" />
-    <converter:MultiValue2VisibilityConverter x:Key="MultiValue2VisibilityConverter" />
+    <converter:MultiExpanderValue2VisibilityConverter x:Key="MultiExpanderValue2VisibilityConverter" />
     <converter:String2IsEnableConverter x:Key="String2IsEnableConverter" />
     <converter:BooleanReverseConverter x:Key="BooleanReverseConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -36,4 +36,5 @@
     <converter:GlobalFontSizeToDescriptionConverter x:Key="GlobalFontSizeToDescriptionConverter" />
     <converter:JsonSerializeConverter x:Key="JsonSerializeConverter" />
     <converter:MultiValue2VisibilityReverseConverter x:Key="MultiValue2VisibilityReverseConverter" />
+    <converter:MultiTranslationBackValue2VisibilityConverter x:Key="MultiTranslationBackValue2VisibilityConverter" />
 </ResourceDictionary>

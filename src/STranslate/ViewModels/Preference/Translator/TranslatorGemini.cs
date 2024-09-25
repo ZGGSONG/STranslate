@@ -461,7 +461,9 @@ public partial class TranslatorGemini : TranslatorBase, ITranslatorLlm
             UserDefinePrompts = UserDefinePrompts.Clone(),
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
-            IsExecuting = IsExecuting
+            IsExecuting = IsExecuting,
+            IsTranslateBackExecuting = IsTranslateBackExecuting,
+            AutoExecuteTranslateBack = AutoExecuteTranslateBack,
         };
     }
 

@@ -175,7 +175,7 @@
                                                             </Border>
                                                             <DataTemplate.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter TargetName="PromptBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                                    <Setter TargetName="PromptBorder" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                                                 </Trigger>
                                                             </DataTemplate.Triggers>
                                                         </DataTemplate>
@@ -225,7 +225,7 @@
                                         <!--  // 复制按钮到Expander上 Expander收起时显示//  -->
                                         <StackPanel x:Name="HeaderCopySP" Orientation="Horizontal">
                                             <StackPanel.Visibility>
-                                                <MultiBinding Converter="{StaticResource MultiValue2VisibilityConverter}">
+                                                <MultiBinding Converter="{StaticResource MultiExpanderValue2VisibilityConverter}">
                                                     <Binding Path="IsExpanded" RelativeSource="{RelativeSource AncestorType=Expander}" />
                                                     <Binding Path="DataContext.CommonSettingVM.ShowCopyOnHeader" RelativeSource="{RelativeSource AncestorType=Window}" />
                                                     <Binding Path="Data.IsSuccess" />
@@ -324,6 +324,65 @@
                                             StaysOpen="False">
                                             <Border Style="{DynamicResource BorderStyle}">
                                                 <StackPanel FlowDirection="LeftToRight">
+
+                                                    <!--  // 执行翻译 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行当前服务翻译">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                Text="执行翻译" />
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <!--  // 执行回译 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行当前服务回译">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateBackCommand}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                            <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                            <Binding ElementName="ExtraSettingsTb" />
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <Grid Margin="0,5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition Width="80" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Left"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                Text="执行回译" />
+                                                        </Grid>
+                                                    </Border>
+
+                                                    <Separator />
+
                                                     <!--  // 自动翻译 //  -->
                                                     <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
                                                         <i:Interaction.Triggers>
@@ -360,11 +419,11 @@
                                                         </Grid>
                                                     </Border>
 
-                                                    <!--  // 执行翻译 //  -->
-                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行当前服务翻译">
+                                                    <!--  // 自动回译 //  -->
+                                                    <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译，保存至配置文件">
                                                         <i:Interaction.Triggers>
                                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
+                                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteTranslateBackCommand}">
                                                                     <i:InvokeCommandAction.CommandParameter>
                                                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                             <Binding Path="Data" Source="{StaticResource TranslatorService}" />
@@ -380,11 +439,19 @@
                                                                 <ColumnDefinition Width="80" />
                                                             </Grid.ColumnDefinitions>
 
+                                                            <Label
+                                                                HorizontalAlignment="Left"
+                                                                Content="&#xec9e;"
+                                                                FontFamily="{DynamicResource IconFont}"
+                                                                FontSize="{DynamicResource FontSize14}"
+                                                                FontWeight="Bold"
+                                                                Visibility="{Binding Source={StaticResource TranslatorService}, Path=Data.AutoExecuteTranslateBack, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 HorizontalAlignment="Left"
                                                                 FontSize="{DynamicResource FontSize14}"
-                                                                Text="执行翻译" />
+                                                                Text="自动回译" />
                                                         </Grid>
                                                     </Border>
 
@@ -480,7 +547,7 @@
                             <Grid dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="False">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" MinHeight="20" />
+                                    <RowDefinition Height="Auto" MinHeight="20" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <TextBox
@@ -583,16 +650,12 @@
                                     <!--  回译该结果  -->
                                     <Button
                                         Margin="5,0,0,0"
-                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateBackCommand}"
+                                        CommandParameter="{Binding .}"
                                         Content="&#xe687;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="回译[强制回译](Ctrl+点击)">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TranslateBackCommand}" CommandParameter="{Binding Data.Result}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                        ToolTip="回译">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.Result" />
@@ -610,8 +673,15 @@
                                 <!--  回译结果  -->
                                 <Grid
                                     Grid.Row="2"
+                                    MinHeight="20"
                                     dd:DragDrop.IsDragSource="False"
                                     dd:DragDrop.IsDropTarget="False">
+                                    <Grid.Visibility>
+                                        <MultiBinding Converter="{StaticResource MultiTranslationBackValue2VisibilityConverter}">
+                                            <Binding Path="Data.TranslateBackResult" />
+                                            <Binding Path="IsTranslateBackExecuting" />
+                                        </MultiBinding>
+                                    </Grid.Visibility>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
@@ -622,11 +692,15 @@
                                         VerticalAlignment="Top"
                                         Style="{DynamicResource SeparatorStyle}" />
                                     <TextBox
+                                        Grid.Row="0"
                                         PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                         Style="{DynamicResource TextBoxOutputStyle}"
                                         Tag="{Binding Data.IsTranslateBackSuccess}"
                                         Text="{Binding Data.TranslateBackResult}" />
-                                    <control:LoadingUc IsAnimationPlaying="{Binding IsTranslateBackExecuting}" Visibility="{Binding IsTranslateBackExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <control:LoadingUc
+                                        Grid.Row="0"
+                                        IsAnimationPlaying="{Binding IsTranslateBackExecuting}"
+                                        Visibility="{Binding IsTranslateBackExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                     <StackPanel
                                         Grid.Row="1"
