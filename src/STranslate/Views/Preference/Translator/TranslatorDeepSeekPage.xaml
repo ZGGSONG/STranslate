@@ -7,6 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
     d:DataContext="{d:DesignInstance Type=vm:TranslatorDeepSeek}"
     d:DesignHeight="850"
@@ -69,7 +70,7 @@
     </UserControl.Resources>
     <Border
         Padding="10,20"
-        BorderBrush="{DynamicResource BorderBrushColor}"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         CornerRadius="4">
         <ScrollViewer>
@@ -175,13 +176,15 @@
                         Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                     <PasswordBox
                         Grid.Column="1"
+                        Height="36"
                         MinWidth="160"
                         HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
                         common:BoundPasswordBox.Attach="True"
                         common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Tag="API Key"
                         ToolTip="{Binding AppKey}"
-                        Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" Height="36" VerticalAlignment="Top" />
+                        Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     <Button
                         Grid.Column="2"
