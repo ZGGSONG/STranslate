@@ -57,6 +57,9 @@ public partial class InputViewModel : ObservableObject
     /// </summary>
     private LangEnum? _userSelectedLang;
 
+    public LangEnum GetSourceLang { get; set; }
+    public LangEnum GetTargetLang { get; set; }
+
     /// <summary>
     ///     判断是否完成翻译，避免自动翻译重复执行
     /// </summary>
@@ -85,6 +88,9 @@ public partial class InputViewModel : ObservableObject
 
             //如果增加的为非空格字符则进行自动翻译
             if (previousValue.Trim() != value.Trim()) _autoTranslateTimer?.Change(AutoTranslateDelay, Timeout.Infinite);
+
+            GetSourceLang = LangEnum.auto;
+            GetTargetLang = LangEnum.auto;
         }
     }
 
@@ -150,7 +156,10 @@ public partial class InputViewModel : ObservableObject
 
             if (!PreTranslate())
                 return;
-            var history = await DoTranslateAsync(obj, sourceLang, targetLang, size, token);
+
+            GetSourceLang = sourceLang;
+            GetTargetLang = targetLang;
+            var history = await DoTranslateAsync(obj, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
             await PostTranslateAsync(history, sourceLang, targetLang, size);
@@ -311,8 +320,7 @@ public partial class InputViewModel : ObservableObject
         return hasCache;
     }
 
-    private async Task<HistoryModel?> DoTranslateAsync(object? obj, LangEnum source, LangEnum target, long size,
-        CancellationToken token)
+    private async Task<HistoryModel?> DoTranslateAsync(object? obj, long size, CancellationToken token)
     {
         HistoryModel? history = null;
         List<ITranslator>? servicesCache = null;
@@ -325,7 +333,7 @@ public partial class InputViewModel : ObservableObject
         var isCheckCacheFirst = obj == null;
         if (size != 0 && isCheckCacheFirst)
         {
-            history = await SqlHelper.GetDataAsync(InputContent, source.GetDescription(), target.GetDescription());
+            history = await SqlHelper.GetDataAsync(InputContent, GetSourceLang.GetDescription(), GetTargetLang.GetDescription());
             if (history != null)
             {
                 IdentifyLanguage = "缓存";
@@ -335,7 +343,7 @@ public partial class InputViewModel : ObservableObject
         }
 
         // 获取识别语种
-        (source, target) = await GetLangInfoAsync(services, servicesCache, source, target, token);
+        (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(services, servicesCache, GetSourceLang, GetTargetLang, token);
 
         var allCache = true;
         await Parallel.ForEachAsync(
@@ -343,17 +351,17 @@ public partial class InputViewModel : ObservableObject
             token,
             async (service, cancellationToken) =>
             {
-                allCache &= await DoTranslateSingleAsync(services, service, servicesCache, source, target,
+                allCache &= await DoTranslateSingleAsync(services, service, servicesCache, GetSourceLang, GetTargetLang,
                     cancellationToken, copyIndex);
 
                 // 开启自动回译并且未获取到缓存在执行回译
                 if (!service.AutoExecuteTranslateBack || !string.IsNullOrEmpty(service.Data.TranslateBackResult)) return;
 
                 // 在识别全部为缓存的情况下均为自动识别，此时回译则需要重新获取语种了
-                if (source == LangEnum.auto && target == LangEnum.auto)
-                    (source, target) = await GetLangInfoAsync(null, null, source, target, token);
+                if (GetSourceLang == LangEnum.auto && GetTargetLang == LangEnum.auto)
+                    (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(null, null, GetSourceLang, GetTargetLang, token);
 
-                await DoTranslateBackSingleAsync(service, source, target, cancellationToken);
+                await DoTranslateBackSingleAsync(service, GetSourceLang, GetTargetLang, cancellationToken);
             }
         );
 

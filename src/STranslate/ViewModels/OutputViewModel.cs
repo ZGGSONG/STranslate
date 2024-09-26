@@ -59,10 +59,13 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
     {
-        var (source, target) = await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
-        await _inputVm.DoTranslateSingleAsync(null, service, null, source, target, token, 0);
+        if (_inputVm is { GetSourceLang: LangEnum.auto, GetTargetLang: LangEnum.auto })
+            (_inputVm.GetSourceLang, _inputVm.GetTargetLang) =
+                await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
+
+        await _inputVm.DoTranslateSingleAsync(null, service, null, _inputVm.GetSourceLang, _inputVm.GetTargetLang, token, 0);
         if (service.AutoExecuteTranslateBack)
-            await _inputVm.DoTranslateBackSingleAsync(service, source, target, token);
+            await _inputVm.DoTranslateBackSingleAsync(service, _inputVm.GetSourceLang, _inputVm.GetTargetLang, token);
 
         await PostSingleTranslateAsync(_inputVm.InputContent, _mainVm.SourceLang, _mainVm.TargetLang);
     }
@@ -80,7 +83,13 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             return;
         }
         // 执行回译
-        var (source, target) = await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
+        LangEnum source;
+        LangEnum target;
+        if (_inputVm is { GetSourceLang: LangEnum.auto, GetTargetLang: LangEnum.auto })
+            (source, target) =
+                await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
+        else
+            (source, target) = (_inputVm.GetSourceLang, _inputVm.GetTargetLang);
         await _inputVm.DoTranslateBackSingleAsync(service, source, target, token);
 
         await PostSingleTranslateAsync(_inputVm.InputContent, _mainVm.SourceLang, _mainVm.TargetLang);
