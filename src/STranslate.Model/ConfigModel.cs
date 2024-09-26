@@ -398,7 +398,27 @@ public class ConfigModel
     ///     OCR时图片质量
     /// </summary>
     public OcrImageQualityEnum OcrImageQuality { get; set; } = OcrImageQualityEnum.Medium;
-    
+
+    /// <summary>
+    ///     原始语言识别为自动时使用该配置
+    ///     * 使用在线识别服务出错时使用
+    /// </summary>
+    public LangEnum SourceLangIfAuto { get; set; } = LangEnum.en;
+
+    /// <summary>
+    ///     目标语种为自动时
+    ///     * 原始语种识别为中文/中文繁体/中文粤语
+    ///     * 目标语种使用该配置
+    /// </summary>
+    public LangEnum TargetLangIfSourceZh { get; set; } = LangEnum.en;
+
+    /// <summary>
+    ///     目标语种为自动时
+    ///     * 原始语种识别为非中文
+    ///     * 目标语种使用该配置
+    /// </summary>
+    public LangEnum TargetLangIfSourceNotZh { get; set; } = LangEnum.zh_cn;
+
     /// <summary>
     ///     替换翻译
     /// </summary>
@@ -512,6 +532,9 @@ public class ConfigModel
             IsPurify = IsPurify,
             IsOnlyShowRet = IsOnlyShowRet,
             OcrImageQuality = OcrImageQuality,
+            SourceLangIfAuto = SourceLangIfAuto,
+            TargetLangIfSourceZh = TargetLangIfSourceZh,
+            TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

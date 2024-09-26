@@ -272,6 +272,9 @@ public class ConfigHelper
         CurrentConfig.IsPurify = model.IsPurify;
         CurrentConfig.IsOnlyShowRet = model.IsOnlyShowRet;
         CurrentConfig.OcrImageQuality = model.OcrImageQuality;
+        CurrentConfig.SourceLangIfAuto = model.SourceLangIfAuto;
+        CurrentConfig.TargetLangIfSourceZh = model.TargetLangIfSourceZh;
+        CurrentConfig.TargetLangIfSourceNotZh = model.TargetLangIfSourceNotZh;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -808,6 +811,9 @@ public class ConfigHelper
             IsHideLangWhenOnlyShowOutput = true,
             IsPurify = true,
             OcrImageQuality = OcrImageQualityEnum.Medium,
+            SourceLangIfAuto = LangEnum.en,
+            TargetLangIfSourceZh = LangEnum.en,
+            TargetLangIfSourceNotZh = LangEnum.zh_cn,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

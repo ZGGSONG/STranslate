@@ -350,6 +350,26 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private OcrImageQualityEnum _ocrImageQuality = CurConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
     
+    /// <summary>
+    ///     原始语言识别为自动时使用该配置
+    ///     * 使用在线识别服务出错时使用
+    /// </summary>
+    [ObservableProperty] private LangEnum _sourceLangIfAuto = CurConfig?.SourceLangIfAuto ?? LangEnum.en;
+
+    /// <summary>
+    ///     目标语种为自动时
+    ///     * 原始语种识别为中文/中文繁体/中文粤语
+    ///     * 目标语种使用该配置
+    /// </summary>
+    [ObservableProperty] private LangEnum _targetLangIfSourceZh = CurConfig?.TargetLangIfSourceZh ?? LangEnum.en;
+
+    /// <summary>
+    ///     目标语种为自动时
+    ///     * 原始语种识别为非中文
+    ///     * 目标语种使用该配置
+    /// </summary>
+    [ObservableProperty] private LangEnum _targetLangIfSourceNotZh = CurConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
+
     public long HistorySize = CurConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -519,6 +539,9 @@ public partial class CommonViewModel : ObservableObject
         IsPurify = CurConfig?.IsPurify ?? true;
         IsOnlyShowRet = CurConfig?.IsOnlyShowRet ?? true;
         OcrImageQuality = CurConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
+        SourceLangIfAuto = CurConfig?.SourceLangIfAuto ?? LangEnum.en;
+        TargetLangIfSourceZh = CurConfig?.TargetLangIfSourceZh ?? LangEnum.en;
+        TargetLangIfSourceNotZh = CurConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

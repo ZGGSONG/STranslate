@@ -399,8 +399,11 @@ public partial class InputViewModel : ObservableObject
             var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
             identify = await LangDetectHelper.DetectAsync(InputContent, detectType, rate, token);
 
-            //TODO: 如果identify也是自动呢？（只有服务识别服务出错的情况下才是auto）
-            identify = identify == LangEnum.auto ? LangEnum.en : identify;
+            //如果identify也是自动（只有服务识别服务出错的情况下才是auto）
+            identify = identify == LangEnum.auto
+                ? CnfHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en
+                : identify;
+
             // 获取最终的识别语种
             IdentifyLanguage = identify.GetDescription();
             source = identify;
@@ -408,8 +411,8 @@ public partial class InputViewModel : ObservableObject
 
         if (target == LangEnum.auto)
             target = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
-                ? LangEnum.en
-                : LangEnum.zh_cn;
+                ? CnfHelper.CurrentConfig?.TargetLangIfSourceZh ?? LangEnum.en
+                : CnfHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
 
         return (source, target);
     }
