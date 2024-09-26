@@ -405,6 +405,10 @@ public partial class InputViewModel : ObservableObject
 
             var detectType = CnfHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
             var rate = CnfHelper.CurrentConfig?.AutoScale ?? 0.8;
+
+            // 显示识别内容为...
+            IdentifyLanguage = "...";
+
             identify = await LangDetectHelper.DetectAsync(InputContent, detectType, rate, token);
 
             //如果identify也是自动（只有服务识别服务出错的情况下才是auto）

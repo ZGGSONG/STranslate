@@ -5,13 +5,13 @@
 
     <!--  // Separator //  -->
     <Style x:Key="SeparatorStyle" TargetType="Separator">
-
+        <Setter Property="Height" Value="0.7" />
         <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">
-                    <Border Height="0.7" props:ThemeProps.Background="{DynamicResource SeparatorBackground}" />
+                    <Border Height="{TemplateBinding Height}" props:ThemeProps.Background="{DynamicResource SeparatorBackground}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

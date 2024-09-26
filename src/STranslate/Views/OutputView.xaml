@@ -680,7 +680,6 @@
                                 <!--  回译结果  -->
                                 <Grid
                                     Grid.Row="2"
-                                    MinHeight="20"
                                     dd:DragDrop.IsDragSource="False"
                                     dd:DragDrop.IsDropTarget="False">
                                     <Grid.Visibility>
@@ -690,27 +689,29 @@
                                         </MultiBinding>
                                     </Grid.Visibility>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" MinHeight="20" />
                                     </Grid.RowDefinitions>
                                     <Separator
-                                        Margin="0,0,0,5"
+                                        Height="1.5"
+                                        Margin="0,0,0,3"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
                                         Style="{DynamicResource SeparatorStyle}" />
                                     <TextBox
-                                        Grid.Row="0"
+                                        Grid.Row="1"
                                         PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                         Style="{DynamicResource TextBoxOutputStyle}"
                                         Tag="{Binding Data.IsTranslateBackSuccess}"
                                         Text="{Binding Data.TranslateBackResult}" />
                                     <control:LoadingUc
-                                        Grid.Row="0"
+                                        Grid.Row="1"
                                         IsAnimationPlaying="{Binding IsTranslateBackExecuting}"
                                         Visibility="{Binding IsTranslateBackExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                     <StackPanel
-                                        Grid.Row="1"
+                                        Grid.Row="2"
                                         Margin="5"
                                         VerticalAlignment="Bottom"
                                         Orientation="Horizontal"

@@ -37,7 +37,7 @@
     <SolidColorBrush x:Key="ThumbPressedBackground">#5B5B5B</SolidColorBrush>
 
     <!--  // Separator //  -->
-    <SolidColorBrush x:Key="SeparatorBackground">#ededef</SolidColorBrush>
+    <SolidColorBrush x:Key="SeparatorBackground">#e5e5e5</SolidColorBrush>
 
     <!--  // ToggleButton //  -->
     <SolidColorBrush x:Key="ToggleBtnForeground">#7dc172</SolidColorBrush>
