@@ -648,14 +648,21 @@
                                     </Button>
 
                                     <!--  回译该结果  -->
-                                    <Button
-                                        Margin="5,0,0,0"
+                                    <!--
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateBackCommand}"
                                         CommandParameter="{Binding .}"
+                                    -->
+                                    <Button
+                                        Margin="5,0,0,0"
                                         Content="&#xe687;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
                                         ToolTip="回译">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateBackCommand}" CommandParameter="{Binding .}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.Result" />

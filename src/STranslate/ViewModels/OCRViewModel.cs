@@ -516,6 +516,7 @@ public partial class OCRViewModel : WindowVMBase
 
         //如果重复执行先取消上一步操作
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        Singleton<OutputViewModel>.Instance.SingleTranslateBackCancelCommand.Execute(null);
         Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
         //增量翻译
         if (_curConfig?.IncrementalTranslation ?? false)

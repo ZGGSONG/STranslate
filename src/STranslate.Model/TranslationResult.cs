@@ -10,20 +10,16 @@ public partial class TranslationResult : ObservableObject
     [ObservableProperty] private bool _isTranslateBackSuccess = true;
     [ObservableProperty] private string _translateBackResult = string.Empty;
 
+    public Exception? Exception { get; set; }
+
     /// <summary>
     ///     成功时使用的构造函数
     /// </summary>
     /// <param name="result"></param>
-    private TranslationResult(string result) : this (result, string.Empty)
-    {
-    }
-
-    private TranslationResult(string result, string translateBackResult)
+    private TranslationResult(string result)
     {
         IsSuccess = true;
         Result = result;
-        IsTranslateBackSuccess = true;
-        TranslateBackResult = translateBackResult;
         Exception = null;
     }
 
@@ -36,8 +32,6 @@ public partial class TranslationResult : ObservableObject
     {
         IsSuccess = false;
         Result = errorMessage;
-        IsTranslateBackSuccess = false;
-        TranslateBackResult = errorMessage;
         Exception = exception;
     }
 
@@ -52,8 +46,6 @@ public partial class TranslationResult : ObservableObject
         TranslateBackResult = string.Empty;
         Exception = null;
     }
-
-    public Exception? Exception { get; } // 可选，如果你想保留异常的详细信息
 
     /// <summary>
     ///     静态方法用于清空
@@ -80,5 +72,14 @@ public partial class TranslationResult : ObservableObject
     public static TranslationResult Fail(string errorMessage, Exception? exception = null)
     {
         return new TranslationResult(errorMessage, exception);
+    }
+
+    public static void CopyFrom(TranslationResult source, TranslationResult target)
+    {
+        target.IsSuccess = source.IsSuccess;
+        target.Result = source.Result;
+        target.IsTranslateBackSuccess = source.IsTranslateBackSuccess;
+        target.TranslateBackResult = source.TranslateBackResult;
+        target.Exception = source.Exception;
     }
 }

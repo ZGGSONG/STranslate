@@ -21,6 +21,7 @@ public partial class NotifyIconViewModel : ObservableObject
     private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
 
     private readonly InputViewModel _inputViewModel = Singleton<InputViewModel>.Instance;
+    private readonly OutputViewModel _outputViewModel = Singleton<OutputViewModel>.Instance;
 
     private ClipboardHelper? _clipboardHelper;
 
@@ -209,7 +210,8 @@ public partial class NotifyIconViewModel : ObservableObject
     private void InputTranslate(Window view)
     {
         //如果重复执行先取消上一步操作
-        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
         ClearAll();
         ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
@@ -234,7 +236,8 @@ public partial class NotifyIconViewModel : ObservableObject
     internal void TranslateHandler(Window view, string content, object? obj = null)
     {
         //如果重复执行先取消上一步操作
-        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
 
         //增量翻译
@@ -440,7 +443,8 @@ public partial class NotifyIconViewModel : ObservableObject
         }
 
         //如果重复执行先取消上一步操作
-        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
 
         //增量翻译
@@ -674,7 +678,8 @@ public partial class NotifyIconViewModel : ObservableObject
             content = StringUtil.RemoveLineBreaks(content);
 
         //如果重复执行先取消上一步操作
-        Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateCancelCommand.Execute(null);
+        _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
         //增量翻译
         if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)

@@ -59,95 +59,33 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task SingleTranslateAsync(ITranslator service, CancellationToken token)
     {
-        //TODO: 按照InputViewModel更新
-        var content = _inputVm.InputContent;
-        var originSource = _mainVm.SourceLang;
-        var sourceLang = _mainVm.SourceLang;
-        var targetLang = _mainVm.TargetLang;
-        // 选中的目标语种
-        var selectTargetLang = targetLang;
-        try
-        {
-            service.Data = TranslationResult.Reset;
-            service.IsExecuting = true;
+        var (source, target) = await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
+        await _inputVm.DoTranslateSingleAsync(null, service, null, source, target, token, 0);
+        if (service.AutoExecuteTranslateBack)
+            await _inputVm.DoTranslateBackSingleAsync(service, source, target, token);
 
-            var identify = LangEnum.auto;
-
-            // 原始语种自动识别
-            if (sourceLang == LangEnum.auto)
-            {
-                var detectType = Singleton<ConfigHelper>.Instance.CurrentConfig?.DetectType ?? LangDetectType.Local;
-                var rate = Singleton<ConfigHelper>.Instance.CurrentConfig?.AutoScale ?? 0.8;
-                identify = await LangDetectHelper.DetectAsync(content, detectType, rate, token);
-            }
-
-            //如果是自动则获取自动识别后的目标语种
-            if (targetLang == LangEnum.auto)
-                //目标语言
-                //1. 识别语种为中文系则目标语言为英文
-                //2. 识别语种为自动或其他语系则目标语言为中文
-                targetLang = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
-                    ? LangEnum.en
-                    : LangEnum.zh_cn;
-
-            //根据不同服务类型区分-默认非流式请求数据，若走此种方式请求则无需添加
-            if (service is ITranslatorLlm)
-            {
-                //流式处理目前给AI使用，所以可以传递识别语言给AI做更多处理
-                //Auto则转换为识别语种
-                sourceLang = sourceLang == LangEnum.auto ? identify : sourceLang;
-                await _inputVm.StreamHandlerAsync(service, content, sourceLang, targetLang, token);
-            }
-            else
-            {
-                await _inputVm.NonStreamHandlerAsync(service, content, sourceLang, targetLang, token);
-            }
-        }
-        catch (Exception exception)
-        {
-            var errorMessage = "";
-            var isCancelMsg = false;
-            switch (exception)
-            {
-                case TaskCanceledException:
-                    errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时";
-                    isCancelMsg = token.IsCancellationRequested;
-                    break;
-
-                case HttpRequestException:
-                    errorMessage = "请求出错";
-                    break;
-
-                default:
-                    errorMessage = "翻译出错";
-                    break;
-            }
-
-            service.Data = TranslationResult.Fail($"{errorMessage}: {exception.Message}", exception);
-
-            if (isCancelMsg)
-                LogService.Logger.Debug(
-                    $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
-            else
-                LogService.Logger.Error(
-                    $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
-        }
-        finally
-        {
-            if (service.IsExecuting) service.IsExecuting = false;
-
-            await HandleHistoryAsync(content, originSource, selectTargetLang);
-        }
+        await PostSingleTranslateAsync(_inputVm.InputContent, _mainVm.SourceLang, _mainVm.TargetLang);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task SingleTranslateBackAsync(ITranslator service, CancellationToken token)
     {
+        // Ctrl+LeftClick 开关
+        if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
+        {
+            var newResult = !service.AutoExecuteTranslateBack;
+            service.AutoExecuteTranslateBack = newResult;
+            ToastHelper.Show($"{(newResult ? "打开" : "关闭")}自动回译");
+            return;
+        }
+        // 执行回译
         var (source, target) = await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
         await _inputVm.DoTranslateBackSingleAsync(service, source, target, token);
+
+        await PostSingleTranslateAsync(_inputVm.InputContent, _mainVm.SourceLang, _mainVm.TargetLang);
     }
 
-    private async Task HandleHistoryAsync(string content, LangEnum source, LangEnum dbTarget)
+    private async Task PostSingleTranslateAsync(string content, LangEnum source, LangEnum target)
     {
         var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
         var jsonSerializerSettings = new JsonSerializerSettings
@@ -157,7 +95,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         {
             Time = DateTime.Now,
             SourceLang = source.GetDescription(),
-            TargetLang = dbTarget.GetDescription(),
+            TargetLang = target.GetDescription(),
             SourceText = content,
             Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
         };
@@ -238,7 +176,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
     public void Clear()
     {
-        foreach (var item in Translators) item.Data = TranslationResult.Reset;
+        foreach (var service in Translators)
+            TranslationResult.CopyFrom(TranslationResult.Reset, service.Data);
     }
 
     [RelayCommand]

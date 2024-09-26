@@ -287,6 +287,7 @@ public partial class MainViewModel : ObservableObject
     private void CancelAndTranslate()
     {
         OutputVM.SingleTranslateCancelCommand.Execute(null);
+        OutputVM.SingleTranslateBackCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
         InputVM.TranslateCommand.Execute(null);
     }
@@ -395,6 +396,7 @@ public partial class MainViewModel : ObservableObject
 
         //如果重复执行先取消上一步操作
         OutputVM.SingleTranslateCancelCommand.Execute(null);
+        OutputVM.SingleTranslateBackCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
 
         InputVM.TranslateCommand.Execute(null);
@@ -441,6 +443,7 @@ public partial class MainViewModel : ObservableObject
 
         //如果重复执行先取消上一步操作
         OutputVM.SingleTranslateCancelCommand.Execute(null);
+        OutputVM.SingleTranslateBackCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
 
         NotifyIconVM.ScreenShotTranslateCancelCommand.Execute(null);
