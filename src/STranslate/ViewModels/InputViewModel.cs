@@ -397,7 +397,8 @@ public partial class InputViewModel : ObservableObject
             // 如果当前启用服务为null(逐个启动)或者与缓存服务一致则无需进行语种识别
             var servicesMatch = services != null
                                 && services.Count == servicesCache?.Count
-                                && services.All(s => servicesCache.Contains(s, new TranslatorCompare()));
+                                && services.All(s => servicesCache.Contains(s, new TranslatorCompare()))
+                                && servicesCache.All(s => s.Data.IsSuccess && !string.IsNullOrEmpty(s.Data.Result));//如果缓存结果不为空并且者结果标记为成功
             if (servicesMatch)
             {
                 return (source, target);

@@ -64,6 +64,7 @@ public partial class HotkeyViewModel : ObservableObject
         new SoftHotkey("Ctrl + '", "全局字体恢复默认"),
         new SoftHotkey("Ctrl + 换行", "打开/关闭始终换行"),
         new SoftHotkey("Alt + 换行", "打开/关闭OCR净化"),
+        new SoftHotkey("Alt + 回译", "打开/关闭回译功能"),
     ];
 
     [ObservableProperty] private HotkeyContentVisibilityModel _inputHk = new();

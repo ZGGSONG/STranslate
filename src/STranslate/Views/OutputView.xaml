@@ -657,7 +657,7 @@
                                         Content="&#xe687;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="回译">
+                                        ToolTip="回译(Alt+点击 启/禁用)">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateBackCommand}" CommandParameter="{Binding .}" />
@@ -704,7 +704,15 @@
                                         PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                         Style="{DynamicResource TextBoxOutputStyle}"
                                         Tag="{Binding Data.IsTranslateBackSuccess}"
-                                        Text="{Binding Data.TranslateBackResult}" />
+                                        Text="{Binding Data.TranslateBackResult}"
+                                        ToolTip="右键双击可关闭回译内容">
+                                        <TextBox.InputBindings>
+                                            <MouseBinding
+                                                Command="{Binding Data.CloseTranslationBackUiCommand, Source={StaticResource OutputVm}}"
+                                                CommandParameter="{Binding .}"
+                                                MouseAction="RightDoubleClick" />
+                                        </TextBox.InputBindings>
+                                    </TextBox>
                                     <control:LoadingUc
                                         Grid.Row="1"
                                         IsAnimationPlaying="{Binding IsTranslateBackExecuting}"

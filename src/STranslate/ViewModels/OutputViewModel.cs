@@ -73,8 +73,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task SingleTranslateBackAsync(ITranslator service, CancellationToken token)
     {
-        // Ctrl+LeftClick 开关
-        if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
+        // Alt+LeftClick 开关
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) > 0)
         {
             var newResult = !service.AutoExecuteTranslateBack;
             service.AutoExecuteTranslateBack = newResult;
@@ -83,14 +83,11 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             return;
         }
         // 执行回译
-        LangEnum source;
-        LangEnum target;
         if (_inputVm is { GetSourceLang: LangEnum.auto, GetTargetLang: LangEnum.auto })
-            (source, target) =
+            (_inputVm.GetSourceLang, _inputVm.GetTargetLang) =
                 await _inputVm.GetLangInfoAsync(null, null, _mainVm.SourceLang, _mainVm.TargetLang, token);
-        else
-            (source, target) = (_inputVm.GetSourceLang, _inputVm.GetTargetLang);
-        await _inputVm.DoTranslateBackSingleAsync(service, source, target, token);
+
+        await _inputVm.DoTranslateBackSingleAsync(service, _inputVm.GetSourceLang, _inputVm.GetTargetLang, token);
 
         await PostSingleTranslateAsync(_inputVm.InputContent, _mainVm.SourceLang, _mainVm.TargetLang);
     }
@@ -304,6 +301,12 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
         await Task.Delay(150);
         InputSimulatorHelper.PrintText(str);
+    }
+
+    [RelayCommand]
+    private void CloseTranslationBackUi(ITranslator translator)
+    {
+        translator.Data.TranslateBackResult = string.Empty;
     }
 
     #region gong-wpf-dragdrop interface implementation
