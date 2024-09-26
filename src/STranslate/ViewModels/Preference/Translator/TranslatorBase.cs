@@ -13,7 +13,6 @@ public partial class TranslatorBase : ObservableObject
 
     [JsonIgnore]
     [ObservableProperty]
-    [property: JsonIgnore]
     private bool _autoExecuteTranslateBack;
 
     [JsonIgnore] public Dictionary<IconType, string> Icons => Constant.IconDict;

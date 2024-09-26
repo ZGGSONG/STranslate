@@ -75,6 +75,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         {
             var newResult = !service.AutoExecuteTranslateBack;
             service.AutoExecuteTranslateBack = newResult;
+            Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
             ToastHelper.Show($"{(newResult ? "打开" : "关闭")}自动回译");
             return;
         }

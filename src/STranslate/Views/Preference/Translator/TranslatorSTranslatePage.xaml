@@ -69,6 +69,19 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="自动回译: " ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译" />
+
+                <ToggleButton
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding AutoExecuteTranslateBack}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="连通测试: " />
 
                 <Button
