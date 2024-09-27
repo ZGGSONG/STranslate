@@ -836,14 +836,14 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
             // 如果结果为空则设置为失败，移除提示信息，当前直接访问服务获取新结果
-            if (string.IsNullOrEmpty(data?.Result))
+            if (data is {IsSuccess: true})
             {
-                translator.Data.IsSuccess = false;
-                translator.Data.Result = string.Empty;
+                TranslationResult.CopyFrom(data, translator.Data);
             }
             else
             {
-                TranslationResult.CopyFrom(data, translator.Data);
+                translator.Data.IsSuccess = false;
+                translator.Data.Result = string.Empty;
             }
         }
         catch (Exception)
