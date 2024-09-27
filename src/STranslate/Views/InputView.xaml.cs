@@ -35,18 +35,16 @@ public partial class InputView
         }
         else //修复普通滚动
         {
-            // 普通滚动
-            if (e.Delta > 0)
+            var newOffset = textBox.VerticalOffset - e.Delta / 3.0;
+            if (newOffset < 0)
             {
-                // 向上滚动
-                if (textBox.VerticalOffset > 0) textBox.ScrollToVerticalOffset(textBox.VerticalOffset - 30);
+                newOffset = 0;
             }
-            else
+            else if (newOffset > textBox.ExtentHeight)
             {
-                // 向下滚动
-                if (textBox.VerticalOffset < textBox.ExtentHeight - textBox.ViewportHeight)
-                    textBox.ScrollToVerticalOffset(textBox.VerticalOffset + 30);
+                newOffset = textBox.ExtentHeight;
             }
+            textBox.ScrollToVerticalOffset(newOffset);
         }
 
         // 防止事件继续传播

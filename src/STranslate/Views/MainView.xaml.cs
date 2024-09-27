@@ -159,6 +159,36 @@ public partial class MainView : Window
         windowSb.Begin(MainWindow);
     }
 
+    /// <summary>
+    ///     修复MainView触控板滚动过快的问题
+    ///     * <see href="https://github.com/ZGGSONG/STranslate/issues/198"/>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (sender is not ScrollViewer scrollViewer) return;
+        var inputView = CommonUtil.FindControlByName<InputView>(scrollViewer, "InputView");
+        if (inputView is { IsMouseOver: true })
+        {
+            // 如果是 InputView，则不处理滚动事件
+            e.Handled = false;
+            return;
+        }
+        // 调整滚动速度
+        var newOffset = scrollViewer.VerticalOffset - e.Delta / 3.0;
+        if (newOffset < 0)
+        {
+            newOffset = 0;
+        }
+        else if (newOffset > scrollViewer.ExtentHeight)
+        {
+            newOffset = scrollViewer.ExtentHeight;
+        }
+        scrollViewer.ScrollToVerticalOffset(newOffset);
+        e.Handled = true;
+    }
+
     #region 隐藏系统窗口菜单
 
     //方法来自于 Lindexi

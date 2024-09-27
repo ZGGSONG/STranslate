@@ -167,7 +167,7 @@
                 Focusable="False"
                 WindowChrome.IsHitTestVisibleInChrome="True" />
 
-            <ScrollViewer Grid.Row="1" Focusable="False">
+            <ScrollViewer Grid.Row="1" Focusable="False" PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
                 <StackPanel>
                     <!--  // Input //  -->
                     <local:InputView
