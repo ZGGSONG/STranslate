@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -9,7 +8,6 @@ using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 using Newtonsoft.Json;
 using STranslate.Helper;
-using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;

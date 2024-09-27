@@ -26,6 +26,8 @@
         <Setter Property="FontFamily" Value="{DynamicResource IconFont}" />
         <Setter Property="FontSize" Value="{DynamicResource FontSize14}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="1" />
         <Setter Property="Text" Value="&#xe60b;" />
         <Setter Property="Margin" Value="6,0,0,0" />
     </Style>
