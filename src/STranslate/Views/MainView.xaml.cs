@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
@@ -168,23 +169,34 @@ public partial class MainView : Window
     private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         if (sender is not ScrollViewer scrollViewer) return;
+
+        // 缓存控件查找结果，避免重复遍历可视化树
         var inputView = CommonUtil.FindControlByName<InputView>(scrollViewer, "InputView");
-        if (inputView is { IsMouseOver: true })
+        var langView = CommonUtil.FindControlByName<LangView>(scrollViewer, "LangView");
+        var detectPopup = inputView?.FindName("DetectPopup") as Popup;
+        var identifyPopup = inputView?.FindName("IdentifyPopup") as Popup;
+
+        // 使用局部函数来减少重复代码
+        bool IsMouseOverControl(FrameworkElement? control)
         {
-            // 如果是 InputView，则不处理滚动事件
+            return control?.IsMouseOver == true;
+        }
+
+        bool IsMouseOverPopup(Popup? popup)
+        {
+            return popup is { IsOpen: true, Child: Border { IsMouseOver: true } };
+        }
+
+        if (IsMouseOverControl(inputView) || IsMouseOverControl(langView) || IsMouseOverPopup(detectPopup) || IsMouseOverPopup(identifyPopup))
+        {
+            // 如果是 InputView 或 LangView，则不处理滚动事件
             e.Handled = false;
             return;
         }
+
         // 调整滚动速度
         var newOffset = scrollViewer.VerticalOffset - e.Delta / 3.0;
-        if (newOffset < 0)
-        {
-            newOffset = 0;
-        }
-        else if (newOffset > scrollViewer.ExtentHeight)
-        {
-            newOffset = scrollViewer.ExtentHeight;
-        }
+        newOffset = Math.Max(0, Math.Min(newOffset, scrollViewer.ExtentHeight));
         scrollViewer.ScrollToVerticalOffset(newOffset);
         e.Handled = true;
     }

@@ -28,7 +28,7 @@
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ExpanderStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/FontStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/IconStyle.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ListBoxItemStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ScrollviewerStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/SeparatorStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/TextBlockStyle.xaml" />
