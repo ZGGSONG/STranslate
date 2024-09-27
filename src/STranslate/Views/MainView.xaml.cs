@@ -194,6 +194,9 @@ public partial class MainView : Window
             return;
         }
 
+        if (detectPopup is { IsOpen: true }) detectPopup.IsOpen = false;
+        if (identifyPopup is { IsOpen: true }) identifyPopup.IsOpen = false;
+
         // 调整滚动速度
         var newOffset = scrollViewer.VerticalOffset - e.Delta / 3.0;
         newOffset = Math.Max(0, Math.Min(newOffset, scrollViewer.ExtentHeight));
