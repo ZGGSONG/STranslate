@@ -200,7 +200,7 @@
                                                 </Border>
                                                 <DataTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                        <Setter TargetName="ServiceControl" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                                     </Trigger>
                                                 </DataTemplate.Triggers>
                                             </DataTemplate>

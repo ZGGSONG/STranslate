@@ -204,7 +204,7 @@
                                             </Border>
                                             <DataTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="OCRServiceControl" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                    <Setter TargetName="OCRServiceControl" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
                                                 </Trigger>
                                             </DataTemplate.Triggers>
                                         </DataTemplate>
