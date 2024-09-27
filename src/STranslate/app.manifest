@@ -59,7 +59,10 @@
 		<dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
 	  <!--<dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitor</dpiAwareness>
       <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/pm</dpiAware>-->
-    </windowsSettings>
+
+		 <!-- 使 WPF 程序支持高分辨率滚动 https://learn.microsoft.com/zh-cn/windows/win32/w8cookbook/windows-precision-touchpad-devices#solution -->
+		<highResolutionScrollingAware xmlns="http://schemas.microsoft.com/SMI/2013/WindowsSettings">true</highResolutionScrollingAware>
+	</windowsSettings>
   </application>
   
 
