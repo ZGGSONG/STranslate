@@ -7,6 +7,11 @@ namespace STranslate.Views;
 
 public partial class InputView
 {
+    /// <summary>
+    /// 由于windows设定有高精度/超高精度触摸板区别，和鼠标表现不一致，所以使用固定offset
+    /// </summary>
+    private const double Offset = 30;
+
     public InputView()
     {
         InitializeComponent();
@@ -35,16 +40,15 @@ public partial class InputView
         }
         else //修复普通滚动
         {
-            var newOffset = textBox.VerticalOffset - e.Delta / 3.0;
-            if (newOffset < 0)
+            if (e.Delta > 0)
             {
-                newOffset = 0;
+                if (textBox.VerticalOffset > 0) textBox.ScrollToVerticalOffset(textBox.VerticalOffset - Offset);
             }
-            else if (newOffset > textBox.ExtentHeight)
+            else
             {
-                newOffset = textBox.ExtentHeight;
+                if (textBox.VerticalOffset < textBox.ExtentHeight - textBox.ViewportHeight)
+                    textBox.ScrollToVerticalOffset(textBox.VerticalOffset + Offset);
             }
-            textBox.ScrollToVerticalOffset(newOffset);
         }
 
         // 防止事件继续传播
