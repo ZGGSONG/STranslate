@@ -22,49 +22,44 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     private static readonly ConfigHelper ConfigHelper = Singleton<ConfigHelper>.Instance;
 
-    /// <summary>
-    ///     当前配置实例
-    /// </summary>
-    private static readonly ConfigModel? CurConfig = ConfigHelper.CurrentConfig;
-
-    [ObservableProperty] private double _autoScale = CurConfig?.AutoScale ?? 0.8;
+    [ObservableProperty] private double _autoScale = ConfigHelper.CurrentConfig?.AutoScale ?? 0.8;
 
     /// <summary>
     ///     修改语言后立即翻译
     /// </summary>
-    [ObservableProperty] private bool _changedLang2Execute = CurConfig?.ChangedLang2Execute ?? true;
+    [ObservableProperty] private bool _changedLang2Execute = ConfigHelper.CurrentConfig?.ChangedLang2Execute ?? true;
 
-    [ObservableProperty] private bool _closeUIOcrRetTranslate = CurConfig?.CloseUIOcrRetTranslate ?? false;
+    [ObservableProperty] private bool _closeUIOcrRetTranslate = ConfigHelper.CurrentConfig?.CloseUIOcrRetTranslate ?? false;
 
     /// <summary>
     ///     翻译后执行自动复制动作(Ctrl+1...9)
     /// </summary>
-    [ObservableProperty] private int _copyResultAfterTranslateIndex = CurConfig?.CopyResultAfterTranslateIndex ?? 0;
+    [ObservableProperty] private int _copyResultAfterTranslateIndex = ConfigHelper.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
 
-    [ObservableProperty] private string _customFont = CurConfig?.CustomFont ?? Constant.DefaultFontName;
+    [ObservableProperty] private string _customFont = ConfigHelper.CurrentConfig?.CustomFont ?? Constant.DefaultFontName;
 
     /// <summary>
     ///     语种识别类型
     /// </summary>
-    [ObservableProperty] private LangDetectType _detectType = CurConfig?.DetectType ?? LangDetectType.Local;
+    [ObservableProperty] private LangDetectType _detectType = ConfigHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
 
     /// <summary>
     ///     禁用全局热键
     /// </summary>
-    [ObservableProperty] private bool _disableGlobalHotkeys = CurConfig?.DisableGlobalHotkeys ?? false;
+    [ObservableProperty] private bool _disableGlobalHotkeys = ConfigHelper.CurrentConfig?.DisableGlobalHotkeys ?? false;
 
     [ObservableProperty]
-    private DoubleTapFuncEnum _doubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+    private DoubleTapFuncEnum _doubleTapTrayFunc = ConfigHelper.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
 
     /// <summary>
     ///     是否启用外部调用服务
     /// </summary>
-    [ObservableProperty] private bool _externalCall = CurConfig?.ExternalCall ?? false;
+    [ObservableProperty] private bool _externalCall = ConfigHelper.CurrentConfig?.ExternalCall ?? false;
 
     /// <summary>
     ///     外部调用服务端口
     /// </summary>
-    [ObservableProperty] private int? _externalCallPort = CurConfig?.ExternalCallPort ?? 50020;
+    [ObservableProperty] private int? _externalCallPort = ConfigHelper.CurrentConfig?.ExternalCallPort ?? 50020;
 
     [ObservableProperty] private List<string> _getFontFamilys;
 
@@ -72,7 +67,7 @@ public partial class CommonViewModel : ObservableObject
     ///     全局字体大小
     /// </summary>
     [ObservableProperty]
-    private GlobalFontSizeEnum _globalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
+    private GlobalFontSizeEnum _globalFontSize = ConfigHelper.CurrentConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
 
     /// <summary>
     ///     历史记录大小
@@ -83,48 +78,48 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     ///     热键触发复制后是否显示成功提示
     /// </summary>
-    [ObservableProperty] private bool _hotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
+    [ObservableProperty] private bool _hotkeyCopySuccessToast = ConfigHelper.CurrentConfig?.HotkeyCopySuccessToast ?? true;
 
     /// <summary>
     ///     全屏模式下忽略热键
     /// </summary>
-    [ObservableProperty] private bool _ignoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
+    [ObservableProperty] private bool _ignoreHotkeysOnFullscreen = ConfigHelper.CurrentConfig?.IgnoreHotkeysOnFullscreen ?? false;
 
     /// <summary>
     ///     是否开启增量翻译
     /// </summary>
-    [ObservableProperty] private bool _incrementalTranslation = CurConfig?.IncrementalTranslation ?? false;
+    [ObservableProperty] private bool _incrementalTranslation = ConfigHelper.CurrentConfig?.IncrementalTranslation ?? false;
 
-    [ObservableProperty] private bool _isAdjustContentTranslate = CurConfig?.IsAdjustContentTranslate ?? false;
+    [ObservableProperty] private bool _isAdjustContentTranslate = ConfigHelper.CurrentConfig?.IsAdjustContentTranslate ?? false;
 
     /// <summary>
     ///     激活窗口时光标移动至末尾
     /// </summary>
-    [ObservableProperty] private bool _isCaretLast = CurConfig?.IsCaretLast ?? false;
+    [ObservableProperty] private bool _isCaretLast = ConfigHelper.CurrentConfig?.IsCaretLast ?? false;
 
-    [ObservableProperty] private bool _isFollowMouse = CurConfig?.IsFollowMouse ?? false;
+    [ObservableProperty] private bool _isFollowMouse = ConfigHelper.CurrentConfig?.IsFollowMouse ?? false;
 
     /// <summary>
     ///     启动时隐藏主界面
     /// </summary>
-    [ObservableProperty] private bool _isHideOnStart = CurConfig?.IsHideOnStart ?? false;
+    [ObservableProperty] private bool _isHideOnStart = ConfigHelper.CurrentConfig?.IsHideOnStart ?? false;
 
     /// <summary>
     ///     是否在关闭鼠标划词后保持最前
     /// </summary>
-    [ObservableProperty] private bool _isKeepTopmostAfterMousehook = CurConfig?.IsKeepTopmostAfterMousehook ?? false;
+    [ObservableProperty] private bool _isKeepTopmostAfterMousehook = ConfigHelper.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
 
-    [ObservableProperty] private bool _isOcrAutoCopyText = CurConfig?.IsOcrAutoCopyText ?? false;
+    [ObservableProperty] private bool _isOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsOcrAutoCopyText ?? false;
 
     /// <summary>
     ///     输出界面是否显示Prompt切换
     /// </summary>
-    [ObservableProperty] private bool _isPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
+    [ObservableProperty] private bool _isPromptToggleVisible = ConfigHelper.CurrentConfig?.IsPromptToggleVisible ?? true;
 
     /// <summary>
     ///     是否启用代理认证
     /// </summary>
-    [ObservableProperty] private bool _isProxyAuthentication = CurConfig?.IsProxyAuthentication ?? false;
+    [ObservableProperty] private bool _isProxyAuthentication = ConfigHelper.CurrentConfig?.IsProxyAuthentication ?? false;
 
     /// <summary>
     ///     显示/隐藏密码
@@ -133,244 +128,244 @@ public partial class CommonViewModel : ObservableObject
     private bool _isProxyPasswordHide = true;
 
     [ObservableProperty]
-    private bool _isRemoveLineBreakGettingWords = CurConfig?.IsRemoveLineBreakGettingWords ?? false;
+    private bool _isRemoveLineBreakGettingWords = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
 
     [ObservableProperty]
-    private bool _isRemoveLineBreakGettingWordsOCR = CurConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
+    private bool _isRemoveLineBreakGettingWordsOCR = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
 
     /// <summary>
     ///     是否显示监听剪贴板
     /// </summary>
-    [ObservableProperty] private bool _isShowClipboardMonitor = CurConfig?.IsShowClipboardMonitor ?? false;
+    [ObservableProperty] private bool _isShowClipboardMonitor = ConfigHelper.CurrentConfig?.IsShowClipboardMonitor ?? false;
 
     /// <summary>
     ///     是否显示关闭图标
     /// </summary>
-    [ObservableProperty] private bool _isShowClose = CurConfig?.IsShowClose ?? false;
+    [ObservableProperty] private bool _isShowClose = ConfigHelper.CurrentConfig?.IsShowClose ?? false;
 
     /// <summary>
     ///     是否显示快速配置服务
     /// </summary>
-    [ObservableProperty] private bool _isShowConfigureService = CurConfig?.IsShowConfigureService ?? false;
+    [ObservableProperty] private bool _isShowConfigureService = ConfigHelper.CurrentConfig?.IsShowConfigureService ?? false;
 
     /// <summary>
     ///     是否显示历史记录图标
     /// </summary>
-    [ObservableProperty] private bool _isShowHistory = CurConfig?.IsShowHistory ?? false;
+    [ObservableProperty] private bool _isShowHistory = ConfigHelper.CurrentConfig?.IsShowHistory ?? false;
 
     /// <summary>
     ///     是否显示打开增量翻译图标
     /// </summary>
-    [ObservableProperty] private bool _isShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
+    [ObservableProperty] private bool _isShowIncrementalTranslation = ConfigHelper.CurrentConfig?.IsShowIncrementalTranslation ?? false;
 
-    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? false;
+    [ObservableProperty] private bool _isShowLargeHumpCopyBtn = ConfigHelper.CurrentConfig?.IsShowLargeHumpCopyBtn ?? false;
 
     /// <summary>
     ///     是否显示主窗口提示词
     /// </summary>
-    [ObservableProperty] private bool _isShowMainPlaceholder = CurConfig?.IsShowMainPlaceholder ?? true;
+    [ObservableProperty] private bool _isShowMainPlaceholder = ConfigHelper.CurrentConfig?.IsShowMainPlaceholder ?? true;
 
     /// <summary>
     ///     是否显示打开鼠标划词图标
     /// </summary>
-    [ObservableProperty] private bool _isShowMousehook = CurConfig?.IsShowMousehook ?? false;
+    [ObservableProperty] private bool _isShowMousehook = ConfigHelper.CurrentConfig?.IsShowMousehook ?? false;
 
     /// <summary>
     ///     是否显示OCR图标
     /// </summary>
-    [ObservableProperty] private bool _isShowOCR = CurConfig?.IsShowOCR ?? false;
+    [ObservableProperty] private bool _isShowOCR = ConfigHelper.CurrentConfig?.IsShowOCR ?? false;
 
     /// <summary>
     ///     是否显示设置图标
     /// </summary>
-    [ObservableProperty] private bool _isShowPreference = CurConfig?.IsShowPreference ?? false;
+    [ObservableProperty] private bool _isShowPreference = ConfigHelper.CurrentConfig?.IsShowPreference ?? false;
 
     /// <summary>
     ///     是否显示识别二维码图标
     /// </summary>
-    [ObservableProperty] private bool _isShowQRCode = CurConfig?.IsShowQRCode ?? false;
+    [ObservableProperty] private bool _isShowQRCode = ConfigHelper.CurrentConfig?.IsShowQRCode ?? false;
 
     /// <summary>
     ///     是否显示截图翻译图标
     /// </summary>
-    [ObservableProperty] private bool _isShowScreenshot = CurConfig?.IsShowScreenshot ?? false;
+    [ObservableProperty] private bool _isShowScreenshot = ConfigHelper.CurrentConfig?.IsShowScreenshot ?? false;
 
     /// <summary>
     ///     是否显示静默OCR图标
     /// </summary>
-    [ObservableProperty] private bool _isShowSilentOCR = CurConfig?.IsShowSilentOCR ?? false;
+    [ObservableProperty] private bool _isShowSilentOCR = ConfigHelper.CurrentConfig?.IsShowSilentOCR ?? false;
 
-    [ObservableProperty] private bool _isShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? false;
+    [ObservableProperty] private bool _isShowSmallHumpCopyBtn = ConfigHelper.CurrentConfig?.IsShowSmallHumpCopyBtn ?? false;
 
-    [ObservableProperty] private bool _isShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? false;
+    [ObservableProperty] private bool _isShowSnakeCopyBtn = ConfigHelper.CurrentConfig?.IsShowSnakeCopyBtn ?? false;
 
-    [ObservableProperty] private bool _isShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? false;
+    [ObservableProperty] private bool _isShowTranslateBackBtn = ConfigHelper.CurrentConfig?.IsShowTranslateBackBtn ?? false;
 
     /// <summary>
     ///     是否开机启动
     /// </summary>
-    [ObservableProperty] private bool _isStartup = CurConfig?.IsStartup ?? false;
+    [ObservableProperty] private bool _isStartup = ConfigHelper.CurrentConfig?.IsStartup ?? false;
 
     /// <summary>
     ///     是否开启重复触发显示界面为显示/隐藏
     /// </summary>
-    [ObservableProperty] private bool _isTriggerShowHide = CurConfig?.IsTriggerShowHide ?? false;
+    [ObservableProperty] private bool _isTriggerShowHide = ConfigHelper.CurrentConfig?.IsTriggerShowHide ?? false;
 
     /// <summary>
     ///     主界面截图识别语种
     /// </summary>
-    [ObservableProperty] private LangEnum _mainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
+    [ObservableProperty] private LangEnum _mainOcrLang = ConfigHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto;
 
     /// <summary>
     ///     主窗口阴影
     ///     * 比较损耗性能 实测多占用30MB内存
     /// </summary>
-    [ObservableProperty] private bool _mainViewShadow = CurConfig?.MainViewShadow ?? false;
+    [ObservableProperty] private bool _mainViewShadow = ConfigHelper.CurrentConfig?.MainViewShadow ?? false;
 
     /// <summary>
     ///     是否默认管理员启动
     /// </summary>
-    [ObservableProperty] private bool _needAdmin = CurConfig?.NeedAdministrator ?? false;
+    [ObservableProperty] private bool _needAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
 
     /// <summary>
     ///     OCR修改语言后立即翻译
     /// </summary>
-    [ObservableProperty] private bool _ocrChangedLang2Execute = CurConfig?.OcrChangedLang2Execute ?? true;
+    [ObservableProperty] private bool _ocrChangedLang2Execute = ConfigHelper.CurrentConfig?.OcrChangedLang2Execute ?? true;
 
     /// <summary>
     ///     常用语言
     /// </summary>
-    [ObservableProperty] private string _oftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
+    [ObservableProperty] private string _oftenUsedLang = ConfigHelper.CurrentConfig?.OftenUsedLang ?? string.Empty;
 
     /// <summary>
     ///     代理服务器IP
     /// </summary>
-    [ObservableProperty] private string _proxyIp = CurConfig?.ProxyIp ?? string.Empty;
+    [ObservableProperty] private string _proxyIp = ConfigHelper.CurrentConfig?.ProxyIp ?? string.Empty;
 
     /// <summary>
     ///     所选代理方式
     /// </summary>
-    [ObservableProperty] private ProxyMethodEnum _proxyMethod = CurConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+    [ObservableProperty] private ProxyMethodEnum _proxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
 
     /// <summary>
     ///     代理认证密码
     /// </summary>
-    [ObservableProperty] private string _proxyPassword = CurConfig?.ProxyPassword ?? string.Empty;
+    [ObservableProperty] private string _proxyPassword = ConfigHelper.CurrentConfig?.ProxyPassword ?? string.Empty;
 
     /// <summary>
     ///     代理服务器端口
     /// </summary>
-    [ObservableProperty] private int? _proxyPort = CurConfig?.ProxyPort ?? 8089;
+    [ObservableProperty] private int? _proxyPort = ConfigHelper.CurrentConfig?.ProxyPort ?? 8089;
 
     /// <summary>
     ///     代理认证用户名
     /// </summary>
-    [ObservableProperty] private string _proxyUsername = CurConfig?.ProxyUsername ?? string.Empty;
+    [ObservableProperty] private string _proxyUsername = ConfigHelper.CurrentConfig?.ProxyUsername ?? string.Empty;
 
     /// <summary>
     ///     截图是否显示辅助线
     /// </summary>
-    [ObservableProperty] private bool _showAuxiliaryLine = CurConfig?.ShowAuxiliaryLine ?? true;
+    [ObservableProperty] private bool _showAuxiliaryLine = ConfigHelper.CurrentConfig?.ShowAuxiliaryLine ?? true;
 
     /// <summary>
     ///     收缩框是否显示复制按钮
     /// </summary>
-    [ObservableProperty] private bool _showCopyOnHeader = CurConfig?.ShowCopyOnHeader ?? false;
+    [ObservableProperty] private bool _showCopyOnHeader = ConfigHelper.CurrentConfig?.ShowCopyOnHeader ?? false;
 
     private RelayCommand<string>? _showEncryptInfoCommand;
 
     /// <summary>
     ///     显示主界面截图翻译语种选择图标
     /// </summary>
-    [ObservableProperty] private bool _showMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
+    [ObservableProperty] private bool _showMainOcrLang = ConfigHelper.CurrentConfig?.ShowMainOcrLang ?? false;
 
     /// <summary>
     ///     是否显示主界面最小化按钮
     ///     * 仅在开启丢失焦点不隐藏项时有效 <see cref="StayMainViewWhenLoseFocus" />
     /// </summary>
-    [ObservableProperty] private bool _showMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
+    [ObservableProperty] private bool _showMinimalBtn = ConfigHelper.CurrentConfig?.ShowMinimalBtn ?? false;
 
     /// <summary>
     ///     丢失焦点时主界面不隐藏
     /// </summary>
-    [ObservableProperty] private bool _stayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
+    [ObservableProperty] private bool _stayMainViewWhenLoseFocus = ConfigHelper.CurrentConfig?.StayMainViewWhenLoseFocus ?? false;
 
     /// <summary>
     ///     主题类型
     /// </summary>
-    [ObservableProperty] private ThemeType _themeType = CurConfig?.ThemeType ?? ThemeType.Light;
+    [ObservableProperty] private ThemeType _themeType = ConfigHelper.CurrentConfig?.ThemeType ?? ThemeType.Light;
 
     /// <summary>
     ///     是否缓存位置
     /// </summary>
-    [ObservableProperty] private bool _useCacheLocation = CurConfig?.UseCacheLocation ?? false;
+    [ObservableProperty] private bool _useCacheLocation = ConfigHelper.CurrentConfig?.UseCacheLocation ?? false;
 
     /// <summary>
     ///     使用windows forms库中的Clipboard尝试解决剪贴板占用问题
     /// </summary>
-    [ObservableProperty] private bool _useFormsCopy = CurConfig?.UseFormsCopy ?? true;
+    [ObservableProperty] private bool _useFormsCopy = ConfigHelper.CurrentConfig?.UseFormsCopy ?? true;
 
     /// <summary>
     ///     取词时间间隔
     /// </summary>
-    [ObservableProperty] private int _wordPickingInterval = CurConfig?.WordPickingInterval ?? 100;
+    [ObservableProperty] private int _wordPickingInterval = ConfigHelper.CurrentConfig?.WordPickingInterval ?? 100;
 
     /// <summary>
     ///     自动执行翻译
     /// </summary>
-    [ObservableProperty] private bool _autoTranslate = CurConfig?.AutoTranslate ?? false;
+    [ObservableProperty] private bool _autoTranslate = ConfigHelper.CurrentConfig?.AutoTranslate ?? false;
 
     /// <summary>
     ///     是否显示自动执行翻译
     /// </summary>
-    [ObservableProperty] private bool _isShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
+    [ObservableProperty] private bool _isShowAutoTranslate = ConfigHelper.CurrentConfig?.IsShowAutoTranslate ?? false;
 
     /// <summary>
     ///     动画速度
     /// </summary>
-    [ObservableProperty] private AnimationSpeedEnum _animationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
+    [ObservableProperty] private AnimationSpeedEnum _animationSpeed = ConfigHelper.CurrentConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
 
     /// <summary>
     ///     主界面是否仅显示输出结果
     /// </summary>
-    [ObservableProperty] private bool _isOnlyShowRet = CurConfig?.IsOnlyShowRet ?? false;
+    [ObservableProperty] private bool _isOnlyShowRet = ConfigHelper.CurrentConfig?.IsOnlyShowRet ?? false;
 
     /// <summary>
     ///     仅显示输出结果时是否隐藏语言界面
     /// </summary>
-    [ObservableProperty] private bool _isHideLangWhenOnlyShowOutput = CurConfig?.IsHideLangWhenOnlyShowOutput ?? false;
+    [ObservableProperty] private bool _isHideLangWhenOnlyShowOutput = ConfigHelper.CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? false;
     
     /// <summary>
     ///     是否净化内容格式
     /// </summary>
-    [ObservableProperty] private bool _isPurify = CurConfig?.IsPurify ?? true;
+    [ObservableProperty] private bool _isPurify = ConfigHelper.CurrentConfig?.IsPurify ?? true;
     
     /// <summary>
     ///     OCR时图片质量
     /// </summary>
-    [ObservableProperty] private OcrImageQualityEnum _ocrImageQuality = CurConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
+    [ObservableProperty] private OcrImageQualityEnum _ocrImageQuality = ConfigHelper.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
     
     /// <summary>
     ///     原始语言识别为自动时使用该配置
     ///     * 使用在线识别服务出错时使用
     /// </summary>
-    [ObservableProperty] private LangEnum _sourceLangIfAuto = CurConfig?.SourceLangIfAuto ?? LangEnum.en;
+    [ObservableProperty] private LangEnum _sourceLangIfAuto = ConfigHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en;
 
     /// <summary>
     ///     目标语种为自动时
     ///     * 原始语种识别为中文/中文繁体/中文粤语
     ///     * 目标语种使用该配置
     /// </summary>
-    [ObservableProperty] private LangEnum _targetLangIfSourceZh = CurConfig?.TargetLangIfSourceZh ?? LangEnum.en;
+    [ObservableProperty] private LangEnum _targetLangIfSourceZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceZh ?? LangEnum.en;
 
     /// <summary>
     ///     目标语种为自动时
     ///     * 原始语种识别为非中文
     ///     * 目标语种使用该配置
     /// </summary>
-    [ObservableProperty] private LangEnum _targetLangIfSourceNotZh = CurConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
+    [ObservableProperty] private LangEnum _targetLangIfSourceNotZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
 
-    public long HistorySize = CurConfig?.HistorySize ?? 100;
+    public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
     #endregion
@@ -469,79 +464,79 @@ public partial class CommonViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        IsStartup = CurConfig?.IsStartup ?? false;
-        NeedAdmin = CurConfig?.NeedAdministrator ?? false;
-        HistorySize = CurConfig?.HistorySize ?? 100;
-        AutoScale = CurConfig?.AutoScale ?? 0.8;
-        ThemeType = CurConfig?.ThemeType ?? ThemeType.Light;
-        IsFollowMouse = CurConfig?.IsFollowMouse ?? false;
-        CloseUIOcrRetTranslate = CurConfig?.CloseUIOcrRetTranslate ?? false;
-        IsOcrAutoCopyText = CurConfig?.IsOcrAutoCopyText ?? false;
-        IsAdjustContentTranslate = CurConfig?.IsAdjustContentTranslate ?? false;
-        IsRemoveLineBreakGettingWords = CurConfig?.IsRemoveLineBreakGettingWords ?? false;
-        IsRemoveLineBreakGettingWordsOCR = CurConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
-        DoubleTapTrayFunc = CurConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
-        CustomFont = CurConfig?.CustomFont ?? Constant.DefaultFontName;
-        IsKeepTopmostAfterMousehook = CurConfig?.IsKeepTopmostAfterMousehook ?? false;
-        IsShowClose = CurConfig?.IsShowClose ?? false;
-        IsShowPreference = CurConfig?.IsShowPreference ?? false;
-        IsShowMousehook = CurConfig?.IsShowMousehook ?? false;
-        IsShowIncrementalTranslation = CurConfig?.IsShowIncrementalTranslation ?? false;
-        IsShowScreenshot = CurConfig?.IsShowScreenshot ?? false;
-        IsShowOCR = CurConfig?.IsShowOCR ?? false;
-        IsShowSilentOCR = CurConfig?.IsShowSilentOCR ?? false;
-        IsShowClipboardMonitor = CurConfig?.IsShowClipboardMonitor ?? false;
-        IsShowQRCode = CurConfig?.IsShowQRCode ?? false;
-        IsShowHistory = CurConfig?.IsShowHistory ?? false;
-        IsShowConfigureService = CurConfig?.IsShowConfigureService ?? false;
-        WordPickingInterval = CurConfig?.WordPickingInterval ?? 200;
-        IsHideOnStart = CurConfig?.IsHideOnStart ?? false;
-        ShowCopyOnHeader = CurConfig?.ShowCopyOnHeader ?? false;
-        IsCaretLast = CurConfig?.IsCaretLast ?? false;
-        ProxyMethod = CurConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
-        ProxyIp = CurConfig?.ProxyIp ?? string.Empty;
-        ProxyPort = CurConfig?.ProxyPort ?? 0;
-        ProxyUsername = CurConfig?.ProxyUsername ?? string.Empty;
-        ProxyPassword = CurConfig?.ProxyPassword ?? string.Empty;
-        CopyResultAfterTranslateIndex = CurConfig?.CopyResultAfterTranslateIndex ?? 0;
-        IncrementalTranslation = CurConfig?.IncrementalTranslation ?? false;
-        IsTriggerShowHide = CurConfig?.IsTriggerShowHide ?? false;
-        IsShowMainPlaceholder = CurConfig?.IsShowMainPlaceholder ?? true;
-        ShowAuxiliaryLine = CurConfig?.ShowAuxiliaryLine ?? true;
-        ChangedLang2Execute = CurConfig?.ChangedLang2Execute ?? false;
-        OcrChangedLang2Execute = CurConfig?.OcrChangedLang2Execute ?? false;
-        UseFormsCopy = CurConfig?.UseFormsCopy ?? false;
-        ExternalCallPort = CurConfig?.ExternalCallPort ?? 50020;
-        ExternalCall = CurConfig?.ExternalCall ?? false;
-        DetectType = CurConfig?.DetectType ?? LangDetectType.Local;
-        DisableGlobalHotkeys = CurConfig?.DisableGlobalHotkeys ?? false;
-        MainViewMaxHeight = CurConfig?.MainViewMaxHeight ?? 840;
-        MainViewWidth = CurConfig?.MainViewWidth ?? 460;
-        MainViewShadow = CurConfig?.MainViewShadow ?? false;
-        IsPromptToggleVisible = CurConfig?.IsPromptToggleVisible ?? true;
-        IsShowSnakeCopyBtn = CurConfig?.IsShowSnakeCopyBtn ?? true;
-        IsShowSmallHumpCopyBtn = CurConfig?.IsShowSmallHumpCopyBtn ?? true;
-        IsShowLargeHumpCopyBtn = CurConfig?.IsShowLargeHumpCopyBtn ?? true;
-        IsShowTranslateBackBtn = CurConfig?.IsShowTranslateBackBtn ?? true;
-        IgnoreHotkeysOnFullscreen = CurConfig?.IgnoreHotkeysOnFullscreen ?? false;
-        StayMainViewWhenLoseFocus = CurConfig?.StayMainViewWhenLoseFocus ?? false;
-        MainOcrLang = CurConfig?.MainOcrLang ?? LangEnum.auto;
-        ShowMainOcrLang = CurConfig?.ShowMainOcrLang ?? false;
-        HotkeyCopySuccessToast = CurConfig?.HotkeyCopySuccessToast ?? true;
-        OftenUsedLang = CurConfig?.OftenUsedLang ?? string.Empty;
-        UseCacheLocation = CurConfig?.UseCacheLocation ?? false;
-        ShowMinimalBtn = CurConfig?.ShowMinimalBtn ?? false;
-        GlobalFontSize = CurConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
-        AutoTranslate = CurConfig?.AutoTranslate ?? false;
-        IsShowAutoTranslate = CurConfig?.IsShowAutoTranslate ?? false;
-        AnimationSpeed = CurConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
-        IsHideLangWhenOnlyShowOutput = CurConfig?.IsHideLangWhenOnlyShowOutput ?? false;
-        IsPurify = CurConfig?.IsPurify ?? true;
-        IsOnlyShowRet = CurConfig?.IsOnlyShowRet ?? true;
-        OcrImageQuality = CurConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
-        SourceLangIfAuto = CurConfig?.SourceLangIfAuto ?? LangEnum.en;
-        TargetLangIfSourceZh = CurConfig?.TargetLangIfSourceZh ?? LangEnum.en;
-        TargetLangIfSourceNotZh = CurConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
+        IsStartup = ConfigHelper.CurrentConfig?.IsStartup ?? false;
+        NeedAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+        HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
+        AutoScale = ConfigHelper.CurrentConfig?.AutoScale ?? 0.8;
+        ThemeType = ConfigHelper.CurrentConfig?.ThemeType ?? ThemeType.Light;
+        IsFollowMouse = ConfigHelper.CurrentConfig?.IsFollowMouse ?? false;
+        CloseUIOcrRetTranslate = ConfigHelper.CurrentConfig?.CloseUIOcrRetTranslate ?? false;
+        IsOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsOcrAutoCopyText ?? false;
+        IsAdjustContentTranslate = ConfigHelper.CurrentConfig?.IsAdjustContentTranslate ?? false;
+        IsRemoveLineBreakGettingWords = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
+        IsRemoveLineBreakGettingWordsOCR = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
+        DoubleTapTrayFunc = ConfigHelper.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
+        CustomFont = ConfigHelper.CurrentConfig?.CustomFont ?? Constant.DefaultFontName;
+        IsKeepTopmostAfterMousehook = ConfigHelper.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
+        IsShowClose = ConfigHelper.CurrentConfig?.IsShowClose ?? false;
+        IsShowPreference = ConfigHelper.CurrentConfig?.IsShowPreference ?? false;
+        IsShowMousehook = ConfigHelper.CurrentConfig?.IsShowMousehook ?? false;
+        IsShowIncrementalTranslation = ConfigHelper.CurrentConfig?.IsShowIncrementalTranslation ?? false;
+        IsShowScreenshot = ConfigHelper.CurrentConfig?.IsShowScreenshot ?? false;
+        IsShowOCR = ConfigHelper.CurrentConfig?.IsShowOCR ?? false;
+        IsShowSilentOCR = ConfigHelper.CurrentConfig?.IsShowSilentOCR ?? false;
+        IsShowClipboardMonitor = ConfigHelper.CurrentConfig?.IsShowClipboardMonitor ?? false;
+        IsShowQRCode = ConfigHelper.CurrentConfig?.IsShowQRCode ?? false;
+        IsShowHistory = ConfigHelper.CurrentConfig?.IsShowHistory ?? false;
+        IsShowConfigureService = ConfigHelper.CurrentConfig?.IsShowConfigureService ?? false;
+        WordPickingInterval = ConfigHelper.CurrentConfig?.WordPickingInterval ?? 200;
+        IsHideOnStart = ConfigHelper.CurrentConfig?.IsHideOnStart ?? false;
+        ShowCopyOnHeader = ConfigHelper.CurrentConfig?.ShowCopyOnHeader ?? false;
+        IsCaretLast = ConfigHelper.CurrentConfig?.IsCaretLast ?? false;
+        ProxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+        ProxyIp = ConfigHelper.CurrentConfig?.ProxyIp ?? string.Empty;
+        ProxyPort = ConfigHelper.CurrentConfig?.ProxyPort ?? 0;
+        ProxyUsername = ConfigHelper.CurrentConfig?.ProxyUsername ?? string.Empty;
+        ProxyPassword = ConfigHelper.CurrentConfig?.ProxyPassword ?? string.Empty;
+        CopyResultAfterTranslateIndex = ConfigHelper.CurrentConfig?.CopyResultAfterTranslateIndex ?? 0;
+        IncrementalTranslation = ConfigHelper.CurrentConfig?.IncrementalTranslation ?? false;
+        IsTriggerShowHide = ConfigHelper.CurrentConfig?.IsTriggerShowHide ?? false;
+        IsShowMainPlaceholder = ConfigHelper.CurrentConfig?.IsShowMainPlaceholder ?? true;
+        ShowAuxiliaryLine = ConfigHelper.CurrentConfig?.ShowAuxiliaryLine ?? true;
+        ChangedLang2Execute = ConfigHelper.CurrentConfig?.ChangedLang2Execute ?? false;
+        OcrChangedLang2Execute = ConfigHelper.CurrentConfig?.OcrChangedLang2Execute ?? false;
+        UseFormsCopy = ConfigHelper.CurrentConfig?.UseFormsCopy ?? false;
+        ExternalCallPort = ConfigHelper.CurrentConfig?.ExternalCallPort ?? 50020;
+        ExternalCall = ConfigHelper.CurrentConfig?.ExternalCall ?? false;
+        DetectType = ConfigHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
+        DisableGlobalHotkeys = ConfigHelper.CurrentConfig?.DisableGlobalHotkeys ?? false;
+        MainViewMaxHeight = ConfigHelper.CurrentConfig?.MainViewMaxHeight ?? 840;
+        MainViewWidth = ConfigHelper.CurrentConfig?.MainViewWidth ?? 460;
+        MainViewShadow = ConfigHelper.CurrentConfig?.MainViewShadow ?? false;
+        IsPromptToggleVisible = ConfigHelper.CurrentConfig?.IsPromptToggleVisible ?? true;
+        IsShowSnakeCopyBtn = ConfigHelper.CurrentConfig?.IsShowSnakeCopyBtn ?? true;
+        IsShowSmallHumpCopyBtn = ConfigHelper.CurrentConfig?.IsShowSmallHumpCopyBtn ?? true;
+        IsShowLargeHumpCopyBtn = ConfigHelper.CurrentConfig?.IsShowLargeHumpCopyBtn ?? true;
+        IsShowTranslateBackBtn = ConfigHelper.CurrentConfig?.IsShowTranslateBackBtn ?? true;
+        IgnoreHotkeysOnFullscreen = ConfigHelper.CurrentConfig?.IgnoreHotkeysOnFullscreen ?? false;
+        StayMainViewWhenLoseFocus = ConfigHelper.CurrentConfig?.StayMainViewWhenLoseFocus ?? false;
+        MainOcrLang = ConfigHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto;
+        ShowMainOcrLang = ConfigHelper.CurrentConfig?.ShowMainOcrLang ?? false;
+        HotkeyCopySuccessToast = ConfigHelper.CurrentConfig?.HotkeyCopySuccessToast ?? true;
+        OftenUsedLang = ConfigHelper.CurrentConfig?.OftenUsedLang ?? string.Empty;
+        UseCacheLocation = ConfigHelper.CurrentConfig?.UseCacheLocation ?? false;
+        ShowMinimalBtn = ConfigHelper.CurrentConfig?.ShowMinimalBtn ?? false;
+        GlobalFontSize = ConfigHelper.CurrentConfig?.GlobalFontSize ?? GlobalFontSizeEnum.General;
+        AutoTranslate = ConfigHelper.CurrentConfig?.AutoTranslate ?? false;
+        IsShowAutoTranslate = ConfigHelper.CurrentConfig?.IsShowAutoTranslate ?? false;
+        AnimationSpeed = ConfigHelper.CurrentConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
+        IsHideLangWhenOnlyShowOutput = ConfigHelper.CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? false;
+        IsPurify = ConfigHelper.CurrentConfig?.IsPurify ?? true;
+        IsOnlyShowRet = ConfigHelper.CurrentConfig?.IsOnlyShowRet ?? true;
+        OcrImageQuality = ConfigHelper.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
+        SourceLangIfAuto = ConfigHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en;
+        TargetLangIfSourceZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceZh ?? LangEnum.en;
+        TargetLangIfSourceNotZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);
@@ -590,12 +585,12 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     ///     主界面最大高度
     /// </summary>
-    [ObservableProperty] private double _mainViewMaxHeight = CurConfig?.MainViewMaxHeight ?? 840;
+    [ObservableProperty] private double _mainViewMaxHeight = ConfigHelper.CurrentConfig?.MainViewMaxHeight ?? 840;
 
     /// <summary>
     ///     主界面宽度
     /// </summary>
-    [ObservableProperty] private double _mainViewWidth = CurConfig?.MainViewWidth ?? 460;
+    [ObservableProperty] private double _mainViewWidth = ConfigHelper.CurrentConfig?.MainViewWidth ?? 460;
 
     private const double ChangeValue = 40;
 
@@ -609,8 +604,8 @@ public partial class CommonViewModel : ObservableObject
     [RelayCommand]
     private void ResetMainView()
     {
-        MainViewMaxHeight = CurConfig?.MainViewMaxHeight ?? 840;
-        MainViewWidth = CurConfig?.MainViewWidth ?? 460;
+        MainViewMaxHeight = ConfigHelper.CurrentConfig?.MainViewMaxHeight ?? 840;
+        MainViewWidth = ConfigHelper.CurrentConfig?.MainViewWidth ?? 460;
     }
 
     /// <summary>
