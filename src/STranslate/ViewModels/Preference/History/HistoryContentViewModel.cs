@@ -139,14 +139,14 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
-            if (string.IsNullOrEmpty(data?.Result))
+            if (data is { IsSuccess: true })
             {
-                translator.Data.IsSuccess = false;
-                translator.Data.Result = Constant.HistoryErrorContent;
+                TranslationResult.CopyFrom(data, translator.Data);
             }
             else
             {
-                TranslationResult.CopyFrom(data, translator.Data);
+                translator.Data.IsSuccess = false;
+                translator.Data.Result = Constant.HistoryErrorContent;
             }
         }
         catch (Exception)

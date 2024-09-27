@@ -289,6 +289,10 @@ public partial class InputViewModel : ObservableObject
                 goto copy;
             }
 
+            // 避免从缓存获取结果失败后翻译触发时语种全为自动
+            if (GetSourceLang == LangEnum.auto && GetTargetLang == LangEnum.auto)
+                (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(null, null, GetSourceLang, GetTargetLang, cancellationToken);
+            
             if (service is ITranslatorLlm)
                 await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
             else
@@ -397,9 +401,8 @@ public partial class InputViewModel : ObservableObject
         {
             // 如果当前启用服务为null(逐个启动)或者与缓存服务一致则无需进行语种识别
             var servicesMatch = services != null
-                                && services.Count == servicesCache?.Count
-                                && services.All(s => servicesCache.Contains(s, new TranslatorCompare()))
-                                && !servicesCache.Any(s => s.Data.IsSuccess && string.IsNullOrEmpty(s.Data.Result));//如果结果标记为成功但是结果为空则为不匹配需要获取语种
+                                && servicesCache != null
+                                && services.All(s => servicesCache.Any(c => c.Identify == s.Identify));
             if (servicesMatch)
             {
                 return (source, target);
