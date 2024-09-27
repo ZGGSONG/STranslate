@@ -679,7 +679,8 @@
                             <Grid
                                 Grid.Row="2"
                                 dd:DragDrop.IsDragSource="False"
-                                dd:DragDrop.IsDropTarget="False">
+                                dd:DragDrop.IsDropTarget="False"
+                                ToolTip="右键双击可关闭回译内容">
                                 <Grid.Visibility>
                                     <MultiBinding Converter="{StaticResource MultiTranslationBackValue2VisibilityConverter}">
                                         <Binding Path="Data.TranslateBackResult" />
@@ -702,8 +703,7 @@
                                     PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                     Style="{DynamicResource TextBoxOutputStyle}"
                                     Tag="{Binding Data.IsTranslateBackSuccess}"
-                                    Text="{Binding Data.TranslateBackResult}"
-                                    ToolTip="右键双击可关闭回译内容">
+                                    Text="{Binding Data.TranslateBackResult}">
                                     <TextBox.InputBindings>
                                         <MouseBinding
                                             Command="{Binding Data.CloseTranslationBackUiCommand, Source={StaticResource OutputVm}}"
