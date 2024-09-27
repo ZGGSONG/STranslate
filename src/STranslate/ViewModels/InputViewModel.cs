@@ -345,6 +345,7 @@ public partial class InputViewModel : ObservableObject
         // 获取识别语种
         (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(services, servicesCache, GetSourceLang, GetTargetLang, token);
 
+        
         var allCache = true;
         await Parallel.ForEachAsync(
             services.Where(x => x.AutoExecute),
@@ -398,7 +399,7 @@ public partial class InputViewModel : ObservableObject
             var servicesMatch = services != null
                                 && services.Count == servicesCache?.Count
                                 && services.All(s => servicesCache.Contains(s, new TranslatorCompare()))
-                                && servicesCache.All(s => s.Data.IsSuccess && !string.IsNullOrEmpty(s.Data.Result));//如果缓存结果不为空并且者结果标记为成功
+                                && !servicesCache.Any(s => s.Data.IsSuccess && string.IsNullOrEmpty(s.Data.Result));//如果结果标记为成功但是结果为空则为不匹配需要获取语种
             if (servicesMatch)
             {
                 return (source, target);
