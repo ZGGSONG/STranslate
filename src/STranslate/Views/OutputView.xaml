@@ -5,7 +5,6 @@
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
@@ -34,10 +33,6 @@
         </Storyboard>
     </UserControl.Resources>
     <ListBox
-        dd:DragDrop.DropHandler="{Binding}"
-        dd:DragDrop.IsDragSource="True"
-        dd:DragDrop.IsDropTarget="True"
-        dd:DragDrop.UseDefaultDragAdorner="True"
         Background="Transparent"
         BorderThickness="0"
         ItemsSource="{Binding Translators}"
@@ -542,7 +537,7 @@
                         </Expander.Triggers>
                         <!--#endregion-->
                         <!--#region Content-->
-                        <Grid dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="False">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" MinHeight="20" />
@@ -676,11 +671,7 @@
                                 Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                             <!--  回译结果  -->
-                            <Grid
-                                Grid.Row="2"
-                                dd:DragDrop.IsDragSource="False"
-                                dd:DragDrop.IsDropTarget="False"
-                                ToolTip="右键双击可关闭回译内容">
+                            <Grid Grid.Row="2" ToolTip="右键双击可关闭回译内容">
                                 <Grid.Visibility>
                                     <MultiBinding Converter="{StaticResource MultiTranslationBackValue2VisibilityConverter}">
                                         <Binding Path="Data.TranslateBackResult" />
