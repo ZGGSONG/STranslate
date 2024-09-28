@@ -365,6 +365,11 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private LangEnum _targetLangIfSourceNotZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
 
+    /// <summary>
+    ///     是否启用主题切换动画
+    /// </summary>
+    [ObservableProperty] private bool _isThemeChangedAnimation = ConfigHelper.CurrentConfig?.IsThemeChangedAnimation ?? true;
+
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -537,6 +542,7 @@ public partial class CommonViewModel : ObservableObject
         SourceLangIfAuto = ConfigHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en;
         TargetLangIfSourceZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceZh ?? LangEnum.en;
         TargetLangIfSourceNotZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
+        IsThemeChangedAnimation = ConfigHelper.CurrentConfig?.IsThemeChangedAnimation ?? true;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

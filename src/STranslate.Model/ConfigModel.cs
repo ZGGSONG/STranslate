@@ -420,6 +420,12 @@ public class ConfigModel
     public LangEnum TargetLangIfSourceNotZh { get; set; } = LangEnum.zh_cn;
 
     /// <summary>
+    ///     是否启用切换主题动画
+    ///     * 默认启用
+    /// </summary>
+    public bool IsThemeChangedAnimation { get; set; } = true;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -535,6 +541,7 @@ public class ConfigModel
             SourceLangIfAuto = SourceLangIfAuto,
             TargetLangIfSourceZh = TargetLangIfSourceZh,
             TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
+            IsThemeChangedAnimation = IsThemeChangedAnimation,
             ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

@@ -91,6 +91,15 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="主题切换动画" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="切换主题时是否使用动画" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsThemeChangedAnimation}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="字体选择[立即生效]" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择系统中自带字体" />
                                     <ComboBox

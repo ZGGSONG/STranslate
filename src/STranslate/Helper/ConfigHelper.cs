@@ -275,6 +275,7 @@ public class ConfigHelper
         CurrentConfig.SourceLangIfAuto = model.SourceLangIfAuto;
         CurrentConfig.TargetLangIfSourceZh = model.TargetLangIfSourceZh;
         CurrentConfig.TargetLangIfSourceNotZh = model.TargetLangIfSourceNotZh;
+        CurrentConfig.IsThemeChangedAnimation = model.IsThemeChangedAnimation;
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
@@ -307,6 +308,8 @@ public class ConfigHelper
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
+
+        ThemeChangedAnimationOperate(CurrentConfig.IsThemeChangedAnimation);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;
@@ -694,6 +697,15 @@ public class ConfigHelper
     }
 
     /// <summary>
+    ///     控制主题切换是否启用动画
+    /// </summary>
+    /// <param name="currentConfigIsThemeChangedAnimation"></param>
+    private void ThemeChangedAnimationOperate(bool currentConfigIsThemeChangedAnimation)
+    {
+        Style.Themes.ThemeProps.IsThemeChangedAnimation = currentConfigIsThemeChangedAnimation;
+    }
+
+    /// <summary>
     ///     输出界面显示按钮控制
     /// </summary>
     /// <param name="isPromptToggleVisible"></param>
@@ -814,6 +826,7 @@ public class ConfigHelper
             SourceLangIfAuto = LangEnum.en,
             TargetLangIfSourceZh = LangEnum.en,
             TargetLangIfSourceNotZh = LangEnum.zh_cn,
+            IsThemeChangedAnimation = true,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

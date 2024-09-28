@@ -6,6 +6,11 @@ namespace STranslate.Style.Themes;
 
 public class ThemeProps
 {
+    /// <summary>
+    ///     是否使用动画
+    /// </summary>
+    public static bool IsThemeChangedAnimation { get; set; } = true;
+
     #region Animation
 
     private static void AnimateBrushProperty(FrameworkElement element, SolidColorBrush newBrush, string propertyName)
@@ -34,8 +39,18 @@ public class ThemeProps
 
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e, string propertyName)
     {
-        if (d is FrameworkElement element && e.NewValue is SolidColorBrush newBrush)
+        if (d is not FrameworkElement element || e.NewValue is not SolidColorBrush newBrush)
+            return;
+
+        if (IsThemeChangedAnimation)
+        {
             AnimateBrushProperty(element, newBrush, propertyName);
+        }
+        else
+        {
+            var property = element.GetType().GetProperty(propertyName);
+            property?.SetValue(element, newBrush);
+        }
     }
 
     #endregion
