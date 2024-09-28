@@ -70,9 +70,9 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            props:ThemeProps.Foreground="{TemplateBinding Foreground}"
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
-                            Foreground="{TemplateBinding Foreground}"
                             Text="{TemplateBinding Content}" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -166,9 +166,9 @@
                             x:Name="textblock"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            props:ThemeProps.Foreground="{TemplateBinding Foreground}"
                             FontFamily="{TemplateBinding FontFamily}"
                             FontSize="{TemplateBinding FontSize}"
-                            Foreground="{TemplateBinding Foreground}"
                             Tag="{TemplateBinding Tag}"
                             Text="{TemplateBinding Content}" />
                     </Border>
