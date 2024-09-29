@@ -341,7 +341,7 @@
             <Border
                 Grid.Column="1"
                 Margin="10"
-                Background="{DynamicResource BorderContentBackground}"
+                props:ThemeProps.Background="{DynamicResource BorderContentBackground}"
                 CornerRadius="5">
                 <Grid>
                     <Grid.RowDefinitions>
