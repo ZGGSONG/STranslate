@@ -395,19 +395,28 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
                     if (preprocessString.Equals("[DONE]"))
                         return;
 
-                    // 解析JSON数据
-                    var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+                    try
+                    {
+                        // 解析JSON数据
+                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
 
-                    if (parsedData is null)
-                        return;
+                        if (parsedData is null)
+                            return;
 
-                    // 提取content的值
-                    var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
+                        // 提取content的值
+                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
 
-                    if (string.IsNullOrEmpty(contentValue))
-                        return;
+                        if (string.IsNullOrEmpty(contentValue))
+                            return;
 
-                    onDataReceived?.Invoke(contentValue);
+                        onDataReceived?.Invoke(contentValue);
+                    }
+                    catch
+                    {
+                        // Ignore
+                        // * 适配OpenRouter等第三方服务流数据中包含与OpenAI官方API中不同的数据
+                        // * 如 ": OPENROUTER PROCESSING"
+                    }
                 },
                 token
             ).ConfigureAwait(false);
