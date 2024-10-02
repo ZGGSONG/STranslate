@@ -1,14 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using STranslate.Log;
 using STranslate.Model;
+using STranslate.ViewModels;
 
 namespace STranslate.Views;
 
 public partial class InputView
 {
     /// <summary>
-    /// 由于windows设定有高精度/超高精度触摸板区别，和鼠标表现不一致，所以使用固定offset
+    ///     由于windows设定有高精度/超高精度触摸板区别，和鼠标表现不一致，所以使用固定offset
     /// </summary>
     private const double Offset = 30;
 
@@ -76,5 +78,22 @@ public partial class InputView
         };
         var parent = ((Control)sender).Parent as UIElement;
         parent!.RaiseEvent(eventArg);
+    }
+
+    private void CommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+        try
+        {
+            if (!Clipboard.ContainsText()) return;
+            var clipboardText = Clipboard.GetText();
+            InputTB.Text = clipboardText;
+            InputTB.CaretIndex = clipboardText.Length;
+
+            ((InputViewModel)DataContext).TranslateCommand.Execute(null);
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error($"输入框粘贴文本失败 {ex.Message}", ex);
+        }
     }
 }

@@ -69,6 +69,11 @@
                             Icon="&#xe6cb;" />
                     </ContextMenu>
                 </common:PlaceholderTextBox.ContextMenu>
+
+                <!--  // 粘贴文本自动翻译 //  -->
+                <common:PlaceholderTextBox.CommandBindings>
+                    <CommandBinding Command="ApplicationCommands.Paste" Executed="CommandBinding_OnExecuted" />
+                </common:PlaceholderTextBox.CommandBindings>
             </common:PlaceholderTextBox>
             <StackPanel
                 Grid.Row="1"
