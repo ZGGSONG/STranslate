@@ -10,7 +10,28 @@ public partial class ReplaceProp : ObservableObject, ICloneable
 
     [ObservableProperty] private LangDetectType _detectType;
 
+    [ObservableProperty] private LangEnum _sourceLang;
+
     [ObservableProperty] private LangEnum _targetLang;
+    /// <summary>
+    ///     原始语言识别为自动时使用该配置
+    ///     * 使用在线识别服务出错时使用
+    /// </summary>
+    [ObservableProperty] private LangEnum _sourceLangIfAuto = LangEnum.en;
+
+    /// <summary>
+    ///     目标语种为自动时
+    ///     * 原始语种识别为中文/中文繁体/中文粤语
+    ///     * 目标语种使用该配置
+    /// </summary>
+    [ObservableProperty] private LangEnum _targetLangIfSourceZh = LangEnum.en;
+
+    /// <summary>
+    ///     目标语种为自动时
+    ///     * 原始语种识别为非中文
+    ///     * 目标语种使用该配置
+    /// </summary>
+    [ObservableProperty] private LangEnum _targetLangIfSourceNotZh = LangEnum.zh_cn;
 
     public object Clone()
     {
@@ -19,7 +40,11 @@ public partial class ReplaceProp : ObservableObject, ICloneable
             ActiveService = ActiveService?.Clone(),
             AutoScale = AutoScale,
             DetectType = DetectType,
-            TargetLang = TargetLang
+            SourceLang = SourceLang,
+            TargetLang = TargetLang,
+            SourceLangIfAuto = SourceLangIfAuto,
+            TargetLangIfSourceZh = TargetLangIfSourceZh,
+            TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
         };
     }
 }

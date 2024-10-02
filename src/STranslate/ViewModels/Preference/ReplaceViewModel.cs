@@ -45,14 +45,13 @@ public partial class ReplaceViewModel : ObservableObject
             InputSimulatorHelper.PrintText(translating);
 
             // Determine target language
-            var targetLang = ReplaceProp.TargetLang;
-            if (targetLang == LangEnum.auto) targetLang = await DetectLanguageAsync(content, token);
+            var (sourceLang, targetLang) = await DetectLanguageAsync(content, token);
 
             LogService.Logger.Debug(
                 $"<Begin> Replace Translator\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
 
             // Perform translation
-            var req = new RequestModel(content, LangEnum.auto, targetLang);
+            var req = new RequestModel(content, sourceLang, targetLang);
 
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
@@ -75,11 +74,30 @@ public partial class ReplaceViewModel : ObservableObject
         }
     }
 
-    private async Task<LangEnum> DetectLanguageAsync(string content, CancellationToken token)
+    private async Task<(LangEnum, LangEnum)> DetectLanguageAsync(string content, CancellationToken token)
     {
-        var identify =
-            await LangDetectHelper.DetectAsync(content, ReplaceProp.DetectType, ReplaceProp.AutoScale, token);
-        return identify is LangEnum.zh_cn or LangEnum.zh_tw ? LangEnum.en : LangEnum.zh_cn;
+        var sourceLang = ReplaceProp.SourceLang;
+            
+        if (sourceLang == LangEnum.auto)
+        {
+            sourceLang = await LangDetectHelper.DetectAsync(content, ReplaceProp.DetectType, ReplaceProp.AutoScale, token);
+            if (sourceLang == LangEnum.auto)
+            {
+                sourceLang = ReplaceProp.SourceLangIfAuto;
+                LogService.Logger.Error($"ReplaceViewModel|DetectLanguageAsync 识别语种出错: {ReplaceProp.DetectType.GetDescription()}");
+            }
+        }
+
+        var targetLang = ReplaceProp.TargetLang;
+        if (targetLang != LangEnum.auto)
+            return (sourceLang, targetLang);
+
+        targetLang = sourceLang is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
+            ? ReplaceProp.TargetLangIfSourceZh
+            : ReplaceProp.TargetLangIfSourceNotZh;
+        LogService.Logger.Debug($"ReplaceViewModel|DetectLanguageAsync 目标语种 自动 => {targetLang.GetDescription()}");
+
+        return (sourceLang, targetLang);
     }
 
     private async Task TranslateRegularAsync(RequestModel req, int length, CancellationToken token)
