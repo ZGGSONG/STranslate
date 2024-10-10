@@ -409,14 +409,20 @@ public partial class NotifyIconViewModel : ObservableObject
             //写入剪贴板
             ClipboardHelper.Copy(getText);
 
+            // 外部接口调用避免调用动画
+            if (tuple.Item2 - tuple.Item3 == 0 && tuple.Item2 == 0) return;
+
             await Task.Run(() =>
                 CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3).Show()));
         }
         catch (Exception ex)
         {
+            LogService.Logger.Error("静默OCR失败", ex);
+
+            if (tuple.Item2 - tuple.Item3 == 0 && tuple.Item2 == 0) return;
+            
             await Task.Run(() =>
                 CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
-            LogService.Logger.Error("静默OCR失败", ex);
         }
         finally
         {
