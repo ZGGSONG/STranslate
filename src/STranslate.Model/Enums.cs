@@ -162,6 +162,7 @@ public enum ServiceType
     ClaudeService,
     DeepSeekService,
     KingSoftDictService,
+    BingDictService,
 }
 
 public enum TTSType

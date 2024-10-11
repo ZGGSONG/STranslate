@@ -20,6 +20,7 @@ public class ServiceType2BrushConverter : IValueConverter
                 ServiceType.STranslateService => local,
                 ServiceType.EcdictService => local,
                 ServiceType.KingSoftDictService => local,
+                ServiceType.BingDictService => local,
                 _ => official
             };
         if (value is OCRType oType)

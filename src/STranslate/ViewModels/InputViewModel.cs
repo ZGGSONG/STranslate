@@ -827,6 +827,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.ClaudeService => new TranslatorClaude(),
                 (int)ServiceType.DeepSeekService => new TranslatorDeepSeek(),
                 (int)ServiceType.KingSoftDictService => new TranslatorKingSoftDict(),
+                (int)ServiceType.BingDictService => new TranslatorBingDict(),
                 //TODO: 新接口需要适配
                 _ => new TranslatorApi()
             };
