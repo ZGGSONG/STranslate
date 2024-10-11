@@ -10,7 +10,6 @@ using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
