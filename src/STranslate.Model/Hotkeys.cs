@@ -9,6 +9,7 @@ public class Hotkeys
     public MousehookTranslate MousehookTranslate { get; set; } = new();
     public OCR OCR { get; set; } = new();
     public SilentOCR SilentOCR { get; set; } = new();
+    public SilentTTS SilentTTS { get; set; } = new();
     public ClipboardMonitor ClipboardMonitor { get; set; } = new();
     public ReplaceTranslate ReplaceTranslate { get; set; } = new();
 
@@ -23,6 +24,7 @@ public class Hotkeys
             MousehookTranslate = MousehookTranslate.Clone(),
             OCR = OCR.Clone(),
             SilentOCR = SilentOCR.Clone(),
+            SilentTTS = SilentTTS.Clone(),
             ClipboardMonitor = ClipboardMonitor.Clone(),
             ReplaceTranslate = ReplaceTranslate.Clone()
         };
@@ -54,6 +56,10 @@ public class OCR : HotkeyBase
 }
 
 public class SilentOCR : HotkeyBase
+{
+}
+
+public class SilentTTS : HotkeyBase
 {
 }
 

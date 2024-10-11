@@ -35,11 +35,14 @@ public partial class NotifyIconViewModel : ObservableObject
 
     [ObservableProperty] private bool _isScreenshotExecuting;
 
+    private CancellationTokenSource _ttsCancelTokenSource;
+
     public NotifyIconViewModel()
     {
         UpdateToolTip();
         SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
         WeakReferenceMessenger.Default.Register<ExternalCallMessenger>(this, (o, e) => ExternalCallHandler(e));
+        _ttsCancelTokenSource = new CancellationTokenSource();
     }
 
     /// <summary>
@@ -133,6 +136,14 @@ public partial class NotifyIconViewModel : ObservableObject
                         if (bitmap != null) await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
                     }
                 }
+            },
+            {
+                ExternalCallAction.tts_silence,
+                async (_, content) =>
+                {
+                    await Singleton<TTSViewModel>.Instance.SpeakTextAsync(content, WindowType.Main, CancellationToken.None);
+                }
+
             },
             {
                 ExternalCallAction.ocr_qrcode,
@@ -423,6 +434,46 @@ public partial class NotifyIconViewModel : ObservableObject
             MemoUtil.FlushMemory();
         }
     }
+
+
+
+
+    [RelayCommand]
+    private void SilentTTS(object? obj)
+    {
+        Task.Run( () =>
+        SilentTTSHandler());
+    }
+
+
+    internal async void SilentTTSHandler()
+    {
+
+        //如果ttscancel is null ,new 
+        if (_ttsCancelTokenSource == null)
+        {
+            _ttsCancelTokenSource = new CancellationTokenSource();
+            //_ttsCancelToken = _ttsCancelTokenSource.Token;
+        }
+        else
+        {
+            //如果不为空则取消
+            _ttsCancelTokenSource.Cancel();
+            _ttsCancelTokenSource.Dispose();
+            _ttsCancelTokenSource = new CancellationTokenSource();
+            //_ttsCancelToken = _ttsCancelTokenSource.Token;
+        }
+
+        await
+         Singleton<TTSViewModel>.Instance.SpeakTextAsync(
+                Clipboard.GetText(),
+                WindowType.Main,
+                //_TTS_cancelToken
+                _ttsCancelTokenSource.Token
+                );
+
+    }
+
 
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task ScreenShotTranslateAsync(object obj, CancellationToken token) => await ScreenshotHandlerAsync(obj, ScreenShotHandler, token);

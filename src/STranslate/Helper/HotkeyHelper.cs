@@ -64,6 +64,10 @@ public class HotkeyHelper
     public static KeyModifiers ReplaceTranslateModifiers;
     public static KeyCodes ReplaceTranslateKey;
 
+    public static int SilentTTSId = 863;
+    public static KeyModifiers SilentTTSModifiers;
+    public static KeyCodes SilentTTSKey;
+
     private static readonly Dictionary<int, HotKeyCallBackHanlder> keymap = [];
 
     private static HwndSource? _hwndSource;
@@ -138,6 +142,9 @@ public class HotkeyHelper
         SilentOCRModifiers = Hotkeys!.SilentOCR.Modifiers;
         SilentOCRKey = Hotkeys!.SilentOCR.Key;
 
+        SilentTTSModifiers = Hotkeys!.SilentTTS.Modifiers;
+        SilentTTSKey = Hotkeys!.SilentTTS.Key;
+
         ClipboardMonitorModifiers = Hotkeys!.ClipboardMonitor.Modifiers;
         ClipboardMonitorKey = Hotkeys!.ClipboardMonitor.Key;
 
@@ -171,6 +178,11 @@ public class HotkeyHelper
         if (Hotkeys!.SilentOCR.Key != 0)
             Hotkeys!.SilentOCR.Conflict = !CommonUtil.RegisterHotKey(handle, SilentOCRId,
                 (byte)Hotkeys!.SilentOCR.Modifiers, (int)Hotkeys!.SilentOCR.Key);
+
+        if (Hotkeys!.SilentTTS.Key != 0)
+            Hotkeys!.SilentTTS.Conflict = !CommonUtil.RegisterHotKey(handle, SilentTTSId,
+                (byte)Hotkeys!.SilentTTS.Modifiers, (int)Hotkeys!.SilentTTS.Key);
+
 
         if (Hotkeys!.ClipboardMonitor.Key != 0)
             Hotkeys!.ClipboardMonitor.Conflict = !CommonUtil.RegisterHotKey(handle, ClipboardMonitorId,
@@ -320,6 +332,21 @@ public class HotkeyHelper
         SilentOCRModifiers = Hotkeys!.SilentOCR.Modifiers;
         SilentOCRKey = Hotkeys!.SilentOCR.Key;
 
+        if (Hotkeys!.SilentTTS.Key == 0)
+        {
+            CommonUtil.UnregisterHotKey(MainIntPtr, SilentTTSId);
+            Hotkeys.SilentTTS.Conflict = false;
+        } 
+        else if (SilentTTSModifiers != Hotkeys!.SilentTTS.Modifiers || SilentTTSKey != Hotkeys!.SilentTTS.Key)
+        {
+            CommonUtil.UnregisterHotKey(MainIntPtr, SilentTTSId);
+            Hotkeys!.SilentTTS.Conflict = !CommonUtil.RegisterHotKey(MainIntPtr, SilentTTSId,
+                (byte)Hotkeys!.SilentTTS.Modifiers, (int)Hotkeys!.SilentTTS.Key);
+        }
+
+        SilentTTSModifiers = Hotkeys!.SilentTTS.Modifiers;
+        SilentTTSKey = Hotkeys!.SilentTTS.Key;
+
         if (Hotkeys!.ClipboardMonitor.Key == 0)
         {
             CommonUtil.UnregisterHotKey(MainIntPtr, ClipboardMonitorId);
@@ -365,6 +392,7 @@ public class HotkeyHelper
         CommonUtil.UnregisterHotKey(MainIntPtr, MousehookTranslateId);
         CommonUtil.UnregisterHotKey(MainIntPtr, OCRId);
         CommonUtil.UnregisterHotKey(MainIntPtr, SilentOCRId);
+        CommonUtil.UnregisterHotKey(MainIntPtr, SilentTTSId);
         CommonUtil.UnregisterHotKey(MainIntPtr, ClipboardMonitorId);
         CommonUtil.UnregisterHotKey(MainIntPtr, ReplaceTranslateId);
         var hwnd = new WindowInteropHelper(window).Handle;

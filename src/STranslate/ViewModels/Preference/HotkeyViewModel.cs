@@ -28,6 +28,7 @@ public partial class HotkeyViewModel : ObservableObject
         MousehookHk.Content = _conf.CurrentConfig?.Hotkeys?.MousehookTranslate?.Text ?? "";
         OcrHk.Content = _conf.CurrentConfig?.Hotkeys?.OCR?.Text ?? "";
         SilentOcrHk.Content = _conf.CurrentConfig?.Hotkeys?.SilentOCR?.Text ?? "";
+        SilentTtsHk.Content = _conf.CurrentConfig?.Hotkeys?.SilentTTS?.Text ?? "";
         ClipboardMonitorHk.Content = _conf.CurrentConfig?.Hotkeys?.ClipboardMonitor?.Text ?? "";
         HotKeyConflictCheck();
         HotkeyHelper.OnUpdateConflict += HotKeyConflictCheck;
@@ -83,6 +84,8 @@ public partial class HotkeyViewModel : ObservableObject
 
     [ObservableProperty] private HotkeyContentVisibilityModel _silentOcrHk = new();
 
+    [ObservableProperty] private HotkeyContentVisibilityModel _silentTtsHk = new();
+
     [ObservableProperty] private HotkeyContentVisibilityModel _clipboardMonitorHk = new();
 
     #endregion Property
@@ -118,6 +121,7 @@ public partial class HotkeyViewModel : ObservableObject
         MousehookHk.Content = cHotkeys.MousehookTranslate.Text ?? "";
         OcrHk.Content = cHotkeys.OCR.Text ?? "";
         SilentOcrHk.Content = cHotkeys.SilentOCR.Text ?? "";
+        SilentTtsHk.Content = cHotkeys.SilentTTS.Text ?? "";
         ClipboardMonitorHk.Content = cHotkeys.ClipboardMonitor.Text ?? "";
 
         _conf.CurrentConfig!.Hotkeys!.InputTranslate.Modifiers = cHotkeys.InputTranslate.Modifiers;
@@ -151,6 +155,10 @@ public partial class HotkeyViewModel : ObservableObject
         _conf.CurrentConfig!.Hotkeys!.SilentOCR.Modifiers = cHotkeys.SilentOCR.Modifiers;
         _conf.CurrentConfig!.Hotkeys!.SilentOCR.Key = cHotkeys.SilentOCR.Key;
         _conf.CurrentConfig!.Hotkeys!.SilentOCR.Text = cHotkeys.SilentOCR.Text;
+
+        _conf.CurrentConfig!.Hotkeys!.SilentTTS.Modifiers = cHotkeys.SilentTTS.Modifiers;
+        _conf.CurrentConfig!.Hotkeys!.SilentTTS.Key = cHotkeys.SilentTTS.Key;
+        _conf.CurrentConfig!.Hotkeys!.SilentTTS.Text = cHotkeys.SilentTTS.Text;
 
         _conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Modifiers = cHotkeys.ClipboardMonitor.Modifiers;
         _conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Key = cHotkeys.ClipboardMonitor.Key;
@@ -187,6 +195,10 @@ public partial class HotkeyViewModel : ObservableObject
         HotkeyHelper.Hotkeys!.SilentOCR.Modifiers = cHotkeys.SilentOCR.Modifiers;
         HotkeyHelper.Hotkeys!.SilentOCR.Key = cHotkeys.SilentOCR.Key;
         HotkeyHelper.Hotkeys!.SilentOCR.Text = cHotkeys.SilentOCR.Text;
+
+        HotkeyHelper.Hotkeys!.SilentTTS.Modifiers = cHotkeys.SilentTTS.Modifiers;
+        HotkeyHelper.Hotkeys!.SilentTTS.Key = cHotkeys.SilentTTS.Key;
+        HotkeyHelper.Hotkeys!.SilentTTS.Text = cHotkeys.SilentTTS.Text;
 
         HotkeyHelper.Hotkeys!.ClipboardMonitor.Modifiers = cHotkeys.ClipboardMonitor.Modifiers;
         HotkeyHelper.Hotkeys!.ClipboardMonitor.Key = cHotkeys.ClipboardMonitor.Key;
@@ -324,6 +336,12 @@ public partial class HotkeyViewModel : ObservableObject
                 _conf.CurrentConfig!.Hotkeys!.SilentOCR.Key = _hotkeysKey;
                 _conf.CurrentConfig!.Hotkeys!.SilentOCR.Text = _hotkeysText;
                 break;
+            
+             case HotkeyEnum.SilentTtsHk:
+                _conf.CurrentConfig!.Hotkeys!.SilentTTS.Modifiers = _hotkeysModifiers;
+                _conf.CurrentConfig!.Hotkeys!.SilentTTS.Key = _hotkeysKey;
+                _conf.CurrentConfig!.Hotkeys!.SilentTTS.Text = _hotkeysText;
+                break;
 
             case HotkeyEnum.ClipboardMonitorHk:
                 _conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Modifiers = _hotkeysModifiers;
@@ -343,6 +361,7 @@ public partial class HotkeyViewModel : ObservableObject
         MousehookHk.ContentVisible = _conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict;
         OcrHk.ContentVisible = _conf.CurrentConfig!.Hotkeys!.OCR.Conflict;
         SilentOcrHk.ContentVisible = _conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict;
+        SilentTtsHk.ContentVisible = _conf.CurrentConfig!.Hotkeys!.SilentTTS.Conflict;
         ClipboardMonitorHk.ContentVisible = _conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict;
     }
 
@@ -372,7 +391,10 @@ public partial class HotkeyViewModel : ObservableObject
             msg += $"识字: {_conf.CurrentConfig!.Hotkeys!.OCR.Text}\r\n";
         if (!_conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text))
-            msg += $"静默: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
+            msg += $"静默OCR: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
+        if (!_conf.CurrentConfig!.Hotkeys!.SilentTTS.Conflict &&
+            !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text))
+            msg += $"静默TTS: {_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text}\r\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text))
             msg += $"剪贴板: {_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\r\n";

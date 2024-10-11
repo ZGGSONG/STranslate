@@ -959,6 +959,7 @@ public enum HotkeyEnum
     MousehookHk,
     OcrHk,
     SilentOcrHk,
+    SilentTtsHk,
     ClipboardMonitorHk
 }
 
@@ -980,7 +981,8 @@ public enum ExternalCallAction
     open_window,
     open_preference,
     open_history,
-    forbiddenhotkey
+    forbiddenhotkey,
+    tts_silence
 }
 
 /// <summary>

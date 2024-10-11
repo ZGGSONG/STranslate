@@ -205,7 +205,9 @@
         CornerRadius="5">
         <TabControl>
             <TabItem Header="全局热键">
-                <StackPanel Margin="0,20,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <!-- Added ScrollViewer -->
+                    <StackPanel Margin="0,20,0,0">
                     <!--  // 输入翻译 //  -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
@@ -386,6 +388,26 @@
                         <TextBlock Grid.Column="2" Visibility="{Binding ClipboardMonitorHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                     </Grid>
 
+                        <!--  // 静默TTS //  -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="静默TTS" />
+                        <TextBox Grid.Column="1" Text="{Binding SilentTtsHk.Content}">
+                            <i:Interaction.Behaviors>
+                                <common:KeyArgsToCommandBehavior
+                  Keydown="{Binding KeydownCommand}"
+                  KeydownParam="{Binding RelativeSource={RelativeSource AncestorType=TextBox}}"
+                  Keyup="{Binding KeyupCommand}"
+                  KeyupParam="{x:Static model:HotkeyEnum.SilentTtsHk}" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                        <TextBlock Grid.Column="2" Visibility="{Binding SilentTtsHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+                    </Grid>
+
                     <!--  // 保存撤销 //  -->
                     <Grid Margin="20,10,0,10">
                         <Grid.ColumnDefinitions>
@@ -408,6 +430,7 @@
                             Content="恢复默认" />
                     </Grid>
                 </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="软件热键">
                 <DataGrid ItemsSource="{Binding SoftHotkeyList}">

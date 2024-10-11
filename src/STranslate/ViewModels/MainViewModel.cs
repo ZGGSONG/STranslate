@@ -230,6 +230,13 @@ public partial class MainViewModel : ObservableObject
             if (ShouldIgnoreHotkeys) return;
             NotifyIconVM.SilentOCRCommand.Execute(null);
         });
+        HotkeyHelper.Register(HotkeyHelper.SilentTTSId, () =>
+        {
+            if (ShouldIgnoreHotkeys)
+                return;
+            NotifyIconVM.SilentTTSCommand.Execute(null);
+        });
+
         HotkeyHelper.Register(HotkeyHelper.ClipboardMonitorId, () =>
         {
             if (ShouldIgnoreHotkeys) return;
@@ -244,6 +251,7 @@ public partial class MainViewModel : ObservableObject
             || HotkeyHelper.Hotkeys!.MousehookTranslate.Conflict
             || HotkeyHelper.Hotkeys!.OCR.Conflict
             || HotkeyHelper.Hotkeys!.SilentOCR.Conflict
+            || HotkeyHelper.Hotkeys!.SilentTTS.Conflict
             || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict
         )
             MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
@@ -269,7 +277,9 @@ public partial class MainViewModel : ObservableObject
         if (!HotkeyHelper.Hotkeys.OCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OCR.Text))
             msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
         if (!HotkeyHelper.Hotkeys.SilentOCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentOCR.Text))
-            msg += $"静默: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
+            msg += $"静默OCR: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
+        if (!HotkeyHelper.Hotkeys.SilentTTS.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentTTS.Text))
+            msg += $"静默TTS: {HotkeyHelper.Hotkeys.SilentTTS.Text}\n";
         if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
             msg += $"剪贴板: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
