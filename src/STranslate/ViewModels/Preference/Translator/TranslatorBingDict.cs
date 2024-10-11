@@ -217,7 +217,9 @@ public partial class TranslatorBingDict : TranslatorBase, ITranslator
         var meaningGroups = parseData["value"]?.FirstOrDefault()?["meaningGroups"] ?? throw new Exception($"获取meaningGroups失败: {resp}");
         if (!meaningGroups.Any())
         {
-            throw new Exception($"Words not yet included: {content}");
+            //throw new Exception($"Words not yet included: {content}");
+            //无结果
+            return TranslationResult.Success("");
         }
         var formats = displayFormatDefault.Trim().Split([", "], StringSplitOptions.None);
         var formatGroups = formats.ToDictionary(f => f, f => new List<JToken>());
@@ -281,7 +283,7 @@ public partial class TranslatorBingDict : TranslatorBase, ITranslator
         sb.AppendLine(content);
         foreach (var item in target.pronunciations)
         {
-            sb.Append($"\n{item.Region} · [{item.Symbol}]");
+            sb.Append($"\n{(item.Region.Equals("PY", StringComparison.CurrentCultureIgnoreCase) ? "zh" : item.Region.ToLower())} · [{item.Symbol}]");
         }
 
         sb.AppendLine();
@@ -290,7 +292,9 @@ public partial class TranslatorBingDict : TranslatorBase, ITranslator
             sb.Append($"\n[{item.Trait}] {string.Join("、", item.Explains)}");
         }
 
-        sb.AppendLine();
+        if (target.associations.Any())
+            sb.AppendLine();
+
         foreach (var item in target.associations)
         {
             sb.Append($"\n{item}");
