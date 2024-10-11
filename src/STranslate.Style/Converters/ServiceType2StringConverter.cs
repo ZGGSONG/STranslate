@@ -19,6 +19,7 @@ public class ServiceType2StringConverter : IValueConverter
                 ServiceType.ApiService => "自建",
                 ServiceType.STranslateService => "内置",
                 ServiceType.EcdictService => "内置",
+                ServiceType.KingSoftDictService => "内置",
                 _ => "官方"
             },
             TTSType tType => tType switch

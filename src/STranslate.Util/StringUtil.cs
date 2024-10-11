@@ -234,4 +234,17 @@ public class StringUtil
         // 如果远端版本号数字大于本地版本号数字即可升级
         return localVersion < remoteVersion;
     }
+
+    /// <summary>
+    ///     是否为中文
+    /// </summary>
+    /// <param name="src"></param>
+    /// <returns></returns>
+    public static bool IsChinese(string src)
+    {
+        // 定义验证表达式
+        var reg = new Regex(@"^[\u4E00-\u9FA5]+$");
+        // 进行验证
+        return reg.IsMatch(src);
+    }
 }

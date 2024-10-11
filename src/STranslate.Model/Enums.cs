@@ -161,6 +161,7 @@ public enum ServiceType
     AzureOpenAIService,
     ClaudeService,
     DeepSeekService,
+    KingSoftDictService,
 }
 
 public enum TTSType
