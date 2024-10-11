@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net.Http;
 using System.Text;
 using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Helper;
+using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 
@@ -175,10 +177,31 @@ public partial class TranslatorKingSoftDict : TranslatorBase, ITranslator
         query["key"] = "54A9DE969E911BC5294B70DA8ED5C9C4";
         uriBuilder.Query = query.ToString();
 
-        var resp = await HttpUtil.GetAsync(uriBuilder.Uri.AbsoluteUri, token).ConfigureAwait(false);
-
-        // 解析JSON数据
-        var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+        var resp = "";
+        JObject parseData;
+        try
+        {
+            resp = await HttpUtil.GetAsync(uriBuilder.Uri.AbsoluteUri, token).ConfigureAwait(false);
+            parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == null)
+        {
+            var msg = $"请检查服务是否可以正常访问: {Name} ({Url}).";
+            throw new HttpRequestException(msg);
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+        catch
+        {
+            LogService.Logger.Error($"金山词霸服务失效,访问结果: {resp}");
+            return TranslationResult.Success("");
+        }
 
         var wordName = parseData["word_name"]?.ToString();
         if (string.IsNullOrEmpty(wordName)) goto Empty;
