@@ -21,6 +21,7 @@ public class ServiceType2BrushConverter : IValueConverter
                 ServiceType.EcdictService => local,
                 ServiceType.KingSoftDictService => local,
                 ServiceType.BingDictService => local,
+                //TODO: 新接口需要适配
                 _ => official
             };
         if (value is OCRType oType)
@@ -28,12 +29,14 @@ public class ServiceType2BrushConverter : IValueConverter
             {
                 OCRType.PaddleOCR => selfBuild,
                 _ => official
+                //TODO: 新OCR服务需要适配
             };
         if (value is TTSType tType)
             return tType switch
             {
                 TTSType.OfflineTTS => selfBuild,
                 _ => official
+                //TODO: 新TTS服务需要适配
             };
         return local;
     }
