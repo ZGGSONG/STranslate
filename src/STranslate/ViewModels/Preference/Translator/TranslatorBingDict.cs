@@ -286,7 +286,8 @@ public partial class TranslatorBingDict : TranslatorBase, ITranslator
             sb.Append($"\n{(item.Region.Equals("PY", StringComparison.CurrentCultureIgnoreCase) ? "zh" : item.Region.ToLower())} · [{item.Symbol}]");
         }
 
-        sb.AppendLine();
+        if (target.pronunciations.Any())
+            sb.AppendLine();
         foreach (var item in target.explanations)
         {
             sb.Append($"\n[{item.Trait}] {string.Join("、", item.Explains)}");
