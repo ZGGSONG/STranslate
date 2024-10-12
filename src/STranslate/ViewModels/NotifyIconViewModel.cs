@@ -482,7 +482,7 @@ public partial class NotifyIconViewModel : ObservableObject
             //判断结果
             if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;
-            
+
             //处理剪贴板内容格式
             if (_configHelper.CurrentConfig?.IsPurify ?? true)
                 getText = StringUtil.NormalizeText(getText);
@@ -496,6 +496,7 @@ public partial class NotifyIconViewModel : ObservableObject
             if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
                 _inputViewModel.InputContent = "";
             _inputViewModel.InputContent += getText;
+            view.InputView.InputTB.CaretIndex = _inputViewModel.InputContent.Length;
             _inputViewModel.TranslateCommand.Execute(null);
         }
         catch (OperationCanceledException)
