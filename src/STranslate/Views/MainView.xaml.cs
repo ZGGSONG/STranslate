@@ -192,14 +192,16 @@ public partial class MainView : Window
             Opacity = 0;
             Visibility = Visibility.Hidden;
 
-            var isAdmin = CommonUtil.IsUserAdministrator();
+            if (!_configHelper.CurrentConfig?.IsDisableNoticeOnStart ?? false) {
+                var isAdmin = CommonUtil.IsUserAdministrator();
 
-            var toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
+                var toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
 
-            var msg = string.Format(toolTipFormat, Constant.AppVersion);
+                var msg = string.Format(toolTipFormat, Constant.AppVersion);
 
-            // 显示信息
-            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
+                // 显示信息
+                Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
+            }
         }
         else
         {

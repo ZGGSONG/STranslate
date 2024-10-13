@@ -154,6 +154,11 @@ public class ConfigModel
     public bool IsHideOnStart { get; set; }
 
     /// <summary>
+    ///     启动时不显示通知
+    /// </summary>
+    public bool IsDisableNoticeOnStart { get; set; }
+
+    /// <summary>
     ///     收缩框是否显示复制按钮
     /// </summary>
     public bool ShowCopyOnHeader { get; set; }
@@ -482,6 +487,7 @@ public class ConfigModel
             IsShowHistory = IsShowHistory,
             WordPickingInterval = WordPickingInterval,
             IsHideOnStart = IsHideOnStart,
+            IsDisableNoticeOnStart = IsDisableNoticeOnStart,
             ShowCopyOnHeader = ShowCopyOnHeader,
             IsCaretLast = IsCaretLast,
             ProxyMethod = ProxyMethod,

@@ -228,6 +228,7 @@ public class ConfigHelper
         CurrentConfig.IsShowHistory = model.IsShowHistory;
         CurrentConfig.WordPickingInterval = model.WordPickingInterval;
         CurrentConfig.IsHideOnStart = model.IsHideOnStart;
+        CurrentConfig.IsDisableNoticeOnStart = model.IsDisableNoticeOnStart;
         CurrentConfig.ShowCopyOnHeader = model.ShowCopyOnHeader;
         CurrentConfig.IsCaretLast = model.IsCaretLast;
         CurrentConfig.ProxyMethod = model.ProxyMethod;
@@ -763,6 +764,7 @@ public class ConfigHelper
             IsShowHistory = false,
             WordPickingInterval = 100,
             IsHideOnStart = false,
+            IsDisableNoticeOnStart = false,
             ShowCopyOnHeader = false,
             IsCaretLast = false,
             ProxyMethod = ProxyMethodEnum.系统代理,

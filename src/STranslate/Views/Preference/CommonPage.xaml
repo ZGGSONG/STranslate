@@ -609,6 +609,15 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Left" Text="启动时不显示通知" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示通知" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsDisableNoticeOnStart}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="启动时使用缓存位置" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动软件时是否使用上次打开位置" />
                                     <ToggleButton
