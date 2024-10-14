@@ -192,7 +192,8 @@ public partial class MainView : Window
             Opacity = 0;
             Visibility = Visibility.Hidden;
 
-            if (!_configHelper.CurrentConfig?.IsDisableNoticeOnStart ?? false) {
+            if (!(_configHelper.CurrentConfig?.IsDisableNoticeOnStart ?? false))
+            {
                 var isAdmin = CommonUtil.IsUserAdministrator();
 
                 var toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
