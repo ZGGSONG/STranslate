@@ -388,14 +388,14 @@
                         <TextBlock Grid.Column="2" Visibility="{Binding ClipboardMonitorHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                     </Grid>
 
-                        <!--  // 静默TTS //  -->
+                        <!--  // 静默输入TTS //  -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="静默TTS" />
+                        <Label Grid.Column="0" Content="静默输入TTS" />
                         <TextBox Grid.Column="1" Text="{Binding SilentTtsHk.Content}">
                             <i:Interaction.Behaviors>
                                 <common:KeyArgsToCommandBehavior

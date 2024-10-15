@@ -437,16 +437,30 @@ public partial class NotifyIconViewModel : ObservableObject
 
 
 
-
+    // copy from function CrossWordTranslate
     [RelayCommand]
-    private void SilentTTS(object? obj)
+    private void SilentTTS(Window view)
     {
+
+        if (!TryGetWord(out var content) || content == null)
+            return;
+
+        //处理剪贴板内容格式
+        if (_configHelper.CurrentConfig?.IsPurify ?? true)
+            content = StringUtil.NormalizeText(content);
+
+        //取词前移除换行
+        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+            content = StringUtil.RemoveLineBreaks(content);
+
         Task.Run( () =>
-        SilentTTSHandler());
+        SilentTTSHandler(
+               view, content
+            ));
     }
 
 
-    internal async void SilentTTSHandler()
+    internal async void SilentTTSHandler(Window view, string content, object? obj = null)
     {
 
         //如果ttscancel is null ,new 
@@ -466,7 +480,8 @@ public partial class NotifyIconViewModel : ObservableObject
 
         await
          Singleton<TTSViewModel>.Instance.SpeakTextAsync(
-                Clipboard.GetText(),
+                //Clipboard.GetText(),
+                content,
                 WindowType.Main,
                 //_TTS_cancelToken
                 _ttsCancelTokenSource.Token

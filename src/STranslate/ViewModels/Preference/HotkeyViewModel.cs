@@ -394,7 +394,7 @@ public partial class HotkeyViewModel : ObservableObject
             msg += $"静默OCR: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
         if (!_conf.CurrentConfig!.Hotkeys!.SilentTTS.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text))
-            msg += $"静默TTS: {_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text}\r\n";
+            msg += $"静默输入TTS: {_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text}\r\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text))
             msg += $"剪贴板: {_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\r\n";
