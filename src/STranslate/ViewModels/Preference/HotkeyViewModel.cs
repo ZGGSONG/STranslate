@@ -351,31 +351,31 @@ public partial class HotkeyViewModel : ObservableObject
         var msg = "";
         if (!_conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.InputTranslate.Text))
-            msg += $"输入: {_conf.CurrentConfig!.Hotkeys!.InputTranslate.Text}\r\n";
+            msg += $"输入: {_conf.CurrentConfig!.Hotkeys!.InputTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text))
-            msg += $"划词: {_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text}\r\n";
+            msg += $"划词: {_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text))
-            msg += $"截图: {_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text}\r\n";
+            msg += $"截图: {_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Text))
-            msg += $"替换: {_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Text}\r\n";
+            msg += $"替换: {_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text))
-            msg += $"显示: {_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text}\r\n";
+            msg += $"显示: {_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text))
-            msg += $"鼠标: {_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\r\n";
+            msg += $"鼠标: {_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.OCR.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.OCR.Text))
-            msg += $"识字: {_conf.CurrentConfig!.Hotkeys!.OCR.Text}\r\n";
+            msg += $"识字: {_conf.CurrentConfig!.Hotkeys!.OCR.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text))
-            msg += $"静默: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\r\n";
+            msg += $"静默: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text))
-            msg += $"剪贴板: {_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\r\n";
+            msg += $"剪贴板: {_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\n";
         Singleton<NotifyIconViewModel>.Instance.UpdateToolTip(msg.TrimEnd(['\r', '\n']));
     }
 

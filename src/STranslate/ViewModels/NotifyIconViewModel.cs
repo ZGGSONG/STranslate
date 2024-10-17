@@ -160,11 +160,27 @@ public partial class NotifyIconViewModel : ObservableObject
 
     public void UpdateToolTip(string msg = "")
     {
+        const int maxLength = 127;
         var isAdmin = CommonUtil.IsUserAdministrator();
+        var toolTipFormat = isAdmin ? "STranslate {0}\n[Administrator] #\n{1}" : "STranslate {0} #\n{1}";
 
-        var toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
+        // 计算基础提示信息的长度
+        var baseToolTip = string.Format(toolTipFormat, Constant.AppVersion, string.Empty);
+        var baseLength = baseToolTip.Length;
 
-        NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, msg);
+        // 剩余可用长度
+        var availableLength = maxLength - baseLength;
+
+        // 如果msg超过可用长度，进行截断并添加省略号
+        if (msg.Length > availableLength)
+        {
+            var truncatedMsg = msg[..(availableLength - 3)] + "...";
+            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, truncatedMsg);
+        }
+        else
+        {
+            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, msg);
+        }
     }
 
     [RelayCommand]
