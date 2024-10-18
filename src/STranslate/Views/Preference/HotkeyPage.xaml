@@ -306,14 +306,14 @@
                         <TextBlock Grid.Column="2" Visibility="{Binding OpenHk.ContentVisible, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
                     </Grid>
 
-                    <!--  // 鼠标滑动 //  -->
+                    <!--  // 鼠标划词 //  -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="鼠标滑动" />
+                        <Label Grid.Column="0" Content="鼠标划词" />
                         <TextBox Grid.Column="1" Text="{Binding MousehookHk.Content}">
                             <i:Interaction.Behaviors>
                                 <common:KeyArgsToCommandBehavior
