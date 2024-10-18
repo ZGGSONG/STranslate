@@ -506,8 +506,9 @@ public partial class NotifyIconViewModel : ObservableObject
             if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
                 getText = StringUtil.RemoveLineBreaks(getText);
             //OCR后自动复制
-            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false)
-                ClipboardHelper.Copy(getText);
+            //https://github.com/ZGGSONG/STranslate/issues/223
+            //if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false)
+            //    ClipboardHelper.Copy(getText);
             // 如果仅有空格则移除
             if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
                 _inputViewModel.InputContent = "";
