@@ -86,7 +86,7 @@ public class ClipboardHelper
     ///     复制
     /// </summary>
     /// <param name="content"></param>
-    /// <remarks>
+    /// <param name="copy"></param>
     public static void Copy(string content = "", bool copy = false)
     {
         if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UseFormsCopy ?? false)
@@ -95,6 +95,6 @@ public class ClipboardHelper
             System.Windows.Forms.Clipboard.SetDataObject(content, copy);
         else
             //https://referencesource.microsoft.com/#PresentationCore/Core/CSharp/System/Windows/Clipboard.cs,68ca81bbc84f706a
-            Clipboard.SetDataObject(content, copy);
+            ClipboardUtil.SetText(content);
     }
 }
