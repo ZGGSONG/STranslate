@@ -347,7 +347,10 @@
                                                 </Border>
 
                                                 <!--  // 执行回译 //  -->
-                                                <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行当前服务回译">
+                                                <Border
+                                                    Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                    ToolTip="执行当前服务回译"
+                                                    Visibility="{Binding Type, Converter={StaticResource DictToCollapsedConverter}}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateBackCommand}">
@@ -413,7 +416,10 @@
                                                 </Border>
 
                                                 <!--  // 自动回译 //  -->
-                                                <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译，保存至配置文件">
+                                                <Border
+                                                    Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                    ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译，保存至配置文件"
+                                                    Visibility="{Binding Type, Converter={StaticResource DictToCollapsedConverter}}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteTranslateBackCommand}">
@@ -543,18 +549,32 @@
                                 <RowDefinition Height="Auto" MinHeight="20" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
+
+                            <!--#region 普通显示-->
+
                             <TextBox
                                 PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                 Style="{DynamicResource TextBoxOutputStyle}"
                                 Tag="{Binding Data.IsSuccess}"
-                                Text="{Binding Data.Result}"
-                                Visibility="{Binding Type, Converter={StaticResource DictVisibilityCollapsedConverter}}" />
+                                Text="{Binding Data.Result}">
+                                <TextBox.Visibility>
+                                    <MultiBinding Converter="{StaticResource DictResultMultiVisibilityCollapsedConverter}">
+                                        <Binding Path="Data.IsSuccess" />
+                                        <Binding Path="Type" />
+                                    </MultiBinding>
+                                </TextBox.Visibility>
+                            </TextBox>
                             <StackPanel
                                 Grid.Row="1"
                                 Margin="5"
                                 VerticalAlignment="Bottom"
-                                Orientation="Horizontal"
-                                Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                Orientation="Horizontal">
+                                <StackPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource DictIconMultiVisibilityCollapsedConverter}">
+                                        <Binding Path="Type" />
+                                        <Binding Path="Data.IsSuccess" />
+                                    </MultiBinding>
+                                </StackPanel.Visibility>
                                 <!--  TTS  -->
                                 <Button
                                     Margin="5,0,0,0"
@@ -623,8 +643,7 @@
                                     Style="{DynamicResource ButtonCopyIconStyle}"
                                     ToolTip="直接复制结果"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
-
-                                <!--  // 插入文本 //  -->
+                                <!--  插入文本  -->
                                 <Button
                                     Margin="5,0,0,0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
@@ -640,12 +659,7 @@
                                         </MultiBinding>
                                     </Button.CommandParameter>
                                 </Button>
-
                                 <!--  回译该结果  -->
-                                <!--
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateBackCommand}"
-                                    CommandParameter="{Binding .}"
-                                -->
                                 <Button
                                     Margin="5,0,0,0"
                                     Content="&#xe687;"
@@ -666,7 +680,17 @@
                                 </Button>
                             </StackPanel>
 
-                            <TextBox Grid.Row="0" Visibility="{Binding Type, Converter={StaticResource DictVisibilityConverter}}">
+                            <!--#endregion-->
+
+                            <!--#region 词典显示-->
+
+                            <TextBox Grid.Row="0">
+                                <TextBox.Visibility>
+                                    <MultiBinding Converter="{StaticResource DictResultMultiVisibilityConverter}">
+                                        <Binding Path="Data.IsSuccess" />
+                                        <Binding Path="Type" />
+                                    </MultiBinding>
+                                </TextBox.Visibility>
                                 <TextBox.Template>
                                     <ControlTemplate>
                                         <StackPanel>
@@ -679,24 +703,78 @@
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=0}" />
                                             <TextBox
                                                 Margin="10,8,10,0"
+                                                PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=1}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
                                             <TextBox
                                                 Margin="10,8,10,0"
+                                                PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=2}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
                                             <TextBox
                                                 Margin="10,8,10,0"
+                                                PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=3}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
                                             <TextBox
                                                 Margin="10,8,10,0"
+                                                PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=4}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
                                         </StackPanel>
                                     </ControlTemplate>
                                 </TextBox.Template>
                             </TextBox>
+                            <StackPanel
+                                Grid.Row="1"
+                                Margin="5"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal">
+                                <StackPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource DictIconMultiVisibilityConverter}">
+                                        <Binding Path="Type" />
+                                        <Binding Path="Data.IsSuccess" />
+                                    </MultiBinding>
+                                </StackPanel.Visibility>
+                                <!--  TTS  -->
+                                <Button
+                                    Margin="5,0,0,0"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TTSCommand}"
+                                    CommandParameter="{Binding Data.Result, Converter={StaticResource DictGetWordConverter}}"
+                                    Content="&#xe610;"
+                                    Cursor="Hand"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="文字转语音"
+                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                <!--  普通复制  -->
+                                <Button
+                                    Margin="5,0,0,0"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
+                                    CommandParameter="{Binding Data.Result, Converter={StaticResource DictGetWordConverter}}"
+                                    Content="&#xe692;"
+                                    Cursor="Hand"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="直接复制结果"
+                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
+                                <!--  插入文本  -->
+                                <Button
+                                    Margin="5,0,0,0"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.InsertResultCommand}"
+                                    Content="&#xe677;"
+                                    Cursor="Hand"
+                                    Style="{DynamicResource ButtonCopyIconStyle}"
+                                    ToolTip="插入结果"
+                                    Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                            <Binding Converter="{StaticResource DictGetWordConverter}" Path="Data.Result" />
+                                            <Binding RelativeSource="{RelativeSource AncestorType=Window}" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+                            </StackPanel>
+
+                            <!--#endregion-->
 
                             <!--  // 加载动画 //  -->
                             <control:LoadingUc

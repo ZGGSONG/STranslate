@@ -171,12 +171,24 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         if (translator == null) return;
 
-        var result = translator.Data?.Result?.ToString();
+        var result = translator.Type switch
+        {
+            ServiceType.EcdictService => GetWord(translator.Data?.Result),
+            ServiceType.BingDictService => GetWord(translator.Data?.Result),
+            ServiceType.KingSoftDictService => GetWord(translator.Data?.Result),
+            //TODO: 词典
+            _ => translator.Data?.Result
+        };
+
         if (string.IsNullOrEmpty(result)) return;
 
         ClipboardHelper.Copy(result);
         if (CurConfig?.HotkeyCopySuccessToast ?? true)
             ToastHelper.Show($"复制{translator.Name}结果");
+        return;
+
+        // 获取单词
+        string GetWord(string? str) => str?.Trim().Split(['\r', '\n']).FirstOrDefault() ?? string.Empty;
     }
 
     public void Clear()

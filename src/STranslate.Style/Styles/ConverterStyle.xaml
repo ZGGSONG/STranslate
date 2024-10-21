@@ -40,6 +40,10 @@
     <converter:ServiceTypeFilterConverter x:Key="ServiceTypeFilterConverter" />
     <converter:DictConverter x:Key="DictConverter" />
     <converter:DictItemVisibilityConverter x:Key="DictItemVisibilityConverter" />
-    <converter:DictVisibilityConverter x:Key="DictVisibilityConverter" />
-    <converter:DictVisibilityCollapsedConverter x:Key="DictVisibilityCollapsedConverter" />
+    <converter:DictResultMultiVisibilityConverter x:Key="DictResultMultiVisibilityConverter" />
+    <converter:DictResultMultiVisibilityCollapsedConverter x:Key="DictResultMultiVisibilityCollapsedConverter" />
+    <converter:DictIconMultiVisibilityCollapsedConverter x:Key="DictIconMultiVisibilityCollapsedConverter" />
+    <converter:DictIconMultiVisibilityConverter x:Key="DictIconMultiVisibilityConverter" />
+    <converter:DictToCollapsedConverter x:Key="DictToCollapsedConverter" />
+    <converter:DictGetWordConverter x:Key="DictGetWordConverter" />
 </ResourceDictionary>
