@@ -691,6 +691,9 @@
                                         <Binding Path="Type" />
                                     </MultiBinding>
                                 </TextBox.Visibility>
+                                <TextBox.Style>
+                                    <Style />
+                                </TextBox.Style>
                                 <TextBox.Template>
                                     <ControlTemplate>
                                         <StackPanel>
@@ -698,7 +701,7 @@
                                                 <Style BasedOn="{StaticResource TextBoxOutputStyle}" TargetType="{x:Type TextBox}" />
                                             </StackPanel.Resources>
                                             <TextBox
-                                                FontSize="{DynamicResource FontSize22}"
+                                                FontSize="{DynamicResource FontSize24}"
                                                 FontWeight="Bold"
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=0}" />
                                             <TextBox
