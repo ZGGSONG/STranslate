@@ -109,7 +109,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
-    private async Task TTS(string text, CancellationToken token)
+    private async Task TTSAsync(string text, CancellationToken token)
     {
         await Singleton<TTSViewModel>.Instance.SpeakTextAsync(text, WindowType.Main, token);
     }
@@ -170,25 +170,58 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             : enabledTranslators.ElementAtOrDefault(index - 1);
 
         if (translator == null) return;
-
-        var result = translator.Type switch
-        {
-            ServiceType.EcdictService => GetWord(translator.Data?.Result),
-            ServiceType.BingDictService => GetWord(translator.Data?.Result),
-            ServiceType.KingSoftDictService => GetWord(translator.Data?.Result),
-            //TODO: 词典
-            _ => translator.Data?.Result
-        };
-
+        
+        var result = GetWord(translator.Type, translator.Data?.Result);
         if (string.IsNullOrEmpty(result)) return;
 
         ClipboardHelper.Copy(result);
         if (CurConfig?.HotkeyCopySuccessToast ?? true)
             ToastHelper.Show($"复制{translator.Name}结果");
-        return;
+    }
 
-        // 获取单词
-        string GetWord(string? str) => str?.Trim().Split(['\r', '\n']).FirstOrDefault() ?? string.Empty;
+    /// <summary>
+    ///     软件热键语音播报翻译结果
+    /// </summary>
+    /// <param name="param">1-9</param>
+    [RelayCommand]
+    private async Task HotkeyTtsAsync(string param)
+    {
+        if (!int.TryParse(param, out var index)) return;
+
+        Singleton<MainViewModel>.Instance.IsHotkeyCopy = true;
+
+        var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
+        var translator = index == 9
+            ? enabledTranslators.LastOrDefault()
+            : enabledTranslators.ElementAtOrDefault(index - 1);
+
+        if (translator == null) return;
+
+        var result = GetWord(translator.Type, translator.Data?.Result);
+        if (string.IsNullOrEmpty(result)) return;
+
+        ToastHelper.Show($"播报{translator.Name}结果");
+        await TTSCommand.ExecuteAsync(result);
+    }
+
+    /// <summary>
+    ///     获取单词
+    /// </summary>
+    /// <param name="serviceType"></param>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    private string? GetWord(ServiceType serviceType, string? str)
+    {
+        return serviceType switch
+        {
+            ServiceType.EcdictService => InternalGetWord(),
+            ServiceType.BingDictService => InternalGetWord(),
+            ServiceType.KingSoftDictService => InternalGetWord(),
+            //TODO: 词典
+            _ => str
+        };
+
+        string InternalGetWord() => str?.Trim().Split(['\r', '\n']).FirstOrDefault() ?? string.Empty;
     }
 
     public void Clear()

@@ -113,6 +113,44 @@
             CommandParameter="9"
             Gesture="Ctrl+9" />
 
+        <!--  // 输出框快捷键播报 //  -->
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="1"
+            Gesture="Alt+1" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="2"
+            Gesture="Alt+2" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="3"
+            Gesture="Alt+3" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="4"
+            Gesture="Alt+4" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="5"
+            Gesture="Alt+5" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="6"
+            Gesture="Alt+6" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="7"
+            Gesture="Alt+7" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="8"
+            Gesture="Alt+8" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="9"
+            Gesture="Alt+9" />
+
         <!--  // 重置字体大小 //  -->
         <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />
 

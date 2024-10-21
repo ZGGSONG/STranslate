@@ -52,6 +52,8 @@ public partial class HotkeyViewModel : ObservableObject
         new SoftHotkey("Ctrl + `", "文本框恢复默认文字大小"),
         new SoftHotkey("Ctrl + 1...8", "按服务顺序复制翻译结果"),
         new SoftHotkey("Ctrl + 9", "复制最后一条服务翻译结果"),
+        new SoftHotkey("Alt + 1...8", "按服务顺序语音播报翻译结果"),
+        new SoftHotkey("Alt + 9", "语音播报最后一条服务翻译结果"),
         new SoftHotkey("Ctrl + +", "放大界面(宽度、最大高度)"),
         new SoftHotkey("Ctrl + -", "缩小界面(宽度、最大高度)"),
         new SoftHotkey("Ctrl + 0", "恢复默认界面(宽度、最大高度)"),
