@@ -547,7 +547,8 @@
                                 PreviewMouseWheel="TextBox_PreviewMouseWheel"
                                 Style="{DynamicResource TextBoxOutputStyle}"
                                 Tag="{Binding Data.IsSuccess}"
-                                Text="{Binding Data.Result}" />
+                                Text="{Binding Data.Result}"
+                                Visibility="{Binding Type, Converter={StaticResource DictVisibilityCollapsedConverter}}" />
                             <StackPanel
                                 Grid.Row="1"
                                 Margin="5"
@@ -664,6 +665,39 @@
                                     </Button.Visibility>
                                 </Button>
                             </StackPanel>
+
+                            <TextBox Grid.Row="0" Visibility="{Binding Type, Converter={StaticResource DictVisibilityConverter}}">
+                                <TextBox.Template>
+                                    <ControlTemplate>
+                                        <StackPanel>
+                                            <StackPanel.Resources>
+                                                <Style BasedOn="{StaticResource TextBoxOutputStyle}" TargetType="{x:Type TextBox}" />
+                                            </StackPanel.Resources>
+                                            <TextBox
+                                                FontSize="{DynamicResource FontSize22}"
+                                                FontWeight="Bold"
+                                                Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=0}" />
+                                            <TextBox
+                                                Margin="10,8,10,0"
+                                                Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=1}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
+                                            <TextBox
+                                                Margin="10,8,10,0"
+                                                Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=2}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
+                                            <TextBox
+                                                Margin="10,8,10,0"
+                                                Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=3}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
+                                            <TextBox
+                                                Margin="10,8,10,0"
+                                                Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=4}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource DictItemVisibilityConverter}}" />
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </TextBox.Template>
+                            </TextBox>
+
                             <!--  // 加载动画 //  -->
                             <control:LoadingUc
                                 Grid.Row="0"

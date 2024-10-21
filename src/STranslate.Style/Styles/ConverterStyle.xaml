@@ -38,4 +38,8 @@
     <converter:MultiValue2VisibilityReverseConverter x:Key="MultiValue2VisibilityReverseConverter" />
     <converter:MultiTranslationBackValue2VisibilityConverter x:Key="MultiTranslationBackValue2VisibilityConverter" />
     <converter:ServiceTypeFilterConverter x:Key="ServiceTypeFilterConverter" />
+    <converter:DictConverter x:Key="DictConverter" />
+    <converter:DictItemVisibilityConverter x:Key="DictItemVisibilityConverter" />
+    <converter:DictVisibilityConverter x:Key="DictVisibilityConverter" />
+    <converter:DictVisibilityCollapsedConverter x:Key="DictVisibilityCollapsedConverter" />
 </ResourceDictionary>

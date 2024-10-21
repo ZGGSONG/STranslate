@@ -214,13 +214,13 @@ public partial class TranslatorKingSoftDict : TranslatorBase, ITranslator
         {
             var symbol = parseData["symbols"]?.FirstOrDefault()?["word_symbol"]?.ToString();
             if (!string.IsNullOrEmpty(symbol))
-                sb.AppendLine($"\nzh · [{symbol}]");
+                sb.AppendLine($"\r\nzh · [{symbol}]");
         }
         else
         {
             var symbolEn = parseData["symbols"]?.FirstOrDefault()?["ph_en"]?.ToString();
             if (!string.IsNullOrEmpty(symbolEn))
-                sb.AppendLine($"\nuk · [{symbolEn}]");
+                sb.Append($"\r\nuk · [{symbolEn}]\n");
 
             var symbolAm = parseData["symbols"]?.FirstOrDefault()?["ph_am"]?.ToString();
             if (!string.IsNullOrEmpty(symbolAm))
@@ -247,7 +247,7 @@ public partial class TranslatorKingSoftDict : TranslatorBase, ITranslator
         var wordPls = parseData["exchange"]?["word_pl"];
         if (wordPls != null && wordPls.Count() != 0)
         {
-            sb.Append($"\n\n复数形式 {string.Join("、", wordPls)}");
+            sb.Append($"\r\n\r\n复数形式 {string.Join("、", wordPls)}");
         }
 
         return TranslationResult.Success(sb.ToString());
