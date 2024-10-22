@@ -188,19 +188,28 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     {
         if (!int.TryParse(param, out var index)) return;
 
-        Singleton<MainViewModel>.Instance.IsHotkeyCopy = true;
+        string? result;
 
-        var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
-        var translator = index == 9
-            ? enabledTranslators.LastOrDefault()
-            : enabledTranslators.ElementAtOrDefault(index - 1);
+        if (index == 0)
+        {
+            result = _inputVm.InputContent;
+            ToastHelper.Show($"播报输入内容");
+        }
+        else
+        {
+            var enabledTranslators = Translators.Where(x => x.IsEnabled).ToList();
+            var translator = index == 9
+                ? enabledTranslators.LastOrDefault()
+                : enabledTranslators.ElementAtOrDefault(index - 1);
 
-        if (translator == null) return;
+            if (translator == null) return;
 
-        var result = GetWord(translator.Type, translator.Data?.Result);
-        if (string.IsNullOrEmpty(result)) return;
+            result = GetWord(translator.Type, translator.Data?.Result);
+            if (string.IsNullOrEmpty(result)) return;
 
-        ToastHelper.Show($"播报{translator.Name}结果");
+            ToastHelper.Show($"播报{translator.Name}结果");
+        }
+
         await TTSCommand.ExecuteAsync(result);
     }
 

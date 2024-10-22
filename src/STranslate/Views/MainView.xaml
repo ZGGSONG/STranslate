@@ -116,6 +116,10 @@
         <!--  // 输出框快捷键播报 //  -->
         <KeyBinding
             Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="0"
+            Gesture="Alt+OemTilde" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
             CommandParameter="1"
             Gesture="Alt+1" />
         <KeyBinding
