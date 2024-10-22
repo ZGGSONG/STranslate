@@ -123,6 +123,9 @@
     <Compile Update="Views\Preference\OCRPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Preference\VocabularyBookPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Preference\TTSPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

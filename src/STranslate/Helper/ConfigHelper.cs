@@ -12,6 +12,7 @@ using STranslate.ViewModels.Preference;
 using STranslate.ViewModels.Preference.OCR;
 using STranslate.ViewModels.Preference.Translator;
 using STranslate.ViewModels.Preference.TTS;
+using STranslate.ViewModels.Preference.VocabularyBook;
 using STranslate.Views;
 
 namespace STranslate.Helper;
@@ -150,6 +151,22 @@ public class ConfigHelper
         if (CurrentConfig is null)
             return isSuccess;
         CurrentConfig.TTSList = ttsList;
+        WriteConfig(CurrentConfig);
+        isSuccess = true;
+        return isSuccess;
+    }
+
+    /// <summary>
+    ///     写入生词本服务到配置
+    /// </summary>
+    /// <param name="service"></param>
+    /// <returns></returns>
+    public bool WriteConfig(VocabularyBookCollection<IVocabularyBook> service)
+    {
+        var isSuccess = false;
+        if (CurrentConfig is null)
+            return isSuccess;
+        CurrentConfig.VocabularyBookList = service;
         WriteConfig(CurrentConfig);
         isSuccess = true;
         return isSuccess;
@@ -376,7 +393,7 @@ public class ConfigHelper
             var settings = new JsonSerializerSettings
             {
                 Converters =
-                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() }
+                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter(), new VocabularyBookConverter() }
             };
             var content = File.ReadAllText(configPath);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
@@ -402,7 +419,7 @@ public class ConfigHelper
             var settings = new JsonSerializerSettings
             {
                 Converters =
-                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter() }
+                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter(), new VocabularyBookConverter() }
             };
             var content = File.ReadAllText(Constant.CnfFullName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
@@ -891,6 +908,32 @@ public class TTSConverter : JsonConverter<ITTS>
     }
 
     public override void WriteJson(JsonWriter writer, ITTS? value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class VocabularyBookConverter : JsonConverter<IVocabularyBook>
+{
+    public override IVocabularyBook? ReadJson(JsonReader reader, Type objectType, IVocabularyBook? existingValue, bool hasExistingValue,
+        JsonSerializer serializer)
+    {
+        var jsonObject = JObject.Load(reader);
+
+        // 根据Type字段的值来决定具体实现类
+        var type = jsonObject["Type"]!.Value<int>();
+        IVocabularyBook tts = type switch
+        {
+            (int)VocabularyBookType.EuDictVocabularyBook => new VocabularyBookEuDict(),
+            //TODO: 新生词本服务需要适配
+            _ => throw new NotSupportedException($"Unsupported VocabularyBook ServiceType: {type}")
+        };
+
+        serializer.Populate(jsonObject.CreateReader(), tts);
+        return tts;
+    }
+
+    public override void WriteJson(JsonWriter writer, IVocabularyBook? value, JsonSerializer serializer)
     {
         throw new NotImplementedException();
     }

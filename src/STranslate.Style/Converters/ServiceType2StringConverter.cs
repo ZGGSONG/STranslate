@@ -33,6 +33,10 @@ public class ServiceType2StringConverter : IValueConverter
                 OCRType.PaddleOCR => "内置",
                 _ => "官方"
             },
+            VocabularyBookType vType => vType switch
+            {
+                _ => "官方"
+            },
             _ => "自建"
         };
     }

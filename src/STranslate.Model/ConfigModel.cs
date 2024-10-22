@@ -450,6 +450,11 @@ public class ConfigModel
     public TTSCollection<ITTS>? TTSList { get; set; }
 
     /// <summary>
+    ///     生词本
+    /// </summary>
+    public VocabularyBookCollection<IVocabularyBook>? VocabularyBookList { get; set; }
+
+    /// <summary>
     ///     Copy
     /// </summary>
     /// <returns></returns>
@@ -545,7 +550,8 @@ public class ConfigModel
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),
-            TTSList = TTSList?.DeepCopy()
+            TTSList = TTSList?.DeepCopy(),
+            VocabularyBookList = VocabularyBookList?.DeepCopy()
         };
     }
 }

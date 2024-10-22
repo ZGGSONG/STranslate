@@ -2,6 +2,7 @@
 
 namespace STranslate.ViewModels.Preference;
 
-public class ServiceViewModel : ObservableObject
+public partial class ServiceViewModel : ObservableObject
 {
+    [ObservableProperty] private uint _selectedIndex = 0;
 }

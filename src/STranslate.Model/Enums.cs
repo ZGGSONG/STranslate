@@ -173,6 +173,14 @@ public enum TTSType
     EdgeTTS,
 }
 
+public enum VocabularyBookType
+{
+    /// <summary>
+    ///     欧陆词典
+    /// </summary>
+    EuDictVocabularyBook,
+}
+
 public enum OCRType
 {
     [Description("PaddleOCR")] PaddleOCR,
@@ -367,6 +375,7 @@ public enum PerferenceType
     Replace,
     OCR,
     TTS,
+    VocabularyBook,
     Favorite,
     History,
     Backup,

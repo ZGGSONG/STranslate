@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:uc="clr-namespace:STranslate.Views.Preference"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+    d:DataContext="{d:DesignInstance Type=vm:ServiceViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     d:FontFamily="{DynamicResource UserFont}"
@@ -104,7 +106,7 @@
         Margin="8"
         props:ThemeProps.Background="{DynamicResource BorderBackground}"
         CornerRadius="5">
-        <TabControl>
+        <TabControl SelectedIndex="{Binding SelectedIndex}">
             <TabItem Header="文本翻译">
                 <uc:TranslatorPage />
             </TabItem>
@@ -113,6 +115,9 @@
             </TabItem>
             <TabItem Header="语音合成">
                 <uc:TTSPage />
+            </TabItem>
+            <TabItem Header="生词本">
+                <uc:VocabularyBookPage />
             </TabItem>
         </TabControl>
     </Border>

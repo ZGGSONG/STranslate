@@ -42,7 +42,8 @@ public partial class PreferenceViewModel : WindowVMBase
                 break;
 
             case PerferenceType.Translator:
-                TranslatorPage();
+                ServicePage();
+                Singleton<ServiceViewModel>.Instance.SelectedIndex = 0;
                 break;
 
             case PerferenceType.Replace:
@@ -50,11 +51,18 @@ public partial class PreferenceViewModel : WindowVMBase
                 break;
 
             case PerferenceType.OCR:
-                OCRPage();
+                ServicePage();
+                Singleton<ServiceViewModel>.Instance.SelectedIndex = 1;
                 break;
 
             case PerferenceType.TTS:
-                TTSPage();
+                ServicePage();
+                Singleton<ServiceViewModel>.Instance.SelectedIndex = 2;
+                break;
+
+            case PerferenceType.VocabularyBook:
+                VocabularyBookPage();
+                Singleton<ServiceViewModel>.Instance.SelectedIndex = 3;
                 break;
 
             case PerferenceType.Favorite:
@@ -148,6 +156,12 @@ public partial class PreferenceViewModel : WindowVMBase
     private void ServicePage()
     {
         CurrentView = Singleton<ServiceViewModel>.Instance;
+    }
+
+    [RelayCommand]
+    private void VocabularyBookPage()
+    {
+        CurrentView = Singleton<VocabularyBookViewModel>.Instance;
     }
 
     public override void Close(Window win)

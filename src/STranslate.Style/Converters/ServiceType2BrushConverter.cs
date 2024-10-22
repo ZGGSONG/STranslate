@@ -39,6 +39,12 @@ public class ServiceType2BrushConverter : IValueConverter
                 _ => official
                 //TODO: 新TTS服务需要适配
             };
+        if (value is VocabularyBookType vType)
+            return vType switch
+            {
+                _ => official
+                //TODO: 新生词本服务需要适配
+            };
         return local;
     }
 
