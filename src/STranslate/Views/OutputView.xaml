@@ -701,7 +701,7 @@
                                                 <Style BasedOn="{StaticResource TextBoxOutputStyle}" TargetType="{x:Type TextBox}" />
                                             </StackPanel.Resources>
                                             <TextBox
-                                                FontSize="{DynamicResource FontSize24}"
+                                                FontSize="{DynamicResource FontSize22}"
                                                 FontWeight="Bold"
                                                 Text="{Binding Data.Result, Converter={StaticResource DictConverter}, ConverterParameter=0}" />
                                             <TextBox
