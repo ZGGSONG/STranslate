@@ -111,6 +111,9 @@
     <Compile Update="Views\Preference\BackupPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Preference\ServicePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Preference\ReplacePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -43,4 +43,8 @@
         <view:AboutPage />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:ServiceViewModel}">
+        <view:ServicePage />
+    </DataTemplate>
+
 </ResourceDictionary>

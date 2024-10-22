@@ -363,14 +363,15 @@ public enum PerferenceType
 {
     Common,
     Hotkey,
-    Service,
+    Translator,
     Replace,
     OCR,
     TTS,
     Favorite,
     History,
     Backup,
-    About
+    About,
+    Service
 }
 
 /// <summary>

@@ -313,7 +313,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
 
     #endregion Properties
 
-    #region Service Test
+    #region Translator Test
 
     [property: JsonIgnore] [ObservableProperty]
     private bool _isTesting;
@@ -346,7 +346,7 @@ public partial class TranslatorBaiduBce : TranslatorBase, ITranslatorLlm
         }
     }
 
-    #endregion Service Test
+    #endregion Translator Test
 
     #region Interface Implementation
 

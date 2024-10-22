@@ -311,7 +311,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         
         var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
         view ??= new PreferenceView();
-        view.UpdateNavigation(PerferenceType.Service);
+        view.UpdateNavigation(PerferenceType.Translator);
         view.Show();
         if (view.WindowState == WindowState.Minimized)
             view.WindowState = WindowState.Normal;

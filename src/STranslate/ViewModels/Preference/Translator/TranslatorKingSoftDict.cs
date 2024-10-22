@@ -118,7 +118,7 @@ public partial class TranslatorKingSoftDict : TranslatorBase, ITranslator
 
     #endregion Properties
 
-    #region Service Test
+    #region Translator Test
 
     [property: JsonIgnore] [ObservableProperty]
     private bool _isTesting;
@@ -153,7 +153,7 @@ public partial class TranslatorKingSoftDict : TranslatorBase, ITranslator
         }
     }
 
-    #endregion Service Test
+    #endregion Translator Test
 
     #region Interface Implementation
 
