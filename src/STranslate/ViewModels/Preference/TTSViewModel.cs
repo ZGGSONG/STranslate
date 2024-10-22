@@ -135,12 +135,6 @@ public partial class TTSViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Popup(Popup control)
-    {
-        control.IsOpen = true;
-    }
-
-    [RelayCommand]
     private void Add(List<object> list)
     {
         if (list?.Count == 2)
@@ -157,7 +151,7 @@ public partial class TTSViewModel : ObservableObject
                 _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
             });
 
-            (list.Last() as Popup)!.IsOpen = false;
+            (list.Last() as ToggleButton)!.IsChecked = false;
 
             ResetView(ActionType.Add);
         }

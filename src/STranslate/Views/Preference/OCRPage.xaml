@@ -131,21 +131,21 @@
 
                     <!--  // Add Service //  -->
                     <Grid>
-                        <Button
+                        <ToggleButton
                             x:Name="BTN_Add"
                             Width="50"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            Command="{Binding PopupCommand}"
-                            CommandParameter="{Binding ElementName=Popup_Add}"
-                            Content="+" />
+                            Content="+"
+                            Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup
                             x:Name="Popup_Add"
                             MinWidth="80"
                             MinHeight="30"
                             AllowsTransparency="True"
+                            IsOpen="{Binding ElementName=BTN_Add, Path=IsChecked}"
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=BTN_Add}"
                             PopupAnimation="Slide"
@@ -164,7 +164,7 @@
                                                 <i:InvokeCommandAction.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                         <Binding ElementName="OCRServiceListBox" Path="SelectedItem" />
-                                                        <Binding ElementName="Popup_Add" />
+                                                        <Binding ElementName="BTN_Add" />
                                                     </MultiBinding>
                                                 </i:InvokeCommandAction.CommandParameter>
                                             </i:InvokeCommandAction>
@@ -223,7 +223,8 @@
                             VerticalContentAlignment="Center"
                             Command="{Binding DeleteCommand}"
                             CommandParameter="{Binding ElementName=OCRListBox, Path=SelectedItem}"
-                            Content="-" />
+                            Content="-"
+                            Style="{DynamicResource ButtonIconStyle}" />
                     </Grid>
 
                     <!--  // Save //  -->
