@@ -35,6 +35,7 @@ public class ServiceType2BrushConverter : IValueConverter
             return tType switch
             {
                 TTSType.OfflineTTS => selfBuild,
+                TTSType.EdgeTTS => selfBuild,
                 _ => official
                 //TODO: 新TTS服务需要适配
             };

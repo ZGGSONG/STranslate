@@ -67,6 +67,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="Dapper.Contrib" />
+    <PackageReference Include="Edge_tts_sharp" />
     <PackageReference Include="gong-wpf-dragdrop" />
     <PackageReference Include="H.InputSimulator" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" />

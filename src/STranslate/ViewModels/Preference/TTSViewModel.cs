@@ -39,10 +39,11 @@ public partial class TTSViewModel : ObservableObject
     public TTSViewModel()
     {
         //添加默认支持TTS
-        //TODO: 新TTS服务需要适配
-        TtsServices.Add(new TTSAzure());
         TtsServices.Add(new TTSOffline());
+        TtsServices.Add(new TTSEdge());
+        TtsServices.Add(new TTSAzure());
         TtsServices.Add(new TTSLingva());
+        //TODO: 新TTS服务需要适配
 
         ResetView();
     }
@@ -119,13 +120,14 @@ public partial class TTSViewModel : ObservableObject
                 tmpIndex = SelectedIndex;
 
             var head = "STranslate.Views.Preference.TTS.";
-            //TODO: 新TTS服务需要适配
             var name = tts.Type switch
             {
-                TTSType.OfflineTTS => string.Format("{0}{1}", head, nameof(TTSOfflinePage)),
-                TTSType.AzureTTS => string.Format("{0}{1}", head, nameof(TTSAzurePage)),
-                TTSType.LingvaTTS => string.Format("{0}{1}", head, nameof(TTSLingvaPage)),
-                _ => string.Format("{0}{1}", head, nameof(TTSOfflinePage))
+                TTSType.OfflineTTS => $"{head}{nameof(TTSOfflinePage)}",
+                TTSType.AzureTTS => $"{head}{nameof(TTSAzurePage)}",
+                TTSType.LingvaTTS => $"{head}{nameof(TTSLingvaPage)}",
+                TTSType.EdgeTTS => $"{head}{nameof(TTSEdgePage)}",
+                //TODO: 新TTS服务需要适配
+                _ => $"{head}{nameof(TTSOfflinePage)}"
             };
 
             NavigationPage(name, tts);
@@ -145,12 +147,13 @@ public partial class TTSViewModel : ObservableObject
         {
             var tts = list.First();
 
-            //TODO: 新TTS服务需要适配
             CurTTSServiceList.Add(tts switch
             {
                 TTSAzure azure => azure.Clone(),
                 TTSOffline offline => offline.Clone(),
                 TTSLingva lingva => lingva.Clone(),
+                TTSEdge edge => edge.Clone(),
+                //TODO: 新TTS服务需要适配
                 _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
             });
 
