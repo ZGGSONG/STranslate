@@ -458,10 +458,10 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ShowHideInput()
+    private async Task ShowHideInputAsync()
     {
         CommonSettingVM.IsOnlyShowRet = !CommonSettingVM.IsOnlyShowRet;
-        CommonSettingVM.SaveCommand.Execute(null);
+        await CommonSettingVM.SaveCommand.ExecuteAsync(null);
     }
 
     /// <summary>

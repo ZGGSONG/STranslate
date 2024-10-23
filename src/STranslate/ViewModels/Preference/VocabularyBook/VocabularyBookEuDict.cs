@@ -97,7 +97,8 @@ public partial class VocabularyBookEuDict : ObservableObject, IVocabularyBook
                 };
                 var resp = await HttpUtil.PostAsync(url, JsonConvert.SerializeObject(req), null, headerParams, token);
                 bookId = GetIdByName(resp);
-                ArgumentException.ThrowIfNullOrWhiteSpace(bookId, $"创建生词本服务: {Name}->生词本名称: {BookName} 失败, 接口回复: {resp}");
+                ArgumentException.ThrowIfNullOrWhiteSpace(bookId,
+                    $"创建生词本服务: {Name}->生词本名称: {BookName} 失败, 接口回复: {resp}");
             }
 
             BookId = bookId;

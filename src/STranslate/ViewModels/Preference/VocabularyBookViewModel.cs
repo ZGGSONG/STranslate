@@ -32,18 +32,27 @@ public partial class VocabularyBookViewModel : ObservableObject
 
     [ObservableProperty] private BindingList<IVocabularyBook> _services = [];
 
+    [ObservableProperty] private IVocabularyBook? _activeVocabularyBook;
+
     private int _tmpIndex;
 
     public VocabularyBookViewModel()
     {
+        ActiveVocabularyBook = CurServiceList.FirstOrDefault(x => x.IsEnabled);
         //添加默认支持生词本
         Services.Add(new VocabularyBookEuDict());
         //TODO: 新生词本服务需要适配
 
         ResetView();
+
+        CurServiceList.ListChanged += (sender, e) =>
+        {
+            if (e.ListChangedType == ListChangedType.ItemChanged)
+                ActiveVocabularyBook = CurServiceList.FirstOrDefault(x => x.IsEnabled);
+        };
     }
 
-    public IVocabularyBook? ActiveVocabularyBook => CurServiceList.FirstOrDefault(x => x.IsEnabled);
+    //public IVocabularyBook? ActiveVocabularyBook => CurServiceList.FirstOrDefault(x => x.IsEnabled);
 
     public async Task<bool> ExecuteAsync(string content, CancellationToken token)
     {
@@ -147,16 +156,14 @@ public partial class VocabularyBookViewModel : ObservableObject
     [RelayCommand]
     private async Task SaveAsync()
     {
-        // 通知ui刷新
-        OnPropertyChanged(nameof(ActiveVocabularyBook));
-
-        var canContinued = await Task.WhenAll(CurServiceList.Select(item => item.CheckAsync(CancellationToken.None)))
-            .ContinueWith(results => results.Result.All(result => result));
-
-        if (!canContinued)
+        if (ActiveVocabularyBook != null)
         {
-            ToastHelper.Show("请检查生词本配置", WindowType.Preference);
-            return;
+            var checkResult = await ActiveVocabularyBook.CheckAsync(CancellationToken.None);
+            if (!checkResult)
+            {
+                ToastHelper.Show("请检查生词本配置", WindowType.Preference);
+                return;
+            }
         }
 
         if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurServiceList))
