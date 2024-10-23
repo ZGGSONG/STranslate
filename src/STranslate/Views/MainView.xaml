@@ -75,6 +75,12 @@
             Command="{Binding ShowHideInputCommand}"
             Modifiers="Ctrl+Shift" />
 
+        <KeyBinding
+            Key="S"
+            Command="{Binding InputVM.Save2VocabularyBookCommand}"
+            CommandParameter="{Binding InputVM.InputContent}"
+            Modifiers="Ctrl+Shift" />
+
         <!--  // 输出框快捷键复制 //  -->
         <KeyBinding
             Command="{Binding OutputVM.HotkeyCopyCommand}"

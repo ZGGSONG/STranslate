@@ -71,16 +71,31 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="生词本: " />
+
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    Placeholder="stranslate"
+                    Text="{Binding BookName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="38" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Key: " />
+                <TextBlock Text="Token: " />
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
                     MinWidth="160"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Placeholder="Key"
+                    Placeholder="Token"
                     Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <PasswordBox
@@ -89,7 +104,7 @@
                     HorizontalAlignment="Left"
                     common:BoundPasswordBox.Attach="True"
                     common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Tag="Key"
+                    Tag="Token"
                     ToolTip="{Binding AppKey}"
                     Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 

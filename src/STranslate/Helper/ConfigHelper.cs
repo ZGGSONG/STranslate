@@ -506,6 +506,13 @@ public class ConfigHelper
                 tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesEncrypt(tts.AppID);
                 tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesEncrypt(tts.AppKey);
             });
+        // 生词本加密
+        conf.VocabularyBookList?.ToList()
+            .ForEach(vocabularyBook =>
+            {
+                vocabularyBook.AppID = string.IsNullOrEmpty(vocabularyBook.AppID) ? vocabularyBook.AppID : DESUtil.DesEncrypt(vocabularyBook.AppID);
+                vocabularyBook.AppKey = string.IsNullOrEmpty(vocabularyBook.AppKey) ? vocabularyBook.AppKey : DESUtil.DesEncrypt(vocabularyBook.AppKey);
+            });
 
         // Replace属性加密
         var rp = conf.ReplaceProp.ActiveService;
@@ -548,6 +555,12 @@ public class ConfigHelper
             {
                 tts.AppID = string.IsNullOrEmpty(tts.AppID) ? tts.AppID : DESUtil.DesDecrypt(tts.AppID);
                 tts.AppKey = string.IsNullOrEmpty(tts.AppKey) ? tts.AppKey : DESUtil.DesDecrypt(tts.AppKey);
+            });
+        conf.VocabularyBookList?.ToList()
+            .ForEach(vocabularyBook =>
+            {
+                vocabularyBook.AppID = string.IsNullOrEmpty(vocabularyBook.AppID) ? vocabularyBook.AppID : DESUtil.DesDecrypt(vocabularyBook.AppID);
+                vocabularyBook.AppKey = string.IsNullOrEmpty(vocabularyBook.AppKey) ? vocabularyBook.AppKey : DESUtil.DesDecrypt(vocabularyBook.AppKey);
             });
         var rp = conf.ReplaceProp.ActiveService;
         if (rp is null) return;

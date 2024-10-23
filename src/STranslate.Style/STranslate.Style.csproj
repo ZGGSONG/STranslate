@@ -57,6 +57,7 @@
     <Resource Include="Resources\ecdict.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\eudict.png" />
     <Resource Include="Resources\favicon.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

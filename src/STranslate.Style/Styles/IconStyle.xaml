@@ -29,4 +29,5 @@
     <BitmapImage x:Key="Lingva" UriSource="pack://application:,,,/STranslate.Style;component/Resources/lingva.png" />
     <BitmapImage x:Key="WeChat" UriSource="pack://application:,,,/STranslate.Style;component/Resources/wechat.png" />
     <BitmapImage x:Key="Claude" UriSource="pack://application:,,,/STranslate.Style;component/Resources/claude.png" />
+    <BitmapImage x:Key="EuDict" UriSource="pack://application:,,,/STranslate.Style;component/Resources/eudict.png" />
 </ResourceDictionary>

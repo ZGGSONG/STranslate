@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using STranslate.Style.Themes;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -19,7 +20,8 @@ public class PlaceholderTextBox : TextBox
         _placeholderTextBlock.FontWeight = FontWeights.Thin;
         _placeholderTextBlock.Padding = new Thickness(3, 0, 3, 0);
         _placeholderTextBlock.BorderThickness = new Thickness(0);
-        _placeholderTextBlock.Foreground = Brushes.Gray;
+        //_placeholderTextBlock.Foreground = Brushes.Gray;
+        _placeholderTextBlock.SetValue(ThemeProps.ForegroundProperty, Brushes.Gray);
 
         _placeholderVisualBrush.AlignmentX = AlignmentX.Left;
         _placeholderVisualBrush.AlignmentY = AlignmentY.Top;

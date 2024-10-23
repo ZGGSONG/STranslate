@@ -246,6 +246,7 @@ public enum IconType
     [Description("Lingva")] Lingva,
     [Description("微信")] WeChat,
     [Description("Claude")] Claude,
+    [Description("欧陆词典")] EuDict,
 }
 
 /// <summary>

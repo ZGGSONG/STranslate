@@ -229,6 +229,7 @@ public partial class NotifyIconViewModel : ObservableObject
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
         ClearAll();
         ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
     }
@@ -255,6 +256,7 @@ public partial class NotifyIconViewModel : ObservableObject
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
 
         //增量翻译
         if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
@@ -468,6 +470,7 @@ public partial class NotifyIconViewModel : ObservableObject
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
 
         //增量翻译
         if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
@@ -693,6 +696,9 @@ public partial class NotifyIconViewModel : ObservableObject
             Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
             return;
         }
+        //监听剪贴板，剪贴板内容变动时取消保存至生词本
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
+
         //处理剪贴板内容格式
         if (_configHelper.CurrentConfig?.IsPurify ?? true)
             content = StringUtil.NormalizeText(content);

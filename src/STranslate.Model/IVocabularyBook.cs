@@ -16,11 +16,15 @@ public interface IVocabularyBook : INotifyPropertyChanged //需要继承INotifyP
 
     string Url { get; set; }
 
+    string BookName { get; set; }
+
     string AppID { get; set; }
 
     string AppKey { get; set; }
 
-    Task ExecuteAsync(string text, CancellationToken token);
+    Task<bool> CheckAsync(CancellationToken token);
+
+    Task<bool> ExecuteAsync(string text, CancellationToken token);
 
     IVocabularyBook Clone();
 }

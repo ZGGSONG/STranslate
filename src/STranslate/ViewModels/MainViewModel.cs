@@ -371,6 +371,9 @@ public partial class MainViewModel : ObservableObject
         if (string.IsNullOrEmpty(content))
             return;
         
+        // 先取消可能存在的存生词本的操作
+        InputVM.Save2VocabularyBookCancelCommand.Execute(null);
+
         //处理剪贴板内容格式
         if (Config?.IsPurify ?? true)
             content = StringUtil.NormalizeText(content);
@@ -378,7 +381,6 @@ public partial class MainViewModel : ObservableObject
         //取词前移除换行
         if (Config?.IsRemoveLineBreakGettingWords ?? false)
             content = StringUtil.RemoveLineBreaks(content);
-
 
         //增量翻译
         if (Config?.IncrementalTranslation ?? false)
@@ -395,6 +397,7 @@ public partial class MainViewModel : ObservableObject
         InputVM.InputContent += content;
 
         //如果重复执行先取消上一步操作
+        InputVM.Save2VocabularyBookCancelCommand.Execute(null);
         OutputVM.SingleTranslateCancelCommand.Execute(null);
         OutputVM.SingleTranslateBackCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
@@ -445,6 +448,7 @@ public partial class MainViewModel : ObservableObject
         OutputVM.SingleTranslateCancelCommand.Execute(null);
         OutputVM.SingleTranslateBackCancelCommand.Execute(null);
         InputVM.TranslateCancelCommand.Execute(null);
+        InputVM.Save2VocabularyBookCancelCommand.Execute(null);
 
         NotifyIconVM.ScreenShotTranslateCancelCommand.Execute(null);
 

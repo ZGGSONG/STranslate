@@ -115,9 +115,9 @@
                                 Name="markText"
                                 Margin="5,0"
                                 VerticalAlignment="Center"
-                                Foreground="Gray"
                                 Text="{TemplateBinding Tag}"
                                 Visibility="Collapsed" />
+                            <!--  Foreground="Gray"  -->
                             <ScrollViewer
                                 x:Name="PART_ContentHost"
                                 MinHeight="20"
@@ -140,6 +140,9 @@
                         </Trigger>
                         <Trigger Property="common:BoundPasswordBox.Password" Value="">
                             <Setter TargetName="markText" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="common:BoundPasswordBox.Password" Value="">
+                            <Setter TargetName="markText" Property="props:ThemeProps.Foreground" Value="Gray" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

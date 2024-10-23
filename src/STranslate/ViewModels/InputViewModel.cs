@@ -36,6 +36,7 @@ public partial class InputViewModel : ObservableObject
     public CommonViewModel CommonVm => Singleton<CommonViewModel>.Instance;
     public OutputViewModel OutputVm => Singleton<OutputViewModel>.Instance;
     public ConfigHelper CnfHelper => Singleton<ConfigHelper>.Instance;
+    public VocabularyBookViewModel VocabularyBookVm => Singleton<VocabularyBookViewModel>.Instance;
 
     /// <summary>
     ///     是否正在执行自动翻译
@@ -133,6 +134,7 @@ public partial class InputViewModel : ObservableObject
         OutputVm.SingleTranslateCancelCommand.Execute(null);
         OutputVm.SingleTranslateBackCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
+        Save2VocabularyBookCancelCommand.Execute(null);
         await TranslateCommand.ExecuteAsync(null);
         IsAutoTranslateExecuting = false;
     }
@@ -558,6 +560,13 @@ public partial class InputViewModel : ObservableObject
 
     #region 其他操作
 
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task Save2VocabularyBookAsync(string content, CancellationToken token)
+    {
+        var ret = await VocabularyBookVm.ExecuteAsync(content, token);
+        ToastHelper.Show($"保存至{VocabularyBookVm.ActiveVocabularyBook?.Name ?? "生词本"}{(ret ? "成功" : "失败")}");
+    }
+
     [RelayCommand]
     private void CopyContent(string content)
     {
@@ -648,6 +657,7 @@ public partial class InputViewModel : ObservableObject
         OutputVm.SingleTranslateCancelCommand.Execute(null);
         OutputVm.SingleTranslateBackCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
+        Save2VocabularyBookCancelCommand.Execute(null);
         TranslateCommand.Execute(null);
     }
 

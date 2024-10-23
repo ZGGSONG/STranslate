@@ -10,7 +10,6 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.VocabularyBook;
-using STranslate.Views.Preference;
 using STranslate.Views.Preference.VocabularyBook;
 
 namespace STranslate.ViewModels.Preference;
@@ -20,7 +19,7 @@ public partial class VocabularyBookViewModel : ObservableObject
     /// <summary>
     ///     导航 UI 缓存
     /// </summary>
-    private readonly Dictionary<Type, UIElement?> ContentCache = [];
+    private readonly Dictionary<Type, UIElement?> _contentCache = [];
 
     [ObservableProperty]
     private VocabularyBookCollection<IVocabularyBook> _curServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList ?? [];
@@ -33,7 +32,7 @@ public partial class VocabularyBookViewModel : ObservableObject
 
     [ObservableProperty] private BindingList<IVocabularyBook> _services = [];
 
-    private int tmpIndex;
+    private int _tmpIndex;
 
     public VocabularyBookViewModel()
     {
@@ -44,16 +43,15 @@ public partial class VocabularyBookViewModel : ObservableObject
         ResetView();
     }
 
-    private IVocabularyBook? ActivedVocabularBook => CurServiceList.FirstOrDefault(x => x.IsEnabled);
+    public IVocabularyBook? ActiveVocabularyBook => CurServiceList.FirstOrDefault(x => x.IsEnabled);
 
-    public async Task ExecuteAsync(string content, WindowType type, CancellationToken token)
+    public async Task<bool> ExecuteAsync(string content, CancellationToken token)
     {
-        if (ActivedVocabularBook is null)
-        {
-            ToastHelper.Show("未启用生词本服务", type);
-            return;
-        }
-        await ActivedVocabularBook.ExecuteAsync(content, token);
+        if (ActiveVocabularyBook is not null)
+            return await ActiveVocabularyBook.ExecuteAsync(content, token);
+
+        LogService.Logger.Warn("未启用生词本服务");
+        return false;
     }
 
     /// <summary>
@@ -77,7 +75,7 @@ public partial class VocabularyBookViewModel : ObservableObject
             case ActionType.Delete:
             {
                 //不允许小于0
-                SelectedIndex = Math.Max(tmpIndex - 1, 0);
+                SelectedIndex = Math.Max(_tmpIndex - 1, 0);
                 TogglePage(CurServiceList[SelectedIndex]);
                 break;
             }
@@ -99,61 +97,68 @@ public partial class VocabularyBookViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void TogglePage(IVocabularyBook service)
+    private void TogglePage(IVocabularyBook? service)
     {
-        if (service != null)
+        if (service == null) return;
+
+        if (SelectedIndex != -1)
+            _tmpIndex = SelectedIndex;
+
+        const string head = "STranslate.Views.Preference.VocabularyBook.";
+        var name = service.Type switch
         {
-            if (SelectedIndex != -1)
-                tmpIndex = SelectedIndex;
+            VocabularyBookType.EuDictVocabularyBook => $"{head}{nameof(VocabularyBookEuDictPage)}",
+            //TODO: 新生词本服务需要适配
+            _ => $"{head}{nameof(VocabularyBookEuDictPage)}"
+        };
 
-            var head = "STranslate.Views.Preference.VocabularyBook.";
-            var name = service.Type switch
-            {
-                VocabularyBookType.EuDictVocabularyBook => $"{head}{nameof(VocabularyBookEuDictPage)}",
-                //TODO: 新生词本服务需要适配
-                _ => $"{head}{nameof(VocabularyBookEuDictPage)}"
-            };
-
-            NavigationPage(name, service);
-        }
+        NavigationPage(name, service);
     }
 
     [RelayCommand]
     private void Add(List<object> list)
     {
-        if (list?.Count == 2)
+        if (list?.Count != 2) return;
+        var service = list.First();
+
+        CurServiceList.Add(service switch
         {
-            var service = list.First();
+            VocabularyBookEuDict euDict => euDict.Clone(),
+            //TODO: 新生词本服务需要适配
+            _ => throw new InvalidOperationException($"Unsupported VocabularyBook type: {service.GetType().Name}")
+        });
 
-            CurServiceList.Add(service switch
-            {
-                VocabularyBookEuDict euDict => euDict.Clone(),
-                //TODO: 新生词本服务需要适配
-                _ => throw new InvalidOperationException($"Unsupported VocabularyBook type: {service.GetType().Name}")
-            });
+        (list.Last() as ToggleButton)!.IsChecked = false;
 
-            (list.Last() as ToggleButton)!.IsChecked = false;
-
-            ResetView(ActionType.Add);
-        }
+        ResetView(ActionType.Add);
     }
 
     [RelayCommand]
-    private void Delete(IVocabularyBook service)
+    private void Delete(IVocabularyBook? service)
     {
-        if (service != null)
-        {
-            CurServiceList.Remove(service);
+        if (service == null) return;
+        CurServiceList.Remove(service);
 
-            ResetView(ActionType.Delete);
+        ResetView(ActionType.Delete);
 
-            ToastHelper.Show("删除成功", WindowType.Preference);
-        }
+        ToastHelper.Show("删除成功", WindowType.Preference);
     }
 
     [RelayCommand]
-    private void Save()
+    private async Task SaveAsync()
     {
+        // 通知ui刷新
+        OnPropertyChanged(nameof(ActiveVocabularyBook));
+
+        var canContinued = await Task.WhenAll(CurServiceList.Select(item => item.CheckAsync(CancellationToken.None)))
+            .ContinueWith(results => results.Result.All(result => result));
+
+        if (!canContinued)
+        {
+            ToastHelper.Show("请检查生词本配置", WindowType.Preference);
+            return;
+        }
+
         if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurServiceList))
         {
             LogService.Logger.Warn($"保存生词本失败，{JsonConvert.SerializeObject(CurServiceList)}");
@@ -177,34 +182,30 @@ public partial class VocabularyBookViewModel : ObservableObject
     /// </summary>
     /// <param name="name"></param>
     /// <param name="service"></param>
-    public void NavigationPage(string name, IVocabularyBook service)
+    public void NavigationPage(string name, IVocabularyBook? service)
     {
-        UIElement? content = null;
-
         try
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("param name is null or empty", nameof(name));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
+            ArgumentException.ThrowIfNullOrWhiteSpace(name);
+            ArgumentNullException.ThrowIfNull(service);
 
             var type = Type.GetType(name) ?? throw new Exception($"{nameof(NavigationPage)} get {name} exception");
 
             //读取缓存是否存在，存在则从缓存中获取View实例并通过UpdateVM刷新ViewModel
-            if (ContentCache.ContainsKey(type))
+            UIElement? content = null;
+            if (_contentCache.TryGetValue(type, out var value))
             {
-                content = ContentCache[type];
+                content = value;
                 if (content is UserControl uc)
                 {
                     var method = type.GetMethod("UpdateVM");
-                    method?.Invoke(uc, new[] { service });
+                    method?.Invoke(uc, new object?[] { service });
                 }
             }
             else //不存在则创建并通过构造函数传递ViewModel
             {
                 content = (UIElement?)Activator.CreateInstance(type, service);
-                ContentCache.Add(type, content);
+                _contentCache.Add(type, content);
             }
 
             ServiceContent = content;
