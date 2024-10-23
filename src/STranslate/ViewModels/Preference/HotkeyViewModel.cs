@@ -46,6 +46,7 @@ public partial class HotkeyViewModel : ObservableObject
         new SoftHotkey("Ctrl + Shift + M", "重置窗口至主显示器中央"),
         new SoftHotkey("Ctrl + Shift + T", "置顶/取消置顶"),
         new SoftHotkey("Ctrl + Shift + R", "切换主题(自动/明亮/黑暗主题切换)"),
+        new SoftHotkey("Ctrl + Shift + S", "保存至生词本"),
         new SoftHotkey("Ctrl + Shift + Q", "退出程序"),
         new SoftHotkey("Ctrl + 滚轮上", "在输入输出文本框配合Ctrl滚动放大文字"),
         new SoftHotkey("Ctrl + 滚轮下", "在输入输出文本框配合Ctrl滚动缩小文字"),
