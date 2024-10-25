@@ -130,7 +130,7 @@ public partial class NotifyIconViewModel : ObservableObject
                     else
                     {
                         var bitmap = BitmapUtil.ReadImageFile(content);
-                        if (bitmap != null) await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
+                        if (bitmap != null) await SilentOCRCallbackAsync(bitmap);
                     }
                 }
             },
@@ -399,22 +399,21 @@ public partial class NotifyIconViewModel : ObservableObject
     internal void SilentOCRHandler()
     {
         if (ScreenGrabber.IsCapturing) return;
-        var position = CommonUtil.GetPositionInfos().Item1;
-        ScreenGrabber.OnCaptured = async bitmap => await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, position.X, position.Y));
+        ScreenGrabber.OnCaptured = async bitmap => await SilentOCRCallbackAsync(bitmap);
         ScreenGrabber.Capture(_configHelper.CurrentConfig?.ShowAuxiliaryLine ?? true);
     }
 
-    private async Task SilentOCRCallbackAsync(Tuple<Bitmap, double, double> tuple)
+    private async Task SilentOCRCallbackAsync(Bitmap bitmap)
     {
         try
         {
-            var getText = "";
-            var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1, GetImageFormat());
+            CursorManager.Execute();
+            var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap, GetImageFormat());
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main,
                 lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
             if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
-            getText = ocrResult.Text;
+            var getText = ocrResult.Text;
 
             //处理剪贴板内容格式
             if (_configHelper.CurrentConfig?.IsPurify ?? true)
@@ -426,24 +425,14 @@ public partial class NotifyIconViewModel : ObservableObject
 
             //写入剪贴板
             ClipboardHelper.Copy(getText);
-
-            // 外部接口调用避免调用动画
-            if (tuple.Item2 - tuple.Item3 == 0 && tuple.Item2 == 0) return;
-
-            await Task.Run(() =>
-                CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3).Show()));
         }
         catch (Exception ex)
         {
             LogService.Logger.Error("静默OCR失败", ex);
-
-            if (tuple.Item2 - tuple.Item3 == 0 && tuple.Item2 == 0) return;
-            
-            await Task.Run(() =>
-                CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
         }
         finally
         {
+            CursorManager.Restore();
             MemoUtil.FlushMemory();
         }
     }
