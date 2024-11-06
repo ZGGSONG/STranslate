@@ -83,10 +83,14 @@ public partial class OpenAIOCR : ObservableObject, IOCR
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     private string _model = "gpt-4o-2024-08-06";
 
+    /// <summary>
+    ///     <see href="https://platform.openai.com/docs/guides/structured-outputs#supported-models"/>
+    /// </summary>
     [JsonIgnore]
     public List<string> Models { get; set; } =
     [
         "gpt-4o-2024-08-06",
+        "gpt-4o-mini-2024-07-18"
     ];
     
     [JsonIgnore]
