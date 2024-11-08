@@ -52,6 +52,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         // 执行翻译服务
         SingleTranslateCommand.Execute(service);
+        // 采用新动画避免直接展开，通过结果更新展开状态
+        ep.IsExpanded = false;
     }
 
     [RelayCommand(IncludeCancelCommand = true)]

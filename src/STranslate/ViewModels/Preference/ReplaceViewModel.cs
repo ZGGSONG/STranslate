@@ -58,6 +58,7 @@ public partial class ReplaceViewModel : ObservableObject
         }
         catch (Exception ex)
         {
+            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("替换翻译失败");
             LogService.Logger.Warn("Replace Translator Error: " + ex.Message);
             CursorManager.Error();
             await Task.Delay(2000, token);

@@ -51,7 +51,6 @@
                         x:Name="TranslatorExpander"
                         VerticalAlignment="Top"
                         common:ExpanderHelper.DataResult="{Binding Data.Result, Converter={StaticResource String2IsEnableConverter}}"
-                        common:ExpanderHelper.IsExecuting="{Binding IsExecuting}"
                         ExpandDirection="Down"
                         SnapsToDevicePixels="True">
                         <!--#region Resources-BindingProxy 传递 ITranslator-->
@@ -81,116 +80,6 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <!--  // 左侧服务图标、名称 //  -->
-                                <StackPanel
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
-                                    <Image
-                                        Width="18"
-                                        Margin="10,0,0,0"
-                                        Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
-                                    <TextBlock
-                                        MaxWidth="100"
-                                        Margin="10,0,0,0"
-                                        props:ThemeProps.Foreground="{DynamicResource TextForeground}"
-                                        FontSize="{DynamicResource FontSize14}"
-                                        Text="{Binding Name}"
-                                        TextTrimming="CharacterEllipsis" />
-                                    <ToggleButton
-                                        Name="ExpanderPromptTb"
-                                        Height="22"
-                                        MaxWidth="60"
-                                        Margin="10,0,0,0"
-                                        Padding="4,0"
-                                        Background="Transparent"
-                                        BorderBrush="{DynamicResource ThemeAccentColor}"
-                                        BorderThickness="1"
-                                        Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
-                                        Cursor="Hand"
-                                        FontFamily="{DynamicResource UserFont}"
-                                        FontSize="{DynamicResource FontSize14}"
-                                        Style="{DynamicResource ToggleButtonIconStyle}"
-                                        ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}">
-                                        <ToggleButton.Visibility>
-                                            <MultiBinding Converter="{StaticResource PromptToVisibilityMultiConverter}">
-                                                <Binding Path="UserDefinePrompts" />
-                                                <Binding Path="Data.IsPromptToggleVisible" Source="{StaticResource OutputVm}" />
-                                            </MultiBinding>
-                                        </ToggleButton.Visibility>
-                                    </ToggleButton>
-                                    <Popup
-                                        MinWidth="40"
-                                        MinHeight="30"
-                                        AllowsTransparency="True"
-                                        IsOpen="{Binding ElementName=ExpanderPromptTb, Path=IsChecked}"
-                                        Placement="Bottom"
-                                        PlacementTarget="{Binding ElementName=ExpanderPromptTb}"
-                                        PopupAnimation="Slide"
-                                        StaysOpen="False">
-                                        <Border Style="{DynamicResource BorderStyle}">
-                                            <ListBox
-                                                x:Name="PromptLb"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                ItemsSource="{Binding Source={StaticResource TranslatorService}, Path=Data.UserDefinePrompts}">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
-                                                        <Border
-                                                            x:Name="PromptBorder"
-                                                            Margin="3"
-                                                            HorizontalAlignment="Center"
-                                                            props:ThemeProps.Background="{DynamicResource BorderBackground}"
-                                                            BorderBrush="{x:Null}"
-                                                            CornerRadius="5">
-                                                            <Grid Margin="0,5">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="30" />
-                                                                    <ColumnDefinition Width="70" />
-                                                                </Grid.ColumnDefinitions>
-
-                                                                <Label
-                                                                    HorizontalAlignment="Left"
-                                                                    Content="&#xec9e;"
-                                                                    FontFamily="{DynamicResource IconFont}"
-                                                                    FontSize="{DynamicResource FontSize14}"
-                                                                    FontWeight="Bold"
-                                                                    Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
-
-                                                                <TextBlock
-                                                                    Grid.Column="1"
-                                                                    HorizontalAlignment="Left"
-                                                                    FontSize="{DynamicResource FontSize14}"
-                                                                    Text="{Binding Name}"
-                                                                    TextTrimming="CharacterEllipsis"
-                                                                    ToolTip="{Binding Name}" />
-                                                            </Grid>
-                                                        </Border>
-                                                        <DataTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="PromptBorder" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
-                                                            </Trigger>
-                                                        </DataTemplate.Triggers>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                                        <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.SelectedPromptCommand}">
-                                                            <i:InvokeCommandAction.CommandParameter>
-                                                                <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                    <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                    <Binding ElementName="PromptLb" Path="SelectedItem" />
-                                                                    <Binding ElementName="ExpanderPromptTb" />
-                                                                </MultiBinding>
-                                                            </i:InvokeCommandAction.CommandParameter>
-                                                        </i:InvokeCommandAction>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </ListBox>
-                                        </Border>
-                                    </Popup>
-                                </StackPanel>
-
                                 <!--  // 右侧其他按钮 //  -->
                                 <StackPanel
                                     Grid.Column="1"
@@ -515,6 +404,122 @@
                                         </Border>
                                     </Popup>
                                 </StackPanel>
+
+                                <!--  // 左侧服务图标、名称 //  -->
+                                <StackPanel
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <Image
+                                        Width="18"
+                                        Margin="10,0,0,0"
+                                        Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
+                                    <TextBlock
+                                        MaxWidth="100"
+                                        Margin="10,0,0,0"
+                                        props:ThemeProps.Foreground="{DynamicResource TextForeground}"
+                                        FontSize="{DynamicResource FontSize14}"
+                                        Text="{Binding Name}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <ToggleButton
+                                        Name="ExpanderPromptTb"
+                                        Height="22"
+                                        MaxWidth="70"
+                                        Margin="10,0,0,0"
+                                        Padding="4,0"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource ThemeAccentColor}"
+                                        BorderThickness="1"
+                                        Content="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}"
+                                        Cursor="Hand"
+                                        FontFamily="{DynamicResource UserFont}"
+                                        FontSize="{DynamicResource FontSize14}"
+                                        Style="{DynamicResource ToggleButtonIconStyle}"
+                                        ToolTip="{Binding UserDefinePrompts, Converter={StaticResource PromptConverter}}">
+                                        <ToggleButton.Visibility>
+                                            <MultiBinding Converter="{StaticResource PromptToVisibilityMultiConverter}">
+                                                <Binding Path="UserDefinePrompts" />
+                                                <Binding Path="Data.IsPromptToggleVisible" Source="{StaticResource OutputVm}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Visibility>
+                                    </ToggleButton>
+                                    <Popup
+                                        MinWidth="40"
+                                        MinHeight="30"
+                                        AllowsTransparency="True"
+                                        IsOpen="{Binding ElementName=ExpanderPromptTb, Path=IsChecked}"
+                                        Placement="Bottom"
+                                        PlacementTarget="{Binding ElementName=ExpanderPromptTb}"
+                                        PopupAnimation="Slide"
+                                        StaysOpen="False">
+                                        <Border Style="{DynamicResource BorderStyle}">
+                                            <ListBox
+                                                x:Name="PromptLb"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                ItemsSource="{Binding Source={StaticResource TranslatorService}, Path=Data.UserDefinePrompts}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
+                                                        <Border
+                                                            x:Name="PromptBorder"
+                                                            Margin="3"
+                                                            HorizontalAlignment="Center"
+                                                            props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                                                            BorderBrush="{x:Null}"
+                                                            CornerRadius="5">
+                                                            <Grid Margin="0,5">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="30" />
+                                                                    <ColumnDefinition Width="70" />
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <Label
+                                                                    HorizontalAlignment="Left"
+                                                                    Content="&#xec9e;"
+                                                                    FontFamily="{DynamicResource IconFont}"
+                                                                    FontSize="{DynamicResource FontSize14}"
+                                                                    FontWeight="Bold"
+                                                                    Visibility="{Binding Enabled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}" />
+
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    HorizontalAlignment="Left"
+                                                                    FontSize="{DynamicResource FontSize14}"
+                                                                    Text="{Binding Name}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    ToolTip="{Binding Name}" />
+                                                            </Grid>
+                                                        </Border>
+                                                        <DataTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="PromptBorder" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                            </Trigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                        <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.SelectedPromptCommand}">
+                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                                    <Binding Path="Data" Source="{StaticResource TranslatorService}" />
+                                                                    <Binding ElementName="PromptLb" Path="SelectedItem" />
+                                                                    <Binding ElementName="ExpanderPromptTb" />
+                                                                </MultiBinding>
+                                                            </i:InvokeCommandAction.CommandParameter>
+                                                        </i:InvokeCommandAction>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </ListBox>
+                                        </Border>
+                                    </Popup>
+                                    <!--  // 加载动画 //  -->
+                                    <control:LoadingUc2
+                                        Margin="10,0,0,0"
+                                        DotColor="{DynamicResource ThemeAccentColor}"
+                                        IsLoading="{Binding IsExecuting}" />
+                                </StackPanel>
                             </Grid>
                         </Expander.Header>
                         <!--#endregion-->
@@ -778,12 +783,6 @@
                             </StackPanel>
 
                             <!--#endregion-->
-
-                            <!--  // 加载动画 //  -->
-                            <control:LoadingUc
-                                Grid.Row="0"
-                                IsAnimationPlaying="{Binding IsExecuting}"
-                                Visibility="{Binding IsExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                             <!--  回译结果  -->
                             <Grid Grid.Row="2" ToolTip="右键双击可关闭回译内容">
