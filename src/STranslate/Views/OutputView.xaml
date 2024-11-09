@@ -518,6 +518,7 @@
                                     <control:LoadingUc2
                                         Margin="10,0,0,0"
                                         DotColor="{DynamicResource ThemeAccentColor}"
+                                        DotSize="10"
                                         IsLoading="{Binding IsExecuting}" />
                                 </StackPanel>
                             </Grid>

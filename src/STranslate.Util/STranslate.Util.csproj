@@ -10,17 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Google.Protobuf.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Google.Protobuf.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="volcengine.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WeChatOcr.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
