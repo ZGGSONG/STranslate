@@ -165,6 +165,36 @@ public class StringUtil
     }
 
     /// <summary>
+    ///     处理文本框内容
+    ///     <see href="https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding"/>
+    /// </summary>
+    /// <param name="isLineBreak"></param>
+    /// <param name="textBox"></param>
+    public static bool ProcessTextBox(bool isLineBreak, System.Windows.Controls.TextBox textBox)
+    {
+        string textToProcess = textBox.SelectedText.Length > 0 ? textBox.SelectedText : textBox.Text;
+
+        // Process text
+        string processedText = isLineBreak ? RemoveLineBreaks(textToProcess) : RemoveSpace(textToProcess);
+
+        // If no changes needed, return early
+        if (string.Equals(textToProcess, processedText))
+            return false;
+
+        // Update text while preserving undo capability
+        if (textBox.SelectedText.Length == 0)
+        {
+            textBox.SelectAll();
+            textBox.SelectedText = processedText;
+        }
+        else
+        {
+            textBox.SelectedText = processedText;
+        }
+        return true;
+    }
+
+    /// <summary>
     ///     检查是否为单词
     /// </summary>
     /// <param name="text"></param>
