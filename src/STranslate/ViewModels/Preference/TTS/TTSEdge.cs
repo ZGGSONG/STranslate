@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Edge_tts_sharp;
-using Edge_tts_sharp.Model;
+using EdgeTTS.Net;
+using EdgeTTS.Net.Models;
 using Newtonsoft.Json;
 using STranslate.Log;
 using STranslate.Model;
@@ -77,19 +77,13 @@ public partial class TTSEdge : ObservableObject, ITTS
         try
         {
             var voiceName = $"Microsoft Server Speech Text to Speech Voice ({Voice.ToString().Replace("_", "-").Replace("8", ", ")})";
-            var voice = Edge_tts.GetVoice().FirstOrDefault(x => x.Name == voiceName);
+            var voice = EdgeTts.GetVoice().FirstOrDefault(x => x.Name == voiceName) ?? EdgeTts.GetVoice().First();
             var option = new PlayOption
             {
                 Rate = 0,
                 Text = text
             };
-            var player = Edge_tts.GetPlayer(option, voice);
-
-            // 支持取消操作
-            await using (token.Register(() => player.Stop()))
-            {
-                await player.PlayAsync();
-            }
+            await EdgeTts.PlayTextAsync(option, voice, token);
         }
         catch (OperationCanceledException)
         {
