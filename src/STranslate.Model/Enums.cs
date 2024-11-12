@@ -1367,6 +1367,12 @@ public enum EdgeVoiceEnum
     [Description("ThembaNeural-祖鲁语(南非)")] zu_ZA8ThembaNeural
 }
 
+public enum STranslateMode
+{
+    [Description("模式一")] IOS,
+    [Description("模式二")] Brower,
+}
+
 /// <summary>
 ///     获取Description
 /// </summary>

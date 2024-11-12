@@ -5,6 +5,7 @@
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
     d:DataContext="{d:DesignInstance Type=vm:TranslatorSTranslate}"
@@ -49,6 +50,24 @@
                     SelectedValue="{Binding Icon}"
                     SelectedValuePath="Key"
                     Style="{DynamicResource IconComboBoxStyle}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="模式: " ToolTip="如果某种模式翻译失败，请切换其余模式，短时间大量访问服务方可能会限制" />
+
+                <ComboBox
+                    Grid.Column="1"
+                    MinWidth="120"
+                    HorizontalAlignment="Left"
+                    BorderThickness="1"
+                    DisplayMemberPath="Description"
+                    ItemsSource="{Binding Source={common:Enumeration {x:Type model:STranslateMode}}}"
+                    SelectedValue="{Binding STranslateMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    SelectedValuePath="Value" />
             </Grid>
 
             <Grid Margin="0,10">

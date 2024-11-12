@@ -53,6 +53,8 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
 
     [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.STranslate;
 
+    [JsonIgnore] [ObservableProperty] private STranslateMode sTranslateMode = STranslateMode.IOS;
+
     [JsonIgnore]
     [ObservableProperty]
     [property: DefaultValue("")]
@@ -133,8 +135,11 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
         var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
         var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-        var resp = await LocalMode.ExecuteAsync(req.Text, source, target, token).ConfigureAwait(false) ??
-                   throw new Exception("请求结果为空");
+        var resp = STranslateMode switch
+        {
+            STranslateMode.IOS => await LocalModeIOS.ExecuteAsync(req.Text, source, target, token).ConfigureAwait(false),
+            _ => await LocalMode.ExecuteAsync(req.Text, source, target, token).ConfigureAwait(false)
+        } ?? throw new Exception("请求结果为空");
 
         // 解析JSON数据
         var parsedData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception($"反序列化失败: {resp}");
@@ -168,6 +173,7 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
+            STranslateMode = STranslateMode,
         };
     }
 
