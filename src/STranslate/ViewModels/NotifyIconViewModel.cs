@@ -801,12 +801,12 @@ public partial class NotifyIconViewModel : ObservableObject
         var top = position.Y;
 
         //保持页面在屏幕上方三分之一处
-        if ((top - bounds.Top) * 3 > bounds.Height) top = bounds.Height / 3 + bounds.Top;
+        //if ((top - bounds.Top) * 3 > bounds.Height) top = bounds.Height / 3 + bounds.Top;
 
-        //如果当前高度不足以容纳最大高度的内容，则使用最大高度为窗口Top值（修改为150%缩放似乎有问题）
-        if (bounds.Height - top + bounds.Top < view.MaxHeight) top = bounds.Height - view.MaxHeight + bounds.Top - 48;
+        ////如果当前高度不足以容纳最大高度的内容，则使用最大高度为窗口Top值（修改为150%缩放似乎有问题）
+        //if (bounds.Height - top + bounds.Top < view.MaxHeight) top = bounds.Height - view.MaxHeight + bounds.Top - 48;
 
-        if (view.MaxHeight > bounds.Height) top = bounds.Top;
+        //if (view.MaxHeight > bounds.Height) top = bounds.Top;
         
         //右侧不超出当前屏幕区域
         if (left + view.Width > bounds.Left + bounds.Width) left = bounds.Left + bounds.Width - view.Width;
