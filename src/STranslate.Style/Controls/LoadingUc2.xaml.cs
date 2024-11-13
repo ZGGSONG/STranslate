@@ -54,7 +54,7 @@ public partial class LoadingUc2 : UserControl
 
     public static readonly DependencyProperty DotSizeProperty =
         DependencyProperty.Register(nameof(DotSize), typeof(double), typeof(LoadingUc2),
-            new PropertyMetadata(5.0, OnDotSizeChanged));
+            new PropertyMetadata(8.0, OnDotSizeChanged));
 
     public double DotSize
     {
