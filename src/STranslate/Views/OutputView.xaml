@@ -792,7 +792,8 @@
                             <!--  回译结果  -->
                             <Grid
                                 Grid.Row="2"
-                                xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndContractVertically},
+                                xf:Animations.Primary="{xf:Animate TransformOn=Layout,
+                                                                   BasedOn={StaticResource ScaleVertically},
                                                                    Event=Visibility,
                                                                    Duration=400}"
                                 ToolTip="右键双击可关闭回译内容"
