@@ -36,7 +36,6 @@
     <converter:GlobalFontSizeToDescriptionConverter x:Key="GlobalFontSizeToDescriptionConverter" />
     <converter:JsonSerializeConverter x:Key="JsonSerializeConverter" />
     <converter:MultiValue2VisibilityReverseConverter x:Key="MultiValue2VisibilityReverseConverter" />
-    <converter:MultiTranslationBackValue2VisibilityConverter x:Key="MultiTranslationBackValue2VisibilityConverter" />
     <converter:ServiceTypeFilterConverter x:Key="ServiceTypeFilterConverter" />
     <converter:DictConverter x:Key="DictConverter" />
     <converter:DictItemVisibilityConverter x:Key="DictItemVisibilityConverter" />
@@ -46,4 +45,5 @@
     <converter:DictIconMultiVisibilityConverter x:Key="DictIconMultiVisibilityConverter" />
     <converter:DictToCollapsedConverter x:Key="DictToCollapsedConverter" />
     <converter:DictGetWordConverter x:Key="DictGetWordConverter" />
+    <converter:MultiValue2BooleanConverter x:Key="MultiValue2BooleanConverter" />
 </ResourceDictionary>

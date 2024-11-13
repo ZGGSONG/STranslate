@@ -518,8 +518,15 @@
                                     <control:LoadingUc2
                                         Margin="10,0,0,0"
                                         DotColor="{DynamicResource ThemeAccentColor}"
-                                        DotSize="10"
-                                        IsLoading="{Binding IsExecuting}" />
+                                        DotSize="10">
+                                        <control:LoadingUc2.IsLoading>
+                                            <MultiBinding Converter="{StaticResource MultiValue2BooleanConverter}">
+                                                <Binding Path="IsExecuting" />
+                                                <Binding Path="IsTranslateBackExecuting" />
+                                            </MultiBinding>
+                                        </control:LoadingUc2.IsLoading>
+                                    </control:LoadingUc2>
+                                    <!--  IsLoading="{Binding IsExecuting}"  -->
                                 </StackPanel>
                             </Grid>
                         </Expander.Header>
@@ -786,13 +793,10 @@
                             <!--#endregion-->
 
                             <!--  回译结果  -->
-                            <Grid Grid.Row="2" ToolTip="右键双击可关闭回译内容">
-                                <Grid.Visibility>
-                                    <MultiBinding Converter="{StaticResource MultiTranslationBackValue2VisibilityConverter}">
-                                        <Binding Path="Data.TranslateBackResult" />
-                                        <Binding Path="IsTranslateBackExecuting" />
-                                    </MultiBinding>
-                                </Grid.Visibility>
+                            <Grid
+                                Grid.Row="2"
+                                ToolTip="右键双击可关闭回译内容"
+                                Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
@@ -817,10 +821,6 @@
                                             MouseAction="RightDoubleClick" />
                                     </TextBox.InputBindings>
                                 </TextBox>
-                                <control:LoadingUc
-                                    Grid.Row="1"
-                                    IsAnimationPlaying="{Binding IsTranslateBackExecuting}"
-                                    Visibility="{Binding IsTranslateBackExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                 <StackPanel
                                     Grid.Row="2"
