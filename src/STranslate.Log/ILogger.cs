@@ -15,4 +15,6 @@ public interface ILogger : IDisposable
     void Fatal(string message);
 
     void Fatal(string message, Exception ex);
+
+    Action<string>? OnErrorOccured { get; set; }
 }

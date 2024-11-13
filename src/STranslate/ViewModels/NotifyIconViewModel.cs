@@ -39,6 +39,9 @@ public partial class NotifyIconViewModel : ObservableObject
         UpdateToolTip();
         SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
         WeakReferenceMessenger.Default.Register<ExternalCallMessenger>(this, (o, e) => ExternalCallHandler(e));
+#if DEBUG
+        LogService.Logger.OnErrorOccured += ShowBalloonTip;
+#endif
     }
 
     /// <summary>
@@ -721,8 +724,7 @@ public partial class NotifyIconViewModel : ObservableObject
     private async Task ReplaceTranslateAsync(Window view)
     {
         if (!TryGetWord(out var content) || content == null) return;
-        //TODO: 取消
-        await Singleton<ReplaceViewModel>.Instance.ExecuteAsync(content, CancellationToken.None);
+        await Singleton<ReplaceViewModel>.Instance.ExecuteAsync(content);
     }
 
     internal bool TryGetWord(out string? content)

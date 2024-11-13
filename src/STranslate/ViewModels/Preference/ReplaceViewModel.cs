@@ -30,13 +30,26 @@ public partial class ReplaceViewModel : ObservableObject
         };
     }
 
-    public async Task ExecuteAsync(string content, CancellationToken token)
+
+    private CancellationTokenSource? _replaceCts;
+
+    public async Task ExecuteAsync(string content)
     {
         if (ReplaceProp.ActiveService is null)
         {
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("请先选择替换翻译服务后重试");
             return;
         }
+
+        if (_replaceCts != null)
+        {
+            _replaceCts.Cancel();
+            LogService.Logger.Debug("Cancel Replace Translator");
+            return;
+        }
+
+        _replaceCts ??= new CancellationTokenSource();
+        var token = _replaceCts.Token;
 
         try
         {
@@ -58,7 +71,7 @@ public partial class ReplaceViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("替换翻译失败");
+            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("替换翻译失败, 请检查网络或日志");
             LogService.Logger.Warn("Replace Translator Error: " + ex.Message);
             CursorManager.Error();
             await Task.Delay(2000, token);
@@ -67,6 +80,7 @@ public partial class ReplaceViewModel : ObservableObject
         {
             LogService.Logger.Debug("<End> Replace Translator");
             CursorManager.Restore();
+            _replaceCts = null;
         }
     }
 

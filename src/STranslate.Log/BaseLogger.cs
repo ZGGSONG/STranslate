@@ -1,4 +1,6 @@
-﻿namespace STranslate.Log;
+﻿using System.Text;
+
+namespace STranslate.Log;
 
 public class BaseLogger : ILogger
 {
@@ -42,14 +44,19 @@ public class BaseLogger : ILogger
         WriteLine("DBG", $"{nameof(BaseLogger)} Dispose");
     }
 
-    internal static void WriteLine(string type, string message)
-    {
-        System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} [{type}] {message}");
-    }
+    public Action<string>? OnErrorOccured { get; set; }
 
-    internal static void WriteLine(string type, string message, Exception ex)
+    internal void WriteLine(string type, string message, Exception? ex = default)
     {
-        System.Diagnostics.Debug.WriteLine(
-            $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} [{type}] {message}, Exception: {ex}");
+        var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        var sb = new StringBuilder($"{timestamp} [{type}] {message}");
+        if (ex != null)
+            sb.Append($", Exception: {ex}");
+
+        var combineStr = sb.ToString();
+        System.Diagnostics.Debug.WriteLine(combineStr);
+        Console.WriteLine(combineStr);
+        if (type == "ERR" || type == "FTL")
+            OnErrorOccured?.Invoke(combineStr);
     }
 }
