@@ -41,13 +41,13 @@ public partial class PreferenceViewModel : WindowVMBase
                 HotkeyPage();
                 break;
 
+            case PerferenceType.Service:
+                ServicePage();
+                break;
+
             case PerferenceType.Translator:
                 ServicePage();
                 Singleton<ServiceViewModel>.Instance.SelectedIndex = 0;
-                break;
-
-            case PerferenceType.Replace:
-                ReplacePage();
                 break;
 
             case PerferenceType.OCR:
@@ -65,6 +65,10 @@ public partial class PreferenceViewModel : WindowVMBase
                 Singleton<ServiceViewModel>.Instance.SelectedIndex = 3;
                 break;
 
+            case PerferenceType.Replace:
+                ReplacePage();
+                break;
+
             case PerferenceType.Favorite:
             case PerferenceType.History:
                 HistoryPage();
@@ -76,10 +80,6 @@ public partial class PreferenceViewModel : WindowVMBase
 
             case PerferenceType.About:
                 AboutPage();
-                break;
-
-            case PerferenceType.Service:
-                ServicePage();
                 break;
 
             default:
@@ -155,6 +155,8 @@ public partial class PreferenceViewModel : WindowVMBase
     [RelayCommand]
     private void ServicePage()
     {
+        // 更新侧边栏Check属性
+        PType = PerferenceType.Service;
         CurrentView = Singleton<ServiceViewModel>.Instance;
     }
 

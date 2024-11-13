@@ -186,6 +186,8 @@
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
+                            props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                            BorderThickness="1"
                             Content="+"
                             Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup
@@ -241,6 +243,8 @@
                             HorizontalAlignment="Left"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
+                            props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                            BorderThickness="1"
                             Command="{Binding DeleteCommand}"
                             CommandParameter="{Binding ElementName=CurrentServiceListBox, Path=SelectedItem}"
                             Content="-"

@@ -134,6 +134,8 @@
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
+                            props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                            BorderThickness="1"
                             Content="+"
                             Style="{DynamicResource ToggleButtonIconStyle}" />
                         <Popup
@@ -217,6 +219,8 @@
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
+                            props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                            BorderThickness="1"
                             Command="{Binding DeleteCommand}"
                             CommandParameter="{Binding ElementName=TTSListBox, Path=SelectedItem}"
                             Content="-"
