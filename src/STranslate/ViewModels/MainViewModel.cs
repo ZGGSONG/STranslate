@@ -278,11 +278,11 @@ public partial class MainViewModel : ObservableObject
             msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
         if (!HotkeyHelper.Hotkeys.SilentOCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentOCR.Text))
             msg += $"静默OCR: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
-        if (!HotkeyHelper.Hotkeys.SilentTTS.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentTTS.Text))
-            msg += $"静默输入tts: {HotkeyHelper.Hotkeys.SilentTTS.Text}\n";
         if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
             msg += $"剪贴板: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
+        if (!HotkeyHelper.Hotkeys.SilentTTS.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentTTS.Text))
+            msg += $"静默TTS: {HotkeyHelper.Hotkeys.SilentTTS.Text}\n";
         NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
         HotkeyHelper.UpdateConflict();
     }
