@@ -765,6 +765,7 @@ public class ConfigHelper
             Constant.DefaultMouseHookHotkey);
         hk.OCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.S, Constant.DefaultOcrHotkey);
         hk.SilentOCR.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.F, Constant.DefaultSilentOcrHotkey);
+        hk.SilentTTS.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.G, Constant.DefaultSilentTtsHotkey);
         hk.ClipboardMonitor.Update(KeyModifiers.MOD_ALT | KeyModifiers.MOD_SHIFT, KeyCodes.A,
             Constant.DefaultClipboardMonitorHotkey);
         return new ConfigModel

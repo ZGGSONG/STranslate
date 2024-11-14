@@ -36,6 +36,8 @@ public partial class TTSViewModel : ObservableObject
 
     private int tmpIndex;
 
+    private CancellationToken ttsCancellationToken;
+
     public TTSViewModel()
     {
         //添加默认支持TTS
@@ -65,7 +67,7 @@ public partial class TTSViewModel : ObservableObject
         }
 
         _isSpeaking = true;
-        await ActivedTTS.SpeakTextAsync(content, token);
+        await ActivedTTS.SpeakTextAsync(content, ttsCancellationToken);
         _isSpeaking = false;
     }
 

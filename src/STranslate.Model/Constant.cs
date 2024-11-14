@@ -159,6 +159,7 @@ public static class Constant
     public const string DefaultMouseHookHotkey = "Alt + Shift + D";
     public const string DefaultOcrHotkey = "Alt + Shift + S";
     public const string DefaultSilentOcrHotkey = "Alt + Shift + F";
+    public const string DefaultSilentTtsHotkey = "Alt + Shift + G";
     public const string DefaultClipboardMonitorHotkey = "Alt + Shift + A";
 
     #endregion

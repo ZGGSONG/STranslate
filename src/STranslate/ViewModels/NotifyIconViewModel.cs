@@ -137,6 +137,14 @@ public partial class NotifyIconViewModel : ObservableObject
                 }
             },
             {
+                ExternalCallAction.tts_silence,
+                async (_, content) =>
+                {
+                    await Singleton<TTSViewModel>.Instance.SpeakTextAsync(content, WindowType.Main, CancellationToken.None);
+                }
+
+            },
+            {
                 ExternalCallAction.ocr_qrcode,
                 (_, content) =>
                 {
@@ -438,6 +446,59 @@ public partial class NotifyIconViewModel : ObservableObject
             MemoUtil.FlushMemory();
         }
     }
+
+
+
+    // copy from function CrossWordTranslate
+    [RelayCommand]
+    private void SilentTTS(Window view)
+    {
+
+        if (!TryGetWord(out var content) || content == null)
+            return;
+
+        //处理剪贴板内容格式
+        if (_configHelper.CurrentConfig?.IsPurify ?? true)
+            content = StringUtil.NormalizeText(content);
+
+        //取词前移除换行
+        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
+            content = StringUtil.RemoveLineBreaks(content);
+
+        Task.Run( () =>
+        SilentTTSHandler(
+               view, content
+            ));
+    }
+
+
+    internal async void SilentTTSHandler(Window view, string content, object? obj = null)
+    {
+
+//         //如果ttscancel is null ,new 
+//         if (_ttsCancelTokenSource == null)
+//         {
+//             _ttsCancelTokenSource = new CancellationTokenSource();
+//             //_ttsCancelToken = _ttsCancelTokenSource.Token;
+//         }
+//         else
+//         {
+//             //如果不为空则取消
+//             _ttsCancelTokenSource.Cancel();
+//             _ttsCancelTokenSource.Dispose();
+//             _ttsCancelTokenSource = new CancellationTokenSource();
+//         }
+
+//         await
+//          Singleton<TTSViewModel>.Instance.SpeakTextAsync(
+//                 //Clipboard.GetText(),
+//                 content,
+//                 WindowType.Main,
+//                 _ttsCancelTokenSource.Token
+//                 );
+
+    }
+
 
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task ScreenShotTranslateAsync(object obj, CancellationToken token) => await ScreenshotHandlerAsync(obj, ScreenShotHandler, token);
