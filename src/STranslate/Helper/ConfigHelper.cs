@@ -852,10 +852,21 @@ public class ConfigHelper
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),
                 new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
+                new TranslatorKingSoftDict(),
+                new TranslatorBingDict(),
                 new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", isEnabled: false)
             ],
-            OCRList = [new PaddleOCR()],
-            TTSList = [new TTSOffline() { IsEnabled = true }, new TTSLingva()]
+            OCRList =
+            [
+                new PaddleOCR(),
+                new WeChatOCR()
+            ],
+            TTSList =
+            [
+                new TTSEdge() { IsEnabled = true },
+                new TTSOffline(),
+                new TTSLingva()
+            ]
         };
     }
 

@@ -140,9 +140,9 @@ public partial class NotifyIconViewModel : ObservableObject
                 ExternalCallAction.tts_silence,
                 async (_, content) =>
                 {
-                    await Singleton<TTSViewModel>.Instance.SpeakTextAsync(content, WindowType.Main, CancellationToken.None);
+                    if (!string.IsNullOrEmpty(content))
+                        await SilentTTSHandlerAsync(content);
                 }
-
             },
             {
                 ExternalCallAction.ocr_qrcode,
@@ -447,56 +447,21 @@ public partial class NotifyIconViewModel : ObservableObject
         }
     }
 
-
-
-    // copy from function CrossWordTranslate
     [RelayCommand]
-    private void SilentTTS(Window view)
+    private async Task SilentTTSAsync()
     {
-
         if (!TryGetWord(out var content) || content == null)
+        {
+            LogService.Logger.Warn($"静默TTS取词失败，请检查文本是否可以正常复制或者检查软件权限");
             return;
+        }
 
-        //处理剪贴板内容格式
-        if (_configHelper.CurrentConfig?.IsPurify ?? true)
-            content = StringUtil.NormalizeText(content);
-
-        //取词前移除换行
-        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
-            content = StringUtil.RemoveLineBreaks(content);
-
-        Task.Run( () =>
-        SilentTTSHandler(
-               view, content
-            ));
+        await SilentTTSHandlerAsync(content);
     }
 
-
-    internal async void SilentTTSHandler(Window view, string content, object? obj = null)
+    internal async Task SilentTTSHandlerAsync(string content)
     {
-
-//         //如果ttscancel is null ,new 
-//         if (_ttsCancelTokenSource == null)
-//         {
-//             _ttsCancelTokenSource = new CancellationTokenSource();
-//             //_ttsCancelToken = _ttsCancelTokenSource.Token;
-//         }
-//         else
-//         {
-//             //如果不为空则取消
-//             _ttsCancelTokenSource.Cancel();
-//             _ttsCancelTokenSource.Dispose();
-//             _ttsCancelTokenSource = new CancellationTokenSource();
-//         }
-
-//         await
-//          Singleton<TTSViewModel>.Instance.SpeakTextAsync(
-//                 //Clipboard.GetText(),
-//                 content,
-//                 WindowType.Main,
-//                 _ttsCancelTokenSource.Token
-//                 );
-
+        await Singleton<TTSViewModel>.Instance.SilentSpeakTextAsync(content);
     }
 
 

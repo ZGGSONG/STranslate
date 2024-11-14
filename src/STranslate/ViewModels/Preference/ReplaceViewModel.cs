@@ -44,7 +44,7 @@ public partial class ReplaceViewModel : ObservableObject
         if (_replaceCts != null)
         {
             _replaceCts.Cancel();
-            LogService.Logger.Debug("Cancel Replace Translator");
+            LogService.Logger.Debug("取消替换翻译");
             return;
         }
 
@@ -58,7 +58,7 @@ public partial class ReplaceViewModel : ObservableObject
             var (sourceLang, targetLang) = await DetectLanguageAsync(content, token);
 
             LogService.Logger.Debug(
-                $"<Begin> Replace Translator\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
+                $"<Begin> 替换翻译\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
 
             // Perform translation
             var req = new RequestModel(content, sourceLang, targetLang);
@@ -72,13 +72,13 @@ public partial class ReplaceViewModel : ObservableObject
         catch (Exception ex)
         {
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("替换翻译失败, 请检查网络或日志");
-            LogService.Logger.Warn("Replace Translator Error: " + ex.Message);
+            LogService.Logger.Warn("替换翻译 Error: " + ex.Message);
             CursorManager.Error();
-            await Task.Delay(2000, token);
+            await Task.Delay(2000);
         }
         finally
         {
-            LogService.Logger.Debug("<End> Replace Translator");
+            LogService.Logger.Debug("<End> 替换翻译");
             CursorManager.Restore();
             _replaceCts = null;
         }

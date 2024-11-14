@@ -36,8 +36,6 @@ public partial class TTSViewModel : ObservableObject
 
     private int tmpIndex;
 
-    private CancellationToken ttsCancellationToken;
-
     public TTSViewModel()
     {
         //添加默认支持TTS
@@ -51,6 +49,41 @@ public partial class TTSViewModel : ObservableObject
     }
 
     private ITTS? ActivedTTS => CurTTSServiceList.FirstOrDefault(x => x.IsEnabled);
+
+    private CancellationTokenSource? _silentTtsCts;
+
+    public async Task SilentSpeakTextAsync(string content)
+    {
+        if (_silentTtsCts != null)
+        {
+            _silentTtsCts.Cancel();
+            LogService.Logger.Debug("取消静默TTS");
+            return;
+        }
+
+        _silentTtsCts ??= new CancellationTokenSource();
+        try
+        {
+            CursorManager.Execute();
+
+            LogService.Logger.Debug($"<Begin> 静默TTS\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]");
+
+            await SpeakTextAsync(content, WindowType.Main, _silentTtsCts.Token);
+        }
+        catch (Exception ex)
+        {
+            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("静默TTS失败, 请检查网络或日志");
+            LogService.Logger.Warn("静默TTS Error: " + ex.Message);
+            CursorManager.Error();
+            await Task.Delay(2000);
+        }
+        finally
+        {
+            LogService.Logger.Debug("<End> 静默TTS");
+            CursorManager.Restore();
+            _silentTtsCts = null;
+        }
+    }
 
     public async Task SpeakTextAsync(string content, WindowType type, CancellationToken token)
     {
@@ -67,7 +100,7 @@ public partial class TTSViewModel : ObservableObject
         }
 
         _isSpeaking = true;
-        await ActivedTTS.SpeakTextAsync(content, ttsCancellationToken);
+        await ActivedTTS.SpeakTextAsync(content, token);
         _isSpeaking = false;
     }
 
