@@ -452,7 +452,6 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         if (!TryGetWord(out var content) || content == null)
         {
-            LogService.Logger.Warn($"静默TTS取词失败，请检查文本是否可以正常复制或者检查软件权限");
             return;
         }
 
@@ -761,7 +760,11 @@ public partial class NotifyIconViewModel : ObservableObject
             content = ClipboardUtil.GetSelectedText(interval)?.Trim();
             if (string.IsNullOrEmpty(content))
             {
-                LogService.Logger.Warn($"取词失败, 请尝试延长取词间隔(当前: {interval}ms)...");
+                LogService.Logger.Warn($"取词失败, 可能原因有:\n" +
+                    $"1. 未选中文本\n" +
+                    $"2. 文本禁止复制\n" +
+                    $"3. 取词间隔过短, 尝试延长取词间隔(当前: {interval}ms)\n" +
+                    $"4. 被取词软件权限高于本软件权限(管理员权限启动即可解决)");
                 return false;
             }
         }
