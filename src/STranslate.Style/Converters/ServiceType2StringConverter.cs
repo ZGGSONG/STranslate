@@ -19,6 +19,8 @@ public class ServiceType2StringConverter : IValueConverter
                 ServiceType.ApiService => "自建",
                 ServiceType.STranslateService => "内置",
                 ServiceType.EcdictService => "内置",
+                ServiceType.KingSoftDictService => "内置",
+                ServiceType.BingDictService => "内置",
                 _ => "官方"
             },
             TTSType tType => tType switch
@@ -29,6 +31,10 @@ public class ServiceType2StringConverter : IValueConverter
             OCRType oType => oType switch
             {
                 OCRType.PaddleOCR => "内置",
+                _ => "官方"
+            },
+            VocabularyBookType vType => vType switch
+            {
                 _ => "官方"
             },
             _ => "自建"

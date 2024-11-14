@@ -170,12 +170,6 @@ public partial class OCRScvViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Popup(Popup control)
-    {
-        control.IsOpen = true;
-    }
-
-    [RelayCommand]
     private void Add(List<object> list)
     {
         if (list?.Count != 2) return;
@@ -196,7 +190,7 @@ public partial class OCRScvViewModel : ObservableObject
             }
         );
 
-        (list.Last() as Popup)!.IsOpen = false;
+        (list.Last() as ToggleButton)!.IsChecked = false;
 
         ResetView(ActionType.Add);
     }

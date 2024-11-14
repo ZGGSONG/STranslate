@@ -2,7 +2,6 @@
     x:Class="STranslate.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:STranslate.Views"
@@ -75,6 +74,12 @@
             Command="{Binding ShowHideInputCommand}"
             Modifiers="Ctrl+Shift" />
 
+        <KeyBinding
+            Key="S"
+            Command="{Binding InputVM.Save2VocabularyBookCommand}"
+            CommandParameter="{Binding InputVM.InputContent}"
+            Modifiers="Ctrl+Shift" />
+
         <!--  // 输出框快捷键复制 //  -->
         <KeyBinding
             Command="{Binding OutputVM.HotkeyCopyCommand}"
@@ -112,6 +117,48 @@
             Command="{Binding OutputVM.HotkeyCopyCommand}"
             CommandParameter="9"
             Gesture="Ctrl+9" />
+
+        <!--  // 输出框快捷键播报 //  -->
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="0"
+            Gesture="Alt+OemTilde" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="1"
+            Gesture="Alt+1" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="2"
+            Gesture="Alt+2" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="3"
+            Gesture="Alt+3" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="4"
+            Gesture="Alt+4" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="5"
+            Gesture="Alt+5" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="6"
+            Gesture="Alt+6" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="7"
+            Gesture="Alt+7" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="8"
+            Gesture="Alt+8" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="9"
+            Gesture="Alt+9" />
 
         <!--  // 重置字体大小 //  -->
         <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />

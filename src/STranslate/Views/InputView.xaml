@@ -81,6 +81,17 @@
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal"
                 Visibility="{Binding InputContent, Converter={StaticResource StringToVisibilityHiddenConverter}}">
+
+                <Button
+                    Command="{Binding Save2VocabularyBookCommand}"
+                    CommandParameter="{Binding InputContent}"
+                    Content="&#xe60d;"
+                    Cursor="Hand"
+                    FontSize="{DynamicResource FontSize17}"
+                    FontWeight="Bold"
+                    Style="{DynamicResource ButtonCopyIconStyle}"
+                    ToolTip="保存至生词本"
+                    Visibility="{Binding VocabularyBookVm.ActiveVocabularyBook, Converter={StaticResource VisibilityConverter}}" />
                 <!--  TTS  -->
                 <Button
                     Command="{Binding TTSCommand}"

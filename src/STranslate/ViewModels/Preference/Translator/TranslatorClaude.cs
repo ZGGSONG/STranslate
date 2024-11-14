@@ -297,7 +297,7 @@ public partial class TranslatorClaude : TranslatorBase, ITranslatorLlm
 
     #endregion Properties
 
-    #region Service Test
+    #region Translator Test
 
     [property: JsonIgnore] [ObservableProperty]
     private bool _isTesting;
@@ -330,7 +330,7 @@ public partial class TranslatorClaude : TranslatorBase, ITranslatorLlm
         }
     }
 
-    #endregion Service Test
+    #endregion Translator Test
 
     #region Interface Implementation
 
@@ -356,24 +356,46 @@ public partial class TranslatorClaude : TranslatorBase, ITranslatorLlm
         var a_model = Model.Trim();
         a_model = string.IsNullOrEmpty(a_model) ? "claude-3-5-sonnet-20240620" : a_model;
 
+        // 温度限定
+        var a_temperature = Math.Clamp(Temperature, 0, 1);
+
         // 替换Prompt关键字
         var a_messages =
             (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
         a_messages.ToList().ForEach(item =>
             item.Content = item.Content.Replace("$source", source).Replace("$target", target)
                 .Replace("$content", content));
-
-        // 温度限定
-        var a_temperature = Math.Clamp(Temperature, 0, 1);
         
-        // 构建请求数据
-        var reqData = new
+        var systemMsg =
+            a_messages.FirstOrDefault(x => x.Role.Equals("system", StringComparison.CurrentCultureIgnoreCase));
+
+        //https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts#how-to-give-claude-a-role
+        object reqData;
+        if (systemMsg != null)
         {
-            model = a_model,
-            messages = a_messages,
-            temperature = a_temperature,
-            stream = true
-        };
+            a_messages.Remove(systemMsg);
+
+            reqData = new
+            {
+                model = a_model,
+                messages = a_messages,
+                system = systemMsg.Content,
+                temperature = a_temperature,
+                max_tokens = 1024,
+                stream = true
+            };
+        }
+        else
+        {
+            reqData = new
+            {
+                model = a_model,
+                messages = a_messages,
+                temperature = a_temperature,
+                max_tokens = 1024,
+                stream = true
+            };
+        }
 
         var jsonData = JsonConvert.SerializeObject(reqData);
 

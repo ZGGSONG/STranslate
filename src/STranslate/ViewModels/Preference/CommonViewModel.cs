@@ -105,6 +105,11 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isHideOnStart = ConfigHelper.CurrentConfig?.IsHideOnStart ?? false;
 
     /// <summary>
+    ///     启动时不显示通知
+    /// </summary>
+    [ObservableProperty] private bool _isDisableNoticeOnStart = ConfigHelper.CurrentConfig?.IsDisableNoticeOnStart ?? false;
+
+    /// <summary>
     ///     是否在关闭鼠标划词后保持最前
     /// </summary>
     [ObservableProperty] private bool _isKeepTopmostAfterMousehook = ConfigHelper.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
@@ -436,7 +441,7 @@ public partial class CommonViewModel : ObservableObject
     public event Action<bool, bool>? OnIncreAutoTranslateChanged;
 
     [RelayCommand]
-    private void Save()
+    private Task SaveAsync()
     {
         // 保存时如果未开启丢失焦点不隐藏则关闭最小化按钮配置
         if (!StayMainViewWhenLoseFocus && ShowMinimalBtn)
@@ -459,6 +464,8 @@ public partial class CommonViewModel : ObservableObject
             LogService.Logger.Debug($"保存常规配置失败，{JsonConvert.SerializeObject(this)}");
             ToastHelper.Show("保存常规配置失败", WindowType.Preference);
         }
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -491,6 +498,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowConfigureService = ConfigHelper.CurrentConfig?.IsShowConfigureService ?? false;
         WordPickingInterval = ConfigHelper.CurrentConfig?.WordPickingInterval ?? 200;
         IsHideOnStart = ConfigHelper.CurrentConfig?.IsHideOnStart ?? false;
+        IsDisableNoticeOnStart = ConfigHelper.CurrentConfig?.IsDisableNoticeOnStart ?? false;
         ShowCopyOnHeader = ConfigHelper.CurrentConfig?.ShowCopyOnHeader ?? false;
         IsCaretLast = ConfigHelper.CurrentConfig?.IsCaretLast ?? false;
         ProxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
@@ -577,7 +585,7 @@ public partial class CommonViewModel : ObservableObject
         // 不等待上面回调可能会导致绑定出错
         await Task.Delay(1000);
 
-        Save();
+        await SaveAsync();
     }
 
     #region 主界面调整

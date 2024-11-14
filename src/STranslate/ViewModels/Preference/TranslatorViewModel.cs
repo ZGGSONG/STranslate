@@ -66,6 +66,8 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorAzureOpenAI());
         TransServices.Add(new TranslatorClaude());
         TransServices.Add(new TranslatorDeepSeek());
+        TransServices.Add(new TranslatorKingSoftDict());
+        TransServices.Add(new TranslatorBingDict());
         //TODO: 新接口需要适配
 
         ResetView();
@@ -128,7 +130,6 @@ public partial class TranslatorViewModel : ObservableObject
             tmpIndex = SelectedIndex;
 
         const string head = "STranslate.Views.Preference.Translator.";
-        //TODO: 新接口需要适配
         var name = service.Type switch
         {
             ServiceType.STranslateService => $"{head}{nameof(TranslatorSTranslatePage)}",
@@ -151,6 +152,9 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.AzureOpenAIService => $"{head}{nameof(TranslatorAzureOpenAIPage)}",
             ServiceType.ClaudeService => $"{head}{nameof(TranslatorClaudePage)}",
             ServiceType.DeepSeekService => $"{head}{nameof(TranslatorDeepSeekPage)}",
+            ServiceType.KingSoftDictService => $"{head}{nameof(TranslatorKingSoftDictPage)}",
+            ServiceType.BingDictService => $"{head}{nameof(TranslatorBingDictPage)}",
+            //TODO: 新接口需要适配
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
 
@@ -186,6 +190,8 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorAzureOpenAI azureopenai => azureopenai.Clone(),
                 TranslatorClaude claude => claude.Clone(),
                 TranslatorDeepSeek deepSeek => deepSeek.Clone(),
+                TranslatorKingSoftDict kingsoftdict => kingsoftdict.Clone(),
+                TranslatorBingDict bingdict => bingdict.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });

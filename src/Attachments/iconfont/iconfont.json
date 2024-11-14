@@ -6,18 +6,11 @@
   "description": "基于.Net 6 开发的新款翻译工具",
   "glyphs": [
     {
-      "icon_id": "4321850",
-      "name": "闪电",
-      "font_class": "shandian",
-      "unicode": "e662",
-      "unicode_decimal": 58978
-    },
-    {
-      "icon_id": "7996552",
-      "name": "闪电",
-      "font_class": "shandian1",
-      "unicode": "ea88",
-      "unicode_decimal": 60040
+      "icon_id": "4629862",
+      "name": "生词本",
+      "font_class": "shengciben",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
     },
     {
       "icon_id": "8566845",

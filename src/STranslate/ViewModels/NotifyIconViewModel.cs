@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
-using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -35,14 +34,14 @@ public partial class NotifyIconViewModel : ObservableObject
 
     [ObservableProperty] private bool _isScreenshotExecuting;
 
-    private CancellationTokenSource _ttsCancelTokenSource;
-
     public NotifyIconViewModel()
     {
         UpdateToolTip();
         SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
         WeakReferenceMessenger.Default.Register<ExternalCallMessenger>(this, (o, e) => ExternalCallHandler(e));
-        _ttsCancelTokenSource = new CancellationTokenSource();
+#if DEBUG
+        LogService.Logger.OnErrorOccured += ShowBalloonTip;
+#endif
     }
 
     /// <summary>
@@ -133,7 +132,7 @@ public partial class NotifyIconViewModel : ObservableObject
                     else
                     {
                         var bitmap = BitmapUtil.ReadImageFile(content);
-                        if (bitmap != null) await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, 0, 0));
+                        if (bitmap != null) await SilentOCRCallbackAsync(bitmap);
                     }
                 }
             },
@@ -171,11 +170,27 @@ public partial class NotifyIconViewModel : ObservableObject
 
     public void UpdateToolTip(string msg = "")
     {
+        const int maxLength = 127;
         var isAdmin = CommonUtil.IsUserAdministrator();
+        var toolTipFormat = isAdmin ? "STranslate {0}\n[Administrator] #\n{1}" : "STranslate {0} #\n{1}";
 
-        var toolTipFormat = isAdmin ? "STranslate {0}\r\n[Administrator] #\r\n{1}" : "STranslate {0} #\r\n{1}";
+        // 计算基础提示信息的长度
+        var baseToolTip = string.Format(toolTipFormat, Constant.AppVersion, string.Empty);
+        var baseLength = baseToolTip.Length;
 
-        NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, msg);
+        // 剩余可用长度
+        var availableLength = maxLength - baseLength;
+
+        // 如果msg超过可用长度，进行截断并添加省略号
+        if (msg.Length > availableLength)
+        {
+            var truncatedMsg = msg[..(availableLength - 3)] + "...";
+            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, truncatedMsg);
+        }
+        else
+        {
+            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, msg);
+        }
     }
 
     [RelayCommand]
@@ -224,6 +239,7 @@ public partial class NotifyIconViewModel : ObservableObject
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
         ClearAll();
         ShowAndActive(view, _configHelper.CurrentConfig?.IsFollowMouse ?? false);
     }
@@ -250,6 +266,7 @@ public partial class NotifyIconViewModel : ObservableObject
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
 
         //增量翻译
         if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
@@ -392,22 +409,21 @@ public partial class NotifyIconViewModel : ObservableObject
     internal void SilentOCRHandler()
     {
         if (ScreenGrabber.IsCapturing) return;
-        var position = CommonUtil.GetPositionInfos().Item1;
-        ScreenGrabber.OnCaptured = async bitmap => await SilentOCRCallbackAsync(new Tuple<Bitmap, double, double>(bitmap, position.X, position.Y));
+        ScreenGrabber.OnCaptured = async bitmap => await SilentOCRCallbackAsync(bitmap);
         ScreenGrabber.Capture(_configHelper.CurrentConfig?.ShowAuxiliaryLine ?? true);
     }
 
-    private async Task SilentOCRCallbackAsync(Tuple<Bitmap, double, double> tuple)
+    private async Task SilentOCRCallbackAsync(Bitmap bitmap)
     {
         try
         {
-            var getText = "";
-            var bytes = BitmapUtil.ConvertBitmap2Bytes(tuple.Item1, GetImageFormat());
+            CursorManager.Execute();
+            var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap, GetImageFormat());
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main,
                 lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
             //判断结果
             if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
-            getText = ocrResult.Text;
+            var getText = ocrResult.Text;
 
             //处理剪贴板内容格式
             if (_configHelper.CurrentConfig?.IsPurify ?? true)
@@ -419,18 +435,14 @@ public partial class NotifyIconViewModel : ObservableObject
 
             //写入剪贴板
             ClipboardHelper.Copy(getText);
-
-            await Task.Run(() =>
-                CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3).Show()));
         }
         catch (Exception ex)
         {
-            await Task.Run(() =>
-                CommonUtil.InvokeOnUIThread(() => new SliceocrToastView(tuple.Item2, tuple.Item3, false).Show()));
             LogService.Logger.Error("静默OCR失败", ex);
         }
         finally
         {
+            CursorManager.Restore();
             MemoUtil.FlushMemory();
         }
     }
@@ -463,29 +475,27 @@ public partial class NotifyIconViewModel : ObservableObject
     internal async void SilentTTSHandler(Window view, string content, object? obj = null)
     {
 
-        //如果ttscancel is null ,new 
-        if (_ttsCancelTokenSource == null)
-        {
-            _ttsCancelTokenSource = new CancellationTokenSource();
-            //_ttsCancelToken = _ttsCancelTokenSource.Token;
-        }
-        else
-        {
-            //如果不为空则取消
-            _ttsCancelTokenSource.Cancel();
-            _ttsCancelTokenSource.Dispose();
-            _ttsCancelTokenSource = new CancellationTokenSource();
-            //_ttsCancelToken = _ttsCancelTokenSource.Token;
-        }
+//         //如果ttscancel is null ,new 
+//         if (_ttsCancelTokenSource == null)
+//         {
+//             _ttsCancelTokenSource = new CancellationTokenSource();
+//             //_ttsCancelToken = _ttsCancelTokenSource.Token;
+//         }
+//         else
+//         {
+//             //如果不为空则取消
+//             _ttsCancelTokenSource.Cancel();
+//             _ttsCancelTokenSource.Dispose();
+//             _ttsCancelTokenSource = new CancellationTokenSource();
+//         }
 
-        await
-         Singleton<TTSViewModel>.Instance.SpeakTextAsync(
-                //Clipboard.GetText(),
-                content,
-                WindowType.Main,
-                //_TTS_cancelToken
-                _ttsCancelTokenSource.Token
-                );
+//         await
+//          Singleton<TTSViewModel>.Instance.SpeakTextAsync(
+//                 //Clipboard.GetText(),
+//                 content,
+//                 WindowType.Main,
+//                 _ttsCancelTokenSource.Token
+//                 );
 
     }
 
@@ -512,6 +522,7 @@ public partial class NotifyIconViewModel : ObservableObject
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
         _inputViewModel.TranslateCancelCommand.Execute(null);
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
 
         //增量翻译
         if (_configHelper.CurrentConfig?.IncrementalTranslation ?? false)
@@ -542,7 +553,7 @@ public partial class NotifyIconViewModel : ObservableObject
             //判断结果
             if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;
-            
+
             //处理剪贴板内容格式
             if (_configHelper.CurrentConfig?.IsPurify ?? true)
                 getText = StringUtil.NormalizeText(getText);
@@ -550,12 +561,14 @@ public partial class NotifyIconViewModel : ObservableObject
             if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
                 getText = StringUtil.RemoveLineBreaks(getText);
             //OCR后自动复制
-            if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false)
-                ClipboardHelper.Copy(getText);
+            //https://github.com/ZGGSONG/STranslate/issues/223
+            //if (_configHelper.CurrentConfig?.IsOcrAutoCopyText ?? false)
+            //    ClipboardHelper.Copy(getText);
             // 如果仅有空格则移除
             if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
                 _inputViewModel.InputContent = "";
             _inputViewModel.InputContent += getText;
+            view.InputView.InputTB.CaretIndex = _inputViewModel.InputContent.Length;
             _inputViewModel.TranslateCommand.Execute(null);
         }
         catch (OperationCanceledException)
@@ -735,6 +748,9 @@ public partial class NotifyIconViewModel : ObservableObject
             Singleton<MainViewModel>.Instance.IsHotkeyCopy = false;
             return;
         }
+        //监听剪贴板，剪贴板内容变动时取消保存至生词本
+        _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
+
         //处理剪贴板内容格式
         if (_configHelper.CurrentConfig?.IsPurify ?? true)
             content = StringUtil.NormalizeText(content);
@@ -769,8 +785,7 @@ public partial class NotifyIconViewModel : ObservableObject
     private async Task ReplaceTranslateAsync(Window view)
     {
         if (!TryGetWord(out var content) || content == null) return;
-        //TODO: 取消
-        await Singleton<ReplaceViewModel>.Instance.ExecuteAsync(content, CancellationToken.None);
+        await Singleton<ReplaceViewModel>.Instance.ExecuteAsync(content);
     }
 
     internal bool TryGetWord(out string? content)
@@ -849,11 +864,13 @@ public partial class NotifyIconViewModel : ObservableObject
         var top = position.Y;
 
         //保持页面在屏幕上方三分之一处
-        if ((top - bounds.Top) * 3 > bounds.Height) top = bounds.Height / 3 + bounds.Top;
+        //if ((top - bounds.Top) * 3 > bounds.Height) top = bounds.Height / 3 + bounds.Top;
 
-        //如果当前高度不足以容纳最大高度的内容，则使用最大高度为窗口Top值
-        if (bounds.Height - top + bounds.Top < view.MaxHeight) top = bounds.Height - view.MaxHeight + bounds.Top - 48;
+        ////如果当前高度不足以容纳最大高度的内容，则使用最大高度为窗口Top值（修改为150%缩放似乎有问题）
+        //if (bounds.Height - top + bounds.Top < view.MaxHeight) top = bounds.Height - view.MaxHeight + bounds.Top - 48;
 
+        //if (view.MaxHeight > bounds.Height) top = bounds.Top;
+        
         //右侧不超出当前屏幕区域
         if (left + view.Width > bounds.Left + bounds.Width) left = bounds.Left + bounds.Width - view.Width;
         return new Tuple<double, double>(left, top);

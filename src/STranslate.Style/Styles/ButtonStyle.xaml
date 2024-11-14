@@ -11,6 +11,8 @@
         <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
         <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource BtnForeground}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Width" Value="30" />
@@ -25,6 +27,8 @@
                         Height="{TemplateBinding Height}"
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="5"
                         SnapsToDevicePixels="true">
                         <TextBlock

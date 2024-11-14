@@ -36,6 +36,7 @@ public partial class InputViewModel : ObservableObject
     public CommonViewModel CommonVm => Singleton<CommonViewModel>.Instance;
     public OutputViewModel OutputVm => Singleton<OutputViewModel>.Instance;
     public ConfigHelper CnfHelper => Singleton<ConfigHelper>.Instance;
+    public VocabularyBookViewModel VocabularyBookVm => Singleton<VocabularyBookViewModel>.Instance;
 
     /// <summary>
     ///     是否正在执行自动翻译
@@ -133,6 +134,7 @@ public partial class InputViewModel : ObservableObject
         OutputVm.SingleTranslateCancelCommand.Execute(null);
         OutputVm.SingleTranslateBackCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
+        Save2VocabularyBookCancelCommand.Execute(null);
         await TranslateCommand.ExecuteAsync(null);
         IsAutoTranslateExecuting = false;
     }
@@ -457,20 +459,22 @@ public partial class InputViewModel : ObservableObject
         CancellationToken token)
     {
         var isCancelMsg = false;
+
+        service.Data.IsSuccess = false;
         switch (exception)
         {
             case TaskCanceledException:
                 errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时(请检查网络环境是否正常或服务是否可用)\n";
                 isCancelMsg = token.IsCancellationRequested;
+                //采取新动画，无需显示错误信息
+                service.Data.Result = string.Empty;
                 break;
             case HttpRequestException:
                 if (exception.InnerException != null) exception = exception.InnerException;
                 errorMessage = "请求出错";
+                service.Data.Result = $"{errorMessage}: {exception.Message}";
                 break;
         }
-
-        service.Data.IsSuccess = false;
-        service.Data.Result = $"{errorMessage}: {exception.Message}";
         service.Data.Exception = exception;
 
         if (isCancelMsg)
@@ -558,6 +562,13 @@ public partial class InputViewModel : ObservableObject
 
     #region 其他操作
 
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task Save2VocabularyBookAsync(string content, CancellationToken token)
+    {
+        var ret = await VocabularyBookVm.ExecuteAsync(content, token);
+        ToastHelper.Show($"保存至{VocabularyBookVm.ActiveVocabularyBook?.Name ?? "生词本"}{(ret ? "成功" : "失败")}");
+    }
+
     [RelayCommand]
     private void CopyContent(string content)
     {
@@ -569,14 +580,12 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private void RemoveSpace(PlaceholderTextBox textBox)
     {
-        var oldTxt = textBox.Text;
-        var newTxt = StringUtil.RemoveSpace(oldTxt);
-        if (string.Equals(oldTxt, newTxt))
+        if (!StringUtil.ProcessTextBox(isLineBreak: false, textBox))
             return;
 
         ToastHelper.Show("移除空格");
 
-        RemoveHandler(textBox, newTxt);
+        RemoveHandler();
     }
 
     [RelayCommand]
@@ -636,18 +645,15 @@ public partial class InputViewModel : ObservableObject
     }
 
 
-    internal void RemoveHandler(PlaceholderTextBox textBox, string newTxt)
+    internal void RemoveHandler()
     {
-        //https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding
-        textBox.SelectAll();
-        textBox.SelectedText = newTxt;
-
         if (!CnfHelper.CurrentConfig?.IsAdjustContentTranslate ?? false)
             return;
 
         OutputVm.SingleTranslateCancelCommand.Execute(null);
         OutputVm.SingleTranslateBackCancelCommand.Execute(null);
         TranslateCancelCommand.Execute(null);
+        Save2VocabularyBookCancelCommand.Execute(null);
         TranslateCommand.Execute(null);
     }
 
@@ -667,13 +673,11 @@ public partial class InputViewModel : ObservableObject
 
     private void RemoveLineBreaksFromTextBox(PlaceholderTextBox textBox)
     {
-        var oldTxt = textBox.Text;
-        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-        if (string.Equals(oldTxt, newTxt))
+        if (!StringUtil.ProcessTextBox(isLineBreak: true, textBox))
             return;
 
         ToastHelper.Show("移除换行");
-        RemoveHandler(textBox, newTxt);
+        RemoveHandler();
     }
 
 
@@ -826,6 +830,8 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.AzureOpenAIService => new TranslatorAzureOpenAI(),
                 (int)ServiceType.ClaudeService => new TranslatorClaude(),
                 (int)ServiceType.DeepSeekService => new TranslatorDeepSeek(),
+                (int)ServiceType.KingSoftDictService => new TranslatorKingSoftDict(),
+                (int)ServiceType.BingDictService => new TranslatorBingDict(),
                 //TODO: 新接口需要适配
                 _ => new TranslatorApi()
             };

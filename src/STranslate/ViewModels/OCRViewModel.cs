@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -240,30 +241,15 @@ public partial class OCRViewModel : WindowVMBase
 
     private void RemoveLineBreaksFromTextBox(TextBox textBox)
     {
-        var oldTxt = textBox.Text;
-        var newTxt = StringUtil.RemoveLineBreaks(oldTxt);
-        if (string.Equals(oldTxt, newTxt))
-            return;
-
-        ToastHelper.Show("移除换行", WindowType.OCR);
-
-        textBox.SelectAll();
-        textBox.SelectedText = newTxt;
+        if (StringUtil.ProcessTextBox(isLineBreak: true, textBox))
+            ToastHelper.Show("移除换行", WindowType.OCR);
     }
 
     [RelayCommand]
     private void RemoveSpace(TextBox textBox)
     {
-        var oldTxt = textBox.Text;
-        var newTxt = StringUtil.RemoveSpace(oldTxt);
-        if (string.Equals(oldTxt, newTxt))
-            return;
-
-        ToastHelper.Show("移除空格", WindowType.OCR);
-
-        //https://stackoverflow.com/questions/4476282/how-can-i-undo-a-textboxs-text-changes-caused-by-a-binding
-        textBox.SelectAll();
-        textBox.SelectedText = newTxt;
+        if (StringUtil.ProcessTextBox(isLineBreak: false, textBox))
+            ToastHelper.Show("移除空格", WindowType.OCR);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -518,6 +504,7 @@ public partial class OCRViewModel : WindowVMBase
         Singleton<OutputViewModel>.Instance.SingleTranslateCancelCommand.Execute(null);
         Singleton<OutputViewModel>.Instance.SingleTranslateBackCancelCommand.Execute(null);
         Singleton<InputViewModel>.Instance.TranslateCancelCommand.Execute(null);
+        Singleton<InputViewModel>.Instance.Save2VocabularyBookCancelCommand.Execute(null);
         //增量翻译
         if (_curConfig?.IncrementalTranslation ?? false)
         {

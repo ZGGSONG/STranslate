@@ -30,7 +30,10 @@ public partial class ReplaceViewModel : ObservableObject
         };
     }
 
-    public async Task ExecuteAsync(string content, CancellationToken token)
+
+    private CancellationTokenSource? _replaceCts;
+
+    public async Task ExecuteAsync(string content)
     {
         if (ReplaceProp.ActiveService is null)
         {
@@ -38,12 +41,19 @@ public partial class ReplaceViewModel : ObservableObject
             return;
         }
 
+        if (_replaceCts != null)
+        {
+            _replaceCts.Cancel();
+            LogService.Logger.Debug("Cancel Replace Translator");
+            return;
+        }
+
+        _replaceCts ??= new CancellationTokenSource();
+        var token = _replaceCts.Token;
+
         try
         {
-            const string translating = "翻译中...";
-            var transLength = translating.Length;
-            InputSimulatorHelper.PrintText(translating);
-
+            CursorManager.Execute();
             // Determine target language
             var (sourceLang, targetLang) = await DetectLanguageAsync(content, token);
 
@@ -55,22 +65,22 @@ public partial class ReplaceViewModel : ObservableObject
 
 
             if (ReplaceProp.ActiveService is ITranslatorLlm)
-                await TranslateLlmAsync(req, transLength, token);
+                await TranslateLlmAsync(req, token);
             else
-                await TranslateRegularAsync(req, transLength, token);
-
-            await SuccessAsync(token);
+                await TranslateRegularAsync(req,token);
         }
         catch (Exception ex)
         {
+            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("替换翻译失败, 请检查网络或日志");
             LogService.Logger.Warn("Replace Translator Error: " + ex.Message);
-            await FailAsync(token);
-            // 还原原始内容
-            InputSimulatorHelper.PrintText(content);
+            CursorManager.Error();
+            await Task.Delay(2000, token);
         }
         finally
         {
             LogService.Logger.Debug("<End> Replace Translator");
+            CursorManager.Restore();
+            _replaceCts = null;
         }
     }
 
@@ -100,69 +110,32 @@ public partial class ReplaceViewModel : ObservableObject
         return (sourceLang, targetLang);
     }
 
-    private async Task TranslateRegularAsync(RequestModel req, int length, CancellationToken token)
+    private async Task TranslateRegularAsync(RequestModel req, CancellationToken token)
     {
-        TranslationResult ret;
-        try
-        {
-            ret = await ReplaceProp.ActiveService!.TranslateAsync(req, CancellationToken.None);
-        }
-        catch (Exception)
-        {
-            InputSimulatorHelper.Backspace(length);
-            throw;
-        }
+        var ret = await ReplaceProp.ActiveService!.TranslateAsync(req, CancellationToken.None);
 
-        InputSimulatorHelper.Backspace(length);
-
-        if (!ret.IsSuccess) throw new Exception(ret.Result?.ToString());
+        if (!ret.IsSuccess) throw new Exception(ret.Result);
         InputSimulatorHelper.PrintText(ret.Result);
     }
 
-    private async Task TranslateLlmAsync(RequestModel req, int length, CancellationToken token)
+    private async Task TranslateLlmAsync(RequestModel req, CancellationToken token)
     {
-        var isStart = false;
         var count = 0;
         try
         {
             await ReplaceProp.ActiveService!.TranslateAsync(req,
                 msg =>
                 {
-                    // 如果开始移除等待标记
-                    if (!isStart)
-                        InputSimulatorHelper.Backspace(length);
-
-                    isStart = true;
                     count += msg.Length; // 计算已输出长度
                     InputSimulatorHelper.PrintText(msg);
                 }, token);
         }
         catch (Exception)
         {
-            // 出错判断是否已经开始 未开始则移除等待标记
-            if (!isStart)
-                InputSimulatorHelper.Backspace(length);
-
             // 出错则移除已输出内容
             InputSimulatorHelper.Backspace(count);
             throw;
         }
-    }
-
-    private async Task SuccessAsync(CancellationToken token)
-    {
-        const string successMark = "√";
-        InputSimulatorHelper.PrintText(successMark);
-        await Task.Delay(300, token).ConfigureAwait(false);
-        InputSimulatorHelper.Backspace(successMark.Length);
-    }
-
-    private async Task FailAsync(CancellationToken cancellationToken)
-    {
-        const string errorMsg = "翻译出错...";
-        InputSimulatorHelper.PrintText(errorMsg);
-        await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
-        InputSimulatorHelper.Backspace(errorMsg.Length);
     }
 
     #region Property

@@ -285,7 +285,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="目标语种为自动且原始语种为中文时使用" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为中文时则使用该项指定语种" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -304,7 +304,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="目标语种为自动且原始语种为非中文时使用" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为非中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为非中文时则使用该项指定语种" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -511,7 +511,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="OCR后自动复制" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR识别文本后自动复制文本内容" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR界面识别文本后自动复制文本内容" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -606,6 +606,15 @@
                                         Height="26"
                                         HorizontalAlignment="Right"
                                         IsChecked="{Binding IsHideOnStart}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Left" Text="启动时不显示通知" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示通知" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsDisableNoticeOnStart}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">

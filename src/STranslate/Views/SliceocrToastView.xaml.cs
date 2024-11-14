@@ -3,6 +3,7 @@ using System.Windows.Media.Animation;
 
 namespace STranslate.Views;
 
+[Obsolete("Replace by CursorManager")]
 public partial class SliceocrToastView : Window
 {
     private readonly string FailIcon = "\ue60a";
