@@ -454,6 +454,18 @@
                 ToolTip="增量翻译"
                 Visibility="{Binding IsShowIncrementalTranslation, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
+                Width="30"
+                Height="30"
+                HorizontalAlignment="Right"
+                Command="{Binding OnlyShowRetCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                Content="&#xe65b;"
+                FontSize="{DynamicResource FontSize21}"
+                Style="{DynamicResource ButtonCrosswordsIconStyle}"
+                Tag="{Binding IsEnableOnlyShowRet}"
+                ToolTip="仅显示输出界面&#13;Alt+鼠标点击控制语言界面"
+                Visibility="{Binding IsShowOnlyShowRet, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button
                 HorizontalAlignment="Right"
                 Command="{Binding NotifyIconVM.ScreenShotTranslateCommand}"
                 CommandParameter="header"

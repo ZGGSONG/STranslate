@@ -237,6 +237,7 @@ public class ConfigHelper
         CurrentConfig.IsShowConfigureService = model.IsShowConfigureService;
         CurrentConfig.IsShowMousehook = model.IsShowMousehook;
         CurrentConfig.IsShowIncrementalTranslation = model.IsShowIncrementalTranslation;
+        CurrentConfig.IsShowOnlyShowRet = model.IsShowOnlyShowRet;
         CurrentConfig.IsShowScreenshot = model.IsShowScreenshot;
         CurrentConfig.IsShowOCR = model.IsShowOCR;
         CurrentConfig.IsShowSilentOCR = model.IsShowSilentOCR;

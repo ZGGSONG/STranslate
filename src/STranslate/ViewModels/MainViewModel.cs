@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STranslate.Helper;
@@ -22,6 +23,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _isAutoTranslate = Constant.TagFalse;
 
     [ObservableProperty] private string _isEnableMosehook = Constant.TagFalse;
+
+    [ObservableProperty] private string _isEnableOnlyShowRet = Constant.TagFalse;
 
     /// <summary>
     ///     是否为重置状态
@@ -122,6 +125,7 @@ public partial class MainViewModel : ObservableObject
         TargetLang = Config?.TargetLang ?? LangEnum.auto;
         InputVM.OftenUsedLang = Config?.OftenUsedLang ?? string.Empty;
         IsEnableIncrementalTranslation = Config?.IncrementalTranslation ?? false ? Constant.TagTrue : Constant.TagFalse;
+        IsEnableOnlyShowRet = Config?.IsOnlyShowRet ?? false ? Constant.TagTrue : Constant.TagFalse;
         IsAutoTranslate = Config?.AutoTranslate ?? false ? Constant.TagTrue : Constant.TagFalse;
         _ = ReplaceVm.ReplaceProp.ActiveService; //激活ReplaceVm
         _isInitial = false;
@@ -136,7 +140,7 @@ public partial class MainViewModel : ObservableObject
 
             NotifyIconVM.OnMousehook += MouseHook;
             NotifyIconVM.OnForbiddenShortcuts += OnForbiddenShortcutsChanged;
-            CommonSettingVM.OnIncreAutoTranslateChanged += OnIncreAutoTranslateChanged;
+            CommonSettingVM.OnBooleansChanged += OnBooleansChanged;
             // 由于需要使用windows句柄，需要window加载完成后处理热键注册相关逻辑
             // 所以不放在ConfigHelper中处理,而使用读取配置判断,如果禁用则不注册并更新提示
             if (Config?.DisableGlobalHotkeys ?? false)
@@ -160,7 +164,7 @@ public partial class MainViewModel : ObservableObject
     {
         NotifyIconVM.OnMousehook -= MouseHook;
         NotifyIconVM.OnForbiddenShortcuts -= OnForbiddenShortcutsChanged;
-        CommonSettingVM.OnIncreAutoTranslateChanged -= OnIncreAutoTranslateChanged;
+        CommonSettingVM.OnBooleansChanged -= OnBooleansChanged;
         UnRegisterHotkeys(view);
     }
 
@@ -181,10 +185,11 @@ public partial class MainViewModel : ObservableObject
     ///     监听增量翻译更新
     /// </summary>
     /// <param name="value"></param>
-    private void OnIncreAutoTranslateChanged(bool incrementalTranslation, bool autoTranslate)
+    private void OnBooleansChanged(bool incrementalTranslation, bool autoTranslate, bool isOnlyShowRet)
     {
         IsEnableIncrementalTranslation = incrementalTranslation ? Constant.TagTrue : Constant.TagFalse;
         IsAutoTranslate = autoTranslate ? Constant.TagTrue : Constant.TagFalse;
+        IsEnableOnlyShowRet = isOnlyShowRet ? Constant.TagTrue : Constant.TagFalse;
     }
 
     private void RegisterHotkeys(Window view)
@@ -376,6 +381,34 @@ public partial class MainViewModel : ObservableObject
         ToastHelper.Show(msg);
     }
 
+    [RelayCommand]
+    private void OnlyShowRet()
+    {
+        var common = Singleton<CommonViewModel>.Instance;
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
+        {
+            common.IsHideLangWhenOnlyShowOutput = !common.IsHideLangWhenOnlyShowOutput;
+            common.SaveCommand.Execute(null);
+
+
+            var aMsg = (common.IsHideLangWhenOnlyShowOutput ? "隐藏" : "显示") + "语言框";
+            ToastHelper.Show(aMsg);
+            return;
+        }
+        var conf = Config;
+        if (conf is null)
+            return;
+
+        conf.IsOnlyShowRet = !conf.IsOnlyShowRet;
+        IsEnableOnlyShowRet = conf?.IsOnlyShowRet ?? false ? Constant.TagTrue : Constant.TagFalse;
+
+        common.IsOnlyShowRet = !common.IsOnlyShowRet;
+        common.SaveCommand.Execute(null);
+
+        var msg = (common.IsOnlyShowRet ? "隐藏" : "显示") + "非输出部分";
+        ToastHelper.Show(msg);
+    }
+
     private void OnGetwordsHandlerChanged(string content)
     {
         if (string.IsNullOrEmpty(content))
@@ -496,6 +529,7 @@ public partial class MainViewModel : ObservableObject
         IsShowMousehook = Config?.IsShowMousehook ?? false;
         IsShowAutoTranslate = Config?.IsShowAutoTranslate ?? false;
         IsShowIncrementalTranslation = Config?.IsShowIncrementalTranslation ?? false;
+        IsShowOnlyShowRet = Config?.IsShowOnlyShowRet ?? false;
         IsShowScreenshot = Config?.IsShowScreenshot ?? false;
         IsShowOCR = Config?.IsShowOCR ?? false;
         IsShowSilentOCR = Config?.IsShowSilentOCR ?? false;
@@ -629,6 +663,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private bool _isShowAutoTranslate;
 
     [ObservableProperty] private bool _isShowIncrementalTranslation;
+
+    [ObservableProperty] private bool _isShowOnlyShowRet;
 
     [ObservableProperty] private bool _isShowScreenshot;
 

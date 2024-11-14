@@ -395,6 +395,11 @@ public class ConfigModel
     public bool IsPurify { get; set; } = true;
 
     /// <summary>
+    ///     主界面头部显示仅显示输出结果
+    /// </summary>
+    public bool IsShowOnlyShowRet { get; set; } = false;
+
+    /// <summary>
     ///     主界面是否仅显示输出结果
     /// </summary>
     public bool IsOnlyShowRet { get; set; } = false;
@@ -484,6 +489,7 @@ public class ConfigModel
             IsShowConfigureService = IsShowConfigureService,
             IsShowMousehook = IsShowMousehook,
             IsShowIncrementalTranslation = IsShowIncrementalTranslation,
+            IsShowOnlyShowRet = IsShowOnlyShowRet,
             IsShowScreenshot = IsShowScreenshot,
             IsShowOCR = IsShowOCR,
             IsShowSilentOCR = IsShowSilentOCR,

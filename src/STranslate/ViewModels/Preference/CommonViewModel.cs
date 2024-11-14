@@ -163,6 +163,8 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _isShowIncrementalTranslation = ConfigHelper.CurrentConfig?.IsShowIncrementalTranslation ?? false;
 
+    [ObservableProperty] private bool _isShowOnlyShowRet = ConfigHelper.CurrentConfig?.IsShowOnlyShowRet ?? false;
+
     [ObservableProperty] private bool _isShowLargeHumpCopyBtn = ConfigHelper.CurrentConfig?.IsShowLargeHumpCopyBtn ?? false;
 
     /// <summary>
@@ -438,7 +440,10 @@ public partial class CommonViewModel : ObservableObject
         base.OnPropertyChanged(e);
     }
 
-    public event Action<bool, bool>? OnIncreAutoTranslateChanged;
+    /// <summary>
+    ///     通知增量翻译、自动翻译、仅显示输出界面配置到主界面
+    /// </summary>
+    public event Action<bool, bool, bool>? OnBooleansChanged;
 
     [RelayCommand]
     private Task SaveAsync()
@@ -455,8 +460,7 @@ public partial class CommonViewModel : ObservableObject
 
         if (ConfigHelper.WriteConfig(this))
         {
-            //通知增量翻译配置到主界面
-            OnIncreAutoTranslateChanged?.Invoke(IncrementalTranslation, AutoTranslate);
+            OnBooleansChanged?.Invoke(IncrementalTranslation, AutoTranslate, IsOnlyShowRet);
             ToastHelper.Show("保存常规配置成功", WindowType.Preference);
         }
         else
@@ -489,6 +493,7 @@ public partial class CommonViewModel : ObservableObject
         IsShowPreference = ConfigHelper.CurrentConfig?.IsShowPreference ?? false;
         IsShowMousehook = ConfigHelper.CurrentConfig?.IsShowMousehook ?? false;
         IsShowIncrementalTranslation = ConfigHelper.CurrentConfig?.IsShowIncrementalTranslation ?? false;
+        IsShowOnlyShowRet = ConfigHelper.CurrentConfig?.IsShowOnlyShowRet ?? false;
         IsShowScreenshot = ConfigHelper.CurrentConfig?.IsShowScreenshot ?? false;
         IsShowOCR = ConfigHelper.CurrentConfig?.IsShowOCR ?? false;
         IsShowSilentOCR = ConfigHelper.CurrentConfig?.IsShowSilentOCR ?? false;
