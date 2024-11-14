@@ -294,6 +294,8 @@ public class ConfigHelper
         CurrentConfig.TargetLangIfSourceZh = model.TargetLangIfSourceZh;
         CurrentConfig.TargetLangIfSourceNotZh = model.TargetLangIfSourceNotZh;
 
+        ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
+
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
         ThemeOperate(CurrentConfig.ThemeType);
@@ -324,7 +326,6 @@ public class ConfigHelper
                 Application.Current.Windows.OfType<MainView>().First());
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
-        ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         WriteConfig(CurrentConfig);
         isSuccess = true;

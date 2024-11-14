@@ -471,6 +471,7 @@ public partial class MainViewModel : ObservableObject
     private async Task ShowHideInputAsync()
     {
         CommonSettingVM.IsOnlyShowRet = !CommonSettingVM.IsOnlyShowRet;
+        ToastHelper.Show($"{(CommonSettingVM.IsOnlyShowRet ? "隐藏" : "显示")}非输出部分");
         await CommonSettingVM.SaveCommand.ExecuteAsync(null);
     }
 
