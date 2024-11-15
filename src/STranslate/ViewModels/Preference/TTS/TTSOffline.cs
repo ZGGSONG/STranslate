@@ -89,32 +89,39 @@ public partial class TTSOffline : ObservableObject, ITTS
             Rate = 1;
             LogService.Logger.Warn("TTS|TTSOffline|Speech rate is out of range, set to default value 1.");
         }
-        var synth = new SpeechSynthesizer
+        using var synth = new SpeechSynthesizer
         {
             Volume = 100,
             Rate = Rate,
         };
-        _ = Task.Run(() =>
+        var cancellationTask = Task.Run(async () =>
         {
             while (!token.IsCancellationRequested && !hasDone)
+            {
                 // 使用小睡眠来减少CPU使用，这里的时间可以根据需要调整
-                Task.Delay(100).Wait();
-            synth.SpeakAsyncCancelAll();
+                await Task.Delay(100);
+            }
+            if (token.IsCancellationRequested)
+            {
+                synth.SpeakAsyncCancelAll();
+            }
         });
         // Configure the audio output.
         synth.SetOutputToDefaultAudioDevice();
-        await Task.Run(() =>
+        try
         {
-            try
-            {
-                synth.Speak(text);
-                // 手动跳出循环
-                hasDone = true;
-            }
-            catch (Exception)
-            {
-            }
-        });
+            await Task.Run(() => synth.Speak(text));
+            // 手动跳出循环
+            hasDone = true;
+        }
+        catch (Exception ex)
+        {
+            LogService.Logger.Error("TTS|TTSOffline|Error during speech synthesis.", ex);
+        }
+        finally
+        {
+            await cancellationTask;
+        }
     }
 
     public ITTS Clone()
