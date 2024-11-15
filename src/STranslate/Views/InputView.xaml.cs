@@ -86,8 +86,8 @@ public partial class InputView
         {
             if (!Clipboard.ContainsText()) return;
             var clipboardText = Clipboard.GetText();
-            InputTB.Text = clipboardText;
-            InputTB.CaretIndex = clipboardText.Length;
+            InputTB.Text += clipboardText;
+            InputTB.CaretIndex = InputTB.Text.Length;
 
             ((InputViewModel)DataContext).TranslateCommand.Execute(null);
         }
