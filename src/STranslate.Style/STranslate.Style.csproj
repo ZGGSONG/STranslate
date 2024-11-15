@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <PackageReference Include="System.Net.Http" />
+    <PackageReference Include="System.Text.RegularExpressions" />
     <PackageReference Include="XamlFlair.WPF" />
   </ItemGroup>
 
