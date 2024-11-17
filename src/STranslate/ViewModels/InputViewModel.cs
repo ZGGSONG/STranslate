@@ -474,6 +474,9 @@ public partial class InputViewModel : ObservableObject
                 errorMessage = "请求出错";
                 service.Data.Result = $"{errorMessage}: {exception.Message}";
                 break;
+            default:
+                service.Data.Result = $"{errorMessage}: {exception.Message}";
+                break;
         }
         service.Data.Exception = exception;
 
