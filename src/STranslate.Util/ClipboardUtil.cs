@@ -236,13 +236,9 @@ public static class ClipboardUtil
 
             Marshal.Copy(pointer, buff, 0, size);
 
-            int nullCharIndex = Array.IndexOf(buff, (byte)0);
-            if (nullCharIndex >= 0)
-            {
-                size = nullCharIndex;
-            }
-
-            return Encoding.Unicode.GetString(buff, 0, size);
+            var result = Encoding.Unicode.GetString(buff);
+            int nullCharIndex = result.IndexOf('\0');
+            return nullCharIndex == -1 ? result : result[..nullCharIndex];
         }
         finally
         {
