@@ -7,8 +7,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PlatformTarget>x64</PlatformTarget>
-    <AssemblyVersion>1.2.9.1112</AssemblyVersion>
-    <FileVersion>1.2.9.1112</FileVersion>
+    <AssemblyVersion>1.2.10.1117</AssemblyVersion>
+    <FileVersion>1.2.10.1117</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Copyright>ZGGSONG</Copyright>
     <BaseOutputPath>..\..\bin\</BaseOutputPath>
