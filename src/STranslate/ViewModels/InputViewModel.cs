@@ -460,24 +460,19 @@ public partial class InputViewModel : ObservableObject
     {
         var isCancelMsg = false;
 
-        service.Data.IsSuccess = false;
         switch (exception)
         {
             case TaskCanceledException:
                 errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时(请检查网络环境是否正常或服务是否可用)\n";
                 isCancelMsg = token.IsCancellationRequested;
-                //采取新动画，无需显示错误信息
-                service.Data.Result = string.Empty;
                 break;
             case HttpRequestException:
                 if (exception.InnerException != null) exception = exception.InnerException;
                 errorMessage = "请求出错";
-                service.Data.Result = $"{errorMessage}: {exception.Message}";
-                break;
-            default:
-                service.Data.Result = $"{errorMessage}: {exception.Message}";
                 break;
         }
+        service.Data.IsSuccess = false;
+        service.Data.Result = $"{errorMessage}: {exception.Message}";
         service.Data.Exception = exception;
 
         if (isCancelMsg)
