@@ -80,15 +80,9 @@
                     HorizontalAlignment="Left"
                     BorderThickness="1"
                     DisplayMemberPath="Description"
-                    ItemsSource="{Binding Source={common:Enumeration {x:Type model:EdgeVoiceEnum}}}"
+                    ItemsSource="{Binding Source={common:EnumerationAsync {x:Type model:EdgeVoiceEnum}}}"
                     SelectedValue="{Binding Voice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    SelectedValuePath="Value">
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                </ComboBox>
+                    SelectedValuePath="Value" />
             </Grid>
 
             <Grid Margin="0,10">

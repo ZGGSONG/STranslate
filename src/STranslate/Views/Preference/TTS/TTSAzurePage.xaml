@@ -80,7 +80,7 @@
                     HorizontalAlignment="Left"
                     BorderThickness="1"
                     DisplayMemberPath="Description"
-                    ItemsSource="{Binding Source={common:Enumeration {x:Type model:AzureVoiceEnum}}}"
+                    ItemsSource="{Binding Source={common:EnumerationAsync {x:Type model:AzureVoiceEnum}}}"
                     SelectedValue="{Binding Voice, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     SelectedValuePath="Value" />
             </Grid>
