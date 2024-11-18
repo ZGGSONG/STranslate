@@ -78,6 +78,7 @@
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="PaddleOCRSharp" />
     <PackageReference Include="ScreenGrab" />
+    <PackageReference Include="System.Private.Uri" />
     <PackageReference Include="System.Speech" />
     <PackageReference Include="TencentCloudSDK.Tmt" />
     <PackageReference Include="WebDav.Client" />

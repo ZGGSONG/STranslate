@@ -86,8 +86,24 @@ public partial class InputView
         {
             if (!Clipboard.ContainsText()) return;
             var clipboardText = Clipboard.GetText();
-            InputTB.Text += clipboardText;
-            InputTB.CaretIndex = InputTB.Text.Length;
+            var currentCaretIndex = InputTB.CaretIndex;
+
+            if (InputTB.SelectionLength > 0)
+            {
+                // 如果有选中文本，直接替换
+                InputTB.SelectedText = clipboardText;
+            }
+            else
+            {
+                // 如果没有选中文本，在当前光标位置插入
+                // 通过 SelectedText 属性设置来支持撤销操作
+                InputTB.Select(currentCaretIndex, 0);
+                InputTB.SelectedText = clipboardText;
+            }
+
+            // 设置光标位置到插入文本的末尾
+            InputTB.CaretIndex = currentCaretIndex + clipboardText.Length;
+
 
             ((InputViewModel)DataContext).TranslateCommand.Execute(null);
         }
