@@ -49,7 +49,7 @@ public class MouseHookHelper
         if (isDown && isStart) isMove = true;
     }
 
-    private void mouseHook_MouseUp(object? sender, MouseEventArgs e)
+    private async void mouseHook_MouseUp(object? sender, MouseEventArgs e)
     {
         if (e.Button != MouseButtons.Left) return;
         if (isDown && isMove)
@@ -58,7 +58,7 @@ public class MouseHookHelper
             string? content = null;
             try
             {
-                content = ClipboardUtil.GetSelectedTextDiff(interval);
+                content = await ClipboardUtil.GetSelectedTextDiffAsync(interval);
 
                 if (string.IsNullOrEmpty(content))
                 {
@@ -72,7 +72,7 @@ public class MouseHookHelper
                 return;
             }
 
-            Task.Run(() => OnGetwordsHandler?.Invoke(content));
+            OnGetwordsHandler?.Invoke(content);
         }
 
         isDown = false;

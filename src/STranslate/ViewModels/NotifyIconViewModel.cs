@@ -331,7 +331,7 @@ public partial class NotifyIconViewModel : ObservableObject
                 break;
         }
 
-        await Task.Delay(200, token)
+        await Task.Delay(200)
             .ContinueWith(_ => CommonUtil.InvokeOnUIThread(() => action?.Invoke(token)), token);
 
         return;

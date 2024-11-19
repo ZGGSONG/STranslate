@@ -52,16 +52,16 @@ public static class ClipboardUtil
     /// <summary>
     ///     异步获取当前选中的文本。
     /// </summary>
-    /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <param name="interval">获取文本之前的延迟时间（以毫秒为单位）</param>
+    /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <returns>返回当前选中的文本。</returns>
-    public static async Task<string?> GetSelectedTextAsync(CancellationToken cancellation, int interval = 0)
+    public static async Task<string?> GetSelectedTextAsync(int interval = 0, CancellationToken cancellation = default)
     {
         // 模拟按下 Ctrl+C 复制选中的文本到剪贴板
         SendCtrlCV();
 
         // 等待指定的时间间隔
-        await Task.Delay(interval, cancellation);
+        await Task.Delay(interval);
 
         // 从剪贴板获取文本
         return await GetTextAsync(cancellation);
@@ -70,10 +70,10 @@ public static class ClipboardUtil
     /// <summary>
     ///     异步获取当前剪贴板文本与上一次剪贴板文本的差异。
     /// </summary>
-    /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <param name="interval">获取旧文本和新文本之间的时间延迟（以毫秒为单位）</param>
+    /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <returns>如果新文本与旧文本不同，则返回新文本；否则，返回 null。</returns>
-    public static async Task<string?> GetSelectedTextDiffAsync(CancellationToken cancellation, int interval = 0)
+    public static async Task<string?> GetSelectedTextDiffAsync(int interval = 0, CancellationToken cancellation = default)
     {
         // 获取当前剪贴板的文本
         var oldTxt = await GetTextAsync(cancellation);
@@ -82,10 +82,12 @@ public static class ClipboardUtil
         SendCtrlCV();
 
         // 等待指定的时间间隔
-        await Task.Delay(interval, cancellation);
+        await Task.Delay(interval);
 
         // 获取新的剪贴板文本
         var newTxt = await GetTextAsync(cancellation);
+        // 加上打印Adobe Acrobat Pro就可以选中文本了？？
+        System.Diagnostics.Debug.WriteLine("newTxt: " + newTxt);
 
         // 如果新的剪贴板文本与旧的不同，则返回新的剪贴板文本，否则返回 null
         return newTxt == oldTxt ? null : newTxt?.Trim();
@@ -176,7 +178,7 @@ public static class ClipboardUtil
         }
     }
 
-    private static async Task TryOpenClipboardAsync(CancellationToken cancellation)
+    private static async Task TryOpenClipboardAsync(CancellationToken cancellation = default)
     {
         var num = 10;
         while (true)
@@ -185,7 +187,7 @@ public static class ClipboardUtil
 
             if (--num == 0) ThrowWin32();
 
-            await Task.Delay(100, cancellation);
+            await Task.Delay(100);
         }
     }
 
