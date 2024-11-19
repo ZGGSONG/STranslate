@@ -133,7 +133,7 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
 
         //检查语种
         var source = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
-        var target = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
+        var target = TargetLangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
         var resp = STranslateMode switch
         {
@@ -178,7 +178,7 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
     }
 
     /// <summary>
-    ///     https://github.com/ZGGSONG/deepl-api#Languages
+    ///     https://developers.deepl.com/docs/zh/resources/supported-languages#source-languages
     /// </summary>
     /// <param name="lang"></param>
     /// <returns></returns>
@@ -189,6 +189,45 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
             LangEnum.auto => "auto",
             LangEnum.zh_cn => "ZH",
             LangEnum.zh_tw => "ZH",
+            LangEnum.yue => "ZH",
+            LangEnum.en => "EN",
+            LangEnum.ja => "JA",
+            LangEnum.ko => "KO",
+            LangEnum.fr => "FR",
+            LangEnum.es => "ES",
+            LangEnum.ru => "RU",
+            LangEnum.de => "DE",
+            LangEnum.it => "IT",
+            LangEnum.tr => "TR",
+            LangEnum.pt_pt => "PT-PT",
+            LangEnum.pt_br => "PT-BR",
+            LangEnum.vi => null,
+            LangEnum.id => "ID",
+            LangEnum.th => null,
+            LangEnum.ms => null,
+            LangEnum.ar => "AR",
+            LangEnum.hi => null,
+            LangEnum.mn_cy => null,
+            LangEnum.mn_mo => null,
+            LangEnum.km => null,
+            LangEnum.nb_no => "NB",
+            LangEnum.nn_no => "NB",
+            LangEnum.fa => null,
+            LangEnum.sv => "SV",
+            LangEnum.pl => "PL",
+            LangEnum.nl => "NL",
+            LangEnum.uk => null,
+            _ => "auto"
+        };
+    }
+
+    public string? TargetLangConverter(LangEnum lang)
+    {
+        return lang switch
+        {
+            LangEnum.auto => "auto",
+            LangEnum.zh_cn => "ZH-HANS",
+            LangEnum.zh_tw => "ZH-HANT",
             LangEnum.yue => "ZH",
             LangEnum.en => "EN",
             LangEnum.ja => "JA",

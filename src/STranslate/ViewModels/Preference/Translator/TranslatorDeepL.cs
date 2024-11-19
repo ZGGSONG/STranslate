@@ -203,7 +203,7 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
 
         var convSource = LangConverter(reqModel.SourceLang) ??
                          throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
-        var convTarget = LangConverter(reqModel.TargetLang) ??
+        var convTarget = TargetLangConverter(reqModel.TargetLang) ??
                          throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
 
         object preReq;
@@ -300,6 +300,45 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             LangEnum.auto => "auto",
             LangEnum.zh_cn => "ZH",
             LangEnum.zh_tw => "ZH",
+            LangEnum.yue => "ZH",
+            LangEnum.en => "EN",
+            LangEnum.ja => "JA",
+            LangEnum.ko => "KO",
+            LangEnum.fr => "FR",
+            LangEnum.es => "ES",
+            LangEnum.ru => "RU",
+            LangEnum.de => "DE",
+            LangEnum.it => "IT",
+            LangEnum.tr => "TR",
+            LangEnum.pt_pt => "PT-PT",
+            LangEnum.pt_br => "PT-BR",
+            LangEnum.vi => null,
+            LangEnum.id => "ID",
+            LangEnum.th => null,
+            LangEnum.ms => null,
+            LangEnum.ar => "AR",
+            LangEnum.hi => null,
+            LangEnum.mn_cy => null,
+            LangEnum.mn_mo => null,
+            LangEnum.km => null,
+            LangEnum.nb_no => "NB",
+            LangEnum.nn_no => "NB",
+            LangEnum.fa => null,
+            LangEnum.sv => "SV",
+            LangEnum.pl => "PL",
+            LangEnum.nl => "NL",
+            LangEnum.uk => null,
+            _ => "auto"
+        };
+    }
+
+    public string? TargetLangConverter(LangEnum lang)
+    {
+        return lang switch
+        {
+            LangEnum.auto => "auto",
+            LangEnum.zh_cn => "ZH-HANS",
+            LangEnum.zh_tw => "ZH-HANT",
             LangEnum.yue => "ZH",
             LangEnum.en => "EN",
             LangEnum.ja => "JA",
