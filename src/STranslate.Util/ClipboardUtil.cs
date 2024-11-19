@@ -86,8 +86,6 @@ public static class ClipboardUtil
 
         // 获取新的剪贴板文本
         var newTxt = await GetTextAsync(cancellation);
-        // 加上打印Adobe Acrobat Pro就可以选中文本了？？
-        System.Diagnostics.Debug.WriteLine("newTxt: " + newTxt);
 
         // 如果新的剪贴板文本与旧的不同，则返回新的剪贴板文本，否则返回 null
         return newTxt == oldTxt ? null : newTxt?.Trim();
