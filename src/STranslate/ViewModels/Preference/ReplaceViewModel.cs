@@ -58,7 +58,7 @@ public partial class ReplaceViewModel : ObservableObject
             var (sourceLang, targetLang) = await DetectLanguageAsync(content, token);
 
             LogService.Logger.Debug(
-                $"<Begin> 替换翻译\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
+                $"<Begin> 替换翻译\tservice: [{ReplaceProp.ActiveService.Type}]\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]\ttarget: [{targetLang.GetDescription()}]");
 
             // Perform translation
             var req = new RequestModel(content, sourceLang, targetLang);
