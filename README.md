@@ -71,7 +71,7 @@ If you like it, you can buy the author a cup of coffee.
 
 ## Others
 
-**The software is open source and free of charge. If there are special customization needs, I accept paid development [email] (zggsong@foxmail.com)**
+**The software is open source and free of charge. If there are special customization needs, I accept paid development [email](zggsong@foxmail.com)**
 
 ## Author
 
