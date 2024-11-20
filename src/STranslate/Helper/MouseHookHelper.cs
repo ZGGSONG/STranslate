@@ -4,78 +4,109 @@ using STranslate.Util;
 
 namespace STranslate.Helper;
 
-public class MouseHookHelper
+/// <summary>
+/// 鼠标钩子辅助类,用于处理文本选择
+/// </summary>
+public sealed class MouseHookHelper
 {
-    private readonly MouseHookUtil mouseHook;
+    private readonly MouseHookUtil _mouseHook;
+    private bool _isDown;
+    private bool _isMove;
+    private bool _isStarted;
 
-    private bool isDown;
-
-    private bool isMove;
-
-    private bool isStart;
-
-    public Action<string>? OnGetwordsHandler;
+    // 文本选择完成后的事件
+    public event Action<string>? WordsSelected;
 
     public MouseHookHelper()
     {
-        mouseHook = new MouseHookUtil();
+        _mouseHook = new MouseHookUtil();
     }
 
-    public void MouseHookStart()
+    /// <summary>
+    /// 启动鼠标钩子
+    /// </summary>
+    public void Start()
     {
-        mouseHook.MouseMove += mouseHook_MouseMove;
-        mouseHook.MouseDown += mouseHook_MouseDown;
-        mouseHook.MouseUp += mouseHook_MouseUp;
-        mouseHook.Start();
-        isStart = true;
+        if (_isStarted)
+            return;
+
+        _mouseHook.MouseMove += OnMouseMove;
+        _mouseHook.MouseDown += OnMouseDown;
+        _mouseHook.MouseUp += OnMouseUp;
+        _mouseHook.Start();
+        _isStarted = true;
     }
 
-    public void MouseHookStop()
+    /// <summary>
+    /// 停止鼠标钩子
+    /// </summary>
+    public void Stop()
     {
-        mouseHook.MouseMove -= mouseHook_MouseMove;
-        mouseHook.MouseDown -= mouseHook_MouseDown;
-        mouseHook.MouseUp -= mouseHook_MouseUp;
-        mouseHook.Stop();
-        isStart = false;
+        if (!_isStarted)
+            return;
+
+        UnsubscribeEvents();
+        _mouseHook.Stop();
+        _isStarted = false;
     }
 
-    private void mouseHook_MouseDown(object? sender, MouseEventArgs e)
+    private void UnsubscribeEvents()
     {
-        if (e.Button == MouseButtons.Left) isDown = true;
+        _mouseHook.MouseMove -= OnMouseMove;
+        _mouseHook.MouseDown -= OnMouseDown;
+        _mouseHook.MouseUp -= OnMouseUp;
     }
 
-    private void mouseHook_MouseMove(object? sender, MouseEventArgs e)
+    private void OnMouseDown(object? sender, MouseEventArgs e)
     {
-        if (isDown && isStart) isMove = true;
+        if (e.Button == MouseButtons.Left)
+        {
+            _isDown = true;
+        }
     }
 
-    private async void mouseHook_MouseUp(object? sender, MouseEventArgs e)
+    private void OnMouseMove(object? sender, MouseEventArgs e)
     {
-        if (e.Button != MouseButtons.Left) return;
-        if (isDown && isMove)
+        if (_isDown && _isStarted)
+        {
+            _isMove = true;
+        }
+    }
+
+    private async void OnMouseUp(object? sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Left || !_isDown || !_isMove)
+        {
+            ResetState();
+            return;
+        }
+
+        try
         {
             var interval = Singleton<ConfigHelper>.Instance.CurrentConfig?.WordPickingInterval ?? 100;
-            string? content = null;
-            try
-            {
-                content = await ClipboardUtil.GetSelectedTextDiffAsync(interval);
+            var content = await ClipboardUtil.GetSelectedTextDiffAsync(interval);
 
-                if (string.IsNullOrEmpty(content))
-                {
-                    LogService.Logger.Debug($"可能是取词内容相同, 或者需要增加取词延迟(当前: {interval}ms)...");
-                    return;
-                }
-            }
-            catch (Exception)
+            if (string.IsNullOrEmpty(content))
             {
-                LogService.Logger.Warn("获取剪贴板异常, 请重试");
+                LogService.Logger.Debug($"可能拖拽窗;可能选中的内容相同,或需要增加取词延迟(当前:{interval}ms)");
                 return;
             }
 
-            OnGetwordsHandler?.Invoke(content);
+            WordsSelected?.Invoke(content);
         }
+        catch (Exception)
+        {
+            LogService.Logger.Warn("获取剪贴板内容失败,请重试");
+        }
+        finally
+        {
+            ResetState();
+        }
+    }
 
-        isDown = false;
-        isMove = false;
+    private void ResetState()
+    {
+        _isDown = false;
+        _isMove = false;
     }
 }

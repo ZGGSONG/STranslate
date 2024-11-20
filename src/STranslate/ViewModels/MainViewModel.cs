@@ -326,8 +326,8 @@ public partial class MainViewModel : ObservableObject
             view.Topmost = true;
             IsTopMost = Constant.TagTrue;
             TopMostContent = Constant.TopmostContent;
-            Singleton<MouseHookHelper>.Instance.MouseHookStart();
-            Singleton<MouseHookHelper>.Instance.OnGetwordsHandler += OnGetwordsHandlerChanged;
+            Singleton<MouseHookHelper>.Instance.Start();
+            Singleton<MouseHookHelper>.Instance.WordsSelected += OnWordsSelectedChanged;
             ToastHelper.Show("启用鼠标划词");
         }
         else
@@ -339,8 +339,8 @@ public partial class MainViewModel : ObservableObject
                 TopMostContent = Constant.UnTopmostContent;
             }
 
-            Singleton<MouseHookHelper>.Instance.MouseHookStop();
-            Singleton<MouseHookHelper>.Instance.OnGetwordsHandler -= OnGetwordsHandlerChanged;
+            Singleton<MouseHookHelper>.Instance.Stop();
+            Singleton<MouseHookHelper>.Instance.WordsSelected -= OnWordsSelectedChanged;
             ToastHelper.Show("关闭鼠标划词");
         }
     }
@@ -409,7 +409,7 @@ public partial class MainViewModel : ObservableObject
         ToastHelper.Show(msg);
     }
 
-    private void OnGetwordsHandlerChanged(string content)
+    private void OnWordsSelectedChanged(string content)
     {
         if (string.IsNullOrEmpty(content))
             return;

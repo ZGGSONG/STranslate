@@ -98,7 +98,13 @@
                                         HorizontalAlignment="Right"
                                         BorderThickness="1"
                                         ItemsSource="{Binding GetFontFamilys}"
-                                        SelectedValue="{Binding CustomFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        SelectedValue="{Binding CustomFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel />
+                                            </ItemsPanelTemplate>
+                                        </ComboBox.ItemsPanel>
+                                    </ComboBox>
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
