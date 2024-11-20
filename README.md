@@ -22,6 +22,7 @@
 <p align="center">A <strong>ready-to-use</strong>, <strong>ready-to-go</strong> translation and OCR tool developed with WPF.
 </p>
 
+**!!!软件开源且免费，如有特殊定制化需求，本人接受付费开发 [邮件](zggsong@foxmail.com)!!!***
 
 **English** | [**简体中文**](./README_ZH.md)
 
