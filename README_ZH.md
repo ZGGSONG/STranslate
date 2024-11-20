@@ -71,6 +71,10 @@
 | :--: | :--: |
 |![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |
 
+## 其他
+
+**软件开源且免费，如有特殊定制化需求，本人接受付费开发 [邮件](zggsong@foxmail.com)**
+
 ## 作者
 
 **STranslate** © [zggsong](https://github.com/zggsong), Released under the [MIT](https://github.com/ZGGSONG/STranslate/blob/main/LICENSE) License.<br>
