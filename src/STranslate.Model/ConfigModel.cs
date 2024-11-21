@@ -45,6 +45,11 @@ public class ConfigModel
     public bool IsOcrAutoCopyText { get; set; }
 
     /// <summary>
+    ///     截图OCR时是否自动复制文本
+    /// </summary>
+    public bool IsScreenshotOcrAutoCopyText { get; set; }
+
+    /// <summary>
     ///     是否调整完语句后翻译
     /// </summary>
     public bool IsAdjustContentTranslate { get; set; }
@@ -475,6 +480,7 @@ public class ConfigModel
             IsFollowMouse = IsFollowMouse,
             CloseUIOcrRetTranslate = CloseUIOcrRetTranslate,
             IsOcrAutoCopyText = IsOcrAutoCopyText,
+            IsScreenshotOcrAutoCopyText = IsScreenshotOcrAutoCopyText,
             IsAdjustContentTranslate = IsAdjustContentTranslate,
             IsRemoveLineBreakGettingWords = IsRemoveLineBreakGettingWords,
             IsRemoveLineBreakGettingWordsOCR = IsRemoveLineBreakGettingWordsOCR,

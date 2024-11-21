@@ -226,6 +226,7 @@ public class ConfigHelper
         CurrentConfig.IsFollowMouse = model.IsFollowMouse;
         CurrentConfig.CloseUIOcrRetTranslate = model.CloseUIOcrRetTranslate;
         CurrentConfig.IsOcrAutoCopyText = model.IsOcrAutoCopyText;
+        CurrentConfig.IsScreenshotOcrAutoCopyText = model.IsScreenshotOcrAutoCopyText;
         CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
         CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
         CurrentConfig.IsRemoveLineBreakGettingWordsOCR = model.IsRemoveLineBreakGettingWordsOCR;
@@ -779,6 +780,7 @@ public class ConfigHelper
             IsStartup = false,
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
+            IsScreenshotOcrAutoCopyText = false,
             CloseUIOcrRetTranslate = false,
             IsAdjustContentTranslate = false,
             IsRemoveLineBreakGettingWords = false,

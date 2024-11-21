@@ -116,6 +116,8 @@ public partial class CommonViewModel : ObservableObject
 
     [ObservableProperty] private bool _isOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsOcrAutoCopyText ?? false;
 
+    [ObservableProperty] private bool _isScreenshotOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsScreenshotOcrAutoCopyText ?? false;
+
     /// <summary>
     ///     输出界面是否显示Prompt切换
     /// </summary>
@@ -483,6 +485,7 @@ public partial class CommonViewModel : ObservableObject
         IsFollowMouse = ConfigHelper.CurrentConfig?.IsFollowMouse ?? false;
         CloseUIOcrRetTranslate = ConfigHelper.CurrentConfig?.CloseUIOcrRetTranslate ?? false;
         IsOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsOcrAutoCopyText ?? false;
+        IsScreenshotOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsScreenshotOcrAutoCopyText ?? false;
         IsAdjustContentTranslate = ConfigHelper.CurrentConfig?.IsAdjustContentTranslate ?? false;
         IsRemoveLineBreakGettingWords = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
         IsRemoveLineBreakGettingWordsOCR = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;

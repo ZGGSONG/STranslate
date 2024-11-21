@@ -516,6 +516,15 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="截图翻译识别文本后自动复制" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图翻译识别文本后自动复制文本内容" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding IsScreenshotOcrAutoCopyText}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="OCR后自动复制" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR界面识别文本后自动复制文本内容" />
                                     <ToggleButton
