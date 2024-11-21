@@ -407,8 +407,8 @@ public partial class MainViewModel : ObservableObject
         common.IsOnlyShowRet = !common.IsOnlyShowRet;
         common.SaveCommand.Execute(null);
 
-        var msg = (common.IsOnlyShowRet ? "隐藏" : "显示") + "非输出部分";
-        ToastHelper.Show(msg);
+        //var msg = (common.IsOnlyShowRet ? "隐藏" : "显示") + "非输出部分";
+        //ToastHelper.Show(msg);
     }
 
     private void OnWordsSelectedChanged(string content)
