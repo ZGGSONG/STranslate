@@ -532,7 +532,7 @@ public partial class NotifyIconViewModel : ObservableObject
             if (string.IsNullOrWhiteSpace(_inputViewModel.InputContent))
                 _inputViewModel.InputContent = "";
             _inputViewModel.InputContent += getText;
-            view.InputView.InputTB.CaretIndex = _inputViewModel.InputContent.Length;
+            Singleton<MainViewModel>.Instance.OnInputTbUpdateCaretIndex?.Invoke();
             _inputViewModel.TranslateCommand.Execute(null);
         }
         catch (OperationCanceledException)
@@ -610,7 +610,10 @@ public partial class NotifyIconViewModel : ObservableObject
         SpecialWindowActiveHandler(view);
 
         if (view is MainView mView)
+        {
             mView.WindowAnimation();
+            Singleton<MainViewModel>.Instance.OnInputTbUpdateCaretIndex?.Invoke();
+        }
         else
             view.Show();
         view.Activate();

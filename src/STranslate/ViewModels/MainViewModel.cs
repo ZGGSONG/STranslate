@@ -51,6 +51,8 @@ public partial class MainViewModel : ObservableObject
 
     public bool IsHotkeyCopy = false;
 
+    public Action? OnInputTbUpdateCaretIndex;
+
     public MainViewModel()
     {
 #if DEBUG
@@ -438,6 +440,7 @@ public partial class MainViewModel : ObservableObject
         }
 
         InputVM.InputContent += content;
+        OnInputTbUpdateCaretIndex?.Invoke();
 
         //如果重复执行先取消上一步操作
         InputVM.Save2VocabularyBookCancelCommand.Execute(null);

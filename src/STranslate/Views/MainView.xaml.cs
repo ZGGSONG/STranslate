@@ -18,14 +18,17 @@ public partial class MainView : Window
 {
     private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
     private readonly MainViewModel _vm = Singleton<MainViewModel>.Instance;
-
+    private readonly TextBox _inputTb;
     public MainView()
     {
         DataContext = _vm;
 
-        _vm.NotifyIconVM.OnExit += UnLoadPosition;
-
         InitializeComponent();
+
+        _inputTb = (TextBox)InputView.FindName("InputTB");
+
+        _vm.NotifyIconVM.OnExit += UnLoadPosition;
+        _vm.OnInputTbUpdateCaretIndex = () => _inputTb.CaretIndex = _inputTb.Text.Length;
     }
 
     /// <summary>
