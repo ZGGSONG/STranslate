@@ -7,6 +7,30 @@ namespace STranslate.Util;
 
 public static class ClipboardUtil
 {
+    # region Const
+    private static readonly uint[] SupportedFormats =
+    [
+        CF_UNICODETEXT,
+        CF_TEXT,
+        CustomFormat1,
+        CustomFormat2,
+        CustomFormat3,
+        CustomFormat4,
+        CustomFormat5,
+        CF_DIB,
+        CF_OEMTEXT
+    ];
+
+    private const uint CF_TEXT = 1; // ANSI 文本
+    private const uint CF_UNICODETEXT = 13; // Unicode 文本
+    private const uint CF_OEMTEXT = 7; // OEM 文本
+    private const uint CF_DIB = 16; // 位图
+    private const uint CustomFormat1 = 49499; // 自定义格式 1
+    private const uint CustomFormat2 = 49290; // 自定义格式 2
+    private const uint CustomFormat3 = 49504; // 自定义格式 3
+    private const uint CustomFormat4 = 50103; // 自定义格式 4
+    private const uint CustomFormat5 = 50104; // 自定义格式 5
+    # endregion
     #region UserDefine
 
     /// <summary>
@@ -212,7 +236,8 @@ public static class ClipboardUtil
 
     public static string? GetText()
     {
-        if (!IsClipboardFormatAvailable(cfUnicodeText)) return null;
+        var support= SupportedFormats.Any(IsClipboardFormatAvailable);
+        if (!support) return null;
         TryOpenClipboard();
 
         return InnerGet();
@@ -220,32 +245,47 @@ public static class ClipboardUtil
 
     private static string? InnerGet()
     {
-        IntPtr handle = default;
+        if (!OpenClipboard(IntPtr.Zero)) return null;
+        
+        IntPtr handle = IntPtr.Zero;
+        IntPtr pointer = IntPtr.Zero;
 
-        IntPtr pointer = default;
         try
         {
-            handle = GetClipboardData(cfUnicodeText);
-            if (handle == default) return null;
 
-            pointer = GlobalLock(handle);
-            if (pointer == default) return null;
+            foreach (var format in SupportedFormats)
+            {
+                handle = GetClipboardData(format);
+                if (handle == IntPtr.Zero) continue;
 
-            var size = GlobalSize(handle);
-            var buff = new byte[size];
+                pointer = GlobalLock(handle);
+                if (pointer == IntPtr.Zero) continue;
 
-            Marshal.Copy(pointer, buff, 0, size);
+                int size = (int)GlobalSize(handle);
+                if (size <= 0) continue;
 
-            var result = Encoding.Unicode.GetString(buff);
-            int nullCharIndex = result.IndexOf('\0');
-            return nullCharIndex == -1 ? result : result[..nullCharIndex];
+                byte[] buffer = new byte[size];
+                Marshal.Copy(pointer, buffer, 0, size);
+
+                // 尝试用不同编码读取
+                Encoding encoding = format switch
+                {
+                    13 => Encoding.Unicode, // CF_UNICODETEXT
+                    1 => Encoding.Default, // CF_TEXT
+                    _ => Encoding.UTF8 // 自定义格式可能是 UTF-8
+                };
+
+                string result = encoding.GetString(buffer).TrimEnd('\0');
+                return result; // 读取第一个有效格式后返回
+            }
         }
         finally
         {
-            if (pointer != default) GlobalUnlock(handle);
-
+            if (pointer != IntPtr.Zero) GlobalUnlock(handle);
             CloseClipboard();
         }
+        
+        return null;
     }
 
     private const uint cfUnicodeText = 13;
