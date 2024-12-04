@@ -8,6 +8,7 @@ namespace STranslate.Util;
 public static class ClipboardUtil
 {
     # region Const
+
     private static readonly uint[] SupportedFormats =
     [
         CF_UNICODETEXT,
@@ -30,7 +31,9 @@ public static class ClipboardUtil
     private const uint CustomFormat3 = 49504; // 自定义格式 3
     private const uint CustomFormat4 = 50103; // 自定义格式 4
     private const uint CustomFormat5 = 50104; // 自定义格式 5
+
     # endregion
+
     #region UserDefine
 
     /// <summary>
@@ -88,7 +91,7 @@ public static class ClipboardUtil
         await Task.Delay(interval);
 
         // 从剪贴板获取文本
-        return await GetTextAsync(cancellation);
+        return GetText();
     }
 
     /// <summary>
@@ -97,10 +100,11 @@ public static class ClipboardUtil
     /// <param name="interval">获取旧文本和新文本之间的时间延迟（以毫秒为单位）</param>
     /// <param name="cancellation">可以用来取消工作的取消标记</param>
     /// <returns>如果新文本与旧文本不同，则返回新文本；否则，返回 null。</returns>
-    public static async Task<string?> GetSelectedTextDiffAsync(int interval = 0, CancellationToken cancellation = default)
+    public static async Task<string?> GetSelectedTextDiffAsync(int interval = 0,
+        CancellationToken cancellation = default)
     {
         // 获取当前剪贴板的文本
-        var oldTxt = await GetTextAsync(cancellation);
+        var oldTxt = GetText();
 
         // 模拟按下 Ctrl+C 复制文本到剪贴板
         SendCtrlCV();
@@ -109,7 +113,7 @@ public static class ClipboardUtil
         await Task.Delay(interval);
 
         // 获取新的剪贴板文本
-        var newTxt = await GetTextAsync(cancellation);
+        var newTxt = GetText();
 
         // 如果新的剪贴板文本与旧的不同，则返回新的剪贴板文本，否则返回 null
         return newTxt == oldTxt ? null : newTxt?.Trim();
@@ -150,13 +154,6 @@ public static class ClipboardUtil
 
     // https://github.com/CopyText/TextCopy/blob/main/src/TextCopy/WindowsClipboard.cs
 
-    public static async Task SetTextAsync(string text, CancellationToken cancellation)
-    {
-        await TryOpenClipboardAsync(cancellation);
-
-        InnerSet(text);
-    }
-
     public static void SetText(string text)
     {
         TryOpenClipboard();
@@ -188,7 +185,7 @@ public static class ClipboardUtil
                 GlobalUnlock(target);
             }
 
-            if (SetClipboardData(cfUnicodeText, hGlobal) == default) ThrowWin32();
+            if (SetClipboardData(CF_UNICODETEXT, hGlobal) == default) ThrowWin32();
 
             hGlobal = default;
         }
@@ -197,19 +194,6 @@ public static class ClipboardUtil
             if (hGlobal != default) Marshal.FreeHGlobal(hGlobal);
 
             CloseClipboard();
-        }
-    }
-
-    private static async Task TryOpenClipboardAsync(CancellationToken cancellation = default)
-    {
-        var num = 10;
-        while (true)
-        {
-            if (OpenClipboard(default)) break;
-
-            if (--num == 0) ThrowWin32();
-
-            await Task.Delay(100);
         }
     }
 
@@ -226,17 +210,9 @@ public static class ClipboardUtil
         }
     }
 
-    public static async Task<string?> GetTextAsync(CancellationToken cancellation)
-    {
-        if (!IsClipboardFormatAvailable(cfUnicodeText)) return null;
-        await TryOpenClipboardAsync(cancellation);
-
-        return InnerGet();
-    }
-
     public static string? GetText()
     {
-        var support= SupportedFormats.Any(IsClipboardFormatAvailable);
+        var support = SupportedFormats.Any(IsClipboardFormatAvailable);
         if (!support) return null;
         TryOpenClipboard();
 
@@ -245,14 +221,11 @@ public static class ClipboardUtil
 
     private static string? InnerGet()
     {
-        if (!OpenClipboard(IntPtr.Zero)) return null;
-        
-        IntPtr handle = IntPtr.Zero;
-        IntPtr pointer = IntPtr.Zero;
+        var handle = IntPtr.Zero;
+        var pointer = IntPtr.Zero;
 
         try
         {
-
             foreach (var format in SupportedFormats)
             {
                 handle = GetClipboardData(format);
@@ -261,22 +234,22 @@ public static class ClipboardUtil
                 pointer = GlobalLock(handle);
                 if (pointer == IntPtr.Zero) continue;
 
-                int size = (int)GlobalSize(handle);
+                var size = GlobalSize(handle);
                 if (size <= 0) continue;
 
-                byte[] buffer = new byte[size];
+                var buffer = new byte[size];
                 Marshal.Copy(pointer, buffer, 0, size);
 
                 // 尝试用不同编码读取
-                Encoding encoding = format switch
+                var encoding = format switch
                 {
                     13 => Encoding.Unicode, // CF_UNICODETEXT
                     1 => Encoding.Default, // CF_TEXT
                     _ => Encoding.UTF8 // 自定义格式可能是 UTF-8
                 };
 
-                var result = Encoding.Unicode.GetString(buffer);
-                int nullCharIndex = result.IndexOf('\0');
+                var result = encoding.GetString(buffer);
+                var nullCharIndex = result.IndexOf('\0');
                 return nullCharIndex == -1 ? result : result[..nullCharIndex];
             }
         }
@@ -285,11 +258,9 @@ public static class ClipboardUtil
             if (pointer != IntPtr.Zero) GlobalUnlock(handle);
             CloseClipboard();
         }
-        
+
         return null;
     }
-
-    private const uint cfUnicodeText = 13;
 
     private static void ThrowWin32()
     {
