@@ -275,8 +275,9 @@ public static class ClipboardUtil
                     _ => Encoding.UTF8 // 自定义格式可能是 UTF-8
                 };
 
-                string result = encoding.GetString(buffer).TrimEnd('\0');
-                return result; // 读取第一个有效格式后返回
+                var result = Encoding.Unicode.GetString(buffer);
+                int nullCharIndex = result.IndexOf('\0');
+                return nullCharIndex == -1 ? result : result[..nullCharIndex];
             }
         }
         finally
