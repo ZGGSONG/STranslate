@@ -709,7 +709,12 @@ public class ConfigHelper
     /// <param name="isStayView"></param>
     public void MainViewStayOperate(bool isStayView)
     {
-        Application.Current.MainWindow!.ShowInTaskbar = isStayView;
+        var window = Application.Current.MainWindow ?? Application.Current.Windows.OfType<MainView>().First();
+        window.ShowInTaskbar = isStayView;
+        if (isStayView)
+            WindowHelper.ShowInAltTab(window);
+        else
+            WindowHelper.HideFromAltTab(window);
     }
 
     /// <summary>
