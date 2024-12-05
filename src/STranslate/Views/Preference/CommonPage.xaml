@@ -743,6 +743,32 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Left" Text="输入框高度[立即生效]" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入框高度调整" />
+                                    <StackPanel
+                                        HorizontalAlignment="Right"
+                                        DockPanel.Dock="Right"
+                                        FlowDirection="RightToLeft"
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="75"
+                                            Margin="10,0,0,0"
+                                            FontWeight="Black"
+                                            Text="{Binding InputViewHeight, StringFormat={}{0:0}}" />
+                                        <Slider
+                                            Height="14"
+                                            MinWidth="260"
+                                            FlowDirection="LeftToRight"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="200"
+                                            Minimum="20"
+                                            TickFrequency="10"
+                                            TickPlacement="None"
+                                            Value="{Binding InputViewHeight, Mode=TwoWay}" />
+                                    </StackPanel>
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="窗口跟随鼠标(输入、截图、划词和监听剪贴板)" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置" />
                                     <ToggleButton

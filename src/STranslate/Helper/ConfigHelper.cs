@@ -270,6 +270,7 @@ public class ConfigHelper
         CurrentConfig.DisableGlobalHotkeys = model.DisableGlobalHotkeys;
         CurrentConfig.MainViewMaxHeight = model.MainViewMaxHeight;
         CurrentConfig.MainViewWidth = model.MainViewWidth;
+        CurrentConfig.InputViewHeight = model.InputViewHeight;
         CurrentConfig.MainViewShadow = model.MainViewShadow;
         CurrentConfig.IsPromptToggleVisible = model.IsPromptToggleVisible;
         CurrentConfig.IsShowSnakeCopyBtn = model.IsShowSnakeCopyBtn;
@@ -828,6 +829,7 @@ public class ConfigHelper
             DisableGlobalHotkeys = false,
             MainViewMaxHeight = 840,
             MainViewWidth = 460,
+            InputViewHeight = 70,
             MainViewShadow = false,
             IsPromptToggleVisible = true,
             IsShowSnakeCopyBtn = false,

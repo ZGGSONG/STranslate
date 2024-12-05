@@ -528,6 +528,7 @@ public partial class CommonViewModel : ObservableObject
         DisableGlobalHotkeys = ConfigHelper.CurrentConfig?.DisableGlobalHotkeys ?? false;
         MainViewMaxHeight = ConfigHelper.CurrentConfig?.MainViewMaxHeight ?? 840;
         MainViewWidth = ConfigHelper.CurrentConfig?.MainViewWidth ?? 460;
+        InputViewHeight = ConfigHelper.CurrentConfig?.InputViewHeight ?? 70;
         MainViewShadow = ConfigHelper.CurrentConfig?.MainViewShadow ?? false;
         IsPromptToggleVisible = ConfigHelper.CurrentConfig?.IsPromptToggleVisible ?? true;
         IsShowSnakeCopyBtn = ConfigHelper.CurrentConfig?.IsShowSnakeCopyBtn ?? true;
@@ -602,6 +603,11 @@ public partial class CommonViewModel : ObservableObject
     ///     主界面最大高度
     /// </summary>
     [ObservableProperty] private double _mainViewMaxHeight = ConfigHelper.CurrentConfig?.MainViewMaxHeight ?? 840;
+    
+    /// <summary>
+    ///     输入界面高度
+    /// </summary>
+    [ObservableProperty] private double _inputViewHeight = ConfigHelper.CurrentConfig?.InputViewHeight ?? 70;
 
     /// <summary>
     ///     主界面宽度

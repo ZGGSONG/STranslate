@@ -13,7 +13,7 @@
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="10,10,10,0" />
-        <Setter Property="MinHeight" Value="70" />
+        <Setter Property="MinHeight" Value="20" />
         <Setter Property="MaxHeight" Value="200" />
         <Setter Property="AcceptsReturn" Value="True" />
         <Setter Property="TextWrapping" Value="Wrap" />

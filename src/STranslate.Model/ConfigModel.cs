@@ -305,6 +305,11 @@ public class ConfigModel
     public double MainViewWidth { get; set; } = 460;
 
     /// <summary>
+    ///     输入框高度
+    /// </summary>
+    public double InputViewHeight { get; set; } = 70;
+
+    /// <summary>
     ///     主窗口阴影
     ///     * 比较损耗性能 实测多占用30MB内存
     /// </summary>
@@ -533,6 +538,7 @@ public class ConfigModel
             DisableGlobalHotkeys = DisableGlobalHotkeys,
             MainViewMaxHeight = MainViewMaxHeight,
             MainViewWidth = MainViewWidth,
+            InputViewHeight = InputViewHeight,
             MainViewShadow = MainViewShadow,
             IsPromptToggleVisible = IsPromptToggleVisible,
             IsShowSnakeCopyBtn = IsShowSnakeCopyBtn,
