@@ -303,7 +303,7 @@ public class ConfigHelper
         StartupOperate(CurrentConfig.IsStartup);
         if (!isThemeSame)
         {
-            await ThemeOperateAsync(CurrentConfig.ThemeType);
+            await Task.Run(() => ThemeOperate(CurrentConfig.ThemeType));
         }
         ProxyOperate(
             CurrentConfig.ProxyMethod,
@@ -606,11 +606,6 @@ public class ConfigHelper
     private void ThemeOperate(ThemeType themeType)
     {
         Singleton<ThemeHelper>.Instance.SetTheme(themeType);
-    }
-    
-    private async Task ThemeOperateAsync(ThemeType themeType)
-    {
-        await Task.Run(() => Singleton<ThemeHelper>.Instance.SetTheme(themeType));
     }
 
     /// <summary>
