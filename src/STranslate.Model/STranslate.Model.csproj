@@ -4,8 +4,11 @@
     <TargetFramework>net8.0-windows</TargetFramework>
   </PropertyGroup>
 
+  <!--// Release 模式下禁用 Debug 信息 //-->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
     <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
