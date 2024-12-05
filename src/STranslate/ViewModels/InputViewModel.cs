@@ -122,8 +122,15 @@ public partial class InputViewModel : ObservableObject
 
     internal void InvokeTimer(bool value)
     {
-        _autoTranslateTimer =
-            value ? new Timer(AutoTranslate, null, Timeout.Infinite, Timeout.Infinite) : null;
+        if (value)
+        {
+            _autoTranslateTimer = new Timer(AutoTranslate, null, Timeout.Infinite, Timeout.Infinite);
+            return;
+        }
+
+        _autoTranslateTimer?.Dispose();
+        _autoTranslateTimer = null;
+
     }
 
     private async void AutoTranslate(object? _)
