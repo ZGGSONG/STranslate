@@ -448,7 +448,7 @@ public partial class CommonViewModel : ObservableObject
     public event Action<bool, bool, bool>? OnBooleansChanged;
 
     [RelayCommand]
-    private Task SaveAsync()
+    private async Task SaveAsync()
     {
         // 保存时如果未开启丢失焦点不隐藏则关闭最小化按钮配置
         if (!StayMainViewWhenLoseFocus && ShowMinimalBtn)
@@ -460,7 +460,7 @@ public partial class CommonViewModel : ObservableObject
             LogService.Logger.Info("关闭丢失焦点不隐藏取消显示最小化按钮");
         }
 
-        if (ConfigHelper.WriteConfig(this))
+        if (await ConfigHelper.WriteConfigAsync(this))
         {
             OnBooleansChanged?.Invoke(IncrementalTranslation, AutoTranslate, IsOnlyShowRet);
             ToastHelper.Show("保存常规配置成功", WindowType.Preference);
@@ -470,8 +470,6 @@ public partial class CommonViewModel : ObservableObject
             LogService.Logger.Debug($"保存常规配置失败，{JsonConvert.SerializeObject(this)}");
             ToastHelper.Show("保存常规配置失败", WindowType.Preference);
         }
-
-        return Task.CompletedTask;
     }
 
     [RelayCommand]
