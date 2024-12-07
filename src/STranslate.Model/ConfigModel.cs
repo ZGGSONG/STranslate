@@ -307,7 +307,9 @@ public class ConfigModel
     /// <summary>
     ///     输入框高度
     /// </summary>
-    public double InputViewHeight { get; set; } = 70;
+    public double InputViewMaxHeight { get; set; } = 200;
+    
+    public double InputViewMinHeight { get; set; } = 70;
 
     /// <summary>
     ///     主窗口阴影
@@ -538,7 +540,8 @@ public class ConfigModel
             DisableGlobalHotkeys = DisableGlobalHotkeys,
             MainViewMaxHeight = MainViewMaxHeight,
             MainViewWidth = MainViewWidth,
-            InputViewHeight = InputViewHeight,
+            InputViewMaxHeight = InputViewMaxHeight,
+            InputViewMinHeight = InputViewMinHeight,
             MainViewShadow = MainViewShadow,
             IsPromptToggleVisible = IsPromptToggleVisible,
             IsShowSnakeCopyBtn = IsShowSnakeCopyBtn,

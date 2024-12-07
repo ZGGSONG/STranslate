@@ -29,7 +29,8 @@
             </Grid.RowDefinitions>
             <common:PlaceholderTextBox
                 x:Name="InputTB"
-                Height="{Binding CommonVm.InputViewHeight}"
+                MinHeight="{Binding CommonVm.InputViewMinHeight}"
+                MaxHeight="{Binding CommonVm.InputViewMaxHeight}"
                 Placeholder="{Binding Placeholder}"
                 PreviewMouseWheel="InputTB_PreviewMouseWheel"
                 Style="{DynamicResource TextBoxInputStyle}"

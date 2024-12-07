@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
@@ -745,27 +746,19 @@
                                 <DockPanel Margin="20,10">
                                     <TextBlock HorizontalAlignment="Left" Text="输入框高度[立即生效]" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入框高度调整" />
-                                    <StackPanel
+                                    <control:SilderArrange
+                                        MinWidth="335"
+                                        Margin="0,0,10,0"
                                         HorizontalAlignment="Right"
                                         DockPanel.Dock="Right"
-                                        FlowDirection="RightToLeft"
-                                        Orientation="Horizontal">
-                                        <TextBlock
-                                            Width="75"
-                                            Margin="10,0,0,0"
-                                            FontWeight="Black"
-                                            Text="{Binding InputViewHeight, StringFormat={}{0:0}}" />
-                                        <Slider
-                                            Height="14"
-                                            MinWidth="260"
-                                            FlowDirection="LeftToRight"
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="200"
-                                            Minimum="20"
-                                            TickFrequency="10"
-                                            TickPlacement="None"
-                                            Value="{Binding InputViewHeight, Mode=TwoWay}" />
-                                    </StackPanel>
+                                        EndValue="{Binding InputViewMaxHeight}"
+                                        FlowDirection="LeftToRight"
+                                        Maximum="{Binding MainViewMaxHeight}"
+                                        Minimum="20"
+                                        SilderWidth="200"
+                                        SliderTickFrequency="10"
+                                        SliderTickPlacement="None"
+                                        StartValue="{Binding InputViewMinHeight}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
