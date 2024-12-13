@@ -19,8 +19,11 @@
 </p>
 <h1 align="center">STranslate</h1>
 
-<p align="center">A <strong>ready-to-use</strong>, <strong>ready-to-go</strong> translation and OCR tool developed with WPF.
-</p>
+<p align="center">A <strong>ready-to-go</strong> translation and OCR tool developed with WPF.</p>
+
+---
+
+<small>With the update of features and the limitations of free services, it is recommended to apply for the service and make the corresponding configurations to obtain a better user experience.</small>
 
 **English** | [**简体中文**](./README_ZH.md)
 

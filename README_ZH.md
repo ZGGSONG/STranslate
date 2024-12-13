@@ -19,8 +19,11 @@
 </p>
 <h1 align="center">STranslate</h1>
 
-<p align="center">WPF 开发的一款<strong>即开即用</strong>、<strong>即用即走</strong>的翻译、OCR工具
-</p>
+<p align="center">WPF 开发的一款<strong>即用即走</strong>的翻译、OCR工具</p>
+
+---
+
+<small>随着功能的更新以及免费服务的限制，建议申请服务并进行相应的配置以获得更好的使用体验</small>
 
 [**English**](./README.md) | **简体中文**
 
