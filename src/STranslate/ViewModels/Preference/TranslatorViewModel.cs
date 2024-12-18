@@ -208,8 +208,6 @@ public partial class TranslatorViewModel : ObservableObject
         CurTransServiceList.Remove(service);
 
         ResetView(ActionType.Delete);
-
-        ToastHelper.Show("删除成功", WindowType.Preference);
     }
 
     [RelayCommand]
