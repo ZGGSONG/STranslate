@@ -846,7 +846,7 @@ public class ConfigHelper
             MainViewMaxHeight = 840,
             MainViewWidth = 460,
             InputViewMaxHeight = 200,
-            InputViewMinHeight = 200,
+            InputViewMinHeight = 70,
             MainViewShadow = false,
             IsPromptToggleVisible = true,
             IsShowSnakeCopyBtn = false,
