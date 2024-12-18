@@ -2,7 +2,7 @@
 
 namespace STranslate.Model;
 
-public partial class ReplaceProp : ObservableObject, ICloneable
+public partial class ReplaceProp : ObservableObject
 {
     [ObservableProperty] private ITranslator? _activeService;
 
@@ -33,7 +33,7 @@ public partial class ReplaceProp : ObservableObject, ICloneable
     /// </summary>
     [ObservableProperty] private LangEnum _targetLangIfSourceNotZh = LangEnum.zh_cn;
 
-    public object Clone()
+    public ReplaceProp Clone()
     {
         return new ReplaceProp
         {

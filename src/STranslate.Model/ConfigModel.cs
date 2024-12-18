@@ -567,7 +567,7 @@ public class ConfigModel
             SourceLangIfAuto = SourceLangIfAuto,
             TargetLangIfSourceZh = TargetLangIfSourceZh,
             TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
-            ReplaceProp = (ReplaceProp)ReplaceProp.Clone(),
+            ReplaceProp = ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
             OCRList = OCRList?.DeepCopy(),

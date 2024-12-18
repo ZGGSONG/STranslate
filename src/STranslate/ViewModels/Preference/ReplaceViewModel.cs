@@ -14,19 +14,28 @@ public partial class ReplaceViewModel : ObservableObject
     private readonly ConfigHelper _configHelper = Singleton<ConfigHelper>.Instance;
     private readonly TranslatorViewModel _translateVm = Singleton<TranslatorViewModel>.Instance;
     public InputViewModel InputVm => Singleton<InputViewModel>.Instance;
+    private Guid? deletedSvc;
     public ReplaceViewModel()
     {
         // View 上绑定结果从List中获取
         ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
 
-        _translateVm.PropertyChanged += (sender, args) =>
+        _translateVm.CurTransServiceList.ListChanged += (sender, args) =>
         {
-            // 检查是否被删除
-            if (sender is not BindingList<ITranslator> services || ReplaceProp.ActiveService is null) return;
-
-            // 当服务列表中有增删时检查当前活动服务是否被删除
-            if (services.All(x => x.Identify != ReplaceProp.ActiveService?.Identify))
-                ReplaceProp.ActiveService = null;
+            switch (args.ListChangedType)
+            {
+                case ListChangedType.ItemAdded:
+                    var svc = _translateVm.CurTransServiceList[args.NewIndex];
+                    if (svc.Identify == deletedSvc)
+                    {
+                        ReplaceProp.ActiveService = svc;
+                        deletedSvc = null;
+                    }
+                    break;
+                case ListChangedType.ItemDeleted:
+                    deletedSvc = ReplaceProp.ActiveService?.Identify;
+                    break;
+            }
         };
     }
 
@@ -140,7 +149,7 @@ public partial class ReplaceViewModel : ObservableObject
 
     #region Property
 
-    [ObservableProperty] private BindingList<ITranslator> _allServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Clone();
+    [ObservableProperty] private BindingList<ITranslator> _allServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList;
 
     [ObservableProperty] private ReplaceProp _replaceProp = Singleton<ConfigHelper>.Instance.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
 
