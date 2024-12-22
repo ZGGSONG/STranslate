@@ -347,8 +347,7 @@ public partial class TranslatorDeepSeek : TranslatorBase, ITranslatorLlm
 
         UriBuilder uriBuilder = new(Url);
 
-        // 如果路径为空或者不是有效的API路径结尾，使用默认路径
-        if (!uriBuilder.Path.EndsWith("/chat/completions") && uriBuilder.Path == "/")
+        if (uriBuilder.Path == "/")
             uriBuilder.Path = "/chat/completions";
 
         // 选择模型

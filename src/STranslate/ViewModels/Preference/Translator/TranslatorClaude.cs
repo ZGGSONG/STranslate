@@ -349,8 +349,7 @@ public partial class TranslatorClaude : TranslatorBase, ITranslatorLlm
 
         UriBuilder uriBuilder = new(Url);
 
-        // 如果路径为空或者不是有效的API路径结尾，使用默认路径
-        if (!uriBuilder.Path.EndsWith("/v1/messages") && uriBuilder.Path == "/")
+        if (uriBuilder.Path == "/")
             uriBuilder.Path = "/v1/messages";
 
         // 选择模型

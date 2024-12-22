@@ -350,8 +350,8 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
         UriBuilder uriBuilder = new(Url);
 
         // 兼容旧版API: https://platform.openai.com/docs/guides/text-generation
-        // 如果路径为空或者不是有效的API路径结尾，使用默认路径
-        if (!uriBuilder.Path.EndsWith("/v1/chat/completions") && !uriBuilder.Path.EndsWith("/v1/completions") && uriBuilder.Path == "/")
+        // 如果路径不是有效的API路径结尾，使用默认路径
+        if (uriBuilder.Path == "/")
             uriBuilder.Path = "/v1/chat/completions";
 
         // 选择模型
