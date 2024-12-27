@@ -19,13 +19,6 @@ public class InputSimulatorHelper
         // 检查内容是否为空或仅包含空白字符
         if (string.IsNullOrEmpty(content)) return;
 
-        // 判断是否使用粘贴输出
-        if (Singleton<ConfigHelper>.Instance.CurrentConfig?.UsePasteOutput ?? false)
-        {
-            PrintTextWithClipboard(content);
-            return;
-        }
-
         // 分割字符串为多行
         var lines = content.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
 
@@ -49,11 +42,13 @@ public class InputSimulatorHelper
 
     /// <summary>
     ///     使用粘贴输出
-    ///     * 避免部分用户无法正常输出日文的问题
+    ///     * 避免部分用户无法正常输出的问题
     /// </summary>
     /// <param name="content"></param>
-    private static void PrintTextWithClipboard(string content)
+    public static void PrintTextWithClipboard(string content)
     {
+        // 检查内容是否为空或仅包含空白字符
+        if (string.IsNullOrEmpty(content)) return;
         ClipboardHelper.Copy(content);
         ClipboardUtil.SendCtrlCV(false);
     }

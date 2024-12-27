@@ -124,25 +124,38 @@ public partial class ReplaceViewModel : ObservableObject
         var ret = await ReplaceProp.ActiveService!.TranslateAsync(req, CancellationToken.None);
 
         if (!ret.IsSuccess) throw new Exception(ret.Result);
-        InputSimulatorHelper.PrintText(ret.Result);
+
+
+        // 判断是否使用粘贴输出
+        if (_configHelper.CurrentConfig?.UsePasteOutput ?? false)
+            InputSimulatorHelper.PrintTextWithClipboard(ret.Result);
+        else
+            InputSimulatorHelper.PrintText(ret.Result);
     }
 
     private async Task TranslateLlmAsync(RequestModel req, CancellationToken token)
     {
-        var count = 0;
+        var result = "";
         try
         {
             await ReplaceProp.ActiveService!.TranslateAsync(req,
                 msg =>
                 {
-                    count += msg.Length; // 计算已输出长度
+                    result += msg;
+                    if (_configHelper.CurrentConfig?.UsePasteOutput ?? false)
+                        return;
+
                     InputSimulatorHelper.PrintText(msg);
                 }, token);
+
+            // 回调结束后判断是否需要使用剪贴板输出
+            if (_configHelper.CurrentConfig?.UsePasteOutput ?? false)
+                InputSimulatorHelper.PrintTextWithClipboard(result);
         }
         catch (Exception)
         {
             // 出错则移除已输出内容
-            InputSimulatorHelper.Backspace(count);
+            InputSimulatorHelper.Backspace(result.Length);
             throw;
         }
     }
