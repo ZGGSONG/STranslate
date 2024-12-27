@@ -327,15 +327,6 @@
                                         </ComboBox.ItemsSource>
                                     </ComboBox>
                                 </DockPanel>
-
-                                <DockPanel Margin="20,10">
-                                    <TextBlock Text="使用剪贴板插入结果" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="插入结果不完整时，可尝试启用此配置替代流式输出" />
-                                    <ToggleButton
-                                        Height="26"
-                                        HorizontalAlignment="Right"
-                                        IsChecked="{Binding UsePasteOutput}" />
-                                </DockPanel>
                             </StackPanel>
                         </Border>
                     </Expander>
@@ -499,7 +490,16 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="净化取词" />
+                                    <TextBlock Text="替换翻译使用剪贴板输出" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="替换翻译输出结果不完整时，可尝试启用此配置替代模拟键盘输出" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding UsePasteOutput}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="自动净化取词(所有OCR场景)" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="所有取词(包括OCR)自动整理格式，主要针对PDF移除多余换行" />
                                     <ToggleButton
                                         Height="26"

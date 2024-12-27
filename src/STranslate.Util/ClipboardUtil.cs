@@ -123,7 +123,7 @@ public static class ClipboardUtil
     ///     模拟按下 Ctrl+C 或 Ctrl+V 的键盘操作。
     /// </summary>
     /// <param name="isCopy">如果为 true，则模拟 Ctrl+C 操作；否则模拟 Ctrl+V 操作。</param>
-    private static void SendCtrlCV(bool isCopy = true)
+    public static void SendCtrlCV(bool isCopy = true)
     {
         uint KEYEVENTF_KEYUP = 2;
 

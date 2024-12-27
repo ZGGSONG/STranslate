@@ -377,7 +377,7 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     ///     调用系统剪贴板来插入结果
     /// </summary>
-    [ObservableProperty] private bool _UsePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
+    [ObservableProperty] private bool _usePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
 
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
