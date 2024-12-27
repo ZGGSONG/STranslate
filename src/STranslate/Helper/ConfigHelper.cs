@@ -298,6 +298,7 @@ public class ConfigHelper
         CurrentConfig.SourceLangIfAuto = model.SourceLangIfAuto;
         CurrentConfig.TargetLangIfSourceZh = model.TargetLangIfSourceZh;
         CurrentConfig.TargetLangIfSourceNotZh = model.TargetLangIfSourceNotZh;
+        CurrentConfig.UsePasteOutput = model.UsePasteOutput;
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         //重新执行必要操作
@@ -405,7 +406,7 @@ public class ConfigHelper
             };
             var content = File.ReadAllText(configPath);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
-                         throw new Exception("反序列化失败...");
+                        throw new Exception("反序列化失败...");
             Decryption(config);
             return true;
         }
@@ -431,7 +432,7 @@ public class ConfigHelper
             };
             var content = File.ReadAllText(Constant.CnfFullName);
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
-                         throw new Exception("反序列化失败...");
+                        throw new Exception("反序列化失败...");
             Decryption(config);
             return config;
         }
@@ -870,6 +871,7 @@ public class ConfigHelper
             SourceLangIfAuto = LangEnum.en,
             TargetLangIfSourceZh = LangEnum.en,
             TargetLangIfSourceNotZh = LangEnum.zh_cn,
+            UsePasteOutput = false,
             ReplaceProp = new ReplaceProp(),
             Services =
             [
