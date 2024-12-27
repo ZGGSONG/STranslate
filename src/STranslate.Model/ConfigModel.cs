@@ -442,6 +442,11 @@ public class ConfigModel
     public LangEnum TargetLangIfSourceNotZh { get; set; } = LangEnum.zh_cn;
 
     /// <summary>
+    ///     调用系统剪贴板来插入结果
+    /// </summary>
+    public bool UsePasteOutput { get; set; }
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -567,6 +572,7 @@ public class ConfigModel
             SourceLangIfAuto = SourceLangIfAuto,
             TargetLangIfSourceZh = TargetLangIfSourceZh,
             TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
+            UsePasteOutput = UsePasteOutput,
             ReplaceProp = ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),
