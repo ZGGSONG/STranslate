@@ -354,7 +354,10 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         // 额外主线程等待一段时间，避免动画未完成时执行输入操作
         await Task.Delay(150);
-        InputSimulatorHelper.PrintText(str);
+        if (CurConfig?.UsePasteOutput ?? false)
+            InputSimulatorHelper.PrintTextWithClipboard(str);
+        else
+            InputSimulatorHelper.PrintText(str);
     }
 
     [RelayCommand]
