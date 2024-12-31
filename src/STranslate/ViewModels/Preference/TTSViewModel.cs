@@ -64,7 +64,7 @@ public partial class TTSViewModel : ObservableObject
         _silentTtsCts ??= new CancellationTokenSource();
         try
         {
-            CursorManager.Execute();
+            CursorManager.Instance.Execute();
 
             LogService.Logger.Debug($"<Begin> 静默TTS\tcontent: [{content.Replace("\r", @"\r").Replace("\n", @"\n").Replace("\t", @"\t")}]");
 
@@ -74,13 +74,13 @@ public partial class TTSViewModel : ObservableObject
         {
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("静默TTS失败, 请检查网络或日志");
             LogService.Logger.Warn("静默TTS Error: " + ex.Message);
-            CursorManager.Error();
+            CursorManager.Instance.Error();
             await Task.Delay(2000);
         }
         finally
         {
             LogService.Logger.Debug("<End> 静默TTS");
-            CursorManager.Restore();
+            CursorManager.Instance.Restore();
             _silentTtsCts = null;
         }
     }

@@ -417,7 +417,7 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         try
         {
-            CursorManager.Execute();
+            CursorManager.Instance.Execute();
             var bytes = BitmapUtil.ConvertBitmap2Bytes(bitmap, GetImageFormat());
             var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main,
                 lang: _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
@@ -442,7 +442,7 @@ public partial class NotifyIconViewModel : ObservableObject
         }
         finally
         {
-            CursorManager.Restore();
+            CursorManager.Instance.Restore();
             MemoUtil.FlushMemory();
         }
     }

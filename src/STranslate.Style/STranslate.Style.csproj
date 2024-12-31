@@ -124,17 +124,29 @@
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="Resources\youdao.png">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
-      <Resource Include="Resources\lingva.png">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Resource>
-      <Resource Include="Resources\wechat.png">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Resource>
-      <Resource Include="Resources\Working_32x.ani">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Resource>
+	  <Resource Include="Resources\lingva.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\wechat.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_128x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_96x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_48x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_64x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_32x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
   </ItemGroup>
 
   <ItemGroup>

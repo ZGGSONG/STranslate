@@ -62,7 +62,7 @@ public partial class ReplaceViewModel : ObservableObject
 
         try
         {
-            CursorManager.Execute();
+            CursorManager.Instance.Execute();
             // Determine target language
             var (sourceLang, targetLang) = await DetectLanguageAsync(content, token);
 
@@ -82,13 +82,13 @@ public partial class ReplaceViewModel : ObservableObject
         {
             Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip("替换翻译失败, 请检查网络或日志");
             LogService.Logger.Warn("替换翻译 Error: " + ex.Message);
-            CursorManager.Error();
+            CursorManager.Instance.Error();
             await Task.Delay(2000);
         }
         finally
         {
             LogService.Logger.Debug("<End> 替换翻译");
-            CursorManager.Restore();
+            CursorManager.Instance.Restore();
             _replaceCts = null;
         }
     }
