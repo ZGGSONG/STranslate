@@ -1,0 +1,159 @@
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.OCR.GeminiOCRPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
+    d:DataContext="{d:DesignInstance Type=vm:GeminiOCR}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    FontSize="{DynamicResource FontSize18}"
+    mc:Ignorable="d">
+    <Border
+        Padding="10,20"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        CornerRadius="4">
+        <ScrollViewer>
+            <StackPanel>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="名称: " />
+
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="160"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Placeholder="GeminiOCR"
+                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="图标: " />
+
+                    <ComboBox
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        BorderThickness="1"
+                        ItemsSource="{Binding Icons}"
+                        SelectedValue="{Binding Icon}"
+                        SelectedValuePath="Key"
+                        Style="{DynamicResource IconComboBoxStyle}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="接口: " />
+
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="30"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Placeholder="https://generativelanguage.googleapis.com"
+                        Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="模型: " />
+
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="206"
+                        HorizontalAlignment="Left"
+                        Placeholder="gemini-1.5-flash"
+                        Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="温度: " ToolTip="语言模型的上下文中，是控制模型生成文本多样性的一个参数。模型在做出下一个词预测时的确定性和随机性程度" />
+                    <Slider
+                        Grid.Column="1"
+                        Height="14"
+                        MinWidth="200"
+                        HorizontalAlignment="Left"
+                        IsSnapToTickEnabled="True"
+                        Maximum="2"
+                        Minimum="0"
+                        TickFrequency="0.01"
+                        TickPlacement="None"
+                        Value="{Binding Temperature, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" Text="{Binding Temperature, StringFormat={}{0:F2}}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="ApiKey: " />
+
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="160"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Placeholder="ApiKey"
+                        Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                    <PasswordBox
+                        Grid.Column="1"
+                        MinWidth="160"
+                        HorizontalAlignment="Left"
+                        common:BoundPasswordBox.Attach="True"
+                        common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        Tag="ApiKey"
+                        ToolTip="{Binding AppKey}"
+                        Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ShowEncryptInfoCommand}"
+                        CommandParameter="AppKey"
+                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                        Style="{DynamicResource ButtonIconStyle}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Other: " />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="10,0"
+                        ToolTip="在浏览器中打开">
+                        <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                    </TextBlock>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

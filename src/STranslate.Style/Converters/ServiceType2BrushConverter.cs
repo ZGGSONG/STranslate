@@ -28,6 +28,7 @@ public class ServiceType2BrushConverter : IValueConverter
             return oType switch
             {
                 OCRType.PaddleOCR => selfBuild,
+                OCRType.WeChatOCR => local,
                 _ => official
                 //TODO: 新OCR服务需要适配
             };

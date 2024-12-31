@@ -190,6 +190,7 @@ public enum OCRType
     [Description("谷歌OCR")] GoogleOCR,
     [Description("OpenAIOCR")] OpenAIOCR,
     [Description("微信OCR")] WeChatOCR,
+    [Description("GeminiOCR")] GeminiOCR,
 }
 
 public enum BaiduOCRAction

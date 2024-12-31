@@ -47,13 +47,14 @@ public partial class OCRScvViewModel : ObservableObject
     {
         //添加默认支持OCR
         //TODO: 新OCR服务需要适配
+        OcrServices.Add(new WeChatOCR());
         OcrServices.Add(new PaddleOCR());
         OcrServices.Add(new TencentOCR());
         OcrServices.Add(new BaiduOCR());
         OcrServices.Add(new VolcengineOCR());
         OcrServices.Add(new GoogleOCR());
         OcrServices.Add(new OpenAIOCR());
-        OcrServices.Add(new WeChatOCR());
+        OcrServices.Add(new GeminiOCR());
 
         ResetView();
     }
@@ -162,6 +163,7 @@ public partial class OCRScvViewModel : ObservableObject
                 OCRType.GoogleOCR => string.Format($"{head}{nameof(GoogleOCRPage)}"),
                 OCRType.OpenAIOCR => string.Format($"{head}{nameof(OpenAIOCRPage)}"),
                 OCRType.WeChatOCR => string.Format($"{head}{nameof(WeChatOCRPage)}"),
+                OCRType.GeminiOCR => string.Format($"{head}{nameof(GeminiOCRPage)}"),
                 _ => string.Format($"{head}{nameof(PaddleOCRPage)}")
             };
 
@@ -186,6 +188,7 @@ public partial class OCRScvViewModel : ObservableObject
                 GoogleOCR googleocr => googleocr.Clone(),
                 OpenAIOCR openaiocr => openaiocr.Clone(),
                 WeChatOCR wechatocr => wechatocr.Clone(),
+                GeminiOCR geminiocr => geminiocr.Clone(),
                 _ => throw new InvalidOperationException($"Unsupported ocr type: {ocr.GetType().Name}")
             }
         );

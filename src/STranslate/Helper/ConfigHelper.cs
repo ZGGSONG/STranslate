@@ -921,6 +921,7 @@ public class OCRConverter : JsonConverter<IOCR>
             (int)OCRType.GoogleOCR => new GoogleOCR(),
             (int)OCRType.OpenAIOCR => new OpenAIOCR(),
             (int)OCRType.WeChatOCR => new WeChatOCR(),
+            (int)OCRType.GeminiOCR => new GeminiOCR(),
             _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
         };
 
