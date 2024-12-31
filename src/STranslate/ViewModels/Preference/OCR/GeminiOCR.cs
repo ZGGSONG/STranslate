@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Translator;
@@ -50,23 +51,11 @@ public partial class GeminiOCR : ObservableObject, IOCR
 
     [JsonIgnore][ObservableProperty] private IconType _icon = IconType.BaiduBce;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
+    [JsonIgnore] [ObservableProperty] public string _url = string.Empty;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
+    [JsonIgnore] [ObservableProperty] public string _appID = string.Empty;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
+    [JsonIgnore] [ObservableProperty] public string _appKey = string.Empty;
 
     [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
@@ -74,11 +63,7 @@ public partial class GeminiOCR : ObservableObject, IOCR
 
     [JsonIgnore][ObservableProperty] private double _temperature = 1.0;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _model = "gemini-1.5-flash";
+    [JsonIgnore] [ObservableProperty] private string _model = "gemini-1.5-flash";
 
     #endregion
 
@@ -139,7 +124,7 @@ public partial class GeminiOCR : ObservableObject, IOCR
 
         var data = new
         {
-            content = new[]
+            contents = new[]
             {
                 new
                 {
@@ -156,7 +141,7 @@ public partial class GeminiOCR : ObservableObject, IOCR
                         },
                         new
                         {
-                            text = "Please recognize the text in the picture, with each line stored as an array in the words field, and extract the coordinates (top, left, width, and height) of each line relative to the image."
+                            text = "Please identify the text in the image, return the bounding boxes of all classes observed in the image, store each row in the word field as an array, and extract the coordinates of each row relative to the image (top, left, width, and height) from top left to bottom right."
                         }
                     }
                 }
@@ -244,11 +229,10 @@ public partial class GeminiOCR : ObservableObject, IOCR
 
         var jsonData = JsonConvert.SerializeObject(data);
         var resp = await HttpUtil.PostAsync(uriBuilder.Uri.ToString(), jsonData, null, [], cancelToken);
-        if (string.IsNullOrEmpty(resp))
-            throw new Exception("请求结果为空");
-
+        var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
+        var jsonStr = parseData["candidates"]?.FirstOrDefault()?["content"]?["parts"]?.FirstOrDefault()?["text"]?.ToString() ?? throw new Exception($"缺失结果: {resp}");
         // 解析JSON数据
-        var itemList = JsonConvert.DeserializeObject<List<DocumentItem>>(resp) ?? throw new Exception($"反序列化失败: {resp}");
+        var itemList = JsonConvert.DeserializeObject<List<DocumentItem>>(jsonStr) ?? throw new Exception($"反序列化失败: {resp}");
 
         // 提取content的值
         var ocrResult = new OcrResult();
