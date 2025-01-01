@@ -239,12 +239,13 @@ public partial class GeminiOCR : ObservableObject, IOCR
         foreach (var item in itemList)
         {
             var content = new OcrContent(item.words);
-            Converter(item.location).ForEach(pg =>
-            {
-                //仅位置不全为0时添加
-                if (!pg.X.Equals(pg.Y) || pg.X != 0)
-                    content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-            });
+            // TODO: 返回位置不精确，暂不添加标注
+            //Converter(item.location).ForEach(pg =>
+            //{
+            //    //仅位置不全为0时添加
+            //    if (!pg.X.Equals(pg.Y) || pg.X != 0)
+            //        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
+            //});
             ocrResult.OcrContents.Add(content);
         }
 
