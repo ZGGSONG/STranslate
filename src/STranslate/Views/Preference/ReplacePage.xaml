@@ -23,168 +23,184 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Vertical">
-                <Border
-                    Margin="8"
-                    props:ThemeProps.Background="{DynamicResource BorderContentBackground}"
-                    CornerRadius="5">
-                    <StackPanel Orientation="Vertical">
 
-                        <DockPanel Margin="20,10">
-                            <TextBlock Text="替换翻译服务" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择替换翻译服务" />
-                            <ComboBox
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Name"
-                                ItemsSource="{Binding AllServices}"
-                                SelectedItem="{Binding ReplaceProp.ActiveService, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DockPanel>
+                <!--  // Header //  -->
+                <StackPanel Margin="10">
+                    <TextBlock FontSize="{DynamicResource FontSize20}" Text="替换翻译" />
+                    <TextBlock FontSize="{DynamicResource FontSize18}" Text="使用翻译结果直接替换选中文本" />
+                </StackPanel>
+                
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
 
-                        <DockPanel Margin="20,10">
-                            <TextBlock Text="原始语种" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译原始语种" />
-                            <ComboBox
-                                Name="SourceLangCb"
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Description"
-                                SelectedValue="{Binding ReplaceProp.SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Value">
-                                <ComboBox.ItemsSource>
-                                    <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
-                                        <Binding Path="InputVm.OftenUsedLang" />
+                    <Border
+                        Margin="8"
+                        props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Vertical">
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="替换翻译服务" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择替换翻译服务" />
+                                <ComboBox
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding AllServices}"
+                                    SelectedItem="{Binding ReplaceProp.ActiveService, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="原始语种" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译原始语种" />
+                                <ComboBox
+                                    Name="SourceLangCb"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Description"
+                                    SelectedValue="{Binding ReplaceProp.SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                            <Binding Path="InputVm.OftenUsedLang" />
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="目标语种" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译目标语种" />
+                                <ComboBox
+                                    Name="TargetLangCb"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Description"
+                                    SelectedValue="{Binding ReplaceProp.TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                            <Binding Path="InputVm.OftenUsedLang" />
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10" Visibility="{Binding ReplaceProp.TargetLang, ConverterParameter=auto, Converter={StaticResource ParamEqualToVisibility}}">
+                                <TextBlock Text="语种识别(仅当原始语种为自动时生效)" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式，仅当原始语种为自动时生效" />
+                                <ComboBox
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Description"
+                                    ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
+                                    SelectedValue="{Binding ReplaceProp.DetectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value" />
+                            </DockPanel>
+
+                            <DockPanel Margin="20,10">
+                                <DockPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource ReplaceMultiProp2VisibilityConverter}">
+                                        <Binding Path="ReplaceProp.DetectType" />
+                                        <Binding Path="ReplaceProp.TargetLang" />
                                     </MultiBinding>
-                                </ComboBox.ItemsSource>
-                            </ComboBox>
-                        </DockPanel>
+                                </DockPanel.Visibility>
+                                <TextBlock Text="语种识别比例(zh-en)" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
+                                <StackPanel
+                                    HorizontalAlignment="Right"
+                                    DockPanel.Dock="Right"
+                                    Orientation="Horizontal">
+                                    <Slider
+                                        Height="14"
+                                        MinWidth="160"
+                                        Margin="0,0,30,0"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="0.99"
+                                        Minimum="0.01"
+                                        TickFrequency="0.01"
+                                        TickPlacement="None"
+                                        Value="{Binding ReplaceProp.AutoScale}" />
+                                    <TextBlock
+                                        Width="65"
+                                        Margin="10,0"
+                                        Text="{Binding ReplaceProp.AutoScale, StringFormat={}{0:P0}}" />
+                                </StackPanel>
+                            </DockPanel>
 
-                        <DockPanel Margin="20,10">
-                            <TextBlock Text="目标语种" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译目标语种" />
-                            <ComboBox
-                                Name="TargetLangCb"
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Description"
-                                SelectedValue="{Binding ReplaceProp.TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Value">
-                                <ComboBox.ItemsSource>
-                                    <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
-                                        <Binding Path="InputVm.OftenUsedLang" />
-                                    </MultiBinding>
-                                </ComboBox.ItemsSource>
-                            </ComboBox>
-                        </DockPanel>
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="语种识别为自动时使用" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果识别语种结果仍然为自动则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                                <ComboBox
+                                    Name="SourceLangIfAutoCb"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Description"
+                                    SelectedValue="{Binding ReplaceProp.SourceLangIfAuto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                            <Binding Path="InputVm.OftenUsedLang" />
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                            </DockPanel>
 
-                        <DockPanel Margin="20,10" Visibility="{Binding ReplaceProp.TargetLang, ConverterParameter=auto, Converter={StaticResource ParamEqualToVisibility}}">
-                            <TextBlock Text="语种识别(仅当原始语种为自动时生效)" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式，仅当原始语种为自动时生效" />
-                            <ComboBox
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Description"
-                                ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
-                                SelectedValue="{Binding ReplaceProp.DetectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Value" />
-                        </DockPanel>
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="目标语种为自动且原始语种为中文时使用" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                                <ComboBox
+                                    Name="TargetLangIfSourceZhCb"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Description"
+                                    SelectedValue="{Binding ReplaceProp.TargetLangIfSourceZh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                            <Binding Path="InputVm.OftenUsedLang" />
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                            </DockPanel>
 
-                        <DockPanel Margin="20,10">
-                            <DockPanel.Visibility>
-                                <MultiBinding Converter="{StaticResource ReplaceMultiProp2VisibilityConverter}">
-                                    <Binding Path="ReplaceProp.DetectType" />
-                                    <Binding Path="ReplaceProp.TargetLang" />
-                                </MultiBinding>
-                            </DockPanel.Visibility>
-                            <TextBlock Text="语种识别比例(zh-en)" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
-                            <StackPanel
-                                HorizontalAlignment="Right"
-                                DockPanel.Dock="Right"
-                                Orientation="Horizontal">
-                                <Slider
-                                    Height="14"
-                                    MinWidth="160"
-                                    Margin="0,0,30,0"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="0.99"
-                                    Minimum="0.01"
-                                    TickFrequency="0.01"
-                                    TickPlacement="None"
-                                    Value="{Binding ReplaceProp.AutoScale}" />
-                                <TextBlock
-                                    Width="65"
-                                    Margin="10,0"
-                                    Text="{Binding ReplaceProp.AutoScale, StringFormat={}{0:P0}}" />
-                            </StackPanel>
-                        </DockPanel>
-
-                        <DockPanel Margin="20,10">
-                            <TextBlock Text="语种识别为自动时使用" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果识别语种结果仍然为自动则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
-                            <ComboBox
-                                Name="SourceLangIfAutoCb"
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Description"
-                                SelectedValue="{Binding ReplaceProp.SourceLangIfAuto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Value">
-                                <ComboBox.ItemsSource>
-                                    <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
-                                        <Binding Path="InputVm.OftenUsedLang" />
-                                    </MultiBinding>
-                                </ComboBox.ItemsSource>
-                            </ComboBox>
-                        </DockPanel>
-
-                        <DockPanel Margin="20,10">
-                            <TextBlock Text="目标语种为自动且原始语种为中文时使用" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
-                            <ComboBox
-                                Name="TargetLangIfSourceZhCb"
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Description"
-                                SelectedValue="{Binding ReplaceProp.TargetLangIfSourceZh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Value">
-                                <ComboBox.ItemsSource>
-                                    <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
-                                        <Binding Path="InputVm.OftenUsedLang" />
-                                    </MultiBinding>
-                                </ComboBox.ItemsSource>
-                            </ComboBox>
-                        </DockPanel>
-
-                        <DockPanel Margin="20,10">
-                            <TextBlock Text="目标语种为自动且原始语种为非中文时使用" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为非中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
-                            <ComboBox
-                                Name="TargetLangIfSourceNotZhCb"
-                                Height="30"
-                                HorizontalAlignment="Right"
-                                BorderThickness="1"
-                                DisplayMemberPath="Description"
-                                SelectedValue="{Binding ReplaceProp.TargetLangIfSourceNotZh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                SelectedValuePath="Value">
-                                <ComboBox.ItemsSource>
-                                    <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
-                                        <Binding Path="InputVm.OftenUsedLang" />
-                                    </MultiBinding>
-                                </ComboBox.ItemsSource>
-                            </ComboBox>
-                        </DockPanel>
-                    </StackPanel>
-                </Border>
+                            <DockPanel Margin="20,10">
+                                <TextBlock Text="目标语种为自动且原始语种为非中文时使用" />
+                                <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为非中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                                <ComboBox
+                                    Name="TargetLangIfSourceNotZhCb"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    BorderThickness="1"
+                                    DisplayMemberPath="Description"
+                                    SelectedValue="{Binding ReplaceProp.TargetLangIfSourceNotZh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ComboBox.ItemsSource>
+                                        <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                            <Binding Path="InputVm.OftenUsedLang" />
+                                        </MultiBinding>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </StackPanel>
 
 

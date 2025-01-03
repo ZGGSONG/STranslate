@@ -126,13 +126,6 @@
                     </menu:Btn>
 
                     <menu:Btn
-                        Command="{Binding HotkeyPageCommand}"
-                        IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Hotkey}"
-                        Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
-                    </menu:Btn>
-
-                    <menu:Btn
                         Command="{Binding ServicePageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}"
                         Style="{StaticResource BtnStyle}">
@@ -162,11 +155,18 @@
                     <!--  //  分隔符号  //  -->
                     <!--<Separator Background="DarkGray" Margin="10,20"/>-->
 
-                    <menu:Btn
+                    <!-- <menu:Btn
                         Command="{Binding ReplacePageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Replace}"
                         Style="{StaticResource BtnStyle}">
                         <TextBlock Style="{StaticResource Text_Style}" Text="替换翻译" />
+                    </menu:Btn> -->
+
+                    <menu:Btn
+                        Command="{Binding HotkeyPageCommand}"
+                        IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Hotkey}"
+                        Style="{StaticResource BtnStyle}">
+                        <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
                     </menu:Btn>
 
                     <menu:Btn
