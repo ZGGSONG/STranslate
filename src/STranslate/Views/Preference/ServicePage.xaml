@@ -110,6 +110,9 @@
             <TabItem Header="文本翻译">
                 <uc:TranslatorPage />
             </TabItem>
+            <TabItem Header="替换翻译">
+                <uc:ReplacePage />
+            </TabItem>
             <TabItem Header="文本识别">
                 <uc:OCRPage />
             </TabItem>
