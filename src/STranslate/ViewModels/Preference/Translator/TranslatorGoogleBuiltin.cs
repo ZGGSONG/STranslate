@@ -198,7 +198,7 @@ public partial class TranslatorGoogleBuiltin : TranslatorBase, ITranslator
     }
 
     /// <summary>
-    ///     https://github.com/ZGGSONG/deepl-api#Languages
+    ///     https://blog.julym.com/original/74.html
     /// </summary>
     /// <param name="lang"></param>
     /// <returns></returns>
