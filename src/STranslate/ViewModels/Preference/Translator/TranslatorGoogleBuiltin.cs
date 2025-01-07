@@ -11,24 +11,23 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorApi : TranslatorBase, ITranslator
+public partial class TranslatorGoogleBuiltin : TranslatorBase, ITranslator
 {
     #region Constructor
 
-    public TranslatorApi()
-        : this(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "自建服务")
+    public TranslatorGoogleBuiltin() : this(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google")
     {
     }
 
-    public TranslatorApi(
+    public TranslatorGoogleBuiltin(
         Guid guid,
         string url,
         string name = "",
-        IconType icon = IconType.DeepL,
+        IconType icon = IconType.Google,
         string appId = "",
         string appKey = "",
         bool isEnabled = true,
-        ServiceType type = ServiceType.ApiService
+        ServiceType type = ServiceType.GoogleBuiltinService
     )
     {
         Identify = guid;
@@ -83,26 +82,6 @@ public partial class TranslatorApi : TranslatorBase, ITranslator
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private bool _isExecuting;
 
-    [JsonIgnore]
-    public string Tips { get; private init; } =
-        @"请求:
-{
-    ""text"": ""test"",
-    ""source_lang"": ""auto"",
-    ""target_lang"": ""zh""
-}
-回复:
-{
-    ""code"": 200,
-    ""data"": ""测试""
-}";
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _token = string.Empty;
-
     #endregion Properties
 
     #region Translator Test
@@ -145,31 +124,22 @@ public partial class TranslatorApi : TranslatorBase, ITranslator
 
     public async Task<TranslationResult> TranslateAsync(object request, CancellationToken canceltoken)
     {
-        if (request is not RequestModel reqModel)
+        if (request is not RequestModel req)
             throw new Exception($"请求数据出错: {request}");
 
-        var convSource = LangConverter(reqModel.SourceLang) ??
-                         throw new Exception($"该服务不支持{reqModel.SourceLang.GetDescription()}");
-        var convTarget = LangConverter(reqModel.TargetLang) ??
-                         throw new Exception($"该服务不支持{reqModel.TargetLang.GetDescription()}");
+        var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
+        var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-        var preReq = new
+        var reqStr = JsonConvert.SerializeObject(new
         {
-            text = reqModel.Text,
+            text = req.Text,
             source_lang = convSource,
             target_lang = convTarget
-        };
-
-        var req = JsonConvert.SerializeObject(preReq);
-
-        var authToken = string.IsNullOrEmpty(Token)
-            ? []
-            : new Dictionary<string, string> { { "Authorization", $"Bearer {Token}" } };
+        });
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, req, null, authToken, canceltoken).ConfigureAwait(false) ??
-                       throw new Exception("请求结果为空");
+            var resp = await HttpUtil.PostAsync(Url, reqStr, canceltoken).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
             var data = JsonConvert.DeserializeObject<JObject>(resp)?["data"]?.ToString() ?? throw new Exception(resp);
             return TranslationResult.Success(data);
         }
@@ -209,7 +179,7 @@ public partial class TranslatorApi : TranslatorBase, ITranslator
 
     public ITranslator Clone()
     {
-        return new TranslatorApi
+        return new TranslatorGoogleBuiltin
         {
             Identify = Identify,
             Type = Type,
@@ -221,7 +191,6 @@ public partial class TranslatorApi : TranslatorBase, ITranslator
             AppID = AppID,
             AppKey = AppKey,
             AutoExecute = AutoExecute,
-            Token = Token,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
@@ -238,36 +207,36 @@ public partial class TranslatorApi : TranslatorBase, ITranslator
         return lang switch
         {
             LangEnum.auto => "auto",
-            LangEnum.zh_cn => "ZH",
-            LangEnum.zh_tw => "ZH",
-            LangEnum.yue => "ZH",
-            LangEnum.en => "EN",
-            LangEnum.ja => "JA",
-            LangEnum.ko => "KO",
-            LangEnum.fr => "FR",
-            LangEnum.es => "ES",
-            LangEnum.ru => "RU",
-            LangEnum.de => "DE",
-            LangEnum.it => "IT",
-            LangEnum.tr => "TR",
-            LangEnum.pt_pt => "PT-PT",
-            LangEnum.pt_br => "PT-BR",
-            LangEnum.vi => null,
-            LangEnum.id => "ID",
-            LangEnum.th => null,
-            LangEnum.ms => null,
-            LangEnum.ar => "AR",
-            LangEnum.hi => null,
-            LangEnum.mn_cy => null,
-            LangEnum.mn_mo => null,
-            LangEnum.km => null,
-            LangEnum.nb_no => "NB",
-            LangEnum.nn_no => "NB",
-            LangEnum.fa => null,
-            LangEnum.sv => "SV",
-            LangEnum.pl => "PL",
-            LangEnum.nl => "NL",
-            LangEnum.uk => null,
+            LangEnum.zh_cn => "zh-CN",
+            LangEnum.zh_tw => "zh-TW",
+            LangEnum.yue => "yue",
+            LangEnum.en => "en",
+            LangEnum.ja => "ja",
+            LangEnum.ko => "ko",
+            LangEnum.fr => "fr",
+            LangEnum.es => "es",
+            LangEnum.ru => "ru",
+            LangEnum.de => "de",
+            LangEnum.it => "it",
+            LangEnum.tr => "tr",
+            LangEnum.pt_pt => "pt",
+            LangEnum.pt_br => "pt",
+            LangEnum.vi => "vi",
+            LangEnum.id => "id",
+            LangEnum.th => "th",
+            LangEnum.ms => "ms",
+            LangEnum.ar => "ar",
+            LangEnum.hi => "hi",
+            LangEnum.mn_cy => "mn",
+            LangEnum.mn_mo => "mn",
+            LangEnum.km => "km",
+            LangEnum.nb_no => "no",
+            LangEnum.nn_no => "no",
+            LangEnum.fa => "fa",
+            LangEnum.sv => "sv",
+            LangEnum.pl => "pl",
+            LangEnum.nl => "nl",
+            LangEnum.uk => "uk",
             _ => "auto"
         };
     }

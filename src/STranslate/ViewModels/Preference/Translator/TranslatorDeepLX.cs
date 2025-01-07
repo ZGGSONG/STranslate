@@ -15,7 +15,7 @@ public partial class TranslatorDeepLX : TranslatorBase, ITranslator
 {
     #region Constructor
 
-    public TranslatorDeepLX() : this(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepLX")
+    public TranslatorDeepLX() : this(Guid.NewGuid(), "http://127.0.0.1:1188/translate", "DeepLX")
     {
     }
 
@@ -81,20 +81,6 @@ public partial class TranslatorDeepLX : TranslatorBase, ITranslator
 
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private bool _isExecuting;
-
-    [JsonIgnore]
-    public string Tips { get; private init; } =
-        @"请求:
-{
-    ""text"": ""test"",
-    ""source_lang"": ""auto"",
-    ""target_lang"": ""zh""
-}
-回复:
-{
-    ""code"": 200,
-    ""data"": ""测试""
-}";
 
     [JsonIgnore]
     [ObservableProperty]

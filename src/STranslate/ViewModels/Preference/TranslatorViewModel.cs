@@ -48,7 +48,7 @@ public partial class TranslatorViewModel : ObservableObject
         //添加默认支持服务
         TransServices.Add(new TranslatorSTranslate());
         TransServices.Add(new TranslatorEcdict());
-        TransServices.Add(new TranslatorApi());
+        TransServices.Add(new TranslatorGoogleBuiltin());
         TransServices.Add(new TranslatorDeepLX());
         TransServices.Add(new TranslatorOpenAI());
         TransServices.Add(new TranslatorGemini());
@@ -134,7 +134,7 @@ public partial class TranslatorViewModel : ObservableObject
         var name = service.Type switch
         {
             ServiceType.STranslateService => $"{head}{nameof(TranslatorSTranslatePage)}",
-            ServiceType.ApiService => $"{head}{nameof(TranslatorApiPage)}",
+            ServiceType.GoogleBuiltinService => $"{head}{nameof(TranslatorGoogleBuiltinPage)}",
             ServiceType.BaiduService => $"{head}{nameof(TranslatorBaiduPage)}",
             ServiceType.MicrosoftService => $"{head}{nameof(TranslatorMicrosoftPage)}",
             ServiceType.OpenAIService => $"{head}{nameof(TranslatorOpenAIPage)}",
@@ -173,7 +173,7 @@ public partial class TranslatorViewModel : ObservableObject
             CurTransServiceList.Add(service switch
             {
                 TranslatorSTranslate stranslate => stranslate.Clone(),
-                TranslatorApi api => api.Clone(),
+                TranslatorGoogleBuiltin api => api.Clone(),
                 TranslatorBaidu baidu => baidu.Clone(),
                 TranslatorMicrosoft bing => bing.Clone(),
                 TranslatorOpenAI openAi => openAi.Clone(),

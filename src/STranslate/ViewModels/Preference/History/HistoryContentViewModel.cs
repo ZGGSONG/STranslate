@@ -109,7 +109,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
         ITranslator translator = type switch
         {
             (int)ServiceType.STranslateService => new TranslatorSTranslate(),
-            (int)ServiceType.ApiService => new TranslatorApi(),
+            (int)ServiceType.GoogleBuiltinService => new TranslatorGoogleBuiltin(),
             (int)ServiceType.BaiduService => new TranslatorBaidu(),
             (int)ServiceType.MicrosoftService => new TranslatorMicrosoft(),
             (int)ServiceType.OpenAIService => new TranslatorOpenAI(),

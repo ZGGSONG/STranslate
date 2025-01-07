@@ -14,17 +14,18 @@ public class ServiceTypeFilterConverter : IValueConverter
         return type switch
         {
             "selfBuild" => list.Where(x => x.Type
-                is ServiceType.ApiService
-                or ServiceType.DeepLXService
+                is ServiceType.DeepLXService
                 ),
             "local" => list.Where(x => x.Type
                 is ServiceType.STranslateService
                 or ServiceType.EcdictService
                 or ServiceType.KingSoftDictService
                 or ServiceType.BingDictService
+                or ServiceType.GoogleBuiltinService
                 ),
             "official" => list.Where(x => x.Type
-                is not (ServiceType.ApiService
+                is not (ServiceType.GoogleBuiltinService
+                or ServiceType.DeepLXService
                 or ServiceType.STranslateService
                 or ServiceType.EcdictService
                 or ServiceType.KingSoftDictService

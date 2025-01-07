@@ -16,8 +16,8 @@ public class ServiceType2BrushConverter : IValueConverter
         if (value is ServiceType sType)
             return sType switch
             {
-                ServiceType.ApiService => selfBuild,
                 ServiceType.DeepLXService => selfBuild,
+                ServiceType.GoogleBuiltinService => local,
                 ServiceType.STranslateService => local,
                 ServiceType.EcdictService => local,
                 ServiceType.KingSoftDictService => local,
@@ -28,7 +28,7 @@ public class ServiceType2BrushConverter : IValueConverter
         if (value is OCRType oType)
             return oType switch
             {
-                OCRType.PaddleOCR => selfBuild,
+                OCRType.PaddleOCR => local,
                 OCRType.WeChatOCR => local,
                 _ => official
                 //TODO: 新OCR服务需要适配
@@ -36,8 +36,9 @@ public class ServiceType2BrushConverter : IValueConverter
         if (value is TTSType tType)
             return tType switch
             {
-                TTSType.OfflineTTS => selfBuild,
-                TTSType.EdgeTTS => selfBuild,
+                TTSType.OfflineTTS => local,
+                TTSType.EdgeTTS => local,
+                TTSType.LingvaTTS => selfBuild,
                 _ => official
                 //TODO: 新TTS服务需要适配
             };

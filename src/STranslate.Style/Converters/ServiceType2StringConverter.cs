@@ -16,21 +16,25 @@ public class ServiceType2StringConverter : IValueConverter
         {
             ServiceType sType => sType switch
             {
-                ServiceType.ApiService => "自建",
+                ServiceType.DeepLXService => "自建",
+                ServiceType.GoogleBuiltinService => "内置",
                 ServiceType.STranslateService => "内置",
                 ServiceType.EcdictService => "内置",
                 ServiceType.KingSoftDictService => "内置",
                 ServiceType.BingDictService => "内置",
                 _ => "官方"
             },
-            TTSType tType => tType switch
-            {
-                TTSType.OfflineTTS => "内置",
-                _ => "官方"
-            },
             OCRType oType => oType switch
             {
                 OCRType.PaddleOCR => "内置",
+                OCRType.WeChatOCR => "内置",
+                _ => "官方"
+            },
+            TTSType tType => tType switch
+            {
+                TTSType.OfflineTTS => "内置",
+                TTSType.EdgeTTS => "内置",
+                TTSType.LingvaTTS => "自建",
                 _ => "官方"
             },
             VocabularyBookType vType => vType switch

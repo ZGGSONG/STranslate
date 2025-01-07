@@ -141,7 +141,7 @@ public enum ActionType
 /// </summary>
 public enum ServiceType
 {
-    ApiService = 0,
+    DeepLXService = 0,
     BaiduService,
     MicrosoftService,
     OpenAIService,
@@ -163,7 +163,7 @@ public enum ServiceType
     DeepSeekService,
     KingSoftDictService,
     BingDictService,
-    DeepLXService,
+    GoogleBuiltinService,
 }
 
 public enum TTSType

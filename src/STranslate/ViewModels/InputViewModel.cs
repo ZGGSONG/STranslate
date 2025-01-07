@@ -839,7 +839,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.BingDictService => new TranslatorBingDict(),
                 (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
                 //TODO: 新接口需要适配
-                _ => new TranslatorApi()
+                _ => new TranslatorGoogleBuiltin()
             };
 
         // 从 JSON 中提取 Data 字段的值，设置到 translator 的 Data 属性中
