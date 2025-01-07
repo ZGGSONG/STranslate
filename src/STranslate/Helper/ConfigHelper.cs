@@ -861,7 +861,7 @@ public class ConfigHelper
             OftenUsedLang = string.Empty,
             UseCacheLocation = false,
             ShowMinimalBtn = false,
-            GlobalFontSize = GlobalFontSizeEnum.General,
+            GlobalFontSize = GlobalFontSizeEnum.VerySmall,
             AutoTranslate = false,
             IsShowAutoTranslate = false,
             AnimationSpeed = AnimationSpeedEnum.Middle,
@@ -875,9 +875,8 @@ public class ConfigHelper
             ReplaceProp = new ReplaceProp(),
             Services =
             [
-                new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),
-                new TranslatorGoogleBuiltin(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
-                new TranslatorDeepLX(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepLX", isEnabled: false),
+                new TranslatorSTranslate(),
+                new TranslatorGoogleBuiltin(),
                 new TranslatorKingSoftDict(),
                 new TranslatorBingDict(),
             ],
