@@ -154,6 +154,8 @@ public partial class InputViewModel : ObservableObject
     private async Task TranslateAsync(object? obj, CancellationToken token)
     {
         CanTranslate = false;
+        // 避免用户在等待翻译结果时修改内容存数据库出错
+        var currentContent = InputContent;
 
         try
         {
@@ -171,7 +173,7 @@ public partial class InputViewModel : ObservableObject
             var history = await DoTranslateAsync(obj, size, token);
 
             // 正常进行则记录历史记录，如果出现异常(eg. 取消任务)则不记录
-            await PostTranslateAsync(history, sourceLang, targetLang, size);
+            await PostTranslateAsync(history, currentContent, sourceLang, targetLang, size);
         }
         catch (OperationCanceledException)
         {
@@ -539,7 +541,7 @@ public partial class InputViewModel : ObservableObject
 
     #region 翻译后操作
 
-    private async Task PostTranslateAsync(HistoryModel? history, LangEnum source, LangEnum dbTarget,
+    private async Task PostTranslateAsync(HistoryModel? history, string content, LangEnum source, LangEnum dbTarget,
         long size)
     {
         if (history is null && size > 0)
@@ -553,7 +555,7 @@ public partial class InputViewModel : ObservableObject
                 Time = DateTime.Now,
                 SourceLang = source.GetDescription(),
                 TargetLang = dbTarget.GetDescription(),
-                SourceText = InputContent,
+                SourceText = content,
                 Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
             };
             //翻译结果插入数据库

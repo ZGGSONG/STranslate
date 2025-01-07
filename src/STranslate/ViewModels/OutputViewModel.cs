@@ -237,8 +237,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
     public void Clear()
     {
-        foreach (var service in Translators)
-            TranslationResult.CopyFrom(TranslationResult.Reset, service.Data);
+        Parallel.ForEach(Translators, (service) =>
+            TranslationResult.CopyFrom(TranslationResult.Reset, service.Data));
     }
 
     [RelayCommand]

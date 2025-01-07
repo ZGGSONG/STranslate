@@ -10,7 +10,6 @@ public class DictConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        Debug.WriteLine(value);
         if (value is not string str || string.IsNullOrEmpty(str) ||
             !int.TryParse(parameter?.ToString(), out var index)) return value;
         var array = str.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim()).ToArray();
