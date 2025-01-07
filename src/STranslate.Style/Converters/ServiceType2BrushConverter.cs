@@ -17,6 +17,7 @@ public class ServiceType2BrushConverter : IValueConverter
             return sType switch
             {
                 ServiceType.ApiService => selfBuild,
+                ServiceType.DeepLXService => selfBuild,
                 ServiceType.STranslateService => local,
                 ServiceType.EcdictService => local,
                 ServiceType.KingSoftDictService => local,

@@ -877,14 +877,14 @@ public class ConfigHelper
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate"),
                 new TranslatorApi(Guid.NewGuid(), "https://googlet.deno.dev/translate", "Google", IconType.Google),
+                new TranslatorDeepLX(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepLX", isEnabled: false),
                 new TranslatorKingSoftDict(),
                 new TranslatorBingDict(),
-                new TranslatorApi(Guid.NewGuid(), "https://deeplx.deno.dev/translate", "DeepL", isEnabled: false)
             ],
             OCRList =
             [
+                new WeChatOCR(),
                 new PaddleOCR(),
-                new WeChatOCR()
             ],
             TTSList =
             [
@@ -1056,6 +1056,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.DeepSeekService => new TranslatorDeepSeek(),
             (int)ServiceType.KingSoftDictService => new TranslatorKingSoftDict(),
             (int)ServiceType.BingDictService => new TranslatorBingDict(),
+            (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

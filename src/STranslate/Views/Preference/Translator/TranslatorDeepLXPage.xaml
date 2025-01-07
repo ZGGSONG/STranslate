@@ -1,0 +1,135 @@
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.Translator.TranslatorDeepLXPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
+    d:DataContext="{d:DesignInstance Type=vm:TranslatorDeepLX}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    FontSize="{DynamicResource FontSize18}"
+    mc:Ignorable="d">
+    <Border
+        Padding="10,20"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        CornerRadius="4">
+        <StackPanel>
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="名称: " />
+
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Placeholder="DeepLX"
+                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="接口: " />
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="282"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Placeholder="http://127.0.0.1:1188/translate"
+                    Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Token: " />
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="282"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Placeholder="没有则无需填写"
+                    Text="{Binding Token, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="图标: " />
+
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    BorderThickness="1"
+                    ItemsSource="{Binding Icons}"
+                    SelectedValue="{Binding Icon}"
+                    SelectedValuePath="Key"
+                    Style="{DynamicResource IconComboBoxStyle}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译" />
+
+                <ToggleButton
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding AutoExecute}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="自动回译: " ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译" />
+
+                <ToggleButton
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding AutoExecuteTranslateBack}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="连通测试: " />
+
+                <Button
+                    Grid.Column="1"
+                    MinWidth="80"
+                    HorizontalAlignment="Left"
+                    Command="{Binding TestCommand}"
+                    Content="验证"
+                    Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <Button
+                    Grid.Column="1"
+                    MinWidth="80"
+                    HorizontalAlignment="Left"
+                    Command="{Binding TestCancelCommand}"
+                    Content="取消"
+                    Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -15,6 +15,7 @@ public class ServiceTypeFilterConverter : IValueConverter
         {
             "selfBuild" => list.Where(x => x.Type
                 is ServiceType.ApiService
+                or ServiceType.DeepLXService
                 ),
             "local" => list.Where(x => x.Type
                 is ServiceType.STranslateService

@@ -49,6 +49,7 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorSTranslate());
         TransServices.Add(new TranslatorEcdict());
         TransServices.Add(new TranslatorApi());
+        TransServices.Add(new TranslatorDeepLX());
         TransServices.Add(new TranslatorOpenAI());
         TransServices.Add(new TranslatorGemini());
         TransServices.Add(new TranslatorAli());
@@ -154,6 +155,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.DeepSeekService => $"{head}{nameof(TranslatorDeepSeekPage)}",
             ServiceType.KingSoftDictService => $"{head}{nameof(TranslatorKingSoftDictPage)}",
             ServiceType.BingDictService => $"{head}{nameof(TranslatorBingDictPage)}",
+            ServiceType.DeepLXService => $"{head}{nameof(TranslatorDeepLXPage)}",
             //TODO: 新接口需要适配
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
@@ -192,6 +194,7 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorDeepSeek deepSeek => deepSeek.Clone(),
                 TranslatorKingSoftDict kingsoftdict => kingsoftdict.Clone(),
                 TranslatorBingDict bingdict => bingdict.Clone(),
+                TranslatorDeepLX deeplx => deeplx.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });

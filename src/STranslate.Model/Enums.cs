@@ -163,6 +163,7 @@ public enum ServiceType
     DeepSeekService,
     KingSoftDictService,
     BingDictService,
+    DeepLXService,
 }
 
 public enum TTSType
