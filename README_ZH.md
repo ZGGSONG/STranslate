@@ -55,6 +55,7 @@
 
 - 特别鸣谢 [zu1k](https://github.com/zu1k)
 - 感谢 [Bob](https://bobtranslate.com/guide/) 的启发
+- 感谢 [LxgwWenKai](https://github.com/lxgw/LxgwWenKai)
 - 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对 `PaddleOCR` 的封装
 - 感谢 [Tai](https://github.com/Planshit/Tai) 升级模块
 - 感谢 [pot-desktop](https://pot-app.com/) `Prompt` 设计思路
