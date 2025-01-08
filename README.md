@@ -53,6 +53,7 @@ Or group discussion
 
 - Special thanks to [zu1k](https://github.com/zu1k)
 - Thanks to [Bob](https://bobtranslate.com/guide/) for inspiration
+- Thanks to [LxgwWenKai](https://github.com/lxgw/LxgwWenKai)
 - Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing `PaddleOCR`
 - Thanks to [Tai](https://github.com/Planshit/Tai) for upgrade functionality
 - Thanks to [pot-desktop](https://pot-app.com/) for `Prompt` design ideas
