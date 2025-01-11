@@ -208,7 +208,10 @@
                                             <StackPanel FlowDirection="LeftToRight">
 
                                                 <!--  // 执行翻译 //  -->
-                                                <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行当前服务翻译">
+                                                <Border
+                                                    PreviewMouseDown="UI_PreviewMouseDown"
+                                                    Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                    ToolTip="执行当前服务翻译">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
@@ -237,6 +240,7 @@
 
                                                 <!--  // 执行回译 //  -->
                                                 <Border
+                                                    PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
                                                     ToolTip="执行当前服务回译"
                                                     Visibility="{Binding Type, Converter={StaticResource DictToCollapsedConverter}}">
@@ -269,7 +273,10 @@
                                                 <Separator />
 
                                                 <!--  // 自动翻译 //  -->
-                                                <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
+                                                <Border
+                                                    PreviewMouseDown="UI_PreviewMouseDown"
+                                                    Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                    ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
@@ -306,6 +313,7 @@
 
                                                 <!--  // 自动回译 //  -->
                                                 <Border
+                                                    PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
                                                     ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译，保存至配置文件"
                                                     Visibility="{Binding Type, Converter={StaticResource DictToCollapsedConverter}}">
@@ -344,7 +352,10 @@
                                                 </Border>
 
                                                 <!--  // 配置服务 //  -->
-                                                <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="进入服务配置页面">
+                                                <Border
+                                                    PreviewMouseDown="UI_PreviewMouseDown"
+                                                    Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                    ToolTip="进入服务配置页面">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
@@ -374,7 +385,10 @@
                                                 <Separator />
 
                                                 <!--  // 关闭服务 //  -->
-                                                <Border Style="{DynamicResource BorderExtraSettingsStyle}" ToolTip="立即关闭服务并保存至配置文件">
+                                                <Border
+                                                    PreviewMouseDown="UI_PreviewMouseDown"
+                                                    Style="{DynamicResource BorderExtraSettingsStyle}"
+                                                    ToolTip="立即关闭服务并保存至配置文件">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">

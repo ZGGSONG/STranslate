@@ -55,4 +55,9 @@ public partial class OutputView
         // 设置新的字体大小
         Application.Current.Resources[Constant.FontSize18TextBox] = currentFontSize;
     }
+
+    private void UI_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        e.Handled = true; // 阻止事件继续传递
+    }
 }
