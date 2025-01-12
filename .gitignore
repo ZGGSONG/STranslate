@@ -3,6 +3,7 @@ bin/
 obj/
 *.user
 .idea/
+.dist/
 
 packages/
 
