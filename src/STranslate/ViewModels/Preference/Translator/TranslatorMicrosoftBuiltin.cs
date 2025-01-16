@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -43,6 +46,14 @@ public partial class TranslatorMicrosoftBuiltin : TranslatorBase, ITranslator
     #endregion Constructor
 
     #region Properties
+
+    #region Constant
+
+    private const string ApiEndpoint = "api.cognitive.microsofttranslator.com";
+    private const string ApiVersion = "3.0";
+    private const int MaxTextLength = 1000;
+    
+    #endregion
 
     [ObservableProperty] private Guid _identify = Guid.Empty;
 
@@ -126,21 +137,30 @@ public partial class TranslatorMicrosoftBuiltin : TranslatorBase, ITranslator
     {
         if (request is not RequestModel req)
             throw new Exception($"请求数据出错: {request}");
+        if (req.Text.Length > MaxTextLength)
+            throw new ArgumentException($"文本长度不能超过{MaxTextLength}个字符");
 
         var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
         var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-        var reqStr = JsonConvert.SerializeObject(new
+        string url = $"{ApiEndpoint}/translate?api-version={ApiVersion}&to={convTarget}";
+        if (!string.IsNullOrEmpty(convSource))
         {
-            text = req.Text,
-            source_lang = convSource,
-            target_lang = convTarget
-        });
+            url += $"&from={convSource}";
+        }
+
+        var headers = new Dictionary<string, string>
+        {
+            { "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36" },
+            { "X-MT-Signature", GetSignature(url) }
+        };
+
+        var reqStr = JsonConvert.SerializeObject(new[] { new { req.Text } });
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, reqStr, canceltoken).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
-            var data = JsonConvert.DeserializeObject<JObject>(resp)?["data"]?.ToString() ?? throw new Exception(resp);
+            var resp = await HttpUtil.PostAsync($"https://{url}", reqStr, null, headers, canceltoken).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+            var data = JsonConvert.DeserializeObject<JArray>(resp)?.FirstOrDefault()?["translations"]?.FirstOrDefault()?["text"]?.ToString() ?? throw new Exception(resp);
             return TranslationResult.Success(data);
         }
         catch (OperationCanceledException)
@@ -162,7 +182,7 @@ public partial class TranslatorMicrosoftBuiltin : TranslatorBase, ITranslator
             if (ex.InnerException is Exception innEx)
             {
                 var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
-                msg += $" {innMsg?["message"]}";
+                msg += $" {innMsg?["error"]}";
                 LogService.Logger.Error($"({Name})({Identify}) raw content:\n{innEx.Message}");
             }
 
@@ -242,4 +262,39 @@ public partial class TranslatorMicrosoftBuiltin : TranslatorBase, ITranslator
     }
 
     #endregion Interface Implementation
+
+    #region Microsoft
+
+    /// <summary>
+    ///     https://github.com/d4n3436/GTranslate/blob/master/src/GTranslate/Translators/MicrosoftTranslator.cs
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    private string GetSignature(string url)
+    {
+        string guid = Guid.NewGuid().ToString("N");
+        string escapedUrl = Uri.EscapeDataString(url);
+        string dateTime = DateTimeOffset.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ssG\\MT", CultureInfo.InvariantCulture);
+
+        byte[] bytes = Encoding.UTF8.GetBytes($"MSTranslatorAndroidApp{escapedUrl}{dateTime}{guid}".ToLowerInvariant());
+
+        using var hmac = new HMACSHA256(PrivateKey);
+        byte[] hash = hmac.ComputeHash(bytes);
+
+        return $"MSTranslatorAndroidApp::{Convert.ToBase64String(hash)}::{dateTime}::{guid}";
+    }
+
+    private readonly byte[] PrivateKey =
+    [
+        0xa2, 0x29, 0x3a, 0x3d, 0xd0, 0xdd, 0x32, 0x73,
+        0x97, 0x7a, 0x64, 0xdb, 0xc2, 0xf3, 0x27, 0xf5,
+        0xd7, 0xbf, 0x87, 0xd9, 0x45, 0x9d, 0xf0, 0x5a,
+        0x09, 0x66, 0xc6, 0x30, 0xc6, 0x6a, 0xaa, 0x84,
+        0x9a, 0x41, 0xaa, 0x94, 0x3a, 0xa8, 0xd5, 0x1a,
+        0x6e, 0x4d, 0xaa, 0xc9, 0xa3, 0x70, 0x12, 0x35,
+        0xc7, 0xeb, 0x12, 0xf6, 0xe8, 0x23, 0x07, 0x9e,
+        0x47, 0x10, 0x95, 0x91, 0x88, 0x55, 0xd8, 0x17
+    ];
+
+    #endregion
 }

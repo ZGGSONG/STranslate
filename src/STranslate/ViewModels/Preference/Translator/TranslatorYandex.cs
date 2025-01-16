@@ -44,6 +44,41 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
 
     #region Properties
 
+    #region Yandex
+
+    private const string ApiUrl = "https://translate.yandex.net/api/v1/tr.json";
+    private const string DefaultUserAgent = "ru.yandex.translate/3.20.2024";
+    private CachedObject<Guid> _cachedUcid;
+
+    /// <summary>
+    ///     https://github.com/d4n3436/GTranslate/blob/master/src/GTranslate/Translators/YandexTranslator.cs
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    private class CachedObject<T>
+    {
+        public T Value { get; }
+        private readonly DateTime _expirationTime;
+
+        public CachedObject(T value, TimeSpan expirationPeriod)
+        {
+            Value = value;
+            _expirationTime = DateTime.UtcNow.Add(expirationPeriod);
+        }
+
+        public bool IsExpired() => DateTime.UtcNow > _expirationTime;
+    }
+
+    private Guid GetOrUpdateUcid()
+    {
+        if (_cachedUcid == null || _cachedUcid.IsExpired())
+        {
+            _cachedUcid = new CachedObject<Guid>(Guid.NewGuid(), TimeSpan.FromSeconds(360));
+        }
+        return _cachedUcid.Value;
+    }
+
+    #endregion
+
     [ObservableProperty] private Guid _identify = Guid.Empty;
 
     [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
@@ -130,17 +165,25 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
         var convSource = LangConverter(req.SourceLang) ?? throw new Exception($"该服务不支持{req.SourceLang.GetDescription()}");
         var convTarget = LangConverter(req.TargetLang) ?? throw new Exception($"该服务不支持{req.TargetLang.GetDescription()}");
 
-        var reqStr = JsonConvert.SerializeObject(new
+        string query = $"?ucid={GetOrUpdateUcid():N}&srv=android&format=text";
+
+        var headers = new Dictionary<string, string>
         {
-            text = req.Text,
-            source_lang = convSource,
-            target_lang = convTarget
-        });
+            { "User-Agent", DefaultUserAgent }
+        };
+
+        var reqData = new Dictionary<string, string>
+        {
+            { "text", req.Text },
+            { "lang", convSource == null ? convTarget : $"{convSource}-{convTarget}" }
+        };
+
+        var url = $"{ApiUrl}/translate{query}";
 
         try
         {
-            var resp = await HttpUtil.PostAsync(Url, reqStr, canceltoken).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
-            var data = JsonConvert.DeserializeObject<JObject>(resp)?["data"]?.ToString() ?? throw new Exception(resp);
+            var resp = await HttpUtil.PostAsync(url, reqData, headers, canceltoken).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+            var data = JsonConvert.DeserializeObject<JObject>(resp)?["text"]?.FirstOrDefault()?.ToString() ?? throw new Exception(resp);
             return TranslationResult.Success(data);
         }
         catch (OperationCanceledException)

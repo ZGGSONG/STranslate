@@ -73,7 +73,7 @@ public class HttpUtil
         string? req,
         Dictionary<string, string>? queryParams,
         Dictionary<string, string> headers,
-        CancellationToken token,
+        CancellationToken token = default,
         int timeout = 10
     )
     {
@@ -93,7 +93,7 @@ public class HttpUtil
         string url,
         Dictionary<string, string[]>? headers,
         Dictionary<string, string[]>? parameters,
-        CancellationToken token,
+        CancellationToken token = default,
         int timeout = 10
     )
     {
@@ -134,11 +134,29 @@ public class HttpUtil
     /// <param name="token"></param>
     /// <param name="timeout"></param>
     /// <returns></returns>
-    public static async Task<string> PostAsync(string url, Dictionary<string, string> formData, CancellationToken token,
+    public static async Task<string> PostAsync(string url, Dictionary<string, string> formData, CancellationToken token = default,
         int timeout = 10)
+    {
+        return await PostAsync(url, formData, null, token, timeout).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Post-FromData
+    ///     * 该方法支持设置Headers
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="formData"></param>
+    /// <param name="headers"></param>
+    /// <param name="token"></param>
+    /// <param name="timeout"></param>
+    /// <returns></returns>
+    public static async Task<string> PostAsync(string url, Dictionary<string, string> formData, Dictionary<string, string>? headers = null, CancellationToken token = default, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
         var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = new FormUrlEncodedContent(formData) };
+        if (headers != null)
+            foreach (var header in headers)
+                request.Headers.Add(header.Key, header.Value);
         var response = await client.SendAsync(request, token).ConfigureAwait(false);
         return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
@@ -154,7 +172,7 @@ public class HttpUtil
     }
 
     public static async Task PostAsync(Uri uri, Dictionary<string, string>? header, string req,  Action<string> onDataReceived,
-        CancellationToken token, int timeout = 10)
+        CancellationToken token = default, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
 
@@ -182,7 +200,7 @@ public class HttpUtil
         }
     }
 
-    private static async Task ResponseCheckAsync(HttpResponseMessage response, CancellationToken token)
+    private static async Task ResponseCheckAsync(HttpResponseMessage response, CancellationToken token = default)
     {
         if (response.IsSuccessStatusCode)
             return;
