@@ -57,6 +57,7 @@ Or group discussion
 - Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing `PaddleOCR`
 - Thanks to [Tai](https://github.com/Planshit/Tai) for upgrade functionality
 - Thanks to [pot-desktop](https://pot-app.com/) for `Prompt` design ideas
+- Thanks to [GTranslate](https://github.com/d4n3436/GTranslate ) Microsoft/Yandex service source code
 - Thanks to `ChatGPT`、`Github Copilot`
 - Thanks to JetBrains for providing open-source project free License
 - Thanks for [Posting Sharing](Sponsor.md#分享支持)
