@@ -164,6 +164,7 @@ public enum ServiceType
     KingSoftDictService,
     BingDictService,
     GoogleBuiltinService,
+    YandexService,
 }
 
 public enum TTSType
@@ -249,6 +250,7 @@ public enum IconType
     [Description("微信")] WeChat,
     [Description("Claude")] Claude,
     [Description("欧陆词典")] EuDict,
+    [Description("Yandex")] Yandex,
 }
 
 /// <summary>
