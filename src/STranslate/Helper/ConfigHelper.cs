@@ -590,6 +590,13 @@ public class ConfigHelper
     /// <param name="isStartup"></param>
     private void StartupOperate(bool isStartup)
     {
+        if (string.IsNullOrEmpty(ShortcutUtil.StartUpPath))
+        {
+            LogService.Logger.Warn("未找到开机启动目录，无法设置开机自启");
+            CurrentConfig!.IsStartup = false;
+            return;
+        }
+
         if (isStartup)
         {
             if (!ShortcutUtil.IsStartup())

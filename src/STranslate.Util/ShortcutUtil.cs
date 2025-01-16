@@ -50,7 +50,7 @@ public class ShortcutUtil
     /// <summary>
     ///     开机启动目录
     /// </summary>
-    private static readonly string StartUpPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+    public static readonly string StartUpPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
 
     /// <summary>
     ///     用户桌面目录
