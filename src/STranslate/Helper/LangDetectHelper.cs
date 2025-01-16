@@ -31,6 +31,7 @@ public class LangDetectHelper
             LangDetectType.Bing => await BingLangDetectAsync(content, token),
             LangDetectType.Yandex => await YandexLangDetectAsync(content, token),
             LangDetectType.Google => await GoogleLangDetectAsync(content, token),
+            LangDetectType.Microsoft => await MicrosoftLangDetectAsync(content, token),
             _ => LangEnum.auto
         };
     }
@@ -420,6 +421,79 @@ public class LangDetectHelper
         catch (Exception ex)
         {
             LogService.Logger.Error("谷歌语种识别出错, " + ex.Message);
+        }
+
+        return lang;
+    }
+
+    /// <summary>
+    ///     微软识别
+    /// </summary>
+    /// <param name="content"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task<LangEnum> MicrosoftLangDetectAsync(string content, CancellationToken? token = null)
+    {
+        var lang = LangEnum.auto;
+        try
+        {
+            const string ApiEndpoint = "api.cognitive.microsofttranslator.com";
+            string url = $"{ApiEndpoint}/detect?api-version=3.0";
+            var headers = new Dictionary<string, string>
+            {
+                { "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36" },
+                { "X-MT-Signature", MicrosoftAuthUtil.GetSignature(url) }
+            };
+
+            var reqStr = JsonConvert.SerializeObject(new[] { new { Text = content } });
+
+            var resp = await HttpUtil.PostAsync($"https://{url}", reqStr, null, headers, token ?? default).ConfigureAwait(false) ?? throw new Exception("请求结果为空");
+
+            var lan = JArray.Parse(resp)?.FirstOrDefault()?["language"]?.ToString() ?? "";
+
+            lang = lan switch
+            {
+                "zh-Hans" => LangEnum.zh_cn,
+                "zh-Hant" => LangEnum.zh_tw,
+                "en" => LangEnum.en,
+                "ja" => LangEnum.ja,
+                "ko" => LangEnum.ko,
+                "fr" => LangEnum.fr,
+                "es" => LangEnum.es,
+                "ru" => LangEnum.ru,
+                "de" => LangEnum.de,
+                "it" => LangEnum.it,
+                "tr" => LangEnum.tr,
+                "pt" => LangEnum.pt_br,
+                "vi" => LangEnum.vi,
+                "id" => LangEnum.id,
+                "th" => LangEnum.th,
+                "ms" => LangEnum.ms,
+                "ar" => LangEnum.ar,
+                "mn-Cyrl" => LangEnum.mn_cy,
+                "km" => LangEnum.km,
+                "nb" => LangEnum.nb_no,
+                "fa" => LangEnum.fa,
+                "sv" => LangEnum.sv,
+                "pl" => LangEnum.pl,
+                "nl" => LangEnum.nl,
+                "uk" => LangEnum.uk,
+
+                _ => LangEnum.auto
+            };
+        }
+        catch (Exception ex)
+        {
+            var msg = ex.Message;
+            if (ex.InnerException is Exception innEx)
+            {
+                var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                msg += $" {innMsg?["error"]}";
+            }
+
+            msg = msg.Trim();
+
+            LogService.Logger.Error("微软语种识别出错: " + msg);
         }
 
         return lang;

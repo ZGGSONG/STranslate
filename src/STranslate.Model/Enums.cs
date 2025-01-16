@@ -1110,7 +1110,8 @@ public enum LangDetectType
     [Description("小牛识别")] Niutrans,
     [Description("必应识别")] Bing,
     [Description("Yandex")] Yandex,
-    [Description("谷歌识别")] Google
+    [Description("谷歌识别")] Google,
+    [Description("微软识别")] Microsoft,
 }
 
 /// <summary>
