@@ -1042,6 +1042,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
         {
             (int)ServiceType.STranslateService => new TranslatorSTranslate(),
             (int)ServiceType.GoogleBuiltinService => new TranslatorGoogleBuiltin(),
+            (int)ServiceType.MicrosoftBuiltinService => new TranslatorMicrosoftBuiltin(),
             (int)ServiceType.BaiduService => new TranslatorBaidu(),
             (int)ServiceType.MicrosoftService => new TranslatorMicrosoft(),
             (int)ServiceType.OpenAIService => new TranslatorOpenAI(),

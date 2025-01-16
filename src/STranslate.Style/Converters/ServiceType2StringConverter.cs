@@ -23,6 +23,7 @@ public class ServiceType2StringConverter : IValueConverter
                 ServiceType.EcdictService => "内置",
                 ServiceType.KingSoftDictService => "内置",
                 ServiceType.BingDictService => "内置",
+                ServiceType.MicrosoftBuiltinService => "内置",
                 _ => "官方"
                 //TODO: 新接口需要适配
             },

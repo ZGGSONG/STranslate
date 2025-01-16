@@ -18,6 +18,7 @@ public class ServiceType2BrushConverter : IValueConverter
             {
                 ServiceType.DeepLXService => selfBuild,
                 ServiceType.GoogleBuiltinService => local,
+                ServiceType.MicrosoftBuiltinService => local,
                 ServiceType.YandexService => local,
                 ServiceType.STranslateService => local,
                 ServiceType.EcdictService => local,

@@ -7,66 +7,161 @@ namespace STranslate.Model;
 /// </summary>
 public enum LangEnum
 {
+    /// <summary>
+    ///     自动选择
+    /// </summary>
     [Description("自动选择")] auto,
 
+    /// <summary>
+    ///     中文简体
+    /// </summary>
     [Description("中文")] zh_cn,
 
+    /// <summary>
+    ///     中文繁体
+    /// </summary>
     [Description("中文繁体")] zh_tw,
 
+    /// <summary>
+    ///     中文粤语
+    /// </summary>
     [Description("中文粤语")] yue,
 
+    /// <summary>
+    ///     英语
+    /// </summary>
     [Description("英语")] en,
 
+    /// <summary>
+    ///     日语
+    /// </summary>
     [Description("日语")] ja,
 
+    /// <summary>
+    ///     韩语
+    /// </summary>
     [Description("韩语")] ko,
 
+    /// <summary>
+    ///     法语
+    /// </summary>
     [Description("法语")] fr,
 
+    /// <summary>
+    ///     西班牙语
+    /// </summary>
     [Description("西班牙语")] es,
 
+    /// <summary>
+    ///     俄语
+    /// </summary>
     [Description("俄语")] ru,
 
+    /// <summary>
+    ///     德语
+    /// </summary>
     [Description("德语")] de,
 
+    /// <summary>
+    ///     意大利语
+    /// </summary>
     [Description("意大利语")] it,
 
+    /// <summary>
+    ///     土耳其语
+    /// </summary>
     [Description("土耳其语")] tr,
 
+    /// <summary>
+    ///     葡萄牙语
+    /// </summary>
     [Description("葡萄牙语")] pt_pt,
 
+    /// <summary>
+    ///     布列塔尼语
+    /// </summary>
     [Description("布列塔尼语")] pt_br,
 
+    /// <summary>
+    ///     越南语
+    /// </summary>
     [Description("越南语")] vi,
 
+    /// <summary>
+    ///     印度尼西亚语
+    /// </summary>
     [Description("印度尼西亚语")] id,
 
+    /// <summary>
+    ///     泰语
+    /// </summary>
     [Description("泰语")] th,
 
+    /// <summary>
+    ///     马来语
+    /// </summary>
     [Description("马来语")] ms,
 
+    /// <summary>
+    ///     阿拉伯语
+    /// </summary>
     [Description("阿拉伯语")] ar,
 
+    /// <summary>
+    ///     印地语
+    /// </summary>
     [Description("印地语")] hi,
 
+    /// <summary>
+    ///     蒙古语(西里尔)
+    /// </summary>
     [Description("蒙古语(西里尔)")] mn_cy,
 
+    /// <summary>
+    ///     蒙古语
+    /// </summary>
     [Description("蒙古语")] mn_mo,
 
+    /// <summary>
+    ///     高棉语
+    /// </summary>
     [Description("高棉语")] km,
 
+    /// <summary>
+    ///     书面挪威语
+    /// </summary>
     [Description("书面挪威语")] nb_no,
 
-    [Description("新挪威语")] nn_no,
+    /// <summary>
+    ///     新挪威语
+    /// </summary>
+    [Description("新挪威语")]
+    nn_no,
 
-    [Description("波斯语")] fa,
+    /// <summary>
+    ///     波斯语
+    /// </summary>
+    [Description("波斯语")]
+    fa,
 
+    /// <summary>
+    ///     瑞典语
+    /// </summary>
     [Description("瑞典语")] sv,
 
+    /// <summary>
+    ///     波兰语
+    /// </summary>
     [Description("波兰语")] pl,
 
+    /// <summary>
+    ///     荷兰语
+    /// </summary>
     [Description("荷兰语")] nl,
 
+    /// <summary>
+    ///     乌克兰语
+    /// </summary>
     [Description("乌克兰语")] uk
 }
 
@@ -164,6 +259,7 @@ public enum ServiceType
     KingSoftDictService,
     BingDictService,
     GoogleBuiltinService,
+    MicrosoftBuiltinService,
     YandexService,
 }
 

@@ -841,6 +841,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.BingDictService => new TranslatorBingDict(),
                 (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
                 (int)ServiceType.YandexService => new TranslatorYandex(),
+                (int)ServiceType.MicrosoftBuiltinService => new TranslatorMicrosoftBuiltin(),
                 //TODO: 新接口需要适配
                 _ => new TranslatorGoogleBuiltin()
             };

@@ -23,6 +23,7 @@ public class ServiceTypeFilterConverter : IValueConverter
                 or ServiceType.BingDictService
                 or ServiceType.GoogleBuiltinService
                 or ServiceType.YandexService
+                or ServiceType.MicrosoftBuiltinService
                 ),
             "official" => list.Where(x => x.Type
                 is not (ServiceType.GoogleBuiltinService
@@ -32,6 +33,7 @@ public class ServiceTypeFilterConverter : IValueConverter
                 or ServiceType.KingSoftDictService
                 or ServiceType.BingDictService
                 or ServiceType.YandexService
+                or ServiceType.MicrosoftBuiltinService
                 )),
             //TODO: 新接口需要适配
             _ => list

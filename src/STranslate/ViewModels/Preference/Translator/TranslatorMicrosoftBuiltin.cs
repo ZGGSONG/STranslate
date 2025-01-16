@@ -11,23 +11,23 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorYandex : TranslatorBase, ITranslator
+public partial class TranslatorMicrosoftBuiltin : TranslatorBase, ITranslator
 {
     #region Constructor
 
-    public TranslatorYandex() : this(Guid.NewGuid(), "https://yandex.deno.dev/translate", "Yandex")
+    public TranslatorMicrosoftBuiltin() : this(Guid.NewGuid(), "https://st-ms.deno.dev/translate", "Microsoft")
     {
     }
 
-    public TranslatorYandex(
+    public TranslatorMicrosoftBuiltin(
         Guid guid,
         string url,
         string name = "",
-        IconType icon = IconType.Yandex,
+        IconType icon = IconType.Microsoft,
         string appId = "",
         string appKey = "",
         bool isEnabled = true,
-        ServiceType type = ServiceType.YandexService
+        ServiceType type = ServiceType.MicrosoftBuiltinService
     )
     {
         Identify = guid;
@@ -179,7 +179,7 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
 
     public ITranslator Clone()
     {
-        return new TranslatorYandex
+        return new TranslatorGoogleBuiltin
         {
             Identify = Identify,
             Type = Type,
@@ -198,7 +198,7 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
     }
 
     /// <summary>
-    ///     https://zh.wikipedia.org/wiki/ISO_639-1
+    ///     https://learn.microsoft.com/zh-cn/azure/ai-services/translator/language-support
     /// </summary>
     /// <param name="lang"></param>
     /// <returns></returns>
@@ -207,8 +207,8 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
         return lang switch
         {
             LangEnum.auto => "auto",
-            LangEnum.zh_cn => "zh",
-            LangEnum.zh_tw => null,
+            LangEnum.zh_cn => "zh-Hans",
+            LangEnum.zh_tw => "zh-Hant",
             LangEnum.yue => null,
             LangEnum.en => "en",
             LangEnum.ja => "ja",
@@ -219,19 +219,19 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
             LangEnum.de => "de",
             LangEnum.it => "it",
             LangEnum.tr => "tr",
-            LangEnum.pt_pt => "pt",
+            LangEnum.pt_pt => "pt-pt",
             LangEnum.pt_br => "pt",
             LangEnum.vi => "vi",
             LangEnum.id => "id",
             LangEnum.th => "th",
             LangEnum.ms => "ms",
             LangEnum.ar => "ar",
-            LangEnum.hi => "hi",
-            LangEnum.mn_cy => "mn",
-            LangEnum.mn_mo => "mn",
+            LangEnum.hi => null,
+            LangEnum.mn_cy => "mn-Cyrl",
+            LangEnum.mn_mo => "mn-Mong",
             LangEnum.km => "km",
-            LangEnum.nb_no => "no",
-            LangEnum.nn_no => "no",
+            LangEnum.nb_no => "nb",
+            LangEnum.nn_no => "nb",
             LangEnum.fa => "fa",
             LangEnum.sv => "sv",
             LangEnum.pl => "pl",
