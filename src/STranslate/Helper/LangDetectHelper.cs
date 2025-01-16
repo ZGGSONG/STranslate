@@ -428,6 +428,7 @@ public class LangDetectHelper
 
     /// <summary>
     ///     微软识别
+    ///     <see href="https://learn.microsoft.com/zh-cn/azure/ai-services/translator/reference/v3-0-detect"/>
     /// </summary>
     /// <param name="content"></param>
     /// <param name="token"></param>
