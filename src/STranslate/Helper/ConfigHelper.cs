@@ -882,7 +882,9 @@ public class ConfigHelper
             ReplaceProp = new ReplaceProp(),
             Services =
             [
-                new TranslatorSTranslate(),
+                new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", isEnabled: false),
+                new TranslatorMicrosoftBuiltin(),
+                new TranslatorYandex(),
                 new TranslatorGoogleBuiltin(),
                 new TranslatorKingSoftDict(),
                 new TranslatorBingDict(),
