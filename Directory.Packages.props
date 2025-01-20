@@ -8,7 +8,7 @@
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="Dapper.Contrib" Version="2.0.78" />
     <PackageVersion Include="EdgeTTS.Net" Version="1.1.2.3" />
-    <PackageVersion Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageVersion Include="gong-wpf-dragdrop" Version="4.0.0" />
     <PackageVersion Include="H.InputSimulator" Version="1.4.2" />
     <PackageVersion Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageVersion Include="Microsoft.CognitiveServices.Speech" Version="1.41.1" />
@@ -17,7 +17,7 @@
     <PackageVersion Include="NAudio" Version="2.2.1" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="PaddleOCRSharp" Version="4.3.0" />
-    <PackageVersion Include="ScreenGrab" Version="1.0.4" />
+    <PackageVersion Include="ScreenGrab" Version="1.0.6" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
     <PackageVersion Include="System.Speech" Version="9.0.0" />
