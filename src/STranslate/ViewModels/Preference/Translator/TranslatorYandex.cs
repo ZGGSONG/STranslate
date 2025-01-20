@@ -48,7 +48,7 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
 
     private const string ApiUrl = "https://translate.yandex.net/api/v1/tr.json";
     private const string DefaultUserAgent = "ru.yandex.translate/3.20.2024";
-    private CachedObject<Guid> _cachedUcid;
+    private CachedObject<Guid>? _cachedUcid;
 
     /// <summary>
     ///     https://github.com/d4n3436/GTranslate/blob/master/src/GTranslate/Translators/YandexTranslator.cs
