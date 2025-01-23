@@ -162,6 +162,7 @@
                     MinWidth="300"
                     Margin="0,0,0,10"
                     HorizontalAlignment="Left"
+                    AcceptsReturn="True"
                     Placeholder="SystemPrompt(can be empty)"
                     Text="{Binding SystemPrompt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     TextWrapping="Wrap" />
@@ -175,6 +176,7 @@
                     MinWidth="300"
                     Margin="0,0,0,10"
                     HorizontalAlignment="Left"
+                    AcceptsReturn="True"
                     Placeholder="UserPrompt(not be empty)"
                     Text="{Binding UserPrompt, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     TextWrapping="Wrap" />
