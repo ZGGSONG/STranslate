@@ -1121,7 +1121,7 @@ public enum GithubProxy
 {
     [Description("")] None,
 
-    [Description("https://mirror.ghproxy.com/")]
+    [Description("https://gh-proxy.com/")]
     GHProxy
 }
 
