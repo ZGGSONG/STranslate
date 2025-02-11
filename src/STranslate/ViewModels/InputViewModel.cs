@@ -406,7 +406,6 @@ public partial class InputViewModel : ObservableObject
         if (_userSelectedLang != null)
         {
             identify = (LangEnum)_userSelectedLang;
-            IdentifyLanguage = identify.GetDescription();
         }
         else if (source == LangEnum.auto)
         {
@@ -431,11 +430,11 @@ public partial class InputViewModel : ObservableObject
             identify = identify == LangEnum.auto
                 ? CnfHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en
                 : identify;
-
-            // 获取最终的识别语种
-            IdentifyLanguage = identify.GetDescription();
-            source = identify;
         }
+
+        // 获取最终的识别语种
+        IdentifyLanguage = identify.GetDescription();
+        source = identify;
 
         if (target == LangEnum.auto)
             target = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
