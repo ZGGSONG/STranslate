@@ -86,7 +86,6 @@ public partial class TranslatorViewModel : ObservableObject
     private void ResetView(ActionType type = ActionType.Initialize)
     {
         ServiceCounter = CurTransServiceList.Count;
-        OnSelectedServiceChanged?.Invoke();
 
         if (ServiceCounter < 1)
             return;
@@ -115,6 +114,9 @@ public partial class TranslatorViewModel : ObservableObject
                 break;
             }
         }
+
+        // 刷新当前服务列表位置放后面才能刷新
+        OnSelectedServiceChanged?.Invoke();
     }
 
     public void ExternalTogglePage(ITranslator? service)
