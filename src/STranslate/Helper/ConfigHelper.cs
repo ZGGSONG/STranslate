@@ -884,7 +884,7 @@ public class ConfigHelper
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", isEnabled: false),
                 new TranslatorMicrosoftBuiltin(),
-                new TranslatorYandex(),
+                new TranslatorYandexBuiltIn(),
                 new TranslatorGoogleBuiltin(),
                 new TranslatorKingSoftDict(),
                 new TranslatorBingDict(),
@@ -1066,7 +1066,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.KingSoftDictService => new TranslatorKingSoftDict(),
             (int)ServiceType.BingDictService => new TranslatorBingDict(),
             (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
-            (int)ServiceType.YandexService => new TranslatorYandex(),
+            (int)ServiceType.YandexBuiltInService => new TranslatorYandexBuiltIn(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

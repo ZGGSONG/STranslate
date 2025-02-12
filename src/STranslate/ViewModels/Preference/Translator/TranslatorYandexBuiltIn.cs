@@ -11,15 +11,15 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorYandex : TranslatorBase, ITranslator
+public partial class TranslatorYandexBuiltIn : TranslatorBase, ITranslator
 {
     #region Constructor
 
-    public TranslatorYandex() : this(Guid.NewGuid(), "https://yandex.deno.dev/translate", "Yandex")
+    public TranslatorYandexBuiltIn() : this(Guid.NewGuid(), "https://yandex.deno.dev/translate", "Yandex")
     {
     }
 
-    public TranslatorYandex(
+    public TranslatorYandexBuiltIn(
         Guid guid,
         string url,
         string name = "",
@@ -27,7 +27,7 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
         string appId = "",
         string appKey = "",
         bool isEnabled = true,
-        ServiceType type = ServiceType.YandexService
+        ServiceType type = ServiceType.YandexBuiltInService
     )
     {
         Identify = guid;
@@ -222,7 +222,7 @@ public partial class TranslatorYandex : TranslatorBase, ITranslator
 
     public ITranslator Clone()
     {
-        return new TranslatorYandex
+        return new TranslatorYandexBuiltIn
         {
             Identify = Identify,
             Type = Type,

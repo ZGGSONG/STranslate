@@ -22,7 +22,7 @@ public class ServiceTypeFilterConverter : IValueConverter
                 or ServiceType.KingSoftDictService
                 or ServiceType.BingDictService
                 or ServiceType.GoogleBuiltinService
-                or ServiceType.YandexService
+                or ServiceType.YandexBuiltInService
                 or ServiceType.MicrosoftBuiltinService
                 ),
             "official" => list.Where(x => x.Type
@@ -32,7 +32,7 @@ public class ServiceTypeFilterConverter : IValueConverter
                 or ServiceType.EcdictService
                 or ServiceType.KingSoftDictService
                 or ServiceType.BingDictService
-                or ServiceType.YandexService
+                or ServiceType.YandexBuiltInService
                 or ServiceType.MicrosoftBuiltinService
                 )),
             //TODO: 新接口需要适配

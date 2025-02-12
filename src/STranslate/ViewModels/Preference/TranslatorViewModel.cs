@@ -10,6 +10,7 @@ using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Translator;
+using STranslate.Views.Preference;
 using STranslate.Views.Preference.Translator;
 
 namespace STranslate.ViewModels.Preference;
@@ -46,31 +47,31 @@ public partial class TranslatorViewModel : ObservableObject
     public TranslatorViewModel()
     {
         //添加默认支持服务
+        TransServices.Add(new TranslatorDeepLX());
         TransServices.Add(new TranslatorSTranslate());
-        TransServices.Add(new TranslatorEcdict());
         TransServices.Add(new TranslatorGoogleBuiltin());
         TransServices.Add(new TranslatorMicrosoftBuiltin());
-        TransServices.Add(new TranslatorYandex());
-        TransServices.Add(new TranslatorDeepLX());
+        TransServices.Add(new TranslatorYandexBuiltIn());
+        TransServices.Add(new TranslatorKingSoftDict());
+        TransServices.Add(new TranslatorBingDict());
+        TransServices.Add(new TranslatorEcdict());
+        TransServices.Add(new TranslatorDeepL());
         TransServices.Add(new TranslatorOpenAI());
+        TransServices.Add(new TranslatorClaude());
+        TransServices.Add(new TranslatorChatglm());
+        TransServices.Add(new TranslatorDeepSeek());
+        TransServices.Add(new TranslatorAzureOpenAI());
+        TransServices.Add(new TranslatorOllama());
+        TransServices.Add(new TranslatorBaiduBce());
         TransServices.Add(new TranslatorGemini());
         TransServices.Add(new TranslatorAli());
         TransServices.Add(new TranslatorBaidu());
         TransServices.Add(new TranslatorTencent());
-        TransServices.Add(new TranslatorNiutrans());
         TransServices.Add(new TranslatorMicrosoft());
         TransServices.Add(new TranslatorYoudao());
-        TransServices.Add(new TranslatorCaiyun());
         TransServices.Add(new TranslatorVolcengine());
-        TransServices.Add(new TranslatorChatglm());
-        TransServices.Add(new TranslatorOllama());
-        TransServices.Add(new TranslatorBaiduBce());
-        TransServices.Add(new TranslatorDeepL());
-        TransServices.Add(new TranslatorAzureOpenAI());
-        TransServices.Add(new TranslatorClaude());
-        TransServices.Add(new TranslatorDeepSeek());
-        TransServices.Add(new TranslatorKingSoftDict());
-        TransServices.Add(new TranslatorBingDict());
+        TransServices.Add(new TranslatorNiutrans());
+        TransServices.Add(new TranslatorCaiyun());
         //TODO: 新接口需要适配
 
         ResetView();
@@ -158,7 +159,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.KingSoftDictService => $"{head}{nameof(TranslatorKingSoftDictPage)}",
             ServiceType.BingDictService => $"{head}{nameof(TranslatorBingDictPage)}",
             ServiceType.DeepLXService => $"{head}{nameof(TranslatorDeepLXPage)}",
-            ServiceType.YandexService => $"{head}{nameof(TranslatorYandexPage)}",
+            ServiceType.YandexBuiltInService => $"{head}{nameof(TranslatorYandexBuiltInPage)}",
             ServiceType.MicrosoftBuiltinService => $"{head}{nameof(TranslatorMicrosoftBuiltinPage)}",
             //TODO: 新接口需要适配
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
@@ -167,6 +168,7 @@ public partial class TranslatorViewModel : ObservableObject
         NavigationPage(name, service);
     }
 
+    [Obsolete("使用专门的弹窗进行服务添加")]
     [RelayCommand]
     private void Add(List<object> list)
     {
@@ -199,7 +201,7 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorKingSoftDict kingsoftdict => kingsoftdict.Clone(),
                 TranslatorBingDict bingdict => bingdict.Clone(),
                 TranslatorDeepLX deeplx => deeplx.Clone(),
-                TranslatorYandex yandex => yandex.Clone(),
+                TranslatorYandexBuiltIn yandex => yandex.Clone(),
                 TranslatorMicrosoftBuiltin microsoftBuiltin => microsoftBuiltin.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
@@ -280,5 +282,17 @@ public partial class TranslatorViewModel : ObservableObject
         {
             LogService.Logger.Error("服务导航出错", ex);
         }
+    }
+
+    [RelayCommand]
+    private void OpenSelectPage(BindingList<ITranslator> translators)
+    {
+        var dialog = new TranslatorSelectDialog(translators);
+        if (dialog.ShowDialog() != true)
+            return;
+
+        CurTransServiceList.Add(dialog.SelectedTranslator!);
+
+        ResetView(ActionType.Add);
     }
 }

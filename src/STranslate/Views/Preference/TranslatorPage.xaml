@@ -179,7 +179,21 @@
 
                     <!--  // Add Service //  -->
                     <Grid>
-                        <ToggleButton
+                        <Button
+                            Width="50"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+                            BorderThickness="1"
+                            Command="{Binding OpenSelectPageCommand}"
+                            CommandParameter="{Binding TransServices}"
+                            Content="+"
+                            Style="{DynamicResource ButtonIconStyle}" />
+
+                        <!--#region 旧版服务列表-丢弃-->
+                        <!--<ToggleButton
                             x:Name="BTN_Add"
                             Width="50"
                             HorizontalAlignment="Left"
@@ -209,7 +223,9 @@
                                         BorderThickness="0"
                                         ItemTemplateSelector="{StaticResource TranslatorTemplateSelector}"
                                         PreviewMouseWheel="ServiceListBox_PreviewMouseWheel">
-                                        <!--  ItemsSource="{Binding TransServices}"  -->
+                        -->
+                        <!--  ItemsSource="{Binding TransServices}"  -->
+                        <!--
                                         <ListBox.ItemsSource>
                                             <CompositeCollection>
                                                 <CollectionContainer Collection="{Binding Source={StaticResource Services}, Path=Data, Converter={StaticResource ServiceTypeFilterConverter}, ConverterParameter=selfBuild}" />
@@ -234,7 +250,8 @@
                                     </ListBox>
                                 </ScrollViewer>
                             </Border>
-                        </Popup>
+                        </Popup>-->
+                        <!--#endregion-->
 
                         <Button
                             x:Name="BTN_Del"

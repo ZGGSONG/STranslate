@@ -131,7 +131,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.KingSoftDictService => new TranslatorKingSoftDict(),
             (int)ServiceType.BingDictService => new TranslatorBingDict(),
             (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
-            (int)ServiceType.YandexService => new TranslatorYandex(),
+            (int)ServiceType.YandexBuiltInService => new TranslatorYandexBuiltIn(),
             (int)ServiceType.MicrosoftBuiltinService => new TranslatorMicrosoftBuiltin(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")

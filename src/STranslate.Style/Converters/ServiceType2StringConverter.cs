@@ -18,7 +18,7 @@ public class ServiceType2StringConverter : IValueConverter
             {
                 ServiceType.DeepLXService => "自建",
                 ServiceType.GoogleBuiltinService => "内置",
-                ServiceType.YandexService => "内置",
+                ServiceType.YandexBuiltInService => "内置",
                 ServiceType.STranslateService => "内置",
                 ServiceType.EcdictService => "内置",
                 ServiceType.KingSoftDictService => "内置",

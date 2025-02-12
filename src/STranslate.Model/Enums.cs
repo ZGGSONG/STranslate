@@ -260,7 +260,7 @@ public enum ServiceType
     BingDictService,
     GoogleBuiltinService,
     MicrosoftBuiltinService,
-    YandexService,
+    YandexBuiltInService,
 }
 
 public enum TTSType

@@ -3,9 +3,9 @@ using STranslate.Model;
 
 namespace STranslate.Views.Preference.Translator;
 
-public partial class TranslatorYandexPage : UserControl
+public partial class TranslatorYandexBuiltInPage : UserControl
 {
-    public TranslatorYandexPage(ITranslator vm)
+    public TranslatorYandexBuiltInPage(ITranslator vm)
     {
         InitializeComponent();
 
