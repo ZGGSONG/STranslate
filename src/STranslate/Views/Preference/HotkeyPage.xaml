@@ -427,7 +427,7 @@
                                 MinWidth="160"
                                 HorizontalAlignment="Left"
                                 Command="{Binding ResetCommand}"
-                                Content="恢复默认" />
+                                Content="撤销修改" />
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
