@@ -378,6 +378,9 @@ public partial class TranslatorDeepSeek : TranslatorBase, ITranslatorLlm
         
         try
         {
+            var sb = new StringBuilder();
+            bool isThink = false;
+
             await HttpUtil.PostAsync(
                 uriBuilder.Uri,
                 jsonData,
@@ -393,19 +396,60 @@ public partial class TranslatorDeepSeek : TranslatorBase, ITranslatorLlm
                     if (preprocessString.Equals("[DONE]"))
                         return;
 
-                    // 解析JSON数据
-                    var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
+                    try
+                    {
+                        // 解析JSON数据
+                        var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
 
-                    if (parsedData is null)
-                        return;
+                        if (parsedData is null)
+                            return;
 
-                    // 提取content的值
-                    var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
+                        // 提取content的值
+                        var contentValue = parsedData["choices"]?.FirstOrDefault()?["delta"]?["content"]?.ToString();
 
-                    if (string.IsNullOrEmpty(contentValue))
-                        return;
+                        if (string.IsNullOrEmpty(contentValue))
+                            return;
 
-                    onDataReceived?.Invoke(contentValue);
+                        /***********************************************************************
+                         * 推理模型思考内容
+                         * 1. content字段内：Groq（推理后带有换行）
+                         * 2. reasoning_content字段内：DeepSeek、硅基流动（推理后带有换行）、第三方服务商
+                         ************************************************************************/
+
+                        #region 针对content内容中含有推理内容的优化
+
+                        if (contentValue == "<think>")
+                            isThink = true;
+                        if (contentValue == "</think>")
+                        {
+                            isThink = false;
+                            // 跳过当前内容
+                            return;
+                        }
+
+                        if (isThink)
+                            return;
+
+                        #endregion
+
+                        #region 针对推理过后带有换行的情况进行优化
+
+                        // 优化推理模型思考结束后的\n\n符号
+                        if (string.IsNullOrWhiteSpace(sb.ToString()) && string.IsNullOrWhiteSpace(contentValue))
+                            return;
+
+                        sb.Append(contentValue);
+
+                        #endregion
+
+                        onDataReceived?.Invoke(contentValue);
+                    }
+                    catch
+                    {
+                        // Ignore
+                        // * 适配OpenRouter等第三方服务流数据中包含与OpenAI官方API中不同的数据
+                        // * 如 ": OPENROUTER PROCESSING"
+                    }
                 },
                 token
             ).ConfigureAwait(false);
