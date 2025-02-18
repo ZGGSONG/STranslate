@@ -21,14 +21,21 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
-  <!--// PaddleOCR模型文件 //-->
   <ItemGroup>
+    <Content Include="install_startup.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="uninstall_startup.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="z_uninstall.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="cleanocr.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    
+	<!--// PaddleOCR模型文件 //-->
     <Content Include="inference\japan_dict.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
