@@ -381,6 +381,9 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
 
         try
         {
+            var sb = new StringBuilder();
+            bool isThink = false;
+
             await HttpUtil.PostAsync(
                 uriBuilder.Uri,
                 jsonData,
@@ -409,6 +412,38 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
 
                         if (string.IsNullOrEmpty(contentValue))
                             return;
+
+                        /***********************************************************************
+                         * 推理模型思考内容
+                         * 1. content字段内：Groq（推理后带有换行）
+                         * 2. reasoning_content字段内：DeepSeek、硅基流动（推理后带有换行）、第三方服务商
+                         ************************************************************************/
+
+                        #region 针对content内容中含有推理内容的优化
+
+                        if (contentValue == "<think>")
+                            isThink = true;
+                        if (contentValue == "</think>")
+                        {
+                            isThink = false;
+                            // 跳过当前内容
+                            return;
+                        }
+
+                        if (isThink)
+                            return;
+
+                        #endregion
+
+                        #region 针对推理过后带有换行的情况进行优化
+
+                        // 优化推理模型思考结束后的\n\n符号
+                        if (string.IsNullOrWhiteSpace(sb.ToString()) && string.IsNullOrWhiteSpace(contentValue))
+                            return;
+
+                        sb.Append(contentValue);
+
+                        #endregion
 
                         onDataReceived?.Invoke(contentValue);
                     }
