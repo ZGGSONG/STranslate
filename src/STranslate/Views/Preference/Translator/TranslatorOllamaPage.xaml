@@ -107,7 +107,7 @@
                         Style="{DynamicResource IconComboBoxStyle}" />
                 </Grid>
 
-                <Grid Margin="0,10">
+                <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -120,6 +120,18 @@
                         HorizontalAlignment="Left"
                         Placeholder="http://localhost:11434"
                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="1"
+                        FontSize="{DynamicResource FontSize14}"
+                        Text="接口API地址不填写Path内容则自动填充 /api/chat&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions"
+                        TextWrapping="WrapWithOverflow" />
                 </Grid>
 
                 <Grid Margin="0,10">

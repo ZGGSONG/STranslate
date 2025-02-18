@@ -29,6 +29,12 @@ public partial class TranslatorOpenAIPage : UserControl
         Process.Start(new ProcessStartInfo { FileName = "https://openai.com", UseShellExecute = true });
     }
 
+    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo { FileName = e.Uri.ToString(), UseShellExecute = true });
+        e.Handled = true;
+    }
+
     /// <summary>
     ///     ListBox鼠标滚轮事件处理函数
     /// </summary>
