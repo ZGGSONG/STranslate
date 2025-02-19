@@ -126,12 +126,11 @@ public partial class OpenAIOCR : OCRBase, IOCR
     [ObservableProperty]
     private BindingList<UserDefinePrompt> _userDefinePrompts =
     [
-        new UserDefinePrompt(
+        new(
             "文本识别",
             [
-                new Prompt("You are a specialized OCR engine that accurately extracts each text from the image."),
-                new Prompt("user",
-                    "Please recognize the text in the picture, the language in the picture is $target")
+                new Prompt("system", "You are a specialized OCR engine that accurately extracts each text from the image."),
+                new Prompt("user", "Please recognize the text in the picture, the language in the picture is $target")
             ],
             true
         )
@@ -412,18 +411,9 @@ public partial class OpenAIOCR : OCRBase, IOCR
         // 解析JSON数据
         var rawData = JsonConvert.DeserializeObject<JObject>(resp)?["choices"]?[0]?["message"]?["content"] ??
                         throw new Exception($"反序列化失败: {resp}");
-        var parsedData = JsonConvert.DeserializeObject<Root>(rawData.ToString()) ??
-                            throw new Exception($"反序列化失败: {resp}");
 
-        foreach (var item in parsedData.words_result)
+        foreach (var content in rawData.ToString().Split("\n").ToList().Select(item => new OcrContent(item)))
         {
-            var content = new OcrContent(item.words);
-            Converter(item.location).ForEach(pg =>
-            {
-                //仅位置不全为0时添加
-                if (!pg.X.Equals(pg.Y) || pg.X != 0)
-                    content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-            });
             ocrResult.OcrContents.Add(content);
         }
         
