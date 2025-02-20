@@ -1,26 +1,12 @@
-﻿using System.ComponentModel;
-using System.IO;
-using System.Text;
-using System.Windows;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using STranslate.Helper;
-using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
-using STranslate.ViewModels.Preference.Translator;
-using STranslate.Views.Preference.Translator;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class OpenAIOCR : OCRBase, IOCR
+public partial class OpenAIOCR : OCRLLMBase, IOCRLLM
 {
-    #region Constructor
-
     public OpenAIOCR()
         : this(Guid.NewGuid(), "https://api.openai.com", "OpenAIOCR", isEnabled: false)
     {
@@ -46,249 +32,6 @@ public partial class OpenAIOCR : OCRBase, IOCR
         IsEnabled = isEnabled;
         Type = type;
     }
-
-    #endregion Constructor
-
-    #region Properties
-
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.BaiduOCR;
-
-    [JsonIgnore][ObservableProperty] private double _temperature = 1.0;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.BaiduBce;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        switch (obj)
-        {
-            case null:
-                return;
-            case nameof(AppID):
-                IdHide = !IdHide;
-                break;
-            case nameof(AppKey):
-                KeyHide = !KeyHide;
-                break;
-        }
-    }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
-
-    #region Prompt
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _model = "gpt-4o-2024-08-06";
-
-    [JsonIgnore]
-    [ObservableProperty]
-    private BindingList<UserDefinePrompt> _userDefinePrompts =
-    [
-        new(
-            "文本识别",
-            [
-                new Prompt("system", "You are a specialized OCR engine that accurately extracts each text from the image."),
-                new Prompt("user", "Please recognize the text in the picture, the language in the picture is $target")
-            ],
-            true
-        )
-    ];
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void SelectedPrompt(List<object> obj)
-    {
-        var userDefinePrompt = (UserDefinePrompt)obj.First();
-        foreach (var item in UserDefinePrompts) item.Enabled = false;
-        userDefinePrompt.Enabled = true;
-        ManualPropChanged(nameof(UserDefinePrompts));
-
-        if (obj.Count == 2)
-            Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-    }
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void UpdatePrompt(UserDefinePrompt userDefinePrompt)
-    {
-        var dialog = new PromptDialog(ServiceType.OpenAIService, (UserDefinePrompt)userDefinePrompt.Clone());
-        if (!(dialog.ShowDialog() ?? false)) return;
-        var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
-        userDefinePrompt.Name = tmp.Name;
-        userDefinePrompt.Prompts = tmp.Prompts;
-        ManualPropChanged(nameof(UserDefinePrompts));
-    }
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void DeletePrompt(UserDefinePrompt userDefinePrompt)
-    {
-        UserDefinePrompts.Remove(userDefinePrompt);
-        ManualPropChanged(nameof(UserDefinePrompts));
-    }
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void AddPrompt()
-    {
-        var userDefinePrompt = new UserDefinePrompt("Undefined", []);
-        var dialog = new PromptDialog(ServiceType.OpenAIService, userDefinePrompt);
-        if (!(dialog.ShowDialog() ?? false)) return;
-        var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
-        userDefinePrompt.Name = tmp.Name;
-        userDefinePrompt.Prompts = tmp.Prompts;
-        UserDefinePrompts.Add(userDefinePrompt);
-        ManualPropChanged(nameof(UserDefinePrompts));
-    }
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void AddPromptFromDrop(DragEventArgs e)
-    {
-        if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-
-        if (e.Data.GetData(DataFormats.FileDrop) is not string[] files) return;
-        // 取第一个文件
-        var filePath = files[0];
-
-        if (Path.GetExtension(filePath).Equals(".json", StringComparison.CurrentCultureIgnoreCase))
-        {
-            PromptFileHandle(filePath);
-            ToastHelper.Show("导入成功", WindowType.Preference);
-        }
-        else
-            ToastHelper.Show("请拖入Prompt文件", WindowType.Preference);
-    }
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void AddPromptFromFile()
-    {
-        var openFileDialog = new OpenFileDialog { Filter = "json(*.json)|*.json" };
-        if (openFileDialog.ShowDialog() != true)
-            return;
-        PromptFileHandle(openFileDialog.FileName);
-    }
-
-    private void PromptFileHandle(string path)
-    {
-        var jsonStr = File.ReadAllText(path);
-        try
-        {
-            var prompt = JsonConvert.DeserializeObject<UserDefinePrompt>(jsonStr);
-            if (prompt is { Name: not null, Prompts: not null })
-            {
-                prompt.Enabled = false;
-                UserDefinePrompts.Add(prompt);
-                ManualPropChanged(nameof(UserDefinePrompts));
-            }
-            else
-            {
-                ToastHelper.Show("导入内容为空", WindowType.Preference);
-            }
-        }
-        catch
-        {
-            try
-            {
-                var prompt = JsonConvert.DeserializeObject<List<UserDefinePrompt>>(jsonStr);
-                if (prompt != null)
-                {
-                    foreach (var item in prompt)
-                    {
-                        item.Enabled = false;
-                        UserDefinePrompts.Add(item);
-                    }
-                    ManualPropChanged(nameof(UserDefinePrompts));
-                }
-                else
-                {
-                    ToastHelper.Show("导入内容为空", WindowType.Preference);
-                }
-            }
-            catch (Exception e)
-            {
-                LogService.Logger.Error($"导入Prompt失败: {e.Message}", e);
-                ToastHelper.Show("导入失败", WindowType.Preference);
-            }
-        }
-    }
-
-    [RelayCommand]
-    [property: JsonIgnore]
-    private void Export()
-    {
-        string jsonStr;
-        StringBuilder sb = new($"{Name}_Prompt_");
-        if ((Keyboard.Modifiers & ModifierKeys.Control) <= 0)
-        {
-            var selectedPrompt = UserDefinePrompts.FirstOrDefault(x => x.Enabled);
-            if (selectedPrompt == null)
-            {
-                ToastHelper.Show("未选择Prompt", WindowType.Preference);
-                return;
-            }
-            jsonStr = JsonConvert.SerializeObject(selectedPrompt, Formatting.Indented);
-            sb.Append(selectedPrompt.Name);
-        }
-        else
-        {
-            jsonStr = JsonConvert.SerializeObject(UserDefinePrompts, Formatting.Indented);
-            sb.Append("All");
-        }
-        sb.Append($"_{DateTime.Now:yyyyMMddHHmmss}");
-        var saveFileDialog = new SaveFileDialog { Filter = "json(*.json)|*.json", FileName = sb.ToString() };
-
-        if (saveFileDialog.ShowDialog() != true) return;
-        File.WriteAllText(saveFileDialog.FileName, jsonStr);
-        ToastHelper.Show("导出成功", WindowType.Preference);
-    }
-
-    #endregion Prompt
-
-    #endregion Properties
 
     #region Interface Implementation
 
@@ -483,9 +226,9 @@ public partial class OpenAIOCR : OCRBase, IOCR
         };
     }
 
-    #endregion Interface Implementation
+    #endregion
 
-    #region Support
+    #region Support - Obsolete - LLM 不使用位置坐标
 
     public List<BoxPoint> Converter(Location location)
     {

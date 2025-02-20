@@ -933,6 +933,9 @@ public class OCRConverter : JsonConverter<IOCR>
             _ => throw new NotSupportedException($"Unsupported OCRServiceType: {type}")
         };
 
+        if (ocr is IOCRLLM llm)
+            llm.UserDefinePrompts.Clear();
+
         serializer.Populate(jsonObject.CreateReader(), ocr);
         return ocr;
     }
