@@ -157,7 +157,8 @@
                     props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                     FontSize="{DynamicResource FontSize16}"
                     FontWeight="Bold"
-                    Text="自建服务" />
+                    Text="自建服务"
+                    ToolTip="需要手动配置服务器，并填入API(Token等验证信息)" />
                 <!--  自建翻译服务  -->
                 <ItemsControl
                     Background="Transparent"
@@ -181,7 +182,8 @@
                     props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                     FontSize="{DynamicResource FontSize16}"
                     FontWeight="Bold"
-                    Text="内置服务" />
+                    Text="内置服务"
+                    ToolTip="添加后可直接使用" />
                 <!--  本地翻译服务  -->
                 <ItemsControl
                     Background="Transparent"
@@ -205,7 +207,8 @@
                     props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                     FontSize="{DynamicResource FontSize16}"
                     FontWeight="Bold"
-                    Text="官方服务" />
+                    Text="官方服务"
+                    ToolTip="对应官网申请API Key后填入使用" />
                 <!--  官方翻译服务  -->
                 <ItemsControl
                     Background="Transparent"
