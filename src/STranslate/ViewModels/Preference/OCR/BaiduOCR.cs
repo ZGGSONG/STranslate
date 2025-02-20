@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
@@ -8,7 +6,7 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class BaiduOCR : ObservableObject, IOCR
+public partial class BaiduOCR : OCRBase, IOCR
 {
     #region Constructor
 
@@ -42,71 +40,10 @@ public partial class BaiduOCR : ObservableObject, IOCR
 
     #region Properties
 
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.BaiduOCR;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.BaiduBce;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
     /// <summary>
     ///     百度OCR版本(默认高精度含位置版)
     /// </summary>
     [ObservableProperty] private BaiduOCRAction _baiduOcrAction = BaiduOCRAction.accurate;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        switch (obj)
-        {
-            case null:
-                return;
-            case nameof(AppID):
-                IdHide = !IdHide;
-                break;
-            case nameof(AppKey):
-                KeyHide = !KeyHide;
-                break;
-        }
-    }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
 
     #endregion Properties
 

@@ -1,14 +1,12 @@
-﻿using System.ComponentModel;
-using System.Text;
+﻿using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Model;
 using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class VolcengineOCR : ObservableObject, IOCR
+public partial class VolcengineOCR : OCRBase, IOCR
 {
     #region Constructor
 
@@ -42,71 +40,10 @@ public partial class VolcengineOCR : ObservableObject, IOCR
 
     #region Properties
 
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.VolcengineOCR;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.Volcengine;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
-
     /// <summary>
     ///     火山OCR版本(默认多语种OCR)
     /// </summary>
     [ObservableProperty] private VolcengineOCRAction _volcengineOcrAction = VolcengineOCRAction.MultiLanguageOCR;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        switch (obj)
-        {
-            case null:
-                return;
-            case nameof(AppID):
-                IdHide = !IdHide;
-                break;
-            case nameof(AppKey):
-                KeyHide = !KeyHide;
-                break;
-        }
-    }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
 
     #endregion Properties
 

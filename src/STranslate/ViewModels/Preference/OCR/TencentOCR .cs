@@ -2,14 +2,13 @@
 using System.Security.Cryptography;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Model;
 using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class TencentOCR : ObservableObject, IOCR
+public partial class TencentOCR : OCRBase, IOCR
 {
     #region Constructor
 
@@ -43,66 +42,10 @@ public partial class TencentOCR : ObservableObject, IOCR
 
     #region Properties
 
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.TencentOCR;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.Tencent;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
     /// <summary>
     ///     腾讯OCR版本(默认通用印刷体识别)
     /// </summary>
     [ObservableProperty] private TencentOCRAction _tencentOcrAction = TencentOCRAction.GeneralBasicOCR;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        if (obj == null)
-            return;
-
-        if (obj.Equals(nameof(AppID)))
-            IdHide = !IdHide;
-        else if (obj.Equals(nameof(AppKey))) KeyHide = !KeyHide;
-    }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
 
     #endregion Properties
 

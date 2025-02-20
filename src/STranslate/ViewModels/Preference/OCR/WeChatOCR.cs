@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using System.IO;
+﻿using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -12,7 +10,7 @@ using OcrResult = STranslate.Model.OcrResult;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class WeChatOCR : ObservableObject, IOCR
+public partial class WeChatOCR : OCRBase, IOCR
 {
     #region Location Support
 
@@ -68,71 +66,14 @@ public partial class WeChatOCR : ObservableObject, IOCR
 
     #region Properties
 
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.BaiduOCR;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.BaiduBce;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        switch (obj)
-        {
-            case null:
-                return;
-            case nameof(AppID):
-                IdHide = !IdHide;
-                break;
-            case nameof(AppKey):
-                KeyHide = !KeyHide;
-                break;
-        }
-    }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
-
     /// <summary>
     ///     微信OCR可执行文件路径
     /// </summary>
     [ObservableProperty] private string _weChatPath = @"C:\Program Files\Tencent\WeChat";
+
+    #endregion Properties
+
+    #region Command
 
     [RelayCommand]
     private void RemoveMmmojoDll()
@@ -148,7 +89,7 @@ public partial class WeChatOCR : ObservableObject, IOCR
         }
     }
 
-    #endregion Properties
+    #endregion
 
     #region Interface Implementation
 

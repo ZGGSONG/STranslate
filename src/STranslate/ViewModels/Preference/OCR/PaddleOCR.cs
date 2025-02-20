@@ -14,7 +14,7 @@ using STranslate.Util;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class PaddleOCR : ObservableObject, IOCR
+public partial class PaddleOCR : OCRBase, IOCR
 {
     #region PaddleOCR Related
 
@@ -111,36 +111,6 @@ public partial class PaddleOCR : ObservableObject, IOCR
     #endregion Constructor
 
     #region Properties
-
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private OCRType _type = OCRType.PaddleOCR;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.STranslate;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
 
     [ObservableProperty] [JsonIgnore] [property: JsonIgnore]
     private bool _hasData;
