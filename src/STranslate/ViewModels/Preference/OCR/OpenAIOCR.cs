@@ -2,11 +2,31 @@
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
+using System.ComponentModel;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
 public partial class OpenAIOCR : OCRLLMBase, IOCRLLM
 {
+    [JsonIgnore]
+    private BindingList<UserDefinePrompt> _userDefinePrompts =
+    [
+        new UserDefinePrompt(
+            "文本识别",
+            [
+                new Prompt("system", "You are a specialized OCR engine that accurately extracts each text from the image."),
+                new Prompt("user", "Please recognize the text in the picture without any other message, the language in the picture is $target")
+            ],
+            true
+        )
+    ];
+
+    public override BindingList<UserDefinePrompt> UserDefinePrompts
+    {
+        get => _userDefinePrompts;
+        set => SetProperty(ref _userDefinePrompts, value);
+    }
+
     public OpenAIOCR()
         : this(Guid.NewGuid(), "https://api.openai.com", "OpenAIOCR", isEnabled: false)
     {
@@ -191,7 +211,7 @@ public partial class OpenAIOCR : OCRLLMBase, IOCRLLM
     {
         return lang switch
         {
-            LangEnum.auto => "auto",
+            LangEnum.auto => "Requires you to identify automatically",
             LangEnum.zh_cn => "Simplified Chinese",
             LangEnum.zh_tw => "Traditional Chinese",
             LangEnum.yue => "Cantonese",
@@ -222,7 +242,7 @@ public partial class OpenAIOCR : OCRLLMBase, IOCRLLM
             LangEnum.pl => "Polish",
             LangEnum.nl => "Dutch",
             LangEnum.uk => "Ukrainian",
-            _ => "auto"
+            _ => "Requires you to identify automatically"
         };
     }
 

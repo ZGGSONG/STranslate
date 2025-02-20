@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class OCRLLMBase : OCRBase
+public abstract partial class OCRLLMBase : OCRBase
 {
     [JsonIgnore][ObservableProperty] private double _temperature = 1.0;
 
@@ -26,19 +26,7 @@ public partial class OCRLLMBase : OCRBase
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     private string _model = "gpt-4o-2024-08-06";
 
-    [JsonIgnore]
-    [ObservableProperty]
-    private BindingList<UserDefinePrompt> _userDefinePrompts =
-    [
-        new UserDefinePrompt(
-            "文本识别",
-            [
-                new Prompt("system", "You are a specialized OCR engine that accurately extracts each text from the image."),
-                new Prompt("user", "Please recognize the text in the picture without any other message, the language in the picture is $target")
-            ],
-            true
-        )
-    ];
+    public abstract BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
 
     [RelayCommand]
     [property: JsonIgnore]

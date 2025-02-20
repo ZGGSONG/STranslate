@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.OCR"
     d:DataContext="{d:DesignInstance Type=vm:GeminiOCR}"
@@ -13,6 +15,59 @@
     Background="Transparent"
     FontSize="{DynamicResource FontSize18}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <ItemsPanelTemplate x:Key="PromptTemplate">
+            <WrapPanel Orientation="Horizontal" />
+        </ItemsPanelTemplate>
+        <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
+            <Border Style="{DynamicResource BorderPromptStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="ToolTip">
+                            <Setter Property="MaxWidth" Value="500" />
+                            <Setter Property="MaxHeight" Value="400" />
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{TemplateBinding Content}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectedPromptCommand}"
+                        Content="{Binding Name}"
+                        Style="{DynamicResource PromptLeftBtnStyle}"
+                        ToolTip="{Binding ., Converter={StaticResource JsonSerializeConverter}}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                <Binding Path="." />
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.UpdatePromptCommand}"
+                        CommandParameter="{Binding Path=.}"
+                        Content="&#xe61b;"
+                        FontFamily="{DynamicResource IconFont}"
+                        FontSize="{DynamicResource FontSize14}"
+                        Style="{DynamicResource PromptBtnStyle}"
+                        ToolTip="更新" />
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DeletePromptCommand}"
+                        CommandParameter="{Binding Path=.}"
+                        Content="&#xe74b;"
+                        FontFamily="{DynamicResource IconFont}"
+                        FontSize="{DynamicResource FontSize16}"
+                        Style="{DynamicResource PromptRightBtnStyle}"
+                        ToolTip="删除" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
     <Border
         Padding="10,20"
         props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
@@ -53,7 +108,7 @@
                         Style="{DynamicResource IconComboBoxStyle}" />
                 </Grid>
 
-                <Grid Margin="0,10">
+                <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -67,6 +122,18 @@
                         VerticalAlignment="Center"
                         Placeholder="https://generativelanguage.googleapis.com"
                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="1"
+                        FontSize="{DynamicResource FontSize14}"
+                        Text="接口API地址不建议填写Path部分，除非你很清楚你在干什么&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions"
+                        TextWrapping="WrapWithOverflow" />
                 </Grid>
 
                 <Grid Margin="0,10">
@@ -138,6 +205,104 @@
                         Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
                         Style="{DynamicResource ButtonIconStyle}" />
                 </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Top" Text="Prompts: " />
+                    <TextBlock
+                        Grid.Column="1"
+                        FontSize="{DynamicResource FontSize14}"
+                        Text="通过自定义Prompt自定义Gemini行为, $target 将会被替换为 目标语言"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <!--  // Preset Prompts //  -->
+                <Border
+                    Margin="0,10"
+                    AllowDrop="True"
+                    Style="{DynamicResource BorderStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DragEnter">
+                            <i:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=DropFilePanel}"
+                                Value="Visible" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="DragLeave">
+                            <i:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=DropFilePanel}"
+                                Value="Hidden" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Drop">
+                            <i:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=DropFilePanel}"
+                                Value="Hidden" />
+                            <i:InvokeCommandAction Command="{Binding AddPromptFromDropCommand}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid>
+                        <ListBox
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ItemsPanel="{StaticResource PromptTemplate}"
+                            PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.Resources>
+                                <CollectionViewSource x:Key="UdpCollectionViewSource" Source="{Binding UserDefinePrompts}" />
+                            </ListBox.Resources>
+                            <ListBox.ItemsSource>
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource UdpCollectionViewSource}}" />
+                                    <ListBoxItem>
+                                        <Button
+                                            Command="{Binding AddPromptCommand}"
+                                            Content="&#xe710;"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="添加Prompt" />
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Button
+                                            Command="{Binding AddPromptFromFileCommand}"
+                                            Content="&#xe664;"
+                                            FontSize="{DynamicResource FontSize16}"
+                                            FontWeight="Bold"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="导入Prompt&#13;从文件添加" />
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <Button
+                                            Command="{Binding ExportCommand}"
+                                            Content="&#xe6a2;"
+                                            FontSize="{DynamicResource FontSize16}"
+                                            FontWeight="Bold"
+                                            Style="{DynamicResource ButtonIconStyle}"
+                                            ToolTip="导出Prompt&#13;默认导出选中项&#13;Ctrl点击导出全部" />
+                                    </ListBoxItem>
+                                </CompositeCollection>
+                            </ListBox.ItemsSource>
+                        </ListBox>
+                        <Grid Name="DropFilePanel" Visibility="Hidden">
+                            <Border Background="{DynamicResource BorderContentBackground}" Opacity="0.8" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="将Prompt拖放到此处" />
+                            <Rectangle
+                                Width="250"
+                                MaxHeight="80"
+                                RadiusX="10"
+                                RadiusY="10"
+                                Stroke="{DynamicResource TextForeground}"
+                                StrokeDashArray="3,4"
+                                StrokeThickness="2" />
+                        </Grid>
+                    </Grid>
+                </Border>
 
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>

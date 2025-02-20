@@ -1,14 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Translator;
+using System.ComponentModel;
 
 namespace STranslate.ViewModels.Preference.OCR;
 
-public partial class GeminiOCR : ObservableObject, IOCR
+public partial class GeminiOCR : OCRLLMBase, IOCRLLM
 {
     #region Constructor
 
@@ -39,75 +38,34 @@ public partial class GeminiOCR : ObservableObject, IOCR
 
     #endregion Constructor
 
-    #region Properties
-
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore][ObservableProperty] private OCRType _type = OCRType.BaiduOCR;
-
-    [JsonIgnore][ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore][ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore][ObservableProperty] private IconType _icon = IconType.BaiduBce;
-
-    [JsonIgnore] [ObservableProperty] public string _url = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] public string _appID = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] public string _appKey = string.Empty;
-
-    [JsonIgnore] public Dictionary<IconType, string> Icons { get; private set; } = Constant.IconDict;
-
-    #region Llm Profile
-
-    [JsonIgnore][ObservableProperty] private double _temperature = 1.0;
-
-    [JsonIgnore] [ObservableProperty] private string _model = "gemini-1.5-flash";
-
-    #endregion
-
-    #region Show/Hide Encrypt Info
-
     [JsonIgnore]
-    [ObservableProperty]
-    [property: JsonIgnore]
-    private bool _idHide = true;
+    private BindingList<UserDefinePrompt> _userDefinePrompts =
+    [
+        new UserDefinePrompt(
+            "文本识别",
+            [
+                new Prompt(
+                    "user",
+                    "You are a specialized OCR engine that accurately extracts each text from the image.Please recognize the text in the picture without any other message bellow."
+                ),
+                new Prompt("model", "Ok, I will only recognize the text from the image bellow without any other message."),
+                new Prompt("user", "Please recognize the text from the image, the language in the picture is $target")
+            ],
+            true
+        )
+    ];
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
+    public override BindingList<UserDefinePrompt> UserDefinePrompts
     {
-        switch (obj)
-        {
-            case null:
-                return;
-            case nameof(AppID):
-                IdHide = !IdHide;
-                break;
-            case nameof(AppKey):
-                KeyHide = !KeyHide;
-                break;
-        }
+        get => _userDefinePrompts;
+        set => SetProperty(ref _userDefinePrompts, value);
     }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
-
-    #endregion Properties
 
     #region Interface Implementation
 
     public async Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken cancelToken)
     {
+        var target = LangConverter(lang) ?? throw new Exception($"该服务不支持{lang.GetDescription()}");
         var uriBuilder = new UriBuilder(Url);
 
         // 选择模型
@@ -122,30 +80,50 @@ public partial class GeminiOCR : ObservableObject, IOCR
         var aTemperature = Math.Clamp(Temperature, 0, 2);
         var base64Str = Convert.ToBase64String(bytes);
 
-        var data = new
+
+        // 替换Prompt关键字
+        var a_messages =
+            (UserDefinePrompts.FirstOrDefault(x => x.Enabled)?.Prompts ?? throw new Exception("请先完善Propmpt配置")).Clone();
+        a_messages.ToList().ForEach(item =>
+            item.Content = item.Content.Replace("$target", target));
+        var userPrompt = a_messages.LastOrDefault() ?? throw new Exception("Prompt配置为空");
+        a_messages.Remove(userPrompt);
+        var messages = new List<object>();
+        foreach (var item in a_messages)
         {
-            contents = new[]
+            messages.Add(new
+            {
+                role = item.Role,
+                parts = new[]
+                {
+                    new { text = item.Content }
+                }
+            });
+        }
+        messages.Add(new
+        {
+            role = "user",
+            parts = new object[]
             {
                 new
                 {
-                    role = "user",
-                    parts = new object[]
+                    inline_data = new
                     {
-                        new
-                        {
-                            inline_data = new
-                            {
-                                mime_type = "image/png",
-                                data = base64Str
-                            }
-                        },
-                        new
-                        {
-                            text = "Please identify the text in the image, return the bounding boxes of all classes observed in the image, store each row in the word field as an array, and extract the coordinates of each row relative to the image (top, left, width, and height) from top left to bottom right."
-                        }
+                        mime_type = "image/png",
+                        data = base64Str
                     }
+                },
+                new
+                {
+                    text = userPrompt.Content
                 }
-            },
+            }
+        });
+
+        var data = new
+        {
+            contents = messages,
+#if false
             systemInstruction = new
             {
                 role = "user",
@@ -199,7 +177,8 @@ public partial class GeminiOCR : ObservableObject, IOCR
                         }
                     }
                 }
-            },
+            }, 
+#endif
             safetySettings = new object[]
             {
                 new
@@ -230,22 +209,13 @@ public partial class GeminiOCR : ObservableObject, IOCR
         var jsonData = JsonConvert.SerializeObject(data);
         var resp = await HttpUtil.PostAsync(uriBuilder.Uri.ToString(), jsonData, null, [], cancelToken);
         var parseData = JsonConvert.DeserializeObject<JObject>(resp) ?? throw new Exception(resp);
-        var jsonStr = parseData["candidates"]?.FirstOrDefault()?["content"]?["parts"]?.FirstOrDefault()?["text"]?.ToString() ?? throw new Exception($"缺失结果: {resp}");
-        // 解析JSON数据
-        var itemList = JsonConvert.DeserializeObject<List<DocumentItem>>(jsonStr) ?? throw new Exception($"反序列化失败: {resp}");
+        var result = parseData["candidates"]?.FirstOrDefault()?["content"]?["parts"]?.FirstOrDefault()?["text"]?.ToString() ?? throw new Exception($"缺失结果: {resp}");
 
         // 提取content的值
         var ocrResult = new OcrResult();
-        foreach (var item in itemList)
+        foreach (var item in result.Split("\n").ToList())
         {
-            var content = new OcrContent(item.words);
-            // TODO: 返回位置不精确，暂不添加标注
-            //Converter(item.location).ForEach(pg =>
-            //{
-            //    //仅位置不全为0时添加
-            //    if (!pg.X.Equals(pg.Y) || pg.X != 0)
-            //        content.BoxPoints.Add(new BoxPoint(pg.X, pg.Y));
-            //});
+            var content = new OcrContent(item);
             ocrResult.OcrContents.Add(content);
         }
 
@@ -267,6 +237,7 @@ public partial class GeminiOCR : ObservableObject, IOCR
             Icons = Icons,
             Model = Model,
             Temperature = Temperature,
+            UserDefinePrompts = UserDefinePrompts.Clone()
         };
     }
 
@@ -278,44 +249,44 @@ public partial class GeminiOCR : ObservableObject, IOCR
     {
         return lang switch
         {
-            LangEnum.auto => "auto",
-            LangEnum.zh_cn => "zh-cn",
-            LangEnum.zh_tw => "zh-tw",
-            LangEnum.yue => "yue",
-            LangEnum.ja => "ja",
-            LangEnum.en => "en",
-            LangEnum.ko => "ko",
-            LangEnum.fr => "fr",
-            LangEnum.es => "es",
-            LangEnum.ru => "ru",
-            LangEnum.de => "de",
-            LangEnum.it => "it",
-            LangEnum.tr => "tr",
-            LangEnum.pt_pt => "pt_pt",
-            LangEnum.pt_br => "pt_br",
-            LangEnum.vi => "vi",
-            LangEnum.id => "id",
-            LangEnum.th => "th",
-            LangEnum.ms => "ms",
-            LangEnum.ar => "ar",
-            LangEnum.hi => "hi",
-            LangEnum.mn_cy => "mn_cy",
-            LangEnum.mn_mo => "mn_mo",
-            LangEnum.km => "km",
-            LangEnum.nb_no => "nb_no",
-            LangEnum.nn_no => "nn_no",
-            LangEnum.fa => "fa",
-            LangEnum.sv => "sv",
-            LangEnum.pl => "pl",
-            LangEnum.nl => "nl",
-            LangEnum.uk => "uk",
-            _ => "auto"
+            LangEnum.auto => "Requires you to identify automatically",
+            LangEnum.zh_cn => "Simplified Chinese",
+            LangEnum.zh_tw => "Traditional Chinese",
+            LangEnum.yue => "Cantonese",
+            LangEnum.ja => "Japanese",
+            LangEnum.en => "English",
+            LangEnum.ko => "Korean",
+            LangEnum.fr => "French",
+            LangEnum.es => "Spanish",
+            LangEnum.ru => "Russian",
+            LangEnum.de => "German",
+            LangEnum.it => "Italian",
+            LangEnum.tr => "Turkish",
+            LangEnum.pt_pt => "Portuguese",
+            LangEnum.pt_br => "Portuguese",
+            LangEnum.vi => "Vietnamese",
+            LangEnum.id => "Indonesian",
+            LangEnum.th => "Thai",
+            LangEnum.ms => "Malay",
+            LangEnum.ar => "Arabic",
+            LangEnum.hi => "Hindi",
+            LangEnum.mn_cy => "Mongolian",
+            LangEnum.mn_mo => "Mongolian",
+            LangEnum.km => "Central Khmer",
+            LangEnum.nb_no => "Norwegian Bokmål",
+            LangEnum.nn_no => "Norwegian Nynorsk",
+            LangEnum.fa => "Persian",
+            LangEnum.sv => "Swedish",
+            LangEnum.pl => "Polish",
+            LangEnum.nl => "Dutch",
+            LangEnum.uk => "Ukrainian",
+            _ => "Requires you to identify automatically"
         };
     }
 
     #endregion Interface Implementation
 
-    #region Support
+    #region Support - Obsolete - LLM 不使用位置坐标
 
     public List<BoxPoint> Converter(Location location)
     {

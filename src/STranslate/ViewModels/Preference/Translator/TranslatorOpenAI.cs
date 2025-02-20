@@ -524,7 +524,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
     {
         return lang switch
         {
-            LangEnum.auto => "auto",
+            LangEnum.auto => "Requires you to identify automatically",
             LangEnum.zh_cn => "Simplified Chinese",
             LangEnum.zh_tw => "Traditional Chinese",
             LangEnum.yue => "Cantonese",
@@ -555,7 +555,7 @@ public partial class TranslatorOpenAI : TranslatorBase, ITranslatorLlm
             LangEnum.pl => "Polish",
             LangEnum.nl => "Dutch",
             LangEnum.uk => "Ukrainian",
-            _ => "auto"
+            _ => "Requires you to identify automatically"
         };
     }
 
