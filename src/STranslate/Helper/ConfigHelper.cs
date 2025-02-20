@@ -1073,8 +1073,9 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
-
-        translator.UserDefinePrompts.Clear();
+        
+        if (translator is ITranslatorLLM llm)
+            llm.UserDefinePrompts.Clear();
 
         serializer.Populate(jsonObject.CreateReader(), translator);
         return translator;

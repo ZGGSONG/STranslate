@@ -1,11 +1,8 @@
-﻿using System.ComponentModel;
-using AlibabaCloud.OpenApiClient.Models;
+﻿using AlibabaCloud.OpenApiClient.Models;
 using AlibabaCloud.SDK.Alimt20181012;
 using AlibabaCloud.SDK.Alimt20181012.Models;
 using AlibabaCloud.TeaUtil.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Model;
 using Task = System.Threading.Tasks.Task;
@@ -44,114 +41,8 @@ public partial class TranslatorAli : TranslatorBase, ITranslator
 
     #endregion Constructor
 
-    #region Properties
-
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.Ali;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _appKey = string.Empty;
-
-    [JsonIgnore] public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
-
-    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private TranslationResult _data = TranslationResult.Reset;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _isExecuting;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        switch (obj)
-        {
-            case null:
-                return;
-
-            case nameof(AppID):
-                IdHide = !IdHide;
-                break;
-
-            case nameof(AppKey):
-                KeyHide = !KeyHide;
-                break;
-        }
-    }
-
-    private RelayCommand<string>? _showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        _showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
-
-    /**
-     * 使用AK & SK初始化账号Client
-     * @param accessKeyId
-     * @param accessKeySecret
-     * @param url
-     * @return Client
-     * @throws Exception
-     */
-    private static Client CreateClient(string accessKeyId, string accessKeySecret, string url)
-    {
-        if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            // 删除 "https://"
-            url = new string(url.Skip("https://".Length).ToArray());
-
-        Config config =
-            new()
-            {
-                // 必填，您的 AccessKey ID
-                AccessKeyId = accessKeyId,
-                // 必填，您的 AccessKey Secret
-                AccessKeySecret = accessKeySecret,
-                // Endpoint 请参考 https://api.aliyun.com/product/alimt
-                Endpoint = url
-            };
-        return new Client(config);
-    }
-
-    #endregion Properties
-
     #region Translator Test
 
-    [property: JsonIgnore] [ObservableProperty]
-    private bool _isTesting;
-
-    [property: JsonIgnore]
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task TestAsync(CancellationToken token)
     {
@@ -290,4 +181,35 @@ public partial class TranslatorAli : TranslatorBase, ITranslator
     }
 
     #endregion Interface Implementation
+
+    #region Support
+
+    /**
+     * 使用AK & SK初始化账号Client
+     * @param accessKeyId
+     * @param accessKeySecret
+     * @param url
+     * @return Client
+     * @throws Exception
+     */
+    private static Client CreateClient(string accessKeyId, string accessKeySecret, string url)
+    {
+        if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            // 删除 "https://"
+            url = new string(url.Skip("https://".Length).ToArray());
+
+        Config config =
+            new()
+            {
+                // 必填，您的 AccessKey ID
+                AccessKeyId = accessKeyId,
+                // 必填，您的 AccessKey Secret
+                AccessKeySecret = accessKeySecret,
+                // Endpoint 请参考 https://api.aliyun.com/product/alimt
+                Endpoint = url
+            };
+        return new Client(config);
+    }
+
+    #endregion
 }

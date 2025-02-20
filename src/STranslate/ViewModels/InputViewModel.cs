@@ -223,7 +223,7 @@ public partial class InputViewModel : ObservableObject
             //替换源和目标语言
             (source, target) = (target, source);
 
-            if (service is ITranslatorLlm)
+            if (service is ITranslatorLLM)
                 await TranslateBackStreamHandlerAsync(service, source, target, cancellationToken);
             else
                 await TranslateBackNonStreamHandlerAsync(service, source, target, cancellationToken);
@@ -304,7 +304,7 @@ public partial class InputViewModel : ObservableObject
             if (GetSourceLang == LangEnum.auto && GetTargetLang == LangEnum.auto)
                 (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(null, null, GetSourceLang, GetTargetLang, cancellationToken);
             
-            if (service is ITranslatorLlm)
+            if (service is ITranslatorLLM)
                 await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
             else
                 await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);

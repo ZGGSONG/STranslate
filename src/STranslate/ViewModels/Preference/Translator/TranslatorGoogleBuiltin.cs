@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Net.Http;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -42,52 +41,7 @@ public partial class TranslatorGoogleBuiltin : TranslatorBase, ITranslator
 
     #endregion Constructor
 
-    #region Properties
-
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.DeepL;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _appKey = string.Empty;
-
-    [JsonIgnore] public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
-
-    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private TranslationResult _data = TranslationResult.Reset;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _isExecuting;
-
-    #endregion Properties
-
     #region Translator Test
-
-    [property: JsonIgnore] [ObservableProperty]
-    private bool _isTesting;
 
     [property: JsonIgnore]
     [RelayCommand(IncludeCancelCommand = true)]

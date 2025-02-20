@@ -244,7 +244,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand]
     private void SelectedPrompt(List<object> list)
     {
-        if (list is not [ITranslator service, UserDefinePrompt ud, ToggleButton tb])
+        if (list is not [ITranslatorLLM service, UserDefinePrompt ud, ToggleButton tb])
             return;
 
         foreach (var item in service.UserDefinePrompts) item.Enabled = false;

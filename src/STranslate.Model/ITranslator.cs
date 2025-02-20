@@ -22,8 +22,6 @@ public interface ITranslator : INotifyPropertyChanged
 
     TranslationResult Data { get; set; }
 
-    BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
-
     string AppID { get; set; }
 
     string AppKey { get; set; }
@@ -32,22 +30,13 @@ public interface ITranslator : INotifyPropertyChanged
 
     bool IsTranslateBackExecuting { get; set; }
 
-    /// <summary>
-    ///     手动通知属性更新
-    /// </summary>
-    /// <param name="name"></param>
-    void ManualPropChanged(params string[] name);
-
     string? LangConverter(LangEnum lang);
 
     Task<TranslationResult> TranslateAsync(object request, CancellationToken token);
 
     Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token);
 
-    ITranslator Clone();
-}
+    BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
 
-public interface ITranslatorLlm : ITranslator
-{
-    double Temperature { get; set; }
+    ITranslator Clone();
 }

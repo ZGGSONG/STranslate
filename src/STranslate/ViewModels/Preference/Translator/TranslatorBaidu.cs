@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -43,70 +42,6 @@ public partial class TranslatorBaidu : TranslatorBase, ITranslator
 
     #region Properties
 
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.Baidu;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _appKey = string.Empty;
-
-    [JsonIgnore] public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
-
-    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private TranslationResult _data = TranslationResult.Reset;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _isExecuting;
-
-    #region Show/Hide Encrypt Info
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _idHide = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _keyHide = true;
-
-    private void ShowEncryptInfo(string? obj)
-    {
-        if (obj == null)
-            return;
-
-        if (obj.Equals(nameof(AppID)))
-            IdHide = !IdHide;
-        else if (obj.Equals(nameof(AppKey))) KeyHide = !KeyHide;
-    }
-
-    private RelayCommand<string>? showEncryptInfoCommand;
-
-    [JsonIgnore]
-    public IRelayCommand<string> ShowEncryptInfoCommand =>
-        showEncryptInfoCommand ??= new RelayCommand<string>(ShowEncryptInfo);
-
-    #endregion Show/Hide Encrypt Info
-
     /// <summary>
     ///     错误代码: https://fanyi-api.baidu.com/product/113
     /// </summary>
@@ -132,9 +67,6 @@ public partial class TranslatorBaidu : TranslatorBase, ITranslator
     #endregion Properties
 
     #region Translator Test
-
-    [property: JsonIgnore] [ObservableProperty]
-    private bool _isTesting;
 
     [property: JsonIgnore]
     [RelayCommand(IncludeCancelCommand = true)]

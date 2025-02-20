@@ -27,12 +27,6 @@ public interface IOCR : INotifyPropertyChanged //需要继承INotifyPropertyChan
     IOCR Clone();
 }
 
-public interface IOCRLLM : IOCR
-{
-    double Temperature { get; set; }
-    BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
-}
-
 public class OCRCollection<T> : BindingList<T>
     where T : IOCR
 {

@@ -14,10 +14,14 @@ public class ComboBoxIconConverter : IValueConverter
             {
                 var str = pkv.TrimStart('[').TrimEnd(']');
                 const char separator = ',';
-                var type = (IconType)Enum.Parse(typeof(IconType),
-                    new string(str.TakeWhile(c => c != separator).ToArray()));
-                string icon = new(str.SkipWhile(c => c != separator).Skip(1).ToArray());
-                return param == "0" ? icon : type.GetDescription();
+
+                if (Enum.TryParse<IconType>(new string(str.TakeWhile(c => c != separator).ToArray()), out var iconType))
+                {
+                    string icon = new(str.SkipWhile(c => c != separator).Skip(1).ToArray());
+                    return param == "0" ? icon : iconType.GetDescription();
+                }
+                // 添加 OpenAI 配置页面不知道为啥会传入一个空字符串？？？先这么解吧
+                return param == "0" ? Constant.Icon : "STranslate";
             }
             case IconType type:
                 return type.GetDescription();

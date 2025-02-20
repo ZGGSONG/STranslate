@@ -43,54 +43,13 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
 
     #region Properties
 
-    [ObservableProperty] private Guid _identify = Guid.Empty;
-
-    [JsonIgnore] [ObservableProperty] private ServiceType _type = 0;
-
-    [JsonIgnore] [ObservableProperty] private bool _isEnabled = true;
-
-    [JsonIgnore] [ObservableProperty] private string _name = string.Empty;
-
-    [JsonIgnore] [ObservableProperty] private IconType _icon = IconType.STranslate;
-
     [JsonIgnore] [ObservableProperty] private STranslateMode sTranslateMode = STranslateMode.IOS;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _url = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appID = string.Empty;
-
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string _appKey = string.Empty;
-
-    [JsonIgnore] public BindingList<UserDefinePrompt> UserDefinePrompts { get; set; } = [];
-
-    [JsonIgnore] [ObservableProperty] private bool _autoExecute = true;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    public TranslationResult _data = TranslationResult.Reset;
-
-    [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
-    private bool _isExecuting;
 
     [JsonIgnore] public string Tips { get; set; } = "本地服务，无需配置";
 
     #endregion Properties
 
     #region Translator Test
-
-    [property: JsonIgnore] [ObservableProperty]
-    private bool _isTesting;
 
     [property: JsonIgnore]
     [RelayCommand(IncludeCancelCommand = true)]

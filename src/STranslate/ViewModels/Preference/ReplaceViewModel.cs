@@ -73,7 +73,7 @@ public partial class ReplaceViewModel : ObservableObject
             var req = new RequestModel(content, sourceLang, targetLang);
 
 
-            if (ReplaceProp.ActiveService is ITranslatorLlm)
+            if (ReplaceProp.ActiveService is ITranslatorLLM)
                 await TranslateLlmAsync(req, token);
             else
                 await TranslateRegularAsync(req,token);
