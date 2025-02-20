@@ -151,23 +151,79 @@
         </Border>
 
         <ScrollViewer Grid.Row="1">
-            <ItemsControl
-                Name="TranslatorControl"
-                Background="Transparent"
-                FontSize="{DynamicResource FontSize18}"
-                ItemTemplate="{DynamicResource TranslatorTemplate}"
-                ItemsSource="{Binding Translators}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Control.VerticalAlignment" Value="Center" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
+            <StackPanel>
+                <TextBlock
+                    Margin="10,5,0,0"
+                    props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
+                    FontSize="{DynamicResource FontSize16}"
+                    FontWeight="Bold"
+                    Text="自建服务" />
+                <!--  自建翻译服务  -->
+                <ItemsControl
+                    Background="Transparent"
+                    FontSize="{DynamicResource FontSize18}"
+                    ItemTemplate="{DynamicResource TranslatorTemplate}"
+                    ItemsSource="{Binding Translators, Converter={StaticResource ServiceTypeFilterConverter}, ConverterParameter=selfBuild}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Control.VerticalAlignment" Value="Center" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+
+                <TextBlock
+                    Margin="10,5,0,0"
+                    props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
+                    FontSize="{DynamicResource FontSize16}"
+                    FontWeight="Bold"
+                    Text="内置服务" />
+                <!--  本地翻译服务  -->
+                <ItemsControl
+                    Background="Transparent"
+                    FontSize="{DynamicResource FontSize18}"
+                    ItemTemplate="{DynamicResource TranslatorTemplate}"
+                    ItemsSource="{Binding Translators, Converter={StaticResource ServiceTypeFilterConverter}, ConverterParameter=local}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Control.VerticalAlignment" Value="Center" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+
+                <TextBlock
+                    Margin="10,5,0,0"
+                    props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
+                    FontSize="{DynamicResource FontSize16}"
+                    FontWeight="Bold"
+                    Text="官方服务" />
+                <!--  官方翻译服务  -->
+                <ItemsControl
+                    Background="Transparent"
+                    FontSize="{DynamicResource FontSize18}"
+                    ItemTemplate="{DynamicResource TranslatorTemplate}"
+                    ItemsSource="{Binding Translators, Converter={StaticResource ServiceTypeFilterConverter}, ConverterParameter=official}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Control.VerticalAlignment" Value="Center" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Window>
