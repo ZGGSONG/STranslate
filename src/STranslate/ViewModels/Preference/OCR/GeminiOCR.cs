@@ -44,12 +44,8 @@ public partial class GeminiOCR : OCRLLMBase, IOCRLLM
         new UserDefinePrompt(
             "文本识别",
             [
-                new Prompt(
-                    "user",
-                    "You are a specialized OCR engine that accurately extracts each text from the image.Please recognize the text in the picture without any other message bellow."
-                ),
-                new Prompt("model", "Ok, I will only recognize the text from the image bellow without any other message."),
-                new Prompt("user", "Please recognize the text from the image, the language in the picture is $target")
+                // https://github.com/skitsanos/gemini-ocr/blob/main/ocr.sh
+                new Prompt("user", "Act like a text scanner. Extract text as it is without analyzing it and without summarizing it. Treat all images as a whole document and analyze them accordingly. Think of it as a document with multiple pages, each image being a page. Understand page-to-page flow logically and semantically.")
             ],
             true
         )
