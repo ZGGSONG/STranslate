@@ -26,43 +26,6 @@
                 Background="{DynamicResource BorderBackground}"
                 BorderBrush="{x:Null}"
                 CornerRadius="5">
-                <Border.Resources>
-                    <proxy:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </Border.Resources>
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="0">
-                                <Setter Property="ContextMenu" Value="{x:Null}" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ., Converter={StaticResource ServiceType2StringConverter}, ConverterParameter=prompt}" Value="1">
-                                <Setter Property="ContextMenu">
-                                    <Setter.Value>
-                                        <ContextMenu ItemsSource="{Binding Source={StaticResource proxy}, Path=Data.UserDefinePrompts}">
-                                            <ContextMenu.ItemContainerStyle>
-                                                <Style TargetType="MenuItem">
-                                                    <Setter Property="Header" Value="{Binding Name}" />
-                                                    <Setter Property="Height" Value="30" />
-                                                    <Setter Property="Icon" Value="&#xe60b;" />
-                                                    <Setter Property="IsCheckable" Value="{Binding Enabled}" />
-                                                    <Setter Property="Command" Value="{Binding Source={StaticResource proxy}, Path=Data.SelectedPromptCommand}" />
-                                                    <Setter Property="CommandParameter">
-                                                        <Setter.Value>
-                                                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                                                <Binding Path="." />
-                                                                <Binding Path="" />
-                                                            </MultiBinding>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </ContextMenu.ItemContainerStyle>
-                                        </ContextMenu>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
                 <Grid Margin="0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
