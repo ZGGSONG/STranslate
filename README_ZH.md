@@ -1,9 +1,11 @@
-<p align="center">
+<div align="center">
+
+<p>
 <a href="https://github.com/zggsong/STranslate" target="_blank">
 <img align="center" alt="STranslate" width="200" src="./img/favicon.svg" />
 </a>
 </p>
-<p align="center">
+<p>
 <a href="https://github.com/ZGGSONG/STranslate/blob/main/LICENSE" target="_self">
  <img alt="Latest GitHub release" src="https://img.shields.io/github/license/ZGGSONG/STranslate" />
 </a>
@@ -17,15 +19,20 @@
  <img alt="Discussions" src="https://img.shields.io/github/discussions/ZGGSONG/STranslate" />
 </a>
 </p>
+
 <h1 align="center">STranslate</h1>
+
+[**English**](./README.md) | **简体中文**
+
+<a href="https://trendshift.io/repositories/6979" target="_blank"><img src="https://trendshift.io/api/badge/repositories/6979" alt="ZGGSONG%2FSTranslate | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
 <p align="center">WPF 开发的一款<strong>即用即走</strong>的翻译、OCR工具</p>
 
----
-
 <small>随着功能的更新以及免费服务的限制，建议申请服务并进行相应的配置以获得更好的使用体验</small>
 
-[**English**](./README.md) | **简体中文**
+</div>
+
+<br/>
 
 ## 访问
 
