@@ -174,6 +174,7 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
 
         try
         {
+            var hasNewlineCache = false;
             await HttpUtil.PostAsync(
                 uriBuilder.Uri,
                 jsonData,
@@ -185,7 +186,32 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
 
                     var match = Regex.Match(msg, pattern);
 
-                    if (match.Success) onDataReceived?.Invoke(match.Value.Replace("\\n", "\n"));
+                    if (match.Success)
+                    {
+                        // 将转义的换行符替换为实际换行符
+                        var value = match.Value.Replace("\\n", "\n");
+
+                        // 如果上一个响应片段以换行符结尾，且被缓存了
+                        if (hasNewlineCache)
+                        {
+                            value = "\n" + value;  // 添加缓存的换行符
+                            hasNewlineCache = false;
+                        }
+
+                        // 检查当前片段是否以换行符结尾
+                        if (value.EndsWith('\n'))
+                        {
+                            // 移除末尾换行并记录缓存状态
+                            value = value[..^1];
+                            hasNewlineCache = true;
+                        }
+
+                        // 只有当值非空时才调用回调
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            onDataReceived?.Invoke(value);
+                        }
+                    }
                 },
                 token
             ).ConfigureAwait(false);
