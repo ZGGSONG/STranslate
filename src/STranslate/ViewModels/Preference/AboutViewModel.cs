@@ -123,11 +123,14 @@ public partial class AboutViewModel : ObservableObject
             try
             {
                 IsChecking = true;
-                var resp = await HttpUtil.GetAsync(Constant.GithubReleaseUrl, token);
-                var parseData = JsonConvert.DeserializeObject<JObject>(resp);
-                var remoteVer = parseData?["tag_name"]?.ToString() ?? Constant.DefaultVersion;
-                var canUpdate = StringUtil.IsCanUpdate(remoteVer, Version);
-                MessageBox_S.Show(canUpdate ? $"检测到最新版本: {remoteVer}\n当前版本: {Version}" : "恭喜您, 当前为最新版本!");
+                var result = await UpdateUtil.CheckForUpdates(token);
+                var canUpdate = result != null;
+                var remoteVer = result?.Version ?? Constant.AppVersion;
+                var desc = result?.Body ?? "";
+
+                var newVersionInfo = $"检测到最新版本: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
+
+                MessageBox_S.Show(canUpdate ? newVersionInfo : Constant.NeweastVersionInfo);
             }
             catch (OperationCanceledException)
             {

@@ -11,6 +11,7 @@ public static class Constant
     public const string GithubReleaseUrl = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
     public const string VersionInfoUrl = "https://raw.githubusercontent.com/ZGGSONG/STranslate/refs/heads/main/version-info.json";
     public const string DefaultVersion = "1.0.0.0";
+    public const string NeweastVersionInfo = "恭喜您, 当前为最新版本!";
 
     public static readonly string AppVersion =
         Application.ResourceAssembly.GetName().Version?.ToString() ?? DefaultVersion;

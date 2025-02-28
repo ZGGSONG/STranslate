@@ -252,10 +252,10 @@ public class StringUtil
     /// <summary>
     ///     是否可以升级
     /// </summary>
-    public static bool IsCanUpdate(string rVer, string lVer)
     /// <param name="rVer">远程版本号</param>
     /// <param name="lVer">本地版本号</param>
     /// <returns>如果远程版本高于本地版本则返回true</returns>
+    public static bool IsNewer(string rVer, string lVer)
     {
         // 将版本号字符串按"."分割为数组
         string[] remoteParts = rVer.Split('.');
