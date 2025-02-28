@@ -41,7 +41,7 @@ public class HttpUtil
         return await GetResponseContentAsync(response, token).ConfigureAwait(false);
     }
 
-    #endregion 公共方法-GetAsync
+    #endregion
 
     #region 公共方法-PostAsync
 
@@ -119,8 +119,8 @@ public class HttpUtil
         var emptyContent = new StringContent(string.Empty);
         if (headers != null)
             foreach (var header in headers)
-            foreach (var value in header.Value)
-                client.DefaultRequestHeaders.Add(header.Key, value);
+                foreach (var value in header.Value)
+                    client.DefaultRequestHeaders.Add(header.Key, value);
 
         response = await client.PostAsync(url, emptyContent, token).ConfigureAwait(false);
         return await GetResponseContentAsync(response, token).ConfigureAwait(false);
@@ -171,13 +171,13 @@ public class HttpUtil
         await PostAsync(uri, header, req, onDataReceived, token, timeout);
     }
 
-    public static async Task PostAsync(Uri uri, Dictionary<string, string>? header, string req,  Action<string> onDataReceived,
+    public static async Task PostAsync(Uri uri, Dictionary<string, string>? header, string req, Action<string> onDataReceived,
         CancellationToken token = default, int timeout = 10)
     {
         using var client = CreateHttpClient(timeout);
 
         var request = new HttpRequestMessage(HttpMethod.Post, uri)
-            { Content = new StringContent(req, Encoding.UTF8, "application/json") };
+        { Content = new StringContent(req, Encoding.UTF8, "application/json") };
 
         if (header != null)
             foreach (var item in header)
@@ -212,7 +212,66 @@ public class HttpUtil
         throw new Exception(outerMsg, new Exception(innerMsg));
     }
 
-    #endregion 公共方法-PostAsync
+    #endregion
+
+    #region 公共方法-DownloadFileAsync
+
+    /// <summary>
+    ///     下载文件并保存到指定路径
+    /// </summary>
+    /// <param name="url">文件下载地址</param>
+    /// <param name="savePath">保存路径的目录</param>
+    /// <param name="fileName">要保存的文件名</param>
+    /// <param name="token">取消令牌</param>
+    /// <param name="timeout">超时时间(秒)</param>
+    /// <returns>返回保存的文件完整路径</returns>
+    public static async Task<string?> DownloadFileAsync(string url, string savePath, string fileName, CancellationToken token = default, int timeout = 30)
+    {
+        string fullPath = Path.Combine(savePath, fileName);
+
+        using var client = CreateHttpClient(timeout);
+        using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+        await ResponseCheckAsync(response, token).ConfigureAwait(false);
+
+        await using var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
+        await using var stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+        await stream.CopyToAsync(fileStream, token).ConfigureAwait(false);
+
+        return fullPath;
+    }
+
+    /// <summary>
+    ///     下载文件并保存到指定路径
+    /// </summary>
+    /// <param name="url">文件下载地址</param>
+    /// <param name="savePath">保存路径的目录</param>
+    /// <param name="fileName">要保存的文件名</param>
+    /// <param name="headers">请求头</param>
+    /// <param name="token">取消令牌</param>
+    /// <param name="timeout">超时时间(秒)</param>
+    /// <returns>返回保存的文件完整路径</returns>
+    public static async Task<string?> DownloadFileAsync(string url, string savePath, string fileName, Dictionary<string, string>? headers = null, CancellationToken token = default, int timeout = 30)
+    {
+        string fullPath = Path.Combine(savePath, fileName);
+
+        using var client = CreateHttpClient(timeout);
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+        if (headers != null)
+            foreach (var header in headers)
+                request.Headers.Add(header.Key, header.Value);
+
+        using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+        await ResponseCheckAsync(response, token).ConfigureAwait(false);
+
+        await using var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
+        await using var stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+        await stream.CopyToAsync(fileStream, token).ConfigureAwait(false);
+
+        return fullPath;
+    }
+
+    #endregion
 
     #region 私有方法
 
@@ -252,5 +311,5 @@ public class HttpUtil
         return request;
     }
 
-    #endregion 私有方法
+    #endregion
 }

@@ -9,6 +9,7 @@ public static class Constant
 {
     #region Path
     public const string GithubReleaseUrl = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
+    public const string VersionInfoUrl = "https://raw.githubusercontent.com/ZGGSONG/STranslate/refs/heads/main/version-info.json";
     public const string DefaultVersion = "1.0.0.0";
 
     public static readonly string AppVersion =

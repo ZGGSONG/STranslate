@@ -252,17 +252,36 @@ public class StringUtil
     /// <summary>
     ///     是否可以升级
     /// </summary>
-    /// <param name="rVer"></param>
-    /// <param name="lVer"></param>
-    /// <returns></returns>
     public static bool IsCanUpdate(string rVer, string lVer)
+    /// <param name="rVer">远程版本号</param>
+    /// <param name="lVer">本地版本号</param>
+    /// <returns>如果远程版本高于本地版本则返回true</returns>
     {
-        // 获取版本移除小数点后数字大小
-        var remoteVersion = Convert.ToInt64(rVer.Replace(".", ""));
-        var localVersion = Convert.ToInt64(lVer.Replace(".", ""));
+        // 将版本号字符串按"."分割为数组
+        string[] remoteParts = rVer.Split('.');
+        string[] localParts = lVer.Split('.');
 
-        // 如果远端版本号数字大于本地版本号数字即可升级
-        return localVersion < remoteVersion;
+        // 获取最长的数组长度，以便完整比较
+        int maxLength = Math.Max(remoteParts.Length, localParts.Length);
+
+        // 逐段比较版本号
+        for (int i = 0; i < maxLength; i++)
+        {
+            // 获取当前段版本号，如果超出数组范围则视为0
+            var remotePart = i < remoteParts.Length ? long.Parse(remoteParts[i]) : 0;
+            var localPart = i < localParts.Length ? long.Parse(localParts[i]) : 0;
+
+            // 如果远程版本号段大于本地版本号段，表示可以升级
+            if (remotePart > localPart)
+                return true;
+
+            // 如果远程版本号段小于本地版本号段，表示不需要升级
+            if (remotePart < localPart)
+                return false;
+        }
+
+        // 所有段都相等，表示版本相同，不需要升级
+        return false;
     }
 
     /// <summary>
