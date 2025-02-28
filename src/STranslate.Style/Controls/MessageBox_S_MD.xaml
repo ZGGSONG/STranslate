@@ -1,0 +1,98 @@
+﻿<Window
+    x:Class="STranslate.Style.Controls.MessageBox_S_MD"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes"
+    Title="MessageBox"
+    Width="380"
+    MinHeight="200"
+    MaxHeight="500"
+    props:ThemeProps.Background="{DynamicResource NavigationBackground}"
+    props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+    BorderThickness="1"
+    FontFamily="{DynamicResource UserFont}"
+    Icon="{DynamicResource Icon}"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    Topmost="True"
+    WindowChrome.IsHitTestVisibleInChrome="True"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome />
+    </WindowChrome.WindowChrome>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            props:ThemeProps.Background="{DynamicResource NavigationBackground}"
+            MouseDown="Header_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="36" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="28" />
+                <ColumnDefinition Width="28" />
+                <ColumnDefinition Width="36" />
+                <ColumnDefinition Width="36" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.Column="0"
+                Width="24"
+                Margin="10,3"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="{DynamicResource STranslate}" />
+            <TextBlock
+                x:Name="TitleTxt"
+                Grid.Column="1"
+                props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
+                FontSize="{DynamicResource FontSize20}"
+                Text="" />
+        </Grid>
+
+        <mdxam:MarkdownScrollViewer
+            x:Name="Messages"
+            Grid.Row="1"
+            Margin="10"
+            Background="Transparent"
+            BorderThickness="0"
+            ClickAction="DisplayWithRelativePath"
+            FontFamily="{DynamicResource UserFont}"
+            FontSize="{DynamicResource FontSize18}"
+            Foreground="{DynamicResource NavigationForeground}"
+            HorizontalScrollBarVisibility="Disabled"
+            MarkdownStyleName="SasabuneCompact"
+            VerticalScrollBarVisibility="Auto" />
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,0,0,10"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="OkBTN"
+                Height="30"
+                MinWidth="60"
+                Margin="20,0,0,0"
+                Content="确认"
+                IsDefault="True" />
+            <Button
+                x:Name="CancelBTN"
+                Height="30"
+                MinWidth="60"
+                Margin="10,0,20,0"
+                Content="取消"
+                IsCancel="True" />
+            <!--  Content="{DynamicResource CancelStr}"  -->
+        </StackPanel>
+    </Grid>
+</Window>

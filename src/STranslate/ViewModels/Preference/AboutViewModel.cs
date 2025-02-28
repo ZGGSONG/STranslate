@@ -128,9 +128,11 @@ public partial class AboutViewModel : ObservableObject
                 var remoteVer = result?.Version ?? Constant.AppVersion;
                 var desc = result?.Body ?? "";
 
-                var newVersionInfo = $"检测到最新版本: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
-
-                MessageBox_S.Show(canUpdate ? newVersionInfo : Constant.NeweastVersionInfo);
+                var newVersionInfo = $"# 检测到最新版本: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
+                if (canUpdate)
+                    MessageBox_S_MD.Show(newVersionInfo);
+                else
+                    MessageBox_S.Show(Constant.NeweastVersionInfo);
             }
             catch (OperationCanceledException)
             {

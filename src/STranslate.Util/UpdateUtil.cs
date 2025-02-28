@@ -13,7 +13,7 @@ public class UpdateUtil
             var versionInfo = JsonConvert.DeserializeObject<VersionInfo>(jsonContent)
                 ?? throw new Exception("获取版本信息失败");
 
-            if (StringUtil.IsNewer(versionInfo.Version, "1.1.0"))
+            if (StringUtil.IsNewer(versionInfo.Version, Constant.AppVersion))
             {
                 return versionInfo;
             }
