@@ -45,7 +45,7 @@ public class ConfigHelper
     public void InitCurrentCnf()
     {
         //初始化时将初始值赋给Config属性
-        CurrentConfig = ResetConfig;
+        CurrentConfig = ReadConfig();
     }
 
     /// <summary>
@@ -772,11 +772,6 @@ public class ConfigHelper
     #endregion 私有方法
 
     #region 字段 && 属性
-
-    /// <summary>
-    ///     重置Config
-    /// </summary>
-    public ConfigModel ResetConfig => ReadConfig();
 
     /// <summary>
     ///     初始Config

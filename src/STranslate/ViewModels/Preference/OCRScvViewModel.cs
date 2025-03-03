@@ -227,7 +227,7 @@ public partial class OCRScvViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        CurOCRServiceList = Singleton<ConfigHelper>.Instance.ResetConfig.OCRList ?? [];
+        CurOCRServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? [];
         ActivedOCR = CurOCRServiceList.FirstOrDefault(x => x.IsEnabled);
         ResetView();
         ToastHelper.Show("重置配置", WindowType.Preference);

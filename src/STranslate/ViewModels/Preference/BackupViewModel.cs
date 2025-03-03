@@ -332,6 +332,7 @@ public partial class BackupViewModel : ObservableObject
         Singleton<ReplaceViewModel>.Instance.ResetCommand.Execute(null);
         Singleton<OCRScvViewModel>.Instance.ResetCommand.Execute(null);
         Singleton<TTSViewModel>.Instance.ResetCommand.Execute(null);
+        Singleton<VocabularyBookViewModel>.Instance.ResetCommand.Execute(null);
 
         //hotkey
         Singleton<HotkeyViewModel>.Instance.ResetCommand.Execute(null);

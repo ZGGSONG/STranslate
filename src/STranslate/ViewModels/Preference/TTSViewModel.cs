@@ -221,7 +221,7 @@ public partial class TTSViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        CurTTSServiceList = Singleton<ConfigHelper>.Instance.ResetConfig.TTSList ?? [];
+        CurTTSServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? [];
         ResetView();
         ToastHelper.Show("重置配置", WindowType.Preference);
     }

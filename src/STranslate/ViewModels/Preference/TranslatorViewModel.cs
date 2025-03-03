@@ -239,8 +239,7 @@ public partial class TranslatorViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        CurTransServiceList.Clear();
-        foreach (var item in Singleton<ConfigHelper>.Instance.ResetConfig.Services ?? []) CurTransServiceList.Add(item);
+        CurTransServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
         ResetView();
         ToastHelper.Show("重置配置", WindowType.Preference);
     }

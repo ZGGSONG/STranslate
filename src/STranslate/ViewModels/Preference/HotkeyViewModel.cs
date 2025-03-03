@@ -115,7 +115,7 @@ public partial class HotkeyViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        var cHotkeys = _conf.ResetConfig.Hotkeys!;
+        var cHotkeys = _conf.CurrentConfig?.Hotkeys!;
 
         InputHk.Content = cHotkeys.InputTranslate.Text ?? "";
         CrosswordHk.Content = cHotkeys.CrosswordTranslate.Text ?? "";
