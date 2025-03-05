@@ -134,11 +134,18 @@ public partial class CommonViewModel : ObservableObject
     [JsonIgnore] [ObservableProperty] [property: JsonIgnore]
     private bool _isProxyPasswordHide = true;
 
+    /// <summary>
+    ///     主界面取词换行处理
+    ///     * 包含截图翻译、静默OCR、鼠标划词等取词方式
+    /// </summary>
     [ObservableProperty]
-    private bool _isRemoveLineBreakGettingWords = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
+    private LineBreakHandlingMode _lineBreakHandler = ConfigHelper.CurrentConfig?.LineBreakHandler ?? LineBreakHandlingMode.None;
 
+    /// <summary>
+    ///     OCR取词换行处理
+    /// </summary>
     [ObservableProperty]
-    private bool _isRemoveLineBreakGettingWordsOCR = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
+    private LineBreakHandlingMode _lineBreakOCRHandler = ConfigHelper.CurrentConfig?.LineBreakOCRHandler ?? LineBreakHandlingMode.None;
 
     /// <summary>
     ///     是否显示监听剪贴板
@@ -345,11 +352,6 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _isHideLangWhenOnlyShowOutput = ConfigHelper.CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? false;
     
     /// <summary>
-    ///     是否净化内容格式
-    /// </summary>
-    [ObservableProperty] private bool _isPurify = ConfigHelper.CurrentConfig?.IsPurify ?? true;
-    
-    /// <summary>
     ///     OCR时图片质量
     /// </summary>
     [ObservableProperty] private OcrImageQualityEnum _ocrImageQuality = ConfigHelper.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
@@ -490,8 +492,8 @@ public partial class CommonViewModel : ObservableObject
         IsOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsOcrAutoCopyText ?? false;
         IsScreenshotOcrAutoCopyText = ConfigHelper.CurrentConfig?.IsScreenshotOcrAutoCopyText ?? false;
         IsAdjustContentTranslate = ConfigHelper.CurrentConfig?.IsAdjustContentTranslate ?? false;
-        IsRemoveLineBreakGettingWords = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false;
-        IsRemoveLineBreakGettingWordsOCR = ConfigHelper.CurrentConfig?.IsRemoveLineBreakGettingWordsOCR ?? false;
+        LineBreakHandler = ConfigHelper.CurrentConfig?.LineBreakHandler ?? LineBreakHandlingMode.None;
+        LineBreakOCRHandler = ConfigHelper.CurrentConfig?.LineBreakOCRHandler ?? LineBreakHandlingMode.None;
         DoubleTapTrayFunc = ConfigHelper.CurrentConfig?.DoubleTapTrayFunc ?? DoubleTapFuncEnum.InputFunc;
         CustomFont = ConfigHelper.CurrentConfig?.CustomFont ?? Constant.DefaultFontName;
         IsKeepTopmostAfterMousehook = ConfigHelper.CurrentConfig?.IsKeepTopmostAfterMousehook ?? false;
@@ -552,7 +554,6 @@ public partial class CommonViewModel : ObservableObject
         IsShowAutoTranslate = ConfigHelper.CurrentConfig?.IsShowAutoTranslate ?? false;
         AnimationSpeed = ConfigHelper.CurrentConfig?.AnimationSpeed ?? AnimationSpeedEnum.Middle;
         IsHideLangWhenOnlyShowOutput = ConfigHelper.CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? false;
-        IsPurify = ConfigHelper.CurrentConfig?.IsPurify ?? true;
         IsOnlyShowRet = ConfigHelper.CurrentConfig?.IsOnlyShowRet ?? true;
         OcrImageQuality = ConfigHelper.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium;
         SourceLangIfAuto = ConfigHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en;

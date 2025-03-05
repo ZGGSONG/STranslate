@@ -1476,6 +1476,13 @@ public enum STranslateMode
     [Description("模式二")] Brower,
 }
 
+public enum LineBreakHandlingMode
+{
+    [Description("不处理换行")] None,
+    [Description("移除多余换行")] RemoveExtraLineBreak,
+    [Description("移除所有换行")] RemoveAllLineBreak,
+}
+
 /// <summary>
 ///     获取Description
 /// </summary>

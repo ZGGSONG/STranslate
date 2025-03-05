@@ -419,13 +419,12 @@ public partial class MainViewModel : ObservableObject
         // 先取消可能存在的存生词本的操作
         InputVM.Save2VocabularyBookCancelCommand.Execute(null);
 
-        //处理剪贴板内容格式
-        if (Config?.IsPurify ?? true)
-            content = StringUtil.NormalizeText(content);
-
-        //取词前移除换行
-        if (Config?.IsRemoveLineBreakGettingWords ?? false)
-            content = StringUtil.RemoveLineBreaks(content);
+        content = Config?.LineBreakHandler switch
+        {
+            LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(content),
+            LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(content),
+            _ => content,
+        };
 
         //增量翻译
         if (Config?.IncrementalTranslation ?? false)

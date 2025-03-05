@@ -598,10 +598,8 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private void RemoveLineBreaks(PlaceholderTextBox textBox)
     {
-        if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
-            TogglePurify();
-        else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-            ToggleRemoveLineBreak();
+        if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            SwitchLineBreakHandlingMode();
         else
             RemoveLineBreaksFromTextBox(textBox);
     }
@@ -664,18 +662,11 @@ public partial class InputViewModel : ObservableObject
         TranslateCommand.Execute(null);
     }
 
-    private void TogglePurify()
+    private void SwitchLineBreakHandlingMode()
     {
-        CommonVm.IsPurify = !CommonVm.IsPurify;
+        CommonVm.LineBreakHandler = CommonVm.LineBreakHandler.Increase();
         CommonVm.SaveCommand.Execute(null);
-        ToastHelper.Show($"{(CommonVm.IsPurify ? "打开" : "关闭")}OCR净化结果");
-    }
-
-    private void ToggleRemoveLineBreak()
-    {
-        CommonVm.IsRemoveLineBreakGettingWords = !CommonVm.IsRemoveLineBreakGettingWords;
-        CommonVm.SaveCommand.Execute(null);
-        ToastHelper.Show($"{(CommonVm.IsRemoveLineBreakGettingWords ? "打开" : "关闭")}始终移除换行");
+        ToastHelper.Show(CommonVm.LineBreakHandler.GetDescription());
     }
 
     private void RemoveLineBreaksFromTextBox(PlaceholderTextBox textBox)

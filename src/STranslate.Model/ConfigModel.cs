@@ -55,14 +55,14 @@ public class ConfigModel
     public bool IsAdjustContentTranslate { get; set; }
 
     /// <summary>
-    ///     取词时移除换行
+    ///     主界面取词换行处理
     /// </summary>
-    public bool IsRemoveLineBreakGettingWords { get; set; }
+    public LineBreakHandlingMode LineBreakHandler { get; set; } = LineBreakHandlingMode.None;
 
     /// <summary>
-    ///     OCR取词时移除换行
+    ///     OCR取词换行处理
     /// </summary>
-    public bool IsRemoveLineBreakGettingWordsOCR { get; set; }
+    public LineBreakHandlingMode LineBreakOCRHandler { get; set; } = LineBreakHandlingMode.None;
 
     /// <summary>
     ///     鼠标双击托盘程序功能
@@ -402,11 +402,6 @@ public class ConfigModel
     public bool IsHideLangWhenOnlyShowOutput { get; set; } = true;
 
     /// <summary>
-    ///     是否净化获取内容
-    /// </summary>
-    public bool IsPurify { get; set; } = true;
-
-    /// <summary>
     ///     主界面头部显示仅显示输出结果
     /// </summary>
     public bool IsShowOnlyShowRet { get; set; } = false;
@@ -494,8 +489,8 @@ public class ConfigModel
             IsOcrAutoCopyText = IsOcrAutoCopyText,
             IsScreenshotOcrAutoCopyText = IsScreenshotOcrAutoCopyText,
             IsAdjustContentTranslate = IsAdjustContentTranslate,
-            IsRemoveLineBreakGettingWords = IsRemoveLineBreakGettingWords,
-            IsRemoveLineBreakGettingWordsOCR = IsRemoveLineBreakGettingWordsOCR,
+            LineBreakHandler = LineBreakHandler,
+            LineBreakOCRHandler = LineBreakOCRHandler,
             DoubleTapTrayFunc = DoubleTapTrayFunc,
             SourceLang = SourceLang,
             TargetLang = TargetLang,
@@ -566,7 +561,6 @@ public class ConfigModel
             IsShowAutoTranslate = IsShowAutoTranslate,
             AnimationSpeed = AnimationSpeed,
             IsHideLangWhenOnlyShowOutput = IsHideLangWhenOnlyShowOutput,
-            IsPurify = IsPurify,
             IsOnlyShowRet = IsOnlyShowRet,
             OcrImageQuality = OcrImageQuality,
             SourceLangIfAuto = SourceLangIfAuto,

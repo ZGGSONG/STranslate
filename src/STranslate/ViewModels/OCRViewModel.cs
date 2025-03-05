@@ -210,33 +210,23 @@ public partial class OCRViewModel : WindowVMBase
     [RelayCommand]
     private void RemoveLineBreaks(TextBox textBox)
     {
-        var vm = Singleton<CommonViewModel>.Instance;
 
-        if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
+        if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         {
-            TogglePurify(vm);
-        }
-        else if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-        {
-            ToggleRemoveLineBreak(vm);
+            SwitchLineBreakHandlingMode();
         }
         else
         {
             RemoveLineBreaksFromTextBox(textBox);
         }
     }
-    private void TogglePurify(CommonViewModel vm)
-    {
-        vm.IsPurify = !vm.IsPurify;
-        vm.SaveCommand.Execute(null);
-        ToastHelper.Show($"{(vm.IsPurify ? "打开" : "关闭")}OCR净化结果", WindowType.OCR);
-    }
 
-    private void ToggleRemoveLineBreak(CommonViewModel vm)
+    private void SwitchLineBreakHandlingMode()
     {
-        vm.IsRemoveLineBreakGettingWordsOCR = !vm.IsRemoveLineBreakGettingWordsOCR;
+        var vm = Singleton<CommonViewModel>.Instance;
+        vm.LineBreakOCRHandler = vm.LineBreakOCRHandler.Increase();
         vm.SaveCommand.Execute(null);
-        ToastHelper.Show($"{(vm.IsRemoveLineBreakGettingWordsOCR ? "打开" : "关闭")}OCR始终移除换行", WindowType.OCR);
+        ToastHelper.Show($"OCR {vm.LineBreakOCRHandler.GetDescription()}", WindowType.OCR);
     }
 
     private void RemoveLineBreaksFromTextBox(TextBox textBox)
@@ -376,13 +366,12 @@ public partial class OCRViewModel : WindowVMBase
             //更新图片
             GetImg = GenerateImg(ocrResult, Bs!);
 
-            //处理剪贴板内容格式
-            if (_curConfig?.IsPurify ?? true)
-                getText = StringUtil.NormalizeText(getText);
-
-            //取词前移除换行
-            if (_curConfig?.IsRemoveLineBreakGettingWordsOCR ?? false)
-                getText = StringUtil.RemoveLineBreaks(getText);
+            getText = _curConfig?.LineBreakOCRHandler switch
+            {
+                LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(getText),
+                LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(getText),
+                _ => getText,
+            };
 
             //OCR后自动复制
             if (_curConfig?.IsOcrAutoCopyText ?? false)

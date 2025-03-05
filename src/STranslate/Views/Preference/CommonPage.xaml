@@ -499,24 +499,6 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="自动净化取词(所有OCR场景)" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="所有取词(包括OCR)自动整理格式，主要针对PDF移除多余换行" />
-                                    <ToggleButton
-                                        Height="26"
-                                        HorizontalAlignment="Right"
-                                        IsChecked="{Binding IsPurify}" />
-                                </DockPanel>
-
-                                <DockPanel Margin="20,10">
-                                    <TextBlock Text="主窗口取词时移除换行" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="取词时移除所有换行" />
-                                    <ToggleButton
-                                        Height="26"
-                                        HorizontalAlignment="Right"
-                                        IsChecked="{Binding IsRemoveLineBreakGettingWords}" />
-                                </DockPanel>
-
-                                <DockPanel Margin="20,10">
                                     <TextBlock Text="剪贴板占用问题" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果出现剪贴板被占用了，可尝试启用此配置" />
                                     <ToggleButton
@@ -535,6 +517,32 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="取词换行处理" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="包括划词、截图翻译、剪贴板、静默OCR取词场景的换行处理" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:LineBreakHandlingMode}}}"
+                                        SelectedValue="{Binding LineBreakHandler, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="OCR取词换行处理" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="针对OCR界面的换行处理" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:LineBreakHandlingMode}}}"
+                                        SelectedValue="{Binding LineBreakOCRHandler, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="OCR后自动复制" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR界面识别文本后自动复制文本内容" />
                                     <ToggleButton
@@ -550,15 +558,6 @@
                                         Height="26"
                                         HorizontalAlignment="Right"
                                         IsChecked="{Binding OcrChangedLang2Execute}" />
-                                </DockPanel>
-
-                                <DockPanel Margin="20,10">
-                                    <TextBlock Text="OCR取词时移除换行" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR时取词时移除所有换行" />
-                                    <ToggleButton
-                                        Height="26"
-                                        HorizontalAlignment="Right"
-                                        IsChecked="{Binding IsRemoveLineBreakGettingWordsOCR}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">

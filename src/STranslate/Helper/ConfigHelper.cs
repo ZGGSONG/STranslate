@@ -229,8 +229,8 @@ public class ConfigHelper
         CurrentConfig.IsOcrAutoCopyText = model.IsOcrAutoCopyText;
         CurrentConfig.IsScreenshotOcrAutoCopyText = model.IsScreenshotOcrAutoCopyText;
         CurrentConfig.IsAdjustContentTranslate = model.IsAdjustContentTranslate;
-        CurrentConfig.IsRemoveLineBreakGettingWords = model.IsRemoveLineBreakGettingWords;
-        CurrentConfig.IsRemoveLineBreakGettingWordsOCR = model.IsRemoveLineBreakGettingWordsOCR;
+        CurrentConfig.LineBreakHandler = model.LineBreakHandler;
+        CurrentConfig.LineBreakOCRHandler = model.LineBreakOCRHandler;
         CurrentConfig.DoubleTapTrayFunc = model.DoubleTapTrayFunc;
         CurrentConfig.CustomFont = model.CustomFont;
         CurrentConfig.IsKeepTopmostAfterMousehook = model.IsKeepTopmostAfterMousehook;
@@ -292,7 +292,6 @@ public class ConfigHelper
         CurrentConfig.IsShowAutoTranslate = model.IsShowAutoTranslate;
         CurrentConfig.AnimationSpeed = model.AnimationSpeed;
         CurrentConfig.IsHideLangWhenOnlyShowOutput = model.IsHideLangWhenOnlyShowOutput;
-        CurrentConfig.IsPurify = model.IsPurify;
         CurrentConfig.IsOnlyShowRet = model.IsOnlyShowRet;
         CurrentConfig.OcrImageQuality = model.OcrImageQuality;
         CurrentConfig.SourceLangIfAuto = model.SourceLangIfAuto;
@@ -803,8 +802,8 @@ public class ConfigHelper
             IsScreenshotOcrAutoCopyText = false,
             CloseUIOcrRetTranslate = false,
             IsAdjustContentTranslate = false,
-            IsRemoveLineBreakGettingWords = false,
-            IsRemoveLineBreakGettingWordsOCR = false,
+            LineBreakHandler = LineBreakHandlingMode.None,
+            LineBreakOCRHandler = LineBreakHandlingMode.None,
             DoubleTapTrayFunc = DoubleTapFuncEnum.InputFunc,
             CustomFont = Constant.DefaultFontName,
             IsKeepTopmostAfterMousehook = false,
@@ -868,7 +867,6 @@ public class ConfigHelper
             IsShowAutoTranslate = false,
             AnimationSpeed = AnimationSpeedEnum.Middle,
             IsHideLangWhenOnlyShowOutput = true,
-            IsPurify = true,
             OcrImageQuality = OcrImageQualityEnum.Medium,
             SourceLangIfAuto = LangEnum.en,
             TargetLangIfSourceZh = LangEnum.en,

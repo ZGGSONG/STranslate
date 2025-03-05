@@ -249,13 +249,13 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         if (!TryGetWord(out var content) || content == null) return;
 
-        //处理剪贴板内容格式
-        if (_configHelper.CurrentConfig?.IsPurify ?? true)
-            content = StringUtil.NormalizeText(content);
-        
-        //取词前移除换行
-        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
-            content = StringUtil.RemoveLineBreaks(content);
+
+        content = _configHelper.CurrentConfig?.LineBreakHandler switch
+        {
+            LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(content),
+            LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(content),
+            _ => content,
+        };
 
         TranslateHandler(view, content);
     }
@@ -425,13 +425,12 @@ public partial class NotifyIconViewModel : ObservableObject
             if (!ocrResult.Success) throw new Exception(ocrResult.ErrorMsg);
             var getText = ocrResult.Text;
 
-            //处理剪贴板内容格式
-            if (_configHelper.CurrentConfig?.IsPurify ?? true)
-                getText = StringUtil.NormalizeText(getText);
-            
-            //取词前移除换行
-            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
-                getText = StringUtil.RemoveLineBreaks(getText);
+            getText = _configHelper.CurrentConfig?.LineBreakHandler switch
+            {
+                LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(getText),
+                LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(getText),
+                _ => getText,
+            };
 
             //写入剪贴板
             ClipboardHelper.Copy(getText);
@@ -518,12 +517,12 @@ public partial class NotifyIconViewModel : ObservableObject
             if (!ocrResult.Success) throw new Exception("OCR失败: " + ocrResult.ErrorMsg);
             getText = ocrResult.Text;
 
-            //处理剪贴板内容格式
-            if (_configHelper.CurrentConfig?.IsPurify ?? true)
-                getText = StringUtil.NormalizeText(getText);
-            //取词前移除换行
-            if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
-                getText = StringUtil.RemoveLineBreaks(getText);
+            getText = _configHelper.CurrentConfig?.LineBreakHandler switch
+            {
+                LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(getText),
+                LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(getText),
+                _ => getText,
+            };
             //截图翻译OCR后自动复制
             if (_configHelper.CurrentConfig?.IsScreenshotOcrAutoCopyText ?? false)
                 ClipboardHelper.Copy(getText);
@@ -717,13 +716,12 @@ public partial class NotifyIconViewModel : ObservableObject
         //监听剪贴板，剪贴板内容变动时取消保存至生词本
         _inputViewModel.Save2VocabularyBookCancelCommand.Execute(null);
 
-        //处理剪贴板内容格式
-        if (_configHelper.CurrentConfig?.IsPurify ?? true)
-            content = StringUtil.NormalizeText(content);
-
-        //取词前移除换行
-        if (_configHelper.CurrentConfig?.IsRemoveLineBreakGettingWords ?? false)
-            content = StringUtil.RemoveLineBreaks(content);
+        content = _configHelper.CurrentConfig?.LineBreakHandler switch
+        {
+            LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(content),
+            LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(content),
+            _ => content,
+        };
 
         //如果重复执行先取消上一步操作
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
