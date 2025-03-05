@@ -381,6 +381,8 @@ public partial class CommonViewModel : ObservableObject
     /// </summary>
     [ObservableProperty] private bool _usePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
 
+    [ObservableProperty] private int _httpTimeout = ConfigHelper.CurrentConfig?.HttpTimeout ?? 10;
+
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
     public Action? OnOftenUsedLang;
 
@@ -560,6 +562,7 @@ public partial class CommonViewModel : ObservableObject
         TargetLangIfSourceZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceZh ?? LangEnum.en;
         TargetLangIfSourceNotZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
         UsePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
+        HttpTimeout = ConfigHelper.CurrentConfig?.HttpTimeout ?? 10;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

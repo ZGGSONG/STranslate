@@ -298,6 +298,11 @@ public class ConfigHelper
         CurrentConfig.TargetLangIfSourceZh = model.TargetLangIfSourceZh;
         CurrentConfig.TargetLangIfSourceNotZh = model.TargetLangIfSourceNotZh;
         CurrentConfig.UsePasteOutput = model.UsePasteOutput;
+        CurrentConfig.HttpTimeout = model.HttpTimeout;
+
+        // 设置全局超时时间
+        HttpUtil.GlobalTimeout = model.HttpTimeout;
+
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         //重新执行必要操作
@@ -872,6 +877,7 @@ public class ConfigHelper
             TargetLangIfSourceZh = LangEnum.en,
             TargetLangIfSourceNotZh = LangEnum.zh_cn,
             UsePasteOutput = false,
+            HttpTimeout = 10,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

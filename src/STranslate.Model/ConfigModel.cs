@@ -442,6 +442,12 @@ public class ConfigModel
     public bool UsePasteOutput { get; set; }
 
     /// <summary>
+    ///     Http 请求超时时间
+    ///     * s
+    /// </summary>
+    public int HttpTimeout { get; set; } = 10;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -567,6 +573,7 @@ public class ConfigModel
             TargetLangIfSourceZh = TargetLangIfSourceZh,
             TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
             UsePasteOutput = UsePasteOutput,
+            HttpTimeout = HttpTimeout,
             ReplaceProp = ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

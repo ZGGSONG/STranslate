@@ -327,6 +327,26 @@
                                         </ComboBox.ItemsSource>
                                     </ComboBox>
                                 </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="请求超时时间(秒)" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="服务请求的超时时间，单位为秒" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        SelectedValue="{Binding HttpTimeout}"
+                                        SelectedValuePath="Content">
+                                        <ComboBoxItem Content="5" />
+                                        <ComboBoxItem Content="10" />
+                                        <ComboBoxItem Content="15" />
+                                        <ComboBoxItem Content="20" />
+                                        <ComboBoxItem Content="25" />
+                                        <ComboBoxItem Content="30" />
+                                        <ComboBoxItem Content="60" />
+                                        <ComboBoxItem Content="120" />
+                                    </ComboBox>
+                                </DockPanel>
                             </StackPanel>
                         </Border>
                     </Expander>
