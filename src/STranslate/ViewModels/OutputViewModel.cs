@@ -73,8 +73,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand(IncludeCancelCommand = true)]
     private async Task SingleTranslateBackAsync(ITranslator service, CancellationToken token)
     {
-        // Alt+LeftClick 开关
-        if ((Keyboard.Modifiers & ModifierKeys.Alt) > 0)
+        // Ctrl+LeftClick 开关
+        if ((Keyboard.Modifiers & ModifierKeys.Control) > 0)
         {
             var newResult = !service.AutoExecuteTranslateBack;
             service.AutoExecuteTranslateBack = newResult;

@@ -394,7 +394,7 @@
                             Content="&#xe6b2;"
                             FontWeight="Bold"
                             Style="{DynamicResource ButtonCopyIconStyle}"
-                            ToolTip="移除换行"
+                            ToolTip="移除换行&#13;Ctrl+点击切换处理换行模式"
                             Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
