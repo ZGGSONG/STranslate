@@ -177,7 +177,8 @@ public partial class InputViewModel : ObservableObject
         }
         catch (OperationCanceledException)
         {
-            // ignore
+            // 清理检测内容
+            IdentifyLanguage = string.Empty;
         }
         catch (Exception ex)
         {
