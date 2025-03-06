@@ -11,7 +11,12 @@ public partial class OCRPage : UserControl
     public OCRPage()
     {
         InitializeComponent();
-        DataContext = Singleton<OCRScvViewModel>.Instance;
+
+        var vm = Singleton<OCRScvViewModel>.Instance;
+        // 设置滚动到当前选中的服务
+        vm.OnSelectedServiceChanged = () =>
+            OCRListBox.ScrollIntoView(OCRListBox.SelectedItem);
+        DataContext = vm;
     }
 
     public static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject

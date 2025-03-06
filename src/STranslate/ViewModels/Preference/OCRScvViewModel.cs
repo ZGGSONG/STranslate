@@ -41,6 +41,8 @@ public partial class OCRScvViewModel : ObservableObject
 
     [ObservableProperty] private int _selectedIndex;
 
+    public Action? OnSelectedServiceChanged;
+
     private int tmpIndex;
 
     public OCRScvViewModel()
@@ -143,6 +145,17 @@ public partial class OCRScvViewModel : ObservableObject
                 break;
             }
         }
+
+        // 刷新当前服务列表位置放后面才能刷新
+        OnSelectedServiceChanged?.Invoke();
+    }
+
+    public void ExternalTogglePage(IOCR? ocr)
+    {
+        if (ocr is null) return;
+        SelectedIndex = CurOCRServiceList.IndexOf(ocr);
+        TogglePage(ocr);
+        OnSelectedServiceChanged?.Invoke();
     }
 
     [RelayCommand]

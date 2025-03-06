@@ -510,6 +510,7 @@
                 <Button
                     Margin="10,0"
                     Command="{Binding OCRPreferenceCommand}"
+                    CommandParameter="{Binding OcrScvVm.ActivedOCR}"
                     Content="设置" />
 
                 <ComboBox

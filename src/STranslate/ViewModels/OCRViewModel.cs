@@ -532,13 +532,16 @@ public partial class OCRViewModel : WindowVMBase
     }
 
     [RelayCommand]
-    private void OCRPreference()
+    private void OCRPreference(IOCR? ocr)
     {
         var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault() ?? new PreferenceView();
         view.UpdateNavigation(PerferenceType.OCR);
         view.Show();
         view.WindowState = WindowState.Normal;
         view.Activate();
+
+        if (ocr == null) return;
+        Singleton<OCRScvViewModel>.Instance.ExternalTogglePage(ocr);
     }
 
     [RelayCommand]
