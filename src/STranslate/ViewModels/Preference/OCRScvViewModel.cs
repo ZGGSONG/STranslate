@@ -51,6 +51,7 @@ public partial class OCRScvViewModel : ObservableObject
         OcrServices.Add(new PaddleOCR());
         OcrServices.Add(new TencentOCR());
         OcrServices.Add(new BaiduOCR());
+        OcrServices.Add(new YoudaoOCR());
         OcrServices.Add(new VolcengineOCR());
         OcrServices.Add(new GoogleOCR());
         OcrServices.Add(new OpenAIOCR());
@@ -159,6 +160,7 @@ public partial class OCRScvViewModel : ObservableObject
                 OCRType.PaddleOCR => string.Format($"{head}{nameof(PaddleOCRPage)}"),
                 OCRType.TencentOCR => string.Format($"{head}{nameof(TencentOCRPage)}"),
                 OCRType.BaiduOCR => string.Format($"{head}{nameof(BaiduOCRPage)}"),
+                OCRType.YoudaoOCR => string.Format($"{head}{nameof(YoudaoOCRPage)}"),
                 OCRType.VolcengineOCR => string.Format($"{head}{nameof(VolcengineOCRPage)}"),
                 OCRType.GoogleOCR => string.Format($"{head}{nameof(GoogleOCRPage)}"),
                 OCRType.OpenAIOCR => string.Format($"{head}{nameof(OpenAIOCRPage)}"),
@@ -184,6 +186,7 @@ public partial class OCRScvViewModel : ObservableObject
                 PaddleOCR paddleocr => paddleocr.Clone(),
                 TencentOCR tencentocr => tencentocr.Clone(),
                 BaiduOCR baiduocr => baiduocr.Clone(),
+                YoudaoOCR youdaoocr => youdaoocr.Clone(),
                 VolcengineOCR volcengineocr => volcengineocr.Clone(),
                 GoogleOCR googleocr => googleocr.Clone(),
                 OpenAIOCR openaiocr => openaiocr.Clone(),

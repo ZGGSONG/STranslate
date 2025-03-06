@@ -923,6 +923,7 @@ public class OCRConverter : JsonConverter<IOCR>
             //TODO: 新OCR服务需要适配
             (int)OCRType.PaddleOCR => new PaddleOCR(),
             (int)OCRType.BaiduOCR => new BaiduOCR(),
+            (int)OCRType.YoudaoOCR => new YoudaoOCR(),
             (int)OCRType.TencentOCR => new TencentOCR(),
             (int)OCRType.VolcengineOCR => new VolcengineOCR(),
             (int)OCRType.GoogleOCR => new GoogleOCR(),
