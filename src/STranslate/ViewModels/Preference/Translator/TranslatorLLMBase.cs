@@ -86,6 +86,42 @@ public partial class TranslatorLLMBase : TranslatorBase
 
     [RelayCommand]
     [property: JsonIgnore]
+    private void DuplicatePrompt(UserDefinePrompt userDefinePrompt)
+    {
+        var dupPrompt = (UserDefinePrompt)userDefinePrompt.Clone();
+        // 生成一个唯一的副本名称
+        string baseName = userDefinePrompt.Name;
+        string newName;
+        int counter = 1;
+
+        // 如果原名已经包含"_副本"后缀，则使用原始基础名称
+        int suffixIndex = baseName.LastIndexOf("_副本");
+        if (suffixIndex > 0)
+        {
+            // 检查是否已经有数字后缀
+            string remainder = baseName.Substring(suffixIndex + 3);
+            if (string.IsNullOrEmpty(remainder) || !int.TryParse(remainder, out _))
+            {
+                baseName = baseName.Substring(0, suffixIndex);
+            }
+        }
+
+        // 寻找可用的名称
+        newName = $"{baseName}_副本{counter}";
+        while (UserDefinePrompts.Any(p => p.Name == newName))
+        {
+            counter++;
+            newName = $"{baseName}_副本{counter}";
+        }
+
+        dupPrompt.Name = newName;
+        dupPrompt.Enabled = false;
+        UserDefinePrompts.Add(dupPrompt);
+        ManualPropChanged(nameof(UserDefinePrompts));
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
     private void DeletePrompt(UserDefinePrompt userDefinePrompt)
     {
         UserDefinePrompts.Remove(userDefinePrompt);

@@ -57,6 +57,15 @@
                         ToolTip="更新" />
                     <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
                     <Button
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DuplicatePromptCommand}"
+                        CommandParameter="{Binding Path=.}"
+                        Content="&#xe652;"
+                        FontFamily="{DynamicResource IconFont}"
+                        FontSize="{DynamicResource FontSize14}"
+                        Style="{DynamicResource PromptBtnStyle}"
+                        ToolTip="副本" />
+                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
+                    <Button
                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DeletePromptCommand}"
                         CommandParameter="{Binding Path=.}"
                         Content="&#xe74b;"
