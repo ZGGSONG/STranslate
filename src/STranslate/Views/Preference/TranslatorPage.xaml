@@ -96,6 +96,9 @@
                         props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
                         BorderThickness="1"
                         CornerRadius="6">
+                        <Border.Resources>
+                            <common:BindingProxy x:Key="TVm" Data="{Binding .}" />
+                        </Border.Resources>
                         <ListBox
                             x:Name="CurrentServiceListBox"
                             dd:DragDrop.IsDragSource="True"
@@ -150,6 +153,24 @@
                                             </Border>
                                             <ToggleButton Grid.Column="3" IsChecked="{Binding IsEnabled}" />
                                         </Grid>
+                                        <Border.Resources>
+                                            <common:BindingProxy x:Key="SingleSvc" Data="{Binding .}" />
+                                        </Border.Resources>
+                                        <Border.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem
+                                                    Command="{Binding Source={StaticResource TVm}, Path=Data.DuplicateSvcCommand}"
+                                                    CommandParameter="{Binding Source={StaticResource SingleSvc}, Path=Data, Mode=OneWay}"
+                                                    Header="创建副本"
+                                                    Icon="&#xe652;" />
+                                                <Separator />
+                                                <MenuItem
+                                                    Command="{Binding Source={StaticResource TVm}, Path=Data.DeleteCommand}"
+                                                    CommandParameter="{Binding Source={StaticResource SingleSvc}, Path=Data, Mode=OneWay}"
+                                                    Header="删除服务"
+                                                    Icon="&#xe74b;" />
+                                            </ContextMenu>
+                                        </Border.ContextMenu>
                                     </Border>
                                     <DataTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">

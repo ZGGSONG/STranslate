@@ -296,4 +296,15 @@ public partial class TranslatorViewModel : ObservableObject
 
         ResetView(ActionType.Add);
     }
+
+    [RelayCommand]
+    private void DuplicateSvc(ITranslator svc)
+    {
+        var duplicateSvc = svc.Clone();
+        duplicateSvc.Identify = Guid.NewGuid();
+        duplicateSvc.Name += "_副本";
+
+        CurTransServiceList.Add(duplicateSvc);
+        ResetView(ActionType.Add);
+    }
 }
