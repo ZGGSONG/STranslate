@@ -47,4 +47,23 @@ public partial class ReplaceProp : ObservableObject
             TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
         };
     }
+
+    /// <summary>
+    ///     从另一个 ReplaceProp 实例复制所有属性到当前实例
+    /// </summary>
+    /// <param name="source">源 ReplaceProp 实例</param>
+    public void CopyFrom(ReplaceProp source)
+    {
+        if (source == null)
+            return;
+
+        ActiveService = source.ActiveService?.Clone();
+        AutoScale = source.AutoScale;
+        DetectType = source.DetectType;
+        SourceLang = source.SourceLang;
+        TargetLang = source.TargetLang;
+        SourceLangIfAuto = source.SourceLangIfAuto;
+        TargetLangIfSourceZh = source.TargetLangIfSourceZh;
+        TargetLangIfSourceNotZh = source.TargetLangIfSourceNotZh;
+    }
 }

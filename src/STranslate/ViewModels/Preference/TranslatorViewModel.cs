@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Translator;
 using STranslate.Views.Preference;
@@ -250,6 +251,11 @@ public partial class TranslatorViewModel : ObservableObject
         }
         ResetView();
         ToastHelper.Show("重置配置", WindowType.Preference);
+
+        if (MessageBox_S.Show("重置该配置影响替换翻译配置，是否继续恢复？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+        {
+            Singleton<ReplaceViewModel>.Instance.ResetCommand.Execute(null);
+        }
     }
 
     /// <summary>

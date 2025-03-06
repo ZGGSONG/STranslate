@@ -187,11 +187,9 @@ public partial class ReplaceViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        AllServices.Clear();
+        var tmp = _configHelper.ReadConfig();
 
-        foreach (var service in _translateVm.CurTransServiceList) AllServices.Add(service);
-
-        ReplaceProp = _configHelper.CurrentConfig?.ReplaceProp ?? new ReplaceProp();
+        ReplaceProp.CopyFrom(tmp.ReplaceProp);
 
         // View 上绑定结果从List中获取
         ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
