@@ -11,7 +11,12 @@ public partial class TTSPage : UserControl
     public TTSPage()
     {
         InitializeComponent();
-        DataContext = Singleton<TTSViewModel>.Instance;
+        var vm = Singleton<TTSViewModel>.Instance;
+
+        // 设置滚动到当前选中的服务
+        vm.OnSelectedServiceChanged = () =>
+            TTSListBox.ScrollIntoView(TTSListBox.SelectedItem);
+        DataContext = vm;
     }
 
     public static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject

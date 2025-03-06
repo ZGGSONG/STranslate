@@ -26,6 +26,8 @@ public partial class VocabularyBookViewModel : ObservableObject
 
     [ObservableProperty] private int _selectedIndex;
 
+    public Action? OnSelectedServiceChanged;
+
     [ObservableProperty] private int _serviceCounter;
 
     [ObservableProperty] private UIElement? _serviceContent;
@@ -103,6 +105,9 @@ public partial class VocabularyBookViewModel : ObservableObject
                 break;
             }
         }
+
+        // 刷新当前服务列表位置放后面才能刷新
+        OnSelectedServiceChanged?.Invoke();
     }
 
     [RelayCommand]

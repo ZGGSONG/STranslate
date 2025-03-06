@@ -28,6 +28,8 @@ public partial class TTSViewModel : ObservableObject
 
     [ObservableProperty] private int _selectedIndex;
 
+    public Action? OnSelectedServiceChanged;
+
     [ObservableProperty] private int _ttsCounter;
 
     [ObservableProperty] private UIElement? _ttsServiceContent;
@@ -144,6 +146,9 @@ public partial class TTSViewModel : ObservableObject
                 break;
             }
         }
+
+        // 刷新当前服务列表位置放后面才能刷新
+        OnSelectedServiceChanged?.Invoke();
     }
 
     [RelayCommand]

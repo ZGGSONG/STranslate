@@ -11,7 +11,12 @@ public partial class VocabularyBookPage : UserControl
     public VocabularyBookPage()
     {
         InitializeComponent();
-        DataContext = Singleton<VocabularyBookViewModel>.Instance;
+        var vm = Singleton<VocabularyBookViewModel>.Instance;
+
+        // 设置滚动到当前选中的服务
+        vm.OnSelectedServiceChanged = () =>
+            CurVocabularyBookListBox.ScrollIntoView(CurVocabularyBookListBox.SelectedItem);
+        DataContext = vm;
     }
 
     public static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
