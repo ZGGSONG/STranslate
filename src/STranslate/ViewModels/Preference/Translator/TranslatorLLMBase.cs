@@ -76,7 +76,7 @@ public partial class TranslatorLLMBase : TranslatorBase
     [property: JsonIgnore]
     private void UpdatePrompt(UserDefinePrompt userDefinePrompt)
     {
-        var dialog = new PromptDialog(ServiceType.OpenAIService, (UserDefinePrompt)userDefinePrompt.Clone());
+        var dialog = new PromptDialog(Type, (UserDefinePrompt)userDefinePrompt.Clone());
         if (!(dialog.ShowDialog() ?? false)) return;
         var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
         userDefinePrompt.Name = tmp.Name;
@@ -133,7 +133,7 @@ public partial class TranslatorLLMBase : TranslatorBase
     private void AddPrompt()
     {
         var userDefinePrompt = new UserDefinePrompt("Undefined", []);
-        var dialog = new PromptDialog(ServiceType.OpenAIService, userDefinePrompt);
+        var dialog = new PromptDialog(Type, userDefinePrompt);
         if (!(dialog.ShowDialog() ?? false)) return;
         var tmp = ((PromptViewModel)dialog.DataContext).UserDefinePrompt;
         userDefinePrompt.Name = tmp.Name;

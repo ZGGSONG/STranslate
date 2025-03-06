@@ -7,13 +7,13 @@ namespace STranslate.ViewModels.Preference.Translator;
 
 public partial class PromptViewModel : ObservableObject
 {
-    private readonly ServiceType _serviceType;
+    private readonly object _serviceType;
 
     private readonly UserDefinePrompt _tmpPrompt;
 
     [ObservableProperty] private UserDefinePrompt _userDefinePrompt;
 
-    public PromptViewModel(ServiceType type, UserDefinePrompt definePrompt)
+    public PromptViewModel(object type, UserDefinePrompt definePrompt)
     {
         _serviceType = type;
         UserDefinePrompt = definePrompt;
@@ -26,12 +26,33 @@ public partial class PromptViewModel : ObservableObject
         var last = UserDefinePrompt.Prompts.LastOrDefault()?.Role ?? "";
         var newOne = _serviceType switch
         {
-            ServiceType.GeminiService
+            //TODO: 新OCR服务需要适配
+            #region OCR Type
+
+            OCRType.GeminiOCR
+                    => last switch
+                    {
+                        "user" => new Prompt("model"),
+                        _ => new Prompt("user")
+                    },
+            OCRType.OpenAIOCR
                 => last switch
                 {
-                    "user" => new Prompt("model"),
+                    "" => new Prompt("system"),
+                    "user" => new Prompt("assistant"),
                     _ => new Prompt("user")
                 },
+
+            #endregion
+
+            //TODO: 新接口需要适配
+            #region Translator Type
+            ServiceType.GeminiService
+                    => last switch
+                    {
+                        "user" => new Prompt("model"),
+                        _ => new Prompt("user")
+                    },
             ServiceType.ChatglmService
                 => last switch
                 {
@@ -51,6 +72,8 @@ public partial class PromptViewModel : ObservableObject
                     "user" => new Prompt("assistant"),
                     _ => new Prompt("user")
                 }
+
+                #endregion
         };
         UserDefinePrompt.Prompts.Add(newOne);
     }

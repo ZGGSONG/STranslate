@@ -12,7 +12,7 @@ public partial class PromptDialog : Window
 {
     private readonly PromptViewModel vm;
 
-    public PromptDialog(ServiceType type, UserDefinePrompt definePrompt)
+    public PromptDialog(object type, UserDefinePrompt definePrompt)
     {
         InitializeComponent();
 
