@@ -179,7 +179,13 @@ public partial class VocabularyBookViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        CurServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList ?? [];
+        var cnfHelper = Singleton<ConfigHelper>.Instance;
+        var tmp = cnfHelper.ReadConfig().VocabularyBookList ?? [];
+        cnfHelper.CurrentConfig!.VocabularyBookList!.Clear();
+        foreach (var item in tmp)
+        {
+            cnfHelper.CurrentConfig!.VocabularyBookList.Add(item);
+        }
         ResetView();
         ToastHelper.Show("重置配置", WindowType.Preference);
     }

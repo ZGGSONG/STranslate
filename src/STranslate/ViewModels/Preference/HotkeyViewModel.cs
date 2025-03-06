@@ -114,7 +114,7 @@ public partial class HotkeyViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        var cHotkeys = _conf.CurrentConfig?.Hotkeys!;
+        var cHotkeys = _conf.ReadConfig().Hotkeys!;
 
         InputHk.Content = cHotkeys.InputTranslate.Text ?? "";
         CrosswordHk.Content = cHotkeys.CrosswordTranslate.Text ?? "";
@@ -211,7 +211,7 @@ public partial class HotkeyViewModel : ObservableObject
         HotKeyConflictCheck();
         RefreshNotifyToolTip();
 
-        ToastHelper.Show("重置成功", WindowType.Preference);
+        ToastHelper.Show("撤销成功", WindowType.Preference);
     }
 
     [RelayCommand]

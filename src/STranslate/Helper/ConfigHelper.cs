@@ -48,6 +48,38 @@ public class ConfigHelper
         CurrentConfig = ReadConfig();
     }
 
+    public ConfigModel ReadConfig()
+    {
+        try
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Converters =
+                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter(), new VocabularyBookConverter() }
+            };
+            var content = File.ReadAllText(Constant.CnfFullName);
+            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
+                        throw new Exception("反序列化失败...");
+            Decryption(config);
+            return config;
+        }
+        catch (Exception ex)
+        {
+            // 备份当前config
+            var path = BackupCurrentConfig();
+
+            try
+            {
+                LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
+            }
+            catch
+            {
+                // ignore
+            }
+            return InitialConfig();
+        }
+    }
+
     /// <summary>
     ///     初始化操作
     /// </summary>
@@ -424,38 +456,6 @@ public class ConfigHelper
     #endregion 公共方法
 
     #region 私有方法
-
-    private ConfigModel ReadConfig()
-    {
-        try
-        {
-            var settings = new JsonSerializerSettings
-            {
-                Converters =
-                    { new TranslatorConverter(), new OCRConverter(), new TTSConverter(), new ReplaceConverter(), new VocabularyBookConverter() }
-            };
-            var content = File.ReadAllText(Constant.CnfFullName);
-            var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
-                        throw new Exception("反序列化失败...");
-            Decryption(config);
-            return config;
-        }
-        catch (Exception ex)
-        {
-            // 备份当前config
-            var path = BackupCurrentConfig();
-
-            try
-            {
-                LogService.Logger.Error($"[READ CONFIG] 读取配置错误，已备份旧配置至: {path} 当前加载初始化配置...", ex);
-            }
-            catch
-            {
-                // ignore
-            }
-            return InitialConfig();
-        }
-    }
 
     /// <summary>
     ///     备份当前配置文件
