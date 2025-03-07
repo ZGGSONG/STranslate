@@ -52,6 +52,13 @@ namespace STranslate.Style.Commons
 
         private static void RegisterSelector(Selector selector)
         {
+            // 普通的ItemsSource绑定
+            if (BindingOperations.GetBinding(selector, Selector.ItemsSourceProperty) is Binding binding)
+            {
+                EnumerationExtension.RegisterSelector(selector);
+                return;
+            }
+
             // 直接从ItemsSource属性获取MultiBinding
             if (selector.ItemsSource == null && BindingOperations.GetMultiBinding(selector, Selector.ItemsSourceProperty) is MultiBinding multiBinding)
             {

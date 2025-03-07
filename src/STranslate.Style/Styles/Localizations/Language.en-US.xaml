@@ -16,6 +16,11 @@
     <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
     <system:String x:Key="LangEnum.zh_tw">Traditional Chinese</system:String>
 
+    <system:String x:Key="ThemeType.Light">Ligth Theme</system:String>
+    <system:String x:Key="ThemeType.Dark">Dark Theme</system:String>
+    <system:String x:Key="ThemeType.FollowSystem">FollowSystem</system:String>
+    <system:String x:Key="ThemeType.FollowApp">FollowApp</system:String>
+
     <system:String x:Key="LineBreakHandlingMode.None">Don't Process LineBreaks</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">Remove Extra LineBreaks</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">Remove All LineBreaks</system:String>

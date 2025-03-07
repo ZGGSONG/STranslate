@@ -16,6 +16,11 @@
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
     <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
 
+    <system:String x:Key="ThemeType.Light">明亮主题</system:String>
+    <system:String x:Key="ThemeType.Dark">黑暗主题</system:String>
+    <system:String x:Key="ThemeType.FollowSystem">跟随系统</system:String>
+    <system:String x:Key="ThemeType.FollowApp">跟随应用</system:String>
+
     <system:String x:Key="LineBreakHandlingMode.None">不处理换行</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多余换行</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有换行</system:String>
