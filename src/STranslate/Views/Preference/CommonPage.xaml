@@ -9,6 +9,7 @@
     xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+    xmlns:lang="clr-namespace:STranslate.Style.Styles;assembly=STranslate.Style"
     d:DataContext="{d:DesignInstance Type=vm:CommonViewModel}"
     d:DesignHeight="1000"
     d:DesignWidth="800"
@@ -52,7 +53,7 @@
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="开机时自动启动" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Settings_AutoStart}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="开机时自动启动软件(该用户登录)" />
                                     <ToggleButton
                                         Height="26"
@@ -61,12 +62,25 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="以管理员权限启动" />
+                                    <TextBlock Text="{DynamicResource Settings_AdminStart}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="以便全局快捷键在具有管理员权限的窗口也能响应" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
                                         IsChecked="{Binding NeedAdmin}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock Text="软件语言" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="切换软件语言版本" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:AppLanguageKind}}}"
+                                        SelectedValue="{Binding AppLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">

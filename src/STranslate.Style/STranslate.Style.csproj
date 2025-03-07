@@ -124,7 +124,9 @@
 	  <Resource Include="Resources\volcengine.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Resources\yandex.png" />
+	  <Resource Include="Resources\yandex.png">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Resource>
 	  <Resource Include="Resources\youdao.png">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>

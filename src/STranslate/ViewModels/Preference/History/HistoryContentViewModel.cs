@@ -151,14 +151,14 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             else
             {
                 translator.Data.IsSuccess = false;
-                translator.Data.Result = Constant.HistoryErrorContent;
+                translator.Data.Result = AppLanguageManager.GetString("Constant.HistoryErrorContent");
             }
         }
         catch (Exception)
         {
             //兼容旧版结果
             var data = jsonObject["Data"]?.Value<string>();
-            translator.Data.Result = data ?? Constant.HistoryErrorContent;
+            translator.Data.Result = data ?? AppLanguageManager.GetString("Constant.HistoryErrorContent");
         }
 
         // 返回构建好的 translator 对象

@@ -5,6 +5,11 @@ namespace STranslate.Model;
 public class ConfigModel
 {
     /// <summary>
+    ///     应用程序语言
+    /// </summary>
+    public AppLanguageKind AppLanguage { get; set; } = AppLanguageKind.zh_Hans_CN;
+
+    /// <summary>
     ///     开机自启动
     /// </summary>
     public bool IsStartup { get; set; }

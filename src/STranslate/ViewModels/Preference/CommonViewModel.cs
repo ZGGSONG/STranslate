@@ -383,7 +383,16 @@ public partial class CommonViewModel : ObservableObject
 
     [ObservableProperty] private int _httpTimeout = ConfigHelper.CurrentConfig?.HttpTimeout ?? 10;
 
+    /// <summary>
+    ///     应用程序语言
+    /// </summary>
+    [ObservableProperty] private AppLanguageKind _appLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
+
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
+    
+    /// <summary>
+    ///     常用语种回调
+    /// </summary>
     public Action? OnOftenUsedLang;
 
     #endregion
@@ -391,7 +400,7 @@ public partial class CommonViewModel : ObservableObject
     public CommonViewModel()
     {
         // 获取系统已安装字体
-        GetFontFamilys = Fonts.SystemFontFamilies.Select(font => font.Source).ToList();
+        GetFontFamilys = [.. Fonts.SystemFontFamilies.Select(font => font.Source)];
         // 判断是否已安装软件字体，没有则插入到列表中
         if (!GetFontFamilys.Contains(Constant.DefaultFontName))
             GetFontFamilys.Insert(0, Constant.DefaultFontName);
@@ -563,6 +572,7 @@ public partial class CommonViewModel : ObservableObject
         TargetLangIfSourceNotZh = ConfigHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
         UsePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
         HttpTimeout = ConfigHelper.CurrentConfig?.HttpTimeout ?? 10;
+        AppLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
 
         LoadHistorySizeType();
         ToastHelper.Show("重置配置", WindowType.Preference);

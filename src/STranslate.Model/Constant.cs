@@ -11,7 +11,6 @@ public static class Constant
     public const string GithubReleaseUrl = "https://api.github.com/repos/zggsong/stranslate/releases/latest";
     public const string VersionInfoUrl = "https://raw.githubusercontent.com/ZGGSONG/STranslate/refs/heads/main/version-info.json";
     public const string DefaultVersion = "1.0.0.0";
-    public const string NeweastVersionInfo = "恭喜您, 当前为最新版本!";
 
     public static readonly string AppVersion =
         Application.ResourceAssembly.GetName().Version?.ToString() ?? DefaultVersion;
@@ -109,9 +108,6 @@ public static class Constant
     public const string TagTrue = "True";
     public const string TagFalse = "False";
 
-    public const string Loading = "加载中...";
-    public const string Unloading = "加载结束...";
-
     public const string UserDefineFontKey = "UserFont";
     public const string DefaultFontName = "LXGW WenKai";
     public const string PingFangFontName = "PingFang SC";
@@ -135,10 +131,6 @@ public static class Constant
         new Tuple<string, double>("FontSize10", 10),
         new Tuple<string, double>(FontSize18TextBox, 18),
     ];
-
-    public const string PlaceHolderContent = "Enter 翻译/缓存\nCtrl+Enter 强制翻译\nShift+Enter 换行";
-    public const string InputErrorContent = "该服务未获取到缓存Ctrl+Enter更新";
-    public const string HistoryErrorContent = "该服务翻译时未正确返回Ctrl+Enter以更新";
 
     public static readonly Dictionary<IconType, string> IconDict =
         Application.Current.Resources.MergedDictionaries.FirstOrDefault(x =>

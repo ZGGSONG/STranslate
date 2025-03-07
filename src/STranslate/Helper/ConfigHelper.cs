@@ -87,6 +87,9 @@ public class ConfigHelper
     {
         StartupOperate(CurrentConfig?.IsStartup ?? false);
 
+        //初始化语言
+        AppLanguageManager.InitializeLanguage(CurrentConfig);
+
         //初始化主题
         ThemeOperate(CurrentConfig?.ThemeType ?? ThemeType.Light);
 
@@ -251,6 +254,7 @@ public class ConfigHelper
         //判断是否相同,避免重复注册
         var isHotkeyConfSame = CurrentConfig.DisableGlobalHotkeys == model.DisableGlobalHotkeys;
         var isThemeSame = CurrentConfig.ThemeType == model.ThemeType;
+        var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
         CurrentConfig.IsStartup = model.IsStartup;
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -331,6 +335,7 @@ public class ConfigHelper
         CurrentConfig.TargetLangIfSourceNotZh = model.TargetLangIfSourceNotZh;
         CurrentConfig.UsePasteOutput = model.UsePasteOutput;
         CurrentConfig.HttpTimeout = model.HttpTimeout;
+        CurrentConfig.AppLanguage = model.AppLanguage;
 
         // 设置全局超时时间
         HttpUtil.GlobalTimeout = model.HttpTimeout;
@@ -339,6 +344,11 @@ public class ConfigHelper
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
+        if (!isAppLangSame)
+        {
+            AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
+        }
+
         if (!isThemeSame)
         {
             await Task.Run(() => ThemeOperate(CurrentConfig.ThemeType));
@@ -672,7 +682,7 @@ public class ConfigHelper
     private void PlaceholderOperate(bool isShowMainPlaceholder)
     {
         Singleton<InputViewModel>.Instance.Placeholder =
-            isShowMainPlaceholder ? Constant.PlaceHolderContent : string.Empty;
+            isShowMainPlaceholder ? AppLanguageManager.GetString("Constant.PlaceHolderContent") : string.Empty;
     }
 
     /// <summary>
@@ -878,6 +888,7 @@ public class ConfigHelper
             TargetLangIfSourceNotZh = LangEnum.zh_cn,
             UsePasteOutput = false,
             HttpTimeout = 10,
+            AppLanguage = AppLanguageKind.zh_Hans_CN,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

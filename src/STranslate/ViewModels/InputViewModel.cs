@@ -107,10 +107,18 @@ public partial class InputViewModel : ObservableObject
         }
     }
 
-    [ObservableProperty] private string _placeholder = Constant.PlaceHolderContent;
+    private string _placeholder = AppLanguageManager.GetString("Constant.PlaceHolderContent");
+    public string Placeholder
+    {
+        get => _placeholder;
+        set
+        {
+            var v = value.Replace("/n", "\n");
+            SetProperty(ref  _placeholder, v);
+        }
+    }
 
     [ObservableProperty] private bool _mainOcrLangVisibile;
-
 
     private const int AutoTranslateDelay = 1000; // 设置延迟时间
 
@@ -857,7 +865,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
         {
             //兼容旧版结果
             var data = jsonObject["Data"]?.Value<string>();
-            translator.Data.Result = data ?? Constant.InputErrorContent;
+            translator.Data.Result = data ?? AppLanguageManager.GetString("Constant.InputErrorContent");
         }
 
         // 返回构建好的 translator 对象

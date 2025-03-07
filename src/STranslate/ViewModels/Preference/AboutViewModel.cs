@@ -132,7 +132,7 @@ public partial class AboutViewModel : ObservableObject
                 if (canUpdate)
                     MessageBox_S_MD.Show(newVersionInfo);
                 else
-                    MessageBox_S.Show(Constant.NeweastVersionInfo);
+                    MessageBox_S.Show(AppLanguageManager.GetString("Constant.NeweastVersionInfo"));
             }
             catch (OperationCanceledException)
             {

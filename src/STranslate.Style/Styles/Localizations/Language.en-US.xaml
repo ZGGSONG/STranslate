@@ -1,0 +1,56 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--  Constant  -->
+    <system:String x:Key="Constant.NeweastVersionInfo">Congratulations! You are using the latest version!</system:String>
+    <system:String x:Key="Constant.Loading">Loading...</system:String>
+    <system:String x:Key="Constant.Unloading">Loading completed...</system:String>
+    <system:String x:Key="Constant.PlaceHolderContent">Enter: Translate/Cache/nCtrl+Enter: Force translate/nShift+Enter: New line</system:String>
+    <system:String x:Key="Constant.InputErrorContent">No cache found for this service, press Ctrl+Enter to update</system:String>
+    <system:String x:Key="Constant.HistoryErrorContent">This service did not return correctly, press Ctrl+Enter to update</system:String>
+
+    <!--  Common Text  -->
+    <system:String x:Key="Common_OK">OK</system:String>
+    <system:String x:Key="Common_Cancel">Cancel</system:String>
+    <system:String x:Key="Common_Close">Close</system:String>
+    <system:String x:Key="Common_Save">Save</system:String>
+
+    <!--  Settings Related  -->
+    <system:String x:Key="Settings_Title">Settings</system:String>
+    <system:String x:Key="Settings_General">General</system:String>
+    <system:String x:Key="Settings_Language">Language</system:String>
+    <system:String x:Key="Settings_AutoStart">Auto Start</system:String>
+    <system:String x:Key="Settings_AdminStart">Run as Administrator</system:String>
+    <system:String x:Key="Settings_Theme">Theme</system:String>
+    <system:String x:Key="Settings_FollowMouse">Follow Mouse</system:String>
+    <system:String x:Key="Settings_History">History Size</system:String>
+
+    <!--  OCR Related  -->
+    <system:String x:Key="OCR_Title">OCR Recognition</system:String>
+    <system:String x:Key="OCR_AutoCopy">Auto Copy Text</system:String>
+    <system:String x:Key="OCR_CloseAfterTranslate">Close OCR After Translation</system:String>
+    <system:String x:Key="OCR_ShowAuxiliaryLine">Show Auxiliary Line</system:String>
+
+    <!--  Translation Related  -->
+    <system:String x:Key="Translate_SourceLang">Source Language</system:String>
+    <system:String x:Key="Translate_TargetLang">Target Language</system:String>
+    <system:String x:Key="Translate_Auto">Auto Detect</system:String>
+    <system:String x:Key="Translate_Execute">Translate</system:String>
+    <system:String x:Key="Translate_Clear">Clear</system:String>
+
+    <!--  Proxy Settings  -->
+    <system:String x:Key="Proxy_Title">Proxy Settings</system:String>
+    <system:String x:Key="Proxy_Method">Proxy Method</system:String>
+    <system:String x:Key="Proxy_System">System Proxy</system:String>
+    <system:String x:Key="Proxy_None">No Proxy</system:String>
+    <system:String x:Key="Proxy_Custom">Custom Proxy</system:String>
+
+    <!--  Other Features  -->
+    <system:String x:Key="Feature_MouseHook">Mouse Selection</system:String>
+    <system:String x:Key="Feature_Screenshot">Screenshot Translation</system:String>
+    <system:String x:Key="Feature_OCR">OCR Recognition</system:String>
+    <system:String x:Key="Feature_QRCode">QR Code Recognition</system:String>
+    <system:String x:Key="Feature_History">History</system:String>
+</ResourceDictionary>

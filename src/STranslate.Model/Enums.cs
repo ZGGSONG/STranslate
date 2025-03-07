@@ -1484,6 +1484,13 @@ public enum LineBreakHandlingMode
     [Description("移除所有换行")] RemoveAllLineBreak,
 }
 
+public enum AppLanguageKind
+{
+    [Description("简体中文")] zh_Hans_CN,
+    [Description("English")] en_US,
+    // [Description("繁体中文")] zh_TW,
+}
+
 /// <summary>
 ///     获取Description
 /// </summary>

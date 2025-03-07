@@ -21,7 +21,7 @@ public class BooleanToContentConverter : IValueConverter
             if (parameter.Equals("ICON"))
                 return bValue ? Constant.HideIcon : Constant.ShowIcon;
             if (parameter.Equals("HISTORY"))
-                return bValue ? Constant.Loading : Constant.Unloading;
+                return bValue ? AppLanguageManager.GetString("Constant.Loading") : AppLanguageManager.GetString("Constant.Unloading");
         }
 
         return "";
