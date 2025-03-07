@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using STranslate.Model;
+using System.ComponentModel;
 using System.Windows.Markup;
 
 namespace STranslate.Style.Commons;
@@ -28,17 +29,22 @@ public class EnumerationExtension : MarkupExtension
             enumValues = enumValues.OrderBy(e => (int)e);
         }
         return (from object enumValue in enumValues
-            select new EnumerationMember { Value = enumValue, Description = GetDescription(enumValue) }).ToArray();
+            select new EnumerationMember { Root = EnumType.Name, Value = enumValue, Description = GetLocalizedDescription(enumValue) }).ToArray();
     }
 
-    private string GetDescription(object enumValue)
+    private string GetLocalizedDescription(object enumValue)
     {
-        return EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+        var fullEnumPath = $"{EnumType.GetField(enumValue.ToString() ?? "")?.FieldType.Name}.{enumValue}";
+        var localizedDescription = AppLanguageManager.GetString(fullEnumPath);
+        if (localizedDescription == fullEnumPath)
+            localizedDescription = EnumType.GetField(enumValue.ToString() ?? "")?.GetCustomAttributes(typeof(DescriptionAttribute), false)
             .FirstOrDefault() is DescriptionAttribute descriptionAttribute ? descriptionAttribute.Description : enumValue.ToString() ?? "";
+        return localizedDescription;
     }
 
     public class EnumerationMember
     {
+        public string Root { get; set; } = "";
         public string Description { get; set; } = "";
         public object? Value { get; set; }
         public bool IsEnabled { get; set; } = true;

@@ -579,6 +579,7 @@ public class ConfigModel
             TargetLangIfSourceNotZh = TargetLangIfSourceNotZh,
             UsePasteOutput = UsePasteOutput,
             HttpTimeout = HttpTimeout,
+            AppLanguage = AppLanguage,
             ReplaceProp = ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

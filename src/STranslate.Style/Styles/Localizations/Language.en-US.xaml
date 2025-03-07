@@ -11,6 +11,11 @@
     <system:String x:Key="Constant.InputErrorContent">No cache found for this service, press Ctrl+Enter to update</system:String>
     <system:String x:Key="Constant.HistoryErrorContent">This service did not return correctly, press Ctrl+Enter to update</system:String>
 
+    <!--  Enum  -->
+    <system:String x:Key="LangEnum.auto">Auto</system:String>
+    <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
+    <system:String x:Key="LangEnum.zh_tw">Traditional Chinese</system:String>
+
     <!--  Common Text  -->
     <system:String x:Key="Common_OK">OK</system:String>
     <system:String x:Key="Common_Cancel">Cancel</system:String>

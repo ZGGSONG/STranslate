@@ -11,6 +11,11 @@
     <system:String x:Key="Constant.InputErrorContent">该服务未获取到缓存Ctrl+Enter更新</system:String>
     <system:String x:Key="Constant.HistoryErrorContent">该服务翻译时未正确返回Ctrl+Enter以更新</system:String>
 
+    <!--  Enum  -->
+    <system:String x:Key="LangEnum.auto">自动识别</system:String>
+    <system:String x:Key="LangEnum.zh_cn">中文</system:String>
+    <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
+
     <!--  通用文本  -->
     <system:String x:Key="Common_OK">确定</system:String>
     <system:String x:Key="Common_Cancel">取消</system:String>

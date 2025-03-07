@@ -8,7 +8,7 @@ public class AppLanguageManager
     /// <summary>
     /// 语言变更事件
     /// </summary>
-    public static event EventHandler? LanguageChanged;
+    public static Action? OnAppLanguageChanged;
 
     /// <summary>
     /// 切换应用程序语言
@@ -41,7 +41,7 @@ public class AppLanguageManager
         Application.Current.Resources.MergedDictionaries.Add(resourceDict);
 
         // 触发语言变更事件
-        LanguageChanged?.Invoke(null, EventArgs.Empty);
+        OnAppLanguageChanged?.Invoke();
     }
 
     /// <summary>
