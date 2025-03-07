@@ -24,13 +24,13 @@
             Grid.Column="0"
             MinWidth="130"
             HorizontalAlignment="Right"
-            common:LangAwareComboBox.IsLangAware="True"
+            common:LangAwareSelector.IsLangAware="True"
             DisplayMemberPath="Description"
             SelectedValue="{Binding SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectedValuePath="Value">
             <ComboBox.ItemsSource>
                 <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                    <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                    <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                     <Binding Path="InputVM.OftenUsedLang" />
                 </MultiBinding>
             </ComboBox.ItemsSource>
@@ -49,13 +49,13 @@
             Grid.Column="2"
             MinWidth="130"
             HorizontalAlignment="Left"
-            common:LangAwareComboBox.IsLangAware="True"
+            common:LangAwareSelector.IsLangAware="True"
             DisplayMemberPath="Description"
             SelectedValue="{Binding TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectedValuePath="Value">
             <ComboBox.ItemsSource>
                 <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                    <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                    <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                     <Binding Path="InputVM.OftenUsedLang" />
                 </MultiBinding>
             </ComboBox.ItemsSource>

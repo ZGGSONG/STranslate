@@ -329,6 +329,7 @@
                         HorizontalScrollBarVisibility="Disabled">
                         <ListBox
                             x:Name="MainOcrLangLb"
+                            proxy:LangAwareSelector.IsLangAware="True"
                             Background="Transparent"
                             BorderThickness="0"
                             PreviewMouseWheel="ServiceListBox_PreviewMouseWheel"
@@ -337,7 +338,7 @@
                             SelectedValuePath="Value">
                             <ListBox.ItemsSource>
                                 <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                    <Binding Source="{proxy:Enumeration {x:Type model:LangEnum}}" />
+                                    <Binding Source="{proxy:LangEnumeration {x:Type model:LangEnum}}" />
                                     <Binding Path="InputVM.OftenUsedLang" />
                                 </MultiBinding>
                             </ListBox.ItemsSource>

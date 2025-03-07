@@ -1,17 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using STranslate.Style.Converters;
 
 namespace STranslate.Style.Commons
 {
-    public static class LangAwareComboBox
+    public static class LangAwareSelector
     {
         public static readonly DependencyProperty IsLangAwareProperty =
             DependencyProperty.RegisterAttached(
                 "IsLangAware",
                 typeof(bool),
-                typeof(LangAwareComboBox),
+                typeof(LangAwareSelector),
                 new PropertyMetadata(false, OnIsLangAwareChanged));
 
         public static bool GetIsLangAware(DependencyObject obj)
@@ -26,50 +27,50 @@ namespace STranslate.Style.Commons
 
         private static void OnIsLangAwareChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ComboBox comboBox && (bool)e.NewValue)
+            if (d is Selector selector && (bool)e.NewValue)
             {
                 // 使用Loaded事件确保在控件完全加载后再尝试获取绑定表达式
-                if (comboBox.IsLoaded)
+                if (selector.IsLoaded)
                 {
-                    RegisterComboBox(comboBox);
+                    RegisterSelector(selector);
                 }
                 else
                 {
-                    comboBox.Loaded += ComboBox_Loaded;
+                    selector.Loaded += Selector_Loaded;
                 }
             }
         }
 
-        private static void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        private static void Selector_Loaded(object sender, RoutedEventArgs e)
         {
-            if (sender is ComboBox comboBox)
+            if (sender is Selector selector)
             {
-                comboBox.Loaded -= ComboBox_Loaded;
-                RegisterComboBox(comboBox);
+                selector.Loaded -= Selector_Loaded;
+                RegisterSelector(selector);
             }
         }
 
-        private static void RegisterComboBox(ComboBox comboBox)
+        private static void RegisterSelector(Selector selector)
         {
             // 直接从ItemsSource属性获取MultiBinding
-            if (comboBox.ItemsSource == null && BindingOperations.GetMultiBinding(comboBox, ComboBox.ItemsSourceProperty) is MultiBinding multiBinding)
+            if (selector.ItemsSource == null && BindingOperations.GetMultiBinding(selector, Selector.ItemsSourceProperty) is MultiBinding multiBinding)
             {
                 if (multiBinding.Converter is MultiLangFilterConverter converter)
                 {
-                    converter.RegisterComboBox(comboBox);
+                    converter.RegisterSelector(selector);
                 }
             }
             else
             {
                 // 如果ItemsSource已经有值，则需要等待下一个UI更新周期再尝试
-                comboBox.Dispatcher.BeginInvoke(new Action(() =>
+                selector.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     // 尝试从绑定表达式获取MultiBinding
-                    var bindingExpression = BindingOperations.GetMultiBindingExpression(comboBox, ComboBox.ItemsSourceProperty);
+                    var bindingExpression = BindingOperations.GetMultiBindingExpression(selector, Selector.ItemsSourceProperty);
                     if (bindingExpression?.ParentMultiBinding is MultiBinding mb && 
                         mb.Converter is MultiLangFilterConverter converter)
                     {
-                        converter.RegisterComboBox(comboBox);
+                        converter.RegisterSelector(selector);
                     }
                     else
                     {
@@ -79,7 +80,7 @@ namespace STranslate.Style.Commons
                         {
                             if (resources[key] is MultiLangFilterConverter mlfc)
                             {
-                                mlfc.RegisterComboBox(comboBox);
+                                mlfc.RegisterSelector(selector);
                                 break;
                             }
                         }

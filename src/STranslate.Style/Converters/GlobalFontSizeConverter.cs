@@ -9,7 +9,7 @@ public class GlobalFontSizeToDescriptionConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is not EnumerationExtension.EnumerationMember v)
+        if (value is not EnumerationMember v)
             return 18;
         return v.Description;
     }
@@ -24,7 +24,7 @@ public class GlobalFontSizeToFontSizeConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is not EnumerationExtension.EnumerationMember v ||
+        if (value is not EnumerationMember v ||
             Enum.TryParse<GlobalFontSizeEnum>(v.Value?.ToString() ?? "", out var @enum) == false)
             return 18;
         return @enum.ToInt() + 18;

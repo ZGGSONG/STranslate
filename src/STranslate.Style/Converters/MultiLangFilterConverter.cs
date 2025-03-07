@@ -1,7 +1,7 @@
-﻿using System.Globalization;
-using System.Windows.Controls;
+﻿using STranslate.Model;
+using System.Globalization;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using static STranslate.Style.Commons.EnumerationExtension;
 
 namespace STranslate.Style.Converters;
 
@@ -14,40 +14,41 @@ public class MultiLangFilterConverter : IMultiValueConverter
         Model.AppLanguageManager.OnAppLanguageChanged += OnLanguageChanged;
     }
 
-    // 存储所有使用此转换器的 ComboBox 的弱引用
-    private static readonly List<WeakReference<ComboBox>> _comboBoxes = [];
+    // 存储所有使用此转换器的 Selector 的弱引用
+    private static readonly List<WeakReference<Selector>> _selectors = [];
 
     // 语言变更事件处理
     private static void OnLanguageChanged()
     {
-        // 刷新所有注册的 ComboBox
-        for (int i = _comboBoxes.Count - 1; i >= 0; i--)
+        // 刷新所有注册的 Selector
+        for (int i = _selectors.Count - 1; i >= 0; i--)
         {
-            if (_comboBoxes[i].TryGetTarget(out var comboBox))
+            if (_selectors[i].TryGetTarget(out var selector))
             {
                 // 保存当前选中项
-                var selectedValue = comboBox.SelectedValue;
+                var selectedValue = selector.SelectedValue;
 
                 // 刷新 ItemsSource
-                var bindingExpression = BindingOperations.GetMultiBindingExpression(comboBox, ComboBox.ItemsSourceProperty);
-                bindingExpression?.UpdateTarget();
+                var bindingExpression = BindingOperations.GetMultiBindingExpression(selector, Selector.ItemsSourceProperty);
+                bindingExpression.UpdateTarget();
 
                 // 恢复选中项
-                comboBox.SelectedValue = selectedValue;
+                selector.SelectedValue = selectedValue;
             }
             else
             {
                 // 移除失效的弱引用
-                _comboBoxes.RemoveAt(i);
+                _selectors.RemoveAt(i);
             }
         }
     }
 
-    // 注册 ComboBox 以便在语言变更时刷新
-    public void RegisterComboBox(ComboBox comboBox)
+    // 注册 Selector 以便在语言变更时刷新
+    public void RegisterSelector(Selector selector)
     {
-        _comboBoxes.Add(new WeakReference<ComboBox>(comboBox));
+        _selectors.Add(new WeakReference<Selector>(selector));
     }
+
 
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
@@ -61,7 +62,7 @@ public class MultiLangFilterConverter : IMultiValueConverter
         for (var i = 0; i < enums.Length; i++)
         {
             var fullPath = $"{enums[i].Root}.{enums[i].Value}";
-            var desc = Model.AppLanguageManager.GetString(fullPath);
+            var desc = AppLanguageManager.GetString(fullPath);
             if (desc != fullPath)
                 enums[i].Description = desc;
             enums[i].IsEnabled = langEnables[i];

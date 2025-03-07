@@ -583,7 +583,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void SelectedMainOcrLanguage(List<object> list)
     {
-        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+        if (list.Count != 2 || list.First() is not EnumerationMember member ||
             list.Last() is not ToggleButton tb)
             return;
 

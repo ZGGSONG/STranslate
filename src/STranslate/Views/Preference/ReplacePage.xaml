@@ -48,13 +48,14 @@
                                 Name="SourceLangCb"
                                 Height="30"
                                 HorizontalAlignment="Right"
+                                common:LangAwareSelector.IsLangAware="True"
                                 BorderThickness="1"
                                 DisplayMemberPath="Description"
                                 SelectedValue="{Binding ReplaceProp.SourceLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedValuePath="Value">
                                 <ComboBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                        <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                                         <Binding Path="InputVm.OftenUsedLang" />
                                     </MultiBinding>
                                 </ComboBox.ItemsSource>
@@ -68,13 +69,14 @@
                                 Name="TargetLangCb"
                                 Height="30"
                                 HorizontalAlignment="Right"
+                                common:LangAwareSelector.IsLangAware="True"
                                 BorderThickness="1"
                                 DisplayMemberPath="Description"
                                 SelectedValue="{Binding ReplaceProp.TargetLang, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedValuePath="Value">
                                 <ComboBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                        <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                                         <Binding Path="InputVm.OftenUsedLang" />
                                     </MultiBinding>
                                 </ComboBox.ItemsSource>
@@ -131,13 +133,14 @@
                                 Name="SourceLangIfAutoCb"
                                 Height="30"
                                 HorizontalAlignment="Right"
+                                common:LangAwareSelector.IsLangAware="True"
                                 BorderThickness="1"
                                 DisplayMemberPath="Description"
                                 SelectedValue="{Binding ReplaceProp.SourceLangIfAuto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedValuePath="Value">
                                 <ComboBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                        <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                                         <Binding Path="InputVm.OftenUsedLang" />
                                     </MultiBinding>
                                 </ComboBox.ItemsSource>
@@ -151,13 +154,14 @@
                                 Name="TargetLangIfSourceZhCb"
                                 Height="30"
                                 HorizontalAlignment="Right"
+                                common:LangAwareSelector.IsLangAware="True"
                                 BorderThickness="1"
                                 DisplayMemberPath="Description"
                                 SelectedValue="{Binding ReplaceProp.TargetLangIfSourceZh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedValuePath="Value">
                                 <ComboBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                        <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                                         <Binding Path="InputVm.OftenUsedLang" />
                                     </MultiBinding>
                                 </ComboBox.ItemsSource>
@@ -171,13 +175,14 @@
                                 Name="TargetLangIfSourceNotZhCb"
                                 Height="30"
                                 HorizontalAlignment="Right"
+                                common:LangAwareSelector.IsLangAware="True"
                                 BorderThickness="1"
                                 DisplayMemberPath="Description"
                                 SelectedValue="{Binding ReplaceProp.TargetLangIfSourceNotZh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 SelectedValuePath="Value">
                                 <ComboBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                        <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                        <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                                         <Binding Path="InputVm.OftenUsedLang" />
                                     </MultiBinding>
                                 </ComboBox.ItemsSource>

@@ -525,6 +525,7 @@
                 <ComboBox
                     x:Name="LangCb"
                     Margin="10,0"
+                    common:LangAwareSelector.IsLangAware="True"
                     BorderThickness="1"
                     DisplayMemberPath="Description"
                     FontSize="{DynamicResource FontSize18}"
@@ -532,7 +533,7 @@
                     SelectedValuePath="Value">
                     <ComboBox.ItemsSource>
                         <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                            <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                            <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                             <Binding Path="InputVm.OftenUsedLang" />
                         </MultiBinding>
                     </ComboBox.ItemsSource>

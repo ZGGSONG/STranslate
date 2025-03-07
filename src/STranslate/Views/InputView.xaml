@@ -228,13 +228,14 @@
                                 <ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled">
                                     <ListBox
                                         Name="IdentifyLb"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         Background="Transparent"
                                         BorderThickness="0"
                                         PreviewMouseWheel="ListBox_PreviewMouseWheel"
                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                         <ListBox.ItemsSource>
                                             <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
-                                                <Binding Source="{common:Enumeration {x:Type model:LangEnum}}" />
+                                                <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
                                                 <Binding Path="OftenUsedLang" />
                                             </MultiBinding>
                                         </ListBox.ItemsSource>

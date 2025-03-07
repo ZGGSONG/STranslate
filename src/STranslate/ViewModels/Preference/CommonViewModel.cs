@@ -386,7 +386,18 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     ///     应用程序语言
     /// </summary>
-    [ObservableProperty] private AppLanguageKind _appLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
+    private AppLanguageKind _appLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
+    public AppLanguageKind AppLanguage
+    {
+        get => _appLanguage;
+        set
+        {
+            if (SetProperty(ref _appLanguage, value))
+            {
+                AppLanguageManager.SwitchLanguage(value);
+            }
+        }
+    }
 
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
     

@@ -16,6 +16,10 @@
     <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
     <system:String x:Key="LangEnum.zh_tw">Traditional Chinese</system:String>
 
+    <system:String x:Key="LineBreakHandlingMode.None">Don't Process LineBreaks</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">Remove Extra LineBreaks</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">Remove All LineBreaks</system:String>
+
     <!--  Common Text  -->
     <system:String x:Key="Common_OK">OK</system:String>
     <system:String x:Key="Common_Cancel">Cancel</system:String>

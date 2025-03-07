@@ -16,6 +16,11 @@
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
     <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
 
+    <system:String x:Key="LineBreakHandlingMode.None">不处理换行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多余换行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有换行</system:String>
+
+
     <!--  通用文本  -->
     <system:String x:Key="Common_OK">确定</system:String>
     <system:String x:Key="Common_Cancel">取消</system:String>

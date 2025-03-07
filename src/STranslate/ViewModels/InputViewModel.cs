@@ -616,7 +616,7 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private async Task SelectedLanguageAsync(List<object> list)
     {
-        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+        if (list.Count != 2 || list.First() is not EnumerationMember member ||
             list.Last() is not ToggleButton tb)
             return;
 
@@ -639,7 +639,7 @@ public partial class InputViewModel : ObservableObject
     [RelayCommand]
     private async Task SelectedLangDetectTypeAsync(List<object> list)
     {
-        if (list.Count != 2 || list.First() is not EnumerationExtension.EnumerationMember member ||
+        if (list.Count != 2 || list.First() is not EnumerationMember member ||
             list.Last() is not ToggleButton tb)
             return;
 

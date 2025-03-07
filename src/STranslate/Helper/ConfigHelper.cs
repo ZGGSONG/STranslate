@@ -254,7 +254,7 @@ public class ConfigHelper
         //判断是否相同,避免重复注册
         var isHotkeyConfSame = CurrentConfig.DisableGlobalHotkeys == model.DisableGlobalHotkeys;
         var isThemeSame = CurrentConfig.ThemeType == model.ThemeType;
-        var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
+        //var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
         CurrentConfig.IsStartup = model.IsStartup;
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -344,10 +344,10 @@ public class ConfigHelper
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
-        if (!isAppLangSame)
-        {
-            AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
-        }
+        //if (!isAppLangSame)
+        //{
+        //    AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
+        //}
 
         if (!isThemeSame)
         {
