@@ -4,7 +4,6 @@ namespace STranslate.Model;
 
 public class KeyValueItem : DependencyObject
 {
-
     public static readonly DependencyProperty Column1Property =
         DependencyProperty.Register("Column1", typeof(string), typeof(KeyValueItem),
             new PropertyMetadata(string.Empty));

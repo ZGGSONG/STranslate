@@ -24,8 +24,8 @@
 
             <!--  // Header //  -->
             <StackPanel Margin="10">
-                <TextBlock FontSize="{DynamicResource FontSize20}" Text="TTS" />
-                <TextBlock FontSize="{DynamicResource FontSize18}" Text="文本转语音服务，添加你的TTS服务并选择使用" />
+                <TextBlock FontSize="{DynamicResource FontSize20}" Text="{DynamicResource Service.TTS.Title}" />
+                <TextBlock FontSize="{DynamicResource FontSize18}" Text="{DynamicResource Service.TTS.SubTitle}" />
             </StackPanel>
 
             <Grid Grid.Row="1">
@@ -245,7 +245,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding ResetCommand}"
-                            Content="撤销" />
+                            Content="{DynamicResource Preference.Save}" />
                         <Button
                             Width="60"
                             HorizontalAlignment="Right"
@@ -253,7 +253,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding SaveCommand}"
-                            Content="保存" />
+                            Content="{DynamicResource Preference.Save}" />
                     </Grid>
                 </Grid>
             </Grid>

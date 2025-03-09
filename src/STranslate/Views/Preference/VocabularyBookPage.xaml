@@ -24,8 +24,8 @@
 
             <!--  // Header //  -->
             <StackPanel Margin="10">
-                <TextBlock FontSize="{DynamicResource FontSize20}" Text="生词本" />
-                <TextBlock FontSize="{DynamicResource FontSize18}" Text="将文本存储至在线生词本中" />
+                <TextBlock FontSize="{DynamicResource FontSize20}" Text="{DynamicResource Service.VocabularyBook.Title}" />
+                <TextBlock FontSize="{DynamicResource FontSize18}" Text="{DynamicResource Service.VocabularyBook.SubTitle}" />
             </StackPanel>
 
             <Grid Grid.Row="1">
@@ -244,7 +244,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding ResetCommand}"
-                            Content="撤销" />
+                            Content="{DynamicResource Preference.Reset}" />
                         <Button
                             Width="60"
                             HorizontalAlignment="Right"
@@ -252,7 +252,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding SaveCommand}"
-                            Content="保存" />
+                            Content="{DynamicResource Preference.Save}" />
                     </Grid>
                 </Grid>
             </Grid>

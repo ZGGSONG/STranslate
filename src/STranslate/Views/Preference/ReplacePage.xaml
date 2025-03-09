@@ -30,8 +30,8 @@
                     <StackPanel Orientation="Vertical">
 
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="替换翻译服务" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择替换翻译服务" />
+                            <TextBlock Text="{DynamicResource Replace.Translator}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.Translator.Tooltip}" />
                             <ComboBox
                                 Height="30"
                                 HorizontalAlignment="Right"
@@ -42,8 +42,8 @@
                         </DockPanel>
 
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="原始语种" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译原始语种" />
+                            <TextBlock Text="{DynamicResource Replace.Source}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.Source.Tooltip}" />
                             <ComboBox
                                 Name="SourceLangCb"
                                 Height="30"
@@ -63,8 +63,8 @@
                         </DockPanel>
 
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="目标语种" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择翻译目标语种" />
+                            <TextBlock Text="{DynamicResource Replace.Target}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.Target.Tooltip}" />
                             <ComboBox
                                 Name="TargetLangCb"
                                 Height="30"
@@ -84,11 +84,12 @@
                         </DockPanel>
 
                         <DockPanel Margin="20,10" Visibility="{Binding ReplaceProp.TargetLang, ConverterParameter=auto, Converter={StaticResource ParamEqualToVisibility}}">
-                            <TextBlock Text="语种识别(仅当原始语种为自动时生效)" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式，仅当原始语种为自动时生效" />
+                            <TextBlock Text="{DynamicResource Replace.DetectTypeWithSourceAuto}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.DetectTypeWithSourceAuto.Tooltip}" />
                             <ComboBox
                                 Height="30"
                                 HorizontalAlignment="Right"
+                                common:LangAwareSelector.IsLangAware="True"
                                 BorderThickness="1"
                                 DisplayMemberPath="Description"
                                 ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
@@ -103,8 +104,8 @@
                                     <Binding Path="ReplaceProp.TargetLang" />
                                 </MultiBinding>
                             </DockPanel.Visibility>
-                            <TextBlock Text="语种识别比例(zh-en)" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
+                            <TextBlock Text="{DynamicResource Replace.AutoDetectType}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.AutoDetectType.Tooltip}" />
                             <StackPanel
                                 HorizontalAlignment="Right"
                                 DockPanel.Dock="Right"
@@ -127,8 +128,8 @@
                         </DockPanel>
 
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="语种识别为自动时使用" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果识别语种结果仍然为自动则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                            <TextBlock Text="{DynamicResource Replace.SourceLangIfAuto}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.SourceLangIfAuto.Tooltip}" />
                             <ComboBox
                                 Name="SourceLangIfAutoCb"
                                 Height="30"
@@ -148,8 +149,8 @@
                         </DockPanel>
 
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="目标语种为自动且原始语种为中文时使用" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                            <TextBlock Text="{DynamicResource Replace.TargetLangIfSourceZh}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.TargetLangIfSourceZh.Tooltip}" />
                             <ComboBox
                                 Name="TargetLangIfSourceZhCb"
                                 Height="30"
@@ -169,8 +170,8 @@
                         </DockPanel>
 
                         <DockPanel Margin="20,10">
-                            <TextBlock Text="目标语种为自动且原始语种为非中文时使用" />
-                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为非中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                            <TextBlock Text="{DynamicResource Replace.TargetLangIfSourceNotZh}" />
+                            <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Replace.TargetLangIfSourceNotZh.Tooltip}" />
                             <ComboBox
                                 Name="TargetLangIfSourceNotZhCb"
                                 Height="30"
@@ -202,14 +203,14 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Command="{Binding ResetCommand}"
-                    Content="撤销" />
+                    Content="{DynamicResource Preference.Reset}" />
                 <Button
                     Width="60"
                     Padding="3"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Command="{Binding SaveCommand}"
-                    Content="保存" />
+                    Content="{DynamicResource Preference.Save}" />
             </Grid>
 
         </Grid>

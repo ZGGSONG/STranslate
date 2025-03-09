@@ -3,18 +3,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <!--  Constant  -->
+    <!--#region Constant-->
     <system:String x:Key="Constant.NeweastVersionInfo">恭喜您, 当前为最新版本!</system:String>
     <system:String x:Key="Constant.Loading">加载中...</system:String>
     <system:String x:Key="Constant.Unloading">加载结束...</system:String>
     <system:String x:Key="Constant.PlaceHolderContent">Enter 翻译/缓存/nCtrl+Enter 强制翻译/nShift+Enter 换行</system:String>
     <system:String x:Key="Constant.InputErrorContent">该服务未获取到缓存Ctrl+Enter更新</system:String>
     <system:String x:Key="Constant.HistoryErrorContent">该服务翻译时未正确返回Ctrl+Enter以更新</system:String>
+    <!--#endregion-->
 
-    <!--  Enum  -->
+    <!--#region  Enum-->
     <system:String x:Key="LangEnum.auto">自动识别</system:String>
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
     <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
+    <system:String x:Key="LangEnum.en">英文</system:String>
+
+    <system:String x:Key="ThemeType.Light">明亮主题</system:String>
+    <system:String x:Key="ThemeType.Dark">黑暗主题</system:String>
+    <system:String x:Key="ThemeType.FollowSystem">跟随系统</system:String>
+    <system:String x:Key="ThemeType.FollowApp">跟随软件</system:String>
+
+    <system:String x:Key="LangDetectType.Local">本地识别</system:String>
+    <system:String x:Key="LangDetectType.Baidu">百度识别</system:String>
+    <system:String x:Key="LangDetectType.Tencent">腾讯识别</system:String>
+    <system:String x:Key="LangDetectType.Niutrans">小牛识别</system:String>
+    <system:String x:Key="LangDetectType.Bing">必应识别</system:String>
+    <system:String x:Key="LangDetectType.Yandex">Yandex</system:String>
+    <system:String x:Key="LangDetectType.Google">谷歌识别</system:String>
+    <system:String x:Key="LangDetectType.Microsoft">微软识别</system:String>
+
+    <system:String x:Key="LineBreakHandlingMode.None">不处理换行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多余换行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有换行</system:String>
+    <!--#endregion-->
 
     <!--#region 首选项-->
     <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate 首选项</system:String>
@@ -286,6 +307,93 @@
     <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithMouseWheelDown">Ctrl + 滚轮下</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithReturn">Ctrl + 点击换行图标</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithTransBack">Ctrl + 点击回译图标</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Service 设置项-->
+
+    <system:String x:Key="Service.Navi.Translator">文本翻译</system:String>
+    <system:String x:Key="Service.Navi.OCR">文本识别</system:String>
+    <system:String x:Key="Service.Navi.TTS">语音合成</system:String>
+    <system:String x:Key="Service.Navi.VocabularyBook">生词本</system:String>
+    <system:String x:Key="Service.Translator.Title">服务</system:String>
+    <system:String x:Key="Service.Translator.SubTitle">翻译功能的核心服务支持配置，下方开启的服务将被使用。</system:String>
+    <system:String x:Key="Service.Translator.Duplicate">创建副本</system:String>
+    <system:String x:Key="Service.Translator.Delete">删除副本</system:String>
+    <system:String x:Key="Service.OCR.Title">文本识别</system:String>
+    <system:String x:Key="Service.OCR.SubTitle">文字识别服务，添加你的OCR服务并选择使用</system:String>
+    <system:String x:Key="Service.TTS.Title">文本识别</system:String>
+    <system:String x:Key="Service.TTS.SubTitle">文本转语音服务，添加你的TTS服务并选择使用</system:String>
+    <system:String x:Key="Service.VocabularyBook.Title">生词本</system:String>
+    <system:String x:Key="Service.VocabularyBook.SubTitle">将文本存储至在线生词本中</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Replace 设置项-->
+
+    <system:String x:Key="Replace.Translator">替换翻译服务</system:String>
+    <system:String x:Key="Replace.Translator.Tooltip">选择替换翻译服务</system:String>
+    <system:String x:Key="Replace.Source">原始语种</system:String>
+    <system:String x:Key="Replace.Source.Tooltip">选择翻译原始语种</system:String>
+    <system:String x:Key="Replace.Target">目标语种</system:String>
+    <system:String x:Key="Replace.Target.Tooltip">选择翻译目标语种</system:String>
+    <system:String x:Key="Replace.DetectTypeWithSourceAuto">语种识别(仅当原始语种为自动时生效)</system:String>
+    <system:String x:Key="Replace.DetectTypeWithSourceAuto.Tooltip">语种识别方式，仅当原始语种为自动</system:String>
+    <system:String x:Key="Replace.AutoDetectType">语种识别比例(zh-en)</system:String>
+    <system:String x:Key="Replace.AutoDetectType.Tooltip">仅针对 本地识别 中英文情况下英文字符占总字符数的比例</system:String>
+    <system:String x:Key="Replace.SourceLangIfAuto">语种识别为自动时使用</system:String>
+    <system:String x:Key="Replace.SourceLangIfAuto.Tooltip">如果识别语种结果仍然为自动则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceZh">目标语种为自动且原始语种为中文时使用</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceZh.Tooltip">如果目标语种为自动且原始语种为中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceNotZh">目标语种为自动且原始语种为非中文时使用</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceNotZh.Tooltip">如果目标语种为自动且原始语种为非中文时则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发</system:String>
+
+    <!--#endregion-->
+
+    <!--#region History 设置项-->
+
+    <system:String x:Key="History.Search">请输入搜索内容</system:String>
+    <system:String x:Key="History.Refresh">刷新记录</system:String>
+    <system:String x:Key="History.Delete">删除记录</system:String>
+    <system:String x:Key="History.Gong">共</system:String>
+    <system:String x:Key="History.Xiang">项</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Backup 设置项-->
+
+    <system:String x:Key="Backup.BackupType">备份方式</system:String>
+    <system:String x:Key="Backup.BackupType.Tooltip">请选择备份方式</system:String>
+    <system:String x:Key="Backup.Address">地址</system:String>
+    <system:String x:Key="Backup.Address.Tooltip">WebDav服务器地址</system:String>
+    <system:String x:Key="Backup.Address.Placeholder">请输入WebDav地址</system:String>
+    <system:String x:Key="Backup.Username">用户名</system:String>
+    <system:String x:Key="Backup.Username.Tooltip">WebDav服务器用户名</system:String>
+    <system:String x:Key="Backup.Username.Placeholder">请输入用户名</system:String>
+    <system:String x:Key="Backup.Password">密码</system:String>
+    <system:String x:Key="Backup.Password.Tooltip">WebDav服务器密码</system:String>
+    <system:String x:Key="Backup.Password.Placeholder">请输入密码</system:String>
+    <system:String x:Key="Backup.Export">导出配置</system:String>
+    <system:String x:Key="Backup.Import">导入配置</system:String>
+
+    <!--#endregion-->
+
+    <!--#region About 设置项-->
+
+    <system:String x:Key="About.Version">版本</system:String>
+    <system:String x:Key="About.CheckUpdate">检查更新</system:String>
+    <system:String x:Key="About.CancelCheck">取消检查</system:String>
+    <system:String x:Key="About.Tools">工具</system:String>
+    <system:String x:Key="About.CleanLog">清理日志</system:String>
+    <system:String x:Key="About.OpenDirectory">打开目录</system:String>
+    <system:String x:Key="About.LogDirectory">日志目录</system:String>
+    <system:String x:Key="About.ConfigDirectory">配置目录</system:String>
+    <system:String x:Key="About.OpenSource">开源</system:String>
+    <system:String x:Key="About.Author">作者</system:String>
+    <system:String x:Key="About.Website">官网</system:String>
+    <system:String x:Key="About.SourceCode">源码</system:String>
+    <system:String x:Key="About.Feedback">反馈</system:String>
+    <system:String x:Key="About.Thanks">感谢</system:String>
 
     <!--#endregion-->
 

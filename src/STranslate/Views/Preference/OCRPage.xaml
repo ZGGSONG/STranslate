@@ -24,8 +24,8 @@
 
             <!--  // Header //  -->
             <StackPanel Margin="10">
-                <TextBlock FontSize="{DynamicResource FontSize20}" Text="OCR" />
-                <TextBlock FontSize="{DynamicResource FontSize18}" Text="文字识别服务，添加你的OCR服务并选择使用" />
+                <TextBlock FontSize="{DynamicResource FontSize20}" Text="{DynamicResource Service.OCR.Title}" />
+                <TextBlock FontSize="{DynamicResource FontSize18}" Text="{DynamicResource Service.OCR.SubTitle}" />
             </StackPanel>
 
             <Grid Grid.Row="1">
@@ -249,7 +249,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding ResetCommand}"
-                            Content="撤销" />
+                            Content="{DynamicResource Preference.Reset}" />
                         <Button
                             Width="60"
                             HorizontalAlignment="Right"
@@ -257,7 +257,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding SaveCommand}"
-                            Content="保存" />
+                            Content="{DynamicResource Preference.Save}" />
                     </Grid>
                 </Grid>
             </Grid>

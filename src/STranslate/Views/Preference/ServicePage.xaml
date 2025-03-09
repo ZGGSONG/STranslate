@@ -107,16 +107,16 @@
         props:ThemeProps.Background="{DynamicResource BorderBackground}"
         CornerRadius="5">
         <TabControl SelectedIndex="{Binding SelectedIndex}">
-            <TabItem Header="文本翻译">
+            <TabItem Header="{DynamicResource Service.Navi.Translator}">
                 <uc:TranslatorPage />
             </TabItem>
-            <TabItem Header="文本识别">
+            <TabItem Header="{DynamicResource Service.Navi.OCR}">
                 <uc:OCRPage />
             </TabItem>
-            <TabItem Header="语音合成">
+            <TabItem Header="{DynamicResource Service.Navi.TTS}">
                 <uc:TTSPage />
             </TabItem>
-            <TabItem Header="生词本">
+            <TabItem Header="{DynamicResource Service.Navi.VocabularyBook}">
                 <uc:VocabularyBookPage />
             </TabItem>
         </TabControl>

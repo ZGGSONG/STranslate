@@ -44,7 +44,7 @@
                     Margin="8,0"
                     VerticalAlignment="Center"
                     ContextMenu="{x:Null}"
-                    Placeholder="请输入搜索内容"
+                    Placeholder="{DynamicResource History.Search}"
                     Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                 <!--  // Data //  -->
@@ -71,7 +71,7 @@
                                 <MenuItem
                                     Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
                                     CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
-                                    Header="刷新记录"
+                                    Header="{DynamicResource History.Refresh}"
                                     Icon="&#xe60f;" />
                             </ContextMenu>
                         </ListBox.ContextMenu>
@@ -99,12 +99,12 @@
                                             <MenuItem
                                                 Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
                                                 CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
-                                                Header="刷新记录"
+                                                Header="{DynamicResource History.Refresh}"
                                                 Icon="&#xe60f;" />
                                             <Separator />
                                             <MenuItem
                                                 Command="{Binding Source={StaticResource vm}, Path=Data.DeleteHistoryCommand}"
-                                                Header="删除记录"
+                                                Header="{DynamicResource History.Delete}"
                                                 Icon="&#xe74b;" />
                                         </ContextMenu>
                                     </Border.ContextMenu>
@@ -142,9 +142,11 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="{DynamicResource FontSize14}">
-                        <Run Text="共 " />
+                        <Run Text="{DynamicResource History.Gong}" />
+                        <Run Text=" " />
                         <Run Text="{Binding Count}" />
-                        <Run Text=" 项" />
+                        <Run Text=" " />
+                        <Run Text="{DynamicResource History.Xiang}" />
                     </TextBlock>
 
                     <Button

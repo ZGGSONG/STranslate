@@ -30,6 +30,15 @@ public class PlaceholderTextBox : TextBox
 
         Background = _placeholderVisualBrush;
         TextChanged += PlaceholderTextBox_TextChanged;
+
+        Model.AppLanguageManager.OnAppLanguageChanged += () =>
+        {
+            // 通知依赖属性系统重新评估Placeholder绑定
+            OnPropertyChanged(new DependencyPropertyChangedEventArgs(
+                PlaceholderProperty,
+                Placeholder,
+                Placeholder));
+        };
     }
 
     #endregion Public Methods

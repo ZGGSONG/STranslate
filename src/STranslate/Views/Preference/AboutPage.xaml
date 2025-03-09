@@ -45,7 +45,10 @@
                 CornerRadius="5">
                 <StackPanel Orientation="Vertical">
                     <DockPanel Margin="20,10">
-                        <TextBlock FontWeight="Bold" Text="版本    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.Version}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock Text="{Binding Version}" />
 
                         <Grid HorizontalAlignment="Right">
@@ -53,23 +56,26 @@
                                 Width="100"
                                 Padding="5,2"
                                 Command="{Binding CheckUpdateCommand}"
-                                Content="检查更新"
+                                Content="{DynamicResource About.CheckUpdate}"
                                 Visibility="{Binding IsChecking, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                             <Button
                                 Width="100"
                                 Padding="5,2"
                                 Command="{Binding CheckUpdateCancelCommand}"
-                                Content="取消检查"
+                                Content="{DynamicResource About.CancelCheck}"
                                 Visibility="{Binding IsChecking, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         </Grid>
                     </DockPanel>
 
                     <DockPanel Margin="20,10">
-                        <TextBlock FontWeight="Bold" Text="工具   " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.Tools}"/>
+                            <Run Text="   "/>
+                        </TextBlock>
                         <controls:BtnContentMore
                             MinWidth="140"
                             Command="{Binding CleanLogCommand}"
-                            Content="清理日志"
+                            Content="{DynamicResource About.CleanLog}"
                             ContentMore="{Binding FileSize}" />
 
                         <Grid HorizontalAlignment="Right">
@@ -77,7 +83,7 @@
                                 Name="MoreTb"
                                 Width="100"
                                 HorizontalAlignment="Right"
-                                Content="打开目录"
+                                Content="{DynamicResource About.OpenDirectory}"
                                 Style="{DynamicResource ToggleButtonTextStyle}" />
                             <Popup
                                 MinWidth="80"
@@ -93,9 +99,9 @@
                                     BorderThickness="1"
                                     Style="{DynamicResource BorderPopupStyle}">
                                     <StackPanel>
-                                        <Button Command="{Binding OpenLogCommand}" Content="日志目录" />
+                                        <Button Command="{Binding OpenLogCommand}" Content="{DynamicResource About.LogDirectory}" />
                                         <Separator />
-                                        <Button Command="{Binding OpenConfigCommand}" Content="配置目录" />
+                                        <Button Command="{Binding OpenConfigCommand}" Content="{DynamicResource About.ConfigDirectory}" />
                                     </StackPanel>
                                 </Border>
                             </Popup>
@@ -103,7 +109,10 @@
                     </DockPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
-                        <TextBlock FontWeight="Bold" Text="开源    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.OpenSource}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock
                             Cursor="Hand"
                             Text="MIT License"
@@ -117,12 +126,18 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
-                        <TextBlock FontWeight="Bold" Text="作者    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.Author}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock Text="zggsong@foxmail.com" ToolTip="zggsong@foxmail.com" />
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
-                        <TextBlock FontWeight="Bold" Text="官网    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.Website}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock
                             Cursor="Hand"
                             Text="https://stranslate.zggsong.com"
@@ -136,7 +151,10 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
-                        <TextBlock FontWeight="Bold" Text="源码    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.SourceCode}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock
                             Cursor="Hand"
                             Text="https://github.com/zggsong/stranslate"
@@ -150,7 +168,10 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
-                        <TextBlock FontWeight="Bold" Text="反馈    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.Feedback}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock
                             Cursor="Hand"
                             Text="https://github.com/zggsong/stranslate/issues"
@@ -164,7 +185,10 @@
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
-                        <TextBlock FontWeight="Bold" Text="感谢    " />
+                        <TextBlock FontWeight="Bold">
+                            <Run Text="{DynamicResource About.Thanks}"/>
+                            <Run Text="    "/>
+                        </TextBlock>
                         <TextBlock
                             Cursor="Hand"
                             Text="https://bobtranslate.com/"

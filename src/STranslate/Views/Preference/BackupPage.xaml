@@ -24,8 +24,8 @@
                 CornerRadius="5">
                 <StackPanel Orientation="Vertical">
                     <DockPanel Margin="20,10">
-                        <TextBlock Text="备份方式" />
-                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="请选择备份方式" />
+                        <TextBlock Text="{DynamicResource Backup.BackupType}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.BackupType.Tooltip}" />
                         <ComboBox
                             Height="30"
                             HorizontalAlignment="Right"
@@ -38,39 +38,39 @@
 
 
                     <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
-                        <TextBlock Text="地址" />
-                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器地址" />
+                        <TextBlock Text="{DynamicResource Backup.Address}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.Address.Tooltip}" />
                         <common:PlaceholderTextBox
                             MinWidth="200"
                             MaxWidth="400"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Placeholder="请输入WebDav地址"
+                            Placeholder="{DynamicResource Backup.Address.Placeholder}"
                             Text="{Binding WebDavUrl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
 
                     <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
-                        <TextBlock Text="用户名" />
-                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器用户名" />
+                        <TextBlock Text="{DynamicResource Backup.Username}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.Username.Tooltip}" />
                         <common:PlaceholderTextBox
                             MinWidth="200"
                             MaxWidth="400"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Placeholder="请输入用户名"
+                            Placeholder="{DynamicResource Backup.Username.Placeholder}"
                             Text="{Binding WebDavUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                     </DockPanel>
 
                     <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
-                        <TextBlock Text="密码" />
-                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="WebDav服务器密码" />
+                        <TextBlock Text="{DynamicResource Backup.Password}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.Password.Tooltip}" />
                         <common:PlaceholderTextBox
                             MinWidth="200"
                             MaxWidth="400"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right"
-                            Placeholder="请输入密码"
+                            Placeholder="{DynamicResource Backup.Password.Placeholder}"
                             Text="{Binding WebDavPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Visibility="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                         <PasswordBox
@@ -80,7 +80,7 @@
                             common:BoundPasswordBox.Attach="True"
                             common:BoundPasswordBox.Password="{Binding WebDavPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             DockPanel.Dock="Right"
-                            Tag="请输入密码"
+                            Tag="{DynamicResource Backup.Password.Placeholder}"
                             ToolTip="{Binding WebDavPassword}"
                             Visibility="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <Button
@@ -103,14 +103,14 @@
                 <Button
                     Margin="40,0"
                     Command="{Binding BackupCommand}"
-                    Content="导出配置"
+                    Content="{DynamicResource Backup.Export}"
                     FontSize="{DynamicResource FontSize24}" />
 
                 <Button
                     Grid.Column="1"
                     Margin="40,0"
                     Command="{Binding RestoreCommand}"
-                    Content="导入配置"
+                    Content="{DynamicResource Backup.Import}"
                     FontSize="{DynamicResource FontSize24}" />
             </Grid>
         </StackPanel>
