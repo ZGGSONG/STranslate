@@ -107,7 +107,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="字体选择[立即生效]" />
+                                    <TextBlock Text="{DynamicResource Common.FontSelection}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.FontSelectionTip}" />
                                     <ComboBox
                                         Height="30"
@@ -124,7 +124,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="全局字体大小[立即生效]" />
+                                    <TextBlock Text="{DynamicResource Common.GlobalFontSize}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.GlobalFontSizeTip}" />
                                     <ComboBox
                                         Height="30"
@@ -146,7 +146,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="禁用全局热键" />
+                                    <TextBlock Text="{DynamicResource Common.DisableGlobalHotkeys}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DisableGlobalHotkeysTip}" />
                                     <ToggleButton
                                         Height="26"
@@ -155,7 +155,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="全屏模式下忽略热键" />
+                                    <TextBlock Text="{DynamicResource Common.IgnoreHotkeysOnFullscreen}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.IgnoreHotkeysOnFullscreenTip}" />
                                     <ToggleButton
                                         Height="26"
@@ -164,18 +164,18 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="常用语言" />
+                                    <TextBlock Text="{DynamicResource Common.OftenUsedLang}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.OftenUsedLangTip}" />
                                     <Button
                                         Height="26"
                                         HorizontalAlignment="Right"
                                         BorderThickness="1"
                                         Command="{Binding OftenUsedLangChangeCommand}"
-                                        Content="点击设置" />
+                                        Content="{DynamicResource Common.OftenUsedLangSetButton}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="语种识别" />
+                                    <TextBlock Text="{DynamicResource Common.LangDetect}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.LangDetectTip}" />
                                     <ComboBox
                                         Height="30"
@@ -188,7 +188,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10" Visibility="{Binding DetectType, ConverterParameter=Local, Converter={StaticResource ParamEqualToVisibility}}">
-                                    <TextBlock Text="语种识别比例(zh-en)" />
+                                    <TextBlock Text="{DynamicResource Common.LangDetectRatio}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.LangDetectRatioTip}" />
                                     <StackPanel
                                         HorizontalAlignment="Right"
@@ -212,7 +212,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="取词时间间隔" />
+                                    <TextBlock Text="{DynamicResource Common.WordPickingInterval}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.WordPickingIntervalTip}" />
                                     <StackPanel
                                         HorizontalAlignment="Right"
@@ -236,7 +236,7 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="双击托盘功能" />
+                                    <TextBlock Text="{DynamicResource Common.DoubleTapTrayFunc}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DoubleTapTrayFuncTip}" />
                                     <ComboBox
                                         Height="30"
@@ -506,12 +506,12 @@
                     <!--#region 功能配置-->
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Feature.Title}" />
+                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Function.Title}" />
                         </Expander.Header>
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="{DynamicResource Feature.AdjustContentTranslate}" />
+                                    <TextBlock Text="{DynamicResource Function.AdjustContentTranslate}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AdjustContentTranslateTip}" />
                                     <ToggleButton
                                         Height="26"
@@ -520,8 +520,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="主界面修改语种后立即翻译" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面修改选择语言后立即翻译" />
+                                    <TextBlock Text="{DynamicResource Function.ChangedLang2Execute}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ChangedLang2ExecuteTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -529,8 +529,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="替换翻译使用剪贴板输出" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="替换翻译输出结果不完整时，可尝试启用此配置替代模拟键盘输出" />
+                                    <TextBlock Text="{DynamicResource Function.UsePasteOutput}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.UsePasteOutputTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -538,8 +538,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="剪贴板占用问题" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果出现剪贴板被占用了，可尝试启用此配置" />
+                                    <TextBlock Text="{DynamicResource Function.UseFormsCopy}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.UseFormsCopyTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -547,8 +547,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="截图翻译识别文本后自动复制" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图翻译识别文本后自动复制文本内容" />
+                                    <TextBlock Text="{DynamicResource Function.ScreenshotOcrAutoCopyText}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ScreenshotOcrAutoCopyTextTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -556,8 +556,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="取词换行处理" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="包括划词、截图翻译、剪贴板、静默OCR取词场景的换行处理" />
+                                    <TextBlock Text="{DynamicResource Function.LineBreakHandler}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.LineBreakHandlerTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -569,8 +569,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="OCR取词换行处理" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="针对OCR界面的换行处理" />
+                                    <TextBlock Text="{DynamicResource Function.LineBreakOCRHandler}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.LineBreakOCRHandlerTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -582,8 +582,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="OCR后自动复制" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR界面识别文本后自动复制文本内容" />
+                                    <TextBlock Text="{DynamicResource Function.OcrAutoCopyText}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.OcrAutoCopyTextTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -591,8 +591,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="OCR修改服务或语种后立即翻译" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR页面选择服务或选择语言后立即翻译" />
+                                    <TextBlock Text="{DynamicResource Function.OcrChangedLang2Execute}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.OcrChangedLang2ExecuteTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -600,8 +600,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="增量翻译" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="开启后增量添加文本进行翻译" />
+                                    <TextBlock Text="{DynamicResource Function.IncrementalTranslation}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.IncrementalTranslationTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -609,8 +609,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="翻译后自动复制" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置翻译结束后执行第几个翻译结果的复制操作" />
+                                    <TextBlock Text="{DynamicResource Function.CopyResultAfterTranslate}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.CopyResultAfterTranslateTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -630,8 +630,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="热键触发复制成功提示" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="热键触发复制成功提示是否显示&#13;如果开启翻译后自动复制后弹框比较多可以关闭此项" />
+                                    <TextBlock Text="{DynamicResource Function.HotkeyCopySuccessToast}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.HotkeyCopySuccessToastTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -639,8 +639,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="文字识别图片质量" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="文字识别时图片质量选择" />
+                                    <TextBlock Text="{DynamicResource Function.OcrImageQuality}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.OcrImageQualityTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -658,13 +658,13 @@
                     <!--#region 显示配置-->
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="显示配置" />
+                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Display.Title}" />
                         </Expander.Header>
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="启动时隐藏主界面" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示主界面" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.HideOnStart}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.HideOnStartTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -672,8 +672,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="启动时不显示通知" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动时不显示通知" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.DisableNoticeOnStart}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DisableNoticeOnStartTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -681,8 +681,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="启动时使用缓存位置" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="启动软件时是否使用上次打开位置" />
+                                    <TextBlock Text="{DynamicResource Display.UseCacheLocation}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.UseCacheLocationTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -690,8 +690,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="动画速度" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示时的动画速度" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.AnimationSpeed}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AnimationSpeedTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -703,8 +703,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="输入框水印" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否显示主界面输入框水印提示" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.ShowMainPlaceholder}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowMainPlaceholderTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -712,8 +712,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="主界面仅显示输出界面" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面是否只显示输出结果部分" />
+                                    <TextBlock Text="{DynamicResource Display.OnlyShowRet}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.OnlyShowRetTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -721,8 +721,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="主界面仅显示输出界面时隐藏语言框" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面仅显示输出结果时是否时隐藏语言界面" />
+                                    <TextBlock Text="{DynamicResource Display.HideLangWhenOnlyShowOutput}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.HideLangWhenOnlyShowOutputTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -730,8 +730,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示界面重复触发显/隐" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)" />
+                                    <TextBlock Text="{DynamicResource Display.TriggerShowHide}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.TriggerShowHideTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -739,8 +739,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="主界面最大高度[立即生效]" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面最大高度调整" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.MainViewMaxHeight}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.MainViewMaxHeightTip}" />
                                     <StackPanel
                                         HorizontalAlignment="Right"
                                         DockPanel.Dock="Right"
@@ -765,8 +765,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="主界面宽度[立即生效]" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面宽度调整" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.MainViewWidth}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.MainViewWidthTip}" />
                                     <StackPanel
                                         HorizontalAlignment="Right"
                                         DockPanel.Dock="Right"
@@ -791,8 +791,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="输入框高度[立即生效]" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入框高度调整" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.InputViewMaxHeight}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.InputViewMaxHeightTip}" />
                                     <control:SilderArrange
                                         MinWidth="335"
                                         Margin="0,0,10,0"
@@ -809,8 +809,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="窗口跟随鼠标(输入、截图、划词和监听剪贴板)" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置" />
+                                    <TextBlock Text="{DynamicResource Display.FollowMouse}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.FollowMouseTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -818,8 +818,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="截图辅助线" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="截图时是否显示辅助线" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.ShowAuxiliaryLine}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowAuxiliaryLineTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -827,8 +827,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="主窗口阴影(比较占用性能)" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主窗口是否显示显示阴影&#13;比较占用性能请自行选择" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.MainViewShadow}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.MainViewShadowTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -836,8 +836,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="主界面显示 Prompt 切换" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示 Prompt 切换按钮" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.PromptToggleVisible}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.PromptToggleVisibleTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -845,8 +845,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="OCR点击翻译后关闭界面" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="OCR界面点击翻译按钮后进行翻译的同时关闭OCR窗口" />
+                                    <TextBlock Text="{DynamicResource Display.CloseUIOcrRetTranslate}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.CloseUIOcrRetTranslateTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -854,8 +854,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="退出鼠标划词功能时保持置顶" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="关闭鼠标划词功能后保持窗口置顶" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.KeepTopmostAfterMousehook}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.KeepTopmostAfterMousehookTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -863,8 +863,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="翻译结果收缩框是否显示按钮" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="翻译结果收缩框收缩时上方是否显示TTS、复制按钮" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.ShowCopyOnHeader}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowCopyOnHeaderTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -872,8 +872,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="显示主窗口时光标移动至末尾[立即生效]" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="激活窗口时光标移动至末尾" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.CaretLast}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.CaretLastTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -887,13 +887,13 @@
                     <!--#region 图标配置-->
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="图标配置" />
+                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Icon.Title}" />
                         </Expander.Header>
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="显示蛇形结果复制按钮" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示复制蛇形结果按钮" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Icon.ShowSnakeCopyBtn}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowSnakeCopyBtnTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -901,8 +901,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="显示小驼峰结果复制按钮" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示复制小驼峰结果按钮" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Icon.ShowSmallHumpCopyBtn}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowSmallHumpCopyBtnTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -910,8 +910,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="显示大驼峰结果复制按钮" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示复制大驼峰结果按钮" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Icon.ShowLargeHumpCopyBtn}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowLargeHumpCopyBtnTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -919,8 +919,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="显示回译按钮" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面输出UI是否显示回译按钮" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Icon.ShowTranslateBackBtn}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowTranslateBackBtnTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -930,8 +930,8 @@
                                 <Separator />
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示关闭图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示关闭图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowClose}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowCloseTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -939,8 +939,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="丢失焦点时主界面不隐藏" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="丢失焦点时主界面不隐藏" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Icon.StayMainViewWhenLoseFocus}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.StayMainViewWhenLoseFocusTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -948,8 +948,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10" Visibility="{Binding StayMainViewWhenLoseFocus, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <TextBlock Text="显示最小化图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示最小化图标, 丢失焦点时主界面不隐藏选项" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowMinimalBtn}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowMinimalBtnTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -957,8 +957,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示设置图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示设置图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowPreference}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowPreferenceTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -966,8 +966,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示服务配置图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示服务配置图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowConfigureService}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowConfigureServiceTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -975,8 +975,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示静默OCR/截图翻译语种选择图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="静默OCR/截图翻译语种选择图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowMainOcrLang}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowMainOcrLangTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -984,8 +984,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示鼠标划词图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示鼠标划词图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowMousehook}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowMousehookTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -993,8 +993,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示自动翻译图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示自动翻译图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowAutoTranslate}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowAutoTranslateTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1002,8 +1002,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示增量翻译图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示增量翻译图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowIncrementalTranslation}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowIncrementalTranslationTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1011,8 +1011,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示仅显示输出界面图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示仅显示输出界面图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowOnlyShowRet}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowOnlyShowRetTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1020,8 +1020,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示截图翻译图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示截图翻译图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowScreenshot}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowScreenshotTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1029,8 +1029,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示OCR图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示OCR图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowOCR}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowOCRTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1038,8 +1038,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示静默OCR图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示静默OCR图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowSilentOCR}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowSilentOCRTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1047,8 +1047,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示监听剪贴板图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示监听剪贴板图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowClipboardMonitor}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowClipboardMonitorTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1056,8 +1056,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示二维码图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示识别二维码图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowQRCode}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowQRCodeTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1065,8 +1065,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="显示历史记录图标" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面显示历史记录图标" />
+                                    <TextBlock Text="{DynamicResource Icon.ShowHistory}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ShowHistoryTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -1088,14 +1088,14 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Command="{Binding ResetCommand}"
-                    Content="撤销" />
+                    Content="{DynamicResource Preference.Reset}" />
                 <Button
                     Width="60"
                     Padding="3"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Command="{Binding SaveCommand}"
-                    Content="保存" />
+                    Content="{DynamicResource Preference.Save}" />
             </Grid>
         </Grid>
     </Border>

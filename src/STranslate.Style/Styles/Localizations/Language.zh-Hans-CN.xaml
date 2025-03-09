@@ -16,6 +16,22 @@
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
     <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
 
+    <!--#region 首选项-->
+    <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate 首选项</system:String>
+    <system:String x:Key="Preference.WindowTitle">首选项</system:String>
+    <system:String x:Key="Preference.Navi.Common">常规设置</system:String>
+    <system:String x:Key="Preference.Navi.Hotkey">热键设置</system:String>
+    <system:String x:Key="Preference.Navi.Service">服务设置</system:String>
+    <system:String x:Key="Preference.Navi.Replace">替换翻译</system:String>
+    <system:String x:Key="Preference.Navi.History">历史记录</system:String>
+    <system:String x:Key="Preference.Navi.Backup">导入导出</system:String>
+    <system:String x:Key="Preference.Navi.About">关于软件</system:String>
+
+    <system:String x:Key="Preference.Reset">撤销</system:String>
+    <system:String x:Key="Preference.Save">保存</system:String>
+
+    <!--#endregion-->
+
     <!--#region 设置相关-->
 
     <!--  CommonPage 设置项  -->
@@ -30,6 +46,7 @@
     <system:String x:Key="Common.DisableGlobalHotkeys">禁用全局热键</system:String>
     <system:String x:Key="Common.IgnoreHotkeysOnFullscreen">全屏模式下忽略热键</system:String>
     <system:String x:Key="Common.OftenUsedLang">常用语言</system:String>
+    <system:String x:Key="Common.OftenUsedLangSetButton">点击设置</system:String>
     <system:String x:Key="Common.LangDetect">语种识别</system:String>
     <system:String x:Key="Common.LangDetectRatio">语种识别比例(zh-en)</system:String>
     <system:String x:Key="Common.WordPickingInterval">取词时间间隔</system:String>
@@ -80,7 +97,7 @@
     <system:String x:Key="Display.TriggerShowHide">显示界面重复触发显/隐</system:String>
     <system:String x:Key="Display.MainViewMaxHeight">主界面最大高度[立即生效]</system:String>
     <system:String x:Key="Display.MainViewWidth">主界面宽度[立即生效]</system:String>
-    <system:String x:Key="Display.InputViewHeight">输入框高度[立即生效]</system:String>
+    <system:String x:Key="Display.InputViewMaxHeight">输入框最大高度[立即生效]</system:String>
     <system:String x:Key="Display.FollowMouse">窗口跟随鼠标(输入、截图、划词和监听剪贴板)</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">截图辅助线</system:String>
     <system:String x:Key="Display.MainViewShadow">主窗口阴影(比较占用性能)</system:String>
@@ -105,9 +122,11 @@
     <system:String x:Key="Icon.ShowMousehook">显示鼠标划词图标</system:String>
     <system:String x:Key="Icon.ShowAutoTranslate">显示自动翻译图标</system:String>
     <system:String x:Key="Icon.ShowIncrementalTranslation">显示增量翻译图标</system:String>
+    <system:String x:Key="Icon.ShowOnlyShowRet">显示仅显示输出界面图标</system:String>
     <system:String x:Key="Icon.ShowTopmost">显示置顶图标</system:String>
     <system:String x:Key="Icon.ShowScreenshot">显示截图翻译图标</system:String>
-    <system:String x:Key="Icon.ShowOcr">显示OCR图标</system:String>
+    <system:String x:Key="Icon.ShowOCR">显示OCR图标</system:String>
+    <system:String x:Key="Icon.ShowSilentOCR">显示静默OCR图标</system:String>
     <system:String x:Key="Icon.ShowQRCode">显示二维码识别图标</system:String>
     <system:String x:Key="Icon.ShowHistory">显示历史记录图标</system:String>
     <system:String x:Key="Icon.ShowClipboardMonitor">显示剪贴板监听图标</system:String>
@@ -122,14 +141,6 @@
     <system:String x:Key="Icon.ShowCopyAllSourceAndResult">显示复制全部原文和结果图标</system:String>
     <system:String x:Key="Icon.ShowCopyAllSourceWithResult">显示复制全部原文与结果图标</system:String>
     <system:String x:Key="Icon.ShowCopyAllResultWithSource">显示复制全部结果与原文图标</system:String>
-
-    <!--  提示词配置  -->
-    <system:String x:Key="Prompt.Title">提示词配置</system:String>
-    <system:String x:Key="Prompt.EnablePrompt">启用提示词</system:String>
-    <system:String x:Key="Prompt.PromptContent">提示词内容</system:String>
-    <system:String x:Key="Prompt.PromptContentPlaceholder">请输入提示词内容</system:String>
-    <system:String x:Key="Prompt.PromptContentInfo">提示词将会在翻译时添加到原文前面，用于指导翻译结果</system:String>
-    <system:String x:Key="Prompt.PromptContentExample">例如：请将以下内容翻译为中文，保持专业术语不变</system:String>
 
     <!--  热键配置  -->
     <system:String x:Key="Hotkey.Title">热键配置</system:String>
@@ -185,38 +196,82 @@
     <system:String x:Key="Tooltip.UsernameTip">代理服务器用户名</system:String>
     <system:String x:Key="Tooltip.PasswordTip">代理服务器密码</system:String>
 
+    <!--  添加缺失的工具提示  -->
+    <system:String x:Key="Tooltip.AdjustContentTranslateTip">主界面调整内容后是否立即翻译</system:String>
+    <system:String x:Key="Tooltip.ChangedLang2ExecuteTip">主界面修改选择语言后立即翻译</system:String>
+    <system:String x:Key="Tooltip.UsePasteOutputTip">替换翻译输出结果不完整时，可尝试启用此配置替代模拟键盘输出</system:String>
+    <system:String x:Key="Tooltip.UseFormsCopyTip">如果出现剪贴板被占用了，可尝试启用此配置</system:String>
+    <system:String x:Key="Tooltip.ScreenshotOcrAutoCopyTextTip">截图翻译识别文本后自动复制文本内容</system:String>
+    <system:String x:Key="Tooltip.LineBreakHandlerTip">包括划词、截图翻译、剪贴板、静默OCR取词场景的换行处理</system:String>
+    <system:String x:Key="Tooltip.LineBreakOCRHandlerTip">针对OCR界面的换行处理</system:String>
+    <system:String x:Key="Tooltip.OcrAutoCopyTextTip">OCR界面识别文本后自动复制文本内容</system:String>
+    <system:String x:Key="Tooltip.OcrChangedLang2ExecuteTip">OCR页面选择服务或选择语言后立即翻译</system:String>
+    <system:String x:Key="Tooltip.IncrementalTranslationTip">开启后增量添加文本进行翻译</system:String>
+    <system:String x:Key="Tooltip.CopyResultAfterTranslateTip">配置翻译结束后执行第几个翻译结果的复制操作</system:String>
+    <system:String x:Key="Tooltip.HotkeyCopySuccessToastTip">热键触发复制成功提示是否显示&#13;如果开启翻译后自动复制后弹框比较多可以关闭此项</system:String>
+    <system:String x:Key="Tooltip.OcrImageQualityTip">文字识别时图片质量选择</system:String>
+    <system:String x:Key="Tooltip.HideOnStartTip">启动时不显示主界面</system:String>
+    <system:String x:Key="Tooltip.DisableNoticeOnStartTip">启动时不显示通知</system:String>
+    <system:String x:Key="Tooltip.UseCacheLocationTip">启动软件时是否使用上次打开位置</system:String>
+    <system:String x:Key="Tooltip.AnimationSpeedTip">主界面显示时的动画速度</system:String>
+    <system:String x:Key="Tooltip.ShowMainPlaceholderTip">是否显示主界面输入框水印提示</system:String>
+    <system:String x:Key="Tooltip.OnlyShowRetTip">主界面是否只显示输出结果部分</system:String>
+    <system:String x:Key="Tooltip.HideLangWhenOnlyShowOutputTip">主界面仅显示输出结果时是否时隐藏语言界面</system:String>
+    <system:String x:Key="Tooltip.TriggerShowHideTip">重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)</system:String>
+    <system:String x:Key="Tooltip.MainViewMaxHeightTip">主界面最大高度调整</system:String>
+    <system:String x:Key="Tooltip.MainViewWidthTip">主界面宽度调整</system:String>
+    <system:String x:Key="Tooltip.InputViewMaxHeightTip">输入框最大高度调整</system:String>
+    <system:String x:Key="Tooltip.FollowMouseTip">输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置</system:String>
+    <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">截图时是否显示辅助线</system:String>
+    <system:String x:Key="Tooltip.MainViewShadowTip">主窗口是否显示显示阴影&#13;比较占用性能请自行选择</system:String>
+    <system:String x:Key="Tooltip.PromptToggleVisibleTip">主界面输出UI是否显示 Prompt 切换按钮</system:String>
+    <system:String x:Key="Tooltip.CloseUIOcrRetTranslateTip">OCR界面点击翻译按钮后进行翻译的同时关闭OCR窗口</system:String>
+    <system:String x:Key="Tooltip.KeepTopmostAfterMousehookTip">关闭鼠标划词功能后保持窗口置顶</system:String>
+    <system:String x:Key="Tooltip.ShowCopyOnHeaderTip">翻译结果收缩框收缩时上方是否显示TTS、复制按钮</system:String>
+    <system:String x:Key="Tooltip.CaretLastTip">激活窗口时光标移动至末尾</system:String>
+
+    <system:String x:Key="Tooltip.ShowSnakeCopyBtnTip">主界面输出UI是否显示复制蛇形结果按钮</system:String>
+    <system:String x:Key="Tooltip.ShowSmallHumpCopyBtnTip">主界面输出UI是否显示复制小驼峰结果按钮</system:String>
+    <system:String x:Key="Tooltip.ShowLargeHumpCopyBtnTip">主界面输出UI是否显示复制大驼峰结果按钮</system:String>
+    <system:String x:Key="Tooltip.ShowTranslateBackBtnTip">主界面输出UI是否显示回译按钮</system:String>
+    <system:String x:Key="Tooltip.ShowCloseTip">主界面显示关闭图标</system:String>
+    <system:String x:Key="Tooltip.StayMainViewWhenLoseFocusTip">丢失焦点时主界面不隐藏</system:String>
+    <system:String x:Key="Tooltip.ShowMinimalBtnTip">主界面显示最小化图标, 丢失焦点时主界面不隐藏选项</system:String>
+    <system:String x:Key="Tooltip.ShowPreferenceTip">主界面显示设置图标</system:String>
+    <system:String x:Key="Tooltip.ShowConfigureServiceTip">主界面显示服务配置图标</system:String>
+    <system:String x:Key="Tooltip.ShowMainOcrLangTip">静默OCR/截图翻译语种选择图标</system:String>
+    <system:String x:Key="Tooltip.ShowMousehookTip">主界面显示鼠标划词图标</system:String>
+    <system:String x:Key="Tooltip.ShowAutoTranslateTip">主界面显示自动翻译图标</system:String>
+    <system:String x:Key="Tooltip.ShowIncrementalTranslationTip">主界面显示增量翻译图标</system:String>
+    <system:String x:Key="Tooltip.ShowOnlyShowRetTip">主界面显示仅显示输出界面图标</system:String>
+    <system:String x:Key="Tooltip.ShowScreenshotTip">主界面显示截图翻译图标</system:String>
+    <system:String x:Key="Tooltip.ShowOCRTip">主界面显示OCR图标</system:String>
+    <system:String x:Key="Tooltip.ShowSilentOCRTip">主界面显示静默OCR图标</system:String>
+    <system:String x:Key="Tooltip.ShowClipboardMonitorTip">主界面显示监听剪贴板图标</system:String>
+    <system:String x:Key="Tooltip.ShowQRCodeTip">主界面显示识别二维码图标</system:String>
+    <system:String x:Key="Tooltip.ShowHistoryTip">主界面显示历史记录图标</system:String>
+
+    <!--  添加常用设置中历史记录下拉框选项  -->
+    <system:String x:Key="ComboBox.HistorySize.50">50 条</system:String>
+    <system:String x:Key="ComboBox.HistorySize.100">100 条</system:String>
+    <system:String x:Key="ComboBox.HistorySize.200">200 条</system:String>
+    <system:String x:Key="ComboBox.HistorySize.500">500 条</system:String>
+    <system:String x:Key="ComboBox.HistorySize.1000">1000 条</system:String>
+    <system:String x:Key="ComboBox.HistorySize.Unlimited">无限制</system:String>
+    <system:String x:Key="ComboBox.HistorySize.None">不保存</system:String>
+
+    <!--  添加功能配置中翻译后自动复制下拉框选项  -->
+    <system:String x:Key="ComboBox.CopyAfterTranslate.None">无操作</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.First">第一个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Second">第二个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Third">第三个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Fourth">第四个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Fifth">第五个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Sixth">第六个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Seventh">第七个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Eighth">第八个</system:String>
+    <system:String x:Key="ComboBox.CopyAfterTranslate.Last">最后一个</system:String>
 
     <!--#endregion-->
 
-
-
-
-
-
-    <!--  OCR相关  -->
-    <system:String x:Key="OCR_Title">OCR识别</system:String>
-    <system:String x:Key="OCR_AutoCopy">自动复制文本</system:String>
-    <system:String x:Key="OCR_CloseAfterTranslate">翻译后关闭OCR界面</system:String>
-    <system:String x:Key="OCR_ShowAuxiliaryLine">显示辅助线</system:String>
-
-    <!--  翻译相关  -->
-    <system:String x:Key="Translate_SourceLang">原始语言</system:String>
-    <system:String x:Key="Translate_TargetLang">目标语言</system:String>
-    <system:String x:Key="Translate_Auto">自动检测</system:String>
-    <system:String x:Key="Translate_Execute">翻译</system:String>
-    <system:String x:Key="Translate_Clear">清空</system:String>
-
-    <!--  代理设置  -->
-    <system:String x:Key="Proxy_Title">代理设置</system:String>
-    <system:String x:Key="Proxy_Method">代理方式</system:String>
-    <system:String x:Key="Proxy_System">系统代理</system:String>
-    <system:String x:Key="Proxy_None">不使用代理</system:String>
-    <system:String x:Key="Proxy_Custom">自定义代理</system:String>
-
-    <!--  其他功能  -->
-    <system:String x:Key="Feature_MouseHook">鼠标划词</system:String>
-    <system:String x:Key="Feature_Screenshot">截图翻译</system:String>
-    <system:String x:Key="Feature_OCR">OCR识别</system:String>
-    <system:String x:Key="Feature_QRCode">二维码识别</system:String>
-    <system:String x:Key="Feature_History">历史记录</system:String>
 </ResourceDictionary>

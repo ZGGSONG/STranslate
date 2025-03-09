@@ -9,7 +9,7 @@
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:view="clr-namespace:STranslate.Views"
     xmlns:vm="clr-namespace:STranslate.ViewModels"
-    Title="STranslate 首选项"
+    Title="{DynamicResource Preference.WindowTitleInTaskbar}"
     Width="800"
     Height="650"
     MinWidth="800"
@@ -71,7 +71,7 @@
                         props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                         FontSize="{DynamicResource FontSize24}"
                         FontWeight="Bold"
-                        Text="首选项" />
+                        Text="{DynamicResource Preference.WindowTitle}" />
                 </StackPanel>
 
                 <!--  // Button //  -->
@@ -122,21 +122,21 @@
                         Command="{Binding CommonPageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Common}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="常规设置" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.Common}" />
                     </menu:Btn>
 
                     <menu:Btn
                         Command="{Binding HotkeyPageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Hotkey}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="热键设置" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.Hotkey}" />
                     </menu:Btn>
 
                     <menu:Btn
                         Command="{Binding ServicePageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Service}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="服务设置" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.Service}" />
                     </menu:Btn>
 
                     <!--<menu:Btn
@@ -166,7 +166,7 @@
                         Command="{Binding ReplacePageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Replace}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="替换翻译" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.Replace}" />
                     </menu:Btn>
 
                     <menu:Btn
@@ -181,21 +181,21 @@
                         Command="{Binding HistoryPageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=History}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="历史记录" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.History}" />
                     </menu:Btn>
 
                     <menu:Btn
                         Command="{Binding BackupPageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=Backup}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="导入导出" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.Backup}" />
                     </menu:Btn>
 
                     <menu:Btn
                         Command="{Binding AboutPageCommand}"
                         IsChecked="{Binding PType, Converter={StaticResource PreferenceType2BooleanConverter}, ConverterParameter=About}"
                         Style="{StaticResource BtnStyle}">
-                        <TextBlock Style="{StaticResource Text_Style}" Text="关于软件" />
+                        <TextBlock Style="{StaticResource Text_Style}" Text="{DynamicResource Preference.Navi.About}" />
                     </menu:Btn>
 
 
