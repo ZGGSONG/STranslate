@@ -36,40 +36,7 @@ public partial class HotkeyViewModel : ObservableObject
 
     #region Property
 
-    public List<SoftHotkey> SoftHotkeyList { get; set; } =
-    [
-        new SoftHotkey("ESC", "隐藏/退出界面(若有请求则同时取消该请求: 翻译、OCR、TTS)"),
-        new SoftHotkey("Ctrl + ,", "打开设置"),
-        new SoftHotkey("Ctrl + /", "打开历史记录"),
-        new SoftHotkey("Ctrl + B", "打开/关闭自动翻译"),
-        new SoftHotkey("Ctrl + E", "打开/关闭增量翻译"),
-        new SoftHotkey("Ctrl + Shift + A", "隐藏/显示输入框"),
-        new SoftHotkey("Ctrl + Shift + M", "重置窗口至主显示器中央"),
-        new SoftHotkey("Ctrl + Shift + T", "置顶/取消置顶"),
-        new SoftHotkey("Ctrl + Shift + R", "切换主题(自动/明亮/黑暗主题切换)"),
-        new SoftHotkey("Ctrl + Shift + S", "保存至生词本"),
-        new SoftHotkey("Ctrl + Shift + Q", "退出程序"),
-        new SoftHotkey("Ctrl + 滚轮上", "在输入输出文本框配合Ctrl滚动放大文字"),
-        new SoftHotkey("Ctrl + 滚轮下", "在输入输出文本框配合Ctrl滚动缩小文字"),
-        new SoftHotkey("Ctrl + `", "文本框恢复默认文字大小"),
-        new SoftHotkey("Ctrl + 1...8", "按服务顺序复制翻译结果"),
-        new SoftHotkey("Ctrl + 9", "复制最后一条服务翻译结果"),
-        new SoftHotkey("Alt + `", "语音播报输入内容"),
-        new SoftHotkey("Alt + 1...8", "按服务顺序语音播报翻译结果"),
-        new SoftHotkey("Alt + 9", "语音播报最后一条服务翻译结果"),
-        new SoftHotkey("Ctrl + +", "放大界面(宽度、最大高度)"),
-        new SoftHotkey("Ctrl + -", "缩小界面(宽度、最大高度)"),
-        new SoftHotkey("Ctrl + 0", "恢复默认界面(宽度、最大高度)"),
-        new SoftHotkey("Ctrl + Alt + +", "宽度增加"),
-        new SoftHotkey("Ctrl + Alt + -", "宽度减少"),
-        new SoftHotkey("Ctrl + Shift + +", "最大高度增加"),
-        new SoftHotkey("Ctrl + Shift + -", "最大高度减少"),
-        new SoftHotkey("Ctrl + [", "全局字体减小"),
-        new SoftHotkey("Ctrl + ]", "全局字体增大"),
-        new SoftHotkey("Ctrl + '", "全局字体恢复默认"),
-        new SoftHotkey("Ctrl + 点击换行图标", "切换换行处理模式"),
-        new SoftHotkey("Ctrl + 点击回译图标", "打开/关闭回译功能"),
-    ];
+    // 软件热键列表已移至XAML中，使用资源字符串引用
 
     [ObservableProperty] private HotkeyContentVisibilityModel _inputHk = new();
 

@@ -39,7 +39,7 @@
             <Setter Property="DockPanel.Dock" Value="Right" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Visibility" Value="Hidden" />
-            <Setter Property="Text" Value="热键冲突" />
+            <Setter Property="Text" Value="{DynamicResource Hotkey.HotkeyConflict}" />
             <Setter Property="Foreground" Value="{DynamicResource HotkeyCollisionForeground}" />
         </Style>
 
@@ -204,7 +204,7 @@
         props:ThemeProps.Background="{DynamicResource BorderBackground}"
         CornerRadius="5">
         <TabControl>
-            <TabItem Header="全局热键">
+            <TabItem Header="{DynamicResource Hotkey.GlobalHotkey}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <!--  Added ScrollViewer  -->
                     <StackPanel Margin="0,20,0,0">
@@ -215,7 +215,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="输入翻译" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.InputTranslate}" />
                             <TextBox Grid.Column="1" Text="{Binding InputHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -235,7 +235,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="划词翻译" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.CrosswordTranslate}" />
                             <TextBox Grid.Column="1" Text="{Binding CrosswordHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -255,7 +255,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="截图翻译" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.ScreenshotTranslate}" />
                             <TextBox Grid.Column="1" Text="{Binding ScreenshotHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -275,7 +275,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="替换翻译" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.ReplaceTranslate}" />
                             <TextBox Grid.Column="1" Text="{Binding ReplaceHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -295,7 +295,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="显示界面" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.ShowInterface}" />
                             <TextBox Grid.Column="1" Text="{Binding OpenHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -315,7 +315,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="鼠标划词" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.MouseCrossword}" />
                             <TextBox Grid.Column="1" Text="{Binding MousehookHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -335,7 +335,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="文字识别" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.OCR}" />
                             <TextBox Grid.Column="1" Text="{Binding OcrHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -355,7 +355,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="静默OCR" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.SilentOCR}" />
                             <TextBox Grid.Column="1" Text="{Binding SilentOcrHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -375,7 +375,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="监听剪贴板" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.ClipboardMonitor}" />
                             <TextBox Grid.Column="1" Text="{Binding ClipboardMonitorHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -395,7 +395,7 @@
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="2*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="静默TTS" />
+                            <Label Grid.Column="0" Content="{DynamicResource Hotkey.SilentTTS}" />
                             <TextBox Grid.Column="1" Text="{Binding SilentTtsHk.Content}">
                                 <i:Interaction.Behaviors>
                                     <common:KeyArgsToCommandBehavior
@@ -421,23 +421,62 @@
                                 Margin="10,0"
                                 HorizontalAlignment="Right"
                                 Command="{Binding SaveCommand}"
-                                Content="保存配置" />
+                                Content="{DynamicResource Hotkey.SaveConfig}" />
                             <Button
                                 Grid.Column="1"
                                 MinWidth="160"
                                 HorizontalAlignment="Left"
                                 Command="{Binding ResetCommand}"
-                                Content="撤销修改" />
+                                Content="{DynamicResource Hotkey.CancelModify}" />
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="软件热键">
-                <DataGrid ItemsSource="{Binding SoftHotkeyList}">
+            <TabItem Header="{DynamicResource Hotkey.SoftHotkey}">
+                <DataGrid AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Hotkey}" Header="快捷键" />
-                        <DataGridTextColumn Binding="{Binding Name}" Header="功能" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding Column1}"
+                            Header="{DynamicResource Hotkey.ShortcutKey}" />
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding Column2}"
+                            Header="{DynamicResource Hotkey.Function}" />
                     </DataGrid.Columns>
+                    <DataGrid.Items>
+                        <model:KeyValueItem Column1="ESC" Column2="{DynamicResource Hotkey.SoftHotkey.ESC}" />
+                        <model:KeyValueItem Column1="Ctrl + ," Column2="{DynamicResource Hotkey.SoftHotkey.OpenSettings}" />
+                        <model:KeyValueItem Column1="Ctrl + /" Column2="{DynamicResource Hotkey.SoftHotkey.OpenHistory}" />
+                        <model:KeyValueItem Column1="Ctrl + B" Column2="{DynamicResource Hotkey.SoftHotkey.ToggleAutoTranslate}" />
+                        <model:KeyValueItem Column1="Ctrl + E" Column2="{DynamicResource Hotkey.SoftHotkey.ToggleIncrementalTranslation}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + A" Column2="{DynamicResource Hotkey.SoftHotkey.ToggleInputBox}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + M" Column2="{DynamicResource Hotkey.SoftHotkey.ResetWindowPosition}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + T" Column2="{DynamicResource Hotkey.SoftHotkey.ToggleTopmost}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + R" Column2="{DynamicResource Hotkey.SoftHotkey.SwitchTheme}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + S" Column2="{DynamicResource Hotkey.SoftHotkey.SaveToVocabulary}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + Q" Column2="{DynamicResource Hotkey.SoftHotkey.ExitProgram}" />
+                        <model:KeyValueItem Column1="{DynamicResource Hotkey.SoftHotkey.Key.CtrlWithMouseWheelUp}" Column2="{DynamicResource Hotkey.SoftHotkey.ZoomInText}" />
+                        <model:KeyValueItem Column1="{DynamicResource Hotkey.SoftHotkey.Key.CtrlWithMouseWheelDown}" Column2="{DynamicResource Hotkey.SoftHotkey.ZoomOutText}" />
+                        <model:KeyValueItem Column1="Ctrl + `" Column2="{DynamicResource Hotkey.SoftHotkey.ResetTextSize}" />
+                        <model:KeyValueItem Column1="Ctrl + 1...8" Column2="{DynamicResource Hotkey.SoftHotkey.CopyTranslationByService}" />
+                        <model:KeyValueItem Column1="Ctrl + 9" Column2="{DynamicResource Hotkey.SoftHotkey.CopyLastTranslation}" />
+                        <model:KeyValueItem Column1="Alt + `" Column2="{DynamicResource Hotkey.SoftHotkey.TTSInput}" />
+                        <model:KeyValueItem Column1="Alt + 1...8" Column2="{DynamicResource Hotkey.SoftHotkey.TTSByService}" />
+                        <model:KeyValueItem Column1="Alt + 9" Column2="{DynamicResource Hotkey.SoftHotkey.TTSLastTranslation}" />
+                        <model:KeyValueItem Column1="Ctrl + +" Column2="{DynamicResource Hotkey.SoftHotkey.ZoomInUI}" />
+                        <model:KeyValueItem Column1="Ctrl + -" Column2="{DynamicResource Hotkey.SoftHotkey.ZoomOutUI}" />
+                        <model:KeyValueItem Column1="Ctrl + 0" Column2="{DynamicResource Hotkey.SoftHotkey.ResetUI}" />
+                        <model:KeyValueItem Column1="Ctrl + Alt + +" Column2="{DynamicResource Hotkey.SoftHotkey.IncreaseWidth}" />
+                        <model:KeyValueItem Column1="Ctrl + Alt + -" Column2="{DynamicResource Hotkey.SoftHotkey.DecreaseWidth}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + +" Column2="{DynamicResource Hotkey.SoftHotkey.IncreaseMaxHeight}" />
+                        <model:KeyValueItem Column1="Ctrl + Shift + -" Column2="{DynamicResource Hotkey.SoftHotkey.DecreaseMaxHeight}" />
+                        <model:KeyValueItem Column1="Ctrl + [" Column2="{DynamicResource Hotkey.SoftHotkey.DecreaseFontSize}" />
+                        <model:KeyValueItem Column1="Ctrl + ]" Column2="{DynamicResource Hotkey.SoftHotkey.IncreaseFontSize}" />
+                        <model:KeyValueItem Column1="Ctrl + '" Column2="{DynamicResource Hotkey.SoftHotkey.ResetFontSize}" />
+                        <model:KeyValueItem Column1="{DynamicResource Hotkey.SoftHotkey.Key.CtrlWithReturn}" Column2="{DynamicResource Hotkey.SoftHotkey.ToggleLineBreakMode}" />
+                        <model:KeyValueItem Column1="{DynamicResource Hotkey.SoftHotkey.Key.CtrlWithTransBack}" Column2="{DynamicResource Hotkey.SoftHotkey.ToggleBackTranslation}" />
+                    </DataGrid.Items>
                 </DataGrid>
             </TabItem>
         </TabControl>
