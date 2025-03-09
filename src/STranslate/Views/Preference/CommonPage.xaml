@@ -48,13 +48,13 @@
                     <!--#region 常用配置-->
                     <Expander IsExpanded="True">
                         <Expander.Header>
-                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="常用配置" />
+                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Common.Title}" />
                         </Expander.Header>
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Settings_AutoStart}" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="开机时自动启动软件(该用户登录)" />
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Common.AutoStart}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AutoStartTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -62,8 +62,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="{DynamicResource Settings_AdminStart}" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="以便全局快捷键在具有管理员权限的窗口也能响应" />
+                                    <TextBlock Text="{DynamicResource Common.NeedAdmin}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.NeedAdminTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -71,8 +71,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="软件语言" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="切换软件语言版本" />
+                                    <TextBlock Text="{DynamicResource Common.AppLanguage}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AppLanguageTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -84,8 +84,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="自动翻译" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="输入内容以后自动执行翻译" />
+                                    <TextBlock Text="{DynamicResource Common.AutoTranslate}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AutoTranslateTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -93,8 +93,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="主题选择" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="亮色主题、暗色主题、跟随系统Windows模式、跟随系统应用模式" />
+                                    <TextBlock Text="{DynamicResource Common.ThemeSelection}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ThemeSelectionTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -108,7 +108,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="字体选择[立即生效]" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="选择系统中自带字体" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.FontSelectionTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -125,7 +125,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="全局字体大小[立即生效]" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="全局字体大小配置" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.GlobalFontSizeTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -147,7 +147,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="禁用全局热键" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否禁用全局热键" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DisableGlobalHotkeysTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -156,7 +156,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="全屏模式下忽略热键" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标所处显示器应用全屏时禁用全局热键（建议游戏时打开）" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.IgnoreHotkeysOnFullscreenTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -165,7 +165,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="常用语言" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置选择语言时显示的语种列表" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.OftenUsedLangTip}" />
                                     <Button
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -176,7 +176,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="语种识别" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="语种识别方式" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.LangDetectTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -189,7 +189,7 @@
 
                                 <DockPanel Margin="20,10" Visibility="{Binding DetectType, ConverterParameter=Local, Converter={StaticResource ParamEqualToVisibility}}">
                                     <TextBlock Text="语种识别比例(zh-en)" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="仅针对 本地识别 中英文情况下英文字符占总字符数的比例" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.LangDetectRatioTip}" />
                                     <StackPanel
                                         HorizontalAlignment="Right"
                                         DockPanel.Dock="Right"
@@ -213,7 +213,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="取词时间间隔" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="针对部分软件取词失败的情况，延长取词时间间隔" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.WordPickingIntervalTip}" />
                                     <StackPanel
                                         HorizontalAlignment="Right"
                                         DockPanel.Dock="Right"
@@ -237,7 +237,7 @@
 
                                 <DockPanel Margin="20,10">
                                     <TextBlock Text="双击托盘功能" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="鼠标左键双击头盘程序功能选择" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DoubleTapTrayFuncTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -249,8 +249,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="历史记录数量" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="历史记录最大数量设置" />
+                                    <TextBlock Text="{DynamicResource Common.HistorySize}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.HistorySizeTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -267,8 +267,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="静默OCR/截图翻译语种" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="静默OCR/截图翻译时OCR的语种&#13;主界面可配置图标快捷切换" />
+                                    <TextBlock Text="{DynamicResource Common.SilentOcrLang}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.SilentOcrLangTip}" />
                                     <ComboBox
                                         x:Name="LangCb"
                                         Height="30"
@@ -288,8 +288,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="语种识别为自动时使用" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果识别语种结果仍然为自动则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发" />
+                                    <TextBlock Text="{DynamicResource Common.SourceLangIfAuto}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.SourceLangIfAutoTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -308,8 +308,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="目标语种为自动且原始语种为中文时使用" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为中文时则使用该项指定语种" />
+                                    <TextBlock Text="{DynamicResource Common.TargetLangIfSourceZh}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.TargetLangIfSourceZhTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -328,8 +328,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="目标语种为自动且原始语种为非中文时使用" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="如果目标语种为自动且原始语种为非中文时则使用该项指定语种" />
+                                    <TextBlock Text="{DynamicResource Common.TargetLangIfSourceNotZh}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.TargetLangIfSourceNotZhTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -348,8 +348,8 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="请求超时时间(秒)" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="服务请求的超时时间，单位为秒" />
+                                    <TextBlock Text="{DynamicResource Common.HttpTimeout}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.HttpTimeoutTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -374,13 +374,13 @@
                     <!--#region 网络配置-->
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="网络配置" />
+                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Network.Title}" />
                         </Expander.Header>
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="外部调用服务(非代理)" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="是否启用外部调用服务" />
+                                    <TextBlock Text="{DynamicResource Network.ExternalCall}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ExternalCallTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -388,13 +388,13 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10" Visibility="{Binding ExternalCall, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <TextBlock Text="外部调用端口" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置服务端口进行外部调用" />
+                                    <TextBlock Text="{DynamicResource Network.ExternalCallPort}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ExternalCallPortTip}" />
                                     <common:PlaceholderTextBox
                                         MinWidth="100"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Placeholder="请输入端口号"
+                                        Placeholder="{DynamicResource Network.PortPlaceholder}"
                                         PreviewKeyDown="AcceptOnlyNumber"
                                         Text="{Binding ExternalCallPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=50020}" />
                                 </DockPanel>
@@ -402,8 +402,8 @@
                                 <Separator />
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="代理设置" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="配置网络代理方式&#13;本地地址直连" />
+                                    <TextBlock Text="{DynamicResource Network.ProxySettings}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ProxySettingsTip}" />
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
@@ -415,30 +415,30 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
-                                    <TextBlock Text="服务器" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器IP地址" />
+                                    <TextBlock Text="{DynamicResource Network.Server}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ServerTip}" />
                                     <common:PlaceholderTextBox
                                         MinWidth="200"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Placeholder="请输入IP地址"
+                                        Placeholder="{DynamicResource Network.ServerPlaceholder}"
                                         Text="{Binding ProxyIp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                                 </DockPanel>
                                 <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
-                                    <TextBlock Text="端口" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器端口" />
+                                    <TextBlock Text="{DynamicResource Network.Port}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.PortTip}" />
                                     <common:PlaceholderTextBox
                                         MinWidth="200"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Placeholder="请输入端口号"
+                                        Placeholder="{DynamicResource Network.PortPlaceholder}"
                                         PreviewKeyDown="AcceptOnlyNumber"
                                         Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=8089}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
-                                    <TextBlock Text="代理服务器验证" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器需要身份验证" />
+                                    <TextBlock Text="{DynamicResource Network.ProxyAuth}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.ProxyAuthTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"
@@ -446,13 +446,13 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="用户名" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器用户名" />
+                                    <TextBlock Text="{DynamicResource Network.Username}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.UsernameTip}" />
                                     <common:PlaceholderTextBox
                                         MinWidth="200"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Placeholder="请输入用户名"
+                                        Placeholder="{DynamicResource Network.UsernamePlaceholder}"
                                         Text="{Binding ProxyUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                                     <DockPanel.Visibility>
@@ -464,14 +464,14 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="密码" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="代理服务器密码" />
+                                    <TextBlock Text="{DynamicResource Network.Password}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.PasswordTip}" />
                                     <common:PlaceholderTextBox
                                         MinWidth="200"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
                                         DockPanel.Dock="Right"
-                                        Placeholder="请输入密码"
+                                        Placeholder="{DynamicResource Network.PasswordPlaceholder}"
                                         Text="{Binding ProxyPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                                     <PasswordBox
@@ -480,7 +480,7 @@
                                         common:BoundPasswordBox.Attach="True"
                                         common:BoundPasswordBox.Password="{Binding ProxyPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                         DockPanel.Dock="Right"
-                                        Tag="请输入密码"
+                                        Tag="{DynamicResource Network.PasswordPlaceholder}"
                                         ToolTip="{Binding ProxyPassword}"
                                         Visibility="{Binding IsProxyPasswordHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     <Button
@@ -506,13 +506,13 @@
                     <!--#region 功能配置-->
                     <Expander>
                         <Expander.Header>
-                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="功能配置" />
+                            <TextBlock Style="{DynamicResource ExpanderHeaderTextBlock}" Text="{DynamicResource Feature.Title}" />
                         </Expander.Header>
                         <Border>
                             <StackPanel>
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="主界面调整内容后立即翻译" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="主界面移除换行或空格后立即重新翻译内容" />
+                                    <TextBlock Text="{DynamicResource Feature.AdjustContentTranslate}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AdjustContentTranslateTip}" />
                                     <ToggleButton
                                         Height="26"
                                         HorizontalAlignment="Right"

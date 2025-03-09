@@ -16,31 +16,182 @@
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
     <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
 
-    <system:String x:Key="ThemeType.Light">明亮主题</system:String>
-    <system:String x:Key="ThemeType.Dark">黑暗主题</system:String>
-    <system:String x:Key="ThemeType.FollowSystem">跟随系统</system:String>
-    <system:String x:Key="ThemeType.FollowApp">跟随应用</system:String>
+    <!--#region 设置相关-->
 
-    <system:String x:Key="LineBreakHandlingMode.None">不处理换行</system:String>
-    <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多余换行</system:String>
-    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有换行</system:String>
+    <!--  CommonPage 设置项  -->
+    <system:String x:Key="Common.Title">常规配置</system:String>
+    <system:String x:Key="Common.AutoStart">开机自启动</system:String>
+    <system:String x:Key="Common.AppLanguage">软件语言</system:String>
+    <system:String x:Key="Common.NeedAdmin">管理员启动</system:String>
+    <system:String x:Key="Common.AutoTranslate">自动翻译</system:String>
+    <system:String x:Key="Common.ThemeSelection">主题选择</system:String>
+    <system:String x:Key="Common.FontSelection">字体选择[立即生效]</system:String>
+    <system:String x:Key="Common.GlobalFontSize">全局字体大小[立即生效]</system:String>
+    <system:String x:Key="Common.DisableGlobalHotkeys">禁用全局热键</system:String>
+    <system:String x:Key="Common.IgnoreHotkeysOnFullscreen">全屏模式下忽略热键</system:String>
+    <system:String x:Key="Common.OftenUsedLang">常用语言</system:String>
+    <system:String x:Key="Common.LangDetect">语种识别</system:String>
+    <system:String x:Key="Common.LangDetectRatio">语种识别比例(zh-en)</system:String>
+    <system:String x:Key="Common.WordPickingInterval">取词时间间隔</system:String>
+    <system:String x:Key="Common.DoubleTapTrayFunc">双击托盘功能</system:String>
+    <system:String x:Key="Common.HistorySize">历史记录数量</system:String>
+    <system:String x:Key="Common.SilentOcrLang">静默OCR/截图翻译语种</system:String>
+    <system:String x:Key="Common.SourceLangIfAuto">语种识别为自动时使用</system:String>
+    <system:String x:Key="Common.TargetLangIfSourceZh">目标语种为自动且原始语种为中文时使用</system:String>
+    <system:String x:Key="Common.TargetLangIfSourceNotZh">目标语种为自动且原始语种为非中文时使用</system:String>
+    <system:String x:Key="Common.HttpTimeout">请求超时时间(秒)</system:String>
+
+    <!--  网络配置  -->
+    <system:String x:Key="Network.Title">网络配置</system:String>
+    <system:String x:Key="Network.ExternalCall">外部调用服务(非代理)</system:String>
+    <system:String x:Key="Network.ExternalCallPort">外部调用端口</system:String>
+    <system:String x:Key="Network.ProxySettings">代理设置</system:String>
+    <system:String x:Key="Network.Server">服务器</system:String>
+    <system:String x:Key="Network.Port">端口</system:String>
+    <system:String x:Key="Network.ProxyAuth">代理服务器验证</system:String>
+    <system:String x:Key="Network.Username">用户名</system:String>
+    <system:String x:Key="Network.Password">密码</system:String>
+
+    <!--  功能配置  -->
+    <system:String x:Key="Function.Title">功能配置</system:String>
+    <system:String x:Key="Function.AdjustContentTranslate">主界面调整内容后立即翻译</system:String>
+    <system:String x:Key="Function.ChangedLang2Execute">主界面修改语种后立即翻译</system:String>
+    <system:String x:Key="Function.UsePasteOutput">替换翻译使用剪贴板输出</system:String>
+    <system:String x:Key="Function.UseFormsCopy">剪贴板占用问题</system:String>
+    <system:String x:Key="Function.ScreenshotOcrAutoCopyText">截图翻译识别文本后自动复制</system:String>
+    <system:String x:Key="Function.LineBreakHandler">取词换行处理</system:String>
+    <system:String x:Key="Function.LineBreakOCRHandler">OCR取词换行处理</system:String>
+    <system:String x:Key="Function.OcrAutoCopyText">OCR后自动复制</system:String>
+    <system:String x:Key="Function.OcrChangedLang2Execute">OCR修改服务或语种后立即翻译</system:String>
+    <system:String x:Key="Function.IncrementalTranslation">增量翻译</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate">翻译后自动复制</system:String>
+    <system:String x:Key="Function.HotkeyCopySuccessToast">热键触发复制成功提示</system:String>
+    <system:String x:Key="Function.OcrImageQuality">文字识别图片质量</system:String>
+
+    <!--  显示配置  -->
+    <system:String x:Key="Display.Title">显示配置</system:String>
+    <system:String x:Key="Display.HideOnStart">启动时隐藏主界面</system:String>
+    <system:String x:Key="Display.DisableNoticeOnStart">启动时不显示通知</system:String>
+    <system:String x:Key="Display.UseCacheLocation">启动时使用缓存位置</system:String>
+    <system:String x:Key="Display.AnimationSpeed">动画速度</system:String>
+    <system:String x:Key="Display.ShowMainPlaceholder">输入框水印</system:String>
+    <system:String x:Key="Display.OnlyShowRet">主界面仅显示输出界面</system:String>
+    <system:String x:Key="Display.HideLangWhenOnlyShowOutput">主界面仅显示输出界面时隐藏语言框</system:String>
+    <system:String x:Key="Display.TriggerShowHide">显示界面重复触发显/隐</system:String>
+    <system:String x:Key="Display.MainViewMaxHeight">主界面最大高度[立即生效]</system:String>
+    <system:String x:Key="Display.MainViewWidth">主界面宽度[立即生效]</system:String>
+    <system:String x:Key="Display.InputViewHeight">输入框高度[立即生效]</system:String>
+    <system:String x:Key="Display.FollowMouse">窗口跟随鼠标(输入、截图、划词和监听剪贴板)</system:String>
+    <system:String x:Key="Display.ShowAuxiliaryLine">截图辅助线</system:String>
+    <system:String x:Key="Display.MainViewShadow">主窗口阴影(比较占用性能)</system:String>
+    <system:String x:Key="Display.PromptToggleVisible">主界面显示 Prompt 切换</system:String>
+    <system:String x:Key="Display.CloseUIOcrRetTranslate">OCR点击翻译后关闭界面</system:String>
+    <system:String x:Key="Display.KeepTopmostAfterMousehook">退出鼠标划词功能时保持置顶</system:String>
+    <system:String x:Key="Display.ShowCopyOnHeader">翻译结果收缩框是否显示按钮</system:String>
+    <system:String x:Key="Display.CaretLast">显示主窗口时光标移动至末尾[立即生效]</system:String>
+
+    <!--  图标配置  -->
+    <system:String x:Key="Icon.Title">图标配置</system:String>
+    <system:String x:Key="Icon.ShowSnakeCopyBtn">显示蛇形结果复制按钮</system:String>
+    <system:String x:Key="Icon.ShowSmallHumpCopyBtn">显示小驼峰结果复制按钮</system:String>
+    <system:String x:Key="Icon.ShowLargeHumpCopyBtn">显示大驼峰结果复制按钮</system:String>
+    <system:String x:Key="Icon.ShowTranslateBackBtn">显示回译按钮</system:String>
+    <system:String x:Key="Icon.ShowClose">显示关闭图标</system:String>
+    <system:String x:Key="Icon.StayMainViewWhenLoseFocus">丢失焦点时主界面不隐藏</system:String>
+    <system:String x:Key="Icon.ShowMinimalBtn">显示最小化图标</system:String>
+    <system:String x:Key="Icon.ShowPreference">显示设置图标</system:String>
+    <system:String x:Key="Icon.ShowConfigureService">显示服务配置图标</system:String>
+    <system:String x:Key="Icon.ShowMainOcrLang">显示静默OCR/截图翻译语种选择图标</system:String>
+    <system:String x:Key="Icon.ShowMousehook">显示鼠标划词图标</system:String>
+    <system:String x:Key="Icon.ShowAutoTranslate">显示自动翻译图标</system:String>
+    <system:String x:Key="Icon.ShowIncrementalTranslation">显示增量翻译图标</system:String>
+    <system:String x:Key="Icon.ShowTopmost">显示置顶图标</system:String>
+    <system:String x:Key="Icon.ShowScreenshot">显示截图翻译图标</system:String>
+    <system:String x:Key="Icon.ShowOcr">显示OCR图标</system:String>
+    <system:String x:Key="Icon.ShowQRCode">显示二维码识别图标</system:String>
+    <system:String x:Key="Icon.ShowHistory">显示历史记录图标</system:String>
+    <system:String x:Key="Icon.ShowClipboardMonitor">显示剪贴板监听图标</system:String>
+    <system:String x:Key="Icon.ShowReplaceTranslate">显示替换翻译图标</system:String>
+    <system:String x:Key="Icon.ShowTTS">显示TTS图标</system:String>
+    <system:String x:Key="Icon.ShowCopy">显示复制图标</system:String>
+    <system:String x:Key="Icon.ShowCopySource">显示复制原文图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAll">显示复制全部图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSource">显示复制全部原文图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAllResult">显示复制全部结果图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceResult">显示复制全部原文结果图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceAndResult">显示复制全部原文和结果图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceWithResult">显示复制全部原文与结果图标</system:String>
+    <system:String x:Key="Icon.ShowCopyAllResultWithSource">显示复制全部结果与原文图标</system:String>
+
+    <!--  提示词配置  -->
+    <system:String x:Key="Prompt.Title">提示词配置</system:String>
+    <system:String x:Key="Prompt.EnablePrompt">启用提示词</system:String>
+    <system:String x:Key="Prompt.PromptContent">提示词内容</system:String>
+    <system:String x:Key="Prompt.PromptContentPlaceholder">请输入提示词内容</system:String>
+    <system:String x:Key="Prompt.PromptContentInfo">提示词将会在翻译时添加到原文前面，用于指导翻译结果</system:String>
+    <system:String x:Key="Prompt.PromptContentExample">例如：请将以下内容翻译为中文，保持专业术语不变</system:String>
+
+    <!--  热键配置  -->
+    <system:String x:Key="Hotkey.Title">热键配置</system:String>
+    <system:String x:Key="Hotkey.ShowMainView">显示主界面</system:String>
+    <system:String x:Key="Hotkey.ShowMainViewAndPaste">显示主界面并粘贴</system:String>
+    <system:String x:Key="Hotkey.ShowMainViewAndClear">显示主界面并清空</system:String>
+    <system:String x:Key="Hotkey.MouseHook">鼠标划词</system:String>
+    <system:String x:Key="Hotkey.Screenshot">截图翻译</system:String>
+    <system:String x:Key="Hotkey.OCR">OCR识别</system:String>
+    <system:String x:Key="Hotkey.QRCode">二维码识别</system:String>
+    <system:String x:Key="Hotkey.ClipboardMonitor">剪贴板监听</system:String>
+    <system:String x:Key="Hotkey.SilentOCR">静默OCR</system:String>
+    <system:String x:Key="Hotkey.SilentScreenshot">静默截图翻译</system:String>
+    <system:String x:Key="Hotkey.ReplaceTranslate">替换翻译</system:String>
+    <system:String x:Key="Hotkey.IncrementalTranslation">增量翻译</system:String>
+    <system:String x:Key="Hotkey.CopyFirstResult">复制第一个结果</system:String>
+    <system:String x:Key="Hotkey.CopySecondResult">复制第二个结果</system:String>
+    <system:String x:Key="Hotkey.CopyThirdResult">复制第三个结果</system:String>
+    <system:String x:Key="Hotkey.CopyFourthResult">复制第四个结果</system:String>
+    <system:String x:Key="Hotkey.CopyFifthResult">复制第五个结果</system:String>
+    <system:String x:Key="Hotkey.CopySixthResult">复制第六个结果</system:String>
+    <system:String x:Key="Hotkey.CopySeventhResult">复制第七个结果</system:String>
+    <system:String x:Key="Hotkey.CopyEighthResult">复制第八个结果</system:String>
+    <system:String x:Key="Hotkey.CopyLastResult">复制最后一个结果</system:String>
+
+    <!--  工具提示  -->
+    <system:String x:Key="Tooltip.AutoStartTip">开机时自动启动软件(该用户登录)</system:String>
+    <system:String x:Key="Tooltip.NeedAdminTip">以便全局快捷键在具有管理员权限的窗口也能响应</system:String>
+    <system:String x:Key="Tooltip.AppLanguageTip">切换软件语言版本</system:String>
+    <system:String x:Key="Tooltip.AutoTranslateTip">输入内容以后自动执行翻译</system:String>
+    <system:String x:Key="Tooltip.ThemeSelectionTip">亮色主题、暗色主题、跟随系统Windows模式、跟随系统应用模式</system:String>
+    <system:String x:Key="Tooltip.FontSelectionTip">选择系统中自带字体</system:String>
+    <system:String x:Key="Tooltip.GlobalFontSizeTip">全局字体大小配置</system:String>
+    <system:String x:Key="Tooltip.DisableGlobalHotkeysTip">是否禁用全局热键</system:String>
+    <system:String x:Key="Tooltip.IgnoreHotkeysOnFullscreenTip">鼠标所处显示器应用全屏时禁用全局热键（建议游戏时打开）</system:String>
+    <system:String x:Key="Tooltip.OftenUsedLangTip">配置选择语言时显示的语种列表</system:String>
+    <system:String x:Key="Tooltip.LangDetectTip">语种识别方式</system:String>
+    <system:String x:Key="Tooltip.LangDetectRatioTip">仅针对 本地识别 中英文情况下英文字符占总字符数的比例</system:String>
+    <system:String x:Key="Tooltip.WordPickingIntervalTip">针对部分软件取词失败的情况，延长取词时间间隔</system:String>
+    <system:String x:Key="Tooltip.DoubleTapTrayFuncTip">鼠标左键双击头盘程序功能选择</system:String>
+    <system:String x:Key="Tooltip.HistorySizeTip">历史记录最大数量设置</system:String>
+    <system:String x:Key="Tooltip.SilentOcrLangTip">静默OCR/截图翻译时OCR的语种&#13;主界面可配置图标快捷切换</system:String>
+    <system:String x:Key="Tooltip.SourceLangIfAutoTip">如果识别语种结果仍然为自动则使用该项指定语种&#13;仅当在线识别服务返回出错情况才会触发</system:String>
+    <system:String x:Key="Tooltip.TargetLangIfSourceZhTip">如果目标语种为自动且原始语种为中文时则使用该项指定语种</system:String>
+    <system:String x:Key="Tooltip.TargetLangIfSourceNotZhTip">如果目标语种为自动且原始语种为非中文时则使用该项指定语种</system:String>
+    <system:String x:Key="Tooltip.HttpTimeoutTip">服务请求的超时时间，单位为秒</system:String>
+    <system:String x:Key="Tooltip.ExternalCallTip">是否启用外部调用服务</system:String>
+    <system:String x:Key="Tooltip.ExternalCallPortTip">配置服务端口进行外部调用</system:String>
+    <system:String x:Key="Tooltip.ProxySettingsTip">配置网络代理方式&#13;本地地址直连</system:String>
+    <system:String x:Key="Tooltip.ServerTip">代理服务器IP地址</system:String>
+    <system:String x:Key="Tooltip.PortTip">代理服务器端口</system:String>
+    <system:String x:Key="Tooltip.ProxyAuthTip">代理服务器需要身份验证</system:String>
+    <system:String x:Key="Tooltip.UsernameTip">代理服务器用户名</system:String>
+    <system:String x:Key="Tooltip.PasswordTip">代理服务器密码</system:String>
 
 
-    <!--  通用文本  -->
-    <system:String x:Key="Common_OK">确定</system:String>
-    <system:String x:Key="Common_Cancel">取消</system:String>
-    <system:String x:Key="Common_Close">关闭</system:String>
-    <system:String x:Key="Common_Save">保存</system:String>
+    <!--#endregion-->
 
-    <!--  设置相关  -->
-    <system:String x:Key="Settings_Title">设置</system:String>
-    <system:String x:Key="Settings_General">常规</system:String>
-    <system:String x:Key="Settings_Language">语言</system:String>
-    <system:String x:Key="Settings_AutoStart">开机自启动</system:String>
-    <system:String x:Key="Settings_AdminStart">管理员启动</system:String>
-    <system:String x:Key="Settings_Theme">主题</system:String>
-    <system:String x:Key="Settings_FollowMouse">跟随鼠标</system:String>
-    <system:String x:Key="Settings_History">历史记录大小</system:String>
+
+
+
+
 
     <!--  OCR相关  -->
     <system:String x:Key="OCR_Title">OCR识别</system:String>

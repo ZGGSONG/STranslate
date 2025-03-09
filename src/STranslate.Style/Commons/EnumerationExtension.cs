@@ -1,7 +1,6 @@
 ﻿using STranslate.Model;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace STranslate.Style.Commons;
