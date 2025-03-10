@@ -67,6 +67,10 @@
     <system:String x:Key="ProxyMethodEnum.Http">Http</system:String>
     <system:String x:Key="ProxyMethodEnum.Socks5">Socks5</system:String>
 
+    <system:String x:Key="AnimationSpeedEnum.Slow">Slow(300ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Middle">Middle(200ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Fast">Fast(150ms)</system:String>
+
     <!--#endregion-->
 
     <!--#region 首选项-->
@@ -95,8 +99,8 @@
     <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
     <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
     <system:String x:Key="Common.ThemeSelection">Theme Selection</system:String>
-    <system:String x:Key="Common.FontSelection">Font Selection [Immediate Effect]</system:String>
-    <system:String x:Key="Common.GlobalFontSize">Global Font Size [Immediate Effect]</system:String>
+    <system:String x:Key="Common.FontSelection">Font Selection [WIE]</system:String>
+    <system:String x:Key="Common.GlobalFontSize">Global Font Size [WIE]</system:String>
     <system:String x:Key="Common.DisableGlobalHotkeys">Disable Global Hotkeys</system:String>
     <system:String x:Key="Common.IgnoreHotkeysOnFullscreen">Ignore Hotkeys in Fullscreen Mode</system:String>
     <system:String x:Key="Common.OftenUsedLang">Frequently Used Languages</system:String>
@@ -170,17 +174,17 @@
     <system:String x:Key="Display.OnlyShowRet">Only Show Output Interface</system:String>
     <system:String x:Key="Display.HideLangWhenOnlyShowOutput">Hide Language Box When Only Showing Output</system:String>
     <system:String x:Key="Display.TriggerShowHide">Toggle Show/Hide on Repeat Trigger</system:String>
-    <system:String x:Key="Display.MainViewMaxHeight">Main Window Max Height [Immediate Effect]</system:String>
-    <system:String x:Key="Display.MainViewWidth">Main Window Width [Immediate Effect]</system:String>
-    <system:String x:Key="Display.InputViewMaxHeight">Input Box Max Height [Immediate Effect]</system:String>
-    <system:String x:Key="Display.FollowMouse">Window Follows Mouse (Input, Screenshot, Word Selection, and Clipboard Monitor)</system:String>
+    <system:String x:Key="Display.MainViewMaxHeight">Main Window Max Height [WIE]</system:String>
+    <system:String x:Key="Display.MainViewWidth">Main Window Width [WIE]</system:String>
+    <system:String x:Key="Display.InputViewMaxHeight">Input Box Max Height [WIE]</system:String>
+    <system:String x:Key="Display.FollowMouse">Window Follows Mouse</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">Screenshot Guide Lines</system:String>
     <system:String x:Key="Display.MainViewShadow">Main Window Shadow (Performance Impact)</system:String>
     <system:String x:Key="Display.PromptToggleVisible">Show Prompt Toggle in Main Window</system:String>
     <system:String x:Key="Display.CloseUIOcrRetTranslate">Close Window After OCR Click Translation</system:String>
     <system:String x:Key="Display.KeepTopmostAfterMousehook">Keep Topmost After Exiting Mouse Selection</system:String>
     <system:String x:Key="Display.ShowCopyOnHeader">Show Buttons on Translation Result Header</system:String>
-    <system:String x:Key="Display.CaretLast">Move Cursor to End When Showing Main Window [Immediate Effect]</system:String>
+    <system:String x:Key="Display.CaretLast">Move Cursor to End When Showing Main Window [WIE]</system:String>
 
     <!--  图标配置  -->
     <system:String x:Key="Icon.Title">Icon Configuration</system:String>

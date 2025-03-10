@@ -67,6 +67,10 @@
     <system:String x:Key="ProxyMethodEnum.Http">Http</system:String>
     <system:String x:Key="ProxyMethodEnum.Socks5">Socks5</system:String>
 
+    <system:String x:Key="AnimationSpeedEnum.Slow">较慢(300ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Middle">适中(200ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Fast">较快(150ms)</system:String>
+
     <!--#endregion-->
 
     <!--#region 首选项-->
@@ -173,7 +177,7 @@
     <system:String x:Key="Display.MainViewMaxHeight">主界面最大高度[立即生效]</system:String>
     <system:String x:Key="Display.MainViewWidth">主界面宽度[立即生效]</system:String>
     <system:String x:Key="Display.InputViewMaxHeight">输入框最大高度[立即生效]</system:String>
-    <system:String x:Key="Display.FollowMouse">窗口跟随鼠标(输入、截图、划词和监听剪贴板)</system:String>
+    <system:String x:Key="Display.FollowMouse">窗口跟随鼠标</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">截图辅助线</system:String>
     <system:String x:Key="Display.MainViewShadow">主窗口阴影(比较占用性能)</system:String>
     <system:String x:Key="Display.PromptToggleVisible">主界面显示 Prompt 切换</system:String>
