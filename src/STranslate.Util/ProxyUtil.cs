@@ -39,8 +39,8 @@ public static class ProxyUtil
         //Socks5方式参考: https://github.com/MihaZupan/HttpToSocks5Proxy
         HttpClient.DefaultProxy = proxyMethod switch
         {
-            ProxyMethodEnum.不使用代理 => new HttpNoProxy(),
-            ProxyMethodEnum.系统代理 => _dynamicProxy,
+            ProxyMethodEnum.NoProxy => new HttpNoProxy(),
+            ProxyMethodEnum.SystemProxy => _dynamicProxy,
             _ => new WebProxy($"{proxyMethod.ToString().ToLower()}://{ip}:{port}", true, null,
                 isAuth
                     ? new NetworkCredential(username, pwd)

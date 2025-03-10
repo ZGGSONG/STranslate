@@ -261,7 +261,7 @@ public partial class CommonViewModel : ObservableObject
     /// <summary>
     ///     所选代理方式
     /// </summary>
-    [ObservableProperty] private ProxyMethodEnum _proxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+    [ObservableProperty] private ProxyMethodEnum _proxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.SystemProxy;
 
     /// <summary>
     ///     代理认证密码
@@ -536,7 +536,7 @@ public partial class CommonViewModel : ObservableObject
         IsDisableNoticeOnStart = ConfigHelper.CurrentConfig?.IsDisableNoticeOnStart ?? false;
         ShowCopyOnHeader = ConfigHelper.CurrentConfig?.ShowCopyOnHeader ?? false;
         IsCaretLast = ConfigHelper.CurrentConfig?.IsCaretLast ?? false;
-        ProxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理;
+        ProxyMethod = ConfigHelper.CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.SystemProxy;
         ProxyIp = ConfigHelper.CurrentConfig?.ProxyIp ?? string.Empty;
         ProxyPort = ConfigHelper.CurrentConfig?.ProxyPort ?? 0;
         ProxyUsername = ConfigHelper.CurrentConfig?.ProxyUsername ?? string.Empty;

@@ -19,10 +19,10 @@ internal class MultiProxyParam2VisibilityConverter : IMultiValueConverter
 
             var proxyVisibility = proxyMethod switch
             {
-                ProxyMethodEnum.不使用代理 => Visibility.Collapsed,
-                ProxyMethodEnum.系统代理 => Visibility.Collapsed,
-                ProxyMethodEnum.HTTP => Visibility.Visible,
-                ProxyMethodEnum.SOCKS5 => Visibility.Visible,
+                ProxyMethodEnum.NoProxy => Visibility.Collapsed,
+                ProxyMethodEnum.SystemProxy => Visibility.Collapsed,
+                ProxyMethodEnum.Http => Visibility.Visible,
+                ProxyMethodEnum.Socks5 => Visibility.Visible,
                 _ => Visibility.Collapsed
             };
 

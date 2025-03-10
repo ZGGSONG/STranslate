@@ -445,10 +445,10 @@ public enum ThemeType
 /// </summary>
 public enum ProxyMethodEnum
 {
-    不使用代理,
-    系统代理,
-    HTTP,
-    SOCKS5
+    [Description("不使用代理")] NoProxy,
+    [Description("系统代理")] SystemProxy,
+    [Description("Http")] Http,
+    [Description("Socks5")] Socks5,
 }
 
 /// <summary>

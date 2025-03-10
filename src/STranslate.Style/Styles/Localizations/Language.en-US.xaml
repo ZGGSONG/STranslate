@@ -62,6 +62,11 @@
     <system:String x:Key="GlobalFontSizeEnum.UltraBig">UltraBig(21px)</system:String>
     <system:String x:Key="GlobalFontSizeEnum.ExtremelyBig">ExtremelyBig(22px)</system:String>
 
+    <system:String x:Key="ProxyMethodEnum.NoProxy">NoProxy</system:String>
+    <system:String x:Key="ProxyMethodEnum.SystemProxy">SystemProxy</system:String>
+    <system:String x:Key="ProxyMethodEnum.Http">Http</system:String>
+    <system:String x:Key="ProxyMethodEnum.Socks5">Socks5</system:String>
+
     <!--#endregion-->
 
     <!--#region 首选项-->

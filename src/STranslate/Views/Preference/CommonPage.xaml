@@ -410,8 +410,9 @@
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         BorderThickness="1"
-                                        DisplayMemberPath="Value"
+                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding Source={common:Enumeration {x:Type model:ProxyMethodEnum}}}"
                                         SelectedValue="{Binding ProxyMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         SelectedValuePath="Value" />

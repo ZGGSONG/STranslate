@@ -101,7 +101,7 @@ public class ConfigHelper
 
         //初始化代理设置
         ProxyOperate(
-            CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.系统代理,
+            CurrentConfig?.ProxyMethod ?? ProxyMethodEnum.SystemProxy,
             CurrentConfig?.ProxyIp ?? "",
             CurrentConfig?.ProxyPort ?? 0,
             CurrentConfig?.IsProxyAuthentication ?? false,
@@ -836,7 +836,7 @@ public class ConfigHelper
             IsDisableNoticeOnStart = false,
             ShowCopyOnHeader = false,
             IsCaretLast = false,
-            ProxyMethod = ProxyMethodEnum.系统代理,
+            ProxyMethod = ProxyMethodEnum.SystemProxy,
             ProxyIp = string.Empty,
             ProxyPort = 8089,
             IsProxyAuthentication = false,

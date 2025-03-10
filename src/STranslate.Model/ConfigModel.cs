@@ -181,7 +181,7 @@ public class ConfigModel
     /// <summary>
     ///     网络代理方式
     /// </summary>
-    public ProxyMethodEnum ProxyMethod { get; set; } = ProxyMethodEnum.系统代理;
+    public ProxyMethodEnum ProxyMethod { get; set; } = ProxyMethodEnum.SystemProxy;
 
     /// <summary>
     ///     代理IP

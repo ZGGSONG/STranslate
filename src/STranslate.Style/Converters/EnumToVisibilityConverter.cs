@@ -13,8 +13,8 @@ public sealed class EnumToVisibilityConverter : IValueConverter
         {
             ProxyMethodEnum proxyMethodEnum => proxyMethodEnum switch
             {
-                ProxyMethodEnum.不使用代理 => Visibility.Collapsed,
-                ProxyMethodEnum.系统代理 => Visibility.Collapsed,
+                ProxyMethodEnum.NoProxy => Visibility.Collapsed,
+                ProxyMethodEnum.SystemProxy => Visibility.Collapsed,
                 _ => Visibility.Visible
             },
             BackupType backupType => backupType switch
