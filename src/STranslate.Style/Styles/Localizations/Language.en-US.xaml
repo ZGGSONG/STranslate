@@ -73,6 +73,24 @@
 
     <!--#endregion-->
 
+    <!--#region Toast-->
+
+    <system:String x:Key="Toast.Copy">Copy</system:String>
+    <system:String x:Key="Toast.Speak">Speak</system:String>
+    <system:String x:Key="Toast.Result">Result</system:String>
+    <system:String x:Key="Toast.DeleteSuccess">Delete Success</system:String>
+    <system:String x:Key="Toast.CopySuccess">Copy Sucess</system:String>
+    <system:String x:Key="Toast.CopySnakeSuccess">Copy Snake Sucess</system:String>
+    <system:String x:Key="Toast.CopySmallHumpSuccess">Copy SmallHump</system:String>
+    <system:String x:Key="Toast.CopyLargeHumpSuccess">Copy LargeHump</system:String>
+    <system:String x:Key="Toast.SpeakInputContent">SpeakInputContent</system:String>
+    <system:String x:Key="Toast.AutoTransBack">AutoTransBack</system:String>
+    <system:String x:Key="Toast.Open">Open</system:String>
+    <system:String x:Key="Toast.Close">Close</system:String>
+    <system:String x:Key="Toast.KeepAtListOneTranslator">KeepAtListOneTranslator</system:String>
+
+    <!--#endregion-->
+
     <!--#region 首选项-->
 
     <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate Preferences</system:String>

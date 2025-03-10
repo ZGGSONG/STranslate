@@ -43,7 +43,7 @@ public partial class HistoryContentViewModel : ObservableObject
     {
         Singleton<HistoryViewModel>.Instance.DeleteHistoryCommand.Execute(null);
 
-        ToastHelper.Show("删除成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -60,7 +60,7 @@ public partial class HistoryContentViewModel : ObservableObject
         {
             ClipboardHelper.Copy(str);
 
-            ToastHelper.Show("复制成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySuccess"), WindowType.Preference);
         }
     }
 
@@ -71,7 +71,7 @@ public partial class HistoryContentViewModel : ObservableObject
         var snakeRet = StringUtil.GenSnakeString(str);
         ClipboardHelper.Copy(snakeRet);
 
-        ToastHelper.Show("蛇形复制成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySnakeSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -81,7 +81,7 @@ public partial class HistoryContentViewModel : ObservableObject
         var snakeRet = StringUtil.GenHumpString(str, true);
         ClipboardHelper.Copy(snakeRet);
 
-        ToastHelper.Show("小驼峰复制成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySmallHumpSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -91,7 +91,7 @@ public partial class HistoryContentViewModel : ObservableObject
         var snakeRet = StringUtil.GenHumpString(str);
         ClipboardHelper.Copy(snakeRet);
 
-        ToastHelper.Show("大驼峰复制成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopyLargeHumpSuccess"), WindowType.Preference);
     }
 }
 

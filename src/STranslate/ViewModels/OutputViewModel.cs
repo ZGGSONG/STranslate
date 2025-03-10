@@ -79,7 +79,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             var newResult = !service.AutoExecuteTranslateBack;
             service.AutoExecuteTranslateBack = newResult;
             Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-            ToastHelper.Show($"{(newResult ? "打开" : "关闭")}自动回译");
+            ToastHelper.Show($"{(newResult ? AppLanguageManager.GetString("Toast.Open") : AppLanguageManager.GetString("Toast.Close"))}{AppLanguageManager.GetString("Toast.AutoTransBack")}");
             return;
         }
         // 执行回译
@@ -122,7 +122,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         if (obj is not string str || string.IsNullOrEmpty(str)) return;
         ClipboardHelper.Copy(str);
 
-        ToastHelper.Show("复制成功");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySuccess"));
     }
 
     [RelayCommand]
@@ -132,7 +132,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         var snakeRet = StringUtil.GenSnakeString(str);
         ClipboardHelper.Copy(snakeRet);
 
-        ToastHelper.Show("蛇形复制成功");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySnakeSuccess"));
     }
 
     [RelayCommand]
@@ -142,7 +142,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         var snakeRet = StringUtil.GenHumpString(str, true);
         ClipboardHelper.Copy(snakeRet);
 
-        ToastHelper.Show("小驼峰复制成功");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySmallHumpSuccess"));
     }
 
     [RelayCommand]
@@ -152,7 +152,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         var snakeRet = StringUtil.GenHumpString(str);
         ClipboardHelper.Copy(snakeRet);
 
-        ToastHelper.Show("大驼峰复制成功");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopyLargeHumpSuccess"));
     }
 
     /// <summary>
@@ -178,7 +178,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         ClipboardHelper.Copy(result);
         if (CurConfig?.HotkeyCopySuccessToast ?? true)
-            ToastHelper.Show($"复制{translator.Name}结果");
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Copy")}{translator.Name}{AppLanguageManager.GetString("Toast.Result")}");
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         if (index == 0)
         {
             result = _inputVm.InputContent;
-            ToastHelper.Show($"播报输入内容");
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SpeakInputContent"));
         }
         else
         {
@@ -209,7 +209,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
             result = GetWord(translator.Type, translator.Data?.Result);
             if (string.IsNullOrEmpty(result)) return;
 
-            ToastHelper.Show($"播报{translator.Name}结果");
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Speak")}{translator.Name}{AppLanguageManager.GetString("Toast.Result")}");
         }
 
         await TTSCommand.ExecuteAsync(result);
@@ -331,7 +331,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         if (Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled)?.Count() < 2)
         {
-            ToastHelper.Show("至少保留一个服务");
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.KeepAtListOneTranslator"));
             return;
         }
 

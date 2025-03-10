@@ -73,6 +73,24 @@
 
     <!--#endregion-->
 
+    <!--#region Toast-->
+
+    <system:String x:Key="Toast.Copy">复制</system:String>
+    <system:String x:Key="Toast.Speak">播报</system:String>
+    <system:String x:Key="Toast.Result">结果</system:String>
+    <system:String x:Key="Toast.DeleteSuccess">删除成功</system:String>
+    <system:String x:Key="Toast.CopySuccess">复制成功</system:String>
+    <system:String x:Key="Toast.CopySnakeSuccess">蛇形复制成功</system:String>
+    <system:String x:Key="Toast.CopySmallHumpSuccess">小驼峰复制成功</system:String>
+    <system:String x:Key="Toast.CopyLargeHumpSuccess">大驼峰复制成功</system:String>
+    <system:String x:Key="Toast.SpeakInputContent">播报输入内容</system:String>
+    <system:String x:Key="Toast.AutoTransBack">自动回译</system:String>
+    <system:String x:Key="Toast.Open">打开</system:String>
+    <system:String x:Key="Toast.Close">关闭</system:String>
+    <system:String x:Key="Toast.KeepAtListOneTranslator">至少保留一个服务</system:String>
+
+    <!--#endregion-->
+
     <!--#region 首选项-->
 
     <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate 首选项</system:String>
