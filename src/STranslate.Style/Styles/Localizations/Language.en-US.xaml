@@ -412,6 +412,12 @@
     <system:String x:Key="History.Delete">Delete</system:String>
     <system:String x:Key="History.Gong">Total</system:String>
     <system:String x:Key="History.Xiang">items</system:String>
+    <system:String x:Key="History.Content.TTS">TTS</system:String>
+    <system:String x:Key="History.Content.Copy">Copy</system:String>
+    <system:String x:Key="History.Content.CopyResult">CopyResult</system:String>
+    <system:String x:Key="History.Content.CopySnakeResult">CopySnakeResult</system:String>
+    <system:String x:Key="History.Content.CopySmallHumpResult">CopySmallHumpResult</system:String>
+    <system:String x:Key="History.Content.CopyLargeHumpResult">CopyLargeHumpResult</system:String>
 
     <!--#endregion-->
 

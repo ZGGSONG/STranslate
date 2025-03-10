@@ -412,6 +412,12 @@
     <system:String x:Key="History.Delete">删除记录</system:String>
     <system:String x:Key="History.Gong">共</system:String>
     <system:String x:Key="History.Xiang">项</system:String>
+    <system:String x:Key="History.Content.TTS">TTS</system:String>
+    <system:String x:Key="History.Content.Copy">复制</system:String>
+    <system:String x:Key="History.Content.CopyResult">普通复制</system:String>
+    <system:String x:Key="History.Content.CopySnakeResult">复制为蛇形字符串</system:String>
+    <system:String x:Key="History.Content.CopySmallHumpResult">复制为小驼峰字符串</system:String>
+    <system:String x:Key="History.Content.CopyLargeHumpResult">复制为大驼峰字符串</system:String>
 
     <!--#endregion-->
 

@@ -28,7 +28,7 @@
                     VerticalAlignment="Center"
                     FontSize="{DynamicResource FontSize14}"
                     FontWeight="Black"
-                    Text="{Binding Time, StringFormat=yyyy年MM月dd日 HH:mm:ss}" />
+                    Text="{Binding Time, StringFormat=yyyy/MM/dd HH:mm:ss}" />
 
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button
@@ -68,7 +68,7 @@
                                 Content="&#xe610;"
                                 FontSize="{DynamicResource FontSize14}"
                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                ToolTip="TTS" />
+                                ToolTip="{DynamicResource History.Content.TTS}" />
                             <Button
                                 Margin="5,0"
                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
@@ -76,7 +76,7 @@
                                 Content="&#xe692;"
                                 FontSize="{DynamicResource FontSize14}"
                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                ToolTip="复制" />
+                                ToolTip="{DynamicResource History.Content.Copy}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -133,7 +133,7 @@
                                                 Content="&#xe610;"
                                                 FontSize="{DynamicResource FontSize14}"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                                ToolTip="TTS" />
+                                                ToolTip="{DynamicResource History.Content.TTS}" />
                                             <Button
                                                 Margin="5,0,0,0"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyResultCommand}"
@@ -141,7 +141,7 @@
                                                 Content="&#xe692;"
                                                 FontSize="{DynamicResource FontSize14}"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                                ToolTip="普通复制" />
+                                                ToolTip="{DynamicResource History.Content.CopyResult}" />
                                             <Button
                                                 Margin="5,0,0,0"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySnakeResultCommand}"
@@ -149,7 +149,7 @@
                                                 Content="&#xe600;"
                                                 FontSize="{DynamicResource FontSize14}"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                                ToolTip="复制为蛇形字符串" />
+                                                ToolTip="{DynamicResource History.Content.CopySnakeResult}" />
                                             <Button
                                                 Margin="5,0,0,0"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopySmallHumpResultCommand}"
@@ -157,7 +157,7 @@
                                                 Content="&#xe602;"
                                                 FontSize="{DynamicResource FontSize14}"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                                ToolTip="复制为小驼峰字符串" />
+                                                ToolTip="{DynamicResource History.Content.CopySmallHumpResult}" />
                                             <Button
                                                 Margin="5,0,0,0"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CopyLargeHumpResultCommand}"
@@ -165,7 +165,7 @@
                                                 Content="&#xe601;"
                                                 FontSize="{DynamicResource FontSize14}"
                                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                                ToolTip="复制为大驼峰字符串" />
+                                                ToolTip="{DynamicResource History.Content.CopyLargeHumpResult}" />
                                         </StackPanel>
 
                                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
