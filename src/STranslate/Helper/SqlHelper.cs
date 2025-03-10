@@ -238,30 +238,7 @@ public class SqlHelper
         const string query = @"SELECT * FROM History WHERE Time < @Cursor ORDER BY Time DESC LIMIT @PageSize OFFSET 0";
 
         // 查询原始数据
-        var results = await connection.QueryAsync<dynamic>(query, new { PageSize = pageSize, Cursor = cursor });
-
-        // 手动将结果转换为 HistoryModel 对象
-        var historyModels = new List<HistoryModel>();
-        foreach (var item in results)
-        {
-            var model = new HistoryModel
-            {
-                Id = (long)item.Id,
-                Time = DateTime.Parse((string)item.Time),
-                SourceText = item.SourceText,
-                Data = item.Data,
-                Favorite = item.Favorite > 0,
-                Remark = item.Remark
-            };
-
-            // 将字符串转换为枚举
-            model.SourceLang = EnumExtensions.GetEnumByDescription<LangEnum>((string)item.SourceLang) ?? LangEnum.auto;
-            model.TargetLang = EnumExtensions.GetEnumByDescription<LangEnum>((string)item.TargetLang) ?? LangEnum.auto;
-
-            historyModels.Add(model);
-        }
-
-        return historyModels;
+        return await connection.QueryAsync<HistoryModel>(query, new { PageSize = pageSize, Cursor = cursor });
     }
 
     #endregion Asynchronous method

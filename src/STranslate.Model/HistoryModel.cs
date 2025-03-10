@@ -15,17 +15,17 @@ public class HistoryModel
     /// <summary>
     ///     源语言
     /// </summary>
-    public LangEnum SourceLang { get; set; } = LangEnum.auto;
+    public string SourceLang { get; set; } = string.Empty;
 
     /// <summary>
     ///     目标语言
     /// </summary>
-    public LangEnum TargetLang { get; set; } = LangEnum.auto;
+    public string TargetLang { get; set; } = string.Empty;
 
     /// <summary>
     ///     需翻译内容
     /// </summary>
-    public string SourceText { get; set; } = "";
+    public string SourceText { get; set; } = string.Empty;
 
     /// <summary>
     ///     收藏
@@ -64,9 +64,9 @@ public class HistoryModel
             // Suitable nullity checks etc, of course :)
             hash = hash * 23 + Id.GetHashCode();
             hash = hash * 23 + Time.GetHashCode();
-            hash = hash * 23 + SourceLang.GetDescription().GetHashCode();
-            hash = hash * 23 + TargetLang.GetDescription().GetHashCode();
-            hash = hash * 23 + (SourceText != null ? SourceText.GetHashCode() : 0);
+            hash = hash * 23 + SourceLang.GetHashCode();
+            hash = hash * 23 + TargetLang.GetHashCode();
+            hash = hash * 23 + SourceText.GetHashCode();
             hash = hash * 23 + Favorite.GetHashCode();
             hash = hash * 23 + (Remark != null ? Remark.GetHashCode() : 0);
             hash = hash * 23 + (Data != null ? Data.GetHashCode() : 0);

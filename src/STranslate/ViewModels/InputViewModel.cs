@@ -561,8 +561,8 @@ public partial class InputViewModel : ObservableObject
             var data = new HistoryModel
             {
                 Time = DateTime.Now,
-                SourceLang = source,
-                TargetLang = dbTarget,
+                SourceLang = source.GetDescription(),
+                TargetLang = dbTarget.GetDescription(),
                 SourceText = content,
                 Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
             };

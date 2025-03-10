@@ -8,8 +8,8 @@ public class LangEnumDescriptionConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is not LangEnum @enum) return "UNKNOWN";
-        return GetDescription(@enum);
+        if (value is not string str) return "UNKNOWN";
+        return GetDescription(str);
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -17,8 +17,10 @@ public class LangEnumDescriptionConverter : IValueConverter
         return Binding.DoNothing;
     }
 
-    private string GetDescription(LangEnum @enum)
+    private string GetDescription(string str)
     {
+        var @enum = str.GetEnumByDescription<LangEnum>() ?? LangEnum.auto;
+
         var fieldName = @enum.ToString() ?? "";
 
         // 尝试从资源获取本地化描述

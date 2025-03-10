@@ -101,8 +101,8 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
         var data = new HistoryModel
         {
             Time = DateTime.Now,
-            SourceLang = source,
-            TargetLang = target,
+            SourceLang = source.GetDescription(),
+            TargetLang = target.GetDescription(),
             SourceText = content,
             Data = JsonConvert.SerializeObject(enableServices, jsonSerializerSettings)
         };
