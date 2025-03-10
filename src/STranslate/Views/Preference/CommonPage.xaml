@@ -129,6 +129,7 @@
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         BorderThickness="1"
                                         DisplayMemberPath="Description"
                                         ItemsSource="{Binding Source={common:Enumeration {x:Type model:GlobalFontSizeEnum}}}"
@@ -242,6 +243,7 @@
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         BorderThickness="1"
                                         DisplayMemberPath="Description"
                                         ItemsSource="{Binding Source={common:Enumeration {x:Type model:DoubleTapFuncEnum}}}"
@@ -257,13 +259,13 @@
                                         HorizontalAlignment="Right"
                                         BorderThickness="1"
                                         SelectedIndex="{Binding HistorySizeType}">
-                                        <ComboBoxItem Content="50 条" />
-                                        <ComboBoxItem Content="100 条" />
-                                        <ComboBoxItem Content="200 条" />
-                                        <ComboBoxItem Content="500 条" />
-                                        <ComboBoxItem Content="1000 条" />
-                                        <ComboBoxItem Content="无限制" />
-                                        <ComboBoxItem Content="不保存" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.50}" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.100}" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.200}" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.500}" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.1000}" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.Unlimited}" />
+                                        <ComboBoxItem Content="{DynamicResource Common.HistorySize.None}" />
                                     </ComboBox>
                                 </DockPanel>
 
@@ -562,6 +564,7 @@
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         BorderThickness="1"
                                         DisplayMemberPath="Description"
                                         ItemsSource="{Binding Source={common:Enumeration {x:Type model:LineBreakHandlingMode}}}"
@@ -575,6 +578,7 @@
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         BorderThickness="1"
                                         DisplayMemberPath="Description"
                                         ItemsSource="{Binding Source={common:Enumeration {x:Type model:LineBreakHandlingMode}}}"
@@ -617,16 +621,16 @@
                                         HorizontalAlignment="Right"
                                         BorderThickness="1"
                                         SelectedIndex="{Binding CopyResultAfterTranslateIndex}">
-                                        <ComboBoxItem Content="无操作" />
-                                        <ComboBoxItem Content="第一个" />
-                                        <ComboBoxItem Content="第二个" />
-                                        <ComboBoxItem Content="第三个" />
-                                        <ComboBoxItem Content="第四个" />
-                                        <ComboBoxItem Content="第五个" />
-                                        <ComboBoxItem Content="第六个" />
-                                        <ComboBoxItem Content="第七个" />
-                                        <ComboBoxItem Content="第八个" />
-                                        <ComboBoxItem Content="最后一个" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.NoAction}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.First}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Second}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Third}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Fourth}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Fifth}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Sixth}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Seventh}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Eighth}" />
+                                        <ComboBoxItem Content="{DynamicResource Function.CopyResultAfterTranslate.Last}" />
                                     </ComboBox>
                                 </DockPanel>
 
@@ -645,6 +649,7 @@
                                     <ComboBox
                                         Height="30"
                                         HorizontalAlignment="Right"
+                                        common:LangAwareSelector.IsLangAware="True"
                                         BorderThickness="1"
                                         DisplayMemberPath="Description"
                                         ItemsSource="{Binding Source={common:Enumeration {x:Type model:OcrImageQualityEnum}}}"

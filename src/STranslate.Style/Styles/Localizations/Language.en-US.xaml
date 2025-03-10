@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-    <!--  Constant  -->
+    <!--#region Constant-->
+
     <system:String x:Key="Constant.NeweastVersionInfo">Congratulations! You are using the latest version!</system:String>
     <system:String x:Key="Constant.Loading">Loading...</system:String>
     <system:String x:Key="Constant.Unloading">Loading completed...</system:String>
@@ -11,7 +12,10 @@
     <system:String x:Key="Constant.InputErrorContent">No cache found for this service, press Ctrl+Enter to update</system:String>
     <system:String x:Key="Constant.HistoryErrorContent">This service did not return correctly, press Ctrl+Enter to update</system:String>
 
-    <!--  Enum  -->
+    <!--#endregion-->
+
+    <!--#region  Enum-->
+
     <system:String x:Key="LangEnum.auto">Auto</system:String>
     <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
     <system:String x:Key="LangEnum.zh_tw">Traditional Chinese</system:String>
@@ -35,7 +39,33 @@
     <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">Remove Extra LineBreaks</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">Remove All LineBreaks</system:String>
 
-    <!--  Preferences  -->
+    <system:String x:Key="OcrImageQualityEnum.Low">Low</system:String>
+    <system:String x:Key="OcrImageQualityEnum.Medium">Medium</system:String>
+    <system:String x:Key="OcrImageQualityEnum.High">High</system:String>
+
+    <system:String x:Key="DoubleTapFuncEnum.InputFunc">InputFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ScreenFunc">ScreenFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.MouseHookFunc">MouseHookFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.OCRFunc">OCRFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ShowViewFunc">ShowViewFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.PreferenceFunc">PreferenceFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ForbidShortcutFunc">ForbidShortcutFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ExitFunc">ExitFunc</system:String>
+
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelySmall">ExtremelySmall(14px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraSmall">UltraSmall(15px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VerySmall">VerySmall(16px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Small">Small(17px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.General">General(18px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Big">Big(19px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VeryBig">VeryBig(20px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraBig">UltraBig(21px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelyBig">ExtremelyBig(22px)</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 首选项-->
+
     <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate Preferences</system:String>
     <system:String x:Key="Preference.WindowTitle">Preferences</system:String>
     <system:String x:Key="Preference.Navi.Common">General</system:String>
@@ -49,7 +79,11 @@
     <system:String x:Key="Preference.Reset">Reset</system:String>
     <system:String x:Key="Preference.Save">Save</system:String>
 
-    <!--  Settings  -->
+    <!--#endregion-->
+
+    <!--#region 设置相关-->
+
+    <!--#region Common 设置项-->
     <system:String x:Key="Common.Title">General Configuration</system:String>
     <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
     <system:String x:Key="Common.AppLanguage">Application Language</system:String>
@@ -67,13 +101,20 @@
     <system:String x:Key="Common.WordPickingInterval">Word Picking Interval</system:String>
     <system:String x:Key="Common.DoubleTapTrayFunc">Double-click Tray Function</system:String>
     <system:String x:Key="Common.HistorySize">History Size</system:String>
+    <system:String x:Key="Common.HistorySize.50">50 Items</system:String>
+    <system:String x:Key="Common.HistorySize.100">100 Items</system:String>
+    <system:String x:Key="Common.HistorySize.200">200 Items</system:String>
+    <system:String x:Key="Common.HistorySize.500">500 Items</system:String>
+    <system:String x:Key="Common.HistorySize.1000">1000 Items</system:String>
+    <system:String x:Key="Common.HistorySize.Unlimited">Unlimited</system:String>
+    <system:String x:Key="Common.HistorySize.None">Don't Save</system:String>
     <system:String x:Key="Common.SilentOcrLang">Silent OCR/Screenshot Translation Language</system:String>
     <system:String x:Key="Common.SourceLangIfAuto">Language to Use When Auto-detection</system:String>
     <system:String x:Key="Common.TargetLangIfSourceZh">Target Language When Source is Chinese</system:String>
     <system:String x:Key="Common.TargetLangIfSourceNotZh">Target Language When Source is Not Chinese</system:String>
     <system:String x:Key="Common.HttpTimeout">Request Timeout (seconds)</system:String>
 
-    <!--  Network Configuration  -->
+    <!--  网络配置  -->
     <system:String x:Key="Network.Title">Network Configuration</system:String>
     <system:String x:Key="Network.ExternalCall">External Service Call (Non-proxy)</system:String>
     <system:String x:Key="Network.ExternalCallPort">External Call Port</system:String>
@@ -83,8 +124,12 @@
     <system:String x:Key="Network.ProxyAuth">Proxy Authentication</system:String>
     <system:String x:Key="Network.Username">Username</system:String>
     <system:String x:Key="Network.Password">Password</system:String>
+    <system:String x:Key="Network.ServerPlaceholder">Please Input IPAddress</system:String>
+    <system:String x:Key="Network.PortPlaceholder">Please Input Port</system:String>
+    <system:String x:Key="Network.UsernamePlaceholder">Please Input Username</system:String>
+    <system:String x:Key="Network.PasswordPlaceholder">Please Input Password</system:String>
 
-    <!--  Function Configuration  -->
+    <!--  功能配置  -->
     <system:String x:Key="Function.Title">Function Configuration</system:String>
     <system:String x:Key="Function.AdjustContentTranslate">Translate Immediately After Content Adjustment</system:String>
     <system:String x:Key="Function.ChangedLang2Execute">Translate Immediately After Language Change</system:String>
@@ -97,10 +142,20 @@
     <system:String x:Key="Function.OcrChangedLang2Execute">Translate After OCR Service/Language Change</system:String>
     <system:String x:Key="Function.IncrementalTranslation">Incremental Translation</system:String>
     <system:String x:Key="Function.CopyResultAfterTranslate">Auto Copy After Translation</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.NoAction">No Action</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.First">First</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Second">Second</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Third">Third</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fourth">Fourth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fifth">Fifth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Sixth">Sixth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Seventh">Seventh</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Eighth">Eighth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Last">Last</system:String>
     <system:String x:Key="Function.HotkeyCopySuccessToast">Show Copy Success Toast for Hotkey</system:String>
     <system:String x:Key="Function.OcrImageQuality">OCR Image Quality</system:String>
 
-    <!--  Display Configuration  -->
+    <!--  显示配置  -->
     <system:String x:Key="Display.Title">Display Configuration</system:String>
     <system:String x:Key="Display.HideOnStart">Hide Main Window on Startup</system:String>
     <system:String x:Key="Display.DisableNoticeOnStart">Disable Notifications on Startup</system:String>
@@ -122,7 +177,7 @@
     <system:String x:Key="Display.ShowCopyOnHeader">Show Buttons on Translation Result Header</system:String>
     <system:String x:Key="Display.CaretLast">Move Cursor to End When Showing Main Window [Immediate Effect]</system:String>
 
-    <!--  Icon Configuration  -->
+    <!--  图标配置  -->
     <system:String x:Key="Icon.Title">Icon Configuration</system:String>
     <system:String x:Key="Icon.ShowSnakeCopyBtn">Show Snake Case Copy Button</system:String>
     <system:String x:Key="Icon.ShowSmallHumpCopyBtn">Show Camel Case Copy Button</system:String>
@@ -157,7 +212,7 @@
     <system:String x:Key="Icon.ShowCopyAllSourceWithResult">Show Copy All Source with Result Icon</system:String>
     <system:String x:Key="Icon.ShowCopyAllResultWithSource">Show Copy All Result with Source Icon</system:String>
 
-    <!--  Tooltips  -->
+    <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">Automatically start the software when the system boots (for current user)</system:String>
     <system:String x:Key="Tooltip.NeedAdminTip">To ensure global hotkeys respond in windows with administrator privileges</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">Switch application language version</system:String>
@@ -239,7 +294,10 @@
     <system:String x:Key="Tooltip.ShowQRCodeTip">Show QR code recognition icon in main interface</system:String>
     <system:String x:Key="Tooltip.ShowHistoryTip">Show history icon in main interface</system:String>
 
-    <!--  Hotkey Settings  -->
+    <!--#endregion-->
+
+    <!--#region Hotkey 设置项-->
+
     <system:String x:Key="Hotkey.Title">Hotkey Configuration</system:String>
     <system:String x:Key="Hotkey.GlobalHotkey">Global Hotkeys</system:String>
     <system:String x:Key="Hotkey.SoftHotkey">Software Hotkeys</system:String>
@@ -253,18 +311,20 @@
     <system:String x:Key="Hotkey.SilentOCR">Silent OCR</system:String>
     <system:String x:Key="Hotkey.ClipboardMonitor">Monitor Clipboard</system:String>
     <system:String x:Key="Hotkey.SilentTTS">Silent TTS</system:String>
-    <system:String x:Key="Hotkey.SaveConfig">Save Configuration</system:String>
-    <system:String x:Key="Hotkey.CancelModify">Cancel Modifications</system:String>
+    <system:String x:Key="Hotkey.SaveConfig">Save</system:String>
+    <system:String x:Key="Hotkey.CancelModify">Cancel</system:String>
     <system:String x:Key="Hotkey.HotkeyConflict">Hotkey Conflict</system:String>
     <system:String x:Key="Hotkey.ShortcutKey">Shortcut Key</system:String>
     <system:String x:Key="Hotkey.Function">Function</system:String>
 
-    <!--  Software Hotkeys  -->
+    <!--  软件热键  -->
     <system:String x:Key="Hotkey.SoftHotkey.ESC">Hide/Exit Interface (Also cancels any pending request: Translation, OCR, TTS)</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.OpenSettings">Open Settings</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.OpenHistory">Open History</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.ToggleAutoTranslate">Enable/Disable Auto Translation</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.ToggleIncrementalTranslation">Enable/Disable Incremental Translation</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleInputBox">Hide/Show Input Box</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetWindowPosition">Reset window to the center of the main monitor</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.ToggleTopmost">Toggle Topmost</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.SwitchTheme">Switch Theme (Auto/Light/Dark Theme Cycling)</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.SaveToVocabulary">Save to Vocabulary Book</system:String>
@@ -294,13 +354,16 @@
     <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithReturn">Ctrl + Click Line Break Icon</system:String>
     <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithTransBack">Ctrl + Click Back Translation Icon</system:String>
 
-    <!--  Service Settings  -->
+    <!--#endregion-->
+
+    <!--#region Service 设置项-->
+
     <system:String x:Key="Service.Navi.Translator">Text Translation</system:String>
     <system:String x:Key="Service.Navi.OCR">Text Recognition</system:String>
     <system:String x:Key="Service.Navi.TTS">Text-to-Speech</system:String>
     <system:String x:Key="Service.Navi.VocabularyBook">Vocabulary Book</system:String>
     <system:String x:Key="Service.Translator.Title">Services</system:String>
-    <system:String x:Key="Service.Translator.SubTitle">Core service support configuration for translation functionality. Services enabled below will be used.</system:String>
+    <system:String x:Key="Service.Translator.SubTitle">Core service support configuration for translation functionality.</system:String>
     <system:String x:Key="Service.Translator.Duplicate">Create Duplicate</system:String>
     <system:String x:Key="Service.Translator.Delete">Delete Duplicate</system:String>
     <system:String x:Key="Service.OCR.Title">Text Recognition</system:String>
@@ -310,7 +373,10 @@
     <system:String x:Key="Service.VocabularyBook.Title">Vocabulary Book</system:String>
     <system:String x:Key="Service.VocabularyBook.SubTitle">Store text in an online vocabulary book</system:String>
 
-    <!--  Replace Translation Settings  -->
+    <!--#endregion-->
+
+    <!--#region Replace 设置项-->
+
     <system:String x:Key="Replace.Translator">Replace Translation Service</system:String>
     <system:String x:Key="Replace.Translator.Tooltip">Select replace translation service</system:String>
     <system:String x:Key="Replace.Source">Source Language</system:String>
@@ -328,14 +394,20 @@
     <system:String x:Key="Replace.TargetLangIfSourceNotZh">Target Language When Source is Not Chinese</system:String>
     <system:String x:Key="Replace.TargetLangIfSourceNotZh.Tooltip">Language to use if target is auto and source is not Chinese&#13;Only triggered when online detection service returns an error</system:String>
 
-    <!--  History Settings  -->
+    <!--#endregion-->
+
+    <!--#region History 设置项-->
+
     <system:String x:Key="History.Search">Enter search content</system:String>
-    <system:String x:Key="History.Refresh">Refresh Records</system:String>
-    <system:String x:Key="History.Delete">Delete Records</system:String>
+    <system:String x:Key="History.Refresh">Refresh</system:String>
+    <system:String x:Key="History.Delete">Delete</system:String>
     <system:String x:Key="History.Gong">Total</system:String>
     <system:String x:Key="History.Xiang">items</system:String>
 
-    <!--  Backup Settings  -->
+    <!--#endregion-->
+
+    <!--#region Backup 设置项-->
+
     <system:String x:Key="Backup.BackupType">Backup Method</system:String>
     <system:String x:Key="Backup.BackupType.Tooltip">Please select backup method</system:String>
     <system:String x:Key="Backup.Address">Address</system:String>
@@ -347,10 +419,13 @@
     <system:String x:Key="Backup.Password">Password</system:String>
     <system:String x:Key="Backup.Password.Tooltip">WebDav server password</system:String>
     <system:String x:Key="Backup.Password.Placeholder">Please enter password</system:String>
-    <system:String x:Key="Backup.Export">Export Configuration</system:String>
-    <system:String x:Key="Backup.Import">Import Configuration</system:String>
+    <system:String x:Key="Backup.Export">Export</system:String>
+    <system:String x:Key="Backup.Import">Import</system:String>
 
-    <!--  About Settings  -->
+    <!--#endregion-->
+
+    <!--#region About 设置项-->
+
     <system:String x:Key="About.Version">Version</system:String>
     <system:String x:Key="About.CheckUpdate">Update</system:String>
     <system:String x:Key="About.CancelCheck">Cancel</system:String>
@@ -365,4 +440,9 @@
     <system:String x:Key="About.SourceCode">Source</system:String>
     <system:String x:Key="About.Feedback">Feedback</system:String>
     <system:String x:Key="About.Thanks">Thanks</system:String>
+
+    <!--#endregion-->
+
+    <!--#endregion-->
+
 </ResourceDictionary>

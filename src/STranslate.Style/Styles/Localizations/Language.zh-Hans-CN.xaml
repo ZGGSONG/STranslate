@@ -4,15 +4,18 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <!--#region Constant-->
+
     <system:String x:Key="Constant.NeweastVersionInfo">恭喜您, 当前为最新版本!</system:String>
     <system:String x:Key="Constant.Loading">加载中...</system:String>
     <system:String x:Key="Constant.Unloading">加载结束...</system:String>
     <system:String x:Key="Constant.PlaceHolderContent">Enter 翻译/缓存/nCtrl+Enter 强制翻译/nShift+Enter 换行</system:String>
     <system:String x:Key="Constant.InputErrorContent">该服务未获取到缓存Ctrl+Enter更新</system:String>
     <system:String x:Key="Constant.HistoryErrorContent">该服务翻译时未正确返回Ctrl+Enter以更新</system:String>
+
     <!--#endregion-->
 
     <!--#region  Enum-->
+
     <system:String x:Key="LangEnum.auto">自动识别</system:String>
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
     <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
@@ -35,9 +38,34 @@
     <system:String x:Key="LineBreakHandlingMode.None">不处理换行</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多余换行</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有换行</system:String>
+
+    <system:String x:Key="OcrImageQualityEnum.Low">低质量</system:String>
+    <system:String x:Key="OcrImageQualityEnum.Medium">中等质量</system:String>
+    <system:String x:Key="OcrImageQualityEnum.High">高质量</system:String>
+
+    <system:String x:Key="DoubleTapFuncEnum.InputFunc">输入翻译</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ScreenFunc">截图翻译</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.MouseHookFunc">鼠标划词</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.OCRFunc">文字识别</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ShowViewFunc">显示界面</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.PreferenceFunc">偏好设置</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ForbidShortcutFunc">禁用热键</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ExitFunc">退出程序</system:String>
+
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelySmall">特小(14px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraSmall">超小(15px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VerySmall">很小(16px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Small">小(17px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.General">标准(18px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Big">大(19px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VeryBig">很大(20px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraBig">超大(21px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelyBig">特大(22px)</system:String>
+
     <!--#endregion-->
 
     <!--#region 首选项-->
+
     <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate 首选项</system:String>
     <system:String x:Key="Preference.WindowTitle">首选项</system:String>
     <system:String x:Key="Preference.Navi.Common">常规设置</system:String>
@@ -73,6 +101,13 @@
     <system:String x:Key="Common.WordPickingInterval">取词时间间隔</system:String>
     <system:String x:Key="Common.DoubleTapTrayFunc">双击托盘功能</system:String>
     <system:String x:Key="Common.HistorySize">历史记录数量</system:String>
+    <system:String x:Key="Common.HistorySize.50">50 条</system:String>
+    <system:String x:Key="Common.HistorySize.100">100 条</system:String>
+    <system:String x:Key="Common.HistorySize.200">200 条</system:String>
+    <system:String x:Key="Common.HistorySize.500">500 条</system:String>
+    <system:String x:Key="Common.HistorySize.1000">1000 条</system:String>
+    <system:String x:Key="Common.HistorySize.Unlimited">无限制</system:String>
+    <system:String x:Key="Common.HistorySize.None">不保存</system:String>
     <system:String x:Key="Common.SilentOcrLang">静默OCR/截图翻译语种</system:String>
     <system:String x:Key="Common.SourceLangIfAuto">语种识别为自动时使用</system:String>
     <system:String x:Key="Common.TargetLangIfSourceZh">目标语种为自动且原始语种为中文时使用</system:String>
@@ -89,6 +124,10 @@
     <system:String x:Key="Network.ProxyAuth">代理服务器验证</system:String>
     <system:String x:Key="Network.Username">用户名</system:String>
     <system:String x:Key="Network.Password">密码</system:String>
+    <system:String x:Key="Network.ServerPlaceholder">请输入IP地址</system:String>
+    <system:String x:Key="Network.PortPlaceholder">请输入端口号</system:String>
+    <system:String x:Key="Network.UsernamePlaceholder">请输入用户名</system:String>
+    <system:String x:Key="Network.PasswordPlaceholder">请输入密码</system:String>
 
     <!--  功能配置  -->
     <system:String x:Key="Function.Title">功能配置</system:String>
@@ -103,6 +142,16 @@
     <system:String x:Key="Function.OcrChangedLang2Execute">OCR修改服务或语种后立即翻译</system:String>
     <system:String x:Key="Function.IncrementalTranslation">增量翻译</system:String>
     <system:String x:Key="Function.CopyResultAfterTranslate">翻译后自动复制</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.NoAction">无操作</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.First">第一个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Second">第二个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Third">第三个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fourth">第四个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fifth">第五个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Sixth">第六个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Seventh">第七个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Eighth">第八个</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Last">最后一个</system:String>
     <system:String x:Key="Function.HotkeyCopySuccessToast">热键触发复制成功提示</system:String>
     <system:String x:Key="Function.OcrImageQuality">文字识别图片质量</system:String>
 
@@ -192,8 +241,6 @@
     <system:String x:Key="Tooltip.ProxyAuthTip">代理服务器需要身份验证</system:String>
     <system:String x:Key="Tooltip.UsernameTip">代理服务器用户名</system:String>
     <system:String x:Key="Tooltip.PasswordTip">代理服务器密码</system:String>
-
-    <!--  添加缺失的工具提示  -->
     <system:String x:Key="Tooltip.AdjustContentTranslateTip">主界面调整内容后是否立即翻译</system:String>
     <system:String x:Key="Tooltip.ChangedLang2ExecuteTip">主界面修改选择语言后立即翻译</system:String>
     <system:String x:Key="Tooltip.UsePasteOutputTip">替换翻译输出结果不完整时，可尝试启用此配置替代模拟键盘输出</system:String>
@@ -226,7 +273,6 @@
     <system:String x:Key="Tooltip.KeepTopmostAfterMousehookTip">关闭鼠标划词功能后保持窗口置顶</system:String>
     <system:String x:Key="Tooltip.ShowCopyOnHeaderTip">翻译结果收缩框收缩时上方是否显示TTS、复制按钮</system:String>
     <system:String x:Key="Tooltip.CaretLastTip">激活窗口时光标移动至末尾</system:String>
-
     <system:String x:Key="Tooltip.ShowSnakeCopyBtnTip">主界面输出UI是否显示复制蛇形结果按钮</system:String>
     <system:String x:Key="Tooltip.ShowSmallHumpCopyBtnTip">主界面输出UI是否显示复制小驼峰结果按钮</system:String>
     <system:String x:Key="Tooltip.ShowLargeHumpCopyBtnTip">主界面输出UI是否显示复制大驼峰结果按钮</system:String>
