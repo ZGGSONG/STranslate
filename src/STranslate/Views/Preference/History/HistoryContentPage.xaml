@@ -89,7 +89,7 @@
                         <TextBlock
                             Margin="5"
                             FontSize="{DynamicResource FontSize14}"
-                            Text="{Binding SourceLang}" />
+                            Text="{Binding SourceLang, Converter={StaticResource LangEnumDescriptionConverter}}" />
                     </Border>
                     <TextBlock Margin="10,0" Text="&gt;&gt;" />
                     <Border
@@ -99,7 +99,7 @@
                         <TextBlock
                             Margin="5"
                             FontSize="{DynamicResource FontSize14}"
-                            Text="{Binding TargetLang}" />
+                            Text="{Binding TargetLang, Converter={StaticResource LangEnumDescriptionConverter}}" />
                     </Border>
                 </StackPanel>
                 <ListBox

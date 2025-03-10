@@ -5,7 +5,7 @@ namespace STranslate.Model;
 [Table("History")]
 public class HistoryModel
 {
-    [Key] public int Id { get; set; }
+    [Key] public long Id { get; set; }
 
     /// <summary>
     ///     记录时间
@@ -15,12 +15,12 @@ public class HistoryModel
     /// <summary>
     ///     源语言
     /// </summary>
-    public string SourceLang { get; set; } = "";
+    public LangEnum SourceLang { get; set; } = LangEnum.auto;
 
     /// <summary>
     ///     目标语言
     /// </summary>
-    public string TargetLang { get; set; } = "";
+    public LangEnum TargetLang { get; set; } = LangEnum.auto;
 
     /// <summary>
     ///     需翻译内容
@@ -64,8 +64,8 @@ public class HistoryModel
             // Suitable nullity checks etc, of course :)
             hash = hash * 23 + Id.GetHashCode();
             hash = hash * 23 + Time.GetHashCode();
-            hash = hash * 23 + (SourceLang != null ? SourceLang.GetHashCode() : 0);
-            hash = hash * 23 + (TargetLang != null ? TargetLang.GetHashCode() : 0);
+            hash = hash * 23 + SourceLang.GetDescription().GetHashCode();
+            hash = hash * 23 + TargetLang.GetDescription().GetHashCode();
             hash = hash * 23 + (SourceText != null ? SourceText.GetHashCode() : 0);
             hash = hash * 23 + Favorite.GetHashCode();
             hash = hash * 23 + (Remark != null ? Remark.GetHashCode() : 0);

@@ -9,11 +9,27 @@ public class LangEnumDescriptionConverter : IValueConverter
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not LangEnum @enum) return "UNKNOWN";
-        return @enum.GetDescription();
+        return GetDescription(@enum);
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return Binding.DoNothing;
+    }
+
+    private string GetDescription(LangEnum @enum)
+    {
+        var fieldName = @enum.ToString() ?? "";
+
+        // 尝试从资源获取本地化描述
+        var fullPath = $"{@enum.GetType().Name}.{fieldName}";
+        var localizedDesc = AppLanguageManager.GetString(fullPath);
+
+        // 如果找到本地化描述，则使用它
+        if (localizedDesc != fullPath)
+            return localizedDesc;
+
+        // 否则使用Description特性或枚举值名称
+        return @enum.GetDescription();
     }
 }

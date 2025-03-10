@@ -1447,6 +1447,21 @@ public static class EnumExtensions
         return customAttribute == null ? val.ToString() : ((DescriptionAttribute)customAttribute).Description;
     }
 
+    public static T? GetEnumByDescription<T>(this string description) where T : struct, Enum
+    {
+        foreach (var field in typeof(T).GetFields())
+        {
+            if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+            {
+                if (attribute.Description == description)
+                {
+                    return (T)field.GetValue(null)!;
+                }
+            }
+        }
+        return null;
+    }
+
     /// <summary>
     ///     https://blog.csdn.net/lzdidiv/article/details/71170528
     /// </summary>

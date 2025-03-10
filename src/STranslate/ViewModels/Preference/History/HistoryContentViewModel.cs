@@ -15,9 +15,9 @@ public partial class HistoryContentViewModel : ObservableObject
 
     [ObservableProperty] private List<Tuple<string, IconType, TranslationResult>>? _outputContents;
 
-    [ObservableProperty] private string _sourceLang = "";
+    [ObservableProperty] private LangEnum _sourceLang = LangEnum.auto;
 
-    [ObservableProperty] private string _targetLang = "";
+    [ObservableProperty] private LangEnum _targetLang = LangEnum.auto;
 
     [ObservableProperty] private DateTime _time;
 
