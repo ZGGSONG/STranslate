@@ -3,8 +3,6 @@ using System.IO;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -45,7 +43,7 @@ public partial class AboutViewModel : ObservableObject
     [RelayCommand]
     private void CleanLog()
     {
-        if (MessageBox_S.Show("确定要清理所有日志吗?", "警告", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        if (MessageBox_S.Show(AppLanguageManager.GetString("About.ConfirmClearAllLog"), AppLanguageManager.GetString("About.Warning"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             return;
 
         LogService.UnRegister();
@@ -58,7 +56,7 @@ public partial class AboutViewModel : ObservableObject
             }
             catch (Exception e)
             {
-                LogService.Logger.Error($"Delete Log File Failed: {file.Name}", e);
+                LogService.Logger.Error($"删除日志失败: {file.Name}", e);
             }
         }
 
@@ -66,7 +64,7 @@ public partial class AboutViewModel : ObservableObject
 
         LogService.Register();
 
-        ToastHelper.Show("清理成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ClearSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -115,7 +113,7 @@ public partial class AboutViewModel : ObservableObject
             }
             else
             {
-                throw new Exception("升级程序似乎遭到破坏，请手动前往发布页查看新版本");
+                throw new Exception(AppLanguageManager.GetString("About.NoUpdateExe"));
             }
         }
         catch (Exception ex)
@@ -128,7 +126,7 @@ public partial class AboutViewModel : ObservableObject
                 var remoteVer = result?.Version ?? Constant.AppVersion;
                 var desc = result?.Body ?? "";
 
-                var newVersionInfo = $"# 检测到最新版本: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
+                var newVersionInfo = $"# {AppLanguageManager.GetString("About.GetNewer")}: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
                 if (canUpdate)
                     MessageBox_S_MD.Show(newVersionInfo);
                 else
@@ -139,7 +137,7 @@ public partial class AboutViewModel : ObservableObject
             }
             catch (Exception e)
             {
-                MessageBox_S.Show("检查更新出错, 请检查网络情况");
+                MessageBox_S.Show(AppLanguageManager.GetString("About.UpdateFailed"));
                 LogService.Logger.Warn($"检查更新出错, 请检查网络情况, {e.Message}");
             }
             finally

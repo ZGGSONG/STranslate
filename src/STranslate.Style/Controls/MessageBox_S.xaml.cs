@@ -51,21 +51,21 @@ public partial class MessageBox_S : Window
         switch (CurrentButton)
         {
             case MessageBoxButton.OK:
-                OkBTN.Content = "确认";
+                OkBTN.Content = AppLanguageManager.GetString("Confirm");
                 CancelBTN.Visibility = Visibility.Collapsed;
                 OkBTN.Click += OkBTN_Click;
                 break;
 
             case MessageBoxButton.OKCancel:
-                OkBTN.Content = "确认";
-                CancelBTN.Content = "取消";
+                OkBTN.Content = AppLanguageManager.GetString("Confirm");
+                CancelBTN.Content = AppLanguageManager.GetString("Cancel");
                 OkBTN.Click += OkBTN_Click;
                 CancelBTN.Click += CancelBTN_Click;
                 break;
 
             case MessageBoxButton.YesNo:
-                OkBTN.Content = "是";
-                CancelBTN.Content = "否";
+                OkBTN.Content = AppLanguageManager.GetString("Yes");
+                CancelBTN.Content = AppLanguageManager.GetString("No");
                 OkBTN.Click += OkBTN_Click;
                 CancelBTN.Click += CancelBTN_Click;
                 break;

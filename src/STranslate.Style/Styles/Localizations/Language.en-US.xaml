@@ -14,6 +14,15 @@
 
     <!--#endregion-->
 
+    <!--#region 其他-->
+
+    <system:String x:Key="Confirm">Confirm</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="Yes">Yes</system:String>
+    <system:String x:Key="No">No</system:String>
+
+    <!--#endregion-->
+
     <!--#region  Enum-->
 
     <system:String x:Key="LangEnum.auto">Auto</system:String>
@@ -79,8 +88,9 @@
     <system:String x:Key="Toast.Speak">Speak</system:String>
     <system:String x:Key="Toast.Result">Result</system:String>
     <system:String x:Key="Toast.DeleteSuccess">Delete Success</system:String>
-    <system:String x:Key="Toast.CopySuccess">Copy Sucess</system:String>
-    <system:String x:Key="Toast.CopySnakeSuccess">Copy Snake Sucess</system:String>
+    <system:String x:Key="Toast.CopySuccess">Copy Success</system:String>
+    <system:String x:Key="Toast.ClearSuccess">Clear Success</system:String>
+    <system:String x:Key="Toast.CopySnakeSuccess">Copy Snake</system:String>
     <system:String x:Key="Toast.CopySmallHumpSuccess">Copy SmallHump</system:String>
     <system:String x:Key="Toast.CopyLargeHumpSuccess">Copy LargeHump</system:String>
     <system:String x:Key="Toast.SpeakInputContent">SpeakInputContent</system:String>
@@ -473,6 +483,11 @@
     <system:String x:Key="About.SourceCode">Source</system:String>
     <system:String x:Key="About.Feedback">Feedback</system:String>
     <system:String x:Key="About.Thanks">Thanks</system:String>
+    <system:String x:Key="About.ConfirmClearAllLog">Confirm Clear All Log?</system:String>
+    <system:String x:Key="About.Warning">Warning</system:String>
+    <system:String x:Key="About.NoUpdateExe">The upgrade seems to be broken, please manually go to the release page to see the new version</system:String>
+    <system:String x:Key="About.GetNewer">The latest version was detected</system:String>
+    <system:String x:Key="About.UpdateFailed">Check for an error with the update, please check the network conditions</system:String>
 
     <!--#endregion-->
 

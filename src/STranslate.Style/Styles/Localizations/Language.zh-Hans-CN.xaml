@@ -14,6 +14,15 @@
 
     <!--#endregion-->
 
+    <!--#region 其他-->
+
+    <system:String x:Key="Confirm">确认</system:String>
+    <system:String x:Key="Cancel">取消</system:String>
+    <system:String x:Key="Yes">是</system:String>
+    <system:String x:Key="No">否</system:String>
+
+    <!--#endregion-->
+
     <!--#region  Enum-->
 
     <system:String x:Key="LangEnum.auto">自动识别</system:String>
@@ -80,6 +89,7 @@
     <system:String x:Key="Toast.Result">结果</system:String>
     <system:String x:Key="Toast.DeleteSuccess">删除成功</system:String>
     <system:String x:Key="Toast.CopySuccess">复制成功</system:String>
+    <system:String x:Key="Toast.ClearSuccess">清理成功</system:String>
     <system:String x:Key="Toast.CopySnakeSuccess">蛇形复制成功</system:String>
     <system:String x:Key="Toast.CopySmallHumpSuccess">小驼峰复制成功</system:String>
     <system:String x:Key="Toast.CopyLargeHumpSuccess">大驼峰复制成功</system:String>
@@ -473,6 +483,11 @@
     <system:String x:Key="About.SourceCode">源码</system:String>
     <system:String x:Key="About.Feedback">反馈</system:String>
     <system:String x:Key="About.Thanks">感谢</system:String>
+    <system:String x:Key="About.ConfirmClearAllLog">确定要清理所有日志吗?</system:String>
+    <system:String x:Key="About.Warning">警告</system:String>
+    <system:String x:Key="About.NoUpdateExe">升级程序似乎遭到破坏，请手动前往发布页查看新版本</system:String>
+    <system:String x:Key="About.GetNewer">检测到最新版本</system:String>
+    <system:String x:Key="About.UpdateFailed">检查更新出错, 请检查网络情况</system:String>
 
     <!--#endregion-->
 

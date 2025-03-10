@@ -83,14 +83,14 @@
                 Height="30"
                 MinWidth="60"
                 Margin="20,0,0,0"
-                Content="确认"
+                Content="{DynamicResource Confirm}"
                 IsDefault="True" />
             <Button
                 x:Name="CancelBTN"
                 Height="30"
                 MinWidth="60"
                 Margin="10,0,20,0"
-                Content="取消"
+                Content="{DynamicResource Cancel}"
                 IsCancel="True" />
             <!--  Content="{DynamicResource CancelStr}"  -->
         </StackPanel>
