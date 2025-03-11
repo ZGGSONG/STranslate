@@ -117,7 +117,7 @@
                         props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                         FontSize="{DynamicResource FontSize20}"
                         FontWeight="Bold"
-                        Text="选择服务" />
+                        Text="{DynamicResource TranslatorSelector.Title}" />
                 </StackPanel>
 
                 <!--  // Button //  -->
@@ -157,8 +157,8 @@
                     props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                     FontSize="{DynamicResource FontSize16}"
                     FontWeight="Bold"
-                    Text="自建服务"
-                    ToolTip="需要手动配置服务器，并填入API(Token等验证信息)" />
+                    Text="{DynamicResource TranslatorSelector.SelfBuild}"
+                    ToolTip="{DynamicResource TranslatorSelector.SelfBuild.Tooltip}" />
                 <!--  自建翻译服务  -->
                 <ItemsControl
                     Background="Transparent"
@@ -182,8 +182,8 @@
                     props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                     FontSize="{DynamicResource FontSize16}"
                     FontWeight="Bold"
-                    Text="内置服务"
-                    ToolTip="添加后可直接使用" />
+                    Text="{DynamicResource TranslatorSelector.BuiltIn}"
+                    ToolTip="{DynamicResource TranslatorSelector.BuiltIn.Tooltip}" />
                 <!--  本地翻译服务  -->
                 <ItemsControl
                     Background="Transparent"
@@ -207,8 +207,8 @@
                     props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                     FontSize="{DynamicResource FontSize16}"
                     FontWeight="Bold"
-                    Text="官方服务"
-                    ToolTip="对应官网申请API Key后填入使用" />
+                    Text="{DynamicResource TranslatorSelector.Official}"
+                    ToolTip="{DynamicResource TranslatorSelector.Official.Tooltip}" />
                 <!--  官方翻译服务  -->
                 <ItemsControl
                     Background="Transparent"

@@ -213,7 +213,7 @@
             FontSize="{DynamicResource FontSize21}"
             Style="{DynamicResource ButtonStickyIconStyle}"
             Tag="{Binding IsTopMost}"
-            ToolTip="置顶" />
+            ToolTip="{DynamicResource Topmost}" />
         <StackPanel
             Margin="0,0,10,0"
             FlowDirection="RightToLeft"
@@ -228,7 +228,7 @@
                 FontSize="{DynamicResource FontSize21}"
                 FontWeight="Bold"
                 Style="{DynamicResource ButtonCloseStyle}"
-                ToolTip="关闭窗口"
+                ToolTip="{DynamicResource WindowClose}"
                 Visibility="{Binding IsShowClose, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 Width="28"
@@ -240,14 +240,14 @@
                 FontSize="{DynamicResource FontSize21}"
                 FontWeight="Bold"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="最小化窗口"
+                ToolTip="{DynamicResource WindowMinimized}"
                 Visibility="{Binding ShowMinimalBtn, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 HorizontalAlignment="Right"
                 Command="{Binding NotifyIconVM.OpenPreferenceCommand}"
                 Content="&#xe656;"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="偏好设置"
+                ToolTip="{DynamicResource Preference}"
                 Visibility="{Binding IsShowPreference, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <ToggleButton
                 x:Name="BTN_Service"
@@ -255,7 +255,7 @@
                 Content="&#xe726;"
                 FontSize="{DynamicResource FontSize19}"
                 Style="{DynamicResource ToggleButtonIconStyle}"
-                ToolTip="配置服务"
+                ToolTip="{DynamicResource ConfigureService}"
                 Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Popup
                 MinWidth="80"
@@ -310,7 +310,7 @@
                 HorizontalAlignment="Right"
                 Content="&#xe62f;"
                 Style="{DynamicResource ToggleButtonIconStyle}"
-                ToolTip="静默OCR/截图翻译语种"
+                ToolTip="{DynamicResource SilentOCRLang}"
                 Visibility="{Binding ShowMainOcrLang, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Popup
                 MinWidth="80"
@@ -392,7 +392,7 @@
                 Content="&#xeb94;"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding IsEnableMosehook}"
-                ToolTip="监听鼠标划词"
+                ToolTip="{DynamicResource MouseHook}"
                 Visibility="{Binding IsShowMousehook, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 Width="30"
@@ -404,7 +404,7 @@
                 FontSize="{DynamicResource FontSize19}"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding IsAutoTranslate}"
-                ToolTip="自动翻译"
+                ToolTip="{DynamicResource AutoTranslate}"
                 Visibility="{Binding IsShowAutoTranslate, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 Width="30"
@@ -415,7 +415,7 @@
                 Content="&#xeb78;"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding IsEnableIncrementalTranslation}"
-                ToolTip="增量翻译"
+                ToolTip="{DynamicResource IncrementalTranslation}"
                 Visibility="{Binding IsShowIncrementalTranslation, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 Width="30"
@@ -427,7 +427,7 @@
                 FontSize="{DynamicResource FontSize21}"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding IsEnableOnlyShowRet}"
-                ToolTip="仅显示输出界面&#13;Alt+鼠标点击控制语言界面"
+                ToolTip="{DynamicResource OnlyShowOutput}"
                 Visibility="{Binding IsShowOnlyShowRet, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 HorizontalAlignment="Right"
@@ -435,7 +435,7 @@
                 CommandParameter="header"
                 Content="&#xe679;"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="截图翻译"
+                ToolTip="{DynamicResource ScreenshotTranslate}"
                 Visibility="{Binding IsShowScreenshot, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 HorizontalAlignment="Right"
@@ -443,7 +443,7 @@
                 CommandParameter="header"
                 Content="&#xe861;"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="静默OCR"
+                ToolTip="{DynamicResource SilentOCR}"
                 Visibility="{Binding IsShowSilentOCR, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 HorizontalAlignment="Right"
@@ -451,7 +451,7 @@
                 CommandParameter="header"
                 Content="&#xe695;"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="OCR"
+                ToolTip="{DynamicResource OCR}"
                 Visibility="{Binding IsShowOCR, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 Width="30"
@@ -463,7 +463,7 @@
                 FontWeight="Bold"
                 Style="{DynamicResource ButtonCrosswordsIconStyle}"
                 Tag="{Binding NotifyIconVM.IsEnabledClipboardMonitor}"
-                ToolTip="监听剪贴板"
+                ToolTip="{DynamicResource ClipboardMonitor}"
                 Visibility="{Binding IsShowClipboardMonitor, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 HorizontalAlignment="Right"
@@ -471,7 +471,7 @@
                 CommandParameter="header"
                 Content="&#xe642;"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="识别二维码"
+                ToolTip="{DynamicResource QRCode}"
                 Visibility="{Binding IsShowQRCode, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 HorizontalAlignment="Right"
@@ -480,12 +480,12 @@
                 Content="&#xe63f;"
                 FontSize="{DynamicResource FontSize20}"
                 Style="{DynamicResource ButtonIconStyle}"
-                ToolTip="历史记录"
+                ToolTip="{DynamicResource History}"
                 Visibility="{Binding IsShowHistory, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <TextBlock
                 props:ThemeProps.Foreground="Red"
                 FontWeight="Bold"
-                Text="[开发版]"
+                Text="{DynamicResource DevelopmentVersion}"
                 Visibility="{Binding IsDebug, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>

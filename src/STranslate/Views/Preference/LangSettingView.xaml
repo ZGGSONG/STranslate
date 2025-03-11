@@ -42,7 +42,7 @@
                 <TextBlock
                     Margin="10"
                     VerticalAlignment="Center"
-                    Text="语言设置" />
+                    Text="{DynamicResource LangSetting.Title}" />
             </Grid>
             <!--#endregion-->
 
@@ -86,23 +86,23 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <Button Command="{Binding SelectCommand}" Content="全不选" />
+                    <Button Command="{Binding SelectCommand}" Content="{DynamicResource LangSetting.UnSelectAll}" />
                     <Button
                         Command="{Binding SelectCommand}"
                         CommandParameter="1"
-                        Content="全选" />
+                        Content="{DynamicResource LangSetting.SelectAll}" />
                 </StackPanel>
 
                 <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal">
                     <Button
                         Command="{Binding SaveCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                        Content="保存" />
+                        Content="{DynamicResource Preference.Save}" />
 
                     <Button
                         Command="{Binding CancelCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                        Content="取消" />
+                        Content="{DynamicResource Cancel}" />
                 </StackPanel>
             </DockPanel>
             <!--#endregion-->

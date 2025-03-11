@@ -57,7 +57,7 @@
                         props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                         FontSize="{DynamicResource FontSize20}"
                         FontWeight="Bold"
-                        Text="选择配置" />
+                        Text="{DynamicResource webDav.Title}" />
                 </StackPanel>
 
                 <!--  // Button //  -->
@@ -196,7 +196,7 @@
                 VerticalAlignment="Center"
                 FontSize="{DynamicResource FontSize20}"
                 FontWeight="Bold"
-                Text="当前路径下尚未找到备份内容..." />
+                Text="{DynamicResource webDav.NoContent}" />
         </Border>
     </Grid>
 </Window>

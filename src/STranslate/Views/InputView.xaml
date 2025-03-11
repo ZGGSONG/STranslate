@@ -50,24 +50,24 @@
                         <MenuItem
                             Command="{Binding TbSelectAllCommand}"
                             CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
-                            Header="全选"
+                            Header="{DynamicResource Input.SelectAll}"
                             Icon="&#xe658;" />
                         <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
                         <MenuItem
                             Command="{Binding TbCopyCommand}"
                             CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
-                            Header="复制"
+                            Header="{DynamicResource Input.Copy}"
                             Icon="&#xe692;" />
                         <MenuItem
                             Command="{Binding TbPasteCommand}"
                             CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
-                            Header="粘贴"
+                            Header="{DynamicResource Input.Paste}"
                             Icon="&#xe652;" />
                         <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
                         <MenuItem
                             Command="{Binding TbClearCommand}"
                             CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
-                            Header="清空"
+                            Header="{DynamicResource Input.Clear}"
                             Icon="&#xe6cb;" />
                     </ContextMenu>
                 </common:PlaceholderTextBox.ContextMenu>
@@ -92,7 +92,7 @@
                     FontSize="{DynamicResource FontSize17}"
                     FontWeight="Bold"
                     Style="{DynamicResource ButtonCopyIconStyle}"
-                    ToolTip="保存至生词本"
+                    ToolTip="{DynamicResource Input.SaveToVocabulary}"
                     Visibility="{Binding VocabularyBookVm.ActiveVocabularyBook, Converter={StaticResource VisibilityConverter}}" />
                 <!--  TTS  -->
                 <Button
@@ -108,13 +108,13 @@
                     Content="&#xe692;"
                     Cursor="Hand"
                     Style="{DynamicResource ButtonCopyIconStyle}"
-                    ToolTip="复制输入内容" />
+                    ToolTip="{DynamicResource Input.CopyInputContent}" />
                 <Button
                     Content="&#xe6b2;"
                     Cursor="Hand"
                     FontWeight="Bold"
                     Style="{DynamicResource ButtonCopyIconStyle}"
-                    ToolTip="移除换行&#13;Ctrl+点击切换处理换行模式">
+                    ToolTip="{DynamicResource Input.RemoveLineBreak}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}" CommandParameter="{Binding ElementName=InputTB}" />
@@ -129,7 +129,7 @@
                     FontSize="{DynamicResource FontSize20}"
                     FontWeight="Bold"
                     Style="{DynamicResource ButtonCopyIconStyle}"
-                    ToolTip="移除空格" />
+                    ToolTip="{DynamicResource Input.RemoveSpaces}" />
                 <Border Style="{DynamicResource LanguageMarkBorderStyle}" Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
                     <StackPanel Margin="5,0" Orientation="Horizontal">
                         <!--<TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />-->
@@ -139,7 +139,7 @@
                             VerticalAlignment="Center"
                             props:ThemeProps.Background="Transparent"
                             props:ThemeProps.Foreground="{DynamicResource TextBlockLangForeground}"
-                            Content="识别为 "
+                            Content="{DynamicResource Input.DetectedAs}"
                             Cursor="Hand"
                             FontFamily="{DynamicResource UserFont}"
                             FontSize="{DynamicResource FontSize14}"

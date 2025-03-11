@@ -18,7 +18,7 @@ public partial class LangSettingViewModel : ObservableObject
             ? Enumerable.Repeat(true, langArray.Length).ToArray()
             : lang.Select(c => c == '1').ToArray();
         for (var i = 0; i < langArray.Length; i++)
-            LangSettings.Add(new LangSetting(langArray[i].GetDescription(), langEnabledArray[i]));
+            LangSettings.Add(new LangSetting(GetDescription(langArray[i]), langEnabledArray[i]));
     }
 
     [RelayCommand]
@@ -44,5 +44,21 @@ public partial class LangSettingViewModel : ObservableObject
         {
             item.IsEnabled = !string.IsNullOrEmpty(content);
         }
+    }
+
+    private string GetDescription(LangEnum @enum)
+    {
+        var fieldName = @enum.ToString() ?? "";
+
+        // 尝试从资源获取本地化描述
+        var fullPath = $"{@enum.GetType().Name}.{fieldName}";
+        var localizedDesc = AppLanguageManager.GetString(fullPath);
+
+        // 如果找到本地化描述，则使用它
+        if (localizedDesc != fullPath)
+            return localizedDesc;
+
+        // 否则使用Description特性或枚举值名称
+        return @enum.GetDescription() ?? fieldName;
     }
 }

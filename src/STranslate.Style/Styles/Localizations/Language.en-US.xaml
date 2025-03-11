@@ -28,7 +28,34 @@
     <system:String x:Key="LangEnum.auto">Auto</system:String>
     <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
     <system:String x:Key="LangEnum.zh_tw">Traditional Chinese</system:String>
+    <system:String x:Key="LangEnum.yue">Cantonese</system:String>
     <system:String x:Key="LangEnum.en">English</system:String>
+    <system:String x:Key="LangEnum.ja">Japanese</system:String>
+    <system:String x:Key="LangEnum.ko">Korean</system:String>
+    <system:String x:Key="LangEnum.fr">French</system:String>
+    <system:String x:Key="LangEnum.es">Spanish</system:String>
+    <system:String x:Key="LangEnum.ru">Russian</system:String>
+    <system:String x:Key="LangEnum.de">German</system:String>
+    <system:String x:Key="LangEnum.it">Italian</system:String>
+    <system:String x:Key="LangEnum.tr">Turkish</system:String>
+    <system:String x:Key="LangEnum.pt_pt">Portuguese</system:String>
+    <system:String x:Key="LangEnum.pt_br">Brazilian Portuguese</system:String>
+    <system:String x:Key="LangEnum.vi">Vietnamese</system:String>
+    <system:String x:Key="LangEnum.id">Indonesian</system:String>
+    <system:String x:Key="LangEnum.th">Thai</system:String>
+    <system:String x:Key="LangEnum.ms">Malay</system:String>
+    <system:String x:Key="LangEnum.ar">Arabic</system:String>
+    <system:String x:Key="LangEnum.hi">Hindi</system:String>
+    <system:String x:Key="LangEnum.mn_cy">Mongolian (Cyrillic)</system:String>
+    <system:String x:Key="LangEnum.mn_mo">Mongolian</system:String>
+    <system:String x:Key="LangEnum.km">Khmer</system:String>
+    <system:String x:Key="LangEnum.nb_no">Norwegian Bokmål</system:String>
+    <system:String x:Key="LangEnum.nn_no">Norwegian Nynorsk</system:String>
+    <system:String x:Key="LangEnum.fa">Persian</system:String>
+    <system:String x:Key="LangEnum.sv">Swedish</system:String>
+    <system:String x:Key="LangEnum.pl">Polish</system:String>
+    <system:String x:Key="LangEnum.nl">Dutch</system:String>
+    <system:String x:Key="LangEnum.uk">Ukrainian</system:String>
 
     <system:String x:Key="ThemeType.Light">Light Theme</system:String>
     <system:String x:Key="ThemeType.Dark">Dark Theme</system:String>
@@ -490,6 +517,83 @@
     <system:String x:Key="About.UpdateFailed">Check for an error with the update, please check the network conditions</system:String>
 
     <!--#endregion-->
+
+    <!--#region LangSetting-->
+
+    <system:String x:Key="LangSetting.Title">LangSetting</system:String>
+    <system:String x:Key="LangSetting.UnSelectAll">UnSelectAll</system:String>
+    <system:String x:Key="LangSetting.SelectAll">SelectAll</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Translator Selector-->
+
+    <system:String x:Key="TranslatorSelector.Title">Select Translator</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild">Self Build</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild.Tooltip">You need to manually configure the server and fill in the API (token and other verification information)</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn">Built-In</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn.Tooltip">It can be used directly after being added</system:String>
+    <system:String x:Key="TranslatorSelector.Official">Official</system:String>
+    <system:String x:Key="TranslatorSelector.Official.Tooltip">Apply for an API Key on the official website and fill in the API key</system:String>
+
+    <system:String x:Key="ServiceType.SelfBuild">SelfBuild</system:String>
+    <system:String x:Key="ServiceType.BuiltIn">Built-in</system:String>
+    <system:String x:Key="ServiceType.Official">Official</system:String>
+
+    <!--#endregion-->
+
+    <!--#region WebDav-->
+
+    <system:String x:Key="webDav.Title">Current Config</system:String>
+    <system:String x:Key="webDav.NoContent">No backup content has been found under the current path...</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 主界面-->
+
+    <system:String x:Key="Topmost">Pin to Top</system:String>
+    <system:String x:Key="WindowClose">Close Window</system:String>
+    <system:String x:Key="WindowMinimized">Minimize Window</system:String>
+    <system:String x:Key="Preference">Preferences</system:String>
+    <system:String x:Key="ConfigureService">Configure Service</system:String>
+    <system:String x:Key="SilentOCRLang">Silent OCR/Screenshot Translation Language</system:String>
+    <system:String x:Key="MouseHook">Mouse Text Selection Listener</system:String>
+    <system:String x:Key="AutoTranslate">Auto Translate</system:String>
+    <system:String x:Key="IncrementalTranslation">Incremental Translation</system:String>
+    <system:String x:Key="OnlyShowOutput">Show Output Only&#13;Alt+Mouse Click to Control Language Interface</system:String>
+    <system:String x:Key="ScreenshotTranslate">Screenshot Translation</system:String>
+    <system:String x:Key="SilentOCR">Silent OCR</system:String>
+    <system:String x:Key="OCR">OCR</system:String>
+    <system:String x:Key="ClipboardMonitor">Clipboard Monitor</system:String>
+    <system:String x:Key="QRCode">QR Code Recognition</system:String>
+    <system:String x:Key="History">History</system:String>
+    <system:String x:Key="DevelopmentVersion">[Development]</system:String>
+
+    <system:String x:Key="Input.SelectAll">Select All</system:String>
+    <system:String x:Key="Input.Copy">Copy</system:String>
+    <system:String x:Key="Input.Paste">Paste</system:String>
+    <system:String x:Key="Input.Clear">Clear</system:String>
+    <system:String x:Key="Input.SaveToVocabulary">Save to Vocabulary</system:String>
+    <system:String x:Key="Input.CopyInputContent">Copy Input Content</system:String>
+    <system:String x:Key="Input.RemoveLineBreak">To remove line breaks, Ctrl+click to toggle the processing of line breaks mode</system:String>
+    <system:String x:Key="Input.RemoveSpaces">Remove Spaces</system:String>
+    <system:String x:Key="Input.DetectedAs">Detected as</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 托盘-->
+
+    <system:String x:Key="NotifyIcon.InputTranslate">Input Translate</system:String>
+    <system:String x:Key="NotifyIcon.ScreenShotTranslate">Screenshot Translate</system:String>
+    <system:String x:Key="NotifyIcon.MousehookTranslate">Mousehook Monitor</system:String>
+    <system:String x:Key="NotifyIcon.ClipboardMonitor">Clipboard Monitor</system:String>
+    <system:String x:Key="NotifyIcon.OCR">OCR</system:String>
+    <system:String x:Key="NotifyIcon.SilentOCR">Silent OCR</system:String>
+    <system:String x:Key="NotifyIcon.QRCode">QR Code</system:String>
+    <system:String x:Key="NotifyIcon.OpenMainWindow">Open Window</system:String>
+    <system:String x:Key="NotifyIcon.OpenPreference">Open Preference</system:String>
+    <system:String x:Key="NotifyIcon.ForbiddenShortcuts">Forbidden Shortcuts</system:String>
+    <system:String x:Key="NotifyIcon.Exit">Exit</system:String>
 
     <!--#endregion-->
 

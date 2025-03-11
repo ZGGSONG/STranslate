@@ -30,23 +30,23 @@
 
                 <MenuItem Command="{Binding InputTranslateCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
-                          Header="输入翻译"
+                          Header="{DynamicResource NotifyIcon.InputTranslate}"
                           Icon="&#xe694;" />
 
                 <MenuItem Command="{Binding ScreenShotTranslateCommand}"
                           CommandParameter="placehold"
-                          Header="截图翻译"
+                          Header="{DynamicResource NotifyIcon.ScreenShotTranslate}"
                           Icon="&#xe679;" />
 
                 <MenuItem Command="{Binding MousehookTranslateCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
-                          Header="鼠标划词"
+                          Header="{DynamicResource NotifyIcon.MousehookTranslate}"
                           Icon="&#xeb94;"
                           IsCheckable="{Binding IsMousehook}" />
 
                 <MenuItem Command="{Binding ClipboardMonitorCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
-                          Header="监听剪贴板"
+                          Header="{DynamicResource NotifyIcon.ClipboardMonitor}"
                           Icon="&#xeabc;"
                           IsCheckable="{Binding IsClipboardMonitor}" />
 
@@ -54,39 +54,39 @@
 
                 <MenuItem Command="{Binding OCRCommand}"
                           CommandParameter="placehold"
-                          Header="文字识别"
+                          Header="{DynamicResource NotifyIcon.OCR}"
                           Icon="&#xe695;" />
 
                 <MenuItem Command="{Binding SilentOCRCommand}"
                           CommandParameter="placehold"
-                          Header="静默OCR"
+                          Header="{DynamicResource NotifyIcon.SilentOCR}"
                           Icon="&#xe861;" />
 
                 <MenuItem Command="{Binding QRCodeCommand}"
                           CommandParameter="placehold"
-                          Header="二维码"
+                          Header="{DynamicResource NotifyIcon.QRCode}"
                           Icon="&#xe642;" />
 
                 <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
 
                 <MenuItem Command="{Binding OpenMainWindowCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
-                          Header="显示界面"
+                          Header="{DynamicResource NotifyIcon.OpenMainWindow}"
                           Icon="&#xe65b;" />
 
-                <MenuItem Command="{Binding OpenPreferenceCommand}" Header="偏好设置" Icon="&#xe656;" />
+                <MenuItem Command="{Binding OpenPreferenceCommand}" Header="{DynamicResource NotifyIcon.OpenPreference}" Icon="&#xe656;" />
 
                 <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
 
                 <MenuItem Command="{Binding ForbiddenShortcutsCommand}"
                           CommandParameter="{Binding Source={StaticResource MainView}, Path=Data}"
-                          Header="禁用热键"
+                          Header="{DynamicResource NotifyIcon.ForbiddenShortcuts}"
                           Icon="&#xe615;"
                           IsCheckable="{Binding IsForbiddenShortcuts}" />
 
                 <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
 
-                <MenuItem Command="{Binding ExitCommand}" Header="退出程序" Icon="&#xe66b;" />
+                <MenuItem Command="{Binding ExitCommand}" Header="{DynamicResource NotifyIcon.Exit}" Icon="&#xe66b;" />
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>

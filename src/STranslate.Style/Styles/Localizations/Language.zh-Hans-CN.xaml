@@ -25,10 +25,37 @@
 
     <!--#region  Enum-->
 
-    <system:String x:Key="LangEnum.auto">自动识别</system:String>
+    <system:String x:Key="LangEnum.auto">自动选择</system:String>
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
-    <system:String x:Key="LangEnum.zh_tw">繁体中文</system:String>
-    <system:String x:Key="LangEnum.en">英文</system:String>
+    <system:String x:Key="LangEnum.zh_tw">中文繁体</system:String>
+    <system:String x:Key="LangEnum.yue">中文粤语</system:String>
+    <system:String x:Key="LangEnum.en">英语</system:String>
+    <system:String x:Key="LangEnum.ja">日语</system:String>
+    <system:String x:Key="LangEnum.ko">韩语</system:String>
+    <system:String x:Key="LangEnum.fr">法语</system:String>
+    <system:String x:Key="LangEnum.es">西班牙语</system:String>
+    <system:String x:Key="LangEnum.ru">俄语</system:String>
+    <system:String x:Key="LangEnum.de">德语</system:String>
+    <system:String x:Key="LangEnum.it">意大利语</system:String>
+    <system:String x:Key="LangEnum.tr">土耳其语</system:String>
+    <system:String x:Key="LangEnum.pt_pt">葡萄牙语</system:String>
+    <system:String x:Key="LangEnum.pt_br">布列塔尼语</system:String>
+    <system:String x:Key="LangEnum.vi">越南语</system:String>
+    <system:String x:Key="LangEnum.id">印度尼西亚语</system:String>
+    <system:String x:Key="LangEnum.th">泰语</system:String>
+    <system:String x:Key="LangEnum.ms">马来语</system:String>
+    <system:String x:Key="LangEnum.ar">阿拉伯语</system:String>
+    <system:String x:Key="LangEnum.hi">印地语</system:String>
+    <system:String x:Key="LangEnum.mn_cy">蒙古语(西里尔)</system:String>
+    <system:String x:Key="LangEnum.mn_mo">蒙古语</system:String>
+    <system:String x:Key="LangEnum.km">高棉语</system:String>
+    <system:String x:Key="LangEnum.nb_no">书面挪威语</system:String>
+    <system:String x:Key="LangEnum.nn_no">新挪威语</system:String>
+    <system:String x:Key="LangEnum.fa">波斯语</system:String>
+    <system:String x:Key="LangEnum.sv">瑞典语</system:String>
+    <system:String x:Key="LangEnum.pl">波兰语</system:String>
+    <system:String x:Key="LangEnum.nl">荷兰语</system:String>
+    <system:String x:Key="LangEnum.uk">乌克兰语</system:String>
 
     <system:String x:Key="ThemeType.Light">明亮主题</system:String>
     <system:String x:Key="ThemeType.Dark">黑暗主题</system:String>
@@ -490,6 +517,85 @@
     <system:String x:Key="About.UpdateFailed">检查更新出错, 请检查网络情况</system:String>
 
     <!--#endregion-->
+
+    <!--#region LangSetting-->
+
+    <system:String x:Key="LangSetting.Title">语言设置</system:String>
+    <system:String x:Key="LangSetting.UnSelectAll">全不选</system:String>
+    <system:String x:Key="LangSetting.SelectAll">全选</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Translator Selector-->
+
+    <system:String x:Key="TranslatorSelector.Title">选择服务</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild">自建服务</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild.Tooltip">需要手动配置服务器，并填入API(Token等验证信息)</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn">内置服务</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn.Tooltip">添加后可直接使用</system:String>
+    <system:String x:Key="TranslatorSelector.Official">官方服务</system:String>
+    <system:String x:Key="TranslatorSelector.Official.Tooltip">对应官网申请API Key后填入使用</system:String>
+
+    <system:String x:Key="ServiceType.SelfBuild">自建</system:String>
+    <system:String x:Key="ServiceType.BuiltIn">内置</system:String>
+    <system:String x:Key="ServiceType.Official">官方</system:String>
+
+    <!--#endregion-->
+
+    <!--#region WebDav-->
+
+    <system:String x:Key="webDav.Title">选择配置</system:String>
+    <system:String x:Key="webDav.NoContent">当前路径下尚未找到备份内容...</system:String>
+
+    <!--#endregion-->
+
+    <!--#endregion-->
+
+    <!--#region 主界面-->
+
+    <system:String x:Key="Topmost">置顶</system:String>
+    <system:String x:Key="WindowClose">关闭窗口</system:String>
+    <system:String x:Key="WindowMinimized">最小化窗口</system:String>
+    <system:String x:Key="Preference">偏好设置</system:String>
+    <system:String x:Key="ConfigureService">配置服务</system:String>
+    <system:String x:Key="SilentOCRLang">静默OCR/截图翻译语种</system:String>
+    <system:String x:Key="MouseHook">监听鼠标划词</system:String>
+    <system:String x:Key="AutoTranslate">自动翻译</system:String>
+    <system:String x:Key="IncrementalTranslation">增量翻译</system:String>
+    <system:String x:Key="OnlyShowOutput">仅显示输出界面&#13;Alt+鼠标点击控制语言界面</system:String>
+    <system:String x:Key="ScreenshotTranslate">截图翻译</system:String>
+    <system:String x:Key="SilentOCR">静默OCR</system:String>
+    <system:String x:Key="OCR">OCR</system:String>
+    <system:String x:Key="ClipboardMonitor">监听剪贴板</system:String>
+    <system:String x:Key="QRCode">识别二维码</system:String>
+    <system:String x:Key="History">历史记录</system:String>
+    <system:String x:Key="DevelopmentVersion">[开发版]</system:String>
+
+    <system:String x:Key="Input.SelectAll">全选</system:String>
+    <system:String x:Key="Input.Copy">复制</system:String>
+    <system:String x:Key="Input.Paste">粘贴</system:String>
+    <system:String x:Key="Input.Clear">清空</system:String>
+    <system:String x:Key="Input.SaveToVocabulary">保存至生词本</system:String>
+    <system:String x:Key="Input.CopyInputContent">复制输入内容</system:String>
+    <system:String x:Key="Input.RemoveLineBreak">移除换行&#13;Ctrl+点击切换处理换行模式</system:String>
+    <system:String x:Key="Input.RemoveSpaces">移除空格</system:String>
+    <system:String x:Key="Input.DetectedAs">识别为</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 托盘-->
+
+    <system:String x:Key="NotifyIcon.InputTranslate">输入翻译</system:String>
+    <system:String x:Key="NotifyIcon.ScreenShotTranslate">截图翻译</system:String>
+    <system:String x:Key="NotifyIcon.MousehookTranslate">鼠标划词</system:String>
+    <system:String x:Key="NotifyIcon.ClipboardMonitor">监听剪贴板</system:String>
+    <system:String x:Key="NotifyIcon.OCR">文字识别</system:String>
+    <system:String x:Key="NotifyIcon.SilentOCR">静默OCR</system:String>
+    <system:String x:Key="NotifyIcon.QRCode">二维码</system:String>
+    <system:String x:Key="NotifyIcon.OpenMainWindow">显示界面</system:String>
+    <system:String x:Key="NotifyIcon.OpenPreference">偏好设置</system:String>
+    <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用热键</system:String>
+    <system:String x:Key="NotifyIcon.Exit">退出程序</system:String>
 
     <!--#endregion-->
 
