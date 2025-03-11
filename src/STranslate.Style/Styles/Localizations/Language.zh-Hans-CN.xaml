@@ -125,6 +125,20 @@
     <system:String x:Key="Toast.Open">打开</system:String>
     <system:String x:Key="Toast.Close">关闭</system:String>
     <system:String x:Key="Toast.KeepAtListOneTranslator">至少保留一个服务</system:String>
+    <system:String x:Key="Toast.NoOCR">未启用OCR服务</system:String>
+    <system:String x:Key="Toast.SaveSuccess">保存成功</system:String>
+    <system:String x:Key="Toast.SaveFailed">保存失败</system:String>
+    <system:String x:Key="Toast.ResetConf">重置配置</system:String>
+    <system:String x:Key="Toast.SaveTo">保存至</system:String>
+    <system:String x:Key="Toast.Success">成功</system:String>
+    <system:String x:Key="Toast.Failed">失败</system:String>
+    <system:String x:Key="Toast.RemoveSpace">移除空格</system:String>
+    <system:String x:Key="Toast.RemoveLinebreak">移除换行</system:String>
+    <system:String x:Key="Toast.EnableSticky">启用置顶</system:String>
+    <system:String x:Key="Toast.DisableSticky">关闭置顶</system:String>
+    <system:String x:Key="Toast.PleaseSelectImg">请选择图片</system:String>
+    <system:String x:Key="Toast.ClipboardNoImgRecently">剪贴板最近无图片</system:String>
+    <system:String x:Key="Toast.NoQRCode">未识别到二维码</system:String>
 
     <!--#endregion-->
 
@@ -544,8 +558,8 @@
 
     <!--#region WebDav-->
 
-    <system:String x:Key="webDav.Title">选择配置</system:String>
-    <system:String x:Key="webDav.NoContent">当前路径下尚未找到备份内容...</system:String>
+    <system:String x:Key="WebDav.Title">选择配置</system:String>
+    <system:String x:Key="WebDav.NoContent">当前路径下尚未找到备份内容...</system:String>
 
     <!--#endregion-->
 
@@ -596,6 +610,27 @@
     <system:String x:Key="NotifyIcon.OpenPreference">偏好设置</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用热键</system:String>
     <system:String x:Key="NotifyIcon.Exit">退出程序</system:String>
+
+    <!--#endregion-->
+
+    <!--#region OCR-->
+
+    <system:String x:Key="OCR.CopyImage">复制图片</system:String>
+    <system:String x:Key="OCR.SaveImage">保存图片</system:String>
+    <system:String x:Key="OCR.FitWindow">适应窗口</system:String>
+    <system:String x:Key="OCR.SwitchImg">切换原图/标注图</system:String>
+    <system:String x:Key="OCR.DropImg">将图片拖放到此处</system:String>
+    <system:String x:Key="OCR.QRCodeResult">二维码识别结果</system:String>
+    <system:String x:Key="OCR.File">文件</system:String>
+    <system:String x:Key="OCR.File.Tooltip">选中图片文件进行文字识别</system:String>
+    <system:String x:Key="OCR.Screenshot">截图</system:String>
+    <system:String x:Key="OCR.Screenshot.Tooltip">截图进行文字识别</system:String>
+    <system:String x:Key="OCR.Clipboard">剪贴板</system:String>
+    <system:String x:Key="OCR.Clipboard.Tooltip">截图进行文字识别</system:String>
+    <system:String x:Key="OCR.Setting">设置</system:String>
+    <system:String x:Key="OCR.Translate">翻译</system:String>
+    <system:String x:Key="OCR.QRCode">二维码</system:String>
+    <system:String x:Key="OCR.Recertification">识别</system:String>
 
     <!--#endregion-->
 

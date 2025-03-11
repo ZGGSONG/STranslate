@@ -93,8 +93,9 @@ public partial class OCRScvViewModel : ObservableObject
     {
         if (ActivedOCR is not null)
             return await ActivedOCR.ExecuteAsync(bytes, lang, token ?? CancellationToken.None);
-        ToastHelper.Show("未启用OCR服务", showErrorToast);
-        return await Task.FromResult(OcrResult.Fail("未启用OCR服务"));
+        var msg = AppLanguageManager.GetString("Toast.NoOCR");
+        ToastHelper.Show(msg, showErrorToast);
+        return await Task.FromResult(OcrResult.Fail(msg));
     }
 
     [RelayCommand]
@@ -223,7 +224,7 @@ public partial class OCRScvViewModel : ObservableObject
 
             ResetView(ActionType.Delete);
 
-            ToastHelper.Show("删除成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
         }
     }
 
@@ -234,10 +235,10 @@ public partial class OCRScvViewModel : ObservableObject
         {
             LogService.Logger.Warn($"保存OCR失败，{JsonConvert.SerializeObject(CurOCRServiceList)}");
 
-            ToastHelper.Show("保存失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
 
-        ToastHelper.Show("保存成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -252,7 +253,7 @@ public partial class OCRScvViewModel : ObservableObject
         }
         ActivedOCR = CurOCRServiceList.FirstOrDefault(x => x.IsEnabled);
         ResetView();
-        ToastHelper.Show("重置配置", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
     }
 
     /// <summary>

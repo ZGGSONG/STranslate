@@ -581,7 +581,8 @@ public partial class InputViewModel : ObservableObject
     private async Task Save2VocabularyBookAsync(string content, CancellationToken token)
     {
         var ret = await VocabularyBookVm.ExecuteAsync(content, token);
-        ToastHelper.Show($"保存至{VocabularyBookVm.ActiveVocabularyBook?.Name ?? "生词本"}{(ret ? "成功" : "失败")}");
+
+        ToastHelper.Show($"{AppLanguageManager.GetString("Toast.SaveTo")}{VocabularyBookVm.ActiveVocabularyBook?.Name ?? "生词本"}{(ret ? AppLanguageManager.GetString("Toast.Success") : AppLanguageManager.GetString("Toast.Failed"))}");
     }
 
     [RelayCommand]
@@ -589,7 +590,7 @@ public partial class InputViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(content)) return;
         ClipboardHelper.Copy(content);
-        ToastHelper.Show("复制成功");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySuccess"));
     }
 
     [RelayCommand]
@@ -598,7 +599,7 @@ public partial class InputViewModel : ObservableObject
         if (!StringUtil.ProcessTextBox(isLineBreak: false, textBox))
             return;
 
-        ToastHelper.Show("移除空格");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.RemoveSpace"));
 
         RemoveHandler();
     }
@@ -674,7 +675,8 @@ public partial class InputViewModel : ObservableObject
     {
         CommonVm.LineBreakHandler = CommonVm.LineBreakHandler.Increase();
         CommonVm.SaveCommand.Execute(null);
-        ToastHelper.Show(CommonVm.LineBreakHandler.GetDescription());
+        var fullPath = $"LineBreakHandlingMode.{CommonVm.LineBreakHandler}";
+        ToastHelper.Show(AppLanguageManager.GetString(fullPath));
     }
 
     private void RemoveLineBreaksFromTextBox(PlaceholderTextBox textBox)
@@ -682,7 +684,7 @@ public partial class InputViewModel : ObservableObject
         if (!StringUtil.ProcessTextBox(isLineBreak: true, textBox))
             return;
 
-        ToastHelper.Show("移除换行");
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.RemoveLinebreak"));
         RemoveHandler();
     }
 

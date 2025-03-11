@@ -68,24 +68,24 @@
             <MenuItem
                 Command="{Binding TBSelectAllCommand}"
                 CommandParameter="{Binding Source={StaticResource TBProxy}, Path=Data, Mode=OneWay}"
-                Header="全选"
+                Header="{DynamicResource Input.SelectAll}"
                 Icon="&#xe658;" />
             <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
             <MenuItem
                 Command="{Binding TBCopyCommand}"
                 CommandParameter="{Binding Source={StaticResource TBProxy}, Path=Data, Mode=OneWay}"
-                Header="复制"
+                Header="{DynamicResource Input.Copy}"
                 Icon="&#xe692;" />
             <MenuItem
                 Command="{Binding TBPasteCommand}"
                 CommandParameter="{Binding Source={StaticResource TBProxy}, Path=Data, Mode=OneWay}"
-                Header="粘贴"
+                Header="{DynamicResource Input.Paste}"
                 Icon="&#xe652;" />
             <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
             <MenuItem
                 Command="{Binding TBClearCommand}"
                 CommandParameter="{Binding Source={StaticResource TBProxy}, Path=Data, Mode=OneWay}"
-                Header="清空"
+                Header="{DynamicResource Input.Clear}"
                 Icon="&#xe6cb;" />
         </ContextMenu>
         <common:BindingProxy x:Key="QrTBProxy" Data="{x:Reference QrTB}" />
@@ -93,24 +93,24 @@
             <MenuItem
                 Command="{Binding TBSelectAllCommand}"
                 CommandParameter="{Binding Source={StaticResource QrTBProxy}, Path=Data, Mode=OneWay}"
-                Header="全选"
+                Header="{DynamicResource Input.SelectAll}"
                 Icon="&#xe658;" />
             <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
             <MenuItem
                 Command="{Binding TBCopyCommand}"
                 CommandParameter="{Binding Source={StaticResource QrTBProxy}, Path=Data, Mode=OneWay}"
-                Header="复制"
+                Header="{DynamicResource Input.Copy}"
                 Icon="&#xe692;" />
             <MenuItem
                 Command="{Binding TBPasteCommand}"
                 CommandParameter="{Binding Source={StaticResource QrTBProxy}, Path=Data, Mode=OneWay}"
-                Header="粘贴"
+                Header="{DynamicResource Input.Paste}"
                 Icon="&#xe652;" />
             <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
             <MenuItem
                 Command="{Binding TBClearCommand}"
                 CommandParameter="{Binding Source={StaticResource QrTBProxy}, Path=Data, Mode=OneWay}"
-                Header="清空"
+                Header="{DynamicResource Input.Clear}"
                 Icon="&#xe6cb;" />
         </ContextMenu>
     </Window.Resources>
@@ -274,13 +274,13 @@
                                 Command="{Binding CopyImgCommand}"
                                 Content="&#xe692;"
                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                ToolTip="复制图片"
+                                ToolTip="{DynamicResource OCR.CopyImage}"
                                 Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                             <Button
                                 Command="{Binding SaveImgCommand}"
                                 Content="&#xe63b;"
                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                ToolTip="保存图片"
+                                ToolTip="{DynamicResource OCR.SaveImage}"
                                 Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                         </StackPanel>
 
@@ -303,14 +303,14 @@
                                 Content="&#xe64f;"
                                 FontSize="{DynamicResource FontSize21}"
                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                ToolTip="适应窗口"
+                                ToolTip="{DynamicResource OCR.FitWindow}"
                                 Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                             <Button
                                 Command="{Binding SwitchImgCommand}"
                                 CommandParameter="{Binding ElementName=ImgCtl}"
                                 Content="&#xe621;"
                                 Style="{DynamicResource ButtonCopyIconStyle}"
-                                ToolTip="切换原图/标注图"
+                                ToolTip="{DynamicResource OCR.SwitchImg}"
                                 Visibility="{Binding Bs, Converter={StaticResource VisibilityConverter}}" />
                         </StackPanel>
                     </Grid>
@@ -326,7 +326,7 @@
                     VerticalAlignment="Center"
                     FontSize="{DynamicResource FontSize20}"
                     FontWeight="Bold"
-                    Text="将图片拖放到此处" />
+                    Text="{DynamicResource OCR.DropImg}" />
                 <Rectangle
                     Width="200"
                     Height="100"
@@ -381,20 +381,20 @@
                             CommandParameter="{Binding GetContent}"
                             Content="&#xe610;"
                             Style="{DynamicResource ButtonCopyIconStyle}"
-                            ToolTip="TTS"
+                            ToolTip="{DynamicResource History.Content.TTS}"
                             Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
                         <Button
                             Command="{Binding CopyCommand}"
                             CommandParameter="{Binding GetContent}"
                             Content="&#xe692;"
                             Style="{DynamicResource ButtonCopyIconStyle}"
-                            ToolTip="复制"
+                            ToolTip="{DynamicResource History.Content.Copy}"
                             Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
                         <Button
                             Content="&#xe6b2;"
                             FontWeight="Bold"
                             Style="{DynamicResource ButtonCopyIconStyle}"
-                            ToolTip="移除换行&#13;Ctrl+点击切换处理换行模式"
+                            ToolTip="{DynamicResource Input.RemoveLineBreak}"
                             Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -409,7 +409,7 @@
                             FontSize="{DynamicResource FontSize20}"
                             FontWeight="Bold"
                             Style="{DynamicResource ButtonCopyIconStyle}"
-                            ToolTip="移除空格"
+                            ToolTip="{DynamicResource Input.RemoveSpaces}"
                             Visibility="{Binding GetContent, Converter={StaticResource VisibilityConverter}}" />
                     </StackPanel>
 
@@ -460,7 +460,7 @@
                         FontSize="{DynamicResource FontSize14}"
                         Foreground="{DynamicResource ThemeAccentColor}"
                         IsHitTestVisible="False"
-                        Text="二维码识别结果"
+                        Text="{DynamicResource OCR.QRCodeResult}"
                         Visibility="{Binding QrCodeContent, Converter={StaticResource VisibilityConverter}}" />
 
                     <control:LoadingUc
@@ -487,19 +487,19 @@
                 <Button
                     Margin="10,0"
                     Command="{Binding OpenfileCommand}"
-                    Content="文件"
-                    ToolTip="选中图片文件进行文字识别" />
+                    Content="{DynamicResource OCR.File}"
+                    ToolTip="{DynamicResource OCR.File.Tooltip}" />
                 <Button
                     Margin="10,0"
                     Command="{Binding ScreenshotCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                    Content="截图"
-                    ToolTip="截图进行文字识别" />
+                    Content="{DynamicResource OCR.Screenshot}"
+                    ToolTip="{DynamicResource OCR.Screenshot.Tooltip}" />
                 <Button
                     Margin="10,0"
                     Command="{Binding ClipboardImgCommand}"
-                    Content="剪贴板"
-                    ToolTip="剪贴板获取图片文字识别(如果最新一条为图片的话)" />
+                    Content="{DynamicResource OCR.Clipboard}"
+                    ToolTip="{DynamicResource OCR.Clipboard.Tooltip}" />
 
                 <Separator Width="20" Margin="10,0">
                     <Separator.LayoutTransform>
@@ -511,7 +511,7 @@
                     Margin="10,0"
                     Command="{Binding OCRPreferenceCommand}"
                     CommandParameter="{Binding OcrScvVm.ActivedOCR}"
-                    Content="设置" />
+                    Content="{DynamicResource OCR.Setting}" />
 
                 <ComboBox
                     MaxWidth="280"
@@ -550,7 +550,7 @@
                     Margin="10,0"
                     HorizontalAlignment="Right"
                     Command="{Binding TranslateCommand}"
-                    Content="翻译">
+                    Content="{DynamicResource OCR.Translate}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                             <Binding Path="GetContent" />
@@ -561,11 +561,11 @@
                 <Button
                     Margin="10,0"
                     Command="{Binding QRCodeCommand}"
-                    Content="二维码" />
+                    Content="{DynamicResource OCR.QRCode}" />
                 <Button
                     Margin="10,0"
                     Command="{Binding RecertificationCommand}"
-                    Content="识别" />
+                    Content="{DynamicResource OCR.Recertification}" />
             </StackPanel>
         </Grid>
 

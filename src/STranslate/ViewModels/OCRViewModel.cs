@@ -107,7 +107,7 @@ public partial class OCRViewModel : WindowVMBase
         TopMostContent = tmp ? Constant.TopmostContent : Constant.UnTopmostContent;
         win.Topmost = tmp;
 
-        ToastHelper.Show(tmp ? "启用置顶" : "关闭置顶", WindowType.OCR);
+        ToastHelper.Show(tmp ? AppLanguageManager.GetString("Toast.EnableSticky") : AppLanguageManager.GetString("Toast.DisableSticky"), WindowType.OCR);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public partial class OCRViewModel : WindowVMBase
         if (Bs is null) return;
         Clipboard.SetImage(Bs);
 
-        ToastHelper.Show("复制图片", WindowType.OCR);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySuccess"), WindowType.OCR);
     }
 
     [RelayCommand]
@@ -188,7 +188,7 @@ public partial class OCRViewModel : WindowVMBase
         using FileStream fs = new(fileName, FileMode.Create);
         encoder.Save(fs);
 
-        ToastHelper.Show("保存图片成功", WindowType.OCR);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.OCR);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -204,7 +204,7 @@ public partial class OCRViewModel : WindowVMBase
         if (string.IsNullOrEmpty(content)) return;
         ClipboardHelper.Copy(content);
 
-        ToastHelper.Show("复制成功", WindowType.OCR);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySuccess"), WindowType.OCR);
     }
 
     [RelayCommand]
@@ -226,20 +226,21 @@ public partial class OCRViewModel : WindowVMBase
         var vm = Singleton<CommonViewModel>.Instance;
         vm.LineBreakOCRHandler = vm.LineBreakOCRHandler.Increase();
         vm.SaveCommand.Execute(null);
-        ToastHelper.Show($"OCR {vm.LineBreakOCRHandler.GetDescription()}", WindowType.OCR);
+        var fullPath = $"LineBreakHandlingMode.{vm.LineBreakOCRHandler}";
+        ToastHelper.Show(AppLanguageManager.GetString(fullPath), WindowType.OCR);
     }
 
     private void RemoveLineBreaksFromTextBox(TextBox textBox)
     {
         if (StringUtil.ProcessTextBox(isLineBreak: true, textBox))
-            ToastHelper.Show("移除换行", WindowType.OCR);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.RemoveLinebreak"), WindowType.OCR);
     }
 
     [RelayCommand]
     private void RemoveSpace(TextBox textBox)
     {
         if (StringUtil.ProcessTextBox(isLineBreak: false, textBox))
-            ToastHelper.Show("移除空格", WindowType.OCR);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.RemoveSpace"), WindowType.OCR);
     }
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -257,7 +258,7 @@ public partial class OCRViewModel : WindowVMBase
                 await ImgFileHandlerAsync(filePath, token);
             else
                 //MessageBox_S.Show("请选择图片(*.png|*.jpg|*.jpeg|*.bmp)");
-                ToastHelper.Show("请选择图片", WindowType.OCR);
+                ToastHelper.Show(AppLanguageManager.GetString("Toast.PleaseSelectImg"), WindowType.OCR);
         }
     }
 
@@ -306,7 +307,7 @@ public partial class OCRViewModel : WindowVMBase
             return;
         }
 
-        ToastHelper.Show("剪贴板最近无图片", WindowType.OCR);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ClipboardNoImgRecently"), WindowType.OCR);
     }
 
     private async Task ImgFileHandlerAsync(string file, CancellationToken token)
@@ -453,7 +454,7 @@ public partial class OCRViewModel : WindowVMBase
             if (!string.IsNullOrEmpty(ret))
                 GetContent = ret;
             else
-                ToastHelper.Show("未识别到二维码", WindowType.OCR);
+                ToastHelper.Show(AppLanguageManager.GetString("Toast.NoQRCode"), WindowType.OCR);
         }
         finally
         {
@@ -528,7 +529,7 @@ public partial class OCRViewModel : WindowVMBase
             return;
 
         ClipboardHelper.Copy(GetContent);
-        ToastHelper.Show("复制成功", WindowType.OCR);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.CopySuccess"), WindowType.OCR);
     }
 
     [RelayCommand]

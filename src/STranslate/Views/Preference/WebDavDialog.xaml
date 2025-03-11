@@ -57,7 +57,7 @@
                         props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                         FontSize="{DynamicResource FontSize20}"
                         FontWeight="Bold"
-                        Text="{DynamicResource webDav.Title}" />
+                        Text="{DynamicResource WebDav.Title}" />
                 </StackPanel>
 
                 <!--  // Button //  -->
@@ -196,7 +196,7 @@
                 VerticalAlignment="Center"
                 FontSize="{DynamicResource FontSize20}"
                 FontWeight="Bold"
-                Text="{DynamicResource webDav.NoContent}" />
+                Text="{DynamicResource WebDav.NoContent}" />
         </Border>
     </Grid>
 </Window>

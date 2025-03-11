@@ -125,6 +125,20 @@
     <system:String x:Key="Toast.Open">Open</system:String>
     <system:String x:Key="Toast.Close">Close</system:String>
     <system:String x:Key="Toast.KeepAtListOneTranslator">KeepAtListOneTranslator</system:String>
+    <system:String x:Key="Toast.NoOCR">No OCR Enabled</system:String>
+    <system:String x:Key="Toast.SaveSuccess">Save Success</system:String>
+    <system:String x:Key="Toast.SaveFailed">Save Failed</system:String>
+    <system:String x:Key="Toast.ResetConf">Reset Config</system:String>
+    <system:String x:Key="Toast.SaveTo">Saved to</system:String>
+    <system:String x:Key="Toast.Success">Success</system:String>
+    <system:String x:Key="Toast.Failed">Failed</system:String>
+    <system:String x:Key="Toast.RemoveSpace">Remove spaces</system:String>
+    <system:String x:Key="Toast.RemoveLinebreak">Remove line breaks</system:String>
+    <system:String x:Key="Toast.EnableSticky">Enable Pin to Top</system:String>
+    <system:String x:Key="Toast.DisableSticky">Disable Pin to Top</system:String>
+    <system:String x:Key="Toast.PleaseSelectImg">Please select an image</system:String>
+    <system:String x:Key="Toast.ClipboardNoImgRecently">No recent image in clipboard</system:String>
+    <system:String x:Key="Toast.NoQRCode">No QR code detected</system:String>
 
     <!--#endregion-->
 
@@ -544,8 +558,8 @@
 
     <!--#region WebDav-->
 
-    <system:String x:Key="webDav.Title">Current Config</system:String>
-    <system:String x:Key="webDav.NoContent">No backup content has been found under the current path...</system:String>
+    <system:String x:Key="WebDav.Title">Current Config</system:String>
+    <system:String x:Key="WebDav.NoContent">No backup content has been found under the current path...</system:String>
 
     <!--#endregion-->
 
@@ -594,6 +608,27 @@
     <system:String x:Key="NotifyIcon.OpenPreference">Open Preference</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">Forbidden Shortcuts</system:String>
     <system:String x:Key="NotifyIcon.Exit">Exit</system:String>
+
+    <!--#endregion-->
+
+    <!--#region OCR-->
+
+    <system:String x:Key="OCR.CopyImage">Copy Image</system:String>
+    <system:String x:Key="OCR.SaveImage">Save Image</system:String>
+    <system:String x:Key="OCR.FitWindow">Fit to Window</system:String>
+    <system:String x:Key="OCR.SwitchImg">Switch Original/Annotated Image</system:String>
+    <system:String x:Key="OCR.DropImg">Drop Image Here</system:String>
+    <system:String x:Key="OCR.QRCodeResult">QR Code Recognition Result</system:String>
+    <system:String x:Key="OCR.File">File</system:String>
+    <system:String x:Key="OCR.File.Tooltip">Select an image file for text recognition</system:String>
+    <system:String x:Key="OCR.Screenshot">Screenshot</system:String>
+    <system:String x:Key="OCR.Screenshot.Tooltip">Take a screenshot for text recognition</system:String>
+    <system:String x:Key="OCR.Clipboard">Clipboard</system:String>
+    <system:String x:Key="OCR.Clipboard.Tooltip">Perform text recognition on clipboard content</system:String>
+    <system:String x:Key="OCR.Setting">Settings</system:String>
+    <system:String x:Key="OCR.Translate">Translate</system:String>
+    <system:String x:Key="OCR.QRCode">QR Code</system:String>
+    <system:String x:Key="OCR.Recertification">Recognize</system:String>
 
     <!--#endregion-->
 
