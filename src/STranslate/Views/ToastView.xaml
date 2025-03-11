@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
-    Width="200"
+    Width="220"
     Height="40"
     mc:Ignorable="d">
     <UserControl.RenderTransform>
