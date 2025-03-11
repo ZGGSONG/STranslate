@@ -595,6 +595,28 @@
     <system:String x:Key="Input.RemoveSpaces">移除空格</system:String>
     <system:String x:Key="Input.DetectedAs">识别为</system:String>
 
+    <system:String x:Key="Output.Retry">重试</system:String>
+    <system:String x:Key="Output.TextToSpeech">文字转语音</system:String>
+    <system:String x:Key="Output.CopyAsLargeCamelCase">复制为大驼峰字符串</system:String>
+    <system:String x:Key="Output.CopyAsSmallCamelCase">复制为小驼峰字符串</system:String>
+    <system:String x:Key="Output.CopyAsSnakeCase">复制为蛇形字符串</system:String>
+    <system:String x:Key="Output.CopyDirectly">直接复制结果</system:String>
+    <system:String x:Key="Output.InsertResult">插入结果</system:String>
+    <system:String x:Key="Output.ExecuteTranslation">执行翻译</system:String>
+    <system:String x:Key="Output.ExecuteTranslationTooltip">执行当前服务翻译</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslation">执行回译</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslationTooltip">执行当前服务回译</system:String>
+    <system:String x:Key="Output.AutoExecute">自动执行</system:String>
+    <system:String x:Key="Output.AutoExecuteTooltip">执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件</system:String>
+    <system:String x:Key="Output.AutoBackTranslation">自动回译</system:String>
+    <system:String x:Key="Output.AutoBackTranslationTooltip">执行翻译时是否自动执行回译，否则需要手动点击才能进行回译，保存至配置文件</system:String>
+    <system:String x:Key="Output.ConfigureService">配置服务</system:String>
+    <system:String x:Key="Output.ConfigureServiceTooltip">进入服务配置页面</system:String>
+    <system:String x:Key="Output.CloseService">关闭服务</system:String>
+    <system:String x:Key="Output.CloseServiceTooltip">立即关闭服务并保存至配置文件</system:String>
+    <system:String x:Key="Output.BackTranslateTooltip">回译(Ctrl+点击 启/禁用)</system:String>
+    <system:String x:Key="Output.BackTranslationResultTooltip">右键双击可关闭回译内容</system:String>
+
     <!--#endregion-->
 
     <!--#region 托盘-->

@@ -593,6 +593,28 @@
     <system:String x:Key="Input.RemoveSpaces">Remove Spaces</system:String>
     <system:String x:Key="Input.DetectedAs">Detected as</system:String>
 
+    <system:String x:Key="Output.Retry">Retry</system:String>
+    <system:String x:Key="Output.TextToSpeech">Text to Speech</system:String>
+    <system:String x:Key="Output.CopyAsLargeCamelCase">Copy as PascalCase</system:String>
+    <system:String x:Key="Output.CopyAsSmallCamelCase">Copy as camelCase</system:String>
+    <system:String x:Key="Output.CopyAsSnakeCase">Copy as snake_case</system:String>
+    <system:String x:Key="Output.CopyDirectly">Copy Result Directly</system:String>
+    <system:String x:Key="Output.InsertResult">Insert Result</system:String>
+    <system:String x:Key="Output.ExecuteTranslation">Translate</system:String>
+    <system:String x:Key="Output.ExecuteTranslationTooltip">Execute current service translation</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslation">TransBack</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslationTooltip">Execute current service back translation</system:String>
+    <system:String x:Key="Output.AutoExecute">AutoTranslate</system:String>
+    <system:String x:Key="Output.AutoExecuteTooltip">Whether to automatically translate when executing translation, otherwise you need to click manually to translate, save to configuration file</system:String>
+    <system:String x:Key="Output.AutoBackTranslation">AutoTransBack</system:String>
+    <system:String x:Key="Output.AutoBackTranslationTooltip">Whether to automatically execute back translation when translating, otherwise you need to click manually to perform back translation, save to configuration file</system:String>
+    <system:String x:Key="Output.ConfigureService">Configuration</system:String>
+    <system:String x:Key="Output.ConfigureServiceTooltip">Enter service configuration page</system:String>
+    <system:String x:Key="Output.CloseService">Close Service</system:String>
+    <system:String x:Key="Output.CloseServiceTooltip">Close the service immediately and save to the configuration file</system:String>
+    <system:String x:Key="Output.BackTranslateTooltip">Translate Back (Ctrl+click to Enable/Disable)</system:String>
+    <system:String x:Key="Output.BackTranslationResultTooltip">Right-click double-click to close back translation content</system:String>
+
     <!--#endregion-->
 
     <!--#region 托盘-->

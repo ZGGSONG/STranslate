@@ -101,7 +101,7 @@
                                         Cursor="Hand"
                                         FontSize="{DynamicResource FontSize17}"
                                         Style="{DynamicResource ButtonIconStyle}"
-                                        ToolTip="重试"
+                                        ToolTip="{DynamicResource Output.Retry}"
                                         Visibility="{Binding Data.IsSuccess, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
 
                                     <!--  // 复制按钮到Expander上 Expander收起时显示//  -->
@@ -121,7 +121,7 @@
                                             Content="&#xe610;"
                                             Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="文字转语音"
+                                            ToolTip="{DynamicResource Output.TextToSpeech}"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                         <!--  大驼峰复制  -->
                                         <Button
@@ -131,7 +131,7 @@
                                             Content="&#xe601;"
                                             Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为大驼峰字符串">
+                                            ToolTip="{DynamicResource Output.CopyAsLargeCamelCase}">
                                             <Button.Visibility>
                                                 <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                     <Binding Path="Data.Result" />
@@ -147,7 +147,7 @@
                                             Content="&#xe602;"
                                             Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为小驼峰字符串">
+                                            ToolTip="{DynamicResource Output.CopyAsSmallCamelCase}">
                                             <Button.Visibility>
                                                 <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                     <Binding Path="Data.Result" />
@@ -163,7 +163,7 @@
                                             Content="&#xe600;"
                                             Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="复制为蛇形字符串">
+                                            ToolTip="{DynamicResource Output.CopyAsSnakeCase}">
                                             <Button.Visibility>
                                                 <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                     <Binding Path="Data.Result" />
@@ -179,7 +179,7 @@
                                             Content="&#xe692;"
                                             Cursor="Hand"
                                             Style="{DynamicResource ButtonCopyIconStyle}"
-                                            ToolTip="直接复制结果"
+                                            ToolTip="{DynamicResource Output.CopyDirectly}"
                                             Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                     </StackPanel>
 
@@ -211,7 +211,7 @@
                                                 <Border
                                                     PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                    ToolTip="执行当前服务翻译">
+                                                    ToolTip="{DynamicResource Output.ExecuteTranslationTooltip}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.ExecuteTranslateCommand}">
@@ -234,7 +234,7 @@
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             FontSize="{DynamicResource FontSize14}"
-                                                            Text="执行翻译" />
+                                                            Text="{DynamicResource Output.ExecuteTranslation}" />
                                                     </Grid>
                                                 </Border>
 
@@ -242,7 +242,7 @@
                                                 <Border
                                                     PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                    ToolTip="执行当前服务回译"
+                                                    ToolTip="{DynamicResource Output.ExecuteBackTranslationTooltip}"
                                                     Visibility="{Binding Type, Converter={StaticResource DictToCollapsedConverter}}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -266,7 +266,7 @@
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             FontSize="{DynamicResource FontSize14}"
-                                                            Text="执行回译" />
+                                                            Text="{DynamicResource Output.ExecuteBackTranslation}" />
                                                     </Grid>
                                                 </Border>
 
@@ -276,7 +276,7 @@
                                                 <Border
                                                     PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                    ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译，保存至配置文件">
+                                                    ToolTip="{DynamicResource Output.AutoExecuteTooltip}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CanAutoExecuteCommand}">
@@ -307,7 +307,7 @@
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             FontSize="{DynamicResource FontSize14}"
-                                                            Text="自动执行" />
+                                                            Text="{DynamicResource Output.AutoExecute}" />
                                                     </Grid>
                                                 </Border>
 
@@ -315,7 +315,7 @@
                                                 <Border
                                                     PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                    ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译，保存至配置文件"
+                                                    ToolTip="{DynamicResource Output.AutoBackTranslationTooltip}"
                                                     Visibility="{Binding Type, Converter={StaticResource DictToCollapsedConverter}}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
@@ -347,7 +347,7 @@
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             FontSize="{DynamicResource FontSize14}"
-                                                            Text="自动回译" />
+                                                            Text="{DynamicResource Output.AutoBackTranslation}" />
                                                     </Grid>
                                                 </Border>
 
@@ -355,7 +355,7 @@
                                                 <Border
                                                     PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                    ToolTip="进入服务配置页面">
+                                                    ToolTip="{DynamicResource Output.ConfigureServiceTooltip}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.NavigateToServiceCommand}">
@@ -378,7 +378,7 @@
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             FontSize="{DynamicResource FontSize14}"
-                                                            Text="配置服务" />
+                                                            Text="{DynamicResource Output.ConfigureService}" />
                                                     </Grid>
                                                 </Border>
 
@@ -388,7 +388,7 @@
                                                 <Border
                                                     PreviewMouseDown="UI_PreviewMouseDown"
                                                     Style="{DynamicResource BorderExtraSettingsStyle}"
-                                                    ToolTip="立即关闭服务并保存至配置文件">
+                                                    ToolTip="{DynamicResource Output.CloseServiceTooltip}">
                                                     <i:Interaction.Triggers>
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                                             <i:InvokeCommandAction Command="{Binding Source={StaticResource OutputVm}, Path=Data.CloseServiceCommand}">
@@ -411,7 +411,7 @@
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Left"
                                                             FontSize="{DynamicResource FontSize14}"
-                                                            Text="关闭服务" />
+                                                            Text="{DynamicResource Output.CloseService}" />
                                                     </Grid>
                                                 </Border>
                                             </StackPanel>
@@ -607,7 +607,7 @@
                                     Content="&#xe610;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="文字转语音"
+                                    ToolTip="{DynamicResource Output.TextToSpeech}"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 <!--  蛇形复制  -->
                                 <Button
@@ -617,7 +617,7 @@
                                     Content="&#xe600;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="复制为蛇形字符串">
+                                    ToolTip="{DynamicResource Output.CopyAsSnakeCase}">
                                     <Button.Visibility>
                                         <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                             <Binding Path="Data.Result" />
@@ -633,7 +633,7 @@
                                     Content="&#xe602;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="复制为小驼峰字符串">
+                                    ToolTip="{DynamicResource Output.CopyAsSmallCamelCase}">
                                     <Button.Visibility>
                                         <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                             <Binding Path="Data.Result" />
@@ -649,7 +649,7 @@
                                     Content="&#xe601;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="复制为大驼峰字符串">
+                                    ToolTip="{DynamicResource Output.CopyAsLargeCamelCase}">
                                     <Button.Visibility>
                                         <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                             <Binding Path="Data.Result" />
@@ -665,7 +665,7 @@
                                     Content="&#xe692;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="直接复制结果"
+                                    ToolTip="{DynamicResource Output.CopyDirectly}"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 <!--  插入文本  -->
                                 <Button
@@ -674,7 +674,7 @@
                                     Content="&#xe677;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="插入结果"
+                                    ToolTip="{DynamicResource Output.InsertResult}"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}">
                                     <Button.CommandParameter>
                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
@@ -689,7 +689,7 @@
                                     Content="&#xe687;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="回译(Ctrl+点击 启/禁用)">
+                                    ToolTip="{DynamicResource Output.BackTranslateTooltip}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                             <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SingleTranslateBackCommand}" CommandParameter="{Binding .}" />
@@ -771,7 +771,7 @@
                                     Content="&#xe610;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="文字转语音"
+                                    ToolTip="{DynamicResource Output.TextToSpeech}"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 <!--  普通复制  -->
                                 <Button
@@ -781,7 +781,7 @@
                                     Content="&#xe692;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="直接复制结果"
+                                    ToolTip="{DynamicResource Output.CopyDirectly}"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}" />
                                 <!--  插入文本  -->
                                 <Button
@@ -790,7 +790,7 @@
                                     Content="&#xe677;"
                                     Cursor="Hand"
                                     Style="{DynamicResource ButtonCopyIconStyle}"
-                                    ToolTip="插入结果"
+                                    ToolTip="{DynamicResource Output.InsertResult}"
                                     Visibility="{Binding Data.Result, Converter={StaticResource VisibilityConverter}}">
                                     <Button.CommandParameter>
                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
@@ -810,7 +810,7 @@
                                                                    BasedOn={StaticResource ScaleVertically},
                                                                    Event=Visibility,
                                                                    Duration=400}"
-                                ToolTip="右键双击可关闭回译内容"
+                                ToolTip="{DynamicResource Output.BackTranslationResultTooltip}"
                                 Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -851,7 +851,7 @@
                                         Content="&#xe610;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="文字转语音"
+                                        ToolTip="{DynamicResource Output.TextToSpeech}"
                                         Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}" />
                                     <!--  蛇形复制  -->
                                     <Button
@@ -861,7 +861,7 @@
                                         Content="&#xe600;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="复制为蛇形字符串">
+                                        ToolTip="{DynamicResource Output.CopyAsSnakeCase}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.TranslateBackResult" />
@@ -877,7 +877,7 @@
                                         Content="&#xe602;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="复制为小驼峰字符串">
+                                        ToolTip="{DynamicResource Output.CopyAsSmallCamelCase}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.TranslateBackResult" />
@@ -893,7 +893,7 @@
                                         Content="&#xe601;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="复制为大驼峰字符串">
+                                        ToolTip="{DynamicResource Output.CopyAsLargeCamelCase}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{StaticResource StringBoolean2VisibilityConverter}">
                                                 <Binding Path="Data.TranslateBackResult" />
@@ -909,7 +909,7 @@
                                         Content="&#xe692;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="直接复制结果"
+                                        ToolTip="{DynamicResource Output.CopyDirectly}"
                                         Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}" />
 
                                     <!--  // 插入文本 //  -->
@@ -919,7 +919,7 @@
                                         Content="&#xe677;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ButtonCopyIconStyle}"
-                                        ToolTip="插入结果"
+                                        ToolTip="{DynamicResource Output.InsertResult}"
                                         Visibility="{Binding Data.TranslateBackResult, Converter={StaticResource VisibilityConverter}}">
                                         <Button.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
