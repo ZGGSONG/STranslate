@@ -210,7 +210,7 @@ public partial class InputViewModel : ObservableObject
             (service) =>
             {
                 service.Data.IsSuccess = false;
-                service.Data.Result = "请输入有效内容";
+                service.Data.Result = AppLanguageManager.GetString("Input.ValidContent");
             });
         return false;
     }
@@ -360,7 +360,7 @@ public partial class InputViewModel : ObservableObject
             history = await SqlHelper.GetDataAsync(InputContent, GetSourceLang.GetDescription(), GetTargetLang.GetDescription());
             if (history != null)
             {
-                IdentifyLanguage = "缓存";
+                IdentifyLanguage = AppLanguageManager.GetString("Input.Cache");
                 var settings = new JsonSerializerSettings { Converters = { new CurrentTranslatorConverter() } };
                 servicesCache = JsonConvert.DeserializeObject<List<ITranslator>>(history.Data, settings);
             }
@@ -480,12 +480,12 @@ public partial class InputViewModel : ObservableObject
         switch (exception)
         {
             case TaskCanceledException:
-                errorMessage = token.IsCancellationRequested ? "请求取消" : "请求超时(请检查网络环境是否正常或服务是否可用)\n";
+                errorMessage = token.IsCancellationRequested ? AppLanguageManager.GetString("Input.RequestCancel") : AppLanguageManager.GetString("MessageBox.RequestTimeout");
                 isCancelMsg = token.IsCancellationRequested;
                 break;
             case HttpRequestException:
                 if (exception.InnerException != null) exception = exception.InnerException;
-                errorMessage = "请求出错";
+                errorMessage = AppLanguageManager.GetString("Input.RequestError");
                 break;
         }
         service.Data.IsSuccess = false;
@@ -494,10 +494,10 @@ public partial class InputViewModel : ObservableObject
 
         if (isCancelMsg)
             LogService.Logger.Debug(
-                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+                $"[{service.Name}({service.Identify})] {errorMessage}, {AppLanguageManager.GetString("Input.RequestApi")}: {service.Url}, {AppLanguageManager.GetString("Input.ExceptionMsg")}: {exception.Message}");
         else
             LogService.Logger.Error(
-                $"[{service.Name}({service.Identify})] {errorMessage}, 请求API: {service.Url}, 异常信息: {exception.Message}");
+                $"[{service.Name}({service.Identify})] {errorMessage}, {AppLanguageManager.GetString("Input.RequestApi")}: {service.Url}, {AppLanguageManager.GetString("Input.ExceptionMsg")}: {exception.Message}");
     }
 
     /// <summary>

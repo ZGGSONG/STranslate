@@ -77,7 +77,7 @@ public partial class TTSOffline : ObservableObject, ITTS
     {
         var installedVoices = new SpeechSynthesizer().GetInstalledVoices();
         LogService.Logger.Info($"TTS|TTSOffline|SystemSupportLanguage:{string.Join(",", installedVoices.Select(x => x.VoiceInfo.Culture.DisplayName))}");
-        MessageBox_S.Show("系统支持的语音：" + string.Join(",", installedVoices.Select(x => x.VoiceInfo.Culture.DisplayName)));
+        MessageBox_S.Show(AppLanguageManager.GetString("MessageBox.SupportedVoice") + string.Join(",", installedVoices.Select(x => x.VoiceInfo.Culture.DisplayName)));
     }
 
     public async Task SpeakTextAsync(string text, CancellationToken token)

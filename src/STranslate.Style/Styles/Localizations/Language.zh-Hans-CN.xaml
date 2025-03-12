@@ -631,6 +631,13 @@
     <system:String x:Key="Input.RemoveLineBreak">移除换行&#13;Ctrl+点击切换处理换行模式</system:String>
     <system:String x:Key="Input.RemoveSpaces">移除空格</system:String>
     <system:String x:Key="Input.DetectedAs">识别为</system:String>
+    <system:String x:Key="Input.ValidContent">请输入有效内容</system:String>
+    <system:String x:Key="Input.Cache">缓存</system:String>
+    <system:String x:Key="Input.RequestCancel">请求取消</system:String>
+    <system:String x:Key="Input.RequestError">请求出错</system:String>
+    <system:String x:Key="Input.RequestTimeout">请求超时(请检查网络环境是否正常或服务是否可用)\n</system:String>
+    <system:String x:Key="Input.RequestApi">请求API</system:String>
+    <system:String x:Key="Input.ExceptionMsg">异常信息</system:String>
 
     <system:String x:Key="Output.Retry">重试</system:String>
     <system:String x:Key="Output.TextToSpeech">文字转语音</system:String>
@@ -698,6 +705,18 @@
     <system:String x:Key="Prompt.Edit">编辑Prompt</system:String>
     <system:String x:Key="Prompt.Delete">删除Prompt</system:String>
     <system:String x:Key="Prompt.Add">添加Prompt</system:String>
+
+    <!--#endregion-->
+
+    <!--#region MessageBox-->
+
+    <system:String x:Key="MessageBox.AlreadyRunning">应用程序已经在运行中。</system:String>
+    <system:String x:Key="MessageBox.MultiOpeningDetection">多开检测</system:String>
+    <system:String x:Key="MessageBox.HotkeysConflict">全局热键冲突，请前往软件首选项中修改...</system:String>
+    <system:String x:Key="MessageBox.AlreadyListeningWordSelection">当前监听鼠标划词中，请先解除监听...</system:String>
+    <system:String x:Key="MessageBox.ContinueReset">重置该配置影响替换翻译配置，是否继续恢复？</system:String>
+    <system:String x:Key="MessageBox.Tip">提示</system:String>
+    <system:String x:Key="MessageBox.SupportedVoice">系统支持的语音：</system:String>
 
     <!--#endregion-->
 

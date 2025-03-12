@@ -263,7 +263,7 @@ public partial class MainViewModel : ObservableObject
             || HotkeyHelper.Hotkeys!.SilentTTS.Conflict
             || HotkeyHelper.Hotkeys!.ClipboardMonitor.Conflict
         )
-            MessageBox_S.Show("全局热键冲突，请前往软件首选项中修改...");
+            MessageBox_S.Show(AppLanguageManager.GetString("MessageBox.HotkeysConflict"));
         var msg = "";
         if (!HotkeyHelper.Hotkeys.InputTranslate.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.InputTranslate.Text))
@@ -461,7 +461,7 @@ public partial class MainViewModel : ObservableObject
     {
         if (NotifyIconVM.IsMousehook)
         {
-            MessageBox_S.Show("当前监听鼠标划词中，请先解除监听...");
+            MessageBox_S.Show(AppLanguageManager.GetString("MessageBox.AlreadyListeningWordSelection"));
             return;
         }
 
@@ -482,7 +482,7 @@ public partial class MainViewModel : ObservableObject
     {
         if (NotifyIconVM.IsMousehook)
         {
-            MessageBox_S.Show("当前监听鼠标划词中，请先解除监听...");
+            MessageBox_S.Show(AppLanguageManager.GetString("MessageBox.AlreadyListeningWordSelection"));
             return;
         }
 

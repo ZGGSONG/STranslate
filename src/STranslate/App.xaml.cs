@@ -32,7 +32,7 @@ public partial class App
         // 多开检测
         if (IsAnotherInstanceRunning())
         {
-            MessageBox_S.Show($"{Constant.AppName} 应用程序已经在运行中。", "多开检测");
+            MessageBox_S.Show($"{Constant.AppName} {AppLanguageManager.GetString("MessageBox.AlreadyRunning")}", AppLanguageManager.GetString("MessageBox.MultiOpeningDetection"));
             Current.Shutdown();
             return;
         }

@@ -252,7 +252,7 @@ public partial class TranslatorViewModel : ObservableObject
         ResetView();
         ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
 
-        if (MessageBox_S.Show("重置该配置影响替换翻译配置，是否继续恢复？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+        if (MessageBox_S.Show(AppLanguageManager.GetString("MessageBox.ContinueReset"), AppLanguageManager.GetString("MessageBox.Tip"), MessageBoxButton.OKCancel) == MessageBoxResult.OK)
         {
             Singleton<ReplaceViewModel>.Instance.ResetCommand.Execute(null);
         }

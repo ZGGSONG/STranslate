@@ -629,6 +629,13 @@
     <system:String x:Key="Input.RemoveLineBreak">To remove line breaks, Ctrl+click to toggle the processing of line breaks mode</system:String>
     <system:String x:Key="Input.RemoveSpaces">Remove Spaces</system:String>
     <system:String x:Key="Input.DetectedAs">Detected as</system:String>
+    <system:String x:Key="Input.ValidContent">Please input valid content</system:String>
+    <system:String x:Key="Input.Cache">Cache</system:String>
+    <system:String x:Key="Input.RequestCancel">Request cancel</system:String>
+    <system:String x:Key="Input.RequestError">Request error</system:String>
+    <system:String x:Key="Input.RequestTimeout">Request timeout (please check whether the network environment is normal or the service is available)\n</system:String>
+    <system:String x:Key="Input.RequestApi">Request api</system:String>
+    <system:String x:Key="Input.ExceptionMsg">Exception message</system:String>
 
     <system:String x:Key="Output.Retry">Retry</system:String>
     <system:String x:Key="Output.TextToSpeech">Text to Speech</system:String>
@@ -696,6 +703,18 @@
     <system:String x:Key="Prompt.Edit">Edit Prompt</system:String>
     <system:String x:Key="Prompt.Delete">Delete Prompt</system:String>
     <system:String x:Key="Prompt.Add">Add Prompt</system:String>
+
+    <!--#endregion-->
+
+    <!--#region MessageBox-->
+
+    <system:String x:Key="MessageBox.AlreadyRunning">Application is already running.</system:String>
+    <system:String x:Key="MessageBox.MultiOpeningDetection">Multiple Instance Detection</system:String>
+    <system:String x:Key="MessageBox.HotkeysConflict">Global hotkey conflict, please modify in software preferences...</system:String>
+    <system:String x:Key="MessageBox.AlreadyListeningWordSelection">Currently monitoring mouse text selection, please disable monitoring first...</system:String>
+    <system:String x:Key="MessageBox.ContinueReset">Resetting this configuration will affect translation replacement settings, continue with restoration?</system:String>
+    <system:String x:Key="MessageBox.Tip">Tip</system:String>
+    <system:String x:Key="MessageBox.SupportedVoice">System supported voices:</system:String>
 
     <!--#endregion-->
 
