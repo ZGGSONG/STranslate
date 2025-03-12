@@ -487,6 +487,21 @@
     <system:String x:Key="Service.TTS.SubTitle">Text-to-speech services. Add your TTS service and select for use</system:String>
     <system:String x:Key="Service.VocabularyBook.Title">Vocabulary Book</system:String>
     <system:String x:Key="Service.VocabularyBook.SubTitle">Store text in an online vocabulary book</system:String>
+    <system:String x:Key="Service.Name">Name:</system:String>
+    <system:String x:Key="Service.Api">Api:</system:String>
+    <system:String x:Key="Service.AutoExecute">AutoExec:</system:String>
+    <system:String x:Key="Service.AutoExecute.Tooltip">Whether to translate automatically when executing translation, otherwise you need to click manually to translate</system:String>
+    <system:String x:Key="Service.AutoTransBack">AEBack:</system:String>
+    <system:String x:Key="Service.AutoTransBack.Tooltip">Whether to automatically perform back translation when executing translation, otherwise you need to click manually to perform back translation</system:String>
+    <system:String x:Key="Service.LinkTest">LinkTest:</system:String>
+    <system:String x:Key="Service.Verify">Verify</system:String>
+    <system:String x:Key="Service.Icon">Icon</system:String>
+    <system:String x:Key="Service.OpenInBrower">Open in brower</system:String>
+    <system:String x:Key="Service.EnterOfficialWebsite">Enter official website</system:String>
+    <system:String x:Key="Service.Version">Version:</system:String>
+    <system:String x:Key="Service.Update">Update</system:String>
+    <system:String x:Key="Service.Duplicate">Duplicate</system:String>
+    <system:String x:Key="Service.Delete">Delete</system:String>
 
     <!--#endregion-->
 

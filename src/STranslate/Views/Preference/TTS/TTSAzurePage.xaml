@@ -25,7 +25,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="名称: " />
+                <TextBlock Text="{DynamicResource Service.Name}" />
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
@@ -40,7 +40,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="图标: " />
+                <TextBlock Text="{DynamicResource Service.Icon}" />
 
                 <ComboBox
                     Grid.Column="1"
@@ -57,7 +57,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="接口: " />
+                <TextBlock Text="{DynamicResource Service.Api}" />
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
@@ -162,8 +162,10 @@
                 <TextBlock
                     Grid.Column="1"
                     Margin="10,0"
-                    ToolTip="在浏览器中打开">
-                    <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                    ToolTip="{DynamicResource Service.OpenInBrower}">
+                    <Hyperlink Click="Hyperlink_Click">
+                        <ContentControl Content="{DynamicResource Service.EnterOfficialWebsite}" />
+                    </Hyperlink>
                 </TextBlock>
             </Grid>
         </StackPanel>

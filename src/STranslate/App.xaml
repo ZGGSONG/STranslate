@@ -37,6 +37,7 @@
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ToggleButtonStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/SliderStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/ProcessBarStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/PromptStyle.xaml" />
 
                 <!--  // Localization //  -->
                 <ResourceDictionary Source="pack://application:,,,/STranslate.Style;component/Styles/Localizations/Language.xaml" />

@@ -25,7 +25,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="名称: " />
+                <TextBlock Text="{DynamicResource Service.Name}" />
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
@@ -40,7 +40,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="图标: " />
+                <TextBlock Text="{DynamicResource Service.Icon}" />
 
                 <ComboBox
                     Grid.Column="1"
@@ -75,7 +75,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="自动执行: " ToolTip="执行翻译时是否自动翻译，否则需要手动点击才能进行翻译" />
+                <TextBlock Text="{DynamicResource Service.AutoExecute}" ToolTip="{DynamicResource Service.AutoExecute.Tooltip}" />
 
                 <ToggleButton
                     Grid.Column="1"
@@ -88,7 +88,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="自动回译: " ToolTip="执行翻译时是否自动执行回译，否则需要手动点击才能进行回译" />
+                <TextBlock Text="{DynamicResource Service.AutoTransBack}" ToolTip="{DynamicResource Service.AutoTransBack.Tooltip}" />
 
                 <ToggleButton
                     Grid.Column="1"
@@ -101,21 +101,21 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="连通测试: " />
+                <TextBlock Text="{DynamicResource Service.LinkTest}" />
 
                 <Button
                     Grid.Column="1"
                     MinWidth="80"
                     HorizontalAlignment="Left"
                     Command="{Binding TestCommand}"
-                    Content="验证"
+                    Content="{DynamicResource Service.Verify}"
                     Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <Button
                     Grid.Column="1"
                     MinWidth="80"
                     HorizontalAlignment="Left"
                     Command="{Binding TestCancelCommand}"
-                    Content="取消"
+                    Content="{DynamicResource Cancel}"
                     Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
 

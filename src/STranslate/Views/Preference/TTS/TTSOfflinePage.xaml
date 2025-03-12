@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="名称: " />
+                <TextBlock Text="{DynamicResource Service.Name}" />
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
@@ -39,7 +39,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="图标: " />
+                <TextBlock Text="{DynamicResource Service.Icon}" />
 
                 <ComboBox
                     Grid.Column="1"

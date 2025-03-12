@@ -15,68 +15,6 @@
     Background="Transparent"
     FontSize="{DynamicResource FontSize18}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <ItemsPanelTemplate x:Key="PromptTemplate">
-            <WrapPanel Orientation="Horizontal" />
-        </ItemsPanelTemplate>
-        <DataTemplate DataType="{x:Type model:UserDefinePrompt}">
-            <Border Style="{DynamicResource BorderPromptStyle}">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel.Resources>
-                        <Style BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="ToolTip">
-                            <Setter Property="MaxWidth" Value="500" />
-                            <Setter Property="MaxHeight" Value="400" />
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <TextBlock Text="{TemplateBinding Content}" />
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectedPromptCommand}"
-                        Content="{Binding Name}"
-                        Style="{DynamicResource PromptLeftBtnStyle}"
-                        ToolTip="{Binding ., Converter={StaticResource JsonSerializeConverter}}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                <Binding Path="." />
-                            </MultiBinding>
-                        </Button.CommandParameter>
-                    </Button>
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
-                    <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.UpdatePromptCommand}"
-                        CommandParameter="{Binding Path=.}"
-                        Content="&#xe61b;"
-                        FontFamily="{DynamicResource IconFont}"
-                        FontSize="{DynamicResource FontSize14}"
-                        Style="{DynamicResource PromptBtnStyle}"
-                        ToolTip="更新" />
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
-                    <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DuplicatePromptCommand}"
-                        CommandParameter="{Binding Path=.}"
-                        Content="&#xe652;"
-                        FontFamily="{DynamicResource IconFont}"
-                        FontSize="{DynamicResource FontSize14}"
-                        Style="{DynamicResource PromptBtnStyle}"
-                        ToolTip="副本" />
-                    <Separator Style="{DynamicResource VerticalSeparatorStyle}" />
-                    <Button
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.DeletePromptCommand}"
-                        CommandParameter="{Binding Path=.}"
-                        Content="&#xe74b;"
-                        FontFamily="{DynamicResource IconFont}"
-                        FontSize="{DynamicResource FontSize16}"
-                        Style="{DynamicResource PromptRightBtnStyle}"
-                        ToolTip="删除" />
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-    </UserControl.Resources>
     <Border
         Padding="10,20"
         props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
@@ -89,7 +27,7 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="名称: " />
+                    <TextBlock Text="{DynamicResource Service.Name}" />
 
                     <common:PlaceholderTextBox
                         Grid.Column="1"
@@ -105,7 +43,7 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="图标: " />
+                    <TextBlock Text="{DynamicResource Service.Icon}" />
 
                     <ComboBox
                         Grid.Column="1"
@@ -122,7 +60,7 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="接口: " />
+                    <TextBlock Text="{DynamicResource Service.Api}" />
 
                     <common:PlaceholderTextBox
                         Grid.Column="1"
@@ -324,8 +262,10 @@
                     <TextBlock
                         Grid.Column="1"
                         Margin="10,0"
-                        ToolTip="在浏览器中打开">
-                        <Hyperlink Click="Hyperlink_Click">进入官网</Hyperlink>
+                        ToolTip="{DynamicResource Service.OpenInBrower}">
+                        <Hyperlink Click="Hyperlink_Click">
+                            <ContentControl Content="{DynamicResource Service.EnterOfficialWebsite}" />
+                        </Hyperlink>
                     </TextBlock>
                 </Grid>
 

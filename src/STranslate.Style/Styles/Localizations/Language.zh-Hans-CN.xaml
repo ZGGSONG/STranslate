@@ -487,6 +487,21 @@
     <system:String x:Key="Service.TTS.SubTitle">文本转语音服务，添加你的TTS服务并选择使用</system:String>
     <system:String x:Key="Service.VocabularyBook.Title">生词本</system:String>
     <system:String x:Key="Service.VocabularyBook.SubTitle">将文本存储至在线生词本中</system:String>
+    <system:String x:Key="Service.Name">名称:</system:String>
+    <system:String x:Key="Service.Api">接口:</system:String>
+    <system:String x:Key="Service.AutoExecute">自动执行:</system:String>
+    <system:String x:Key="Service.AutoExecute.Tooltip">执行翻译时是否自动翻译，否则需要手动点击才能进行翻译</system:String>
+    <system:String x:Key="Service.AutoTransBack">自动回译:</system:String>
+    <system:String x:Key="Service.AutoTransBack.Tooltip">执行翻译时是否自动执行回译，否则需要手动点击才能进行回译</system:String>
+    <system:String x:Key="Service.LinkTest">连通测试:</system:String>
+    <system:String x:Key="Service.Verify">验证</system:String>
+    <system:String x:Key="Service.Icon">图标</system:String>
+    <system:String x:Key="Service.OpenInBrower">在浏览器中打开</system:String>
+    <system:String x:Key="Service.EnterOfficialWebsite">进入官网</system:String>
+    <system:String x:Key="Service.Version">版本:</system:String>
+    <system:String x:Key="Service.Update">更新</system:String>
+    <system:String x:Key="Service.Duplicate">副本</system:String>
+    <system:String x:Key="Service.Delete">删除</system:String>
 
     <!--#endregion-->
 
