@@ -64,10 +64,17 @@
                         Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                         CornerRadius="6">
                         <TextBlock
+                            x:Name="ServiceTypeText"
                             Padding="2,0"
                             props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
-                            FontSize="{DynamicResource FontSize12}"
-                            Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                            FontSize="{DynamicResource FontSize12}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource MultiServiceType2StringConverter}">
+                                    <Binding ElementName="ServiceTypeText" />
+                                    <Binding Path="Type" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Border>
                 </Grid>
             </Border>
@@ -123,10 +130,18 @@
                         Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                         CornerRadius="6">
                         <TextBlock
+                            x:Name="ServiceTypeText"
                             Padding="2,0"
                             props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
-                            FontSize="{DynamicResource FontSize12}"
-                            Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                            FontSize="{DynamicResource FontSize12}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource MultiServiceType2StringConverter}">
+                                    <Binding ElementName="ServiceTypeText" />
+                                    <Binding Path="Type" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <!--  Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />  -->
                     </Border>
                 </Grid>
             </Border>
@@ -182,10 +197,17 @@
                         Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
                         CornerRadius="6">
                         <TextBlock
+                            x:Name="ServiceTypeText"
                             Padding="2,0"
                             props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
-                            FontSize="{DynamicResource FontSize12}"
-                            Text="{Binding Type, Converter={StaticResource ServiceType2StringConverter}}" />
+                            FontSize="{DynamicResource FontSize12}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource MultiServiceType2StringConverter}">
+                                    <Binding ElementName="ServiceTypeText" />
+                                    <Binding Path="Type" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Border>
                 </Grid>
             </Border>
