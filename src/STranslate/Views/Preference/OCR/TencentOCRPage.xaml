@@ -22,7 +22,7 @@
         <StackPanel>
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource Service.Name}" />
@@ -38,7 +38,7 @@
 
             <Grid Margin="0,10" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource Service.Icon}" />
@@ -55,7 +55,7 @@
 
             <Grid Margin="0,10" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource Service.Api}" />
@@ -71,18 +71,16 @@
 
             <Grid Margin="0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="版本: " />
-                <TextBlock
-                    Grid.Column="1"
-                    Style="{DynamicResource InfoTextBlock}"
-                    ToolTip="高精度版不支持语种选择" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Service.Version}" />
+                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Service.OCR.Tencent.Version.Tooltip}" />
+                </StackPanel>
 
                 <ComboBox
-                    Grid.Column="2"
+                    Grid.Column="1"
                     HorizontalAlignment="Left"
                     BorderThickness="1"
                     DisplayMemberPath="Description"

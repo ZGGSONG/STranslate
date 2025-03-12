@@ -502,6 +502,25 @@
     <system:String x:Key="Service.Update">更新</system:String>
     <system:String x:Key="Service.Duplicate">副本</system:String>
     <system:String x:Key="Service.Delete">删除</system:String>
+    <system:String x:Key="Service.Model">模型:</system:String>
+    <system:String x:Key="Service.Prompt.Info">通过自定义Prompt自定义LLM行为, $target 将会被替换为 目标语言</system:String>
+    <system:String x:Key="Service.Temperature">温度:</system:String>
+    <system:String x:Key="Service.Temperature.Tooltip">语言模型的上下文中，是控制模型生成文本多样性的一个参数。模型在做出下一个词预测时的确定性和随机性程度</system:String>
+    <system:String x:Key="Service.OCR.GeminiApi">接口API地址不建议填写Path部分，除非你很清楚你在干什么&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OCR.GoogleLocation">词语位置:</system:String>
+    <system:String x:Key="Service.OCR.GoogleLocation.Tooltip">获取结果时是否定位到每个词语的位置</system:String>
+    <system:String x:Key="Service.OpenAI.Info1">接口API地址不填写Path内容则自动填充 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenAI.Info2">如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenAI.Info3">若仍然存疑请点击此链接</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Data">数据包:</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Download">下载数据包</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Check">检查数据包</system:String>
+    <system:String x:Key="Service.OCR.Tencent.Version.Tooltip">高精度版不支持语种选择</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Path">路径:</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Path.Info">路径默认可以不带版本号，软件会自动寻找注册表中微信写入的版本号信息，方便微信升级无需更新也能正常使用。但有时使用scoop等方式安装的微信不会及时更新注册表中版本号，所以遇到无法找到微信路径的请填写带有版本号如 'D:\scoop\WeChat\[3.9.12.11]' 的完整路径</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Dll.Info">该服务调用时会自动加载上面填入微信路径中的mmmojo.dll和mmmojo_64.dll动态链接库以实现功能调用，如果遇到微信升级后无法使用可尝试清理后再试</system:String>
+    <system:String x:Key="Service.Clear">清理</system:String>
+    <system:String x:Key="Service.ClearDll">清理依赖库</system:String>
 
     <!--#endregion-->
 
@@ -720,6 +739,9 @@
     <system:String x:Key="Prompt.Edit">编辑Prompt</system:String>
     <system:String x:Key="Prompt.Delete">删除Prompt</system:String>
     <system:String x:Key="Prompt.Add">添加Prompt</system:String>
+    <system:String x:Key="Prompt.Import">导入Prompt&#13;从文件添加</system:String>
+    <system:String x:Key="Prompt.Export">导出Prompt&#13;默认导出选中项&#13;Ctrl点击导出全部</system:String>
+    <system:String x:Key="Prompt.DropImport">将Prompt拖放到此处</system:String>
 
     <!--#endregion-->
 

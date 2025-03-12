@@ -58,14 +58,14 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="数据包: " />
+                <TextBlock Text="{DynamicResource Service.OCR.PaddleOCR.Data}" />
 
                 <ToggleButton
                     Name="BTN_Down"
                     Grid.Column="1"
                     Width="100"
                     HorizontalAlignment="Left"
-                    Content="下载数据包"
+                    Content="{DynamicResource Service.OCR.PaddleOCR.Download}"
                     Style="{DynamicResource ToggleButtonTextStyle}"
                     Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <Popup
@@ -123,7 +123,7 @@
                     Width="100"
                     HorizontalAlignment="Left"
                     Command="{Binding CheckDataCommand}"
-                    Content="检查数据包"
+                    Content="{DynamicResource Service.OCR.PaddleOCR.Check}"
                     Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
                     Grid.Column="1"
@@ -131,7 +131,7 @@
                     Margin="110,0,0,0"
                     HorizontalAlignment="Left"
                     Command="{Binding DeleteDataCommand}"
-                    Content="删除"
+                    Content="{DynamicResource Service.Delete}"
                     Visibility="Collapsed" />
                 <!--  Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}"  -->
             </Grid>

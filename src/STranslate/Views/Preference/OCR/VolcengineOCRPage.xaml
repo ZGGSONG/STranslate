@@ -41,7 +41,7 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="版本: " />
+                <TextBlock Text="{DynamicResource Service.Version}" />
 
                 <ComboBox
                     Grid.Column="1"

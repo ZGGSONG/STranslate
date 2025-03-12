@@ -107,7 +107,7 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="词语位置: " ToolTip="获取结果时是否定位到每个词语的位置" />
+                <TextBlock Text="{DynamicResource Service.OCR.GoogleLocation}" ToolTip="{DynamicResource Service.OCR.GoogleLocation.Tooltip}" />
 
                 <ToggleButton
                     Grid.Column="1"
