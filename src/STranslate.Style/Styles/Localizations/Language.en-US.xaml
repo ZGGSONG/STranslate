@@ -691,4 +691,12 @@
 
     <!--#endregion-->
 
+    <!--#region Prompt-->
+
+    <system:String x:Key="Prompt.Edit">Edit Prompt</system:String>
+    <system:String x:Key="Prompt.Delete">Delete Prompt</system:String>
+    <system:String x:Key="Prompt.Add">Add Prompt</system:String>
+
+    <!--#endregion-->
+
 </ResourceDictionary>

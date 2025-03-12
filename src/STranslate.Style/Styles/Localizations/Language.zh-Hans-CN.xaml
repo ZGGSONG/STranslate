@@ -693,4 +693,12 @@
 
     <!--#endregion-->
 
+    <!--#region Prompt-->
+
+    <system:String x:Key="Prompt.Edit">编辑Prompt</system:String>
+    <system:String x:Key="Prompt.Delete">删除Prompt</system:String>
+    <system:String x:Key="Prompt.Add">添加Prompt</system:String>
+
+    <!--#endregion-->
+
 </ResourceDictionary>

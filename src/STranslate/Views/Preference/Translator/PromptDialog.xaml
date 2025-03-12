@@ -69,7 +69,8 @@
                 Grid.Column="1"
                 props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                 FontSize="{DynamicResource FontSize20}">
-                <Run Text="编辑Prompt: " />
+                <Run Text="{DynamicResource Prompt.Edit}" />
+                <Run Text=": " />
                 <Run Text="{Binding UserDefinePrompt.Name}" />
             </TextBlock>
         </Grid>
@@ -108,7 +109,7 @@
                                             CommandParameter="{Binding .}"
                                             Content="&#xe74b;"
                                             Style="{DynamicResource ButtonIconStyle}"
-                                            ToolTip="删除Prompt" />
+                                            ToolTip="{DynamicResource Prompt.Delete}" />
                                     </Grid>
                                     <common:PlaceholderTextBox
                                         MinWidth="200"
@@ -126,7 +127,7 @@
                 <Button
                     x:Name="Add"
                     Command="{Binding AddCommand}"
-                    Content="添加Prompt"
+                    Content="{DynamicResource Prompt.Add}"
                     FontWeight="Bold" />
             </StackPanel>
         </ScrollViewer>
@@ -135,12 +136,12 @@
             <Button
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=promptDialog}"
-                Content="保存"
+                Content="{DynamicResource Preference.Save}"
                 IsDefault="True" />
             <Button
                 Command="{Binding CancelCommand}"
                 CommandParameter="{Binding ElementName=promptDialog}"
-                Content="取消" />
+                Content="{DynamicResource Cancel}" />
         </WrapPanel>
     </Grid>
 </Window>
