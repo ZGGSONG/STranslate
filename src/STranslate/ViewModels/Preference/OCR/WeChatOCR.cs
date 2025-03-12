@@ -80,12 +80,12 @@ public partial class WeChatOCR : OCRBase, IOCR
     {
         if (!Utilities.RemoveMmmojoDll(out var error))
         {
-            ToastHelper.Show("清理失败重启再试", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailedInfo"), WindowType.Preference);
             LogService.Logger.Error($"WeChatOCR|CleanMmMo Error: {error}");
         }
         else
         {
-            ToastHelper.Show("清理成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
         }
     }
 

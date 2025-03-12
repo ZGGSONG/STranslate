@@ -54,7 +54,7 @@ public partial class WebDavViewModel : WindowVMBase
         }
         else
         {
-            ToastHelper.Show("删除失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailed"), WindowType.Preference);
         }
     }
 
@@ -69,7 +69,7 @@ public partial class WebDavViewModel : WindowVMBase
         if (response.IsSuccessful && response.StatusCode == 204)
             WebDavResultList.Remove(Find(fullName));
         else
-            ToastHelper.Show("删除失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailed"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -109,7 +109,7 @@ public partial class WebDavViewModel : WindowVMBase
         }
         else
         {
-            ToastHelper.Show("修改名称失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.RenameFailed"), WindowType.Preference);
             LogService.Logger.Warn(
                 $"WebDav 修改名称({originFullName}=>{selectedValue.FullName})失败, 原因描述: {response?.Description ?? "无返回描述"}");
 

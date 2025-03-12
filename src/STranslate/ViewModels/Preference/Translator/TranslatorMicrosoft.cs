@@ -109,7 +109,7 @@ public partial class TranslatorMicrosoft : TranslatorBase, ITranslator
             var reqModel = new RequestModel("你好", LangEnum.zh_cn, LangEnum.en);
             var ret = await TranslateAsync(reqModel, token);
 
-            result = ret.IsSuccess ? "验证成功" : "验证失败";
+            result = ret.IsSuccess ? AppLanguageManager.GetString("Toast.VerifySuccess") : AppLanguageManager.GetString("Toast.VerifyFailed");
         }
         catch (OperationCanceledException)
         {
@@ -117,7 +117,7 @@ public partial class TranslatorMicrosoft : TranslatorBase, ITranslator
         }
         catch (Exception)
         {
-            result = "验证失败";
+            result = AppLanguageManager.GetString("Toast.VerifyFailed");
         }
         finally
         {

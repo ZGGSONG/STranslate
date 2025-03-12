@@ -69,12 +69,12 @@ public partial class HotkeyViewModel : ObservableObject
         {
             LogService.Logger.Debug($"保存全局热键配置失败，{JsonConvert.SerializeObject(_conf.CurrentConfig.Hotkeys)}");
 
-            ToastHelper.Show("保存热键失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
         else
         {
             RefreshNotifyToolTip();
-            ToastHelper.Show("保存热键成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
         }
     }
 
@@ -178,7 +178,7 @@ public partial class HotkeyViewModel : ObservableObject
         HotKeyConflictCheck();
         RefreshNotifyToolTip();
 
-        ToastHelper.Show("撤销成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -244,7 +244,7 @@ public partial class HotkeyViewModel : ObservableObject
         }
 
         if (_hotkeysModifiers == 0 && (key < Key.F1 || key > Key.F12))
-            ToastHelper.Show("单字符可能会影响使用", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SingleCharInfo"), WindowType.Preference);
 
         _hotkeysKey = (KeyCodes)KeyInterop.VirtualKeyFromKey(key);
         shortcutText.Append(key.ToString());

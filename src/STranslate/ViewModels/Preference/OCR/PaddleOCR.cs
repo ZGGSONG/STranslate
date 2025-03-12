@@ -152,7 +152,7 @@ public partial class PaddleOCR : OCRBase, IOCR
                 goto extract;
             }
 
-            ToastHelper.Show("开始下载", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadStart"), WindowType.Preference);
             using (var response =
                    await httpClient.GetAsync(new Uri(url), HttpCompletionOption.ResponseHeadersRead, token))
             using (var stream = await response.Content.ReadAsStreamAsync(token))
@@ -175,7 +175,7 @@ public partial class PaddleOCR : OCRBase, IOCR
 
             extract:
             IsShowProcessBar = false;
-            ToastHelper.Show("下载完成", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadComplete"), WindowType.Preference);
 
             // 下载完成后的处理
             await ProcessDownloadedFileAsync(token);
@@ -187,12 +187,12 @@ public partial class PaddleOCR : OCRBase, IOCR
             //删除文件
             File.Delete(SourceFile);
             //通知到用户
-            ToastHelper.Show("取消下载", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadCancel"), WindowType.Preference);
         }
         catch (Exception)
         {
             // 下载发生异常
-            ToastHelper.Show("下载时发生异常", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadException"), WindowType.Preference);
         }
         finally
         {
@@ -202,13 +202,13 @@ public partial class PaddleOCR : OCRBase, IOCR
 
     private async Task ProcessDownloadedFileAsync(CancellationToken token)
     {
-        ToastHelper.Show("解压数据包", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.Decompress"), WindowType.Preference);
 
         var result = await Task.Run(() => ZipUtil.DecompressToDirectory(SourceFile, CurrentPath), token);
 
         if (result)
         {
-            ToastHelper.Show("加载数据包成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.LoadDataSuccess"), WindowType.Preference);
 
             File.Delete(SourceFile);
 
@@ -216,7 +216,7 @@ public partial class PaddleOCR : OCRBase, IOCR
         }
         else
         {
-            ToastHelper.Show("解压失败,请重启再试", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DecompressFailed"), WindowType.Preference);
         }
     }
 
@@ -226,7 +226,7 @@ public partial class PaddleOCR : OCRBase, IOCR
     {
         DataIntegrity();
 
-        ToastHelper.Show(HasData ? "数据完整" : "数据缺失", WindowType.Preference);
+        ToastHelper.Show(HasData ? AppLanguageManager.GetString("Toast.DataIntegrity") : AppLanguageManager.GetString("Toast.MissingData"), WindowType.Preference);
 
         return Task.CompletedTask;
     }
@@ -259,13 +259,13 @@ public partial class PaddleOCR : OCRBase, IOCR
             Constant.PaddleOcrDlls.ForEach(File.Delete);
             Directory.Delete(Constant.PaddleOcrModelPath, true);    // 使用绝对路径
 
-            ToastHelper.Show("删除成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
 
             HasData = false;
         }
         catch (Exception)
         {
-            ToastHelper.Show("删除失败,请重启再试", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailedInfo"), WindowType.Preference);
         }
 
         return Task.CompletedTask;
@@ -278,13 +278,13 @@ public partial class PaddleOCR : OCRBase, IOCR
     public Task<OcrResult> ExecuteAsync(byte[] bytes, LangEnum lang, CancellationToken token)
     {
         if (LangConverter(lang) == null)
-            ToastHelper.Show($"不支持 {lang.GetDescription()}", WindowType.OCR);
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.UnSupport")} {AppLanguageManager.GetString($"LangEnum.{lang}")}", WindowType.OCR);
 
         if (!DataIntegrity())
         {
             var msg = "离线数据不完整,请前往PaddleOCR配置页面进行下载";
 
-            ToastHelper.Show(msg, WindowType.OCR);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.NoPaddleOCRData"), WindowType.OCR);
 
             LogService.Logger.Error($"PaddleOCR{msg}，请检查下载后重试...");
 

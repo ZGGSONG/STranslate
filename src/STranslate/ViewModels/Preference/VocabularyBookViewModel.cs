@@ -155,7 +155,7 @@ public partial class VocabularyBookViewModel : ObservableObject
 
         ResetView(ActionType.Delete);
 
-        ToastHelper.Show("删除成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -166,7 +166,7 @@ public partial class VocabularyBookViewModel : ObservableObject
             var checkResult = await ActiveVocabularyBook.CheckAsync(CancellationToken.None);
             if (!checkResult)
             {
-                ToastHelper.Show("请检查生词本配置", WindowType.Preference);
+                ToastHelper.Show(AppLanguageManager.GetString("Toast.CheckVocabularyConf"), WindowType.Preference);
                 return;
             }
         }
@@ -175,10 +175,10 @@ public partial class VocabularyBookViewModel : ObservableObject
         {
             LogService.Logger.Warn($"保存生词本失败，{JsonConvert.SerializeObject(CurServiceList)}");
 
-            ToastHelper.Show("保存失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
 
-        ToastHelper.Show("保存成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -192,7 +192,7 @@ public partial class VocabularyBookViewModel : ObservableObject
             cnfHelper.CurrentConfig!.VocabularyBookList.Add(item);
         }
         ResetView();
-        ToastHelper.Show("重置配置", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
     }
 
     /// <summary>

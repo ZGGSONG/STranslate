@@ -231,10 +231,10 @@ public partial class TranslatorViewModel : ObservableObject
         {
             LogService.Logger.Warn($"保存服务失败，{JsonConvert.SerializeObject(CurTransServiceList)}");
 
-            ToastHelper.Show("保存失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
 
-        ToastHelper.Show("保存成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -250,7 +250,7 @@ public partial class TranslatorViewModel : ObservableObject
             cnfHelper.CurrentConfig.Services!.Add(item);
         }
         ResetView();
-        ToastHelper.Show("重置配置", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
 
         if (MessageBox_S.Show("重置该配置影响替换翻译配置，是否继续恢复？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
         {

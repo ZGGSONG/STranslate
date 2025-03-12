@@ -91,13 +91,13 @@ public partial class TTSViewModel : ObservableObject
     {
         if (ActivedTTS is null)
         {
-            ToastHelper.Show("未启用TTS服务", type);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.NoTTS"), type);
             return;
         }
 
         if (_isSpeaking)
         {
-            ToastHelper.Show("当前语音未结束", type);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.TTSNotEnd"), type);
             return;
         }
 
@@ -206,7 +206,7 @@ public partial class TTSViewModel : ObservableObject
 
             ResetView(ActionType.Delete);
 
-            ToastHelper.Show("删除成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
         }
     }
 
@@ -217,10 +217,10 @@ public partial class TTSViewModel : ObservableObject
         {
             LogService.Logger.Warn($"保存TTS失败，{JsonConvert.SerializeObject(CurTTSServiceList)}");
 
-            ToastHelper.Show("保存失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
 
-        ToastHelper.Show("保存成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -234,7 +234,7 @@ public partial class TTSViewModel : ObservableObject
             cnfHelper.CurrentConfig!.TTSList.Add(item);
         }
         ResetView();
-        ToastHelper.Show("重置配置", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
     }
 
     /// <summary>

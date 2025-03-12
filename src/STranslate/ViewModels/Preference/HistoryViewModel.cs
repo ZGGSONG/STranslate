@@ -168,7 +168,7 @@ public partial class HistoryViewModel : ObservableObject
         {
             LogService.Logger.Warn($"删除失败，{history}");
 
-            ToastHelper.Show("删除失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailed"), WindowType.Preference);
             return;
         }
 
@@ -178,7 +178,7 @@ public partial class HistoryViewModel : ObservableObject
 
         UpdateHistoryDetailContent();
 
-        ToastHelper.Show("删除成功", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
     }
 
     /// <summary>
@@ -194,7 +194,7 @@ public partial class HistoryViewModel : ObservableObject
             SelectedIndex = -1;
             HistoryDetailContent = null;
 
-            ToastHelper.Show("删除全部成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteAllSuccess"), WindowType.Preference);
         }
 
         control.IsOpen = false;

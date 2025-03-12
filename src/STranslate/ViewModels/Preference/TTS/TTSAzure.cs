@@ -153,7 +153,7 @@ public partial class TTSAzure : ObservableObject, ITTS
 
             case ResultReason.Canceled:
                 //界面显示
-                ToastHelper.Show("文本转语音失败");
+                ToastHelper.Show(AppLanguageManager.GetString("Toast.TTSFailed"));
 
                 var cancellation = SpeechSynthesisCancellationDetails.FromResult(speechSynthesisResult);
                 LogService.Logger.Warn($"CANCELED: Reason={cancellation.Reason}");

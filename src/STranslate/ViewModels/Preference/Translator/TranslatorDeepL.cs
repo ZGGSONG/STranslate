@@ -65,7 +65,7 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             var reqModel = new RequestModel("你好", LangEnum.zh_cn, LangEnum.en);
             var ret = await TranslateAsync(reqModel, token);
 
-            result = ret.IsSuccess ? "验证成功" : "验证失败";
+            result = ret.IsSuccess ? AppLanguageManager.GetString("Toast.VerifySuccess") : AppLanguageManager.GetString("Toast.VerifyFailed");
         }
         catch (OperationCanceledException)
         {
@@ -73,7 +73,7 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
         }
         catch (Exception)
         {
-            result = "验证失败";
+            result = AppLanguageManager.GetString("Toast.VerifyFailed");
         }
         finally
         {
@@ -102,18 +102,18 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
             var limit = parseData["character_limit"]?.ToString() ?? throw new Exception("用量上限为空");
             UsageStr = $"{count}/{limit}";
             Usage = double.Parse(count) / double.Parse(limit) * 100;
-            result = "查询成功";
+            result = AppLanguageManager.GetString("Toast.QuerySuccess");
         }
         catch (OperationCanceledException)
         {
             // ignored
-            result = "取消查询";
+            result = AppLanguageManager.GetString("Toast.QueryCanceled");
         }
         catch (Exception ex)
         {
             if (ex.InnerException is { } innEx) ex = innEx;
             LogService.Logger.Error($"TranslatorDeepL|UsageAsync: {ex.Message}");
-            result = "查询失败";
+            result = AppLanguageManager.GetString("Toast.QueryFailed");
         }
         finally
         {

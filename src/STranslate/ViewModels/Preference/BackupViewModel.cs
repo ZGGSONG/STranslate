@@ -132,7 +132,7 @@ public partial class BackupViewModel : ObservableObject
             var zipFilePath = saveFileDialog.FileName;
             ZipUtil.CompressFile(Constant.CnfFullName, zipFilePath);
 
-            ToastHelper.Show("导出成功", WindowType.Preference);
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Export")}{AppLanguageManager.GetString("Toast.Success")}", WindowType.Preference);
         }
     }
 
@@ -142,7 +142,7 @@ public partial class BackupViewModel : ObservableObject
         var cRet = await CreateClientAsync();
         if (!cRet.Item3)
         {
-            ToastHelper.Show("请检查配置或查看日志", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.PleaseCheckCnfOrLog"), WindowType.Preference);
             LogService.Logger.Error($"Backup|CreateWebDavClient|Error {cRet.Item2}");
             return;
         }
@@ -173,10 +173,10 @@ public partial class BackupViewModel : ObservableObject
 
             // 打印通知
             if (response.IsSuccessful && response.StatusCode == 201)
-                ToastHelper.Show("导出成功", WindowType.Preference);
+                ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Export")}{AppLanguageManager.GetString("Toast.Success")}", WindowType.Preference);
             else
             {
-                ToastHelper.Show("导出失败", WindowType.Preference);
+                ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Export")}{AppLanguageManager.GetString("Toast.Failed")}", WindowType.Preference);
                 LogService.Logger.Error($"Backup|PutFile|Error Code: {response.StatusCode} Description: {response.Description}");
             }
         }
@@ -222,7 +222,7 @@ public partial class BackupViewModel : ObservableObject
         var cRet = await CreateClientAsync();
         if (!cRet.Item3)
         {
-            ToastHelper.Show("请检查配置或查看日志", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.PleaseCheckCnfOrLog"), WindowType.Preference);
             LogService.Logger.Error($"Restore|CreateWebDavClient|Error {cRet.Item2}");
             return;
         }
@@ -315,7 +315,7 @@ public partial class BackupViewModel : ObservableObject
         //提取后进行校验
         if (!Verification(tmpPath))
         {
-            ToastHelper.Show("导入失败", WindowType.Preference);
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Import")}{AppLanguageManager.GetString("Toast.Success")}", WindowType.Preference);
             return;
         }
 
@@ -337,7 +337,7 @@ public partial class BackupViewModel : ObservableObject
         //hotkey
         Singleton<HotkeyViewModel>.Instance.ResetCommand.Execute(null);
 
-        ToastHelper.Show("导入成功", WindowType.Preference);
+        ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Import")}{AppLanguageManager.GetString("Toast.Success")}", WindowType.Preference);
     }
 
     /// <summary>

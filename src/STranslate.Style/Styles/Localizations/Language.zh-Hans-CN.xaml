@@ -139,6 +139,43 @@
     <system:String x:Key="Toast.PleaseSelectImg">请选择图片</system:String>
     <system:String x:Key="Toast.ClipboardNoImgRecently">剪贴板最近无图片</system:String>
     <system:String x:Key="Toast.NoQRCode">未识别到二维码</system:String>
+    <system:String x:Key="Toast.WordSelect">鼠标划词</system:String>
+    <system:String x:Key="Toast.AutoTranslate">自动翻译</system:String>
+    <system:String x:Key="Toast.IncrementalTranslate">增量翻译</system:String>
+    <system:String x:Key="Toast.Show">隐藏</system:String>
+    <system:String x:Key="Toast.Hide">显示</system:String>
+    <system:String x:Key="Toast.LangView">语言框</system:String>
+    <system:String x:Key="Toast.Export">导出</system:String>
+    <system:String x:Key="Toast.Import">导入</system:String>
+    <system:String x:Key="Toast.PleaseCheckCnfOrLog">请检查配置或查看日志</system:String>
+    <system:String x:Key="Toast.DeleteFailed">删除失败</system:String>
+    <system:String x:Key="Toast.DeleteAllSuccess">全部删除成功</system:String>
+    <system:String x:Key="Toast.SingleCharInfo">单字符可能会影响使用</system:String>
+    <system:String x:Key="Toast.DropPrompFile">请拖入Prompt文件</system:String>
+    <system:String x:Key="Toast.ImportEmpty">导入内容为空</system:String>
+    <system:String x:Key="Toast.NoSelectPrompt">未选择Prompt</system:String>
+    <system:String x:Key="Toast.DownloadStart">开始下载</system:String>
+    <system:String x:Key="Toast.DownloadComplete">下载完成</system:String>
+    <system:String x:Key="Toast.DownloadCancel">取消下载</system:String>
+    <system:String x:Key="Toast.DownloadException">下载时发生异常</system:String>
+    <system:String x:Key="Toast.Decompress">解压数据包</system:String>
+    <system:String x:Key="Toast.LoadDataSuccess">加载数据包成功</system:String>
+    <system:String x:Key="Toast.DecompressFailed">解压失败,请重启再试</system:String>
+    <system:String x:Key="Toast.DataIntegrity">数据完整</system:String>
+    <system:String x:Key="Toast.MissingData">数据缺失</system:String>
+    <system:String x:Key="Toast.DeleteFailedInfo">删除失败,请重启再试</system:String>
+    <system:String x:Key="Toast.UnSupport">不支持</system:String>
+    <system:String x:Key="Toast.NoPaddleOCRData">离线数据不完整,请前往PaddleOCR配置页面进行下载</system:String>
+    <system:String x:Key="Toast.VerifySuccess">验证成功</system:String>
+    <system:String x:Key="Toast.VerifyFailed">验证失败</system:String>
+    <system:String x:Key="Toast.QuerySuccess">查询成功</system:String>
+    <system:String x:Key="Toast.QueryFailed">查询失败</system:String>
+    <system:String x:Key="Toast.QueryCanceled">取消查询</system:String>
+    <system:String x:Key="Toast.TTSFailed">文本转语音失败</system:String>
+    <system:String x:Key="Toast.NoTTS">未启用TTS服务</system:String>
+    <system:String x:Key="Toast.TTSNotEnd">当前语音未结束</system:String>
+    <system:String x:Key="Toast.CheckVocabularyConf">请检查生词本配置</system:String>
+    <system:String x:Key="Toast.RenameFailed">修改名称失败</system:String>
 
     <!--#endregion-->
 

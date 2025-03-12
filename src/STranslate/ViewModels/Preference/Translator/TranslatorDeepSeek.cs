@@ -53,7 +53,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
         {
             IsTesting = true;
             var reqModel = new RequestModel("你好", LangEnum.zh_cn, LangEnum.en);
-            await TranslateAsync(reqModel, _ => result = "验证成功", token);
+            await TranslateAsync(reqModel, _ => result = AppLanguageManager.GetString("Toast.VerifySuccess"), token);
         }
         catch (OperationCanceledException)
         {
@@ -61,7 +61,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
         }
         catch (Exception)
         {
-            result = "验证失败";
+            result = AppLanguageManager.GetString("Toast.VerifyFailed");
         }
         finally
         {

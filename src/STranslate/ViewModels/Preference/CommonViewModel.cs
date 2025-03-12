@@ -492,12 +492,12 @@ public partial class CommonViewModel : ObservableObject
         if (await ConfigHelper.WriteConfigAsync(this))
         {
             OnBooleansChanged?.Invoke(IncrementalTranslation, AutoTranslate, IsOnlyShowRet);
-            ToastHelper.Show("保存常规配置成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
         }
         else
         {
             LogService.Logger.Debug($"保存常规配置失败，{JsonConvert.SerializeObject(this)}");
-            ToastHelper.Show("保存常规配置失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
     }
 
@@ -586,7 +586,7 @@ public partial class CommonViewModel : ObservableObject
         AppLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
 
         LoadHistorySizeType();
-        ToastHelper.Show("重置配置", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
     }
 
     private void LoadHistorySizeType()

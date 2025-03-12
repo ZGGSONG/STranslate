@@ -139,6 +139,43 @@
     <system:String x:Key="Toast.PleaseSelectImg">Please select an image</system:String>
     <system:String x:Key="Toast.ClipboardNoImgRecently">No recent image in clipboard</system:String>
     <system:String x:Key="Toast.NoQRCode">No QR code detected</system:String>
+    <system:String x:Key="Toast.WordSelect">Mouse Text Selection</system:String>
+    <system:String x:Key="Toast.AutoTranslate">Auto Translate</system:String>
+    <system:String x:Key="Toast.IncrementalTranslate">Incremental Translation</system:String>
+    <system:String x:Key="Toast.Show">Hide</system:String>
+    <system:String x:Key="Toast.Hide">Show</system:String>
+    <system:String x:Key="Toast.LangView">Language Panel</system:String>
+    <system:String x:Key="Toast.Export">Export</system:String>
+    <system:String x:Key="Toast.Import">Import</system:String>
+    <system:String x:Key="Toast.PleaseCheckCnfOrLog">Check config or logs</system:String>
+    <system:String x:Key="Toast.DeleteFailed">Delete failed</system:String>
+    <system:String x:Key="Toast.DeleteAllSuccess">All deleted success</system:String>
+    <system:String x:Key="Toast.SingleCharInfo">Single Char may affect usage</system:String>
+    <system:String x:Key="Toast.DropPrompFile">Please drop Prompt file</system:String>
+    <system:String x:Key="Toast.ImportEmpty">Content is empty</system:String>
+    <system:String x:Key="Toast.NoSelectPrompt">No Prompt selected</system:String>
+    <system:String x:Key="Toast.DownloadStart">Download started</system:String>
+    <system:String x:Key="Toast.DownloadComplete">Download completed</system:String>
+    <system:String x:Key="Toast.DownloadCancel">Download cancelled</system:String>
+    <system:String x:Key="Toast.DownloadException">Exception occurred during download</system:String>
+    <system:String x:Key="Toast.Decompress">Extracting data package</system:String>
+    <system:String x:Key="Toast.LoadDataSuccess">Data package loaded successfully</system:String>
+    <system:String x:Key="Toast.DecompressFailed">Extraction failed, try restart</system:String>
+    <system:String x:Key="Toast.DataIntegrity">Data integrity verified</system:String>
+    <system:String x:Key="Toast.MissingData">Data missing</system:String>
+    <system:String x:Key="Toast.DeleteFailedInfo">Delete failed, try restart</system:String>
+    <system:String x:Key="Toast.UnSupport">Not supported</system:String>
+    <system:String x:Key="Toast.NoPaddleOCRData">Download in PaddleOCR page</system:String>
+    <system:String x:Key="Toast.VerifySuccess">Verification successful</system:String>
+    <system:String x:Key="Toast.VerifyFailed">Verification failed</system:String>
+    <system:String x:Key="Toast.QuerySuccess">Query successful</system:String>
+    <system:String x:Key="Toast.QueryFailed">Query failed</system:String>
+    <system:String x:Key="Toast.QueryCanceled">Query cancelled</system:String>
+    <system:String x:Key="Toast.TTSFailed">Text-to-speech failed</system:String>
+    <system:String x:Key="Toast.NoTTS">TTS service not enabled</system:String>
+    <system:String x:Key="Toast.TTSNotEnd">Current speech not finished</system:String>
+    <system:String x:Key="Toast.CheckVocabularyConf">Please check vocabulary conf</system:String>
+    <system:String x:Key="Toast.RenameFailed">Rename failed</system:String>
 
     <!--#endregion-->
 

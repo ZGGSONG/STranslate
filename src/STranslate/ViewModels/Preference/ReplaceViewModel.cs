@@ -175,12 +175,12 @@ public partial class ReplaceViewModel : ObservableObject
     {
         if (_configHelper.WriteConfig(this))
         {
-            ToastHelper.Show("保存替换翻译成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveSuccess"), WindowType.Preference);
         }
         else
         {
             LogService.Logger.Debug($"保存替换翻译失败，{JsonConvert.SerializeObject(this)}");
-            ToastHelper.Show("保存替换翻译失败", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.SaveFailed"), WindowType.Preference);
         }
     }
 
@@ -194,7 +194,7 @@ public partial class ReplaceViewModel : ObservableObject
         // View 上绑定结果从List中获取
         ReplaceProp.ActiveService = AllServices.FirstOrDefault(x => x.Identify == ReplaceProp.ActiveService?.Identify);
         
-        ToastHelper.Show("重置配置", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
     }
 
     #endregion

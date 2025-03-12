@@ -87,7 +87,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
                 goto extract;
             }
 
-            ToastHelper.Show("开始下载", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadStart"), WindowType.Preference);
             using (var response =
                    await httpClient.GetAsync(new Uri(url), HttpCompletionOption.ResponseHeadersRead, token))
             using (var stream = await response.Content.ReadAsStreamAsync(token))
@@ -110,7 +110,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
 
             extract:
             IsShowProcessBar = false;
-            ToastHelper.Show("下载完成", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadComplete"), WindowType.Preference);
 
             // 下载完成后的处理
             await ProcessDownloadedFileAsync(token);
@@ -122,12 +122,12 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
             //删除文件
             File.Delete(SourceFile);
             //通知到用户
-            ToastHelper.Show("取消下载", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadCancel"), WindowType.Preference);
         }
         catch (Exception)
         {
             // 下载发生异常
-            ToastHelper.Show("下载时发生异常", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadException"), WindowType.Preference);
         }
         finally
         {
@@ -137,13 +137,13 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
 
     private async Task ProcessDownloadedFileAsync(CancellationToken token)
     {
-        ToastHelper.Show("解压资源包", WindowType.Preference);
+        ToastHelper.Show(AppLanguageManager.GetString("Toast.Decompress"), WindowType.Preference);
 
         var unresult = await Task.Run(() => ZipUtil.DecompressToDirectory(SourceFile, Constant.CnfPath), token);
 
         if (unresult)
         {
-            ToastHelper.Show("加载资源包成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.LoadDataSuccess"), WindowType.Preference);
 
             File.Delete(SourceFile);
 
@@ -152,7 +152,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
         }
         else
         {
-            ToastHelper.Show("解压失败,请重启再试", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DecompressFailed"), WindowType.Preference);
         }
     }
 
@@ -164,13 +164,13 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
         {
             File.Delete(Constant.EcDictPath);
 
-            ToastHelper.Show("删除成功", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailed"), WindowType.Preference);
 
             HasDB = false;
         }
         catch (Exception)
         {
-            ToastHelper.Show("删除失败,请重启再试", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailedInfo"), WindowType.Preference);
         }
 
         return Task.CompletedTask;
@@ -182,7 +182,7 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
     {
         DataIntegrity();
 
-        ToastHelper.Show(HasDB ? "资源包完整" : "资源包缺失", WindowType.Preference);
+        ToastHelper.Show(HasDB ? AppLanguageManager.GetString("Toast.DataIntegrity") : AppLanguageManager.GetString("Toast.MissingData"), WindowType.Preference);
 
         return Task.CompletedTask;
     }

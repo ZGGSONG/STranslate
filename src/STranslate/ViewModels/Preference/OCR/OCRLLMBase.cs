@@ -125,10 +125,10 @@ public abstract partial class OCRLLMBase : OCRBase
         if (Path.GetExtension(filePath).Equals(".json", StringComparison.CurrentCultureIgnoreCase))
         {
             PromptFileHandle(filePath);
-            ToastHelper.Show("导入成功", WindowType.Preference);
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Import")}{AppLanguageManager.GetString("Toast.Success")}", WindowType.Preference);
         }
         else
-            ToastHelper.Show("请拖入Prompt文件", WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DropPrompFile"), WindowType.Preference);
     }
 
     [RelayCommand]
@@ -155,7 +155,7 @@ public abstract partial class OCRLLMBase : OCRBase
             }
             else
             {
-                ToastHelper.Show("导入内容为空", WindowType.Preference);
+                ToastHelper.Show(AppLanguageManager.GetString("Toast.ImportEmpty"), WindowType.Preference);
             }
         }
         catch
@@ -174,13 +174,13 @@ public abstract partial class OCRLLMBase : OCRBase
                 }
                 else
                 {
-                    ToastHelper.Show("导入内容为空", WindowType.Preference);
+                    ToastHelper.Show(AppLanguageManager.GetString("Toast.ImportEmpty"), WindowType.Preference);
                 }
             }
             catch (Exception e)
             {
                 LogService.Logger.Error($"导入Prompt失败: {e.Message}", e);
-                ToastHelper.Show("导入失败", WindowType.Preference);
+                ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Import")}{AppLanguageManager.GetString("Toast.Failed")}", WindowType.Preference);
             }
         }
     }
@@ -196,7 +196,7 @@ public abstract partial class OCRLLMBase : OCRBase
             var selectedPrompt = UserDefinePrompts.FirstOrDefault(x => x.Enabled);
             if (selectedPrompt == null)
             {
-                ToastHelper.Show("未选择Prompt", WindowType.Preference);
+                ToastHelper.Show(AppLanguageManager.GetString("Toast.NoSelectPrompt"), WindowType.Preference);
                 return;
             }
             jsonStr = JsonConvert.SerializeObject(selectedPrompt, Formatting.Indented);
@@ -212,7 +212,7 @@ public abstract partial class OCRLLMBase : OCRBase
 
         if (saveFileDialog.ShowDialog() != true) return;
         File.WriteAllText(saveFileDialog.FileName, jsonStr);
-        ToastHelper.Show("导出成功", WindowType.Preference);
+        ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Export")}{AppLanguageManager.GetString("Toast.Success")}", WindowType.Preference);
     }
 
     public void ManualPropChanged(params string[] array)

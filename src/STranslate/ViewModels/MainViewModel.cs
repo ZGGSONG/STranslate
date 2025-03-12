@@ -332,7 +332,7 @@ public partial class MainViewModel : ObservableObject
             TopMostContent = Constant.TopmostContent;
             Singleton<MouseHookHelper>.Instance.Start();
             Singleton<MouseHookHelper>.Instance.WordsSelected += OnWordsSelectedChanged;
-            ToastHelper.Show("启用鼠标划词");
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Open")}{AppLanguageManager.GetString("Toast.WordSelect")}");
         }
         else
         {
@@ -345,7 +345,7 @@ public partial class MainViewModel : ObservableObject
 
             Singleton<MouseHookHelper>.Instance.Stop();
             Singleton<MouseHookHelper>.Instance.WordsSelected -= OnWordsSelectedChanged;
-            ToastHelper.Show("关闭鼠标划词");
+            ToastHelper.Show($"{AppLanguageManager.GetString("Toast.Close")}{AppLanguageManager.GetString("Toast.WordSelect")}");
         }
     }
 
@@ -363,7 +363,7 @@ public partial class MainViewModel : ObservableObject
         common.AutoTranslate = !common.AutoTranslate;
         common.SaveCommand.Execute(null);
 
-        var msg = (common.AutoTranslate ? "打开" : "关闭") + "自动翻译";
+        var msg = (common.AutoTranslate ? AppLanguageManager.GetString("Toast.Open") : AppLanguageManager.GetString("Toast.Close")) + AppLanguageManager.GetString("Toast.AutoTranslate");
         ToastHelper.Show(msg);
     }
 
@@ -381,7 +381,7 @@ public partial class MainViewModel : ObservableObject
         common.IncrementalTranslation = !common.IncrementalTranslation;
         common.SaveCommand.Execute(null);
 
-        var msg = (common.IncrementalTranslation ? "打开" : "关闭") + "增量翻译";
+        var msg = (common.IncrementalTranslation ? AppLanguageManager.GetString("Toast.Open") : AppLanguageManager.GetString("Toast.Close")) + AppLanguageManager.GetString("Toast.IncrementalTranslate");
         ToastHelper.Show(msg);
     }
 
@@ -395,8 +395,8 @@ public partial class MainViewModel : ObservableObject
             common.SaveCommand.Execute(null);
 
 
-            var aMsg = (common.IsHideLangWhenOnlyShowOutput ? "隐藏" : "显示") + "语言框";
-            ToastHelper.Show(aMsg);
+            var msg = (common.IsHideLangWhenOnlyShowOutput ? AppLanguageManager.GetString("Toast.Hide") : AppLanguageManager.GetString("Toast.Show")) + AppLanguageManager.GetString("Toast.LangViewf");
+            ToastHelper.Show(msg);
             return;
         }
         var conf = Config;
@@ -470,7 +470,7 @@ public partial class MainViewModel : ObservableObject
         TopMostContent = tmp ? Constant.TopmostContent : Constant.UnTopmostContent;
         win.Topmost = tmp;
 
-        ToastHelper.Show(tmp ? "启用置顶" : "关闭置顶");
+        ToastHelper.Show(tmp ? AppLanguageManager.GetString("Toast.EnableSticky") : AppLanguageManager.GetString("Toast.DisableSticky"));
     }
 
     /// <summary>
@@ -508,7 +508,7 @@ public partial class MainViewModel : ObservableObject
     private async Task ShowHideInputAsync()
     {
         CommonSettingVM.IsOnlyShowRet = !CommonSettingVM.IsOnlyShowRet;
-        ToastHelper.Show($"{(CommonSettingVM.IsOnlyShowRet ? "隐藏" : "显示")}非输出部分");
+        //ToastHelper.Show($"{(CommonSettingVM.IsOnlyShowRet ? "隐藏" : "显示")}非输出部分");
         await CommonSettingVM.SaveCommand.ExecuteAsync(null);
     }
 
@@ -579,7 +579,8 @@ public partial class MainViewModel : ObservableObject
         CommonSettingVM.ThemeType = CommonSettingVM.ThemeType.Increase();
         CommonSettingVM.SaveCommand.Execute(null);
 
-        ToastHelper.Show(CommonSettingVM.ThemeType.GetDescription());
+        var fullPath = $"ThemeType.{CommonSettingVM.ThemeType}";
+        ToastHelper.Show(AppLanguageManager.GetString(fullPath));
     }
 
     [RelayCommand]
