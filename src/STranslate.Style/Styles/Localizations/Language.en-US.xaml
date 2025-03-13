@@ -25,7 +25,7 @@
 
     <!--#endregion-->
 
-    <!--#region  Enum-->
+    <!--#region Enum-->
 
     <system:String x:Key="LangEnum.auto">Auto</system:String>
     <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
@@ -366,7 +366,7 @@
     <system:String x:Key="Icon.ShowQRCode">Show QR Code Recognition Icon</system:String>
     <system:String x:Key="Icon.ShowHistory">Show History Icon</system:String>
     <system:String x:Key="Icon.ShowClipboardMonitor">Show ClipboardMonitor Icon</system:String>
-    <system:String x:Key="Icon.ShowCopyTranslate">Show Replace Translation Icon</system:String>
+    <system:String x:Key="Icon.ShowReplaceTranslate">Show Replace Translation Icon</system:String>
     <system:String x:Key="Icon.ShowTTS">Show TTS Icon</system:String>
     <system:String x:Key="Icon.ShowCopy">Show Copy Icon</system:String>
     <system:String x:Key="Icon.ShowCopySource">Show Copy Source Icon</system:String>
@@ -624,6 +624,7 @@
     <system:String x:Key="History.Delete">Delete</system:String>
     <system:String x:Key="History.Gong">Total</system:String>
     <system:String x:Key="History.Xiang">items</system:String>
+    <system:String x:Key="History.ClearAl">Clear All</system:String>
     <system:String x:Key="History.Content.TTS">TTS</system:String>
     <system:String x:Key="History.Content.Copy">Copy</system:String>
     <system:String x:Key="History.Content.CopyResult">CopyResult</system:String>
@@ -703,6 +704,8 @@
 
     <system:String x:Key="WebDav.Title">Current Config</system:String>
     <system:String x:Key="WebDav.NoContent">No backup content has been found under the current path...</system:String>
+
+    <!--#endregion-->
 
     <!--#endregion-->
 

@@ -25,7 +25,7 @@
 
     <!--#endregion-->
 
-    <!--#region  Enum-->
+    <!--#region Enum-->
 
     <system:String x:Key="LangEnum.auto">自动选择</system:String>
     <system:String x:Key="LangEnum.zh_cn">中文</system:String>
@@ -624,6 +624,7 @@
     <system:String x:Key="History.Delete">删除记录</system:String>
     <system:String x:Key="History.Gong">共</system:String>
     <system:String x:Key="History.Xiang">项</system:String>
+    <system:String x:Key="History.ClearAl">清空全部</system:String>
     <system:String x:Key="History.Content.TTS">TTS</system:String>
     <system:String x:Key="History.Content.Copy">复制</system:String>
     <system:String x:Key="History.Content.CopyResult">普通复制</system:String>

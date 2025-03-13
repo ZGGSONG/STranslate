@@ -1432,7 +1432,7 @@ public enum AppLanguageKind
 {
     [Description("简体中文")] zh_Hans_CN,
     [Description("English")] en_US,
-    // [Description("繁体中文")] zh_TW,
+    [Description("繁體中文")] zh_Hant_TW,
 }
 
 /// <summary>

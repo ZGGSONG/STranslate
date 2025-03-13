@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
@@ -51,11 +52,18 @@ public partial class HistoryViewModel : ObservableObject
 
     [ObservableProperty] private int _selectedIndex;
 
-    [ObservableProperty] private List<string> eventList = ["清空全部"];
+    [ObservableProperty] private BindingList<string> _eventList = [AppLanguageManager.GetString("History.ClearAl")];
 
     public HistoryViewModel()
     {
         _searchTimer = new Timer(async _ => await SearchAsync(), null, Timeout.Infinite, Timeout.Infinite);
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(this, (_, _) => OnLanguageChanged());
+    }
+
+    private void OnLanguageChanged()
+    {
+        EventList.Clear();
+        EventList.Add(AppLanguageManager.GetString("History.ClearAl"));
     }
 
     /// <summary>
