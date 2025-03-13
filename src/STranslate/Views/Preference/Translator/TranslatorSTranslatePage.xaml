@@ -63,6 +63,7 @@
                     Grid.Column="1"
                     MinWidth="120"
                     HorizontalAlignment="Left"
+                    common:LangAwareSelector.IsLangAware="True"
                     BorderThickness="1"
                     DisplayMemberPath="Description"
                     ItemsSource="{Binding Source={common:Enumeration {x:Type model:STranslateMode}}}"

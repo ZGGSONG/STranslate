@@ -442,7 +442,7 @@ public partial class InputViewModel : ObservableObject
         }
 
         // 获取最终的识别语种
-        IdentifyLanguage = identify.GetDescription();
+        IdentifyLanguage = AppLanguageManager.GetString($"LangEnum.{identify}");
         source = identify;
 
         if (target == LangEnum.auto)

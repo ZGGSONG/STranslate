@@ -47,4 +47,5 @@
     <converter:DictGetWordConverter x:Key="DictGetWordConverter" />
     <converter:MultiValue2BooleanConverter x:Key="MultiValue2BooleanConverter" />
     <converter:MultiServiceType2StringConverter x:Key="MultiServiceType2StringConverter" />
+    <converter:MultiDetectTypeEnumDescriptionConverter x:Key="MultiDetectTypeEnumDescriptionConverter" />
 </ResourceDictionary>

@@ -171,11 +171,18 @@
                                                 BorderBrush="{x:Null}"
                                                 CornerRadius="5">
                                                 <TextBlock
+                                                    Name="DetectTb"
                                                     Margin="3,5"
                                                     HorizontalAlignment="Left"
                                                     FontSize="{DynamicResource FontSize14}"
-                                                    Text="{Binding Description}"
-                                                    TextTrimming="CharacterEllipsis" />
+                                                    TextTrimming="CharacterEllipsis">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource MultiDetectTypeEnumDescriptionConverter}">
+                                                            <Binding ElementName="DetectTb" />
+                                                            <Binding Path="Description" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
                                             </Border>
                                             <DataTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
