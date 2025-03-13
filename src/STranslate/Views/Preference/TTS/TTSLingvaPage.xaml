@@ -71,11 +71,11 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Top" Text="说明: " />
+                <TextBlock VerticalAlignment="Top" Text="{DynamicResource Service.Description}" />
                 <TextBlock
                     Grid.Column="1"
                     FontSize="{DynamicResource FontSize14}"
-                    Text="该服务依赖语种，请在常规设置-常用配置-语种识别中选择可用服务，有时可能因为网络问题或服务问题而无法正常识别(需要注意的是本地识别目前仅支持中英文，请避免使用本地识别方案配合Lingva进行除中英文外的文本转语音操作)"
+                    Text="{DynamicResource Service.TTS.Lingva}"
                     TextWrapping="WrapWithOverflow" />
             </Grid>
 

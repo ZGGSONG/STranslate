@@ -72,7 +72,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="声音: " />
+                <TextBlock Text="{DynamicResource Service.TTS.Voice}" />
 
                 <ComboBox
                     Grid.Column="1"

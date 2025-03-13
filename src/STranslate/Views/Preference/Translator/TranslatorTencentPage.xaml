@@ -55,7 +55,7 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="项目ID: " />
+                <TextBlock Text="{DynamicResource Service.Translator.Tencent.ProjectID}" />
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"
@@ -71,7 +71,7 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="地区: " />
+                <TextBlock Text="{DynamicResource Service.Translator.Tencent.Region}" />
 
                 <ComboBox
                     Grid.Column="1"

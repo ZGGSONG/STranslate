@@ -57,7 +57,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="语速: " ToolTip="设置离线TTS的语速。" />
+                <TextBlock Text="{DynamicResource Service.TTS.Speed}" ToolTip="{DynamicResource Service.TTS.Speed.Tooltip}" />
                 <Slider
                     Grid.Column="1"
                     Height="14"
@@ -80,14 +80,14 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="声音: " />
+                <TextBlock Text="{DynamicResource Service.TTS.Voice}" />
 
                 <Button
                     Grid.Column="1"
                     MinWidth="200"
                     HorizontalAlignment="Left"
                     Command="{Binding GetSystemInfoCommand}"
-                    Content="获取系统支持的语音" />
+                    Content="{DynamicResource Service.TTS.Offline}" />
             </Grid>
         </StackPanel>
     </Border>

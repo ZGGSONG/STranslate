@@ -49,4 +49,10 @@ public partial class TranslatorDeepSeekPage : UserControl
             parent!.RaiseEvent(eventArg);
         }
     }
+
+    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo { FileName = e.Uri.ToString(), UseShellExecute = true });
+        e.Handled = true;
+    }
 }

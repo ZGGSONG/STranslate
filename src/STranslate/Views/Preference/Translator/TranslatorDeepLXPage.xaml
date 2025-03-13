@@ -61,7 +61,7 @@
                     MinWidth="282"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Placeholder="没有则无需填写"
+                    Placeholder="{DynamicResource Service.Translator.DeepLX.Token}"
                     Text="{Binding Token, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 

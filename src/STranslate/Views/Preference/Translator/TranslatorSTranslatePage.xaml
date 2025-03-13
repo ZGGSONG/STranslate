@@ -57,7 +57,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="模式: " ToolTip="如果某种模式翻译失败，请切换其余模式，短时间大量访问服务方可能会限制" />
+                <TextBlock Text="{DynamicResource Service.Translator.STranslate.Mode}" ToolTip="{DynamicResource Service.Translator.STranslate.Mode.Tooltip}" />
 
                 <ComboBox
                     Grid.Column="1"
@@ -124,8 +124,8 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="说明: " />
-                <TextBlock Grid.Column="1" Text="本地服务" />
+                <TextBlock Text="{DynamicResource Service.Description}" />
+                <TextBlock Grid.Column="1" Text="{DynamicResource Service.STranslate}" />
                 <TextBlock
                     Grid.Column="1"
                     Margin="80,0,0,0"

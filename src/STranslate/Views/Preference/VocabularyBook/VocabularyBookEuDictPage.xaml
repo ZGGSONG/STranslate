@@ -72,7 +72,10 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="生词本: " />
+                <TextBlock>
+                    <Run Text="{DynamicResource Service.VocabularyBook.Title}" />
+                    <Run Text=":" />
+                </TextBlock>
 
                 <common:PlaceholderTextBox
                     Grid.Column="1"

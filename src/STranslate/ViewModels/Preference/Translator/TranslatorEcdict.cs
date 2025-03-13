@@ -44,8 +44,6 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
 
     #region Properties
 
-    [JsonIgnore] public string Tips { get; set; } = "本地服务，需下载词典文件";
-
     [ObservableProperty] [JsonIgnore] [property: JsonIgnore]
     private double _processValue;
 
@@ -244,7 +242,6 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
             AppID = AppID,
             AppKey = AppKey,
             AutoExecute = AutoExecute,
-            Tips = Tips,
             ProcessValue = ProcessValue,
             IsShowProcessBar = IsShowProcessBar,
             HasDB = HasDB,

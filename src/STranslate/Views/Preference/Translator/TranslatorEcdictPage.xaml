@@ -83,12 +83,14 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="主页: " />
+                <TextBlock Text="{DynamicResource Service.Translator.ECDict.Home}" />
                 <TextBlock
                     Grid.Column="1"
                     Margin="10,0"
                     ToolTip="{DynamicResource Service.OpenInBrower}">
-                    <Hyperlink Click="Hyperlink_Click">项目主页</Hyperlink>
+                    <Hyperlink Click="Hyperlink_Click">
+                        <ContentControl Content="{DynamicResource Service.Translator.ECDict.ProjectHome}" />
+                    </Hyperlink>
                 </TextBlock>
             </Grid>
 
@@ -97,7 +99,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="资源: " />
+                <TextBlock Text="{DynamicResource Service.OCR.PaddleOCR.Data}" />
                 <ProgressBar
                     Grid.Column="1"
                     Margin="110,0,0,0"
@@ -111,7 +113,7 @@
                     Grid.Column="1"
                     Width="100"
                     HorizontalAlignment="Left"
-                    Content="下载资源包"
+                    Content="{DynamicResource Service.OCR.PaddleOCR.Download}"
                     Style="{DynamicResource ToggleButtonTextStyle}"
                     Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <Popup
@@ -162,7 +164,7 @@
                     Width="100"
                     HorizontalAlignment="Left"
                     Command="{Binding CheckResourceCommand}"
-                    Content="检查数据包"
+                    Content="{DynamicResource Service.OCR.PaddleOCR.Check}"
                     Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
                     Grid.Column="1"
@@ -170,7 +172,7 @@
                     Margin="110,0,0,0"
                     HorizontalAlignment="Left"
                     Command="{Binding DeleteResourceCommand}"
-                    Content="删除"
+                    Content="{DynamicResource Service.Delete}"
                     Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <TextBlock
                     Grid.Column="1"
@@ -184,13 +186,13 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="说明: " />
-                <TextBlock Grid.Column="1" Text="仅支持英语单词，不支持句子翻译" />
+                <TextBlock Text="{DynamicResource Service.Description}" />
+                <TextBlock Grid.Column="1" Text="{DynamicResource Service.Translator.ECDict.Description}" />
                 <TextBlock
                     Grid.Column="1"
                     Margin="280,0,0,0"
                     Style="{DynamicResource InfoTextBlock}"
-                    ToolTip="{Binding Tips}" />
+                    ToolTip="{DynamicResource Service.Translator.ECDict.Tip}" />
             </Grid>
         </StackPanel>
     </Border>

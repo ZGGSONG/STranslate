@@ -137,13 +137,13 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="余额查询: " />
+                <TextBlock Text="{DynamicResource Service.Translator.DeepL.UsageSearch}" />
                 <Button
                     Grid.Column="1"
                     MinWidth="80"
                     HorizontalAlignment="Left"
                     Command="{Binding UsageCommand}"
-                    Content="查询"
+                    Content="{DynamicResource Service.Translator.DeepL.Search}"
                     Visibility="{Binding UsageCommand.IsRunning, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <Button
                     Grid.Column="1"

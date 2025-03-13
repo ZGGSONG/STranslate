@@ -77,13 +77,8 @@
                     <TextBlock
                         Grid.Column="1"
                         FontSize="{DynamicResource FontSize14}"
-                        TextWrapping="WrapWithOverflow">
-                        <Run
-                            FontWeight="Bold"
-                            Foreground="IndianRed"
-                            Text="该接口地址不建议填写Path部分，除非你很清楚在干什么" />
-                        <Run Text="&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions" />
-                    </TextBlock>
+                        Text="{DynamicResource Service.OCR.GeminiApi}"
+                        TextWrapping="WrapWithOverflow" />
                 </Grid>
 
                 <Grid Margin="0,10">
@@ -91,7 +86,7 @@
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="模型: " />
+                    <TextBlock Text="{DynamicResource Service.Model}" />
 
                     <common:PlaceholderTextBox
                         Grid.Column="1"
@@ -107,7 +102,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="温度: " ToolTip="语言模型的上下文中，是控制模型生成文本多样性的一个参数。模型在做出下一个词预测时的确定性和随机性程度" />
+                    <TextBlock Text="{DynamicResource Service.Temperature}" ToolTip="{DynamicResource Service.Temperature.Tooltip}" />
                     <Slider
                         Grid.Column="1"
                         Height="14"
@@ -214,7 +209,7 @@
                     <TextBlock
                         Grid.Column="1"
                         FontSize="{DynamicResource FontSize14}"
-                        Text="通过自定义Prompt自定义Gemini行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。"
+                        Text="{DynamicResource Service.Translator.Prompt.Info}"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -262,7 +257,7 @@
                                             Command="{Binding AddPromptCommand}"
                                             Content="&#xe710;"
                                             Style="{DynamicResource ButtonIconStyle}"
-                                            ToolTip="添加Prompt" />
+                                            ToolTip="{DynamicResource Prompt.Add}" />
                                     </ListBoxItem>
                                     <ListBoxItem>
                                         <Button
@@ -271,7 +266,7 @@
                                             FontSize="{DynamicResource FontSize16}"
                                             FontWeight="Bold"
                                             Style="{DynamicResource ButtonIconStyle}"
-                                            ToolTip="导入Prompt&#13;从文件添加" />
+                                            ToolTip="{DynamicResource Prompt.Import}" />
                                     </ListBoxItem>
                                     <ListBoxItem>
                                         <Button
@@ -280,7 +275,7 @@
                                             FontSize="{DynamicResource FontSize16}"
                                             FontWeight="Bold"
                                             Style="{DynamicResource ButtonIconStyle}"
-                                            ToolTip="导出Prompt&#13;默认导出选中项&#13;Ctrl点击导出全部" />
+                                            ToolTip="{DynamicResource Prompt.Export}" />
                                     </ListBoxItem>
                                 </CompositeCollection>
                             </ListBox.ItemsSource>
@@ -290,7 +285,7 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="将Prompt拖放到此处" />
+                                Text="{DynamicResource Prompt.DropImport}" />
                             <Rectangle
                                 Width="250"
                                 MaxHeight="80"

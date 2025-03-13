@@ -504,6 +504,7 @@
     <system:String x:Key="Service.Delete">删除</system:String>
     <system:String x:Key="Service.Model">模型:</system:String>
     <system:String x:Key="Service.Prompt.Info">通过自定义Prompt自定义LLM行为, $target 将会被替换为 目标语言</system:String>
+    <system:String x:Key="Service.Translator.Prompt.Info">通过自定义Prompt自定义LLM行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。</system:String>
     <system:String x:Key="Service.Temperature">温度:</system:String>
     <system:String x:Key="Service.Temperature.Tooltip">语言模型的上下文中，是控制模型生成文本多样性的一个参数。模型在做出下一个词预测时的确定性和随机性程度</system:String>
     <system:String x:Key="Service.OCR.GeminiApi">接口API地址不建议填写Path部分，除非你很清楚你在干什么&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions</system:String>
@@ -521,6 +522,26 @@
     <system:String x:Key="Service.OCR.WechatOCR.Dll.Info">该服务调用时会自动加载上面填入微信路径中的mmmojo.dll和mmmojo_64.dll动态链接库以实现功能调用，如果遇到微信升级后无法使用可尝试清理后再试</system:String>
     <system:String x:Key="Service.Clear">清理</system:String>
     <system:String x:Key="Service.ClearDll">清理依赖库</system:String>
+    <system:String x:Key="Service.Translator.ChatGLM">接口API地址不填写Path内容则自动填充 /api/paas/v4/chat/completions&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.Translator.Claude">接口API地址不填写Path内容则自动填充 /v1/messages&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.Translator.DeepL.UsageSearch">余额查询:</system:String>
+    <system:String x:Key="Service.Translator.DeepL.Search">查询</system:String>
+    <system:String x:Key="Service.Translator.DeepLX.Token">没有则无需填写</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Home">主页</system:String>
+    <system:String x:Key="Service.Translator.ECDict.ProjectHome">项目主页</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Description">仅支持英语单词，不支持句子翻译</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Tip">本地服务，需下载词典文件</system:String>
+    <system:String x:Key="Service.Description">说明</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Mode">模式:</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Mode.Tooltip">如果某种模式翻译失败，请切换其余模式，短时间大量访问服务方可能会限制</system:String>
+    <system:String x:Key="Service.STranslate">本地服务</system:String>
+    <system:String x:Key="Service.Translator.Tencent.ProjectID">项目ID:</system:String>
+    <system:String x:Key="Service.Translator.Tencent.Region">地区:</system:String>
+    <system:String x:Key="Service.TTS.Voice">声音:</system:String>
+    <system:String x:Key="Service.TTS.Lingva">该服务依赖语种，请在常规设置-常用配置-语种识别中选择可用服务，有时可能因为网络问题或服务问题而无法正常识别(需要注意的是本地识别目前仅支持中英文，请避免使用本地识别方案配合Lingva进行除中英文外的文本转语音操作)</system:String>
+    <system:String x:Key="Service.TTS.Speed">语速:</system:String>
+    <system:String x:Key="Service.TTS.Speed.Tooltip">设置离线TTS的语速。</system:String>
+    <system:String x:Key="Service.TTS.Offline">获取系统支持的语音</system:String>
 
     <!--#endregion-->
 
