@@ -179,7 +179,7 @@
                                                     <TextBlock.Text>
                                                         <MultiBinding Converter="{StaticResource MultiDetectTypeEnumDescriptionConverter}">
                                                             <Binding ElementName="DetectTb" />
-                                                            <Binding Path="Description" />
+                                                            <Binding Path="Value" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
                                                 </TextBlock>

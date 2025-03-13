@@ -47,8 +47,8 @@ public class MultiDetectTypeEnumDescriptionConverter : IMultiValueConverter
             _bindingTargets.Add(new WeakReference<TextBlock>(target));
         }
 
-        if (values[1] is not string str) return "UNKNOWN";
-        return GetDescription(str);
+        //if (values[1] is not string str) return "UNKNOWN";
+        return GetDescription(values[1].ToString() ?? "");
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
