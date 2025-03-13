@@ -398,8 +398,7 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
                                         Placeholder="{DynamicResource Network.PortPlaceholder}"
-                                        PreviewKeyDown="AcceptOnlyNumber"
-                                        Text="{Binding ExternalCallPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=50020}" />
+                                        Text="{Binding ExternalCallPort, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=50020}" />
                                 </DockPanel>
 
                                 <Separator />
@@ -436,8 +435,7 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
                                         Placeholder="{DynamicResource Network.PortPlaceholder}"
-                                        PreviewKeyDown="AcceptOnlyNumber"
-                                        Text="{Binding ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=8089}" />
+                                        Text="{Binding ProxyPort, Mode=TwoWay, Converter={StaticResource TextBoxToIntConverter}, ConverterParameter=8089}" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10" Visibility="{Binding ProxyMethod, Converter={StaticResource EnumToVisibilityConverter}}">
