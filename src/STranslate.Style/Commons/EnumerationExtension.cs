@@ -1,4 +1,5 @@
-﻿using STranslate.Model;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using STranslate.Model;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
@@ -10,11 +11,12 @@ namespace STranslate.Style.Commons;
 /// </summary>
 public class EnumerationExtension : MarkupExtension
 {
+    private static readonly object _messageHandler = new();
     // 静态构造函数，订阅语言变更事件
     static EnumerationExtension()
     {
         // 订阅语言变更事件
-        AppLanguageManager.OnAppLanguageChanged += OnLanguageChanged;
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(_messageHandler, (_, _) => OnLanguageChanged());
     }
 
     // 存储所有使用此扩展的 Selector 的弱引用

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using System.Globalization;
 using System.Windows;
 
 namespace STranslate.Model;
@@ -42,6 +43,8 @@ public class AppLanguageManager
 
         // 触发语言变更事件
         OnAppLanguageChanged?.Invoke();
+
+        WeakReferenceMessenger.Default.Send(new AppLanguageMessenger());
     }
 
     /// <summary>

@@ -1,17 +1,19 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
+using CommunityToolkit.Mvvm.Messaging;
 using STranslate.Model;
 
 namespace STranslate.Style.Converters;
 
 public class MultiComboBoxIconConverter : IMultiValueConverter
 {
+    private static readonly object _messageHandler = new();
     // 静态构造函数，订阅语言变更事件
     static MultiComboBoxIconConverter()
     {
         // 订阅语言变更事件
-        AppLanguageManager.OnAppLanguageChanged += OnLanguageChanged;
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(_messageHandler, (_, _) => OnLanguageChanged());
     }
 
     // 存储所有使用此转换器的绑定表达式的弱引用

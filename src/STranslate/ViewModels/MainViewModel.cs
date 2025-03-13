@@ -199,10 +199,8 @@ public partial class MainViewModel : ObservableObject
         HotkeyHelper.InitialHook(view);
         HotkeyHelper.Register(HotkeyHelper.InputTranslateId, () =>
         {
-            //if (ShouldIgnoreHotkeys) return;
-            //NotifyIconVM.InputTranslateCommand.Execute(view);
-            //TODO
-            Singleton<CommonViewModel>.Instance.AppLanguage = Singleton<CommonViewModel>.Instance.AppLanguage == AppLanguageKind.zh_Hans_CN ? AppLanguageKind.en_US : AppLanguageKind.zh_Hans_CN;
+            if (ShouldIgnoreHotkeys) return;
+            NotifyIconVM.InputTranslateCommand.Execute(view);
         });
         HotkeyHelper.Register(HotkeyHelper.CrosswordTranslateId, () =>
         {

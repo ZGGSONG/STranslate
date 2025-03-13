@@ -1,4 +1,6 @@
-﻿using STranslate.Style.Themes;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using STranslate.Model;
+using STranslate.Style.Themes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,14 +33,14 @@ public class PlaceholderTextBox : TextBox
         Background = _placeholderVisualBrush;
         TextChanged += PlaceholderTextBox_TextChanged;
 
-        Model.AppLanguageManager.OnAppLanguageChanged += () =>
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(this, (_, _) =>
         {
             // 通知依赖属性系统重新评估Placeholder绑定
             OnPropertyChanged(new DependencyPropertyChangedEventArgs(
                 PlaceholderProperty,
                 Placeholder,
                 Placeholder));
-        };
+        });
     }
 
     #endregion Public Methods

@@ -1,4 +1,5 @@
-﻿using STranslate.Model;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using STranslate.Model;
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -7,11 +8,12 @@ namespace STranslate.Style.Converters;
 
 public class MultiServiceType2StringConverter : IMultiValueConverter
 {
+    private static readonly object _messageHandler = new();
     // 静态构造函数，订阅语言变更事件
     static MultiServiceType2StringConverter()
     {
         // 订阅语言变更事件
-        AppLanguageManager.OnAppLanguageChanged += OnLanguageChanged;
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(_messageHandler, (_, _) => OnLanguageChanged());
     }
 
     // 存储所有使用此转换器的绑定表达式的弱引用

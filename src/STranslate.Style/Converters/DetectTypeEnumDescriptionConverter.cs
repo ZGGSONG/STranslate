@@ -1,15 +1,17 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
+using CommunityToolkit.Mvvm.Messaging;
 using STranslate.Model;
 
 namespace STranslate.Style.Converters;
 
 public class MultiDetectTypeEnumDescriptionConverter : IMultiValueConverter
 {
+    private static readonly object _messageHandler = new();
     static MultiDetectTypeEnumDescriptionConverter()
     {
-        AppLanguageManager.OnAppLanguageChanged += OnLanguageChanged;
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(_messageHandler, (_, _) => OnLanguageChanged());
     }
 
     // 存储所有使用此转换器的绑定表达式的弱引用

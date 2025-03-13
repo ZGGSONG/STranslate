@@ -31,7 +31,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="auto" MaxWidth="40" />
+                        <ColumnDefinition Width="auto" MaxWidth="48" />
                     </Grid.ColumnDefinitions>
 
                     <Label
@@ -97,7 +97,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="auto" MaxWidth="40" />
+                        <ColumnDefinition Width="auto" MaxWidth="48" />
                     </Grid.ColumnDefinitions>
 
                     <Label
@@ -164,7 +164,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="20" />
                         <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="auto" MaxWidth="40" />
+                        <ColumnDefinition Width="auto" MaxWidth="48" />
                     </Grid.ColumnDefinitions>
 
                     <Label
