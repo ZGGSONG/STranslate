@@ -20,6 +20,8 @@
     <system:String x:Key="Cancel">取消</system:String>
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>
+    <system:String x:Key="Admin">[管理员]</system:String>
+    <system:String x:Key="Start">已启动...</system:String>
 
     <!--#endregion-->
 
@@ -106,6 +108,55 @@
     <system:String x:Key="AnimationSpeedEnum.Slow">较慢(300ms)</system:String>
     <system:String x:Key="AnimationSpeedEnum.Middle">适中(200ms)</system:String>
     <system:String x:Key="AnimationSpeedEnum.Fast">较快(150ms)</system:String>
+
+    <system:String x:Key="BaiduOCRAction.accurate">高精度含位置版</system:String>
+    <system:String x:Key="BaiduOCRAction.accurate_basic">高精度版</system:String>
+    <system:String x:Key="BaiduOCRAction.general">标准含位置版</system:String>
+    <system:String x:Key="BaiduOCRAction.general_basic">标准版</system:String>
+
+    <system:String x:Key="TencentOCRAction.GeneralBasicOCR">通用印刷体识别</system:String>
+    <system:String x:Key="TencentOCRAction.GeneralAccurateOCR">通用印刷体识别(高精度版)</system:String>
+
+    <system:String x:Key="VolcengineOCRAction.OCRNormal">通用文字识别</system:String>
+    <system:String x:Key="VolcengineOCRAction.MultiLanguageOCR">多语种OCR</system:String>
+
+    <system:String x:Key="IconType.STranslate">本地</system:String>
+    <system:String x:Key="IconType.DeepL">DeepL</system:String>
+    <system:String x:Key="IconType.Baidu">百度</system:String>
+    <system:String x:Key="IconType.Google">谷歌</system:String>
+    <system:String x:Key="IconType.Iciba">爱词霸</system:String>
+    <system:String x:Key="IconType.Youdao">有道</system:String>
+    <system:String x:Key="IconType.Bing">必应</system:String>
+    <system:String x:Key="IconType.OpenAI">OpenAI</system:String>
+    <system:String x:Key="IconType.Gemini">Gemini</system:String>
+    <system:String x:Key="IconType.Tencent">腾讯</system:String>
+    <system:String x:Key="IconType.Ali">阿里</system:String>
+    <system:String x:Key="IconType.Niutrans">小牛</system:String>
+    <system:String x:Key="IconType.Caiyun">彩云</system:String>
+    <system:String x:Key="IconType.Microsoft">微软</system:String>
+    <system:String x:Key="IconType.Volcengine">火山</system:String>
+    <system:String x:Key="IconType.Ecdict">简明汉字词典</system:String>
+    <system:String x:Key="IconType.Azure">Azure</system:String>
+    <system:String x:Key="IconType.Chatglm">智谱清言</system:String>
+    <system:String x:Key="IconType.Linyi">零一万物</system:String>
+    <system:String x:Key="IconType.DeepSeek">DeepSeek</system:String>
+    <system:String x:Key="IconType.Groq">Groq</system:String>
+    <system:String x:Key="IconType.PaddleOCR">PaddleOCR</system:String>
+    <system:String x:Key="IconType.BaiduBce">百度云平台</system:String>
+    <system:String x:Key="IconType.TencentOCR">腾讯OCR</system:String>
+    <system:String x:Key="IconType.Ollama">Ollama</system:String>
+    <system:String x:Key="IconType.Kimi">Kimi</system:String>
+    <system:String x:Key="IconType.Lingva">Lingva</system:String>
+    <system:String x:Key="IconType.WeChat">微信</system:String>
+    <system:String x:Key="IconType.Claude">Claude</system:String>
+    <system:String x:Key="IconType.EuDict">欧陆词典</system:String>
+    <system:String x:Key="IconType.Yandex">Yandex</system:String>
+
+    <system:String x:Key="BackupType.Local">本地</system:String>
+    <system:String x:Key="BackupType.WebDav">WebDav</system:String>
+
+    <system:String x:Key="STranslateMode.Brower">模式一</system:String>
+    <system:String x:Key="STranslateMode.IOS">模式二</system:String>
 
     <!--#endregion-->
 

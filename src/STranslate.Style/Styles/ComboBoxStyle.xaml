@@ -214,9 +214,17 @@
                                             Height="15"
                                             Source="{Binding Value}" />
                                         <TextBlock
+                                            Name="IconItemTb"
                                             Margin="5,0,0,0"
-                                            FontSize="{DynamicResource FontSize16}"
-                                            Text="{Binding Key, Converter={StaticResource ComboBoxIconConverter}}" />
+                                            FontSize="{DynamicResource FontSize16}">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource MultiComboBoxIconConverter}">
+                                                    <Binding Path="Key" />
+                                                    <Binding ElementName="IconItemTb" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <!--  Text="{Binding Key, Converter={StaticResource MultiComboBoxIconConverter}}" />  -->
                                     </StackPanel>
                                 </Border>
                                 <ControlTemplate.Triggers>
@@ -269,7 +277,15 @@
                                                             Width="16"
                                                             Height="16"
                                                             Source="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=0}" />
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ComboBoxIconConverter}, ConverterParameter=1}" />
+                                                        <TextBlock Name="IconTb" Margin="5,0,0,0">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding Converter="{StaticResource MultiComboBoxIconConverter}" ConverterParameter="1">
+                                                                    <Binding Path="Content" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
+                                                                    <Binding ElementName="IconTb" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <!--  Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MultiComboBoxIconConverter}, ConverterParameter=1}" />  -->
                                                     </StackPanel>
                                                 </ControlTemplate>
                                             </Setter.Value>

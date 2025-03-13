@@ -1417,8 +1417,8 @@ public enum EdgeVoiceEnum
 
 public enum STranslateMode
 {
-    [Description("模式一")] IOS,
-    [Description("模式二")] Brower,
+    [Description("模式一")] Brower,
+    [Description("模式二")] IOS,
 }
 
 public enum LineBreakHandlingMode

@@ -20,6 +20,8 @@
     <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="Yes">Yes</system:String>
     <system:String x:Key="No">No</system:String>
+    <system:String x:Key="Admin">[Admin]</system:String>
+    <system:String x:Key="Start">started...</system:String>
 
     <!--#endregion-->
 
@@ -106,6 +108,55 @@
     <system:String x:Key="AnimationSpeedEnum.Slow">Slow(300ms)</system:String>
     <system:String x:Key="AnimationSpeedEnum.Middle">Middle(200ms)</system:String>
     <system:String x:Key="AnimationSpeedEnum.Fast">Fast(150ms)</system:String>
+
+    <system:String x:Key="BaiduOCRAction.accurate">Accurate</system:String>
+    <system:String x:Key="BaiduOCRAction.accurate_basic">Accurate Basic</system:String>
+    <system:String x:Key="BaiduOCRAction.general">General</system:String>
+    <system:String x:Key="BaiduOCRAction.general_basic">GeneralBsic</system:String>
+
+    <system:String x:Key="TencentOCRAction.GeneralBasicOCR">General Basic OCR</system:String>
+    <system:String x:Key="TencentOCRAction.GeneralAccurateOCR">General Accurate OCR</system:String>
+
+    <system:String x:Key="VolcengineOCRAction.OCRNormal">General OCR</system:String>
+    <system:String x:Key="VolcengineOCRAction.MultiLanguageOCR">Multi-language OCR</system:String>
+
+    <system:String x:Key="IconType.STranslate">Local</system:String>
+    <system:String x:Key="IconType.DeepL">DeepL</system:String>
+    <system:String x:Key="IconType.Baidu">Baidu</system:String>
+    <system:String x:Key="IconType.Google">Google</system:String>
+    <system:String x:Key="IconType.Iciba">iCiba</system:String>
+    <system:String x:Key="IconType.Youdao">Youdao</system:String>
+    <system:String x:Key="IconType.Bing">Bing</system:String>
+    <system:String x:Key="IconType.OpenAI">OpenAI</system:String>
+    <system:String x:Key="IconType.Gemini">Gemini</system:String>
+    <system:String x:Key="IconType.Tencent">Tencent</system:String>
+    <system:String x:Key="IconType.Ali">Ali</system:String>
+    <system:String x:Key="IconType.Niutrans">Niutrans</system:String>
+    <system:String x:Key="IconType.Caiyun">Caiyun</system:String>
+    <system:String x:Key="IconType.Microsoft">Microsoft</system:String>
+    <system:String x:Key="IconType.Volcengine">Volcengine</system:String>
+    <system:String x:Key="IconType.Ecdict">ECDict</system:String>
+    <system:String x:Key="IconType.Azure">Azure</system:String>
+    <system:String x:Key="IconType.Chatglm">ChatGLM</system:String>
+    <system:String x:Key="IconType.Linyi">Linyi</system:String>
+    <system:String x:Key="IconType.DeepSeek">DeepSeek</system:String>
+    <system:String x:Key="IconType.Groq">Groq</system:String>
+    <system:String x:Key="IconType.PaddleOCR">PaddleOCR</system:String>
+    <system:String x:Key="IconType.BaiduBce">BaiduBce</system:String>
+    <system:String x:Key="IconType.TencentOCR">TencentOCR</system:String>
+    <system:String x:Key="IconType.Ollama">Ollama</system:String>
+    <system:String x:Key="IconType.Kimi">Kimi</system:String>
+    <system:String x:Key="IconType.Lingva">Lingva</system:String>
+    <system:String x:Key="IconType.WeChat">WeChat</system:String>
+    <system:String x:Key="IconType.Claude">Claude</system:String>
+    <system:String x:Key="IconType.EuDict">EuDict</system:String>
+    <system:String x:Key="IconType.Yandex">Yandex</system:String>
+
+    <system:String x:Key="BackupType.Local">Local</system:String>
+    <system:String x:Key="BackupType.WebDav">WebDav</system:String>
+
+    <system:String x:Key="STranslateMode.Brower">Brower</system:String>
+    <system:String x:Key="STranslateMode.IOS">IOS</system:String>
 
     <!--#endregion-->
 
@@ -531,7 +582,7 @@
     <system:String x:Key="Service.Translator.ECDict.ProjectHome">Project Home</system:String>
     <system:String x:Key="Service.Translator.ECDict.Description">Only supports English words, not sentence translation</system:String>
     <system:String x:Key="Service.Translator.ECDict.Tip">Local service, requires dictionary file download</system:String>
-    <system:String x:Key="Service.Description">Description</system:String>
+    <system:String x:Key="Service.Description">Desc</system:String>
     <system:String x:Key="Service.Translator.STranslate.Mode">Mode:</system:String>
     <system:String x:Key="Service.Translator.STranslate.Mode.Tooltip">If translation fails in one mode, please switch to another mode. Service providers may impose restrictions for high-frequency access in a short time</system:String>
     <system:String x:Key="Service.STranslate">Local Service</system:String>
@@ -539,7 +590,7 @@
     <system:String x:Key="Service.Translator.Tencent.Region">Region:</system:String>
     <system:String x:Key="Service.TTS.Voice">Voice:</system:String>
     <system:String x:Key="Service.TTS.Lingva">This service depends on language settings. Please select available services in General Settings - Common Configuration - Language Recognition. Sometimes it may not function properly due to network or service issues (Note that local recognition currently only supports Chinese and English. Please avoid using local recognition with Lingva for text-to-speech operations in languages other than Chinese and English)</system:String>
-    <system:String x:Key="Service.TTS.Speed">Speech Rate:</system:String>
+    <system:String x:Key="Service.TTS.Speed">Speed:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">Set the speech rate for offline TTS.</system:String>
     <system:String x:Key="Service.TTS.Offline">Get system supported voices</system:String>
 

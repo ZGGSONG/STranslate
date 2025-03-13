@@ -198,9 +198,7 @@ public partial class MainView : Window
             {
                 var isAdmin = CommonUtil.IsUserAdministrator();
 
-                var toolTipFormat = isAdmin ? "STranslate[Admin] {0} started" : "STranslate {0} started";
-
-                var msg = string.Format(toolTipFormat, Constant.AppVersion);
+                var msg = isAdmin ? $"STranslate{AppLanguageManager.GetString("Admin")} {Constant.AppVersion} {AppLanguageManager.GetString("Start")}" : $"STranslate {Constant.AppVersion} {AppLanguageManager.GetString("Start")}";
 
                 // 显示信息
                 Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);

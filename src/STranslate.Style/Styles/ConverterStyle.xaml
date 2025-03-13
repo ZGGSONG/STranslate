@@ -18,6 +18,7 @@
     <converter:MultiProxyParam2VisibilityConverter x:Key="MultiProxyParam2VisibilityConverter" />
     <converter:Expander2ScaleYConverter x:Key="Expander2ScaleYConverter" />
     <converter:ComboBoxIconConverter x:Key="ComboBoxIconConverter" />
+    <converter:MultiComboBoxIconConverter x:Key="MultiComboBoxIconConverter" />
     <converter:ServiceType2StringConverter x:Key="ServiceType2StringConverter" />
     <converter:ServiceType2BrushConverter x:Key="ServiceType2BrushConverter" />
     <converter:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter" />
