@@ -3,10 +3,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
-using STranslate.Style.Commons;
 using STranslate.Style.Controls;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
@@ -64,6 +64,8 @@ public partial class MainViewModel : ObservableObject
         SqlHelper.InitializeDB();
 
         Reset();
+
+        WeakReferenceMessenger.Default.Register<AppLanguageMessenger>(this, (_, _) => RefreshNotifyIconMsg());
     }
 
     public InputViewModel InputVM => Singleton<InputViewModel>.Instance;
@@ -148,7 +150,7 @@ public partial class MainViewModel : ObservableObject
             if (Config?.DisableGlobalHotkeys ?? false)
             {
                 NotifyIconVM.ForbiddenShortcuts(true);
-                NotifyIconVM.UpdateToolTip("快捷键禁用");
+                NotifyIconVM.UpdateToolTip(AppLanguageManager.GetString("NotifyIcon.Show.ShortcutDisabled"));
             }
             else
             {
@@ -249,6 +251,12 @@ public partial class MainViewModel : ObservableObject
             if (ShouldIgnoreHotkeys) return;
             NotifyIconVM.ClipboardMonitorCommand.Execute(view);
         });
+
+        RefreshNotifyIconMsg();
+    }
+
+    private void RefreshNotifyIconMsg()
+    {
         if (
             HotkeyHelper.Hotkeys!.InputTranslate.Conflict
             || HotkeyHelper.Hotkeys!.CrosswordTranslate.Conflict
@@ -265,31 +273,31 @@ public partial class MainViewModel : ObservableObject
         var msg = "";
         if (!HotkeyHelper.Hotkeys.InputTranslate.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.InputTranslate.Text))
-            msg += $"输入: {HotkeyHelper.Hotkeys.InputTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Input")}: {HotkeyHelper.Hotkeys.InputTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.CrosswordTranslate.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.CrosswordTranslate.Text))
-            msg += $"划词: {HotkeyHelper.Hotkeys.CrosswordTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Crossword")}: {HotkeyHelper.Hotkeys.CrosswordTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.ScreenShotTranslate.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ScreenShotTranslate.Text))
-            msg += $"截图: {HotkeyHelper.Hotkeys.ScreenShotTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Screenshot")}: {HotkeyHelper.Hotkeys.ScreenShotTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.ReplaceTranslate.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ReplaceTranslate.Text))
-            msg += $"替换: {HotkeyHelper.Hotkeys.ReplaceTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Replace")}: {HotkeyHelper.Hotkeys.ReplaceTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.OpenMainWindow.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OpenMainWindow.Text))
-            msg += $"显示: {HotkeyHelper.Hotkeys.OpenMainWindow.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Mainview")}: {HotkeyHelper.Hotkeys.OpenMainWindow.Text}\n";
         if (!HotkeyHelper.Hotkeys.MousehookTranslate.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.MousehookTranslate.Text))
-            msg += $"鼠标: {HotkeyHelper.Hotkeys.MousehookTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Mouse")}: {HotkeyHelper.Hotkeys.MousehookTranslate.Text}\n";
         if (!HotkeyHelper.Hotkeys.OCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.OCR.Text))
-            msg += $"识字: {HotkeyHelper.Hotkeys.OCR.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.OCR")}: {HotkeyHelper.Hotkeys.OCR.Text}\n";
         if (!HotkeyHelper.Hotkeys.SilentOCR.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentOCR.Text))
-            msg += $"静默OCR: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.SlientOCR")}: {HotkeyHelper.Hotkeys.SilentOCR.Text}\n";
+        if (!HotkeyHelper.Hotkeys.SilentTTS.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentTTS.Text))
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.SlientTTS")}: {HotkeyHelper.Hotkeys.SilentTTS.Text}\n";
         if (!HotkeyHelper.Hotkeys.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.ClipboardMonitor.Text))
-            msg += $"剪贴板: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
-        if (!HotkeyHelper.Hotkeys.SilentTTS.Conflict && !string.IsNullOrEmpty(HotkeyHelper.Hotkeys.SilentTTS.Text))
-            msg += $"静默TTS: {HotkeyHelper.Hotkeys.SilentTTS.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Clipboard")}: {HotkeyHelper.Hotkeys.ClipboardMonitor.Text}\n";
         NotifyIconVM.UpdateToolTip(msg.TrimEnd('\n'));
         HotkeyHelper.UpdateConflict();
     }
@@ -298,7 +306,7 @@ public partial class MainViewModel : ObservableObject
     {
         HotkeyHelper.UnRegisterHotKey(view);
 
-        NotifyIconVM.UpdateToolTip("快捷键禁用");
+        NotifyIconVM.UpdateToolTip(AppLanguageManager.GetString("NotifyIcon.Show.ShortcutDisabled"));
     }
 
     private void CancelAndTranslate()

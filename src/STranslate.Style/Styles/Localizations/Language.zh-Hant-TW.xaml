@@ -781,8 +781,19 @@
     <system:String x:Key="NotifyIcon.QRCode">二維碼</system:String>
     <system:String x:Key="NotifyIcon.OpenMainWindow">顯示界面</system:String>
     <system:String x:Key="NotifyIcon.OpenPreference">偏好設置</system:String>
-    <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用快捷鍵</system:String>
+    <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用熱鍵</system:String>
     <system:String x:Key="NotifyIcon.Exit">退出程式</system:String>
+    <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">快速鍵已停用</system:String>
+    <system:String x:Key="NotifyIcon.Show.Input">輸入</system:String>
+    <system:String x:Key="NotifyIcon.Show.Crossword">劃詞</system:String>
+    <system:String x:Key="NotifyIcon.Show.Screenshot">螢幕</system:String>
+    <system:String x:Key="NotifyIcon.Show.Replace">替換</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mainview">顯示</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mouse">滑鼠</system:String>
+    <system:String x:Key="NotifyIcon.Show.OCR">識字</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientOCR">靜默識字</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientTTS">靜默TTS</system:String>
+    <system:String x:Key="NotifyIcon.Show.Clipboard">剪貼簿監控</system:String>
 
     <!--#endregion-->
 

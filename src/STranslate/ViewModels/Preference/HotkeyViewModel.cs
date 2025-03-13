@@ -340,34 +340,34 @@ public partial class HotkeyViewModel : ObservableObject
         var msg = "";
         if (!_conf.CurrentConfig!.Hotkeys!.InputTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.InputTranslate.Text))
-            msg += $"输入: {_conf.CurrentConfig!.Hotkeys!.InputTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Input")}: {_conf.CurrentConfig!.Hotkeys!.InputTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text))
-            msg += $"划词: {_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Crossword")}: {_conf.CurrentConfig!.Hotkeys!.CrosswordTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text))
-            msg += $"截图: {_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Screenshot")}: {_conf.CurrentConfig!.Hotkeys!.ScreenShotTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Text))
-            msg += $"替换: {_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Replace")}: {_conf.CurrentConfig!.Hotkeys!.ReplaceTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text))
-            msg += $"显示: {_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Mainview")}: {_conf.CurrentConfig!.Hotkeys!.OpenMainWindow.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text))
-            msg += $"鼠标: {_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Mouse")}: {_conf.CurrentConfig!.Hotkeys!.MousehookTranslate.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.OCR.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.OCR.Text))
-            msg += $"识字: {_conf.CurrentConfig!.Hotkeys!.OCR.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.OCR")}: {_conf.CurrentConfig!.Hotkeys!.OCR.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.SilentOCR.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text))
-            msg += $"静默OCR: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.SlientOCR")}: {_conf.CurrentConfig!.Hotkeys!.SilentOCR.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.SilentTTS.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text))
-            msg += $"静默TTS: {_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.SlientTTS")}: {_conf.CurrentConfig!.Hotkeys!.SilentTTS.Text}\n";
         if (!_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Conflict &&
             !string.IsNullOrEmpty(_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text))
-            msg += $"剪贴板: {_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\n";
+            msg += $"{AppLanguageManager.GetString("NotifyIcon.Show.Clipboard")}: {_conf.CurrentConfig!.Hotkeys!.ClipboardMonitor.Text}\n";
         Singleton<NotifyIconViewModel>.Instance.UpdateToolTip(msg.TrimEnd(['\r', '\n']));
     }
 

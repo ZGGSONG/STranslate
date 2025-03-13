@@ -1431,8 +1431,8 @@ public enum LineBreakHandlingMode
 public enum AppLanguageKind
 {
     [Description("简体中文")] zh_Hans_CN,
-    [Description("English")] en_US,
     [Description("繁體中文")] zh_Hant_TW,
+    [Description("English")] en_US,
 }
 
 /// <summary>

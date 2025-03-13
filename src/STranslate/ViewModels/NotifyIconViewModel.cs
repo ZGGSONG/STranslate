@@ -172,10 +172,11 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         const int maxLength = 127;
         var isAdmin = CommonUtil.IsUserAdministrator();
-        var toolTipFormat = isAdmin ? "STranslate {0}\n[Administrator] #\n{1}" : "STranslate {0} #\n{1}";
+        var toolTipFormat = isAdmin ? "STranslate {0}\n{1} #\n{2}" : "STranslate {0} {1}#\n{2}";
 
+        var adminStr = isAdmin ? AppLanguageManager.GetString("Admin") : "";
         // 计算基础提示信息的长度
-        var baseToolTip = string.Format(toolTipFormat, Constant.AppVersion, string.Empty);
+        var baseToolTip = string.Format(toolTipFormat, Constant.AppVersion, adminStr, string.Empty);
         var baseLength = baseToolTip.Length;
 
         // 剩余可用长度
@@ -185,11 +186,11 @@ public partial class NotifyIconViewModel : ObservableObject
         if (msg.Length > availableLength)
         {
             var truncatedMsg = msg[..(availableLength - 3)] + "...";
-            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, truncatedMsg);
+            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, adminStr, truncatedMsg);
         }
         else
         {
-            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, msg);
+            NIModel.ToolTip = string.Format(toolTipFormat, Constant.AppVersion, adminStr, msg);
         }
     }
 

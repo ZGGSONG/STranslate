@@ -777,12 +777,23 @@
     <system:String x:Key="NotifyIcon.MousehookTranslate">鼠标划词</system:String>
     <system:String x:Key="NotifyIcon.ClipboardMonitor">监听剪贴板</system:String>
     <system:String x:Key="NotifyIcon.OCR">文字识别</system:String>
-    <system:String x:Key="NotifyIcon.SilentOCR">静默OCR</system:String>
+    <system:String x:Key="NotifyIcon.SilentOCR">静默识字</system:String>
     <system:String x:Key="NotifyIcon.QRCode">二维码</system:String>
     <system:String x:Key="NotifyIcon.OpenMainWindow">显示界面</system:String>
     <system:String x:Key="NotifyIcon.OpenPreference">偏好设置</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用热键</system:String>
     <system:String x:Key="NotifyIcon.Exit">退出程序</system:String>
+    <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">快捷键禁用</system:String>
+    <system:String x:Key="NotifyIcon.Show.Input">输入</system:String>
+    <system:String x:Key="NotifyIcon.Show.Crossword">划词</system:String>
+    <system:String x:Key="NotifyIcon.Show.Screenshot">截图</system:String>
+    <system:String x:Key="NotifyIcon.Show.Replace">替换</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mainview">显示</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mouse">鼠标</system:String>
+    <system:String x:Key="NotifyIcon.Show.OCR">识字</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientOCR">静默OCR</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientTTS">静默TTS</system:String>
+    <system:String x:Key="NotifyIcon.Show.Clipboard">剪贴板</system:String>
 
     <!--#endregion-->
 

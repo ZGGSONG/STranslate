@@ -783,6 +783,17 @@
     <system:String x:Key="NotifyIcon.OpenPreference">Open Preference</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">Forbidden Shortcuts</system:String>
     <system:String x:Key="NotifyIcon.Exit">Exit</system:String>
+    <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">Hotkey Disabled</system:String>
+    <system:String x:Key="NotifyIcon.Show.Input">Input</system:String>
+    <system:String x:Key="NotifyIcon.Show.Crossword">Crossword</system:String>
+    <system:String x:Key="NotifyIcon.Show.Screenshot">ScreenShot</system:String>
+    <system:String x:Key="NotifyIcon.Show.Replace">Replace</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mainview">Show</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mouse">Mouse</system:String>
+    <system:String x:Key="NotifyIcon.Show.OCR">OCR</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientOCR">SilentOCR</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientTTS">SilentTTS</system:String>
+    <system:String x:Key="NotifyIcon.Show.Clipboard">Clipboard</system:String>
 
     <!--#endregion-->
 
