@@ -5,7 +5,7 @@
 - 新增: 添加配置下载渠道, 默认使用 [gh-proxy](https://gh-proxy.com/), 提升大陆用户下载速度
 - 优化: 多语言功能描述
 
-**完整更新日志:** [1.4.1.313...1.4.2.314](https://github.com/ZGGSONG/STranslate/compare/1.4.1.313...1.4.2.314)
+**完整更新日志:** [1.4.2.314...1.4.3.314](https://github.com/ZGGSONG/STranslate/compare/1.4.2.314...1.4.3.314)
 
 ## 离线数据
 
