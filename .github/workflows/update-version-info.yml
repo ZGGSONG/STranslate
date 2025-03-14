@@ -19,14 +19,14 @@ jobs:
           # 获取最新版本信息
           RELEASE_JSON=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest)
           
-          # 直接从JSON提取所需字段，避免设置整个JSON为环境变量
+          # 直接从JSON提取所需字段
           VERSION=$(echo $RELEASE_JSON | jq -r .tag_name)
           PUBLISHED=$(echo $RELEASE_JSON | jq -r .published_at)
           BODY=$(echo $RELEASE_JSON | jq -r .body)
           
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           
-          # 创建version-info.json文件
+          # 创建新的version-info.json内容
           echo "{" > version-info.json
           echo "  \"version\": \"$VERSION\"," >> version-info.json
           echo "  \"published_at\": \"$PUBLISHED\"," >> version-info.json
@@ -59,16 +59,20 @@ jobs:
           echo "  \"body\": $ESCAPED_BODY" >> version-info.json
           echo "}" >> version-info.json
           
+          echo "版本信息文件已更新:"
           cat version-info.json
       
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: .
-          target-folder: .
-          branch: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
-          clean: false
-          clean-exclude: |
-            !version-info.json
-          commit-message: "Update version info to ${{ env.VERSION }}"
+      - name: Commit and Push updated version info
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # 检查是否有变更需要提交
+          if git diff --exit-code version-info.json; then
+            echo "version-info.json 没有变化，无需提交"
+            exit 0
+          fi
+          
+          git add version-info.json
+          git commit -m "更新版本信息至 ${{ env.VERSION }}"
+          git push origin HEAD:main
