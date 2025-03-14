@@ -107,51 +107,13 @@
                     Maximum="100"
                     Visibility="{Binding IsShowProcessBar, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Value="{Binding ProcessValue}" />
-
-                <ToggleButton
-                    Name="BTN_Down"
+                <Button
                     Grid.Column="1"
                     Width="100"
                     HorizontalAlignment="Left"
+                    Command="{Binding DownloadResourceCommand}"
                     Content="{DynamicResource Service.OCR.PaddleOCR.Download}"
-                    Style="{DynamicResource ToggleButtonTextStyle}"
                     Visibility="{Binding HasDB, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <Popup
-                    MinWidth="80"
-                    MinHeight="30"
-                    MaxHeight="400"
-                    AllowsTransparency="True"
-                    IsOpen="{Binding ElementName=BTN_Down, Path=IsChecked}"
-                    Placement="Center"
-                    PlacementTarget="{Binding ElementName=BTN_Down}"
-                    PopupAnimation="Fade"
-                    StaysOpen="False">
-                    <Border
-                        Width="100"
-                        BorderBrush="{DynamicResource BorderBrushColor}"
-                        BorderThickness="1"
-                        Style="{DynamicResource BorderPopupStyle}">
-                        <StackPanel>
-                            <Button Command="{Binding DownloadResourceCommand}" Content="Github">
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                        <Binding ElementName="BTN_Down" />
-                                        <Binding Source="{x:Static model:GithubProxy.None}" />
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                            <Button Command="{Binding DownloadResourceCommand}" Content="ghProxy">
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                        <Binding ElementName="BTN_Down" />
-                                        <Binding Source="{x:Static model:GithubProxy.GHProxy}" />
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                        </StackPanel>
-                    </Border>
-                </Popup>
-
                 <Button
                     Grid.Column="1"
                     Width="100"

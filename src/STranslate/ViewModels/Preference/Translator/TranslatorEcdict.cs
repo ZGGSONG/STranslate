@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Net.Http;
-using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -65,14 +64,12 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
 
     [RelayCommand(IncludeCancelCommand = true)]
     [property: JsonIgnore]
-    private async Task DownloadResourceAsync(List<object> @params, CancellationToken token)
+    private async Task DownloadResourceAsync(CancellationToken token)
     {
         ProcessValue = 0;
         IsShowProcessBar = true;
-        var control = (ToggleButton)@params[0];
-        control.IsChecked = !control.IsChecked;
 
-        var proxy = ((GithubProxy)@params[1]).GetDescription();
+        var proxy = (Singleton<ConfigHelper>.Instance.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy).GetDescription();
         var url = $"{proxy}https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip";
 
         var httpClient = new HttpClient(new SocketsHttpHandler());

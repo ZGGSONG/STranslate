@@ -6,11 +6,11 @@ namespace STranslate.Util;
 
 public class UpdateUtil
 {
-    public static async Task<VersionInfo?> CheckForUpdates(CancellationToken token = default)
+    public static async Task<VersionInfo?> CheckForUpdates(string proxy, CancellationToken token = default)
     {
         try
         {
-            string jsonContent = await HttpUtil.GetAsync(Constant.VersionInfoUrl, token);
+            string jsonContent = await HttpUtil.GetAsync($"{proxy}{Constant.VersionInfoUrl}", token);
             var versionInfo = JsonConvert.DeserializeObject<VersionInfo>(jsonContent)
                 ?? throw new Exception("获取版本信息失败");
 

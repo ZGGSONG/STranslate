@@ -1060,14 +1060,12 @@ public enum LangDetectType
 }
 
 /// <summary>
-///     Github代理
+///     Github 资源下载代理方式
 /// </summary>
-public enum GithubProxy
+public enum DownloadProxyKind
 {
-    [Description("")] None,
-
-    [Description("https://gh-proxy.com/")]
-    GHProxy
+    [Description("")] Github,
+    [Description("https://gh-proxy.com/")] GhProxy
 }
 
 /// <summary>

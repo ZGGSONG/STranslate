@@ -60,49 +60,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource Service.OCR.PaddleOCR.Data}" />
 
-                <ToggleButton
-                    Name="BTN_Down"
+                <Button
                     Grid.Column="1"
                     Width="100"
                     HorizontalAlignment="Left"
                     Content="{DynamicResource Service.OCR.PaddleOCR.Download}"
-                    Style="{DynamicResource ToggleButtonTextStyle}"
                     Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <Popup
-                    MinWidth="80"
-                    MinHeight="30"
-                    MaxHeight="400"
-                    AllowsTransparency="True"
-                    IsOpen="{Binding ElementName=BTN_Down, Path=IsChecked}"
-                    Placement="Center"
-                    PlacementTarget="{Binding ElementName=BTN_Down}"
-                    PopupAnimation="Fade"
-                    StaysOpen="False">
-                    <Border
-                        Width="100"
-                        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
-                        BorderThickness="1"
-                        Style="{DynamicResource BorderPopupStyle}">
-                        <StackPanel>
-                            <Button Command="{Binding DownloadCommand}" Content="Github">
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                        <Binding ElementName="BTN_Down" />
-                                        <Binding Source="{x:Static model:GithubProxy.None}" />
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                            <Button Command="{Binding DownloadCommand}" Content="ghProxy">
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
-                                        <Binding ElementName="BTN_Down" />
-                                        <Binding Source="{x:Static model:GithubProxy.GHProxy}" />
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                        </StackPanel>
-                    </Border>
-                </Popup>
                 <Button
                     Grid.Column="1"
                     Width="100"

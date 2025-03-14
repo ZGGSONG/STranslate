@@ -71,6 +71,19 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="{DynamicResource Common.DownloadProxy}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DownloadProxyTip}" />
+                                    <ComboBox
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Value"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:DownloadProxyKind}}}"
+                                        SelectedValue="{Binding DownloadProxy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="{DynamicResource Common.AppLanguage}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AppLanguageTip}" />
                                     <ComboBox

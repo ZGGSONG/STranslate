@@ -244,6 +244,11 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _needAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
 
     /// <summary>
+    ///     Github 资源下载代理
+    /// </summary>
+    [ObservableProperty] private DownloadProxyKind _downloadProxy = ConfigHelper.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy;
+
+    /// <summary>
     ///     OCR修改语言后立即翻译
     /// </summary>
     [ObservableProperty] private bool _ocrChangedLang2Execute = ConfigHelper.CurrentConfig?.OcrChangedLang2Execute ?? true;
@@ -506,6 +511,7 @@ public partial class CommonViewModel : ObservableObject
     {
         IsStartup = ConfigHelper.CurrentConfig?.IsStartup ?? false;
         NeedAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+        DownloadProxy = ConfigHelper.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy;
         HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
         AutoScale = ConfigHelper.CurrentConfig?.AutoScale ?? 0.8;
         ThemeType = ConfigHelper.CurrentConfig?.ThemeType ?? ThemeType.Light;

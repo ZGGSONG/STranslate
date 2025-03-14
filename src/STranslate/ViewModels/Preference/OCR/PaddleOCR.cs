@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
-using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -131,14 +129,12 @@ public partial class PaddleOCR : OCRBase, IOCR
 
     [RelayCommand(IncludeCancelCommand = true)]
     [property: JsonIgnore]
-    private async Task DownloadAsync(List<object> @params, CancellationToken token)
+    private async Task DownloadAsync(CancellationToken token)
     {
         ProcessValue = 0;
         IsShowProcessBar = true;
-        var control = (ToggleButton)@params[0];
-        control.IsChecked = !control.IsChecked;
 
-        var proxy = ((GithubProxy)@params[1]).GetDescription();
+        var proxy = (Singleton<ConfigHelper>.Instance.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy).GetDescription();
         var url =
             $"{proxy}https://github.com/ZGGSONG/STranslate/releases/download/0.01/{PaddleOcrFile}";
 

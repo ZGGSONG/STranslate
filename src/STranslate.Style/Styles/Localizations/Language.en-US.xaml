@@ -254,6 +254,7 @@
     <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
     <system:String x:Key="Common.AppLanguage">Application Language</system:String>
     <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
+    <system:String x:Key="Common.DownloadProxy">Github resource channel</system:String>
     <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
     <system:String x:Key="Common.ThemeSelection">Theme Selection</system:String>
     <system:String x:Key="Common.FontSelection">Font Selection [WIE]</system:String>
@@ -381,6 +382,7 @@
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">Automatically start the software when the system boots (for current user)</system:String>
     <system:String x:Key="Tooltip.NeedAdminTip">To ensure global hotkeys respond in windows with administrator privileges</system:String>
+    <system:String x:Key="Tooltip.DownloadProxyTip">Proxy method used to download Github resources (software installation packages, offline resource packages)</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">Switch application language version</system:String>
     <system:String x:Key="Tooltip.AutoTranslateTip">Automatically translate after entering content</system:String>
     <system:String x:Key="Tooltip.ThemeSelectionTip">Light theme, dark theme, follow system Windows mode, follow system app mode</system:String>

@@ -92,7 +92,10 @@ public partial class AboutViewModel : ObservableObject
         {
             IsChecking = true;
 
-            var result = await UpdateUtil.CheckForUpdates(token);
+
+            var proxy = (Singleton<ConfigHelper>.Instance.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy).GetDescription();
+
+            var result = await UpdateUtil.CheckForUpdates(proxy, token);
             if (result == null)
             {
                 MessageBox_S.Show(AppLanguageManager.GetString("Constant.NeweastVersionInfo"));

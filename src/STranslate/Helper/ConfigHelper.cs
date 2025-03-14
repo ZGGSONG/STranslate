@@ -257,6 +257,7 @@ public class ConfigHelper
         //var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
         CurrentConfig.IsStartup = model.IsStartup;
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
+        CurrentConfig.DownloadProxy = model.DownloadProxy;
         CurrentConfig.HistorySize = model.HistorySize;
         CurrentConfig.AutoScale = model.AutoScale;
         CurrentConfig.ThemeType = model.ThemeType;
@@ -889,6 +890,7 @@ public class ConfigHelper
             UsePasteOutput = false,
             HttpTimeout = 10,
             AppLanguage = AppLanguageKind.zh_Hans_CN,
+            DownloadProxy = DownloadProxyKind.GhProxy,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

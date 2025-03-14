@@ -20,6 +20,11 @@ public class ConfigModel
     public bool NeedAdministrator { get; set; }
 
     /// <summary>
+    ///     Github 资源下载代理
+    /// </summary>
+    public DownloadProxyKind DownloadProxy { get; set; } = DownloadProxyKind.GhProxy;
+
+    /// <summary>
     ///     历史记录大小
     /// </summary>
     public long HistorySize { get; set; }
@@ -492,6 +497,7 @@ public class ConfigModel
         {
             IsStartup = IsStartup,
             NeedAdministrator = NeedAdministrator,
+            DownloadProxy = DownloadProxy,
             HistorySize = HistorySize,
             AutoScale = AutoScale,
             ThemeType = ThemeType,

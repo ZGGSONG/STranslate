@@ -254,6 +254,7 @@
     <system:String x:Key="Common.AutoStart">開機自啟動</system:String>
     <system:String x:Key="Common.AppLanguage">軟體語言</system:String>
     <system:String x:Key="Common.NeedAdmin">管理員啟動</system:String>
+    <system:String x:Key="Common.DownloadProxy">Github資源渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自動翻譯</system:String>
     <system:String x:Key="Common.ThemeSelection">主題選擇</system:String>
     <system:String x:Key="Common.FontSelection">字體選擇[立即生效]</system:String>
@@ -381,6 +382,7 @@
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">開機時自動啟動軟體(該使用者登錄)</system:String>
     <system:String x:Key="Tooltip.NeedAdminTip">以便全局快捷鍵在具有管理員權限的視窗也能響應</system:String>
+    <system:String x:Key="Tooltip.DownloadProxyTip">下載Github資源(軟體安裝包、離綫資源包)所使用代理方式</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">切換軟體語言版本</system:String>
     <system:String x:Key="Tooltip.AutoTranslateTip">輸入內容以後自動執行翻譯</system:String>
     <system:String x:Key="Tooltip.ThemeSelectionTip">亮色主題、暗色主題、跟隨系統Windows模式、跟隨系統應用模式</system:String>
