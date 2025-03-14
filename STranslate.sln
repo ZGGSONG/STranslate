@@ -20,7 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{8B472084
 		README.md = README.md
 		README_ZH.md = README_ZH.md
 		Sponsor.md = Sponsor.md
-		.github\workflows\update-version-info.yml = .github\workflows\update-version-info.yml
 		version-info.json = version-info.json
 	EndProjectSection
 EndProject
