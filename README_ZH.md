@@ -2,7 +2,7 @@
 
 <p>
 <a href="https://github.com/zggsong/STranslate" target="_blank">
-<img align="center" alt="STranslate" width="200" src="./img/favicon.svg" />
+<img align="center" alt="STranslate" width="200" src="./attachments/imgs/favicon.svg" />
 </a>
 </p>
 <p>
@@ -55,7 +55,7 @@
 
 或者加群讨论
 
-<img src="./img/qq.jpeg" height=200 />
+<img src="./attachments/imgs/qq.jpeg" height=200 />
 
 
 ## 感谢
@@ -71,7 +71,7 @@
 - 感谢 JetBrains 提供开源项目免费License
 - 感谢 [发文分享](Sponsor.md#分享支持)
 
-<a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
+<a href="https://jb.gg/OpenSourceSupport"><img src="./attachments/imgs/jb_beam.svg" /></a>
 
 ## 打赏
 
@@ -81,7 +81,7 @@
 
 | 微信 | 支付宝 |
 | :--: | :--: |
-|![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |
+|![wehcatpay](./attachments/imgs/wechatpay.jpg) | ![alipay](./attachments/imgs/alipay.jpg) |
 
 ## 其他
 

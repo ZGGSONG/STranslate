@@ -2,7 +2,7 @@
 
 <p>
 <a href="https://github.com/zggsong/STranslate" target="_blank">
-<img align="center" alt="STranslate" width="200" src="./img/favicon.svg" />
+<img align="center" alt="STranslate" width="200" src="./attachments/imgs/favicon.svg" />
 </a>
 </p>
 <p>
@@ -54,7 +54,7 @@ If you have questions, please go to [Discussions](https://github.com/ZGGSONG/STr
 
 Or group discussion
 
-<img src="./img/qq.jpeg" height=200 />
+<img src="./attachments/imgs/qq.jpeg" height=200 />
 
 ## Acknowledgments
 
@@ -69,7 +69,7 @@ Or group discussion
 - Thanks to JetBrains for providing open-source project free License
 - Thanks for [Posting Sharing](Sponsor.md#分享支持)
 
-<a href="https://jb.gg/OpenSourceSupport"><img src="./img/jb_beam.svg" /></a>
+<a href="https://jb.gg/OpenSourceSupport"><img src="./attachments/imgs/jb_beam.svg" /></a>
 
 ## Donations
 
@@ -79,7 +79,7 @@ If you like it, you can buy the author a cup of coffee.
 
 | WeChat | Alipay |
 | :--: | :--: |
-|![wehcatpay](./img/wechatpay.jpg) | ![alipay](./img/alipay.jpg) |
+|![wehcatpay](./attachments/imgs/wechatpay.jpg) | ![alipay](./attachments/imgs/alipay.jpg) |
 
 ## Others
 
