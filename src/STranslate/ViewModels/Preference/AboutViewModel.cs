@@ -147,16 +147,18 @@ public partial class AboutViewModel : ObservableObject
 
     private void ExecuteUpdate(string file)
     {
-        if (MessageBox_S.Show(AppLanguageManager.GetString("About.DownloadSuccess"), AppLanguageManager.GetString("MessageBox.Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        var title = AppLanguageManager.GetString("MessageBox.Tip");
+        if (MessageBox_S.Show(AppLanguageManager.GetString("About.DownloadSuccess"), title, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             return;
 
         if (!File.Exists(Constant.UpdateExePath))
         {
-            MessageBox_S.Show(AppLanguageManager.GetString("About.UpdateExeNotFound"));
+            MessageBox_S.Show(AppLanguageManager.GetString("About.NoUpdateExe"));
             return;
         }
-        File.Move(Constant.UpdateExePath, Constant.UpdateExeTmpPath, true);
-        CommonUtil.ExecuteProgram(Constant.UpdateExeTmpPath, [file, "3"]);
+        File.Copy(Constant.UpdateExePath, Constant.UpdateExeTmpPath, true);
+        var clearFiles = MessageBox_S.Show(AppLanguageManager.GetString("About.ClearFiles"), title, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        CommonUtil.ExecuteProgram(Constant.UpdateExeTmpPath, [file, "3", clearFiles.ToString().ToLower()]);
         Environment.Exit(0);
     }
 }

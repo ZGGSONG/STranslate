@@ -679,6 +679,7 @@
     <system:String x:Key="About.UpdateFailed">检查更新出错, 请检查网络情况</system:String>
     <system:String x:Key="About.Downloading">正在下载软件</system:String>
     <system:String x:Key="About.DownloadSuccess">软件下载成功, 是否更新?</system:String>
+    <system:String x:Key="About.ClearFiles">此次升级是否删除原软件目录下所有文件(排除log/portable_config)</system:String>
 
     <!--#endregion-->
 

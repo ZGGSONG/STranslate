@@ -5,7 +5,7 @@ use std::path::Path;
 use zip::read::ZipArchive;
 
 
-fn unzip_file_to_parent_dir(zip_path: &str) -> io::Result<()> {
+fn unzip_file_to_parent_dir(zip_path: &str, clear_dir: bool) -> io::Result<()> {
     // 获取ZIP文件路径
     let zip_path = Path::new(zip_path);
     
@@ -22,6 +22,32 @@ fn unzip_file_to_parent_dir(zip_path: &str) -> io::Result<()> {
         Some(grand_parent) => grand_parent,
         None => return Err(io::Error::new(io::ErrorKind::NotFound, "无法确定上上级目录"))
     };
+
+    // 如果需要清空目录
+    if clear_dir {
+        // 要保留的目录列表
+        let skip_dirs = ["log", "portable_config", "tmp"];
+        
+        // 清空目录中的所有文件和文件夹，但跳过指定目录
+        if let Ok(entries) = fs::read_dir(grand_parent_dir) {
+            for entry in entries.flatten() {
+                let path = entry.path();
+                let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+                
+                // 如果是需要保留的目录，则跳过
+                if skip_dirs.contains(&name) {
+                    continue;
+                }
+                
+                // 删除文件或目录
+                if path.is_dir() {
+                    fs::remove_dir_all(&path)?;
+                } else {
+                    fs::remove_file(&path)?;
+                }
+            }
+        }
+    }
     
     // 打开ZIP文件
     let file = fs::File::open(zip_path)?;
@@ -80,6 +106,19 @@ fn main() -> io::Result<()> {
         0 // 如果没有提供等待时间，默认为0秒
     };
 
+    // 检查是否提供了清空目录参数
+    let clear_dir = if args.len() > 3 {
+        match args[3].parse::<bool>() {
+            Ok(value) => value,
+            Err(_) => return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "清空目录参数必须是 true 或 false"
+            ))
+        }
+    } else {
+        false // 如果没有提供清空目录参数，默认为false
+    };
+
     // 如果设置了等待时间，先等待
     if wait_seconds > 0 {
         println!("等待 {} 秒...", wait_seconds);
@@ -87,7 +126,7 @@ fn main() -> io::Result<()> {
     }
     
     // 解压示例
-    unzip_file_to_parent_dir(&zip_path)?;
+    unzip_file_to_parent_dir(&zip_path, clear_dir)?;
     
     // 截取tmp前的目录名
     let parent = Path::new(&zip_path).parent().unwrap().parent().unwrap();

@@ -814,6 +814,9 @@ public class ConfigHelper
             {
                 try
                 {
+                    // 等待30s或取消信号
+                    await Task.Delay(TimeSpan.FromSeconds(30), token);
+
                     var proxy = (Singleton<ConfigHelper>.Instance.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy).GetDescription();
 
                     var result = await UpdateUtil.CheckForUpdates(proxy);
