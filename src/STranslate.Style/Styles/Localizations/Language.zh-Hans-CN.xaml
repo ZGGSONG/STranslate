@@ -660,7 +660,7 @@
 
     <system:String x:Key="About.Version">版本</system:String>
     <system:String x:Key="About.CheckUpdate">检查更新</system:String>
-    <system:String x:Key="About.CancelCheck">取消检查</system:String>
+    <system:String x:Key="About.CancelCheck">取消操作</system:String>
     <system:String x:Key="About.Tools">工具</system:String>
     <system:String x:Key="About.CleanLog">清理日志</system:String>
     <system:String x:Key="About.OpenDirectory">打开目录</system:String>
