@@ -254,7 +254,7 @@
     <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
     <system:String x:Key="Common.AppLanguage">Application Language</system:String>
     <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
-    <system:String x:Key="Common.DownloadProxy">Github resource channel</system:String>
+    <system:String x:Key="Common.DownloadProxy">Resource download channel</system:String>
     <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
     <system:String x:Key="Common.ThemeSelection">Theme Selection</system:String>
     <system:String x:Key="Common.FontSelection">Font Selection [WIE]</system:String>

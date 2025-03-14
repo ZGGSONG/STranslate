@@ -254,7 +254,7 @@
     <system:String x:Key="Common.AutoStart">開機自啟動</system:String>
     <system:String x:Key="Common.AppLanguage">軟體語言</system:String>
     <system:String x:Key="Common.NeedAdmin">管理員啟動</system:String>
-    <system:String x:Key="Common.DownloadProxy">Github資源渠道</system:String>
+    <system:String x:Key="Common.DownloadProxy">資源下載渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自動翻譯</system:String>
     <system:String x:Key="Common.ThemeSelection">主題選擇</system:String>
     <system:String x:Key="Common.FontSelection">字體選擇[立即生效]</system:String>

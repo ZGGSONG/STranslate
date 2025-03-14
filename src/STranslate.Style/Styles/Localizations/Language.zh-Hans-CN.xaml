@@ -254,7 +254,7 @@
     <system:String x:Key="Common.AutoStart">开机自启动</system:String>
     <system:String x:Key="Common.AppLanguage">软件语言</system:String>
     <system:String x:Key="Common.NeedAdmin">管理员启动</system:String>
-    <system:String x:Key="Common.DownloadProxy">Github资源渠道</system:String>
+    <system:String x:Key="Common.DownloadProxy">资源下载渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自动翻译</system:String>
     <system:String x:Key="Common.ThemeSelection">主题选择</system:String>
     <system:String x:Key="Common.FontSelection">字体选择[立即生效]</system:String>
