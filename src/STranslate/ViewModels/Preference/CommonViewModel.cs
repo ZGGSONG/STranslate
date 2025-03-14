@@ -244,6 +244,11 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _needAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
 
     /// <summary>
+    ///     是否自动检查更新
+    /// </summary>
+    [ObservableProperty] private bool _autoCheckUpdate = ConfigHelper.CurrentConfig?.AutoCheckUpdate ?? true;
+
+    /// <summary>
     ///     Github 资源下载代理
     /// </summary>
     [ObservableProperty] private DownloadProxyKind _downloadProxy = ConfigHelper.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy;
@@ -511,6 +516,7 @@ public partial class CommonViewModel : ObservableObject
     {
         IsStartup = ConfigHelper.CurrentConfig?.IsStartup ?? false;
         NeedAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+        AutoCheckUpdate = ConfigHelper.CurrentConfig?.AutoCheckUpdate ?? true;
         DownloadProxy = ConfigHelper.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy;
         HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
         AutoScale = ConfigHelper.CurrentConfig?.AutoScale ?? 0.8;

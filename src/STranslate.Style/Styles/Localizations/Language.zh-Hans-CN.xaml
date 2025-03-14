@@ -254,6 +254,7 @@
     <system:String x:Key="Common.AutoStart">开机自启动</system:String>
     <system:String x:Key="Common.AppLanguage">软件语言</system:String>
     <system:String x:Key="Common.NeedAdmin">管理员启动</system:String>
+    <system:String x:Key="Common.AutoCheckUpdate">自动检查更新</system:String>
     <system:String x:Key="Common.DownloadProxy">资源下载渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自动翻译</system:String>
     <system:String x:Key="Common.ThemeSelection">主题选择</system:String>
@@ -787,6 +788,7 @@
     <system:String x:Key="NotifyIcon.OpenPreference">偏好设置</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用热键</system:String>
     <system:String x:Key="NotifyIcon.Exit">退出程序</system:String>
+    <system:String x:Key="NotifyIcon.NewVersion">「新版软件已经发布，请前往【关于】页面更新」</system:String>
     <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">快捷键禁用</system:String>
     <system:String x:Key="NotifyIcon.Show.Input">输入</system:String>
     <system:String x:Key="NotifyIcon.Show.Crossword">划词</system:String>

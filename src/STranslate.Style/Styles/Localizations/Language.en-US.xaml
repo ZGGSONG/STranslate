@@ -254,6 +254,7 @@
     <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
     <system:String x:Key="Common.AppLanguage">Application Language</system:String>
     <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
+    <system:String x:Key="Common.AutoCheckUpdate">Auto check update</system:String>
     <system:String x:Key="Common.DownloadProxy">Resource download channel</system:String>
     <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
     <system:String x:Key="Common.ThemeSelection">Theme Selection</system:String>
@@ -787,6 +788,7 @@
     <system:String x:Key="NotifyIcon.OpenPreference">Open Preference</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">Forbidden Shortcuts</system:String>
     <system:String x:Key="NotifyIcon.Exit">Exit</system:String>
+    <system:String x:Key="NotifyIcon.NewVersion">The new version of the software has been released, please go to the About page to update</system:String>
     <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">Hotkey Disabled</system:String>
     <system:String x:Key="NotifyIcon.Show.Input">Input</system:String>
     <system:String x:Key="NotifyIcon.Show.Crossword">Crossword</system:String>

@@ -254,6 +254,7 @@
     <system:String x:Key="Common.AutoStart">開機自啟動</system:String>
     <system:String x:Key="Common.AppLanguage">軟體語言</system:String>
     <system:String x:Key="Common.NeedAdmin">管理員啟動</system:String>
+    <system:String x:Key="Common.AutoCheckUpdate">自動檢查更新</system:String>
     <system:String x:Key="Common.DownloadProxy">資源下載渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自動翻譯</system:String>
     <system:String x:Key="Common.ThemeSelection">主題選擇</system:String>
@@ -787,6 +788,7 @@
     <system:String x:Key="NotifyIcon.OpenPreference">偏好設置</system:String>
     <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用熱鍵</system:String>
     <system:String x:Key="NotifyIcon.Exit">退出程式</system:String>
+    <system:String x:Key="NotifyIcon.NewVersion">「新版本軟體已釋出，請至【關於】頁面進行更新」</system:String>
     <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">快速鍵已停用</system:String>
     <system:String x:Key="NotifyIcon.Show.Input">輸入</system:String>
     <system:String x:Key="NotifyIcon.Show.Crossword">劃詞</system:String>

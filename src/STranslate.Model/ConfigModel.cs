@@ -19,6 +19,8 @@ public class ConfigModel
     /// </summary>
     public bool NeedAdministrator { get; set; }
 
+    public bool AutoCheckUpdate { get; set; } = true;
+
     /// <summary>
     ///     Github 资源下载代理
     /// </summary>
@@ -497,6 +499,7 @@ public class ConfigModel
         {
             IsStartup = IsStartup,
             NeedAdministrator = NeedAdministrator,
+            AutoCheckUpdate = AutoCheckUpdate,
             DownloadProxy = DownloadProxy,
             HistorySize = HistorySize,
             AutoScale = AutoScale,

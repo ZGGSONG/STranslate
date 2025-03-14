@@ -37,6 +37,9 @@ public class ConfigHelper
         }
 
         InitCurrentCnf();
+
+        // 自动更新线程
+        AutoCheckUpdateOperate();
     }
 
     /// <summary>
@@ -255,8 +258,10 @@ public class ConfigHelper
         var isHotkeyConfSame = CurrentConfig.DisableGlobalHotkeys == model.DisableGlobalHotkeys;
         var isThemeSame = CurrentConfig.ThemeType == model.ThemeType;
         //var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
+        bool previousAutoCheckUpdate = CurrentConfig.AutoCheckUpdate;
         CurrentConfig.IsStartup = model.IsStartup;
         CurrentConfig.NeedAdministrator = model.NeedAdmin;
+        CurrentConfig.AutoCheckUpdate = model.AutoCheckUpdate;
         CurrentConfig.DownloadProxy = model.DownloadProxy;
         CurrentConfig.HistorySize = model.HistorySize;
         CurrentConfig.AutoScale = model.AutoScale;
@@ -349,6 +354,11 @@ public class ConfigHelper
         //{
         //    AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
         //}
+        // 当用户修改自动检查更新设置时，根据需要启动或停止更新检查任务
+        if (previousAutoCheckUpdate != model.AutoCheckUpdate)
+        {
+            AutoCheckUpdateOperate(); // 这会根据新的配置值启动或停止任务
+        }
 
         if (!isThemeSame)
         {
@@ -784,9 +794,70 @@ public class ConfigHelper
         Singleton<OutputViewModel>.Instance.IsShowTranslateBackBtn = isShowTranslateBackBtn;
     }
 
+    private void AutoCheckUpdateOperate()
+    {
+        // 如果已经有正在运行的更新检查任务，先停止它
+        StopUpdateCheckTask();
+
+        // 如果不启用自动检查更新，则不启动任务
+        if (!(CurrentConfig?.AutoCheckUpdate ?? false))
+        {
+            return;
+        }
+
+        updateCheckCts = new CancellationTokenSource();
+        var token = updateCheckCts.Token;
+
+        updateCheckTask = Task.Run(async () =>
+        {
+            while (!token.IsCancellationRequested)
+            {
+                try
+                {
+                    var proxy = (Singleton<ConfigHelper>.Instance.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy).GetDescription();
+
+                    var result = await UpdateUtil.CheckForUpdates(proxy);
+
+                    if (result != null)
+                    {
+                        var msg = $"{AppLanguageManager.GetString("NotifyIcon.NewVersion")}({result.Version})";
+                        Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(msg);
+                    }
+
+                    // 等待24小时或取消信号
+                    await Task.Delay(TimeSpan.FromDays(1), token);
+                }
+                catch (OperationCanceledException)
+                {
+                    // 任务被取消，正常退出
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    LogService.Logger.Error($"自动检查更新线程出错 {ex.Message}");
+                    break;
+                }
+            }
+        }, token);
+    }
+
+    private void StopUpdateCheckTask()
+    {
+        if (updateCheckCts != null)
+        {
+            updateCheckCts.Cancel();
+            updateCheckCts.Dispose();
+            updateCheckCts = null;
+        }
+        updateCheckTask = null;
+    }
+
     #endregion 私有方法
 
     #region 字段 && 属性
+
+    private Task? updateCheckTask;
+    private CancellationTokenSource? updateCheckCts;
 
     /// <summary>
     ///     初始Config
@@ -810,6 +881,7 @@ public class ConfigHelper
         {
             HistorySize = 100,
             AutoScale = 0.8,
+            AutoCheckUpdate = true,
             Hotkeys = hk,
             ThemeType = ThemeType.Light,
             IsStartup = false,

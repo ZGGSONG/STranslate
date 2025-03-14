@@ -71,6 +71,15 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
+                                    <TextBlock Text="{DynamicResource Common.AutoCheckUpdate}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.AutoCheckUpdateTip}" />
+                                    <ToggleButton
+                                        Height="26"
+                                        HorizontalAlignment="Right"
+                                        IsChecked="{Binding AutoCheckUpdate}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
                                     <TextBlock Text="{DynamicResource Common.DownloadProxy}" />
                                     <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.DownloadProxyTip}" />
                                     <ComboBox
