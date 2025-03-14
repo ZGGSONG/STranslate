@@ -528,10 +528,10 @@
     <system:String x:Key="Service.Navi.OCR">Text Recognition</system:String>
     <system:String x:Key="Service.Navi.TTS">Text-to-Speech</system:String>
     <system:String x:Key="Service.Navi.VocabularyBook">Vocabulary Book</system:String>
-    <system:String x:Key="Service.Translator.Title">Services</system:String>
+    <system:String x:Key="Service.Translator.Title">Text Translation</system:String>
     <system:String x:Key="Service.Translator.SubTitle">Core service support configuration for translation functionality.</system:String>
     <system:String x:Key="Service.Translator.Duplicate">Create Duplicate</system:String>
-    <system:String x:Key="Service.Translator.Delete">Delete Duplicate</system:String>
+    <system:String x:Key="Service.Translator.Delete">Delete Translator</system:String>
     <system:String x:Key="Service.OCR.Title">Text Recognition</system:String>
     <system:String x:Key="Service.OCR.SubTitle">Text recognition services. Add your OCR service and select for use</system:String>
     <system:String x:Key="Service.TTS.Title">Text Recognition</system:String>

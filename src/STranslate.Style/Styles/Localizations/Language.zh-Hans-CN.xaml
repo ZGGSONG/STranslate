@@ -528,10 +528,10 @@
     <system:String x:Key="Service.Navi.OCR">文本识别</system:String>
     <system:String x:Key="Service.Navi.TTS">语音合成</system:String>
     <system:String x:Key="Service.Navi.VocabularyBook">生词本</system:String>
-    <system:String x:Key="Service.Translator.Title">服务</system:String>
+    <system:String x:Key="Service.Translator.Title">文本翻译</system:String>
     <system:String x:Key="Service.Translator.SubTitle">翻译功能的核心服务支持配置，下方开启的服务将被使用。</system:String>
     <system:String x:Key="Service.Translator.Duplicate">创建副本</system:String>
-    <system:String x:Key="Service.Translator.Delete">删除副本</system:String>
+    <system:String x:Key="Service.Translator.Delete">删除服务</system:String>
     <system:String x:Key="Service.OCR.Title">文本识别</system:String>
     <system:String x:Key="Service.OCR.SubTitle">文字识别服务，添加你的OCR服务并选择使用</system:String>
     <system:String x:Key="Service.TTS.Title">文本识别</system:String>
