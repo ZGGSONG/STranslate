@@ -3,6 +3,7 @@ name: Update Version Info
 on:
   release:
     types: [published]
+  workflow_dispatch:   # 添加手动触发入口
 
 jobs:
   update-version-info:
