@@ -1,0 +1,68 @@
+name: Update Version Info
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-version-info:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Fetch latest release info
+        id: fetch-release
+        run: |
+          RELEASE_INFO=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest)
+          echo "RELEASE_INFO=$RELEASE_INFO" >> $GITHUB_ENV
+          
+      - name: Extract version info
+        id: extract-info
+        run: |
+          VERSION=$(echo $RELEASE_INFO | jq -r .tag_name)
+          PUBLISHED=$(echo $RELEASE_INFO | jq -r .published_at)
+          BODY=$(echo $RELEASE_INFO | jq -r .body)
+          
+          # Create version info file
+          echo "{" > version-info.json
+          echo "  \"version\": \"$VERSION\"," >> version-info.json
+          echo "  \"published_at\": \"$PUBLISHED\"," >> version-info.json
+          echo "  \"downloads\": [" >> version-info.json
+          
+          # Extract download assets
+          echo $RELEASE_INFO | jq -c '.assets[] | select(.name | endswith(".zip") or endswith(".7z"))' | while read -r asset; do
+            NAME=$(echo $asset | jq -r .name)
+            URL=$(echo $asset | jq -r .browser_download_url)
+            SIZE=$(echo $asset | jq -r .size)
+            
+            echo "    {" >> version-info.json
+            echo "      \"name\": \"$NAME\"," >> version-info.json
+            echo "      \"url\": \"$URL\"," >> version-info.json
+            echo "      \"size\": $SIZE" >> version-info.json
+            
+            # Check if this is the last asset
+            if [ "$(echo $RELEASE_INFO | jq -c '.assets[] | select(.name | endswith(".zip") or endswith(".7z")) | .name' | grep -A1 "$NAME" | wc -l)" -eq 1 ]; then
+              echo "    }" >> version-info.json
+            else
+              echo "    }," >> version-info.json
+            fi
+          done
+          
+          echo "  ]," >> version-info.json
+          echo "  \"body\": $(echo $BODY | jq -Rs .)" >> version-info.json
+          echo "}" >> version-info.json
+          
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .
+          target-folder: .
+          branch: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: false
+          clean-exclude: |
+            !version-info.json
+          commit-message: "Update version info to ${{ env.VERSION }}"
