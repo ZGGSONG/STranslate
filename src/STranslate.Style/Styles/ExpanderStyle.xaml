@@ -1,0 +1,141 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes"
+    xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF">
+
+    <!--  // 参考: https://www.cnblogs.com/zh7791/p/9008823.html //  -->
+    <Style TargetType="{x:Type Expander}">
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="props:ThemeProps.BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Expander}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="0"
+                        SnapsToDevicePixels="True">
+                        <DockPanel>
+                            <ToggleButton
+                                x:Name="HeaderSite"
+                                Height="{TemplateBinding Height}"
+                                MinWidth="0"
+                                MinHeight="30"
+                                Margin="1"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                DockPanel.Dock="Top"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontStretch="{TemplateBinding FontStretch}"
+                                FontStyle="{TemplateBinding FontStyle}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton.FocusVisualStyle>
+                                    <Style>
+                                        <Setter Property="Control.Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <Border>
+                                                        <Rectangle
+                                                            Margin="0"
+                                                            SnapsToDevicePixels="True"
+                                                            Stroke="Transparent"
+                                                            StrokeDashArray="1 2"
+                                                            StrokeThickness="1" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.FocusVisualStyle>
+                                <ToggleButton.Style>
+                                    <Style TargetType="{x:Type ToggleButton}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                    <Border
+                                                        Name="border_arrow"
+                                                        Padding="{TemplateBinding Padding}"
+                                                        props:ThemeProps.Background="{DynamicResource BorderContentBackground}"
+                                                        CornerRadius="4">
+                                                        <Grid>
+                                                            <Path
+                                                                x:Name="arrow"
+                                                                Margin="10,0"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Center"
+                                                                props:ThemeProps.Stroke="{DynamicResource ExpanderStrokeColor}"
+                                                                Data="M1,1.5L4.5,5 8,1.5"
+                                                                SnapsToDevicePixels="False"
+                                                                StrokeThickness="2" />
+                                                            <ContentPresenter
+                                                                Width="{TemplateBinding ActualWidth}"
+                                                                Margin="4,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                Content="{TemplateBinding Content}"
+                                                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                RecognizesAccessKey="True"
+                                                                SnapsToDevicePixels="True" />
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter TargetName="arrow" Property="Data" Value="M1,4.5L4.5,1 8,4.5" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border_arrow" Property="Background" Value="{DynamicResource ExpanderMouseOverBackground}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="border_arrow" Property="Background" Value="{DynamicResource ExpanderPressedBackground}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource ExpanderStrokeColor}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                            <ContentPresenter
+                                x:Name="ExpandSite"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                xf:Animations.CombinedBinding="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                xf:Animations.Primary="{xf:Animate BasedOn={StaticResource ScaleFromTop},
+                                                                   Event=None,
+                                                                   Duration=300,
+                                                                   TransformOn=Layout}"
+                                xf:Animations.Secondary="{xf:Animate BasedOn={StaticResource ScaleToTop},
+                                                                     Event=None,
+                                                                     Duration=300,
+                                                                     TransformOn=Layout}"
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                DockPanel.Dock="Bottom"
+                                Focusable="False">
+                                <ContentPresenter.LayoutTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Expander2ScaleYConverter}}" />
+                                </ContentPresenter.LayoutTransform>
+                            </ContentPresenter>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

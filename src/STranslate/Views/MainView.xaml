@@ -1,0 +1,260 @@
+﻿<Window
+    x:Class="STranslate.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:STranslate.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:STranslate.Views"
+    xmlns:vm="clr-namespace:STranslate.ViewModels"
+    xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+    x:Name="MainWindow"
+    Title="STranslate"
+    Width="{Binding CommonSettingVM.MainViewWidth, Mode=TwoWay}"
+    MaxHeight="{Binding CommonSettingVM.MainViewMaxHeight, Mode=TwoWay}"
+    d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+    d:Height="300"
+    d:Width="500"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Deactivated="MainWindow_Deactivated"
+    FontFamily="{DynamicResource UserFont}"
+    FontSize="{DynamicResource FontSize18}"
+    Icon="{DynamicResource STranslate}"
+    MouseLeftButtonDown="MainWindow_MouseLeftButtonDown"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    SizeToContent="Height"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding
+            Key="Q"
+            Command="{Binding NotifyIconVM.ExitCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="OemComma"
+            Command="{Binding NotifyIconVM.OpenPreferenceCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="OemQuestion"
+            Command="{Binding NotifyIconVM.OpenHistoryCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="B"
+            Command="{Binding AutoTranslateCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="E"
+            Command="{Binding IncrementalTranslationCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="T"
+            Command="{Binding StickyCommand}"
+            CommandParameter="{Binding ElementName=MainWindow}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="M"
+            Command="{Binding ResetLocationCommand}"
+            CommandParameter="{Binding ElementName=MainWindow}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="R"
+            Command="{Binding ChangeThemeCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
+            Key="Esc"
+            Command="{Binding EscCommand}"
+            CommandParameter="{Binding ElementName=MainWindow, Mode=OneWay}" />
+
+        <KeyBinding
+            Key="A"
+            Command="{Binding ShowHideInputCommand}"
+            Modifiers="Ctrl+Shift" />
+
+        <KeyBinding
+            Key="S"
+            Command="{Binding InputVM.Save2VocabularyBookCommand}"
+            CommandParameter="{Binding InputVM.InputContent}"
+            Modifiers="Ctrl+Shift" />
+
+        <!--  // 输出框快捷键复制 //  -->
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="1"
+            Gesture="Ctrl+1" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="2"
+            Gesture="Ctrl+2" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="3"
+            Gesture="Ctrl+3" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="4"
+            Gesture="Ctrl+4" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="5"
+            Gesture="Ctrl+5" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="6"
+            Gesture="Ctrl+6" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="7"
+            Gesture="Ctrl+7" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="8"
+            Gesture="Ctrl+8" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyCopyCommand}"
+            CommandParameter="9"
+            Gesture="Ctrl+9" />
+
+        <!--  // 输出框快捷键播报 //  -->
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="0"
+            Gesture="Alt+OemTilde" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="1"
+            Gesture="Alt+1" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="2"
+            Gesture="Alt+2" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="3"
+            Gesture="Alt+3" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="4"
+            Gesture="Alt+4" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="5"
+            Gesture="Alt+5" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="6"
+            Gesture="Alt+6" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="7"
+            Gesture="Alt+7" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="8"
+            Gesture="Alt+8" />
+        <KeyBinding
+            Command="{Binding OutputVM.HotkeyTtsCommand}"
+            CommandParameter="9"
+            Gesture="Alt+9" />
+
+        <!--  // 重置字体大小 //  -->
+        <KeyBinding Command="{Binding ResetFontSizeCommand}" Gesture="Ctrl+OemTilde" />
+
+        <!--  // 调整全局字体大小 //  -->
+        <KeyBinding Command="{Binding ReduceGlobalFontSizeCommand}" Gesture="Ctrl+OemOpenBrackets" />
+        <KeyBinding Command="{Binding IncreaseGlobalFontSizeCommand}" Gesture="Ctrl+OemCloseBrackets" />
+        <KeyBinding Command="{Binding ResetGlobalFontSizeCommand}" Gesture="Ctrl+OemQuotes" />
+
+
+        <!--  // 宽、最大高快捷键调整 //  -->
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewChangeCommand}" Gesture="Ctrl+OemPlus" />
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewMaxHeightChangeCommand}" Gesture="Ctrl+Shift+OemPlus" />
+        <KeyBinding Command="{Binding CommonSettingVM.MainViewWidthChangeCommand}" Gesture="Ctrl+Alt+OemPlus" />
+
+        <KeyBinding
+            Command="{Binding CommonSettingVM.MainViewChangeCommand}"
+            CommandParameter="1"
+            Gesture="Ctrl+OemMinus" />
+        <KeyBinding
+            Command="{Binding CommonSettingVM.MainViewMaxHeightChangeCommand}"
+            CommandParameter="1"
+            Gesture="Ctrl+Shift+OemMinus" />
+        <KeyBinding
+            Command="{Binding CommonSettingVM.MainViewWidthChangeCommand}"
+            CommandParameter="1"
+            Gesture="Ctrl+Alt+OemMinus" />
+        <KeyBinding Command="{Binding CommonSettingVM.ResetMainViewCommand}" Gesture="Ctrl+0" />
+
+    </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=MainWindow}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}" CommandParameter="{Binding ElementName=MainWindow}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Border xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndGrow}, TransformOn=Render, Delay=10}" Style="{DynamicResource WindowStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  // 系统托盘 //  -->
+            <local:NotifyIcon DataContext="{Binding NotifyIconVM}" />
+
+            <!--  // Header //  -->
+            <local:HeaderView
+                x:Name="HeaderView"
+                Grid.Row="0"
+                DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
+                Focusable="False"
+                WindowChrome.IsHitTestVisibleInChrome="True" />
+
+            <ScrollViewer Grid.Row="1" Focusable="False">
+                <StackPanel>
+                    <!--  // Input //  -->
+                    <local:InputView
+                        x:Name="InputView"
+                        Margin="10,0"
+                        DataContext="{Binding InputVM}"
+                        FontSize="{DynamicResource FontSize18TextBox}"
+                        Visibility="{Binding ElementName=MainWindow, Path=DataContext.IsOnlyShowRet, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+
+                    <!--  // Mid //  -->
+                    <local:LangView
+                        x:Name="LangView"
+                        DataContext="{Binding ElementName=MainWindow, Path=DataContext}"
+                        Focusable="False">
+                        <local:LangView.Visibility>
+                            <MultiBinding Converter="{StaticResource MultiValue2VisibilityReverseConverter}">
+                                <Binding ElementName="MainWindow" Path="DataContext.IsOnlyShowRet" />
+                                <Binding ElementName="MainWindow" Path="DataContext.IsHideLangWhenOnlyShowOutput" />
+                            </MultiBinding>
+                        </local:LangView.Visibility>
+                    </local:LangView>
+
+                    <!--  // Output //  -->
+                    <local:OutputView
+                        Margin="10,0,10,10"
+                        DataContext="{Binding OutputVM}"
+                        Focusable="False"
+                        FontSize="{DynamicResource FontSize18TextBox}" />
+                </StackPanel>
+            </ScrollViewer>
+
+            <!--  // Notify //  -->
+            <view:ToastView
+                x:Name="Notify"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                VerticalAlignment="Top"
+                Focusable="False"
+                Visibility="Collapsed" />
+        </Grid>
+    </Border>
+</Window>

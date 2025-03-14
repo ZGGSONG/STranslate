@@ -1,0 +1,215 @@
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:proxy="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+    x:Name="HistoryPageUC"
+    d:DataContext="{d:DesignInstance Type=vm:HistoryViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:FontFamily="{DynamicResource UserFont}"
+    d:FontSize="{DynamicResource FontSize18}"
+    Loaded="HistoryPageUC_Loaded"
+    Style="{StaticResource ResourceKey=Page_Style}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <proxy:BindingProxy x:Key="vm" Data="{Binding ElementName=HistoryPageUC, Path=DataContext}" />
+        <proxy:BindingProxy x:Key="scroll" Data="{Binding ElementName=scroll}" />
+    </UserControl.Resources>
+    <Border CornerRadius="5">
+        <Grid Margin="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="300" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <!--  // Search Control //  -->
+                <common:PlaceholderTextBox
+                    x:Name="SearchTb"
+                    Height="32"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    ContextMenu="{x:Null}"
+                    Placeholder="{DynamicResource History.Search}"
+                    Text="{Binding SearchContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                <!--  // Data //  -->
+                <ScrollViewer
+                    x:Name="scroll"
+                    Grid.Row="1"
+                    Margin="0,5,0,0"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.ScrollChanged="HistoryListBox_ScrollChanged"
+                    VerticalScrollBarVisibility="Auto">
+                    <!--  // 历史记录 //  -->
+                    <ListBox
+                        x:Name="HistoryListBox"
+                        props:ThemeProps.Background="{DynamicResource BorderBackground}"
+                        AllowDrop="True"
+                        BorderThickness="0"
+                        ItemsSource="{Binding HistoryList}"
+                        PreviewMouseWheel="HistoryListBox_PreviewMouseWheel"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        SelectedIndex="{Binding SelectedIndex}">
+                        <ListBox.ContextMenu>
+                            <ContextMenu Width="120">
+                                <MenuItem
+                                    Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
+                                    CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
+                                    Header="{DynamicResource History.Refresh}"
+                                    Icon="&#xe60f;" />
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TogglePageCommand}" CommandParameter="{Binding ElementName=HistoryListBox, Path=SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    x:Name="HistoryControl"
+                                    Height="50"
+                                    Style="{DynamicResource BorderInOutputStyle}">
+                                    <TextBlock
+                                        Margin="5,0"
+                                        Text="{Binding SourceText}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <Border.ContextMenu>
+                                        <ContextMenu Width="120">
+                                            <MenuItem
+                                                Header="添加收藏"
+                                                Icon="&#xe8b9;"
+                                                Visibility="Collapsed" />
+                                            <MenuItem
+                                                Command="{Binding Source={StaticResource vm}, Path=Data.LoadMoreHistoryCommand}"
+                                                CommandParameter="{Binding Source={StaticResource scroll}, Path=Data}"
+                                                Header="{DynamicResource History.Refresh}"
+                                                Icon="&#xe60f;" />
+                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Source={StaticResource vm}, Path=Data.DeleteHistoryCommand}"
+                                                Header="{DynamicResource History.Delete}"
+                                                Icon="&#xe74b;" />
+                                        </ContextMenu>
+                                    </Border.ContextMenu>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="HistoryControl" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Value="True">
+                                        <Setter TargetName="HistoryControl" Property="props:ThemeProps.Background" Value="{DynamicResource BtnPressedBackground}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+
+                <!--  // TODO: Loading //  -->
+                <TextBlock
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="{DynamicResource FontSize14}"
+                    FontWeight="Thin"
+                    Foreground="Gray"
+                    Text="{Binding IsLoading, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=HISTORY}"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <!--  // Total count //  -->
+                <Grid
+                    Grid.Row="3"
+                    VerticalAlignment="Bottom"
+                    props:ThemeProps.Background="{DynamicResource BorderLangBackground}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="{DynamicResource FontSize14}">
+                        <Run Text="{DynamicResource History.Gong}" />
+                        <Run Text=" " />
+                        <Run Text="{Binding Count}" />
+                        <Run Text=" " />
+                        <Run Text="{DynamicResource History.Xiang}" />
+                    </TextBlock>
+
+                    <Button
+                        x:Name="BTN_Del_All"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        props:ThemeProps.Background="{DynamicResource BorderLangBackground}"
+                        Command="{Binding PopupCommand}"
+                        CommandParameter="{Binding ElementName=Popup}"
+                        Content="···" />
+                    <Popup
+                        x:Name="Popup"
+                        MinWidth="80"
+                        MinHeight="30"
+                        AllowsTransparency="True"
+                        Placement="Bottom"
+                        PlacementTarget="{Binding ElementName=BTN_Del_All}"
+                        PopupAnimation="Slide"
+                        StaysOpen="False">
+                        <Border Style="{DynamicResource BorderStyle}">
+                            <ListBox
+                                Name="ServiceListBox"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ItemsSource="{Binding EventList}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                        <i:InvokeCommandAction Command="{Binding DeleteAllHistoryCommand}" CommandParameter="{Binding ElementName=Popup}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            x:Name="border"
+                                            Margin="10,5"
+                                            Style="{DynamicResource BorderPopupStyle}">
+                                            <StackPanel Margin="5" Orientation="Horizontal">
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    props:ThemeProps.Foreground="{DynamicResource BtnForeground}"
+                                                    FontFamily="{DynamicResource IconFont}"
+                                                    Text="&#xe6cb;" />
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Path=.}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                            </Trigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Grid>
+
+            <!--  // Content //  -->
+            <ContentControl Grid.Column="1" Content="{Binding HistoryDetailContent}" />
+        </Grid>
+    </Border>
+</UserControl>

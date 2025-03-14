@@ -1,0 +1,162 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+  <!--// Release 模式下禁用 Debug 信息 //-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MdXaml" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <PackageReference Include="System.Net.Http" />
+    <PackageReference Include="System.Text.RegularExpressions" />
+    <PackageReference Include="XamlFlair.WPF" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\STranslate.Model\STranslate.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\iconfont.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\LXGWWenKai-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\PingFangSC-Regular.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ali.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\azure.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\baidu.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\baidubce.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\bing.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\caiyun.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chatglm.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\claude.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\deepl.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\deepseek.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ecdict.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\eudict.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\favicon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\forbidden.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\gemini.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\google.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\groq.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\iciba.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\kimi.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\linyi.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\microsoft.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\niutrans.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ollama.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\openai.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\paddleocr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\preference.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\tencent.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\tencent2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+	  <Resource Include="Resources\update.ico">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\volcengine.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\yandex.png">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Resource>
+	  <Resource Include="Resources\youdao.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\lingva.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\wechat.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_128x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_96x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_48x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_64x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Working_32x.ani">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\LoadingUc.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

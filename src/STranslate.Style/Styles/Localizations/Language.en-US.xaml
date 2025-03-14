@@ -1,0 +1,844 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--#region Constant-->
+
+    <system:String x:Key="Constant.NeweastVersionInfo">Congratulations! You are using the latest version!</system:String>
+    <system:String x:Key="Constant.Loading">Loading...</system:String>
+    <system:String x:Key="Constant.Unloading">Loading completed...</system:String>
+    <system:String x:Key="Constant.PlaceHolderContent">Enter: Translate/Cache/nCtrl+Enter: Force translate/nShift+Enter: New line</system:String>
+    <system:String x:Key="Constant.InputErrorContent">No cache found for this service, press Ctrl+Enter to update</system:String>
+    <system:String x:Key="Constant.HistoryErrorContent">This service did not return correctly, press Ctrl+Enter to update</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 其他-->
+
+    <system:String x:Key="Confirm">Confirm</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="Yes">Yes</system:String>
+    <system:String x:Key="No">No</system:String>
+    <system:String x:Key="Admin">[Admin]</system:String>
+    <system:String x:Key="Start">started...</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Enum-->
+
+    <system:String x:Key="LangEnum.auto">Auto</system:String>
+    <system:String x:Key="LangEnum.zh_cn">Chinese</system:String>
+    <system:String x:Key="LangEnum.zh_tw">Traditional Chinese</system:String>
+    <system:String x:Key="LangEnum.yue">Cantonese</system:String>
+    <system:String x:Key="LangEnum.en">English</system:String>
+    <system:String x:Key="LangEnum.ja">Japanese</system:String>
+    <system:String x:Key="LangEnum.ko">Korean</system:String>
+    <system:String x:Key="LangEnum.fr">French</system:String>
+    <system:String x:Key="LangEnum.es">Spanish</system:String>
+    <system:String x:Key="LangEnum.ru">Russian</system:String>
+    <system:String x:Key="LangEnum.de">German</system:String>
+    <system:String x:Key="LangEnum.it">Italian</system:String>
+    <system:String x:Key="LangEnum.tr">Turkish</system:String>
+    <system:String x:Key="LangEnum.pt_pt">Portuguese</system:String>
+    <system:String x:Key="LangEnum.pt_br">Brazilian Portuguese</system:String>
+    <system:String x:Key="LangEnum.vi">Vietnamese</system:String>
+    <system:String x:Key="LangEnum.id">Indonesian</system:String>
+    <system:String x:Key="LangEnum.th">Thai</system:String>
+    <system:String x:Key="LangEnum.ms">Malay</system:String>
+    <system:String x:Key="LangEnum.ar">Arabic</system:String>
+    <system:String x:Key="LangEnum.hi">Hindi</system:String>
+    <system:String x:Key="LangEnum.mn_cy">Mongolian (Cyrillic)</system:String>
+    <system:String x:Key="LangEnum.mn_mo">Mongolian</system:String>
+    <system:String x:Key="LangEnum.km">Khmer</system:String>
+    <system:String x:Key="LangEnum.nb_no">Norwegian Bokmål</system:String>
+    <system:String x:Key="LangEnum.nn_no">Norwegian Nynorsk</system:String>
+    <system:String x:Key="LangEnum.fa">Persian</system:String>
+    <system:String x:Key="LangEnum.sv">Swedish</system:String>
+    <system:String x:Key="LangEnum.pl">Polish</system:String>
+    <system:String x:Key="LangEnum.nl">Dutch</system:String>
+    <system:String x:Key="LangEnum.uk">Ukrainian</system:String>
+
+    <system:String x:Key="ThemeType.Light">Light Theme</system:String>
+    <system:String x:Key="ThemeType.Dark">Dark Theme</system:String>
+    <system:String x:Key="ThemeType.FollowSystem">Follow System</system:String>
+    <system:String x:Key="ThemeType.FollowApp">Follow App</system:String>
+
+    <system:String x:Key="LangDetectType.Local">Local</system:String>
+    <system:String x:Key="LangDetectType.Baidu">Baidu</system:String>
+    <system:String x:Key="LangDetectType.Tencent">Tencent</system:String>
+    <system:String x:Key="LangDetectType.Niutrans">Niutrans</system:String>
+    <system:String x:Key="LangDetectType.Bing">Bing</system:String>
+    <system:String x:Key="LangDetectType.Yandex">Yandex</system:String>
+    <system:String x:Key="LangDetectType.Google">Google</system:String>
+    <system:String x:Key="LangDetectType.Microsoft">Microsoft</system:String>
+
+    <system:String x:Key="LineBreakHandlingMode.None">Don't Process LineBreaks</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">Remove Extra LineBreaks</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">Remove All LineBreaks</system:String>
+
+    <system:String x:Key="OcrImageQualityEnum.Low">Low</system:String>
+    <system:String x:Key="OcrImageQualityEnum.Medium">Medium</system:String>
+    <system:String x:Key="OcrImageQualityEnum.High">High</system:String>
+
+    <system:String x:Key="DoubleTapFuncEnum.InputFunc">InputFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ScreenFunc">ScreenFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.MouseHookFunc">MouseHookFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.OCRFunc">OCRFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ShowViewFunc">ShowViewFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.PreferenceFunc">PreferenceFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ForbidShortcutFunc">ForbidShortcutFunc</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ExitFunc">ExitFunc</system:String>
+
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelySmall">ExtremelySmall(14px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraSmall">UltraSmall(15px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VerySmall">VerySmall(16px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Small">Small(17px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.General">General(18px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Big">Big(19px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VeryBig">VeryBig(20px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraBig">UltraBig(21px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelyBig">ExtremelyBig(22px)</system:String>
+
+    <system:String x:Key="ProxyMethodEnum.NoProxy">NoProxy</system:String>
+    <system:String x:Key="ProxyMethodEnum.SystemProxy">SystemProxy</system:String>
+    <system:String x:Key="ProxyMethodEnum.Http">Http</system:String>
+    <system:String x:Key="ProxyMethodEnum.Socks5">Socks5</system:String>
+
+    <system:String x:Key="AnimationSpeedEnum.Slow">Slow(300ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Middle">Middle(200ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Fast">Fast(150ms)</system:String>
+
+    <system:String x:Key="BaiduOCRAction.accurate">Accurate</system:String>
+    <system:String x:Key="BaiduOCRAction.accurate_basic">Accurate Basic</system:String>
+    <system:String x:Key="BaiduOCRAction.general">General</system:String>
+    <system:String x:Key="BaiduOCRAction.general_basic">GeneralBsic</system:String>
+
+    <system:String x:Key="TencentOCRAction.GeneralBasicOCR">General Basic OCR</system:String>
+    <system:String x:Key="TencentOCRAction.GeneralAccurateOCR">General Accurate OCR</system:String>
+
+    <system:String x:Key="VolcengineOCRAction.OCRNormal">General OCR</system:String>
+    <system:String x:Key="VolcengineOCRAction.MultiLanguageOCR">Multi-language OCR</system:String>
+
+    <system:String x:Key="IconType.STranslate">Local</system:String>
+    <system:String x:Key="IconType.DeepL">DeepL</system:String>
+    <system:String x:Key="IconType.Baidu">Baidu</system:String>
+    <system:String x:Key="IconType.Google">Google</system:String>
+    <system:String x:Key="IconType.Iciba">iCiba</system:String>
+    <system:String x:Key="IconType.Youdao">Youdao</system:String>
+    <system:String x:Key="IconType.Bing">Bing</system:String>
+    <system:String x:Key="IconType.OpenAI">OpenAI</system:String>
+    <system:String x:Key="IconType.Gemini">Gemini</system:String>
+    <system:String x:Key="IconType.Tencent">Tencent</system:String>
+    <system:String x:Key="IconType.Ali">Ali</system:String>
+    <system:String x:Key="IconType.Niutrans">Niutrans</system:String>
+    <system:String x:Key="IconType.Caiyun">Caiyun</system:String>
+    <system:String x:Key="IconType.Microsoft">Microsoft</system:String>
+    <system:String x:Key="IconType.Volcengine">Volcengine</system:String>
+    <system:String x:Key="IconType.Ecdict">ECDict</system:String>
+    <system:String x:Key="IconType.Azure">Azure</system:String>
+    <system:String x:Key="IconType.Chatglm">ChatGLM</system:String>
+    <system:String x:Key="IconType.Linyi">Linyi</system:String>
+    <system:String x:Key="IconType.DeepSeek">DeepSeek</system:String>
+    <system:String x:Key="IconType.Groq">Groq</system:String>
+    <system:String x:Key="IconType.PaddleOCR">PaddleOCR</system:String>
+    <system:String x:Key="IconType.BaiduBce">BaiduBce</system:String>
+    <system:String x:Key="IconType.TencentOCR">TencentOCR</system:String>
+    <system:String x:Key="IconType.Ollama">Ollama</system:String>
+    <system:String x:Key="IconType.Kimi">Kimi</system:String>
+    <system:String x:Key="IconType.Lingva">Lingva</system:String>
+    <system:String x:Key="IconType.WeChat">WeChat</system:String>
+    <system:String x:Key="IconType.Claude">Claude</system:String>
+    <system:String x:Key="IconType.EuDict">EuDict</system:String>
+    <system:String x:Key="IconType.Yandex">Yandex</system:String>
+
+    <system:String x:Key="BackupType.Local">Local</system:String>
+    <system:String x:Key="BackupType.WebDav">WebDav</system:String>
+
+    <system:String x:Key="STranslateMode.Brower">Brower</system:String>
+    <system:String x:Key="STranslateMode.IOS">IOS</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Toast-->
+
+    <system:String x:Key="Toast.Copy">Copy</system:String>
+    <system:String x:Key="Toast.Speak">Speak</system:String>
+    <system:String x:Key="Toast.Result">Result</system:String>
+    <system:String x:Key="Toast.DeleteSuccess">Delete Success</system:String>
+    <system:String x:Key="Toast.CopySuccess">Copy Success</system:String>
+    <system:String x:Key="Toast.ClearSuccess">Clear Success</system:String>
+    <system:String x:Key="Toast.CopySnakeSuccess">Copy Snake</system:String>
+    <system:String x:Key="Toast.CopySmallHumpSuccess">Copy SmallHump</system:String>
+    <system:String x:Key="Toast.CopyLargeHumpSuccess">Copy LargeHump</system:String>
+    <system:String x:Key="Toast.SpeakInputContent">SpeakInputContent</system:String>
+    <system:String x:Key="Toast.AutoTransBack">AutoTransBack</system:String>
+    <system:String x:Key="Toast.Open">Open</system:String>
+    <system:String x:Key="Toast.Close">Close</system:String>
+    <system:String x:Key="Toast.KeepAtListOneTranslator">KeepAtListOneTranslator</system:String>
+    <system:String x:Key="Toast.NoOCR">No OCR Enabled</system:String>
+    <system:String x:Key="Toast.SaveSuccess">Save Success</system:String>
+    <system:String x:Key="Toast.SaveFailed">Save Failed</system:String>
+    <system:String x:Key="Toast.ResetConf">Reset Config</system:String>
+    <system:String x:Key="Toast.SaveTo">Saved to</system:String>
+    <system:String x:Key="Toast.Success">Success</system:String>
+    <system:String x:Key="Toast.Failed">Failed</system:String>
+    <system:String x:Key="Toast.RemoveSpace">Remove spaces</system:String>
+    <system:String x:Key="Toast.RemoveLinebreak">Remove line breaks</system:String>
+    <system:String x:Key="Toast.EnableSticky">Enable Pin to Top</system:String>
+    <system:String x:Key="Toast.DisableSticky">Disable Pin to Top</system:String>
+    <system:String x:Key="Toast.PleaseSelectImg">Please select an image</system:String>
+    <system:String x:Key="Toast.ClipboardNoImgRecently">No recent image in clipboard</system:String>
+    <system:String x:Key="Toast.NoQRCode">No QR code detected</system:String>
+    <system:String x:Key="Toast.WordSelect">Mouse Text Selection</system:String>
+    <system:String x:Key="Toast.AutoTranslate">Auto Translate</system:String>
+    <system:String x:Key="Toast.IncrementalTranslate">Incremental Translation</system:String>
+    <system:String x:Key="Toast.Show">Hide</system:String>
+    <system:String x:Key="Toast.Hide">Show</system:String>
+    <system:String x:Key="Toast.LangView">Language Panel</system:String>
+    <system:String x:Key="Toast.Export">Export</system:String>
+    <system:String x:Key="Toast.Import">Import</system:String>
+    <system:String x:Key="Toast.PleaseCheckCnfOrLog">Check config or logs</system:String>
+    <system:String x:Key="Toast.DeleteFailed">Delete failed</system:String>
+    <system:String x:Key="Toast.DeleteAllSuccess">All deleted success</system:String>
+    <system:String x:Key="Toast.SingleCharInfo">Single Char may affect usage</system:String>
+    <system:String x:Key="Toast.DropPrompFile">Please drop Prompt file</system:String>
+    <system:String x:Key="Toast.ImportEmpty">Content is empty</system:String>
+    <system:String x:Key="Toast.NoSelectPrompt">No Prompt selected</system:String>
+    <system:String x:Key="Toast.DownloadStart">Download started</system:String>
+    <system:String x:Key="Toast.DownloadComplete">Download completed</system:String>
+    <system:String x:Key="Toast.DownloadCancel">Download cancelled</system:String>
+    <system:String x:Key="Toast.DownloadException">Exception occurred during download</system:String>
+    <system:String x:Key="Toast.Decompress">Extracting data package</system:String>
+    <system:String x:Key="Toast.LoadDataSuccess">Data package loaded successfully</system:String>
+    <system:String x:Key="Toast.DecompressFailed">Extraction failed, try restart</system:String>
+    <system:String x:Key="Toast.DataIntegrity">Data integrity verified</system:String>
+    <system:String x:Key="Toast.MissingData">Data missing</system:String>
+    <system:String x:Key="Toast.DeleteFailedInfo">Delete failed, try restart</system:String>
+    <system:String x:Key="Toast.UnSupport">Not supported</system:String>
+    <system:String x:Key="Toast.NoPaddleOCRData">Download in PaddleOCR page</system:String>
+    <system:String x:Key="Toast.VerifySuccess">Verification successful</system:String>
+    <system:String x:Key="Toast.VerifyFailed">Verification failed</system:String>
+    <system:String x:Key="Toast.QuerySuccess">Query successful</system:String>
+    <system:String x:Key="Toast.QueryFailed">Query failed</system:String>
+    <system:String x:Key="Toast.QueryCanceled">Query cancelled</system:String>
+    <system:String x:Key="Toast.TTSFailed">Text-to-speech failed</system:String>
+    <system:String x:Key="Toast.NoTTS">TTS service not enabled</system:String>
+    <system:String x:Key="Toast.TTSNotEnd">Current speech not finished</system:String>
+    <system:String x:Key="Toast.CheckVocabularyConf">Please check vocabulary conf</system:String>
+    <system:String x:Key="Toast.RenameFailed">Rename failed</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 首选项-->
+
+    <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate Preferences</system:String>
+    <system:String x:Key="Preference.WindowTitle">Preferences</system:String>
+    <system:String x:Key="Preference.Navi.Common">General</system:String>
+    <system:String x:Key="Preference.Navi.Hotkey">Hotkey</system:String>
+    <system:String x:Key="Preference.Navi.Service">Service</system:String>
+    <system:String x:Key="Preference.Navi.Replace">Replace</system:String>
+    <system:String x:Key="Preference.Navi.History">History</system:String>
+    <system:String x:Key="Preference.Navi.Backup">Backup</system:String>
+    <system:String x:Key="Preference.Navi.About">About</system:String>
+
+    <system:String x:Key="Preference.Reset">Reset</system:String>
+    <system:String x:Key="Preference.Save">Save</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 设置相关-->
+
+    <!--#region Common 设置项-->
+    <system:String x:Key="Common.Title">General Configuration</system:String>
+    <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
+    <system:String x:Key="Common.AppLanguage">Application Language</system:String>
+    <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
+    <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
+    <system:String x:Key="Common.ThemeSelection">Theme Selection</system:String>
+    <system:String x:Key="Common.FontSelection">Font Selection [WIE]</system:String>
+    <system:String x:Key="Common.GlobalFontSize">Global Font Size [WIE]</system:String>
+    <system:String x:Key="Common.DisableGlobalHotkeys">Disable Global Hotkeys</system:String>
+    <system:String x:Key="Common.IgnoreHotkeysOnFullscreen">Ignore Hotkeys in Fullscreen Mode</system:String>
+    <system:String x:Key="Common.OftenUsedLang">Frequently Used Languages</system:String>
+    <system:String x:Key="Common.OftenUsedLangSetButton">Click to Set</system:String>
+    <system:String x:Key="Common.LangDetect">Language Detection</system:String>
+    <system:String x:Key="Common.LangDetectRatio">Language Detection Ratio (zh-en)</system:String>
+    <system:String x:Key="Common.WordPickingInterval">Word Picking Interval</system:String>
+    <system:String x:Key="Common.DoubleTapTrayFunc">Double-click Tray Function</system:String>
+    <system:String x:Key="Common.HistorySize">History Size</system:String>
+    <system:String x:Key="Common.HistorySize.50">50 Items</system:String>
+    <system:String x:Key="Common.HistorySize.100">100 Items</system:String>
+    <system:String x:Key="Common.HistorySize.200">200 Items</system:String>
+    <system:String x:Key="Common.HistorySize.500">500 Items</system:String>
+    <system:String x:Key="Common.HistorySize.1000">1000 Items</system:String>
+    <system:String x:Key="Common.HistorySize.Unlimited">Unlimited</system:String>
+    <system:String x:Key="Common.HistorySize.None">Don't Save</system:String>
+    <system:String x:Key="Common.SilentOcrLang">Silent OCR/Screenshot Translation Language</system:String>
+    <system:String x:Key="Common.SourceLangIfAuto">Language to Use When Auto-detection</system:String>
+    <system:String x:Key="Common.TargetLangIfSourceZh">Target Language When Source is Chinese</system:String>
+    <system:String x:Key="Common.TargetLangIfSourceNotZh">Target Language When Source is Not Chinese</system:String>
+    <system:String x:Key="Common.HttpTimeout">Request Timeout (seconds)</system:String>
+
+    <!--  网络配置  -->
+    <system:String x:Key="Network.Title">Network Configuration</system:String>
+    <system:String x:Key="Network.ExternalCall">External Service Call (Non-proxy)</system:String>
+    <system:String x:Key="Network.ExternalCallPort">External Call Port</system:String>
+    <system:String x:Key="Network.ProxySettings">Proxy Settings</system:String>
+    <system:String x:Key="Network.Server">Server</system:String>
+    <system:String x:Key="Network.Port">Port</system:String>
+    <system:String x:Key="Network.ProxyAuth">Proxy Authentication</system:String>
+    <system:String x:Key="Network.Username">Username</system:String>
+    <system:String x:Key="Network.Password">Password</system:String>
+    <system:String x:Key="Network.ServerPlaceholder">Please Input IPAddress</system:String>
+    <system:String x:Key="Network.PortPlaceholder">Please Input Port</system:String>
+    <system:String x:Key="Network.UsernamePlaceholder">Please Input Username</system:String>
+    <system:String x:Key="Network.PasswordPlaceholder">Please Input Password</system:String>
+
+    <!--  功能配置  -->
+    <system:String x:Key="Function.Title">Function Configuration</system:String>
+    <system:String x:Key="Function.AdjustContentTranslate">Translate Immediately After Content Adjustment</system:String>
+    <system:String x:Key="Function.ChangedLang2Execute">Translate Immediately After Language Change</system:String>
+    <system:String x:Key="Function.UsePasteOutput">Use Clipboard for Replace Translation Output</system:String>
+    <system:String x:Key="Function.UseFormsCopy">Clipboard Occupation Issue</system:String>
+    <system:String x:Key="Function.ScreenshotOcrAutoCopyText">Auto Copy Text After Screenshot OCR</system:String>
+    <system:String x:Key="Function.LineBreakHandler">Line Break Handling</system:String>
+    <system:String x:Key="Function.LineBreakOCRHandler">OCR Line Break Handling</system:String>
+    <system:String x:Key="Function.OcrAutoCopyText">Auto Copy After OCR</system:String>
+    <system:String x:Key="Function.OcrChangedLang2Execute">Translate After OCR Service/Language Change</system:String>
+    <system:String x:Key="Function.IncrementalTranslation">Incremental Translation</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate">Auto Copy After Translation</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.NoAction">No Action</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.First">First</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Second">Second</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Third">Third</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fourth">Fourth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fifth">Fifth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Sixth">Sixth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Seventh">Seventh</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Eighth">Eighth</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Last">Last</system:String>
+    <system:String x:Key="Function.HotkeyCopySuccessToast">Show Copy Success Toast for Hotkey</system:String>
+    <system:String x:Key="Function.OcrImageQuality">OCR Image Quality</system:String>
+
+    <!--  显示配置  -->
+    <system:String x:Key="Display.Title">Display Configuration</system:String>
+    <system:String x:Key="Display.HideOnStart">Hide Main Window on Startup</system:String>
+    <system:String x:Key="Display.DisableNoticeOnStart">Disable Notifications on Startup</system:String>
+    <system:String x:Key="Display.UseCacheLocation">Use Cached Location on Startup</system:String>
+    <system:String x:Key="Display.AnimationSpeed">Animation Speed</system:String>
+    <system:String x:Key="Display.ShowMainPlaceholder">Input Box Placeholder</system:String>
+    <system:String x:Key="Display.OnlyShowRet">Only Show Output Interface</system:String>
+    <system:String x:Key="Display.HideLangWhenOnlyShowOutput">Hide Language Box When Only Showing Output</system:String>
+    <system:String x:Key="Display.TriggerShowHide">Toggle Show/Hide on Repeat Trigger</system:String>
+    <system:String x:Key="Display.MainViewMaxHeight">Main Window Max Height [WIE]</system:String>
+    <system:String x:Key="Display.MainViewWidth">Main Window Width [WIE]</system:String>
+    <system:String x:Key="Display.InputViewMaxHeight">Input Box Max Height [WIE]</system:String>
+    <system:String x:Key="Display.FollowMouse">Window Follows Mouse</system:String>
+    <system:String x:Key="Display.ShowAuxiliaryLine">Screenshot Guide Lines</system:String>
+    <system:String x:Key="Display.MainViewShadow">Main Window Shadow (Performance Impact)</system:String>
+    <system:String x:Key="Display.PromptToggleVisible">Show Prompt Toggle in Main Window</system:String>
+    <system:String x:Key="Display.CloseUIOcrRetTranslate">Close Window After OCR Click Translation</system:String>
+    <system:String x:Key="Display.KeepTopmostAfterMousehook">Keep Topmost After Exiting Mouse Selection</system:String>
+    <system:String x:Key="Display.ShowCopyOnHeader">Show Buttons on Translation Result Header</system:String>
+    <system:String x:Key="Display.CaretLast">Move Cursor to End When Showing Main Window [WIE]</system:String>
+
+    <!--  图标配置  -->
+    <system:String x:Key="Icon.Title">Icon Configuration</system:String>
+    <system:String x:Key="Icon.ShowSnakeCopyBtn">Show Snake Case Copy Button</system:String>
+    <system:String x:Key="Icon.ShowSmallHumpCopyBtn">Show Camel Case Copy Button</system:String>
+    <system:String x:Key="Icon.ShowLargeHumpCopyBtn">Show Pascal Case Copy Button</system:String>
+    <system:String x:Key="Icon.ShowTranslateBackBtn">Show Back Translation Button</system:String>
+    <system:String x:Key="Icon.ShowClose">Show Close Icon</system:String>
+    <system:String x:Key="Icon.StayMainViewWhenLoseFocus">Keep Main Window When Losing Focus</system:String>
+    <system:String x:Key="Icon.ShowMinimalBtn">Show Minimize Icon</system:String>
+    <system:String x:Key="Icon.ShowPreference">Show Settings Icon</system:String>
+    <system:String x:Key="Icon.ShowConfigureService">Show Service Configuration Icon</system:String>
+    <system:String x:Key="Icon.ShowMainOcrLang">Show Silent OCR/Screenshot Translation Language Selection Icon</system:String>
+    <system:String x:Key="Icon.ShowMousehook">Show Mouse Selection Icon</system:String>
+    <system:String x:Key="Icon.ShowAutoTranslate">Show Auto Translation Icon</system:String>
+    <system:String x:Key="Icon.ShowIncrementalTranslation">Show Incremental Translation Icon</system:String>
+    <system:String x:Key="Icon.ShowOnlyShowRet">Show Output-Only Interface Icon</system:String>
+    <system:String x:Key="Icon.ShowTopmost">Show Always on Top Icon</system:String>
+    <system:String x:Key="Icon.ShowScreenshot">Show Screenshot Translation Icon</system:String>
+    <system:String x:Key="Icon.ShowOCR">Show OCR Icon</system:String>
+    <system:String x:Key="Icon.ShowSilentOCR">Show Silent OCR Icon</system:String>
+    <system:String x:Key="Icon.ShowQRCode">Show QR Code Recognition Icon</system:String>
+    <system:String x:Key="Icon.ShowHistory">Show History Icon</system:String>
+    <system:String x:Key="Icon.ShowClipboardMonitor">Show ClipboardMonitor Icon</system:String>
+    <system:String x:Key="Icon.ShowReplaceTranslate">Show Replace Translation Icon</system:String>
+    <system:String x:Key="Icon.ShowTTS">Show TTS Icon</system:String>
+    <system:String x:Key="Icon.ShowCopy">Show Copy Icon</system:String>
+    <system:String x:Key="Icon.ShowCopySource">Show Copy Source Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAll">Show Copy All Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSource">Show Copy All Source Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAllResult">Show Copy All Result Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceResult">Show Copy All Source Result Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceAndResult">Show Copy All Source and Result Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceWithResult">Show Copy All Source with Result Icon</system:String>
+    <system:String x:Key="Icon.ShowCopyAllResultWithSource">Show Copy All Result with Source Icon</system:String>
+
+    <!--  工具提示  -->
+    <system:String x:Key="Tooltip.AutoStartTip">Automatically start the software when the system boots (for current user)</system:String>
+    <system:String x:Key="Tooltip.NeedAdminTip">To ensure global hotkeys respond in windows with administrator privileges</system:String>
+    <system:String x:Key="Tooltip.AppLanguageTip">Switch application language version</system:String>
+    <system:String x:Key="Tooltip.AutoTranslateTip">Automatically translate after entering content</system:String>
+    <system:String x:Key="Tooltip.ThemeSelectionTip">Light theme, dark theme, follow system Windows mode, follow system app mode</system:String>
+    <system:String x:Key="Tooltip.FontSelectionTip">Select from system fonts</system:String>
+    <system:String x:Key="Tooltip.GlobalFontSizeTip">Global font size configuration</system:String>
+    <system:String x:Key="Tooltip.DisableGlobalHotkeysTip">Whether to disable global hotkeys</system:String>
+    <system:String x:Key="Tooltip.IgnoreHotkeysOnFullscreenTip">Disable global hotkeys when an application is in fullscreen mode on the monitor where the mouse is (recommended for gaming)</system:String>
+    <system:String x:Key="Tooltip.OftenUsedLangTip">Configure the language list displayed when selecting languages</system:String>
+    <system:String x:Key="Tooltip.LangDetectTip">Language detection method</system:String>
+    <system:String x:Key="Tooltip.LangDetectRatioTip">Only for local detection of Chinese-English: the ratio of English characters to total characters</system:String>
+    <system:String x:Key="Tooltip.WordPickingIntervalTip">Extend word picking interval for cases where word selection fails in some applications</system:String>
+    <system:String x:Key="Tooltip.DoubleTapTrayFuncTip">Function selection for double-clicking the tray icon</system:String>
+    <system:String x:Key="Tooltip.HistorySizeTip">Maximum number of history records</system:String>
+    <system:String x:Key="Tooltip.SilentOcrLangTip">Language for Silent OCR/Screenshot translation&#13;Can be quickly switched via icon in main interface</system:String>
+    <system:String x:Key="Tooltip.SourceLangIfAutoTip">Language to use if detection still returns 'auto'&#13;Only triggered when online detection service returns an error</system:String>
+    <system:String x:Key="Tooltip.TargetLangIfSourceZhTip">Language to use if target is auto and source is Chinese</system:String>
+    <system:String x:Key="Tooltip.TargetLangIfSourceNotZhTip">Language to use if target is auto and source is not Chinese</system:String>
+    <system:String x:Key="Tooltip.HttpTimeoutTip">Timeout for service requests in seconds</system:String>
+    <system:String x:Key="Tooltip.ExternalCallTip">Whether to enable external service calls</system:String>
+    <system:String x:Key="Tooltip.ExternalCallPortTip">Configure service port for external calls</system:String>
+    <system:String x:Key="Tooltip.ProxySettingsTip">Configure network proxy method&#13;Direct connection for local addresses</system:String>
+    <system:String x:Key="Tooltip.ServerTip">Proxy server IP address</system:String>
+    <system:String x:Key="Tooltip.PortTip">Proxy server port</system:String>
+    <system:String x:Key="Tooltip.ProxyAuthTip">Proxy server requires authentication</system:String>
+    <system:String x:Key="Tooltip.UsernameTip">Proxy server username</system:String>
+    <system:String x:Key="Tooltip.PasswordTip">Proxy server password</system:String>
+    <system:String x:Key="Tooltip.AdjustContentTranslateTip">Whether to translate immediately after adjusting content in main interface</system:String>
+    <system:String x:Key="Tooltip.ChangedLang2ExecuteTip">Translate immediately after changing language selection in main interface</system:String>
+    <system:String x:Key="Tooltip.UsePasteOutputTip">Use clipboard for replace translation output when results are incomplete, try enabling this instead of simulated keyboard output</system:String>
+    <system:String x:Key="Tooltip.UseFormsCopyTip">If clipboard is being occupied, try enabling this configuration</system:String>
+    <system:String x:Key="Tooltip.ScreenshotOcrAutoCopyTextTip">Automatically copy text content after screenshot OCR</system:String>
+    <system:String x:Key="Tooltip.LineBreakHandlerTip">Line break handling for word selection, screenshot translation, clipboard, and silent OCR scenarios</system:String>
+    <system:String x:Key="Tooltip.LineBreakOCRHandlerTip">Line break handling for OCR interface</system:String>
+    <system:String x:Key="Tooltip.OcrAutoCopyTextTip">Automatically copy text content after OCR recognition</system:String>
+    <system:String x:Key="Tooltip.OcrChangedLang2ExecuteTip">Translate immediately after selecting service or language in OCR page</system:String>
+    <system:String x:Key="Tooltip.IncrementalTranslationTip">When enabled, incrementally add text for translation</system:String>
+    <system:String x:Key="Tooltip.CopyResultAfterTranslateTip">Configure which translation result to copy after translation completes</system:String>
+    <system:String x:Key="Tooltip.HotkeyCopySuccessToastTip">Whether to show copy success toast for hotkey&#13;Can be disabled if too many popups appear when auto-copy after translation is enabled</system:String>
+    <system:String x:Key="Tooltip.OcrImageQualityTip">Image quality selection for text recognition</system:String>
+    <system:String x:Key="Tooltip.HideOnStartTip">Don't show main interface on startup</system:String>
+    <system:String x:Key="Tooltip.DisableNoticeOnStartTip">Don't show notifications on startup</system:String>
+    <system:String x:Key="Tooltip.UseCacheLocationTip">Whether to use the last open position when starting the software</system:String>
+    <system:String x:Key="Tooltip.AnimationSpeedTip">Animation speed when showing main interface</system:String>
+    <system:String x:Key="Tooltip.ShowMainPlaceholderTip">Whether to show placeholder hint in main interface input box</system:String>
+    <system:String x:Key="Tooltip.OnlyShowRetTip">Whether to only show output result part in main interface</system:String>
+    <system:String x:Key="Tooltip.HideLangWhenOnlyShowOutputTip">Whether to hide language interface when only showing output results</system:String>
+    <system:String x:Key="Tooltip.TriggerShowHideTip">Repeated trigger shows interface (when hidden)/hides interface (when shown)</system:String>
+    <system:String x:Key="Tooltip.MainViewMaxHeightTip">Adjust maximum height of main interface</system:String>
+    <system:String x:Key="Tooltip.MainViewWidthTip">Adjust width of main interface</system:String>
+    <system:String x:Key="Tooltip.InputViewMaxHeightTip">Adjust maximum height of input box</system:String>
+    <system:String x:Key="Tooltip.FollowMouseTip">Main window popup position follows mouse position&#13;for input, screenshot, word selection, and clipboard monitoring translation</system:String>
+    <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">Whether to show guide lines when taking screenshots</system:String>
+    <system:String x:Key="Tooltip.MainViewShadowTip">Whether to show shadow for main window&#13;Can impact performance, choose according to your needs</system:String>
+    <system:String x:Key="Tooltip.PromptToggleVisibleTip">Whether to show Prompt toggle button in main interface output UI</system:String>
+    <system:String x:Key="Tooltip.CloseUIOcrRetTranslateTip">Close OCR window while translating after clicking translate button in OCR interface</system:String>
+    <system:String x:Key="Tooltip.KeepTopmostAfterMousehookTip">Keep window topmost after exiting mouse selection function</system:String>
+    <system:String x:Key="Tooltip.ShowCopyOnHeaderTip">Whether to show TTS and copy buttons at the top when translation result is collapsed</system:String>
+    <system:String x:Key="Tooltip.CaretLastTip">Move cursor to end when activating window</system:String>
+    <system:String x:Key="Tooltip.ShowSnakeCopyBtnTip">Whether to show snake case copy result button in main interface output UI</system:String>
+    <system:String x:Key="Tooltip.ShowSmallHumpCopyBtnTip">Whether to show camel case copy result button in main interface output UI</system:String>
+    <system:String x:Key="Tooltip.ShowLargeHumpCopyBtnTip">Whether to show pascal case copy result button in main interface output UI</system:String>
+    <system:String x:Key="Tooltip.ShowTranslateBackBtnTip">Whether to show back translation button in main interface output UI</system:String>
+    <system:String x:Key="Tooltip.ShowCloseTip">Show close icon in main interface</system:String>
+    <system:String x:Key="Tooltip.StayMainViewWhenLoseFocusTip">Don't hide main interface when losing focus</system:String>
+    <system:String x:Key="Tooltip.ShowMinimalBtnTip">Show minimize icon in main interface, don't hide main interface when losing focus option</system:String>
+    <system:String x:Key="Tooltip.ShowPreferenceTip">Show settings icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowConfigureServiceTip">Show service configuration icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowMainOcrLangTip">Silent OCR/Screenshot translation language selection icon</system:String>
+    <system:String x:Key="Tooltip.ShowMousehookTip">Show mouse selection icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowAutoTranslateTip">Show auto translation icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowIncrementalTranslationTip">Show incremental translation icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowOnlyShowRetTip">Show output-only interface icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowScreenshotTip">Show screenshot translation icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowOCRTip">Show OCR icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowSilentOCRTip">Show silent OCR icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowClipboardMonitorTip">Show clipboard monitor icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowQRCodeTip">Show QR code recognition icon in main interface</system:String>
+    <system:String x:Key="Tooltip.ShowHistoryTip">Show history icon in main interface</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Hotkey 设置项-->
+
+    <system:String x:Key="Hotkey.Title">Hotkey Configuration</system:String>
+    <system:String x:Key="Hotkey.GlobalHotkey">Global Hotkeys</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey">Software Hotkeys</system:String>
+    <system:String x:Key="Hotkey.InputTranslate">Input Translation</system:String>
+    <system:String x:Key="Hotkey.CrosswordTranslate">Word Selection Translation</system:String>
+    <system:String x:Key="Hotkey.ScreenshotTranslate">Screenshot Translation</system:String>
+    <system:String x:Key="Hotkey.ReplaceTranslate">Replace Translation</system:String>
+    <system:String x:Key="Hotkey.ShowInterface">Show Interface</system:String>
+    <system:String x:Key="Hotkey.MouseCrossword">Mouse Selection</system:String>
+    <system:String x:Key="Hotkey.OCR">Text Recognition</system:String>
+    <system:String x:Key="Hotkey.SilentOCR">Silent OCR</system:String>
+    <system:String x:Key="Hotkey.ClipboardMonitor">Monitor Clipboard</system:String>
+    <system:String x:Key="Hotkey.SilentTTS">Silent TTS</system:String>
+    <system:String x:Key="Hotkey.SaveConfig">Save</system:String>
+    <system:String x:Key="Hotkey.CancelModify">Cancel</system:String>
+    <system:String x:Key="Hotkey.HotkeyConflict">Hotkey Conflict</system:String>
+    <system:String x:Key="Hotkey.ShortcutKey">Shortcut Key</system:String>
+    <system:String x:Key="Hotkey.Function">Function</system:String>
+
+    <!--  软件热键  -->
+    <system:String x:Key="Hotkey.SoftHotkey.ESC">Hide/Exit Interface (Also cancels any pending request: Translation, OCR, TTS)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.OpenSettings">Open Settings</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.OpenHistory">Open History</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleAutoTranslate">Enable/Disable Auto Translation</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleIncrementalTranslation">Enable/Disable Incremental Translation</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleInputBox">Hide/Show Input Box</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetWindowPosition">Reset window to the center of the main monitor</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleTopmost">Toggle Topmost</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.SwitchTheme">Switch Theme (Auto/Light/Dark Theme Cycling)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.SaveToVocabulary">Save to Vocabulary Book</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ExitProgram">Exit Program</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomInText">Zoom In Text in Input/Output Text Box with Ctrl+Scroll</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomOutText">Zoom Out Text in Input/Output Text Box with Ctrl+Scroll</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetTextSize">Reset Text Box to Default Font Size</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.CopyTranslationByService">Copy Translation Results by Service Order</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.CopyLastTranslation">Copy Last Service Translation Result</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.TTSInput">TTS for Input Content</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.TTSByService">TTS for Translation Results by Service Order</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.TTSLastTranslation">TTS for Last Service Translation Result</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomInUI">Zoom In Interface (Width, Max Height)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomOutUI">Zoom Out Interface (Width, Max Height)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetUI">Reset to Default Interface (Width, Max Height)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.IncreaseWidth">Increase Width</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.DecreaseWidth">Decrease Width</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.IncreaseMaxHeight">Increase Max Height</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.DecreaseMaxHeight">Decrease Max Height</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.DecreaseFontSize">Decrease Global Font Size</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.IncreaseFontSize">Increase Global Font Size</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetFontSize">Reset Global Font to Default</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleLineBreakMode">Toggle Line Break Handling Mode</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleBackTranslation">Enable/Disable Back Translation</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithMouseWheelUp">Ctrl + Mouse Wheel Up</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithMouseWheelDown">Ctrl + Mouse Wheel Down</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithReturn">Ctrl + Click Line Break Icon</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithTransBack">Ctrl + Click Back Translation Icon</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Service 设置项-->
+
+    <system:String x:Key="Service.Navi.Translator">Text Translation</system:String>
+    <system:String x:Key="Service.Navi.OCR">Text Recognition</system:String>
+    <system:String x:Key="Service.Navi.TTS">Text-to-Speech</system:String>
+    <system:String x:Key="Service.Navi.VocabularyBook">Vocabulary Book</system:String>
+    <system:String x:Key="Service.Translator.Title">Services</system:String>
+    <system:String x:Key="Service.Translator.SubTitle">Core service support configuration for translation functionality.</system:String>
+    <system:String x:Key="Service.Translator.Duplicate">Create Duplicate</system:String>
+    <system:String x:Key="Service.Translator.Delete">Delete Duplicate</system:String>
+    <system:String x:Key="Service.OCR.Title">Text Recognition</system:String>
+    <system:String x:Key="Service.OCR.SubTitle">Text recognition services. Add your OCR service and select for use</system:String>
+    <system:String x:Key="Service.TTS.Title">Text Recognition</system:String>
+    <system:String x:Key="Service.TTS.SubTitle">Text-to-speech services. Add your TTS service and select for use</system:String>
+    <system:String x:Key="Service.VocabularyBook.Title">Vocabulary Book</system:String>
+    <system:String x:Key="Service.VocabularyBook.SubTitle">Store text in an online vocabulary book</system:String>
+    <system:String x:Key="Service.Name">Name:</system:String>
+    <system:String x:Key="Service.Api">Api:</system:String>
+    <system:String x:Key="Service.AutoExecute">AutoExec:</system:String>
+    <system:String x:Key="Service.AutoExecute.Tooltip">Whether to translate automatically when executing translation, otherwise you need to click manually to translate</system:String>
+    <system:String x:Key="Service.AutoTransBack">AEBack:</system:String>
+    <system:String x:Key="Service.AutoTransBack.Tooltip">Whether to automatically perform back translation when executing translation, otherwise you need to click manually to perform back translation</system:String>
+    <system:String x:Key="Service.LinkTest">LinkTest:</system:String>
+    <system:String x:Key="Service.Verify">Verify</system:String>
+    <system:String x:Key="Service.Icon">Icon</system:String>
+    <system:String x:Key="Service.OpenInBrower">Open in brower</system:String>
+    <system:String x:Key="Service.EnterOfficialWebsite">Enter official website</system:String>
+    <system:String x:Key="Service.Version">Version:</system:String>
+    <system:String x:Key="Service.Update">Update</system:String>
+    <system:String x:Key="Service.Duplicate">Duplicate</system:String>
+    <system:String x:Key="Service.Delete">Delete</system:String>
+    <system:String x:Key="Service.Model">Model:</system:String>
+    <system:String x:Key="Service.Prompt.Info">By customizing the LLM behavior through custom prompt, $target will be replaced by the target language</system:String>
+    <system:String x:Key="Service.Translator.Prompt.Info">By customizing the LLM behavior through custom prompt, $source $target $content will be replaced with the original language target language to be translated text.</system:String>
+    <system:String x:Key="Service.Temperature">Temp:</system:String>
+    <system:String x:Key="Service.Temperature.Tooltip">In the context of language models, it is a parameter that controls the diversity of text generated by the model. The degree of certainty and randomness with which the model makes its next word predictions</system:String>
+    <system:String x:Key="Service.OCR.GeminiApi">It is not recommended to fill in the Path part of the API address unless you know exactly what you are doing. For example, the OpenAI API address is https://api.openai.com/v1/chat/completions, where the Path is /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OCR.GoogleLocation">Word Loc:</system:String>
+    <system:String x:Key="Service.OCR.GoogleLocation.Tooltip">Whether to locate each word when getting results</system:String>
+    <system:String x:Key="Service.OpenAI.Info1">If the API address does not have a path, it will be automatically filled in as /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenAI.Info2">For example, the OpenAI interface address is https://api.openai.com/v1/chat/completions, where the Path is /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenAI.Info3">If you still have doubts please click this link</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Data">Data Pack:</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Download">Download</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Check">Check</system:String>
+    <system:String x:Key="Service.OCR.Tencent.Version.Tooltip">The high-precision version does not support language selection</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Path">Path:</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Path.Info">The path does not have a version number by default. The software will automatically find the version number information written by WeChat in the registry, so that WeChat can be used normally without updating. However, sometimes WeChat installed using scoop or other methods will not update the version number in the registry in time. Therefore, if you cannot find the WeChat path, please fill in the full path with the version number, such as 'D:\scoop\WeChat\[3.9.12.11]'</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Dll.Info">When the service is called, it will automatically load the mmmojo.dll and mmmojo_64.dll dynamic link libraries in the WeChat path filled in above to implement the function call. If you encounter that it cannot be used after WeChat upgrade, you can try to clean it up and try again</system:String>
+    <system:String x:Key="Service.Clear">Clear</system:String>
+    <system:String x:Key="Service.ClearDll">Clear Dll</system:String>
+    <system:String x:Key="Service.Translator.ChatGLM">If the API address doesn't include a Path, it will automatically be filled with /api/paas/v4/chat/completions&#13;For example, if the OpenAI API address is https://api.openai.com/v1/chat/completions, the Path is /v1/chat/completions</system:String>
+    <system:String x:Key="Service.Translator.Claude">If the API address doesn't include a Path, it will automatically be filled with /v1/messages&#13;For example, if the OpenAI API address is https://api.openai.com/v1/chat/completions, the Path is /v1/chat/completions</system:String>
+    <system:String x:Key="Service.Translator.DeepL.UsageSearch">Usage:</system:String>
+    <system:String x:Key="Service.Translator.DeepL.Search">Search</system:String>
+    <system:String x:Key="Service.Translator.DeepLX.Token">No need to fill in if not available</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Home">Home</system:String>
+    <system:String x:Key="Service.Translator.ECDict.ProjectHome">Project Home</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Description">Only supports English words, not sentence translation</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Tip">Local service, requires dictionary file download</system:String>
+    <system:String x:Key="Service.Description">Desc</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Mode">Mode:</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Mode.Tooltip">If translation fails in one mode, please switch to another mode. Service providers may impose restrictions for high-frequency access in a short time</system:String>
+    <system:String x:Key="Service.STranslate">Local Service</system:String>
+    <system:String x:Key="Service.Translator.Tencent.ProjectID">Project ID:</system:String>
+    <system:String x:Key="Service.Translator.Tencent.Region">Region:</system:String>
+    <system:String x:Key="Service.TTS.Voice">Voice:</system:String>
+    <system:String x:Key="Service.TTS.Lingva">This service depends on language settings. Please select available services in General Settings - Common Configuration - Language Recognition. Sometimes it may not function properly due to network or service issues (Note that local recognition currently only supports Chinese and English. Please avoid using local recognition with Lingva for text-to-speech operations in languages other than Chinese and English)</system:String>
+    <system:String x:Key="Service.TTS.Speed">Speed:</system:String>
+    <system:String x:Key="Service.TTS.Speed.Tooltip">Set the speech rate for offline TTS.</system:String>
+    <system:String x:Key="Service.TTS.Offline">Get system supported voices</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Replace 设置项-->
+
+    <system:String x:Key="Replace.Translator">Replace Translation Service</system:String>
+    <system:String x:Key="Replace.Translator.Tooltip">Select replace translation service</system:String>
+    <system:String x:Key="Replace.Source">Source Language</system:String>
+    <system:String x:Key="Replace.Source.Tooltip">Select translation source language</system:String>
+    <system:String x:Key="Replace.Target">Target Language</system:String>
+    <system:String x:Key="Replace.Target.Tooltip">Select translation target language</system:String>
+    <system:String x:Key="Replace.DetectTypeWithSourceAuto">Language Detection (Only effective when source language is auto)</system:String>
+    <system:String x:Key="Replace.DetectTypeWithSourceAuto.Tooltip">Language detection method, only when source language is auto</system:String>
+    <system:String x:Key="Replace.AutoDetectType">Language Detection Ratio (zh-en)</system:String>
+    <system:String x:Key="Replace.AutoDetectType.Tooltip">Only for local detection of Chinese-English: the ratio of English characters to total characters</system:String>
+    <system:String x:Key="Replace.SourceLangIfAuto">Language to Use When Auto-detection</system:String>
+    <system:String x:Key="Replace.SourceLangIfAuto.Tooltip">Language to use if detection still returns 'auto'&#13;Only triggered when online detection service returns an error</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceZh">Target Language When Source is Chinese</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceZh.Tooltip">Language to use if target is auto and source is Chinese&#13;Only triggered when online detection service returns an error</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceNotZh">Target Language When Source is Not Chinese</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceNotZh.Tooltip">Language to use if target is auto and source is not Chinese&#13;Only triggered when online detection service returns an error</system:String>
+
+    <!--#endregion-->
+
+    <!--#region History 设置项-->
+
+    <system:String x:Key="History.Search">Enter search content</system:String>
+    <system:String x:Key="History.Refresh">Refresh</system:String>
+    <system:String x:Key="History.Delete">Delete</system:String>
+    <system:String x:Key="History.Gong">Total</system:String>
+    <system:String x:Key="History.Xiang">items</system:String>
+    <system:String x:Key="History.ClearAl">Clear All</system:String>
+    <system:String x:Key="History.Content.TTS">TTS</system:String>
+    <system:String x:Key="History.Content.Copy">Copy</system:String>
+    <system:String x:Key="History.Content.CopyResult">CopyResult</system:String>
+    <system:String x:Key="History.Content.CopySnakeResult">CopySnakeResult</system:String>
+    <system:String x:Key="History.Content.CopySmallHumpResult">CopySmallHumpResult</system:String>
+    <system:String x:Key="History.Content.CopyLargeHumpResult">CopyLargeHumpResult</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Backup 设置项-->
+
+    <system:String x:Key="Backup.BackupType">Backup Method</system:String>
+    <system:String x:Key="Backup.BackupType.Tooltip">Please select backup method</system:String>
+    <system:String x:Key="Backup.Address">Address</system:String>
+    <system:String x:Key="Backup.Address.Tooltip">WebDav server address</system:String>
+    <system:String x:Key="Backup.Address.Placeholder">Please enter WebDav address</system:String>
+    <system:String x:Key="Backup.Username">Username</system:String>
+    <system:String x:Key="Backup.Username.Tooltip">WebDav server username</system:String>
+    <system:String x:Key="Backup.Username.Placeholder">Please enter username</system:String>
+    <system:String x:Key="Backup.Password">Password</system:String>
+    <system:String x:Key="Backup.Password.Tooltip">WebDav server password</system:String>
+    <system:String x:Key="Backup.Password.Placeholder">Please enter password</system:String>
+    <system:String x:Key="Backup.Export">Export</system:String>
+    <system:String x:Key="Backup.Import">Import</system:String>
+
+    <!--#endregion-->
+
+    <!--#region About 设置项-->
+
+    <system:String x:Key="About.Version">Version</system:String>
+    <system:String x:Key="About.CheckUpdate">Update</system:String>
+    <system:String x:Key="About.CancelCheck">Cancel</system:String>
+    <system:String x:Key="About.Tools">Tools</system:String>
+    <system:String x:Key="About.CleanLog">Clean Logs</system:String>
+    <system:String x:Key="About.OpenDirectory">Open Dir</system:String>
+    <system:String x:Key="About.LogDirectory">Log Dir</system:String>
+    <system:String x:Key="About.ConfigDirectory">Conf Dir</system:String>
+    <system:String x:Key="About.OpenSource">Open Source</system:String>
+    <system:String x:Key="About.Author">Author</system:String>
+    <system:String x:Key="About.Website">Website</system:String>
+    <system:String x:Key="About.SourceCode">Source</system:String>
+    <system:String x:Key="About.Feedback">Feedback</system:String>
+    <system:String x:Key="About.Thanks">Thanks</system:String>
+    <system:String x:Key="About.ConfirmClearAllLog">Confirm Clear All Log?</system:String>
+    <system:String x:Key="About.Warning">Warning</system:String>
+    <system:String x:Key="About.NoUpdateExe">The upgrade seems to be broken, please manually go to the release page to see the new version</system:String>
+    <system:String x:Key="About.GetNewer">The latest version was detected</system:String>
+    <system:String x:Key="About.UpdateFailed">Check for an error with the update, please check the network conditions</system:String>
+
+    <!--#endregion-->
+
+    <!--#region LangSetting-->
+
+    <system:String x:Key="LangSetting.Title">LangSetting</system:String>
+    <system:String x:Key="LangSetting.UnSelectAll">UnSelectAll</system:String>
+    <system:String x:Key="LangSetting.SelectAll">SelectAll</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Translator Selector-->
+
+    <system:String x:Key="TranslatorSelector.Title">Select Translator</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild">Self Build</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild.Tooltip">You need to manually configure the server and fill in the API (token and other verification information)</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn">Built-In</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn.Tooltip">It can be used directly after being added</system:String>
+    <system:String x:Key="TranslatorSelector.Official">Official</system:String>
+    <system:String x:Key="TranslatorSelector.Official.Tooltip">Apply for an API Key on the official website and fill in the API key</system:String>
+
+    <system:String x:Key="ServiceType.SelfBuild">SelfBuild</system:String>
+    <system:String x:Key="ServiceType.BuiltIn">Built-in</system:String>
+    <system:String x:Key="ServiceType.Official">Official</system:String>
+
+    <!--#endregion-->
+
+    <!--#region WebDav-->
+
+    <system:String x:Key="WebDav.Title">Current Config</system:String>
+    <system:String x:Key="WebDav.NoContent">No backup content has been found under the current path...</system:String>
+
+    <!--#endregion-->
+
+    <!--#endregion-->
+
+    <!--#region 主界面-->
+
+    <system:String x:Key="Topmost">Pin to Top</system:String>
+    <system:String x:Key="WindowClose">Close Window</system:String>
+    <system:String x:Key="WindowMinimized">Minimize Window</system:String>
+    <system:String x:Key="Preference">Preferences</system:String>
+    <system:String x:Key="ConfigureService">Configure Service</system:String>
+    <system:String x:Key="SilentOCRLang">Silent OCR/Screenshot Translation Language</system:String>
+    <system:String x:Key="MouseHook">Mouse Text Selection Listener</system:String>
+    <system:String x:Key="AutoTranslate">Auto Translate</system:String>
+    <system:String x:Key="IncrementalTranslation">Incremental Translation</system:String>
+    <system:String x:Key="OnlyShowOutput">Show Output Only&#13;Alt+Mouse Click to Control Language Interface</system:String>
+    <system:String x:Key="ScreenshotTranslate">Screenshot Translation</system:String>
+    <system:String x:Key="SilentOCR">Silent OCR</system:String>
+    <system:String x:Key="OCR">OCR</system:String>
+    <system:String x:Key="ClipboardMonitor">Clipboard Monitor</system:String>
+    <system:String x:Key="QRCode">QR Code Recognition</system:String>
+    <system:String x:Key="History">History</system:String>
+    <system:String x:Key="DevelopmentVersion">[Development]</system:String>
+
+    <system:String x:Key="Input.SelectAll">Select All</system:String>
+    <system:String x:Key="Input.Copy">Copy</system:String>
+    <system:String x:Key="Input.Paste">Paste</system:String>
+    <system:String x:Key="Input.Clear">Clear</system:String>
+    <system:String x:Key="Input.SaveToVocabulary">Save to Vocabulary</system:String>
+    <system:String x:Key="Input.CopyInputContent">Copy Input Content</system:String>
+    <system:String x:Key="Input.RemoveLineBreak">To remove line breaks, Ctrl+click to toggle the processing of line breaks mode</system:String>
+    <system:String x:Key="Input.RemoveSpaces">Remove Spaces</system:String>
+    <system:String x:Key="Input.DetectedAs">Detected as</system:String>
+    <system:String x:Key="Input.ValidContent">Please input valid content</system:String>
+    <system:String x:Key="Input.Cache">Cache</system:String>
+    <system:String x:Key="Input.RequestCancel">Request cancel</system:String>
+    <system:String x:Key="Input.RequestError">Request error</system:String>
+    <system:String x:Key="Input.RequestTimeout">Request timeout (please check whether the network environment is normal or the service is available)\n</system:String>
+    <system:String x:Key="Input.RequestApi">Request api</system:String>
+    <system:String x:Key="Input.ExceptionMsg">Exception message</system:String>
+
+    <system:String x:Key="Output.Retry">Retry</system:String>
+    <system:String x:Key="Output.TextToSpeech">Text to Speech</system:String>
+    <system:String x:Key="Output.CopyAsLargeCamelCase">Copy as PascalCase</system:String>
+    <system:String x:Key="Output.CopyAsSmallCamelCase">Copy as camelCase</system:String>
+    <system:String x:Key="Output.CopyAsSnakeCase">Copy as snake_case</system:String>
+    <system:String x:Key="Output.CopyDirectly">Copy Result Directly</system:String>
+    <system:String x:Key="Output.InsertResult">Insert Result</system:String>
+    <system:String x:Key="Output.ExecuteTranslation">Translate</system:String>
+    <system:String x:Key="Output.ExecuteTranslationTooltip">Execute current service translation</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslation">TransBack</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslationTooltip">Execute current service back translation</system:String>
+    <system:String x:Key="Output.AutoExecute">AutoTranslate</system:String>
+    <system:String x:Key="Output.AutoExecuteTooltip">Whether to automatically translate when executing translation, otherwise you need to click manually to translate, save to configuration file</system:String>
+    <system:String x:Key="Output.AutoBackTranslation">AutoTransBack</system:String>
+    <system:String x:Key="Output.AutoBackTranslationTooltip">Whether to automatically execute back translation when translating, otherwise you need to click manually to perform back translation, save to configuration file</system:String>
+    <system:String x:Key="Output.ConfigureService">Configuration</system:String>
+    <system:String x:Key="Output.ConfigureServiceTooltip">Enter service configuration page</system:String>
+    <system:String x:Key="Output.CloseService">Close Service</system:String>
+    <system:String x:Key="Output.CloseServiceTooltip">Close the service immediately and save to the configuration file</system:String>
+    <system:String x:Key="Output.BackTranslateTooltip">Translate Back (Ctrl+click to Enable/Disable)</system:String>
+    <system:String x:Key="Output.BackTranslationResultTooltip">Right-click double-click to close back translation content</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 托盘-->
+
+    <system:String x:Key="NotifyIcon.InputTranslate">Input Translate</system:String>
+    <system:String x:Key="NotifyIcon.ScreenShotTranslate">Screenshot Translate</system:String>
+    <system:String x:Key="NotifyIcon.MousehookTranslate">Mousehook Monitor</system:String>
+    <system:String x:Key="NotifyIcon.ClipboardMonitor">Clipboard Monitor</system:String>
+    <system:String x:Key="NotifyIcon.OCR">OCR</system:String>
+    <system:String x:Key="NotifyIcon.SilentOCR">Silent OCR</system:String>
+    <system:String x:Key="NotifyIcon.QRCode">QR Code</system:String>
+    <system:String x:Key="NotifyIcon.OpenMainWindow">Open Window</system:String>
+    <system:String x:Key="NotifyIcon.OpenPreference">Open Preference</system:String>
+    <system:String x:Key="NotifyIcon.ForbiddenShortcuts">Forbidden Shortcuts</system:String>
+    <system:String x:Key="NotifyIcon.Exit">Exit</system:String>
+    <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">Hotkey Disabled</system:String>
+    <system:String x:Key="NotifyIcon.Show.Input">Input</system:String>
+    <system:String x:Key="NotifyIcon.Show.Crossword">Crossword</system:String>
+    <system:String x:Key="NotifyIcon.Show.Screenshot">ScreenShot</system:String>
+    <system:String x:Key="NotifyIcon.Show.Replace">Replace</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mainview">Show</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mouse">Mouse</system:String>
+    <system:String x:Key="NotifyIcon.Show.OCR">OCR</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientOCR">SilentOCR</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientTTS">SilentTTS</system:String>
+    <system:String x:Key="NotifyIcon.Show.Clipboard">Clipboard</system:String>
+
+    <!--#endregion-->
+
+    <!--#region OCR-->
+
+    <system:String x:Key="OCR.CopyImage">Copy Image</system:String>
+    <system:String x:Key="OCR.SaveImage">Save Image</system:String>
+    <system:String x:Key="OCR.FitWindow">Fit to Window</system:String>
+    <system:String x:Key="OCR.SwitchImg">Switch Original/Annotated Image</system:String>
+    <system:String x:Key="OCR.DropImg">Drop Image Here</system:String>
+    <system:String x:Key="OCR.QRCodeResult">QR Code Recognition Result</system:String>
+    <system:String x:Key="OCR.File">File</system:String>
+    <system:String x:Key="OCR.File.Tooltip">Select an image file for text recognition</system:String>
+    <system:String x:Key="OCR.Screenshot">Screenshot</system:String>
+    <system:String x:Key="OCR.Screenshot.Tooltip">Take a screenshot for text recognition</system:String>
+    <system:String x:Key="OCR.Clipboard">Clipboard</system:String>
+    <system:String x:Key="OCR.Clipboard.Tooltip">Perform text recognition on clipboard content</system:String>
+    <system:String x:Key="OCR.Setting">Settings</system:String>
+    <system:String x:Key="OCR.Translate">Translate</system:String>
+    <system:String x:Key="OCR.QRCode">QR Code</system:String>
+    <system:String x:Key="OCR.Recertification">Recognize</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Prompt-->
+
+    <system:String x:Key="Prompt.Edit">Edit Prompt</system:String>
+    <system:String x:Key="Prompt.Delete">Delete Prompt</system:String>
+    <system:String x:Key="Prompt.Add">Add Prompt</system:String>
+    <system:String x:Key="Prompt.Import">Import Prompt&#13;Add from File</system:String>
+    <system:String x:Key="Prompt.Export">Export Prompt &#13;Export selected items by default &#13;Ctrl+click to export all</system:String>
+    <system:String x:Key="Prompt.DropImport">Drag and drop Prompt here</system:String>
+
+    <!--#endregion-->
+
+    <!--#region MessageBox-->
+
+    <system:String x:Key="MessageBox.AlreadyRunning">Application is already running.</system:String>
+    <system:String x:Key="MessageBox.MultiOpeningDetection">Multiple Instance Detection</system:String>
+    <system:String x:Key="MessageBox.HotkeysConflict">Global hotkey conflict, please modify in software preferences...</system:String>
+    <system:String x:Key="MessageBox.AlreadyListeningWordSelection">Currently monitoring mouse text selection, please disable monitoring first...</system:String>
+    <system:String x:Key="MessageBox.ContinueReset">Resetting this configuration will affect translation replacement settings, continue with restoration?</system:String>
+    <system:String x:Key="MessageBox.Tip">Tip</system:String>
+    <system:String x:Key="MessageBox.SupportedVoice">System supported voices:</system:String>
+
+    <!--#endregion-->
+
+</ResourceDictionary>

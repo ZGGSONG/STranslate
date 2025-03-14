@@ -1,0 +1,26 @@
+﻿<Window
+    x:Class="STranslate.Views.SliceocrToastView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    Width="20"
+    Height="20"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Opacity="0"
+    ShowActivated="False"
+    ShowInTaskbar="False"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Border Background="{DynamicResource ThemeAccentColor}" CornerRadius="5">
+        <TextBlock
+            Name="IconTB"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            props:ThemeProps.Foreground="{DynamicResource TextBlockToastViewForeground}"
+            FontFamily="{DynamicResource IconFont}"
+            Text="&#xe66a;" />
+    </Border>
+</Window>

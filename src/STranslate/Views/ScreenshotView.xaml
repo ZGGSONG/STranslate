@@ -1,0 +1,34 @@
+﻿<Window x:Class="STranslate.Views.ScreenshotView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="ScreenshotView"
+        Width="1"
+        Height="1"
+        Background="Transparent"
+        Closed="Window_Closed"
+        Cursor="Cross"
+        IsTabStop="False"
+        PreviewMouseLeftButtonDown="Window_MouseLeftButtonDown"
+        PreviewMouseLeftButtonUp="Window_MouseLeftButtonUp"
+        PreviewMouseMove="Window_MouseMove"
+        PreviewMouseRightButtonDown="Window_MouseRightButtonDown"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        ResizeMode="NoResize"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        ShowInTaskbar="False"
+        Topmost="True"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <Canvas>
+        <Rectangle x:Name="LeftMask" Fill="#FF000000" Opacity="0.3" />
+        <Rectangle x:Name="RightMask" Fill="#FF000000" Opacity="0.3" />
+        <Rectangle x:Name="UpMask" Fill="#FF000000" Opacity="0.3" />
+        <Rectangle x:Name="DownMask" Fill="#FF000000" Opacity="0.3" />
+        <!-- Horizontal Line -->
+        <Line x:Name="HorizontalLine" Stroke="#92caf4" StrokeThickness="1" />
+        <!-- Vertical Line -->
+        <Line x:Name="VerticalLine" Stroke="#92caf4" StrokeThickness="1" />
+    </Canvas>
+</Window>

@@ -1,0 +1,118 @@
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.BackupPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
+    d:DataContext="{d:DesignInstance Type=vm:BackupViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:FontFamily="{DynamicResource UserFont}"
+    d:FontSize="{DynamicResource FontSize18}"
+    Style="{StaticResource ResourceKey=Page_Style}"
+    mc:Ignorable="d">
+    <Border CornerRadius="5">
+        <StackPanel>
+            <!--  // 备份、恢复 //  -->
+            <Border
+                Margin="8"
+                props:ThemeProps.Background="{DynamicResource BorderContentBackground}"
+                CornerRadius="5">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Margin="20,10">
+                        <TextBlock Text="{DynamicResource Backup.BackupType}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.BackupType.Tooltip}" />
+                        <ComboBox
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            BorderThickness="1"
+                            DisplayMemberPath="Description"
+                            ItemsSource="{Binding Source={common:Enumeration {x:Type model:BackupType}}}"
+                            SelectedValue="{Binding BackupType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="Value" />
+                    </DockPanel>
+
+
+                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                        <TextBlock Text="{DynamicResource Backup.Address}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.Address.Tooltip}" />
+                        <common:PlaceholderTextBox
+                            MinWidth="200"
+                            MaxWidth="400"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Placeholder="{DynamicResource Backup.Address.Placeholder}"
+                            Text="{Binding WebDavUrl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </DockPanel>
+
+                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                        <TextBlock Text="{DynamicResource Backup.Username}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.Username.Tooltip}" />
+                        <common:PlaceholderTextBox
+                            MinWidth="200"
+                            MaxWidth="400"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Placeholder="{DynamicResource Backup.Username.Placeholder}"
+                            Text="{Binding WebDavUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    </DockPanel>
+
+                    <DockPanel Margin="20,10" Visibility="{Binding BackupType, Converter={StaticResource EnumToVisibilityConverter}}">
+                        <TextBlock Text="{DynamicResource Backup.Password}" />
+                        <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Backup.Password.Tooltip}" />
+                        <common:PlaceholderTextBox
+                            MinWidth="200"
+                            MaxWidth="400"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
+                            Placeholder="{DynamicResource Backup.Password.Placeholder}"
+                            Text="{Binding WebDavPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                        <PasswordBox
+                            MinWidth="200"
+                            MaxWidth="400"
+                            HorizontalAlignment="Right"
+                            common:BoundPasswordBox.Attach="True"
+                            common:BoundPasswordBox.Password="{Binding WebDavPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            DockPanel.Dock="Right"
+                            Tag="{DynamicResource Backup.Password.Placeholder}"
+                            ToolTip="{Binding WebDavPassword}"
+                            Visibility="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <Button
+                            HorizontalAlignment="Right"
+                            Command="{Binding ShowEncryptInfoCommand}"
+                            CommandParameter="WebDavPassword"
+                            Content="{Binding IsWebDavPasswordHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource ButtonIconStyle}" />
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+
+            <Grid Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Margin="40,0"
+                    Command="{Binding BackupCommand}"
+                    Content="{DynamicResource Backup.Export}"
+                    FontSize="{DynamicResource FontSize24}" />
+
+                <Button
+                    Grid.Column="1"
+                    Margin="40,0"
+                    Command="{Binding RestoreCommand}"
+                    Content="{DynamicResource Backup.Import}"
+                    FontSize="{DynamicResource FontSize24}" />
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  // Border //  -->
+    <SolidColorBrush x:Key="BorderBackground">#ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderBrushColor">#dfdfdf</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderBrushColorEnabled">#7dc172</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderContentBackground">#f6f6f6</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderLangBackground">#eaeaea</SolidColorBrush>
+
+    <!--  // Button //  -->
+    <SolidColorBrush x:Key="ThemeAccentColor">#af67c1</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnForeground">#787a7f</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnBackground">#f6f6f6</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnMouseOverBackground">#eaeaea</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnPressedBackground">#dddddd</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnDisabledBackground">#f0f1f1</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnClosedMouseOverBackground">#c42b1c</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnClosedPressedBackground">#b53827</SolidColorBrush>
+
+    <!--  // ComboBox //  -->
+    <SolidColorBrush x:Key="ComboBoxBackground">#ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="ComboBoxItemMouseOverBackground">#eaeaea</SolidColorBrush>
+
+    <!--  // ContextMenu //  -->
+    <Color x:Key="ContextMenuDropShadowEffectColor">#1e1e1e00</Color>
+    <SolidColorBrush x:Key="MenuItemDisabledForeground">#98989c</SolidColorBrush>
+    <SolidColorBrush x:Key="MenuItemHighlighted">#EBEDF2</SolidColorBrush>
+
+    <!--  // Expander //  -->
+    <SolidColorBrush x:Key="ExpanderStrokeColor">#918C8C</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderMouseOverBackground">#EAEAEA</SolidColorBrush>
+    <SolidColorBrush x:Key="ExpanderPressedBackground">#DDDDDD</SolidColorBrush>
+
+    <!--  // ScrollViewer //  -->
+    <SolidColorBrush x:Key="ThumbBackground">#C2C3C9</SolidColorBrush>
+    <SolidColorBrush x:Key="ThumbMouseOverBackground">#686868</SolidColorBrush>
+    <SolidColorBrush x:Key="ThumbPressedBackground">#5B5B5B</SolidColorBrush>
+
+    <!--  // Separator //  -->
+    <SolidColorBrush x:Key="SeparatorBackground">#e5e5e5</SolidColorBrush>
+
+    <!--  // ToggleButton //  -->
+    <SolidColorBrush x:Key="ToggleBtnForeground">#7dc172</SolidColorBrush>
+    <SolidColorBrush x:Key="ToggleBtnBackground">#e9e9e9</SolidColorBrush>
+    <SolidColorBrush x:Key="ToggleBtnBrushColor">#e0e0e0</SolidColorBrush>
+    <SolidColorBrush x:Key="ToggleBtnThumbColor">#ffffff</SolidColorBrush>
+    <Color x:Key="ToggleBtnThumbDropShadowEffectColor">#88000000</Color>
+
+    <!--  // ToolTip //  -->
+    <SolidColorBrush x:Key="ToolTipBorderBrush">#dfdfdf</SolidColorBrush>
+    <SolidColorBrush x:Key="ToolTipBackground">#f6f6f6</SolidColorBrush>
+
+    <!--  // Navigation //  -->
+    <SolidColorBrush x:Key="NavigationSelected">#E4E6F1</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationForeground">#626262</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationBackground">#FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationMouseOverBackground">#F2F2F2</SolidColorBrush>
+    <SolidColorBrush x:Key="NavigationIndicatorMouseOverBackground">#d3d3d3</SolidColorBrush>
+
+    <!--  // TextBlock //  -->
+    <SolidColorBrush x:Key="TextBlockLangForeground">#999999</SolidColorBrush>
+    <SolidColorBrush x:Key="TextBlockToastViewForeground">#ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="TextBlockDisabledForeground">#bababa</SolidColorBrush>
+    <SolidColorBrush x:Key="HotkeyCollisionForeground">#ff0000</SolidColorBrush>
+
+    <!--  // TextBox //  -->
+    <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
+    <SolidColorBrush x:Key="TextForeground">#222222</SolidColorBrush>
+    <SolidColorBrush x:Key="TextErrorForeground">#aa0000</SolidColorBrush>
+    <SolidColorBrush x:Key="TextSelectionBrushColor">#eaeaea</SolidColorBrush>
+
+    <!--  // PasswordBox //  -->
+    <SolidColorBrush x:Key="PasswordBoxMouseOverBrushColor">#FF7EB4EA</SolidColorBrush>
+    <SolidColorBrush x:Key="PasswordBoxKeyboardFocusedBrushColor">#FF569DE5</SolidColorBrush>
+
+    <!--  // Popup //  -->
+    <Color x:Key="PopupDropShadowEffectColor">#FFB6B6B6</Color>
+
+    <!--  // Other //  -->
+    <SolidColorBrush x:Key="OfficialServiceColor">#7E4A35</SolidColorBrush>
+    <SolidColorBrush x:Key="UnOfficialServiceColor">#3D5C5C</SolidColorBrush>
+    <SolidColorBrush x:Key="ServiceTypeForeground">#FFFFFF</SolidColorBrush>
+</ResourceDictionary>

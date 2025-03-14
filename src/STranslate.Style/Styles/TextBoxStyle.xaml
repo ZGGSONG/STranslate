@@ -1,0 +1,152 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
+    <!--  // 输入框 //  -->
+    <Style x:Key="TextBoxInputStyle" TargetType="TextBox">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18TextBox}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="10,10,10,0" />
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="MaxHeight" Value="200" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <!--  // 输出框 //  -->
+    <Style x:Key="TextBoxOutputStyle" TargetType="TextBox">
+        <Setter Property="FontSize" Value="{DynamicResource FontSize18TextBox}" />
+        <Setter Property="ContextMenu" Value="{x:Null}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="Margin" Value="10,10,10,0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Tag}" Value="False">
+                <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextErrorForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  // OCR 文本框 //  -->
+    <Style x:Key="TextBoxOCRStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <!--  // 通用文本框 //  -->
+    <Style TargetType="TextBox">
+        <Setter Property="Padding" Value="5,2" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.CaretBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="props:ThemeProps.BorderBrush" Value="{DynamicResource TextBoxBorderBrushColor}" />
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <!--  // 通用文本框（带key） //  -->
+    <Style x:Key="CommonTB" TargetType="TextBox">
+        <Setter Property="Padding" Value="5,2" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.CaretBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="props:ThemeProps.BorderBrush" Value="{DynamicResource TextBoxBorderBrushColor}" />
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <!--  // PlaceholderTextBox Style //  -->
+    <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="common:PlaceholderTextBox" />
+
+    <!--  // 密码框 //  -->
+    <Style TargetType="PasswordBox">
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="props:ThemeProps.Foreground" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.CaretBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="props:ThemeProps.SelectionBrush" Value="{DynamicResource TextForeground}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5"
+                        SnapsToDevicePixels="True">
+                        <Grid>
+                            <TextBlock
+                                Name="markText"
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                Text="{TemplateBinding Tag}"
+                                Visibility="Collapsed" />
+                            <!--  Foreground="Gray"  -->
+                            <ScrollViewer
+                                x:Name="PART_ContentHost"
+                                MinHeight="20"
+                                VerticalAlignment="Center"
+                                Focusable="false"
+                                HorizontalScrollBarVisibility="Hidden"
+                                VerticalScrollBarVisibility="Hidden" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxMouseOverBrushColor}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource PasswordBoxKeyboardFocusedBrushColor}" />
+                        </Trigger>
+                        <Trigger Property="common:BoundPasswordBox.Password" Value="">
+                            <Setter TargetName="markText" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="common:BoundPasswordBox.Password" Value="">
+                            <Setter TargetName="markText" Property="props:ThemeProps.Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

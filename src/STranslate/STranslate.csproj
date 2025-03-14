@@ -1,0 +1,177 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ApplicationIcon>..\STranslate.Style\Resources\favicon.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyVersion>1.4.1.0313</AssemblyVersion>
+    <FileVersion>1.4.1.0313</FileVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Copyright>ZGGSONG</Copyright>
+    <BaseOutputPath>..\..\bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <!--// Release 模式下禁用 Debug 信息 //-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="install_startup.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="uninstall_startup.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="z_uninstall.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cleanocr.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    
+	<!--// PaddleOCR模型文件 //-->
+    <Content Include="inference\japan_dict.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\japan_PP-OCRv3_rec_infer\inference.pdiparams">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\japan_PP-OCRv3_rec_infer\inference.pdiparams.info">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\japan_PP-OCRv3_rec_infer\inference.pdmodel">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_dict.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_PP-OCRv3_rec_infer\inference.pdiparams">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_PP-OCRv3_rec_infer\inference.pdiparams.info">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\korean_PP-OCRv3_rec_infer\inference.pdmodel">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdiparams">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdiparams.info">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="inference\Multilingual_PP-OCRv3_det_slim_infer\inference.pdmodel">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AlibabaCloud.SDK.Alimt20181012" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Dapper.Contrib" />
+    <PackageReference Include="EdgeTTS.Net" />
+    <PackageReference Include="gong-wpf-dragdrop" />
+    <PackageReference Include="H.InputSimulator" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" />
+    <PackageReference Include="Microsoft.CognitiveServices.Speech" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
+    <PackageReference Include="NAudio" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="PaddleOCRSharp" />
+    <PackageReference Include="ScreenGrab" />
+    <PackageReference Include="System.Private.Uri" />
+    <PackageReference Include="System.Speech" />
+    <PackageReference Include="TencentCloudSDK.Tmt" />
+    <PackageReference Include="WebDav.Client" />
+    <PackageReference Include="WeChatOcr" />
+    <PackageReference Include="WpfScreenHelper" />
+    <PackageReference Include="XamlFlair.WPF" />
+    <PackageReference Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\STranslate.Log\STranslate.Log.csproj" />
+    <ProjectReference Include="..\STranslate.Util\STranslate.Util.csproj" />
+    <ProjectReference Include="..\STranslate.Style\STranslate.Style.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\STranslate.Util\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="localmode">
+      <HintPath>..\STranslate.Util\localmode.dll</HintPath>
+    </Reference>
+    <Reference Include="WeChatOcr">
+      <HintPath>..\STranslate.Util\WeChatOcr.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Preference\AboutPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\BackupPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\ServicePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\ReplacePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\Service\PromptDialog.xaml.cs">
+	  <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\OCRPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\VocabularyBookPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\TTSPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\HotkeyPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\FavoritePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Preference\HistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Preference\OCR\GoogleOCRPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Preference\OCR\OpenAIOCRPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Preference\TTS\TTSLingvaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Preference\OCR\WeChatOCRPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

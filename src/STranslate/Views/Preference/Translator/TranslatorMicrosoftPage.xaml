@@ -1,0 +1,190 @@
+﻿<UserControl
+    x:Class="STranslate.Views.Preference.Translator.TranslatorMicrosoftPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels.Preference.Translator"
+    d:DataContext="{d:DesignInstance Type=vm:TranslatorMicrosoft}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    FontSize="{DynamicResource FontSize18}"
+    mc:Ignorable="d">
+    <Border
+        Padding="10,20"
+        props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
+        BorderThickness="1"
+        CornerRadius="4">
+        <StackPanel>
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource Service.Name}" />
+
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    Placeholder="微软翻译"
+                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource Service.Api}" />
+
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="304"
+                    HorizontalAlignment="Left"
+                    Placeholder="https://api.cognitive.microsofttranslator.com"
+                    Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="38" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Region: " />
+
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Placeholder="southeaseasia"
+                    Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <PasswordBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    common:BoundPasswordBox.Attach="True"
+                    common:BoundPasswordBox.Password="{Binding AppID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Tag="southeaseasia"
+                    ToolTip="{Binding AppID}"
+                    Visibility="{Binding IdHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <Button
+                    Grid.Column="2"
+                    Command="{Binding ShowEncryptInfoCommand}"
+                    CommandParameter="AppID"
+                    Content="{Binding IdHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="38" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Key: " />
+
+                <common:PlaceholderTextBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Placeholder="Key"
+                    Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <PasswordBox
+                    Grid.Column="1"
+                    MinWidth="160"
+                    HorizontalAlignment="Left"
+                    common:BoundPasswordBox.Attach="True"
+                    common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Tag="Key"
+                    ToolTip="{Binding AppKey}"
+                    Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <Button
+                    Grid.Column="2"
+                    Command="{Binding ShowEncryptInfoCommand}"
+                    CommandParameter="AppKey"
+                    Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                    Style="{DynamicResource ButtonIconStyle}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource Service.AutoExecute}" ToolTip="{DynamicResource Service.AutoExecute.Tooltip}" />
+
+                <ToggleButton
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding AutoExecute}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource Service.LinkTest}" />
+
+                <Button
+                    Grid.Column="1"
+                    MinWidth="80"
+                    HorizontalAlignment="Left"
+                    Command="{Binding TestCommand}"
+                    Content="{DynamicResource Service.Verify}"
+                    Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                <Button
+                    Grid.Column="1"
+                    MinWidth="80"
+                    HorizontalAlignment="Left"
+                    Command="{Binding TestCancelCommand}"
+                    Content="{DynamicResource Cancel}"
+                    Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+
+            <Grid Margin="0,10" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource Service.Icon}" />
+
+                <ComboBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    BorderThickness="1"
+                    ItemsSource="{Binding Icons}"
+                    SelectedValue="{Binding Icon}"
+                    SelectedValuePath="Key"
+                    Style="{DynamicResource IconComboBoxStyle}" />
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Other: " />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="10,0"
+                    ToolTip="{DynamicResource Service.OpenInBrower}">
+                    <Hyperlink Click="Hyperlink_Click">
+                        <ContentControl Content="{DynamicResource Service.EnterOfficialWebsite}" />
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

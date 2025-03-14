@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <FontFamily x:Key="IconFont">/STranslate.Style;component/Fonts/#iconfont</FontFamily>
+    <FontFamily x:Key="UserFont">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
+    <FontFamily x:Key="LXGW WenKai">pack://application:,,,/STranslate.Style;component/Fonts/#LXGW WenKai</FontFamily>
+    <FontFamily x:Key="PingFang SC">pack://application:,,,/STranslate.Style;component/Fonts/#PingFang SC</FontFamily>
+
+    <sys:Double x:Key="FontSize30">30</sys:Double>
+    <sys:Double x:Key="FontSize24">24</sys:Double>
+    <sys:Double x:Key="FontSize22">22</sys:Double>
+    <sys:Double x:Key="FontSize21">21</sys:Double>
+    <sys:Double x:Key="FontSize20">20</sys:Double>
+    <sys:Double x:Key="FontSize19">19</sys:Double>
+    <sys:Double x:Key="FontSize18">18</sys:Double>
+    <sys:Double x:Key="FontSize17">17</sys:Double>
+    <sys:Double x:Key="FontSize16">16</sys:Double>
+    <sys:Double x:Key="FontSize14">14</sys:Double>
+    <sys:Double x:Key="FontSize12">12</sys:Double>
+    <sys:Double x:Key="FontSize10">10</sys:Double>
+    <sys:Double x:Key="FontSize18TextBox">18</sys:Double>
+</ResourceDictionary>

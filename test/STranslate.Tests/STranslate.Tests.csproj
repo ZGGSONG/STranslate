@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ocr_test.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\STranslate\STranslate.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\ocr_test.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>

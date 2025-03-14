@@ -1,0 +1,844 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--#region Constant-->
+
+    <system:String x:Key="Constant.NeweastVersionInfo">恭喜您，當前為最新版本！</system:String>
+    <system:String x:Key="Constant.Loading">載入中...</system:String>
+    <system:String x:Key="Constant.Unloading">載入結束...</system:String>
+    <system:String x:Key="Constant.PlaceHolderContent">Enter 翻譯/緩存/nCtrl+Enter 強制翻譯/nShift+Enter 換行</system:String>
+    <system:String x:Key="Constant.InputErrorContent">本服務未獲取到緩存Ctrl+Enter更新</system:String>
+    <system:String x:Key="Constant.HistoryErrorContent">本服務翻譯時未正確返回Ctrl+Enter以更新</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 其他-->
+
+    <system:String x:Key="Confirm">確認</system:String>
+    <system:String x:Key="Cancel">取消</system:String>
+    <system:String x:Key="Yes">是</system:String>
+    <system:String x:Key="No">否</system:String>
+    <system:String x:Key="Admin">[管理員]</system:String>
+    <system:String x:Key="Start">已啟動...</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Enum-->
+
+    <system:String x:Key="LangEnum.auto">自動選擇</system:String>
+    <system:String x:Key="LangEnum.zh_cn">中文</system:String>
+    <system:String x:Key="LangEnum.zh_tw">中文繁體</system:String>
+    <system:String x:Key="LangEnum.yue">中文粵語</system:String>
+    <system:String x:Key="LangEnum.en">英語</system:String>
+    <system:String x:Key="LangEnum.ja">日語</system:String>
+    <system:String x:Key="LangEnum.ko">韓語</system:String>
+    <system:String x:Key="LangEnum.fr">法語</system:String>
+    <system:String x:Key="LangEnum.es">西班牙語</system:String>
+    <system:String x:Key="LangEnum.ru">俄語</system:String>
+    <system:String x:Key="LangEnum.de">德語</system:String>
+    <system:String x:Key="LangEnum.it">義大利語</system:String>
+    <system:String x:Key="LangEnum.tr">土耳其語</system:String>
+    <system:String x:Key="LangEnum.pt_pt">葡萄牙語</system:String>
+    <system:String x:Key="LangEnum.pt_br">布列塔尼語</system:String>
+    <system:String x:Key="LangEnum.vi">越南語</system:String>
+    <system:String x:Key="LangEnum.id">印尼語</system:String>
+    <system:String x:Key="LangEnum.th">泰語</system:String>
+    <system:String x:Key="LangEnum.ms">馬來語</system:String>
+    <system:String x:Key="LangEnum.ar">阿拉伯語</system:String>
+    <system:String x:Key="LangEnum.hi">印地語</system:String>
+    <system:String x:Key="LangEnum.mn_cy">蒙古語(西里爾)</system:String>
+    <system:String x:Key="LangEnum.mn_mo">蒙古語</system:String>
+    <system:String x:Key="LangEnum.km">高棉語</system:String>
+    <system:String x:Key="LangEnum.nb_no">書面挪威語</system:String>
+    <system:String x:Key="LangEnum.nn_no">新挪威語</system:String>
+    <system:String x:Key="LangEnum.fa">波斯語</system:String>
+    <system:String x:Key="LangEnum.sv">瑞典語</system:String>
+    <system:String x:Key="LangEnum.pl">波蘭語</system:String>
+    <system:String x:Key="LangEnum.nl">荷蘭語</system:String>
+    <system:String x:Key="LangEnum.uk">烏克蘭語</system:String>
+
+    <system:String x:Key="ThemeType.Light">明亮主題</system:String>
+    <system:String x:Key="ThemeType.Dark">黑暗主題</system:String>
+    <system:String x:Key="ThemeType.FollowSystem">跟隨系統</system:String>
+    <system:String x:Key="ThemeType.FollowApp">跟隨軟體</system:String>
+
+    <system:String x:Key="LangDetectType.Local">本地識別</system:String>
+    <system:String x:Key="LangDetectType.Baidu">百度識別</system:String>
+    <system:String x:Key="LangDetectType.Tencent">騰訊識別</system:String>
+    <system:String x:Key="LangDetectType.Niutrans">小牛識別</system:String>
+    <system:String x:Key="LangDetectType.Bing">必應識別</system:String>
+    <system:String x:Key="LangDetectType.Yandex">Yandex</system:String>
+    <system:String x:Key="LangDetectType.Google">谷歌識別</system:String>
+    <system:String x:Key="LangDetectType.Microsoft">微軟識別</system:String>
+
+    <system:String x:Key="LineBreakHandlingMode.None">不處理換行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多餘換行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有換行</system:String>
+
+    <system:String x:Key="OcrImageQualityEnum.Low">低品質</system:String>
+    <system:String x:Key="OcrImageQualityEnum.Medium">中等品質</system:String>
+    <system:String x:Key="OcrImageQualityEnum.High">高品質</system:String>
+
+    <system:String x:Key="DoubleTapFuncEnum.InputFunc">輸入翻譯</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ScreenFunc">截圖翻譯</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.MouseHookFunc">滑鼠取詞</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.OCRFunc">文字識別</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ShowViewFunc">顯示界面</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.PreferenceFunc">偏好設定</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ForbidShortcutFunc">禁用熱鍵</system:String>
+    <system:String x:Key="DoubleTapFuncEnum.ExitFunc">退出程式</system:String>
+
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelySmall">特小(14px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraSmall">超小(15px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VerySmall">很小(16px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Small">小(17px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.General">標準(18px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.Big">大(19px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.VeryBig">很大(20px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.UltraBig">超大(21px)</system:String>
+    <system:String x:Key="GlobalFontSizeEnum.ExtremelyBig">特大(22px)</system:String>
+
+    <system:String x:Key="ProxyMethodEnum.NoProxy">不使用代理</system:String>
+    <system:String x:Key="ProxyMethodEnum.SystemProxy">系統代理</system:String>
+    <system:String x:Key="ProxyMethodEnum.Http">Http</system:String>
+    <system:String x:Key="ProxyMethodEnum.Socks5">Socks5</system:String>
+
+    <system:String x:Key="AnimationSpeedEnum.Slow">較慢(300ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Middle">適中(200ms)</system:String>
+    <system:String x:Key="AnimationSpeedEnum.Fast">較快(150ms)</system:String>
+
+    <system:String x:Key="BaiduOCRAction.accurate">高精度含位置版</system:String>
+    <system:String x:Key="BaiduOCRAction.accurate_basic">高精度版</system:String>
+    <system:String x:Key="BaiduOCRAction.general">標準含位置版</system:String>
+    <system:String x:Key="BaiduOCRAction.general_basic">標準版</system:String>
+
+    <system:String x:Key="TencentOCRAction.GeneralBasicOCR">通用印刷體識別</system:String>
+    <system:String x:Key="TencentOCRAction.GeneralAccurateOCR">通用印刷體識別(高精度版)</system:String>
+
+    <system:String x:Key="VolcengineOCRAction.OCRNormal">通用文字識別</system:String>
+    <system:String x:Key="VolcengineOCRAction.MultiLanguageOCR">多語種OCR</system:String>
+
+    <system:String x:Key="IconType.STranslate">本地</system:String>
+    <system:String x:Key="IconType.DeepL">DeepL</system:String>
+    <system:String x:Key="IconType.Baidu">百度</system:String>
+    <system:String x:Key="IconType.Google">谷歌</system:String>
+    <system:String x:Key="IconType.Iciba">愛詞霸</system:String>
+    <system:String x:Key="IconType.Youdao">有道</system:String>
+    <system:String x:Key="IconType.Bing">必應</system:String>
+    <system:String x:Key="IconType.OpenAI">OpenAI</system:String>
+    <system:String x:Key="IconType.Gemini">Gemini</system:String>
+    <system:String x:Key="IconType.Tencent">騰訊</system:String>
+    <system:String x:Key="IconType.Ali">阿里</system:String>
+    <system:String x:Key="IconType.Niutrans">小牛</system:String>
+    <system:String x:Key="IconType.Caiyun">彩雲</system:String>
+    <system:String x:Key="IconType.Microsoft">微軟</system:String>
+    <system:String x:Key="IconType.Volcengine">火山</system:String>
+    <system:String x:Key="IconType.Ecdict">簡明漢字詞典</system:String>
+    <system:String x:Key="IconType.Azure">Azure</system:String>
+    <system:String x:Key="IconType.Chatglm">智譜清言</system:String>
+    <system:String x:Key="IconType.Linyi">零一萬物</system:String>
+    <system:String x:Key="IconType.DeepSeek">DeepSeek</system:String>
+    <system:String x:Key="IconType.Groq">Groq</system:String>
+    <system:String x:Key="IconType.PaddleOCR">PaddleOCR</system:String>
+    <system:String x:Key="IconType.BaiduBce">百度雲平台</system:String>
+    <system:String x:Key="IconType.TencentOCR">騰訊OCR</system:String>
+    <system:String x:Key="IconType.Ollama">Ollama</system:String>
+    <system:String x:Key="IconType.Kimi">Kimi</system:String>
+    <system:String x:Key="IconType.Lingva">Lingva</system:String>
+    <system:String x:Key="IconType.WeChat">微信</system:String>
+    <system:String x:Key="IconType.Claude">Claude</system:String>
+    <system:String x:Key="IconType.EuDict">歐陸詞典</system:String>
+    <system:String x:Key="IconType.Yandex">Yandex</system:String>
+
+    <system:String x:Key="BackupType.Local">本地</system:String>
+    <system:String x:Key="BackupType.WebDav">WebDav</system:String>
+
+    <system:String x:Key="STranslateMode.Brower">模式一</system:String>
+    <system:String x:Key="STranslateMode.IOS">模式二</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Toast-->
+
+    <system:String x:Key="Toast.Copy">複製</system:String>
+    <system:String x:Key="Toast.Speak">播報</system:String>
+    <system:String x:Key="Toast.Result">結果</system:String>
+    <system:String x:Key="Toast.DeleteSuccess">刪除成功</system:String>
+    <system:String x:Key="Toast.CopySuccess">複製成功</system:String>
+    <system:String x:Key="Toast.ClearSuccess">清理成功</system:String>
+    <system:String x:Key="Toast.CopySnakeSuccess">蛇形複製成功</system:String>
+    <system:String x:Key="Toast.CopySmallHumpSuccess">小駝峰複製成功</system:String>
+    <system:String x:Key="Toast.CopyLargeHumpSuccess">大駝峰複製成功</system:String>
+    <system:String x:Key="Toast.SpeakInputContent">播報輸入內容</system:String>
+    <system:String x:Key="Toast.AutoTransBack">自動回譯</system:String>
+    <system:String x:Key="Toast.Open">打開</system:String>
+    <system:String x:Key="Toast.Close">關閉</system:String>
+    <system:String x:Key="Toast.KeepAtListOneTranslator">至少保留一個服務</system:String>
+    <system:String x:Key="Toast.NoOCR">未啟用OCR服務</system:String>
+    <system:String x:Key="Toast.SaveSuccess">保存成功</system:String>
+    <system:String x:Key="Toast.SaveFailed">保存失敗</system:String>
+    <system:String x:Key="Toast.ResetConf">重置配置</system:String>
+    <system:String x:Key="Toast.SaveTo">保存至</system:String>
+    <system:String x:Key="Toast.Success">成功</system:String>
+    <system:String x:Key="Toast.Failed">失敗</system:String>
+    <system:String x:Key="Toast.RemoveSpace">移除空格</system:String>
+    <system:String x:Key="Toast.RemoveLinebreak">移除換行</system:String>
+    <system:String x:Key="Toast.EnableSticky">啟用置頂</system:String>
+    <system:String x:Key="Toast.DisableSticky">關閉置頂</system:String>
+    <system:String x:Key="Toast.PleaseSelectImg">請選擇圖片</system:String>
+    <system:String x:Key="Toast.ClipboardNoImgRecently">剪貼板最近無圖片</system:String>
+    <system:String x:Key="Toast.NoQRCode">未識別到二維碼</system:String>
+    <system:String x:Key="Toast.WordSelect">滑鼠取詞</system:String>
+    <system:String x:Key="Toast.AutoTranslate">自動翻譯</system:String>
+    <system:String x:Key="Toast.IncrementalTranslate">增量翻譯</system:String>
+    <system:String x:Key="Toast.Show">隱藏</system:String>
+    <system:String x:Key="Toast.Hide">顯示</system:String>
+    <system:String x:Key="Toast.LangView">語言框</system:String>
+    <system:String x:Key="Toast.Export">匯出</system:String>
+    <system:String x:Key="Toast.Import">匯入</system:String>
+    <system:String x:Key="Toast.PleaseCheckCnfOrLog">請檢查配置或查看日誌</system:String>
+    <system:String x:Key="Toast.DeleteFailed">刪除失敗</system:String>
+    <system:String x:Key="Toast.DeleteAllSuccess">全部刪除成功</system:String>
+    <system:String x:Key="Toast.SingleCharInfo">單字符可能会影响使用</system:String>
+    <system:String x:Key="Toast.DropPrompFile">請拖入Prompt文件</system:String>
+    <system:String x:Key="Toast.ImportEmpty">匯入內容為空</system:String>
+    <system:String x:Key="Toast.NoSelectPrompt">未選擇Prompt</system:String>
+    <system:String x:Key="Toast.DownloadStart">開始下載</system:String>
+    <system:String x:Key="Toast.DownloadComplete">下載完成</system:String>
+    <system:String x:Key="Toast.DownloadCancel">取消下載</system:String>
+    <system:String x:Key="Toast.DownloadException">下載時發生異常</system:String>
+    <system:String x:Key="Toast.Decompress">解壓數據包</system:String>
+    <system:String x:Key="Toast.LoadDataSuccess">載入數據包成功</system:String>
+    <system:String x:Key="Toast.DecompressFailed">解壓失敗,請重新啟動再試</system:String>
+    <system:String x:Key="Toast.DataIntegrity">數據完整</system:String>
+    <system:String x:Key="Toast.MissingData">數據缺失</system:String>
+    <system:String x:Key="Toast.DeleteFailedInfo">刪除失敗,請重新啟動再試</system:String>
+    <system:String x:Key="Toast.UnSupport">不支援</system:String>
+    <system:String x:Key="Toast.NoPaddleOCRData">離線數據不完整,請前往PaddleOCR配置頁面進行下載</system:String>
+    <system:String x:Key="Toast.VerifySuccess">驗證成功</system:String>
+    <system:String x:Key="Toast.VerifyFailed">驗證失敗</system:String>
+    <system:String x:Key="Toast.QuerySuccess">查詢成功</system:String>
+    <system:String x:Key="Toast.QueryFailed">查詢失敗</system:String>
+    <system:String x:Key="Toast.QueryCanceled">取消查詢</system:String>
+    <system:String x:Key="Toast.TTSFailed">文本轉語音失敗</system:String>
+    <system:String x:Key="Toast.NoTTS">未啟用TTS服務</system:String>
+    <system:String x:Key="Toast.TTSNotEnd">當前語音未結束</system:String>
+    <system:String x:Key="Toast.CheckVocabularyConf">請檢查生詞本配置</system:String>
+    <system:String x:Key="Toast.RenameFailed">修改名稱失敗</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 首选项-->
+
+    <system:String x:Key="Preference.WindowTitleInTaskbar">STranslate 首選項</system:String>
+    <system:String x:Key="Preference.WindowTitle">首選項</system:String>
+    <system:String x:Key="Preference.Navi.Common">常規設置</system:String>
+    <system:String x:Key="Preference.Navi.Hotkey">熱鍵設置</system:String>
+    <system:String x:Key="Preference.Navi.Service">服務設置</system:String>
+    <system:String x:Key="Preference.Navi.Replace">替換翻譯</system:String>
+    <system:String x:Key="Preference.Navi.History">歷史記錄</system:String>
+    <system:String x:Key="Preference.Navi.Backup">匯入匯出</system:String>
+    <system:String x:Key="Preference.Navi.About">關於軟體</system:String>
+
+    <system:String x:Key="Preference.Reset">撤回</system:String>
+    <system:String x:Key="Preference.Save">保存</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 设置相关-->
+
+    <!--#region Common 设置项-->
+    <system:String x:Key="Common.Title">常規配置</system:String>
+    <system:String x:Key="Common.AutoStart">開機自啟動</system:String>
+    <system:String x:Key="Common.AppLanguage">軟體語言</system:String>
+    <system:String x:Key="Common.NeedAdmin">管理員啟動</system:String>
+    <system:String x:Key="Common.AutoTranslate">自動翻譯</system:String>
+    <system:String x:Key="Common.ThemeSelection">主題選擇</system:String>
+    <system:String x:Key="Common.FontSelection">字體選擇[立即生效]</system:String>
+    <system:String x:Key="Common.GlobalFontSize">全局字體大小[立即生效]</system:String>
+    <system:String x:Key="Common.DisableGlobalHotkeys">禁用全局快捷鍵</system:String>
+    <system:String x:Key="Common.IgnoreHotkeysOnFullscreen">全螢幕模式下忽略快捷鍵</system:String>
+    <system:String x:Key="Common.OftenUsedLang">常用語言</system:String>
+    <system:String x:Key="Common.OftenUsedLangSetButton">點擊設置</system:String>
+    <system:String x:Key="Common.LangDetect">語種識別</system:String>
+    <system:String x:Key="Common.LangDetectRatio">語種識別比例(zh-en)</system:String>
+    <system:String x:Key="Common.WordPickingInterval">取詞時間間隔</system:String>
+    <system:String x:Key="Common.DoubleTapTrayFunc">雙擊托盤功能</system:String>
+    <system:String x:Key="Common.HistorySize">歷史記錄數量</system:String>
+    <system:String x:Key="Common.HistorySize.50">50 條</system:String>
+    <system:String x:Key="Common.HistorySize.100">100 條</system:String>
+    <system:String x:Key="Common.HistorySize.200">200 條</system:String>
+    <system:String x:Key="Common.HistorySize.500">500 條</system:String>
+    <system:String x:Key="Common.HistorySize.1000">1000 條</system:String>
+    <system:String x:Key="Common.HistorySize.Unlimited">無限制</system:String>
+    <system:String x:Key="Common.HistorySize.None">不保存</system:String>
+    <system:String x:Key="Common.SilentOcrLang">靜默OCR/截圖翻譯語種</system:String>
+    <system:String x:Key="Common.SourceLangIfAuto">語種識別為自動時使用</system:String>
+    <system:String x:Key="Common.TargetLangIfSourceZh">目標語種為自動且原始語種為中文時使用</system:String>
+    <system:String x:Key="Common.TargetLangIfSourceNotZh">目標語種為自動且原始語種為非中文時使用</system:String>
+    <system:String x:Key="Common.HttpTimeout">請求超時時間(秒)</system:String>
+
+    <!--  网络配置  -->
+    <system:String x:Key="Network.Title">網絡配置</system:String>
+    <system:String x:Key="Network.ExternalCall">外部調用服務(非代理)</system:String>
+    <system:String x:Key="Network.ExternalCallPort">外部調用埠</system:String>
+    <system:String x:Key="Network.ProxySettings">代理設置</system:String>
+    <system:String x:Key="Network.Server">伺服器</system:String>
+    <system:String x:Key="Network.Port">埠</system:String>
+    <system:String x:Key="Network.ProxyAuth">代理伺服器驗證</system:String>
+    <system:String x:Key="Network.Username">用戶名</system:String>
+    <system:String x:Key="Network.Password">密碼</system:String>
+    <system:String x:Key="Network.ServerPlaceholder">請輸入IP位址</system:String>
+    <system:String x:Key="Network.PortPlaceholder">請輸入埠號</system:String>
+    <system:String x:Key="Network.UsernamePlaceholder">請輸入用戶名</system:String>
+    <system:String x:Key="Network.PasswordPlaceholder">請輸入密碼</system:String>
+
+    <!--  功能配置  -->
+    <system:String x:Key="Function.Title">功能配置</system:String>
+    <system:String x:Key="Function.AdjustContentTranslate">主界面調整內容後立即翻譯</system:String>
+    <system:String x:Key="Function.ChangedLang2Execute">主界面修改語種後立即翻譯</system:String>
+    <system:String x:Key="Function.UsePasteOutput">替換翻譯使用剪貼簿輸出</system:String>
+    <system:String x:Key="Function.UseFormsCopy">剪貼簿佔用問題</system:String>
+    <system:String x:Key="Function.ScreenshotOcrAutoCopyText">截圖翻譯識別文本後自動複製</system:String>
+    <system:String x:Key="Function.LineBreakHandler">取詞換行處理</system:String>
+    <system:String x:Key="Function.LineBreakOCRHandler">OCR取詞換行處理</system:String>
+    <system:String x:Key="Function.OcrAutoCopyText">OCR後自動複製</system:String>
+    <system:String x:Key="Function.OcrChangedLang2Execute">OCR修改服務或語種後立即翻譯</system:String>
+    <system:String x:Key="Function.IncrementalTranslation">增量翻譯</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate">翻譯後自動複製</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.NoAction">無操作</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.First">第一個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Second">第二個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Third">第三個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fourth">第四個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Fifth">第五個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Sixth">第六個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Seventh">第七個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Eighth">第八個</system:String>
+    <system:String x:Key="Function.CopyResultAfterTranslate.Last">最後一個</system:String>
+    <system:String x:Key="Function.HotkeyCopySuccessToast">快捷鍵觸發複製成功提示</system:String>
+    <system:String x:Key="Function.OcrImageQuality">文字識別圖片品質</system:String>
+
+    <!--  显示配置  -->
+    <system:String x:Key="Display.Title">顯示配置</system:String>
+    <system:String x:Key="Display.HideOnStart">啟動時隱藏主界面</system:String>
+    <system:String x:Key="Display.DisableNoticeOnStart">啟動時不顯示通知</system:String>
+    <system:String x:Key="Display.UseCacheLocation">啟動時使用緩存位置</system:String>
+    <system:String x:Key="Display.AnimationSpeed">動畫速度</system:String>
+    <system:String x:Key="Display.ShowMainPlaceholder">輸入框水印</system:String>
+    <system:String x:Key="Display.OnlyShowRet">主界面僅顯示輸出界面</system:String>
+    <system:String x:Key="Display.HideLangWhenOnlyShowOutput">主界面僅顯示輸出界面時隱藏語言框</system:String>
+    <system:String x:Key="Display.TriggerShowHide">顯示界面重複觸發顯/隱</system:String>
+    <system:String x:Key="Display.MainViewMaxHeight">主界面最大高度[立即生效]</system:String>
+    <system:String x:Key="Display.MainViewWidth">主界面寬度[立即生效]</system:String>
+    <system:String x:Key="Display.InputViewMaxHeight">輸入框最大高度[立即生效]</system:String>
+    <system:String x:Key="Display.FollowMouse">視窗追隨滑鼠</system:String>
+    <system:String x:Key="Display.ShowAuxiliaryLine">截圖輔助線</system:String>
+    <system:String x:Key="Display.MainViewShadow">主視窗陰影(比較佔用性能)</system:String>
+    <system:String x:Key="Display.PromptToggleVisible">主界面顯示 Prompt 切換</system:String>
+    <system:String x:Key="Display.CloseUIOcrRetTranslate">OCR點擊翻譯後關閉界面</system:String>
+    <system:String x:Key="Display.KeepTopmostAfterMousehook">退出滑鼠取詞功能時保持置頂</system:String>
+    <system:String x:Key="Display.ShowCopyOnHeader">翻譯結果收縮框是否顯示按鈕</system:String>
+    <system:String x:Key="Display.CaretLast">顯示主窗口時光標移動至末尾[立即生效]</system:String>
+
+    <!--  图标配置  -->
+    <system:String x:Key="Icon.Title">圖示配置</system:String>
+    <system:String x:Key="Icon.ShowSnakeCopyBtn">顯示蛇形結果複製按鈕</system:String>
+    <system:String x:Key="Icon.ShowSmallHumpCopyBtn">顯示小駝峰結果複製按鈕</system:String>
+    <system:String x:Key="Icon.ShowLargeHumpCopyBtn">顯示大駝峰結果複製按鈕</system:String>
+    <system:String x:Key="Icon.ShowTranslateBackBtn">顯示回譯按鈕</system:String>
+    <system:String x:Key="Icon.ShowClose">顯示關閉圖示</system:String>
+    <system:String x:Key="Icon.StayMainViewWhenLoseFocus">失去焦點時主界面不隱藏</system:String>
+    <system:String x:Key="Icon.ShowMinimalBtn">顯示最小化圖示</system:String>
+    <system:String x:Key="Icon.ShowPreference">顯示設置圖示</system:String>
+    <system:String x:Key="Icon.ShowConfigureService">顯示服務配置圖示</system:String>
+    <system:String x:Key="Icon.ShowMainOcrLang">顯示靜默OCR/截圖翻譯語種選擇圖示</system:String>
+    <system:String x:Key="Icon.ShowMousehook">顯示滑鼠取詞圖示</system:String>
+    <system:String x:Key="Icon.ShowAutoTranslate">顯示自動翻譯圖示</system:String>
+    <system:String x:Key="Icon.ShowIncrementalTranslation">顯示增量翻譯圖示</system:String>
+    <system:String x:Key="Icon.ShowOnlyShowRet">顯示僅顯示輸出界面圖示</system:String>
+    <system:String x:Key="Icon.ShowTopmost">顯示置頂圖示</system:String>
+    <system:String x:Key="Icon.ShowScreenshot">顯示截圖翻譯圖示</system:String>
+    <system:String x:Key="Icon.ShowOCR">顯示OCR圖示</system:String>
+    <system:String x:Key="Icon.ShowSilentOCR">顯示靜默OCR圖示</system:String>
+    <system:String x:Key="Icon.ShowQRCode">顯示二維碼識別圖示</system:String>
+    <system:String x:Key="Icon.ShowHistory">顯示歷史記錄圖示</system:String>
+    <system:String x:Key="Icon.ShowClipboardMonitor">顯示剪貼簿監聽圖示</system:String>
+    <system:String x:Key="Icon.ShowReplaceTranslate">顯示替換翻譯圖示</system:String>
+    <system:String x:Key="Icon.ShowTTS">顯示TTS圖示</system:String>
+    <system:String x:Key="Icon.ShowCopy">顯示複製圖示</system:String>
+    <system:String x:Key="Icon.ShowCopySource">顯示複製原文圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAll">顯示複製全部圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSource">顯示複製全部原文圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAllResult">顯示複製全部結果圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceResult">顯示複製全部原文結果圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceAndResult">顯示複製全部原文和結果圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAllSourceWithResult">顯示複製全部原文與結果圖示</system:String>
+    <system:String x:Key="Icon.ShowCopyAllResultWithSource">顯示複製全部結果與原文圖示</system:String>
+
+    <!--  工具提示  -->
+    <system:String x:Key="Tooltip.AutoStartTip">開機時自動啟動軟體(該使用者登錄)</system:String>
+    <system:String x:Key="Tooltip.NeedAdminTip">以便全局快捷鍵在具有管理員權限的視窗也能響應</system:String>
+    <system:String x:Key="Tooltip.AppLanguageTip">切換軟體語言版本</system:String>
+    <system:String x:Key="Tooltip.AutoTranslateTip">輸入內容以後自動執行翻譯</system:String>
+    <system:String x:Key="Tooltip.ThemeSelectionTip">亮色主題、暗色主題、跟隨系統Windows模式、跟隨系統應用模式</system:String>
+    <system:String x:Key="Tooltip.FontSelectionTip">選擇系統中自帶字體</system:String>
+    <system:String x:Key="Tooltip.GlobalFontSizeTip">全局字體大小配置</system:String>
+    <system:String x:Key="Tooltip.DisableGlobalHotkeysTip">是否禁用全局快捷鍵</system:String>
+    <system:String x:Key="Tooltip.IgnoreHotkeysOnFullscreenTip">滑鼠所處顯示器應用全屏時禁用全局快捷鍵（建議遊戲時打開）</system:String>
+    <system:String x:Key="Tooltip.OftenUsedLangTip">配置選擇語言時顯示的語種列表</system:String>
+    <system:String x:Key="Tooltip.LangDetectTip">語種識別方式</system:String>
+    <system:String x:Key="Tooltip.LangDetectRatioTip">僅針對 本地識別 中英文情況下英文字符佔總字符數的比例</system:String>
+    <system:String x:Key="Tooltip.WordPickingIntervalTip">針對部分軟體取詞失敗的情況，延長取詞時間間隔</system:String>
+    <system:String x:Key="Tooltip.DoubleTapTrayFuncTip">滑鼠左鍵雙擊頭盤程序功能選擇</system:String>
+    <system:String x:Key="Tooltip.HistorySizeTip">歷史記錄最大數量設置</system:String>
+    <system:String x:Key="Tooltip.SilentOcrLangTip">靜默OCR/截圖翻譯時OCR的語種&#13;主界面可配置圖示快捷切換</system:String>
+    <system:String x:Key="Tooltip.SourceLangIfAutoTip">如果識別語種結果仍然為自動則使用该项指定語種&#13;僅當在線識別服務返回出錯情況才會觸發</system:String>
+    <system:String x:Key="Tooltip.TargetLangIfSourceZhTip">如果目標語種為自動且原始語種為中文時則使用该项指定語種</system:String>
+    <system:String x:Key="Tooltip.TargetLangIfSourceNotZhTip">如果目標語種為自動且原始語種為非中文時則使用该项指定語種</system:String>
+    <system:String x:Key="Tooltip.HttpTimeoutTip">服務請求的超時時間，單位為秒</system:String>
+    <system:String x:Key="Tooltip.ExternalCallTip">是否啟用外部調用服務</system:String>
+    <system:String x:Key="Tooltip.ExternalCallPortTip">配置服務埠進行外部調用</system:String>
+    <system:String x:Key="Tooltip.ProxySettingsTip">配置網路代理方式&#13;本地位址直連</system:String>
+    <system:String x:Key="Tooltip.ServerTip">代理伺服器IP位址</system:String>
+    <system:String x:Key="Tooltip.PortTip">代理伺服器埠</system:String>
+    <system:String x:Key="Tooltip.ProxyAuthTip">代理伺服器需要身份驗證</system:String>
+    <system:String x:Key="Tooltip.UsernameTip">代理伺服器用戶名</system:String>
+    <system:String x:Key="Tooltip.PasswordTip">代理伺服器密碼</system:String>
+    <system:String x:Key="Tooltip.AdjustContentTranslateTip">主界面調整內容後是否立即翻譯</system:String>
+    <system:String x:Key="Tooltip.ChangedLang2ExecuteTip">主界面修改選擇語言後立即翻譯</system:String>
+    <system:String x:Key="Tooltip.UsePasteOutputTip">替換翻譯輸出結果不完整時，可嘗試啟用此配置替代模擬鍵盤輸出</system:String>
+    <system:String x:Key="Tooltip.UseFormsCopyTip">如果出現剪貼簿被佔用了，可嘗試啟用此配置</system:String>
+    <system:String x:Key="Tooltip.ScreenshotOcrAutoCopyTextTip">截圖翻譯識別文本後自動複製文本內容</system:String>
+    <system:String x:Key="Tooltip.LineBreakHandlerTip">包括取詞、截圖翻譯、剪貼簿、靜默OCR取詞場景的換行處理</system:String>
+    <system:String x:Key="Tooltip.LineBreakOCRHandlerTip">針對OCR界面的換行處理</system:String>
+    <system:String x:Key="Tooltip.OcrAutoCopyTextTip">OCR界面識別文本後自動複製文本內容</system:String>
+    <system:String x:Key="Tooltip.OcrChangedLang2ExecuteTip">OCR頁面選擇服務或選擇語言後立即翻譯</system:String>
+    <system:String x:Key="Tooltip.IncrementalTranslationTip">開啟後增量添加文本進行翻譯</system:String>
+    <system:String x:Key="Tooltip.CopyResultAfterTranslateTip">配置翻譯結束後執行第幾個翻譯結果的複製操作</system:String>
+    <system:String x:Key="Tooltip.HotkeyCopySuccessToastTip">快捷鍵觸發複製成功提示是否顯示&#13;如果開啟翻譯後自動複製後彈框比較多可以關閉此項</system:String>
+    <system:String x:Key="Tooltip.OcrImageQualityTip">文字識別時圖片品質選擇</system:String>
+    <system:String x:Key="Tooltip.HideOnStartTip">啟動時不顯示主界面</system:String>
+    <system:String x:Key="Tooltip.DisableNoticeOnStartTip">啟動時不顯示通知</system:String>
+    <system:String x:Key="Tooltip.UseCacheLocationTip">啟動軟體時是否使用上次打開位置</system:String>
+    <system:String x:Key="Tooltip.AnimationSpeedTip">主界面顯示時的動畫速度</system:String>
+    <system:String x:Key="Tooltip.ShowMainPlaceholderTip">是否顯示主界面輸入框水印提示</system:String>
+    <system:String x:Key="Tooltip.OnlyShowRetTip">主界面是否只顯示輸出結果部分</system:String>
+    <system:String x:Key="Tooltip.HideLangWhenOnlyShowOutputTip">主界面僅顯示輸出結果時是否時隱藏語言界面</system:String>
+    <system:String x:Key="Tooltip.TriggerShowHideTip">重複觸發顯示界面功能為顯示(隱藏狀態下)/隱藏(顯示狀態下)</system:String>
+    <system:String x:Key="Tooltip.MainViewMaxHeightTip">主界面最大高度調整</system:String>
+    <system:String x:Key="Tooltip.MainViewWidthTip">主界面寬度調整</system:String>
+    <system:String x:Key="Tooltip.InputViewMaxHeightTip">輸入框最大高度調整</system:String>
+    <system:String x:Key="Tooltip.FollowMouseTip">輸入、截圖、取詞和監聽剪貼簿進行翻譯時&#13;主視窗彈出位置追隨滑鼠位置</system:String>
+    <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">截圖時是否顯示輔助線</system:String>
+    <system:String x:Key="Tooltip.MainViewShadowTip">主視窗是否顯示顯示陰影&#13;比較佔用性能請自行選擇</system:String>
+    <system:String x:Key="Tooltip.PromptToggleVisibleTip">主界面輸出UI是否顯示 Prompt 切換按鈕</system:String>
+    <system:String x:Key="Tooltip.CloseUIOcrRetTranslateTip">OCR界面點擊翻譯按鈕後進行翻譯的同時關閉OCR視窗</system:String>
+    <system:String x:Key="Tooltip.KeepTopmostAfterMousehookTip">關閉滑鼠取詞功能後保持視窗置頂</system:String>
+    <system:String x:Key="Tooltip.ShowCopyOnHeaderTip">翻譯結果收縮框收縮時上方是否顯示TTS、複製按鈕</system:String>
+    <system:String x:Key="Tooltip.CaretLastTip">激活視窗時光標移動至末尾</system:String>
+    <system:String x:Key="Tooltip.ShowSnakeCopyBtnTip">主界面輸出UI是否顯示複製蛇形結果按鈕</system:String>
+    <system:String x:Key="Tooltip.ShowSmallHumpCopyBtnTip">主界面輸出UI是否顯示複製小駝峰結果按鈕</system:String>
+    <system:String x:Key="Tooltip.ShowLargeHumpCopyBtnTip">主界面輸出UI是否顯示複製大駝峰結果按鈕</system:String>
+    <system:String x:Key="Tooltip.ShowTranslateBackBtnTip">主界面輸出UI是否顯示回譯按鈕</system:String>
+    <system:String x:Key="Tooltip.ShowCloseTip">主界面顯示關閉圖示</system:String>
+    <system:String x:Key="Tooltip.StayMainViewWhenLoseFocusTip">失去焦點時主界面不隱藏</system:String>
+    <system:String x:Key="Tooltip.ShowMinimalBtnTip">主界面顯示最小化圖示, 失去焦點時主界面不隱藏選項</system:String>
+    <system:String x:Key="Tooltip.ShowPreferenceTip">主界面顯示設置圖示</system:String>
+    <system:String x:Key="Tooltip.ShowConfigureServiceTip">主界面顯示服務配置圖示</system:String>
+    <system:String x:Key="Tooltip.ShowMainOcrLangTip">靜默OCR/截圖翻譯語種選擇圖示</system:String>
+    <system:String x:Key="Tooltip.ShowMousehookTip">主界面顯示滑鼠取詞圖示</system:String>
+    <system:String x:Key="Tooltip.ShowAutoTranslateTip">主界面顯示自動翻譯圖示</system:String>
+    <system:String x:Key="Tooltip.ShowIncrementalTranslationTip">主界面顯示增量翻譯圖示</system:String>
+    <system:String x:Key="Tooltip.ShowOnlyShowRetTip">主界面顯示僅顯示輸出界面圖示</system:String>
+    <system:String x:Key="Tooltip.ShowScreenshotTip">主界面顯示截圖翻譯圖示</system:String>
+    <system:String x:Key="Tooltip.ShowOCRTip">主界面顯示OCR圖示</system:String>
+    <system:String x:Key="Tooltip.ShowSilentOCRTip">主界面顯示靜默OCR圖示</system:String>
+    <system:String x:Key="Tooltip.ShowClipboardMonitorTip">主界面顯示監聽剪貼簿圖示</system:String>
+    <system:String x:Key="Tooltip.ShowQRCodeTip">主界面顯示識別二維碼圖示</system:String>
+    <system:String x:Key="Tooltip.ShowHistoryTip">主界面顯示歷史記錄圖示</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Hotkey 设置项-->
+
+    <system:String x:Key="Hotkey.Title">快捷鍵配置</system:String>
+    <system:String x:Key="Hotkey.GlobalHotkey">全局快捷鍵</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey">軟體快捷鍵</system:String>
+    <system:String x:Key="Hotkey.InputTranslate">輸入翻譯</system:String>
+    <system:String x:Key="Hotkey.CrosswordTranslate">劃詞翻譯</system:String>
+    <system:String x:Key="Hotkey.ScreenshotTranslate">截圖翻譯</system:String>
+    <system:String x:Key="Hotkey.ReplaceTranslate">替換翻譯</system:String>
+    <system:String x:Key="Hotkey.ShowInterface">顯示界面</system:String>
+    <system:String x:Key="Hotkey.MouseCrossword">滑鼠劃詞</system:String>
+    <system:String x:Key="Hotkey.OCR">文字識別</system:String>
+    <system:String x:Key="Hotkey.SilentOCR">靜默OCR</system:String>
+    <system:String x:Key="Hotkey.ClipboardMonitor">監聽剪貼簿</system:String>
+    <system:String x:Key="Hotkey.SilentTTS">靜默TTS</system:String>
+    <system:String x:Key="Hotkey.SaveConfig">保存配置</system:String>
+    <system:String x:Key="Hotkey.CancelModify">撤回修改</system:String>
+    <system:String x:Key="Hotkey.HotkeyConflict">快捷鍵衝突</system:String>
+    <system:String x:Key="Hotkey.ShortcutKey">快捷鍵</system:String>
+    <system:String x:Key="Hotkey.Function">功能</system:String>
+
+    <!--  软件热键  -->
+    <system:String x:Key="Hotkey.SoftHotkey.ESC">隱藏/退出界面(若有請求則同時取消該請求: 翻譯、OCR、TTS)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.OpenSettings">打開設置</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.OpenHistory">打開歷史記錄</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleAutoTranslate">打開/關閉自動翻譯</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleIncrementalTranslation">打開/關閉增量翻譯</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleInputBox">隱藏/顯示輸入框</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetWindowPosition">重置視窗至主顯示器中央</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleTopmost">置頂/取消置頂</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.SwitchTheme">切換主題(自動/明亮/黑暗主題切換)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.SaveToVocabulary">保存至生詞本</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ExitProgram">退出程式</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomInText">在輸入輸出文本框配合Ctrl滾輪放大文字</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomOutText">在輸入輸出文本框配合Ctrl滾輪縮小文字</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetTextSize">文本框恢復預設文字大小</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.CopyTranslationByService">按服務順序複製翻譯結果</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.CopyLastTranslation">複製最後一條服務翻譯結果</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.TTSInput">語音播報輸入內容</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.TTSByService">按服務順序語音播報翻譯結果</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.TTSLastTranslation">語音播報最後一條服務翻譯結果</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomInUI">放大界面(寬度、最大高度)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ZoomOutUI">縮小界面(寬度、最大高度)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetUI">恢復預設界面(寬度、最大高度)</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.IncreaseWidth">寬度增加</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.DecreaseWidth">寬度減少</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.IncreaseMaxHeight">最大高度增加</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.DecreaseMaxHeight">最大高度減少</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.DecreaseFontSize">全局字體減小</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.IncreaseFontSize">全局字體增大</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ResetFontSize">全局字體恢復預設</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleLineBreakMode">切換換行處理模式</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.ToggleBackTranslation">打開/關閉回譯功能</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithMouseWheelUp">Ctrl + 滾輪上</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithMouseWheelDown">Ctrl + 滾輪下</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithReturn">Ctrl + 點擊換行圖示</system:String>
+    <system:String x:Key="Hotkey.SoftHotkey.Key.CtrlWithTransBack">Ctrl + 點擊回譯圖示</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Service 设置项-->
+
+    <system:String x:Key="Service.Navi.Translator">文本翻譯</system:String>
+    <system:String x:Key="Service.Navi.OCR">文本識別</system:String>
+    <system:String x:Key="Service.Navi.TTS">語音合成</system:String>
+    <system:String x:Key="Service.Navi.VocabularyBook">生詞本</system:String>
+    <system:String x:Key="Service.Translator.Title">服務</system:String>
+    <system:String x:Key="Service.Translator.SubTitle">翻譯功能的核心服務支援配置，下方開啟的服務將被使用。</system:String>
+    <system:String x:Key="Service.Translator.Duplicate">建立副本</system:String>
+    <system:String x:Key="Service.Translator.Delete">刪除副本</system:String>
+    <system:String x:Key="Service.OCR.Title">文本識別</system:String>
+    <system:String x:Key="Service.OCR.SubTitle">文字識別服務，新增你的OCR服務並選擇使用</system:String>
+    <system:String x:Key="Service.TTS.Title">文本識別</system:String>
+    <system:String x:Key="Service.TTS.SubTitle">文本轉語音服務，新增你的TTS服務並選擇使用</system:String>
+    <system:String x:Key="Service.VocabularyBook.Title">生詞本</system:String>
+    <system:String x:Key="Service.VocabularyBook.SubTitle">將文本儲存至在線生詞本中</system:String>
+    <system:String x:Key="Service.Name">名稱:</system:String>
+    <system:String x:Key="Service.Api">介面:</system:String>
+    <system:String x:Key="Service.AutoExecute">自動執行:</system:String>
+    <system:String x:Key="Service.AutoExecute.Tooltip">執行翻譯時是否自動翻譯，否則需要手動點擊才能進行翻譯</system:String>
+    <system:String x:Key="Service.AutoTransBack">自動回譯:</system:String>
+    <system:String x:Key="Service.AutoTransBack.Tooltip">執行翻譯時是否自動執行回譯，否則需要手動點擊才能進行回譯</system:String>
+    <system:String x:Key="Service.LinkTest">連通測試:</system:String>
+    <system:String x:Key="Service.Verify">驗證</system:String>
+    <system:String x:Key="Service.Icon">圖示</system:String>
+    <system:String x:Key="Service.OpenInBrower">在瀏覽器中打開</system:String>
+    <system:String x:Key="Service.EnterOfficialWebsite">進入官網</system:String>
+    <system:String x:Key="Service.Version">版本:</system:String>
+    <system:String x:Key="Service.Update">更新</system:String>
+    <system:String x:Key="Service.Duplicate">副本</system:String>
+    <system:String x:Key="Service.Delete">刪除</system:String>
+    <system:String x:Key="Service.Model">模型:</system:String>
+    <system:String x:Key="Service.Prompt.Info">通過自定義Prompt自定義LLM行為, $target 將會被替換為 目標語言</system:String>
+    <system:String x:Key="Service.Translator.Prompt.Info">通過自定義Prompt自定義LLM行為, $source $target $content 將會被替換為 原始語言 目標語言 待翻譯文本。</system:String>
+    <system:String x:Key="Service.Temperature">溫度:</system:String>
+    <system:String x:Key="Service.Temperature.Tooltip">語言模型的上下文中，是控制模型生成文本多樣性的一個參數。模型在做出下一個詞預測時的確定性和隨機性程度</system:String>
+    <system:String x:Key="Service.OCR.GeminiApi">介面API位址不建議填寫Path部分，除非你很清楚你在幹什麼&#13;如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OCR.GoogleLocation">詞語位置:</system:String>
+    <system:String x:Key="Service.OCR.GoogleLocation.Tooltip">獲取結果時是否定位到每個詞語的位置</system:String>
+    <system:String x:Key="Service.OpenAI.Info1">介面API位址不填寫Path內容則自動填充 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenAI.Info2">如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenAI.Info3">若仍然存疑請點擊此鏈結</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Data">數據包:</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Download">下載數據包</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.Check">檢查數據包</system:String>
+    <system:String x:Key="Service.OCR.Tencent.Version.Tooltip">高精度版不支援語種選擇</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Path">路徑:</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Path.Info">路徑預設可以不帶版本號，軟體會自動尋找註冊表中微信寫入的版本號資訊，方便微信升級無需更新也能正常使用。但有時使用scoop等方式安裝的微信不會及時更新註冊表中版本號，所以遇到無法找到微信路徑的請填寫帶有版本號如 'D:\scoop\WeChat\[3.9.12.11]' 的完整路徑</system:String>
+    <system:String x:Key="Service.OCR.WechatOCR.Dll.Info">該使用者調用時會自動載入上面填入微信路徑中的mmmojo.dll和mmmojo_64.dll動態鏈結庫以實現功能調用，如果遇到微信升級後無法使用可嘗試清理后再試</system:String>
+    <system:String x:Key="Service.Clear">清理</system:String>
+    <system:String x:Key="Service.ClearDll">清理依賴庫</system:String>
+    <system:String x:Key="Service.Translator.ChatGLM">介面API位址不填寫Path內容則自動填充 /api/paas/v4/chat/completions&#13;如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.Translator.Claude">介面API位址不填寫Path內容則自動填充 /v1/messages&#13;如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
+    <system:String x:Key="Service.Translator.DeepL.UsageSearch">餘額查詢:</system:String>
+    <system:String x:Key="Service.Translator.DeepL.Search">查詢</system:String>
+    <system:String x:Key="Service.Translator.DeepLX.Token">沒有則無需填寫</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Home">主頁</system:String>
+    <system:String x:Key="Service.Translator.ECDict.ProjectHome">項目主頁</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Description">僅支援英語單詞，不支援句子翻譯</system:String>
+    <system:String x:Key="Service.Translator.ECDict.Tip">本地服務，需下載詞典文件</system:String>
+    <system:String x:Key="Service.Description">說明</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Mode">模式:</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Mode.Tooltip">如果某種模式翻譯失敗，請切換其他模式，短時間大量訪問服務方可能會限制</system:String>
+    <system:String x:Key="Service.STranslate">本地服務</system:String>
+    <system:String x:Key="Service.Translator.Tencent.ProjectID">項目ID:</system:String>
+    <system:String x:Key="Service.Translator.Tencent.Region">地區:</system:String>
+    <system:String x:Key="Service.TTS.Voice">聲音:</system:String>
+    <system:String x:Key="Service.TTS.Lingva">該使用者依賴語種，請在常規設置-常用配置-語種識別中選擇可用服務，有時可能因為網路問題或服務問題而無法正常使用(需要注意的是本地識別目前僅支援中英文，請避免使用本地識別方案配合Lingva進行除中英文外的文本轉語音操作)</system:String>
+    <system:String x:Key="Service.TTS.Speed">語速:</system:String>
+    <system:String x:Key="Service.TTS.Speed.Tooltip">設置離線TTS的語速。</system:String>
+    <system:String x:Key="Service.TTS.Offline">獲取系統支援的語音</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Replace 设置项-->
+
+    <system:String x:Key="Replace.Translator">替換翻譯服務</system:String>
+    <system:String x:Key="Replace.Translator.Tooltip">選擇替換翻譯服務</system:String>
+    <system:String x:Key="Replace.Source">原始語種</system:String>
+    <system:String x:Key="Replace.Source.Tooltip">選擇翻譯原始語種</system:String>
+    <system:String x:Key="Replace.Target">目標語種</system:String>
+    <system:String x:Key="Replace.Target.Tooltip">選擇翻譯目標語種</system:String>
+    <system:String x:Key="Replace.DetectTypeWithSourceAuto">語種識別(僅當原始語種為自動時生效)</system:String>
+    <system:String x:Key="Replace.DetectTypeWithSourceAuto.Tooltip">語種識別方式，僅當原始語種為自動</system:String>
+    <system:String x:Key="Replace.AutoDetectType">語種識別比例(zh-en)</system:String>
+    <system:String x:Key="Replace.AutoDetectType.Tooltip">僅針對 本地識別 中英文情況下英文字符佔總字符數的比例</system:String>
+    <system:String x:Key="Replace.SourceLangIfAuto">語種識別為自動時使用</system:String>
+    <system:String x:Key="Replace.SourceLangIfAuto.Tooltip">如果識別語種結果仍然為自動則使用该项指定語種&#13;僅當在線識別服務返回出錯情況才會觸發</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceZh">目標語種為自動且原始語種為中文時使用</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceZh.Tooltip">如果目標語種為自動且原始語種為中文時則使用该项指定語種&#13;僅當在線識別服務返回出錯情況才會觸發</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceNotZh">目標語種為自動且原始語種為非中文時使用</system:String>
+    <system:String x:Key="Replace.TargetLangIfSourceNotZh.Tooltip">如果目標語種為自動且原始語種為非中文時則使用该项指定語種&#13;僅當在線識別服務返回出錯情況才會觸發</system:String>
+
+    <!--#endregion-->
+
+    <!--#region History 设置项-->
+
+    <system:String x:Key="History.Search">請輸入搜索內容</system:String>
+    <system:String x:Key="History.Refresh">刷新記錄</system:String>
+    <system:String x:Key="History.Delete">刪除記錄</system:String>
+    <system:String x:Key="History.Gong">共</system:String>
+    <system:String x:Key="History.Xiang">項</system:String>
+    <system:String x:Key="History.ClearAl">完全清除</system:String>
+    <system:String x:Key="History.Content.TTS">TTS</system:String>
+    <system:String x:Key="History.Content.Copy">複製</system:String>
+    <system:String x:Key="History.Content.CopyResult">普通複製</system:String>
+    <system:String x:Key="History.Content.CopySnakeResult">複製為蛇形字符串</system:String>
+    <system:String x:Key="History.Content.CopySmallHumpResult">複製為小駝峰字符串</system:String>
+    <system:String x:Key="History.Content.CopyLargeHumpResult">複製為大駝峰字符串</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Backup 设置项-->
+
+    <system:String x:Key="Backup.BackupType">備份方式</system:String>
+    <system:String x:Key="Backup.BackupType.Tooltip">請選擇備份方式</system:String>
+    <system:String x:Key="Backup.Address">位址</system:String>
+    <system:String x:Key="Backup.Address.Tooltip">WebDav伺服器位址</system:String>
+    <system:String x:Key="Backup.Address.Placeholder">請輸入WebDav位址</system:String>
+    <system:String x:Key="Backup.Username">用戶名</system:String>
+    <system:String x:Key="Backup.Username.Tooltip">WebDav伺服器用戶名</system:String>
+    <system:String x:Key="Backup.Username.Placeholder">請輸入用戶名</system:String>
+    <system:String x:Key="Backup.Password">密碼</system:String>
+    <system:String x:Key="Backup.Password.Tooltip">WebDav伺服器密碼</system:String>
+    <system:String x:Key="Backup.Password.Placeholder">請輸入密碼</system:String>
+    <system:String x:Key="Backup.Export">匯出配置</system:String>
+    <system:String x:Key="Backup.Import">匯入配置</system:String>
+
+    <!--#endregion-->
+
+    <!--#region About 设置项-->
+
+    <system:String x:Key="About.Version">版本</system:String>
+    <system:String x:Key="About.CheckUpdate">檢查更新</system:String>
+    <system:String x:Key="About.CancelCheck">取消檢查</system:String>
+    <system:String x:Key="About.Tools">工具</system:String>
+    <system:String x:Key="About.CleanLog">清理日誌</system:String>
+    <system:String x:Key="About.OpenDirectory">打開目錄</system:String>
+    <system:String x:Key="About.LogDirectory">日誌目錄</system:String>
+    <system:String x:Key="About.ConfigDirectory">配置目錄</system:String>
+    <system:String x:Key="About.OpenSource">開源</system:String>
+    <system:String x:Key="About.Author">作者</system:String>
+    <system:String x:Key="About.Website">官網</system:String>
+    <system:String x:Key="About.SourceCode">源碼</system:String>
+    <system:String x:Key="About.Feedback">反饋</system:String>
+    <system:String x:Key="About.Thanks">感謝</system:String>
+    <system:String x:Key="About.ConfirmClearAllLog">確定要清理所有日誌嗎?</system:String>
+    <system:String x:Key="About.Warning">警告</system:String>
+    <system:String x:Key="About.NoUpdateExe">升級程式似乎遭到破壞，請手動前往發布頁查看新版本</system:String>
+    <system:String x:Key="About.GetNewer">檢測到最新版本</system:String>
+    <system:String x:Key="About.UpdateFailed">檢查更新出錯, 請檢查網路情況</system:String>
+
+    <!--#endregion-->
+
+    <!--#region LangSetting-->
+
+    <system:String x:Key="LangSetting.Title">語言設置</system:String>
+    <system:String x:Key="LangSetting.UnSelectAll">全不選</system:String>
+    <system:String x:Key="LangSetting.SelectAll">全選</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Translator Selector-->
+
+    <system:String x:Key="TranslatorSelector.Title">選擇服務</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild">自建服務</system:String>
+    <system:String x:Key="TranslatorSelector.SelfBuild.Tooltip">需要手動配置伺服器，並填入API(Token等驗證資訊)</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn">內置服務</system:String>
+    <system:String x:Key="TranslatorSelector.BuiltIn.Tooltip">新增後可直接使用</system:String>
+    <system:String x:Key="TranslatorSelector.Official">官方服務</system:String>
+    <system:String x:Key="TranslatorSelector.Official.Tooltip">對應官網申請API Key後填入使用</system:String>
+
+    <system:String x:Key="ServiceType.SelfBuild">自建</system:String>
+    <system:String x:Key="ServiceType.BuiltIn">內置</system:String>
+    <system:String x:Key="ServiceType.Official">官方</system:String>
+
+    <!--#endregion-->
+
+    <!--#region WebDav-->
+
+    <system:String x:Key="WebDav.Title">選擇配置</system:String>
+    <system:String x:Key="WebDav.NoContent">當前路徑下尚未找到備份內容...</system:String>
+
+    <!--#endregion-->
+
+    <!--#endregion-->
+
+    <!--#region 主界面-->
+
+    <system:String x:Key="Topmost">置頂</system:String>
+    <system:String x:Key="WindowClose">關閉視窗</system:String>
+    <system:String x:Key="WindowMinimized">最小化視窗</system:String>
+    <system:String x:Key="Preference">偏好設置</system:String>
+    <system:String x:Key="ConfigureService">配置服務</system:String>
+    <system:String x:Key="SilentOCRLang">靜默OCR/截圖翻譯語種</system:String>
+    <system:String x:Key="MouseHook">監聽滑鼠劃詞</system:String>
+    <system:String x:Key="AutoTranslate">自動翻譯</system:String>
+    <system:String x:Key="IncrementalTranslation">增量翻譯</system:String>
+    <system:String x:Key="OnlyShowOutput">僅顯示輸出界面&#13;Alt+滑鼠點擊控制語言界面</system:String>
+    <system:String x:Key="ScreenshotTranslate">截圖翻譯</system:String>
+    <system:String x:Key="SilentOCR">靜默OCR</system:String>
+    <system:String x:Key="OCR">OCR</system:String>
+    <system:String x:Key="ClipboardMonitor">監聽剪貼簿</system:String>
+    <system:String x:Key="QRCode">識別二維碼</system:String>
+    <system:String x:Key="History">歷史記錄</system:String>
+    <system:String x:Key="DevelopmentVersion">[開發版]</system:String>
+
+    <system:String x:Key="Input.SelectAll">全選</system:String>
+    <system:String x:Key="Input.Copy">複製</system:String>
+    <system:String x:Key="Input.Paste">粘貼</system:String>
+    <system:String x:Key="Input.Clear">清空</system:String>
+    <system:String x:Key="Input.SaveToVocabulary">保存至生詞本</system:String>
+    <system:String x:Key="Input.CopyInputContent">複製輸入內容</system:String>
+    <system:String x:Key="Input.RemoveLineBreak">移除換行&#13;Ctrl+點擊切換處理換行模式</system:String>
+    <system:String x:Key="Input.RemoveSpaces">移除空格</system:String>
+    <system:String x:Key="Input.DetectedAs">識別為</system:String>
+    <system:String x:Key="Input.ValidContent">請輸入有效內容</system:String>
+    <system:String x:Key="Input.Cache">緩存</system:String>
+    <system:String x:Key="Input.RequestCancel">請求取消</system:String>
+    <system:String x:Key="Input.RequestError">請求出錯</system:String>
+    <system:String x:Key="Input.RequestTimeout">請求超時(請檢查網路環境是否正常或服務是否可用)\n</system:String>
+    <system:String x:Key="Input.RequestApi">請求API</system:String>
+    <system:String x:Key="Input.ExceptionMsg">異常資訊</system:String>
+
+    <system:String x:Key="Output.Retry">重試</system:String>
+    <system:String x:Key="Output.TextToSpeech">文字轉語音</system:String>
+    <system:String x:Key="Output.CopyAsLargeCamelCase">複製為大駝峰字符串</system:String>
+    <system:String x:Key="Output.CopyAsSmallCamelCase">複製為小駝峰字符串</system:String>
+    <system:String x:Key="Output.CopyAsSnakeCase">複製為蛇形字符串</system:String>
+    <system:String x:Key="Output.CopyDirectly">直接複製結果</system:String>
+    <system:String x:Key="Output.InsertResult">插入結果</system:String>
+    <system:String x:Key="Output.ExecuteTranslation">執行翻譯</system:String>
+    <system:String x:Key="Output.ExecuteTranslationTooltip">執行當前服務翻譯</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslation">執行回譯</system:String>
+    <system:String x:Key="Output.ExecuteBackTranslationTooltip">執行當前服務回譯</system:String>
+    <system:String x:Key="Output.AutoExecute">自動執行</system:String>
+    <system:String x:Key="Output.AutoExecuteTooltip">執行翻譯時是否自動翻譯，否則需要手動點擊才能進行翻譯，保存至配置文件</system:String>
+    <system:String x:Key="Output.AutoBackTranslation">自動回譯</system:String>
+    <system:String x:Key="Output.AutoBackTranslationTooltip">執行翻譯時是否自動執行回譯，否則需要手動點擊才能進行回譯，保存至配置文件</system:String>
+    <system:String x:Key="Output.ConfigureService">配置服務</system:String>
+    <system:String x:Key="Output.ConfigureServiceTooltip">進入服務配置頁面</system:String>
+    <system:String x:Key="Output.CloseService">關閉服務</system:String>
+    <system:String x:Key="Output.CloseServiceTooltip">立即關閉服務並保存至配置文件</system:String>
+    <system:String x:Key="Output.BackTranslateTooltip">回譯(Ctrl+點擊 啟/禁用)</system:String>
+    <system:String x:Key="Output.BackTranslationResultTooltip">右鍵雙擊可關閉回譯內容</system:String>
+
+    <!--#endregion-->
+
+    <!--#region 托盘-->
+
+    <system:String x:Key="NotifyIcon.InputTranslate">輸入翻譯</system:String>
+    <system:String x:Key="NotifyIcon.ScreenShotTranslate">截圖翻譯</system:String>
+    <system:String x:Key="NotifyIcon.MousehookTranslate">滑鼠劃詞</system:String>
+    <system:String x:Key="NotifyIcon.ClipboardMonitor">監聽剪貼簿</system:String>
+    <system:String x:Key="NotifyIcon.OCR">文字識別</system:String>
+    <system:String x:Key="NotifyIcon.SilentOCR">靜默OCR</system:String>
+    <system:String x:Key="NotifyIcon.QRCode">二維碼</system:String>
+    <system:String x:Key="NotifyIcon.OpenMainWindow">顯示界面</system:String>
+    <system:String x:Key="NotifyIcon.OpenPreference">偏好設置</system:String>
+    <system:String x:Key="NotifyIcon.ForbiddenShortcuts">禁用熱鍵</system:String>
+    <system:String x:Key="NotifyIcon.Exit">退出程式</system:String>
+    <system:String x:Key="NotifyIcon.Show.ShortcutDisabled">快速鍵已停用</system:String>
+    <system:String x:Key="NotifyIcon.Show.Input">輸入</system:String>
+    <system:String x:Key="NotifyIcon.Show.Crossword">劃詞</system:String>
+    <system:String x:Key="NotifyIcon.Show.Screenshot">螢幕</system:String>
+    <system:String x:Key="NotifyIcon.Show.Replace">替換</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mainview">顯示</system:String>
+    <system:String x:Key="NotifyIcon.Show.Mouse">滑鼠</system:String>
+    <system:String x:Key="NotifyIcon.Show.OCR">識字</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientOCR">靜默識字</system:String>
+    <system:String x:Key="NotifyIcon.Show.SlientTTS">靜默TTS</system:String>
+    <system:String x:Key="NotifyIcon.Show.Clipboard">剪貼簿監控</system:String>
+
+    <!--#endregion-->
+
+    <!--#region OCR-->
+
+    <system:String x:Key="OCR.CopyImage">複製圖片</system:String>
+    <system:String x:Key="OCR.SaveImage">保存圖片</system:String>
+    <system:String x:Key="OCR.FitWindow">適應視窗</system:String>
+    <system:String x:Key="OCR.SwitchImg">切換原圖/標註圖</system:String>
+    <system:String x:Key="OCR.DropImg">將圖片拖放到此處</system:String>
+    <system:String x:Key="OCR.QRCodeResult">二維碼識別結果</system:String>
+    <system:String x:Key="OCR.File">文件</system:String>
+    <system:String x:Key="OCR.File.Tooltip">選中圖片文件進行文字識別</system:String>
+    <system:String x:Key="OCR.Screenshot">截圖</system:String>
+    <system:String x:Key="OCR.Screenshot.Tooltip">截圖進行文字識別</system:String>
+    <system:String x:Key="OCR.Clipboard">剪貼簿</system:String>
+    <system:String x:Key="OCR.Clipboard.Tooltip">截圖進行文字識別</system:String>
+    <system:String x:Key="OCR.Setting">設置</system:String>
+    <system:String x:Key="OCR.Translate">翻譯</system:String>
+    <system:String x:Key="OCR.QRCode">二維碼</system:String>
+    <system:String x:Key="OCR.Recertification">識別</system:String>
+
+    <!--#endregion-->
+
+    <!--#region Prompt-->
+
+    <system:String x:Key="Prompt.Edit">編輯Prompt</system:String>
+    <system:String x:Key="Prompt.Delete">刪除Prompt</system:String>
+    <system:String x:Key="Prompt.Add">新增Prompt</system:String>
+    <system:String x:Key="Prompt.Import">匯入Prompt&#13;從文件新增</system:String>
+    <system:String x:Key="Prompt.Export">匯出Prompt&#13;預設匯出選中項&#13;Ctrl點擊匯出全部</system:String>
+    <system:String x:Key="Prompt.DropImport">將Prompt拖放到此處</system:String>
+
+    <!--#endregion-->
+
+    <!--#region MessageBox-->
+
+    <system:String x:Key="MessageBox.AlreadyRunning">應用程式已在執行中。</system:String>
+    <system:String x:Key="MessageBox.MultiOpeningDetection">多重開啟偵測</system:String>
+    <system:String x:Key="MessageBox.HotkeysConflict">全域熱鍵衝突，請前往軟體偏好設定中修改…</system:String>
+    <system:String x:Key="MessageBox.AlreadyListeningWordSelection">目前監聽滑鼠劃詞中，請先解除監聽…</system:String>
+    <system:String x:Key="MessageBox.ContinueReset">重設此設定將會影響取代翻譯配置，是否繼續恢復？</system:String>
+    <system:String x:Key="MessageBox.Tip">提示訊息</system:String>
+    <system:String x:Key="MessageBox.SupportedVoice">系統支援的語音：</system:String>
+
+    <!--#endregion-->
+
+</ResourceDictionary>

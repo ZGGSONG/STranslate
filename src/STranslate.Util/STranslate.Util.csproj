@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+	<UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <!--// Release 模式下禁用 Debug 信息 //-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="volcengine.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="ScreenGrab" />
+    <PackageReference Include="System.Drawing.Common" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="WpfScreenHelper" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\STranslate.Model\STranslate.Model.csproj" />
+  </ItemGroup>
+
+</Project>

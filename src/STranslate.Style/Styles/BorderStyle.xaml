@@ -1,0 +1,70 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:props="clr-namespace:STranslate.Style.Themes">
+
+    <!--  // Border Style //  -->
+    <Style x:Key="BorderStyle" TargetType="Border">
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="props:ThemeProps.BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10" />
+    </Style>
+
+    <!--  // 输入输出 Border //  -->
+    <Style x:Key="BorderInOutputStyle" TargetType="Border">
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderContentBackground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <!--  // 自动识别语言 Border //  -->
+    <Style x:Key="LanguageMarkBorderStyle" TargetType="Border">
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderLangBackground}" />
+        <Setter Property="Margin" Value="10,0,0,1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <!--  // Popup Border //  -->
+    <Style x:Key="BorderPopupStyle" TargetType="Border">
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <!--  // Prompt Border //  -->
+    <Style x:Key="BorderPromptStyle" TargetType="Border">
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BtnBackground}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Enabled}" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColorEnabled}" />
+                <Setter Property="BorderThickness" Value="3" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushColor}" />
+                <Setter Property="BorderThickness" Value="1" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  // Popup Border //  -->
+    <Style x:Key="BorderExtraSettingsStyle" TargetType="Border">
+        <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BtnMouseOverBackground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

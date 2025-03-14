@@ -1,0 +1,299 @@
+﻿<UserControl
+    x:Class="STranslate.Views.InputView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:STranslate.Model;assembly=STranslate.Model"
+    xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
+    xmlns:vm="clr-namespace:STranslate.ViewModels"
+    d:DataContext="{d:DesignInstance Type=vm:InputViewModel}"
+    d:DesignHeight="200"
+    d:DesignWidth="450"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <common:BindingProxy x:Key="BindingProxy" Data="{x:Reference InputTB}" />
+        <common:BindingProxy x:Key="InputVm" Data="{Binding}" />
+    </UserControl.Resources>
+
+    <!--  // 输入框 //  -->
+    <Border Style="{DynamicResource BorderInOutputStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <common:PlaceholderTextBox
+                x:Name="InputTB"
+                MinHeight="{Binding CommonVm.InputViewMinHeight}"
+                MaxHeight="{Binding CommonVm.InputViewMaxHeight}"
+                Placeholder="{Binding Placeholder}"
+                PreviewMouseWheel="InputTB_PreviewMouseWheel"
+                Style="{DynamicResource TextBoxInputStyle}"
+                Text="{Binding InputContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <common:PlaceholderTextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding TranslateCommand}" />
+                    <KeyBinding
+                        Key="Enter"
+                        Command="{Binding TranslateCommand}"
+                        CommandParameter="True"
+                        Modifiers="Ctrl" />
+                </common:PlaceholderTextBox.InputBindings>
+
+                <!--  // 右键菜单 //  -->
+                <common:PlaceholderTextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            Command="{Binding TbSelectAllCommand}"
+                            CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                            Header="{DynamicResource Input.SelectAll}"
+                            Icon="&#xe658;" />
+                        <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+                        <MenuItem
+                            Command="{Binding TbCopyCommand}"
+                            CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                            Header="{DynamicResource Input.Copy}"
+                            Icon="&#xe692;" />
+                        <MenuItem
+                            Command="{Binding TbPasteCommand}"
+                            CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                            Header="{DynamicResource Input.Paste}"
+                            Icon="&#xe652;" />
+                        <Separator Margin="0,2" Style="{DynamicResource SeparatorStyle}" />
+                        <MenuItem
+                            Command="{Binding TbClearCommand}"
+                            CommandParameter="{Binding Source={StaticResource BindingProxy}, Path=Data, Mode=OneWay}"
+                            Header="{DynamicResource Input.Clear}"
+                            Icon="&#xe6cb;" />
+                    </ContextMenu>
+                </common:PlaceholderTextBox.ContextMenu>
+
+                <!--  // 粘贴文本自动翻译 //  -->
+                <common:PlaceholderTextBox.CommandBindings>
+                    <CommandBinding Command="ApplicationCommands.Paste" Executed="CommandBinding_OnExecuted" />
+                </common:PlaceholderTextBox.CommandBindings>
+            </common:PlaceholderTextBox>
+            <StackPanel
+                Grid.Row="1"
+                Margin="10,5"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal"
+                Visibility="{Binding InputContent, Converter={StaticResource StringToVisibilityHiddenConverter}}">
+
+                <Button
+                    Command="{Binding Save2VocabularyBookCommand}"
+                    CommandParameter="{Binding InputContent}"
+                    Content="&#xe60d;"
+                    Cursor="Hand"
+                    FontSize="{DynamicResource FontSize17}"
+                    FontWeight="Bold"
+                    Style="{DynamicResource ButtonCopyIconStyle}"
+                    ToolTip="{DynamicResource Input.SaveToVocabulary}"
+                    Visibility="{Binding VocabularyBookVm.ActiveVocabularyBook, Converter={StaticResource VisibilityConverter}}" />
+                <!--  TTS  -->
+                <Button
+                    Command="{Binding TTSCommand}"
+                    CommandParameter="{Binding InputContent}"
+                    Content="&#xe610;"
+                    Cursor="Hand"
+                    Style="{DynamicResource ButtonCopyIconStyle}"
+                    ToolTip="TTS" />
+                <Button
+                    Command="{Binding CopyContentCommand}"
+                    CommandParameter="{Binding InputContent}"
+                    Content="&#xe692;"
+                    Cursor="Hand"
+                    Style="{DynamicResource ButtonCopyIconStyle}"
+                    ToolTip="{DynamicResource Input.CopyInputContent}" />
+                <Button
+                    Content="&#xe6b2;"
+                    Cursor="Hand"
+                    FontWeight="Bold"
+                    Style="{DynamicResource ButtonCopyIconStyle}"
+                    ToolTip="{DynamicResource Input.RemoveLineBreak}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding RemoveLineBreaksCommand}" CommandParameter="{Binding ElementName=InputTB}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button
+                    Command="{Binding RemoveSpaceCommand}"
+                    CommandParameter="{Binding ElementName=InputTB}"
+                    Content="&#xe6ab;"
+                    Cursor="Hand"
+                    FontSize="{DynamicResource FontSize20}"
+                    FontWeight="Bold"
+                    Style="{DynamicResource ButtonCopyIconStyle}"
+                    ToolTip="{DynamicResource Input.RemoveSpaces}" />
+                <Border Style="{DynamicResource LanguageMarkBorderStyle}" Visibility="{Binding IdentifyLanguage, Converter={StaticResource VisibilityConverter}}">
+                    <StackPanel Margin="5,0" Orientation="Horizontal">
+                        <!--<TextBlock Style="{DynamicResource LanguageMarkTextBlockStyle}" Text="识别为 " />-->
+                        <ToggleButton
+                            Name="DetectTb"
+                            Height="auto"
+                            VerticalAlignment="Center"
+                            props:ThemeProps.Background="Transparent"
+                            props:ThemeProps.Foreground="{DynamicResource TextBlockLangForeground}"
+                            Content="{DynamicResource Input.DetectedAs}"
+                            Cursor="Hand"
+                            FontFamily="{DynamicResource UserFont}"
+                            FontSize="{DynamicResource FontSize14}"
+                            Style="{DynamicResource ToggleButtonIconStyle}" />
+                        <Popup
+                            Name="DetectPopup"
+                            MinWidth="40"
+                            MinHeight="30"
+                            AllowsTransparency="True"
+                            IsOpen="{Binding ElementName=DetectTb, Path=IsChecked}"
+                            Placement="Bottom"
+                            PlacementTarget="{Binding ElementName=DetectTb}"
+                            PopupAnimation="Slide"
+                            StaysOpen="False">
+                            <Border Style="{DynamicResource BorderStyle}">
+                                <ListBox
+                                    Name="DetectLb"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding Source={common:Enumeration {x:Type model:LangDetectType}}}"
+                                    SelectedValue="{Binding CommonVm.DetectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Value">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type model:LangDetectType}">
+                                            <Border
+                                                x:Name="DetectBorder"
+                                                Margin="3"
+                                                Background="{DynamicResource BorderBackground}"
+                                                BorderBrush="{x:Null}"
+                                                CornerRadius="5">
+                                                <TextBlock
+                                                    Name="DetectTb"
+                                                    Margin="3,5"
+                                                    HorizontalAlignment="Left"
+                                                    FontSize="{DynamicResource FontSize14}"
+                                                    TextTrimming="CharacterEllipsis">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource MultiDetectTypeEnumDescriptionConverter}">
+                                                            <Binding ElementName="DetectTb" />
+                                                            <Binding Path="Value" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </Border>
+                                            <DataTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="DetectBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                                                    <Setter TargetName="DetectBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                            <i:InvokeCommandAction Command="{Binding Source={StaticResource InputVm}, Path=Data.SelectedLangDetectTypeCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                        <Binding ElementName="DetectLb" Path="SelectedItem" />
+                                                        <Binding ElementName="DetectTb" />
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ListBox>
+                            </Border>
+                        </Popup>
+
+                        <ToggleButton
+                            Name="IdentifyTb"
+                            Height="auto"
+                            Margin="0"
+                            props:ThemeProps.Background="Transparent"
+                            props:ThemeProps.Foreground="{DynamicResource ThemeAccentColor}"
+                            Content="{Binding IdentifyLanguage}"
+                            Cursor="Hand"
+                            FontFamily="{DynamicResource UserFont}"
+                            FontSize="{DynamicResource FontSize14}"
+                            Style="{DynamicResource ToggleButtonIconStyle}" />
+                        <Popup
+                            Name="IdentifyPopup"
+                            MinWidth="40"
+                            MinHeight="30"
+                            AllowsTransparency="True"
+                            IsOpen="{Binding ElementName=IdentifyTb, Path=IsChecked}"
+                            Placement="Bottom"
+                            PlacementTarget="{Binding ElementName=IdentifyTb}"
+                            PopupAnimation="Slide"
+                            StaysOpen="False">
+                            <Border Style="{DynamicResource BorderStyle}">
+                                <ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox
+                                        Name="IdentifyLb"
+                                        common:LangAwareSelector.IsLangAware="True"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        PreviewMouseWheel="ListBox_PreviewMouseWheel"
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <ListBox.ItemsSource>
+                                            <MultiBinding Converter="{StaticResource MultiLangFilterConverter}">
+                                                <Binding Source="{common:LangEnumeration {x:Type model:LangEnum}}" />
+                                                <Binding Path="OftenUsedLang" />
+                                            </MultiBinding>
+                                        </ListBox.ItemsSource>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type model:LangEnum}">
+                                                <Border
+                                                    x:Name="IdentifyBorder"
+                                                    Margin="3"
+                                                    Background="{DynamicResource BorderBackground}"
+                                                    BorderBrush="{x:Null}"
+                                                    CornerRadius="5">
+                                                    <TextBlock
+                                                        Margin="3,5"
+                                                        HorizontalAlignment="Left"
+                                                        FontSize="{DynamicResource FontSize14}"
+                                                        Text="{Binding Description}"
+                                                        TextTrimming="CharacterEllipsis" />
+                                                </Border>
+                                                <DataTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="IdentifyBorder" Property="Background" Value="{DynamicResource BtnMouseOverBackground}" />
+                                                    </Trigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                                <i:InvokeCommandAction Command="{Binding Source={StaticResource InputVm}, Path=Data.SelectedLanguageCommand}">
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
+                                                            <Binding ElementName="IdentifyLb" Path="SelectedItem" />
+                                                            <Binding ElementName="IdentifyTb" />
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ListBox>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                        <!--<TextBlock Text="⚡⚡⚡" Visibility="{Binding IsAutoTranslateExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />-->
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <control:LoadingUc
+                Grid.Row="0"
+                Margin="10,6,0,0"
+                IsAnimationPlaying="{Binding NotifyIconVM.IsScreenshotExecuting}"
+                Visibility="{Binding NotifyIconVM.IsScreenshotExecuting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </Grid>
+    </Border>
+</UserControl>

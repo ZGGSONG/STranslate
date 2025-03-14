@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+	<ApplicationIcon>.\favicon.ico</ApplicationIcon>
+	<AssemblyName>Updater</AssemblyName>
+  </PropertyGroup>
+
+  <!--// Release 模式下禁用 Debug 信息 //-->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="favicon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
