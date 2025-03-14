@@ -673,6 +673,8 @@
     <system:String x:Key="About.NoUpdateExe">The upgrade seems to be broken, please manually go to the release page to see the new version</system:String>
     <system:String x:Key="About.GetNewer">The latest version was detected</system:String>
     <system:String x:Key="About.UpdateFailed">Check for an error with the update, please check the network conditions</system:String>
+    <system:String x:Key="About.Downloading">The software is downloading</system:String>
+    <system:String x:Key="About.DownloadSuccess">The software has been downloaded successfully, do you want to update it?</system:String>
 
     <!--#endregion-->
 

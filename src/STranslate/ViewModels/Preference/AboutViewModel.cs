@@ -73,7 +73,8 @@ public partial class AboutViewModel : ObservableObject
         Process.Start("explorer.exe", Constant.LogPath);
     }
 
-    [RelayCommand] private void OpenConfig()
+    [RelayCommand]
+    private void OpenConfig()
     {
         Process.Start("explorer.exe", Constant.CnfPath);
     }
@@ -89,63 +90,70 @@ public partial class AboutViewModel : ObservableObject
     {
         try
         {
-            const string updateFolder = "Update";
+            IsChecking = true;
 
-            string GetPath(string fileName)
+            var result = await UpdateUtil.CheckForUpdates(token);
+            if (result == null)
             {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+                MessageBox_S.Show(AppLanguageManager.GetString("Constant.NeweastVersionInfo"));
+                return;
             }
 
-            string GetCachePath(string fileName)
+            var remoteVer = result?.Version ?? Constant.AppVersion;
+            var desc = result?.Body ?? "";
+            var newVersionInfo = $"# {AppLanguageManager.GetString("About.GetNewer")}: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
+            var title = AppLanguageManager.GetString("MessageBox.Tip");
+            if (MessageBox_S_MD.Show(newVersionInfo, title, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, updateFolder, fileName);
-            }
+                var downloadInfo = result!.Downloads.First(x => x.Name.EndsWith("zip"));
+                var path = $"{Constant.ExecutePath}tmp";
+                var file = $"{path}\\{downloadInfo.Name}";
+                if (Directory.Exists(path) && File.Exists(file))
+                {
+                    var fi = new FileInfo(file);
+                    if (fi.Length == downloadInfo.Size)
+                    {
+                        ExecuteUpdate(file);
+                        return;
+                    }
 
-            string[] requiredFiles = ["Updater.exe"];
+                    // 文件不完整, 删除
+                    fi.Delete();
+                }
+                ToastHelper.Show(AppLanguageManager.GetString("About.Downloading"), WindowType.Preference);
 
-            if (requiredFiles.All(file => File.Exists(GetPath(file))))
-            {
-                Directory.CreateDirectory(GetPath(updateFolder));
+                var ret = await UpdateUtil.DownloadUpdate(downloadInfo, path, token);
 
-                foreach (var file in requiredFiles) File.Copy(GetPath(file), GetCachePath(file), true);
-
-                CommonUtil.ExecuteProgram(GetCachePath("Updater.exe"), [Version]);
-            }
-            else
-            {
-                throw new Exception(AppLanguageManager.GetString("About.NoUpdateExe"));
+                LogService.Logger.Info($"软件压缩包下载完成: {ret}");
+                ExecuteUpdate(ret);
             }
         }
-        catch (Exception ex)
+        catch (OperationCanceledException)
         {
-            try
-            {
-                IsChecking = true;
-                var result = await UpdateUtil.CheckForUpdates(token);
-                var canUpdate = result != null;
-                var remoteVer = result?.Version ?? Constant.AppVersion;
-                var desc = result?.Body ?? "";
-
-                var newVersionInfo = $"# {AppLanguageManager.GetString("About.GetNewer")}: {remoteVer}\n{(string.IsNullOrEmpty(desc) ? "" : $"\n{desc}")}";
-                if (canUpdate)
-                    MessageBox_S_MD.Show(newVersionInfo);
-                else
-                    MessageBox_S.Show(AppLanguageManager.GetString("Constant.NeweastVersionInfo"));
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception e)
-            {
-                MessageBox_S.Show(AppLanguageManager.GetString("About.UpdateFailed"));
-                LogService.Logger.Warn($"检查更新出错, 请检查网络情况, {e.Message}");
-            }
-            finally
-            {
-                IsChecking = false;
-            }
-
-            LogService.Logger.Warn($"更新程序已打开或无法正确启动检查更新程序, {ex.Message}");
         }
+        catch (Exception e)
+        {
+            MessageBox_S.Show(AppLanguageManager.GetString("About.UpdateFailed"));
+            LogService.Logger.Warn($"检查更新出错, 请检查网络情况, {e.Message}");
+        }
+        finally
+        {
+            IsChecking = false;
+        }
+    }
+
+    private void ExecuteUpdate(string file)
+    {
+        if (MessageBox_S.Show(AppLanguageManager.GetString("About.DownloadSuccess"), AppLanguageManager.GetString("MessageBox.Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            return;
+
+        if (!File.Exists(Constant.UpdateExePath))
+        {
+            MessageBox_S.Show(AppLanguageManager.GetString("About.UpdateExeNotFound"));
+            return;
+        }
+        File.Move(Constant.UpdateExePath, Constant.UpdateExeTmpPath, true);
+        CommonUtil.ExecuteProgram(Constant.UpdateExeTmpPath, [file, "3"]);
+        Environment.Exit(0);
     }
 }

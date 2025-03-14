@@ -19,6 +19,7 @@ public static class Constant
     public const string CnfName = "stranslate";
     public const string AppName = "STranslate";
     private const string PortableConfig = "portable_config";
+    private const string UpdateExe = "z_ud.exe";
 
     /// <summary>
     ///     用户软件根目录
@@ -30,6 +31,9 @@ public static class Constant
     public static readonly string ExecutePath = AppDomain.CurrentDomain.BaseDirectory;
 
     private static readonly string PortableCnfPath = $"{ExecutePath}{PortableConfig}";
+
+    public static readonly string UpdateExePath = $"{ExecutePath}{UpdateExe}";
+    public static readonly string UpdateExeTmpPath = $"{ExecutePath}tmp\\{UpdateExe}";
 
     /// <summary>
     ///     是否为便携模式

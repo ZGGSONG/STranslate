@@ -225,7 +225,7 @@ public class HttpUtil
     /// <param name="token">取消令牌</param>
     /// <param name="timeout">超时时间(秒)</param>
     /// <returns>返回保存的文件完整路径</returns>
-    public static async Task<string?> DownloadFileAsync(string url, string savePath, string fileName, CancellationToken token = default, int timeout = 30)
+    public static async Task<string> DownloadFileAsync(string url, string savePath, string fileName, CancellationToken token = default, int timeout = 30)
     {
         string fullPath = Path.Combine(savePath, fileName);
 

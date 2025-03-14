@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using STranslate.Model;
+using System.IO;
 
 namespace STranslate.Util;
 
@@ -30,17 +31,10 @@ public class UpdateUtil
     }
 
 
-    public static async Task<string?> DownloadUpdate(DownloadInfo downloadInfo, string savePath, CancellationToken token = default)
+    public static async Task<string> DownloadUpdate(DownloadInfo downloadInfo, string savePath, CancellationToken token = default)
     {
-        try
-        {
-            return await HttpUtil.DownloadFileAsync(downloadInfo.Url, savePath, downloadInfo.Name, token);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"下载更新失败: {ex.Message}");
-            return null;
-        }
+        if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+        return await HttpUtil.DownloadFileAsync(downloadInfo.Url, savePath, downloadInfo.Name, token);
     }
 }
 

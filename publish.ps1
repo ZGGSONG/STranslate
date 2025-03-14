@@ -2,9 +2,7 @@
 $ErrorActionPreference = "SilentlyContinue"
 
 $main = "src/STranslate/STranslate.csproj"
-$updater = "src/STranslate.Updater/STranslate.Updater.csproj"
 $mainProfile = "src/STranslate/Properties/PublishProfiles/FolderProfile.pubxml"
-$updaterProfile = "src/STranslate.Updater/Properties/PublishProfiles/FolderProfile.pubxml"
 
 # 检查并删除发布目录
 function CheckAndDeletePublishDir($publishDir) {
@@ -46,12 +44,6 @@ Write-Host "========================================"
 Write-Host "Publishing $main..."
 Write-Host "========================================"
 dotnet publish $main -c Release -p:PublishProfile=$mainProfile
-
-Write-Host ""
-Write-Host "========================================"
-Write-Host "Publishing $updater..."
-Write-Host "========================================"
-dotnet publish $updater -c Release -p:PublishProfile=$updaterProfile
 
 Write-Host ""
 Write-Host "========================================"

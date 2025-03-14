@@ -308,7 +308,11 @@ public class CommonUtil
             var arguments = args.Aggregate("", (current, arg) => current + $"\"{arg}\" ");
             arguments = arguments.Trim();
             Process process = new();
-            ProcessStartInfo startInfo = new(filename, arguments);
+            ProcessStartInfo startInfo = new(filename, arguments)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
             process.StartInfo = startInfo;
             process.Start();
             return true;

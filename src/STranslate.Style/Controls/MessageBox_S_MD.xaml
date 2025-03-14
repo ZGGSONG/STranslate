@@ -64,7 +64,6 @@
             x:Name="Messages"
             Grid.Row="1"
             Margin="10"
-            Background="Transparent"
             BorderThickness="0"
             ClickAction="DisplayWithRelativePath"
             FontFamily="{DynamicResource UserFont}"

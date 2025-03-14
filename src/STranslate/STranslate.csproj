@@ -28,6 +28,9 @@
     <Content Include="uninstall_startup.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="z_ud.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="z_uninstall.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
