@@ -13,7 +13,6 @@ on:
       - "*" # Push events to matching *, i.e. 1.0, 20.15.10
 
 jobs:
-  # 以下为构建工作流
   build:
     runs-on: windows-latest # 添加EnableWindowsTargeting可支持跨平台编译WPF项目
     # TODO: job 之间传递参数
@@ -46,6 +45,78 @@ jobs:
           STranslate_${{ github.ref_name }}_win-x64.zip
           STranslate_${{ github.ref_name }}_win-x64_7z.7z
           STranslate_${{ github.ref_name }}_win-x64_sha256.txt
+
+  update-version-info:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Fetch and process latest release info
+        run: |
+          # 获取最新版本信息
+          RELEASE_JSON=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest)
+          
+          # 直接从JSON提取所需字段
+          VERSION=$(echo $RELEASE_JSON | jq -r .tag_name)
+          PUBLISHED=$(echo $RELEASE_JSON | jq -r .published_at)
+          BODY=$(echo $RELEASE_JSON | jq -r .body)
+          
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+          # 创建新的version-info.json内容
+          echo "{" > version-info.json
+          echo "  \"version\": \"$VERSION\"," >> version-info.json
+          echo "  \"published_at\": \"$PUBLISHED\"," >> version-info.json
+          echo "  \"downloads\": [" >> version-info.json
+          
+          # 处理下载资源
+          local_first=true
+          echo $RELEASE_JSON | jq -c '.assets[] | select(.name | endswith(".zip") or endswith(".7z"))' | while read -r asset; do
+            if [ "$local_first" = "true" ]; then
+              local_first=false
+            else
+              echo "    ," >> version-info.json
+            fi
+            
+            NAME=$(echo $asset | jq -r .name)
+            URL=$(echo $asset | jq -r .browser_download_url)
+            SIZE=$(echo $asset | jq -r .size)
+            
+            echo "    {" >> version-info.json
+            echo "      \"name\": \"$NAME\"," >> version-info.json
+            echo "      \"url\": \"$URL\"," >> version-info.json
+            echo "      \"size\": $SIZE" >> version-info.json
+            echo -n "    }" >> version-info.json
+          done
+          
+          echo "" >> version-info.json
+          echo "  ]," >> version-info.json
+          # 使用jq处理body以确保正确的JSON转义
+          ESCAPED_BODY=$(echo "$BODY" | jq -Rs .)
+          echo "  \"body\": $ESCAPED_BODY" >> version-info.json
+          echo "}" >> version-info.json
+          
+          echo "版本信息文件已更新:"
+          cat version-info.json
+      
+      - name: Commit and Push updated version info
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # 检查是否有变更需要提交
+          if git diff --exit-code version-info.json; then
+            echo "version-info.json 没有变化，无需提交"
+            exit 0
+          fi
+          
+          git add version-info.json
+          git commit -m "更新版本信息至 ${{ env.VERSION }}"
+          git push origin HEAD:main
         
     # TODO: 输出 Hash 结果给 scoop extras
     # - name: Output
