@@ -383,6 +383,7 @@
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">开机时自动启动软件(该用户登录)</system:String>
     <system:String x:Key="Tooltip.NeedAdminTip">以便全局快捷键在具有管理员权限的窗口也能响应</system:String>
+    <system:String x:Key="Tooltip.AutoCheckUpdateTip">开启后自动检查更新，每隔24h检查一次更新</system:String>
     <system:String x:Key="Tooltip.DownloadProxyTip">下载Github资源(软件安装包、离线资源包)所使用的代理方式</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">切换软件语言版本</system:String>
     <system:String x:Key="Tooltip.AutoTranslateTip">输入内容以后自动执行翻译</system:String>

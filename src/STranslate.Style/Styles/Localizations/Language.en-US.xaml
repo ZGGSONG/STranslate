@@ -383,6 +383,7 @@
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">Automatically start the software when the system boots (for current user)</system:String>
     <system:String x:Key="Tooltip.NeedAdminTip">To ensure global hotkeys respond in windows with administrator privileges</system:String>
+    <system:String x:Key="Tooltip.AutoCheckUpdateTip">Automatically check for updates once enabled, every 24 hours</system:String>
     <system:String x:Key="Tooltip.DownloadProxyTip">Proxy method used to download Github resources (software installation packages, offline resource packages)</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">Switch application language version</system:String>
     <system:String x:Key="Tooltip.AutoTranslateTip">Automatically translate after entering content</system:String>
