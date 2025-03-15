@@ -45,8 +45,6 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
 
     [JsonIgnore] [ObservableProperty] private STranslateMode sTranslateMode = STranslateMode.IOS;
 
-    [JsonIgnore] public string Tips { get; set; } = "本地服务，无需配置";
-
     #endregion Properties
 
     #region Translator Test
@@ -128,7 +126,6 @@ public partial class TranslatorSTranslate : TranslatorBase, ITranslator
             AppID = AppID,
             AppKey = AppKey,
             AutoExecute = AutoExecute,
-            Tips = Tips,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

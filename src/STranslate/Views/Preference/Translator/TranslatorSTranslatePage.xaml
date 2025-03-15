@@ -126,12 +126,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{DynamicResource Service.Description}" />
-                <TextBlock Grid.Column="1" Text="{DynamicResource Service.STranslate}" />
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="80,0,0,0"
-                    Style="{DynamicResource InfoTextBlock}"
-                    ToolTip="{Binding Tips}" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Service.STranslate}" />
+                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Service.Translator.STranslate.Tip}" />
+                </StackPanel>
             </Grid>
         </StackPanel>
     </Border>

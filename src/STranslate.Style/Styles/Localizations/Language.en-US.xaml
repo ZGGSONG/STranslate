@@ -589,6 +589,7 @@
     <system:String x:Key="Service.Description">Desc</system:String>
     <system:String x:Key="Service.Translator.STranslate.Mode">Mode:</system:String>
     <system:String x:Key="Service.Translator.STranslate.Mode.Tooltip">If translation fails in one mode, please switch to another mode. Service providers may impose restrictions for high-frequency access in a short time</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Tip">Local service, no configuration required</system:String>
     <system:String x:Key="Service.STranslate">Local Service</system:String>
     <system:String x:Key="Service.Translator.Tencent.ProjectID">Project ID:</system:String>
     <system:String x:Key="Service.Translator.Tencent.Region">Region:</system:String>

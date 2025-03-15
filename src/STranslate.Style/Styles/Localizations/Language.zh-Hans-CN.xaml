@@ -589,6 +589,7 @@
     <system:String x:Key="Service.Description">说明</system:String>
     <system:String x:Key="Service.Translator.STranslate.Mode">模式:</system:String>
     <system:String x:Key="Service.Translator.STranslate.Mode.Tooltip">如果某种模式翻译失败，请切换其余模式，短时间大量访问服务方可能会限制</system:String>
+    <system:String x:Key="Service.Translator.STranslate.Tip">本地服务，无需配置</system:String>
     <system:String x:Key="Service.STranslate">本地服务</system:String>
     <system:String x:Key="Service.Translator.Tencent.ProjectID">项目ID:</system:String>
     <system:String x:Key="Service.Translator.Tencent.Region">地区:</system:String>

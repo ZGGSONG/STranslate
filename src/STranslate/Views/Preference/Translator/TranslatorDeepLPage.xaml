@@ -18,183 +18,186 @@
         props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         CornerRadius="4">
-        <StackPanel>
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.Name}" />
+        <ScrollViewer>
 
-                <common:PlaceholderTextBox
-                    Grid.Column="1"
-                    MinWidth="160"
-                    HorizontalAlignment="Left"
-                    Placeholder="DeepL"
-                    Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
+            <StackPanel>
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Name}" />
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.Api}" />
-                <common:PlaceholderTextBox
-                    Grid.Column="1"
-                    MinWidth="282"
-                    HorizontalAlignment="Left"
-                    Placeholder="https://api-free.deepl.com/v2/translate"
-                    Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-            </Grid>
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="160"
+                        HorizontalAlignment="Left"
+                        Placeholder="DeepL"
+                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="38" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Key: " />
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Api}" />
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="282"
+                        HorizontalAlignment="Left"
+                        Placeholder="https://api-free.deepl.com/v2/translate"
+                        Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </Grid>
 
-                <common:PlaceholderTextBox
-                    Grid.Column="1"
-                    MinWidth="160"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Placeholder="AuthKey"
-                    Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <PasswordBox
-                    Grid.Column="1"
-                    MinWidth="160"
-                    HorizontalAlignment="Left"
-                    common:BoundPasswordBox.Attach="True"
-                    common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                    Tag="AuthKey"
-                    ToolTip="{Binding AppKey}"
-                    Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="38" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Key: " />
 
-                <Button
-                    Grid.Column="2"
-                    Command="{Binding ShowEncryptInfoCommand}"
-                    CommandParameter="AppKey"
-                    Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
-                    Style="{DynamicResource ButtonIconStyle}" />
-            </Grid>
+                    <common:PlaceholderTextBox
+                        Grid.Column="1"
+                        MinWidth="160"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Placeholder="AuthKey"
+                        Text="{Binding AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                    <PasswordBox
+                        Grid.Column="1"
+                        MinWidth="160"
+                        HorizontalAlignment="Left"
+                        common:BoundPasswordBox.Attach="True"
+                        common:BoundPasswordBox.Password="{Binding AppKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        Tag="AuthKey"
+                        ToolTip="{Binding AppKey}"
+                        Visibility="{Binding KeyHide, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.AutoExecute}" ToolTip="{DynamicResource Service.AutoExecute.Tooltip}" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding ShowEncryptInfoCommand}"
+                        CommandParameter="AppKey"
+                        Content="{Binding KeyHide, Converter={StaticResource BooleanToContentConverter}, ConverterParameter=ICON}"
+                        Style="{DynamicResource ButtonIconStyle}" />
+                </Grid>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding AutoExecute}" />
-            </Grid>
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.AutoExecute}" ToolTip="{DynamicResource Service.AutoExecute.Tooltip}" />
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.AutoTransBack}" ToolTip="{DynamicResource Service.AutoTransBack.Tooltip}" />
+                    <ToggleButton
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding AutoExecute}" />
+                </Grid>
 
-                <ToggleButton
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding AutoExecuteTranslateBack}" />
-            </Grid>
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.AutoTransBack}" ToolTip="{DynamicResource Service.AutoTransBack.Tooltip}" />
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.LinkTest}" />
+                    <ToggleButton
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding AutoExecuteTranslateBack}" />
+                </Grid>
 
-                <Button
-                    Grid.Column="1"
-                    MinWidth="80"
-                    HorizontalAlignment="Left"
-                    Command="{Binding TestCommand}"
-                    Content="{DynamicResource Service.Verify}"
-                    Visibility="{Binding TestCommand.IsRunning, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <Button
-                    Grid.Column="1"
-                    MinWidth="80"
-                    HorizontalAlignment="Left"
-                    Command="{Binding TestCancelCommand}"
-                    Content="{DynamicResource Cancel}"
-                    Visibility="{Binding TestCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            </Grid>
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.LinkTest}" />
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="200" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.Translator.DeepL.UsageSearch}" />
-                <Button
-                    Grid.Column="1"
-                    MinWidth="80"
-                    HorizontalAlignment="Left"
-                    Command="{Binding UsageCommand}"
-                    Content="{DynamicResource Service.Translator.DeepL.Search}"
-                    Visibility="{Binding UsageCommand.IsRunning, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
-                <Button
-                    Grid.Column="1"
-                    MinWidth="80"
-                    HorizontalAlignment="Left"
-                    Command="{Binding UsageCancelCommand}"
-                    Content="{DynamicResource Cancel}"
-                    Visibility="{Binding UsageCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ProgressBar
-                    Grid.Column="2"
-                    FontSize="{DynamicResource FontSize16}"
-                    Maximum="100"
-                    Value="{Binding Usage}" />
-                <TextBlock
-                    Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    Text="{Binding UsageStr}" />
-            </Grid>
+                    <Button
+                        Grid.Column="1"
+                        MinWidth="80"
+                        HorizontalAlignment="Left"
+                        Command="{Binding TestCommand}"
+                        Content="{DynamicResource Service.Verify}"
+                        Visibility="{Binding TestCommand.IsRunning, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                    <Button
+                        Grid.Column="1"
+                        MinWidth="80"
+                        HorizontalAlignment="Left"
+                        Command="{Binding TestCancelCommand}"
+                        Content="{DynamicResource Cancel}"
+                        Visibility="{Binding TestCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
 
-            <Grid Margin="0,10" Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{DynamicResource Service.Icon}" />
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Translator.DeepL.UsageSearch}" />
+                    <Button
+                        Grid.Column="1"
+                        MinWidth="80"
+                        HorizontalAlignment="Left"
+                        Command="{Binding UsageCommand}"
+                        Content="{DynamicResource Service.Translator.DeepL.Search}"
+                        Visibility="{Binding UsageCommand.IsRunning, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
+                    <Button
+                        Grid.Column="1"
+                        MinWidth="80"
+                        HorizontalAlignment="Left"
+                        Command="{Binding UsageCancelCommand}"
+                        Content="{DynamicResource Cancel}"
+                        Visibility="{Binding UsageCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <ProgressBar
+                        Grid.Column="2"
+                        FontSize="{DynamicResource FontSize16}"
+                        Maximum="100"
+                        Value="{Binding Usage}" />
+                    <TextBlock
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Text="{Binding UsageStr}" />
+                </Grid>
 
-                <ComboBox
-                    Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    BorderThickness="1"
-                    ItemsSource="{Binding Icons}"
-                    SelectedValue="{Binding Icon}"
-                    SelectedValuePath="Key"
-                    Style="{DynamicResource IconComboBoxStyle}" />
-            </Grid>
+                <Grid Margin="0,10" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Icon}" />
 
-            <Grid Margin="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Other: " />
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="10,0"
-                    ToolTip="{DynamicResource Service.OpenInBrower}">
-                    <Hyperlink Click="Hyperlink_Click">
-                        <ContentControl Content="{DynamicResource Service.EnterOfficialWebsite}" />
-                    </Hyperlink>
-                </TextBlock>
-            </Grid>
-        </StackPanel>
+                    <ComboBox
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        BorderThickness="1"
+                        ItemsSource="{Binding Icons}"
+                        SelectedValue="{Binding Icon}"
+                        SelectedValuePath="Key"
+                        Style="{DynamicResource IconComboBoxStyle}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Other: " />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="10,0"
+                        ToolTip="{DynamicResource Service.OpenInBrower}">
+                        <Hyperlink Click="Hyperlink_Click">
+                            <ContentControl Content="{DynamicResource Service.EnterOfficialWebsite}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Border>
 </UserControl>
