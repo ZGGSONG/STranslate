@@ -29,7 +29,7 @@ public partial class PaddleOCR : OCRBase, IOCR
 
         var architecture = RuntimeInformation.OSArchitecture;
 
-        if (architecture != Architecture.X64) throw new Exception($"CPU架构不支持({architecture})");
+        if (architecture != Architecture.X64) throw new Exception($"{AppLanguageManager.GetString("Service.OCR.PaddleOCR.CPUNotSupported")}({architecture})");
 
         var config = GetOcrModelConfig(lang);
 
@@ -278,7 +278,7 @@ public partial class PaddleOCR : OCRBase, IOCR
 
         if (!DataIntegrity())
         {
-            var msg = "离线数据不完整,请前往PaddleOCR配置页面进行下载";
+            var msg = AppLanguageManager.GetString("Service.OCR.PaddleOCR.InComplete");
 
             ToastHelper.Show(AppLanguageManager.GetString("Toast.NoPaddleOCRData"), WindowType.OCR);
 

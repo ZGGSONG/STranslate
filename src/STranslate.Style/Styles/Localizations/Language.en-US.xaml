@@ -571,6 +571,8 @@
     <system:String x:Key="Service.OCR.PaddleOCR.Data">Data Pack:</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Download">Download</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Check">Check</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.CPUNotSupported">CPU architecture does not support</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.InComplete">The offline data is incomplete, please go to the PaddleOCR configuration page to download it</system:String>
     <system:String x:Key="Service.OCR.Tencent.Version.Tooltip">The high-precision version does not support language selection</system:String>
     <system:String x:Key="Service.OCR.WechatOCR.Path">Path:</system:String>
     <system:String x:Key="Service.OCR.WechatOCR.Path.Info">The path does not have a version number by default. The software will automatically find the version number information written by WeChat in the registry, so that WeChat can be used normally without updating. However, sometimes WeChat installed using scoop or other methods will not update the version number in the registry in time. Therefore, if you cannot find the WeChat path, please fill in the full path with the version number, such as 'D:\scoop\WeChat\[3.9.12.11]'</system:String>

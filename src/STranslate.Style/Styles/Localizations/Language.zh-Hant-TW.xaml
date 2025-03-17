@@ -571,6 +571,8 @@
     <system:String x:Key="Service.OCR.PaddleOCR.Data">數據包:</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Download">下載數據包</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Check">檢查數據包</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.CPUNotSupported">CPU 架構不支援</system:String>
+    <system:String x:Key="Service.OCR.PaddleOCR.InComplete">離線資料不完整，請前往 PaddleOCR 設定頁面進行下載</system:String>
     <system:String x:Key="Service.OCR.Tencent.Version.Tooltip">高精度版不支援語種選擇</system:String>
     <system:String x:Key="Service.OCR.WechatOCR.Path">路徑:</system:String>
     <system:String x:Key="Service.OCR.WechatOCR.Path.Info">路徑預設可以不帶版本號，軟體會自動尋找註冊表中微信寫入的版本號資訊，方便微信升級無需更新也能正常使用。但有時使用scoop等方式安裝的微信不會及時更新註冊表中版本號，所以遇到無法找到微信路徑的請填寫帶有版本號如 'D:\scoop\WeChat\[3.9.12.11]' 的完整路徑</system:String>
