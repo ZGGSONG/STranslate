@@ -64,6 +64,7 @@
                     Grid.Column="1"
                     Width="100"
                     HorizontalAlignment="Left"
+                    Command="{Binding DownloadCommand}"
                     Content="{DynamicResource Service.OCR.PaddleOCR.Download}"
                     Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                 <Button
