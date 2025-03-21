@@ -1,9 +1,8 @@
 ## 更新
 
-- 优化: 完善 i18n 和界面显示
-- 修复: 修复 PaddleOCR 下载按钮无法点击的问题
+- 修复: WebDav 配置中带有中文路径无法导入的问题，感谢 @DecSgr01
 
-**完整更新日志:** [1.4.3.314...1.4.4.317](https://github.com/ZGGSONG/STranslate/compare/1.4.3.314...1.4.4.317)
+**完整更新日志:** [1.4.4.317...1.4.5.321](https://github.com/ZGGSONG/STranslate/compare/1.4.4.317...1.4.5.321)
 
 ## 离线数据
 
