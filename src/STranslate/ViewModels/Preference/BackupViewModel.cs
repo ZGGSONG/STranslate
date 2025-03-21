@@ -249,9 +249,8 @@ public partial class BackupViewModel : ObservableObject
                     if (res.IsCollection || !res.Uri.Contains(Constant.CnfName))
                         continue;
 
-                    var fullName = res.Uri.Replace(absolutePath, "").Trim('/');
                     //html解码以显示中文
-                    var decodeFullName = HttpUtility.UrlDecode(fullName);
+                    var decodeFullName = HttpUtility.UrlDecode(res.Uri).Replace(absolutePath, "").Trim('/');
                     _webDavVm.WebDavResultList.Add(new WebDavResult(decodeFullName));
                 }
 

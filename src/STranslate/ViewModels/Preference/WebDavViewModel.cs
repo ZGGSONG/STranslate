@@ -54,7 +54,7 @@ public partial class WebDavViewModel : WindowVMBase
         }
         else
         {
-            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailed"), WindowType.Preference);
+            ToastHelper.Show(AppLanguageManager.GetString("Toast.DownloadException"), WindowType.Preference);
         }
     }
 
