@@ -245,7 +245,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Command="{Binding ResetCommand}"
-                            Content="{DynamicResource Preference.Save}" />
+                            Content="{DynamicResource Preference.Reset}" />
                         <Button
                             Width="60"
                             HorizontalAlignment="Right"
