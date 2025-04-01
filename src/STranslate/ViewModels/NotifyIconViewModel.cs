@@ -110,6 +110,7 @@ public partial class NotifyIconViewModel : ObservableObject
             },
             { ExternalCallAction.translate_crossword, (view, _) => CrossWordTranslate(view) },
             { ExternalCallAction.translate_mousehook, (view, _) => MousehookTranslate(view) },
+            { ExternalCallAction.translate_replace, async (view, _) => await ReplaceTranslateAsync(view) },
             { ExternalCallAction.listenclipboard, (view, _) => ClipboardMonitor(view) },
             {
                 ExternalCallAction.ocr,

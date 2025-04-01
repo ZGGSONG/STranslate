@@ -1033,6 +1033,7 @@ public enum ExternalCallAction
     translate_ocr,
     translate_crossword,
     translate_mousehook,
+    translate_replace,
     listenclipboard,
     ocr,
     ocr_silence,
