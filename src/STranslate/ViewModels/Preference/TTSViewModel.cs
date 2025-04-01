@@ -22,7 +22,7 @@ public partial class TTSViewModel : ObservableObject
     private readonly Dictionary<Type, UIElement?> ContentCache = [];
 
     [ObservableProperty]
-    private TTSCollection<ITTS> _curTTSServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? [];
+    private TTSCollection<ITTS> _curTTSServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? []];
 
     private bool _isSpeaking;
 
@@ -226,12 +226,11 @@ public partial class TTSViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        var cnfHelper = Singleton<ConfigHelper>.Instance;
-        var tmp = cnfHelper.ReadConfig().TTSList ?? [];
-        cnfHelper.CurrentConfig!.TTSList!.Clear();
-        foreach (var item in tmp)
+        var list = Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? [];
+        CurTTSServiceList.Clear();
+        foreach (var item in list)
         {
-            cnfHelper.CurrentConfig!.TTSList.Add(item);
+            CurTTSServiceList.Add(item);
         }
         ResetView();
         ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);

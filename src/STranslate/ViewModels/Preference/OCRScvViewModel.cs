@@ -28,7 +28,7 @@ public partial class OCRScvViewModel : ObservableObject
         Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList?.FirstOrDefault(x => x.IsEnabled);
 
     [ObservableProperty]
-    private OCRCollection<IOCR> _curOCRServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? [];
+    private OCRCollection<IOCR> _curOCRServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? []];
 
 
     private bool _isPreferenceOperate;
@@ -244,12 +244,11 @@ public partial class OCRScvViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        var cnfHelper = Singleton<ConfigHelper>.Instance;
-        var tmp = cnfHelper.ReadConfig().OCRList ?? [];
-        cnfHelper.CurrentConfig!.OCRList!.Clear();
-        foreach (var item in tmp)
+        var list = Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? [];
+        CurOCRServiceList.Clear();
+        foreach (var item in list)
         {
-            cnfHelper.CurrentConfig!.OCRList.Add(item);
+            CurOCRServiceList.Add(item);
         }
         ActivedOCR = CurOCRServiceList.FirstOrDefault(x => x.IsEnabled);
         ResetView();

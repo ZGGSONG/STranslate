@@ -26,8 +26,7 @@ public partial class TranslatorViewModel : ObservableObject
     /// <summary>
     ///     当前已添加的服务列表
     /// </summary>
-    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList =
-        Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
+    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList = [..Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? []];
 
     [ObservableProperty] private int _selectedIndex;
 
@@ -240,14 +239,13 @@ public partial class TranslatorViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        var cnfHelper = Singleton<ConfigHelper>.Instance;
-        var tmp = cnfHelper.ReadConfig().Services ?? [];
+        var list = Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? [];
 
         // 不直接替换对象
-        cnfHelper.CurrentConfig!.Services!.Clear();
-        foreach (var item in tmp)
+        CurTransServiceList.Clear();
+        foreach (var item in list)
         {
-            cnfHelper.CurrentConfig.Services!.Add(item);
+            CurTransServiceList.Add(item);
         }
         ResetView();
         ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);

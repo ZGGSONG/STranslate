@@ -22,7 +22,7 @@ public partial class VocabularyBookViewModel : ObservableObject
     private readonly Dictionary<Type, UIElement?> _contentCache = [];
 
     [ObservableProperty]
-    private VocabularyBookCollection<IVocabularyBook> _curServiceList = Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList ?? [];
+    private VocabularyBookCollection<IVocabularyBook> _curServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList ?? []];
 
     [ObservableProperty] private int _selectedIndex;
 
@@ -184,12 +184,11 @@ public partial class VocabularyBookViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
-        var cnfHelper = Singleton<ConfigHelper>.Instance;
-        var tmp = cnfHelper.ReadConfig().VocabularyBookList ?? [];
-        cnfHelper.CurrentConfig!.VocabularyBookList!.Clear();
-        foreach (var item in tmp)
+        var list = Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList ?? [];
+        CurServiceList.Clear();
+        foreach (var item in list)
         {
-            cnfHelper.CurrentConfig!.VocabularyBookList.Add(item);
+            CurServiceList.Add(item);
         }
         ResetView();
         ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);
