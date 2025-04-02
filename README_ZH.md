@@ -57,6 +57,13 @@
 
 <img src="./attachments/imgs/qq.jpeg" height=200 />
 
+## 合作推广
+
+🛠️ **官方API合作伙伴**  
+
+[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！
+
+[点击注册](https://api.deerapi.com/register?aff=j5dj)享免费试用额度，也能支持软件长久发展
 
 ## 感谢
 
@@ -93,6 +100,6 @@
 
 > Website [Blog](https://www.zggsong.com) · GitHub [@zggsong](https://github.com/zggsong)
 
-## Star History
+## 星标历史
 
 [![Star History Chart](https://api.star-history.com/svg?repos=ZGGSONG/STranslate&type=Date)](https://star-history.com/#ZGGSONG/STranslate&Date)

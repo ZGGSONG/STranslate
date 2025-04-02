@@ -56,6 +56,14 @@ Or group discussion
 
 <img src="./attachments/imgs/qq.jpeg" height=200 />
 
+## Cooperative promotion
+
+🛠️ **Official API Partner**  
+
+[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI aggregation platform, one-click access to 500+ models, 30% off special offer, full support for the latest GPT4o, Grok 3, Gemini 2.5pro!
+
+[Click to register](https://api.deerapi.com/register?aff=j5dj) for a free trial quota, also supporting the long-term development of the software.
+
 ## Acknowledgments
 
 - Special thanks to [zu1k](https://github.com/zu1k)
