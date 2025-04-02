@@ -65,7 +65,7 @@
                         MinWidth="304"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Placeholder="https://github.com/swigger/wechat-ocr"
+                        Placeholder="https://github.com/ZGGSONG/WeChatOcr"
                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 

@@ -25,6 +25,6 @@ public partial class WeChatOCRPage
 
     private void Hyperlink_Click(object sender, RoutedEventArgs e)
     {
-        Process.Start(new ProcessStartInfo { FileName = "https://github.com/swigger/wechat-ocr", UseShellExecute = true });
+        Process.Start(new ProcessStartInfo { FileName = "https://github.com/ZGGSONG/WeChatOcr", UseShellExecute = true });
     }
 }
