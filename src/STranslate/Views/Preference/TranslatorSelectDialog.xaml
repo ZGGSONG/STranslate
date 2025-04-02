@@ -40,7 +40,7 @@
                 MinHeight="40"
                 props:ThemeProps.Background="{DynamicResource BorderContentBackground}"
                 Style="{DynamicResource BorderPopupStyle}">
-                <Grid Margin="10,5">
+                <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40" />
                         <ColumnDefinition Width="*" />
