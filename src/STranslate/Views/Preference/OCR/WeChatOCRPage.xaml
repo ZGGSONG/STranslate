@@ -69,57 +69,6 @@
                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{DynamicResource Service.OCR.WechatOCR.Path}" />
-
-                    <common:PlaceholderTextBox
-                        Grid.Column="1"
-                        MinWidth="280"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Placeholder="C:\Program Files\Tencent\WeChat"
-                        Text="{Binding WeChatPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="1"
-                        FontSize="{DynamicResource FontSize14}"
-                        Text="{DynamicResource Service.OCR.WechatOCR.Path.Info}"
-                        TextWrapping="WrapWithOverflow" />
-                </Grid>
-
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{DynamicResource Service.Clear}" />
-
-                    <Button
-                        Grid.Column="1"
-                        Command="{Binding RemoveMmmojoDllCommand}"
-                        Content="{DynamicResource Service.ClearDll}" />
-                </Grid>
-                <Grid Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="1"
-                        FontSize="{DynamicResource FontSize14}"
-                        Text="{DynamicResource Service.OCR.WechatOCR.Dll.Info}"
-                        TextWrapping="WrapWithOverflow" />
-                </Grid>
-
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />

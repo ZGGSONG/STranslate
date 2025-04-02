@@ -21,6 +21,11 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
+  <!--// 移除32位编译选项 //-->
+  <Target Name="RemoveWeChatOcrFiles" AfterTargets="Build">
+	<Delete Files="$(OutputPath)\wco_data\mmmojo.dll" />
+  </Target>
+
   <ItemGroup>
     <Content Include="install_startup.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -107,14 +112,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Google.Protobuf">
-      <HintPath>..\STranslate.Util\Google.Protobuf.dll</HintPath>
-    </Reference>
     <Reference Include="localmode">
       <HintPath>..\STranslate.Util\localmode.dll</HintPath>
-    </Reference>
-    <Reference Include="WeChatOcr">
-      <HintPath>..\STranslate.Util\WeChatOcr.dll</HintPath>
     </Reference>
   </ItemGroup>
 

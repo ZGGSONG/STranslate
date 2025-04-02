@@ -1,8 +1,5 @@
 ﻿using System.IO;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using STranslate.Helper;
-using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using WeChatOcr;
@@ -62,33 +59,6 @@ public partial class WeChatOCR : OCRBase, IOCR
         Type = type;
     }
 
-    #endregion Constructor
-
-    #region Properties
-
-    /// <summary>
-    ///     微信OCR可执行文件路径
-    /// </summary>
-    [ObservableProperty] private string _weChatPath = @"C:\Program Files\Tencent\WeChat";
-
-    #endregion Properties
-
-    #region Command
-
-    [RelayCommand]
-    private void RemoveMmmojoDll()
-    {
-        if (!Utilities.RemoveMmmojoDll(out var error))
-        {
-            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteFailedInfo"), WindowType.Preference);
-            LogService.Logger.Error($"WeChatOCR|CleanMmMo Error: {error}");
-        }
-        else
-        {
-            ToastHelper.Show(AppLanguageManager.GetString("Toast.DeleteSuccess"), WindowType.Preference);
-        }
-    }
-
     #endregion
 
     #region Interface Implementation
@@ -104,7 +74,7 @@ public partial class WeChatOCR : OCRBase, IOCR
             };
         var tcs = new TaskCompletionSource<OcrResult>();
 
-        using var ocr = new ImageOcr(WeChatPath);
+        using var ocr = new ImageOcr();
         ocr.Run(bytes, (path, result) =>
         {
             if (result == null) return;
@@ -172,8 +142,7 @@ public partial class WeChatOCR : OCRBase, IOCR
             Url = Url,
             AppID = AppID,
             AppKey = AppKey,
-            Icons = Icons,
-            WeChatPath = WeChatPath
+            Icons = Icons
         };
     }
 
