@@ -978,7 +978,7 @@ public class ConfigHelper
             ],
             OCRList =
             [
-                new WeChatOCR(),
+                new WeChatOCR() {IsEnabled = true },
                 new PaddleOCR(),
             ],
             TTSList =
