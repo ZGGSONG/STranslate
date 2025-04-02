@@ -1158,6 +1158,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.BingDictService => new TranslatorBingDict(),
             (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
             (int)ServiceType.YandexBuiltInService => new TranslatorYandexBuiltIn(),
+            (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

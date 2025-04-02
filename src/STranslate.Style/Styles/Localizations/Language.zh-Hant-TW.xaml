@@ -151,6 +151,7 @@
     <system:String x:Key="IconType.Claude">Claude</system:String>
     <system:String x:Key="IconType.EuDict">歐陸詞典</system:String>
     <system:String x:Key="IconType.Yandex">Yandex</system:String>
+    <system:String x:Key="IconType.DeerAPI">DeerAPI</system:String>
 
     <system:String x:Key="BackupType.Local">本地</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -600,6 +601,9 @@
     <system:String x:Key="Service.TTS.Speed">語速:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">設置離線TTS的語速。</system:String>
     <system:String x:Key="Service.TTS.Offline">獲取系統支援的語音</system:String>
+    <system:String x:Key="Service.DescriptionTitle">描述:</system:String>
+    <system:String x:Key="Service.DeerAPI.Description">AI聚合平台，一鍵調用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！</system:String>
+    <system:String x:Key="Service.DeerAPI.Promotion">註冊即送試用額度</system:String>
 
     <!--#endregion-->
 

@@ -23,7 +23,7 @@ public partial class TranslatorLLMBase : TranslatorBase
     [ObservableProperty]
     [property: DefaultValue("")]
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _model = "gpt-3.5-turbo";
+    private string _model = "gpt-4o";
 
     [JsonIgnore]
     private BindingList<UserDefinePrompt> _userDefinePrompts = [

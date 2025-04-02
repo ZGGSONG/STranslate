@@ -151,6 +151,7 @@
     <system:String x:Key="IconType.Claude">Claude</system:String>
     <system:String x:Key="IconType.EuDict">EuDict</system:String>
     <system:String x:Key="IconType.Yandex">Yandex</system:String>
+    <system:String x:Key="IconType.DeerAPI">DeerAPI</system:String>
 
     <system:String x:Key="BackupType.Local">Local</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -600,6 +601,9 @@
     <system:String x:Key="Service.TTS.Speed">Speed:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">Set the speech rate for offline TTS.</system:String>
     <system:String x:Key="Service.TTS.Offline">Get system supported voices</system:String>
+    <system:String x:Key="Service.DescriptionTitle">Desc:</system:String>
+    <system:String x:Key="Service.DeerAPI.Description">AI aggregation platform, one-click access to 500+ models, 30% off special offer, full support for the latest GPT4o, Grok 3, Gemini 2.5pro!</system:String>
+    <system:String x:Key="Service.DeerAPI.Promotion">Register and receive a trial credit.</system:String>
 
     <!--#endregion-->
 

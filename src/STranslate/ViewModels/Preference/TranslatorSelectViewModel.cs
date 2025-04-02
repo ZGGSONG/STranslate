@@ -66,6 +66,7 @@ public partial class TranslatorSelectViewModel : WindowVMBase
             TranslatorDeepLX deeplx => deeplx.Clone(),
             TranslatorYandexBuiltIn yandex => yandex.Clone(),
             TranslatorMicrosoftBuiltin microsoftBuiltin => microsoftBuiltin.Clone(),
+            TranslatorDeerAPI deerapi => deerapi.Clone(),
             //TODO: 新接口需要适配
             _ => throw new InvalidOperationException($"Unsupported service type: {translator.GetType().Name}")
         };

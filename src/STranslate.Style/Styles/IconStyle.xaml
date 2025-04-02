@@ -30,4 +30,5 @@
     <BitmapImage x:Key="Claude" UriSource="pack://application:,,,/STranslate.Style;component/Resources/claude.png" />
     <BitmapImage x:Key="EuDict" UriSource="pack://application:,,,/STranslate.Style;component/Resources/eudict.png" />
     <BitmapImage x:Key="Yandex" UriSource="pack://application:,,,/STranslate.Style;component/Resources/yandex.png" />
+    <BitmapImage x:Key="DeerAPI" UriSource="pack://application:,,,/STranslate.Style;component/Resources/deerapi.png" />
 </ResourceDictionary>

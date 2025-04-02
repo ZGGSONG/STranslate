@@ -205,6 +205,7 @@ public enum ServiceType
     GoogleBuiltinService,
     MicrosoftBuiltinService,
     YandexBuiltInService,
+    DeerAPIService,
 }
 
 public enum TTSType
@@ -292,6 +293,7 @@ public enum IconType
     [Description("Claude")] Claude,
     [Description("欧陆词典")] EuDict,
     [Description("Yandex")] Yandex,
+    [Description("DeerAPI")] DeerAPI,
 }
 
 /// <summary>
