@@ -205,7 +205,7 @@ public partial class TranslatorDeerAPI : TranslatorLLMBase, ITranslatorLLM
         }
         catch (HttpRequestException ex) when (ex.StatusCode == null)
         {
-            var msg = $"请检查服务是否可以正常访问: {Name} ({Url}).";
+            var msg = $"请检查服务是否可以正常访问: {Name} ({Url}).\n{ex.Message}";
             throw new HttpRequestException(msg);
         }
         catch (HttpRequestException)

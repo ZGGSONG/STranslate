@@ -26,7 +26,7 @@ public partial class TranslatorDeerAPIPage : UserControl
 
     private void Hyperlink_Click(object sender, RoutedEventArgs e)
     {
-        Process.Start(new ProcessStartInfo { FileName = "https://deerapi.com", UseShellExecute = true });
+        Process.Start(new ProcessStartInfo { FileName = "https://api.deerapi.com", UseShellExecute = true });
     }
 
     private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
