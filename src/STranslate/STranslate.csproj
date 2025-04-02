@@ -25,6 +25,9 @@
   <Target Name="RemoveWeChatOcrFiles" AfterTargets="Build">
 	<Delete Files="$(OutputPath)\wco_data\mmmojo.dll" />
   </Target>
+  <Target Name="RemoveWeChatOcrFilesOnPublish" AfterTargets="Publish">
+	<Delete Files="$(PublishDir)\wco_data\mmmojo.dll" />
+  </Target>
 
   <ItemGroup>
     <Content Include="install_startup.bat">
