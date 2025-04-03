@@ -73,8 +73,8 @@
             </Grid.RowDefinitions>
 
             <!--  // Header //  -->
-            <StackPanel Margin="10">
-                <TextBlock FontSize="{DynamicResource FontSize20}" Text="{DynamicResource Service.Translator.Title}" />
+            <StackPanel Margin="10,5">
+                <!--<TextBlock FontSize="{DynamicResource FontSize20}" Text="{DynamicResource Service.Translator.Title}" />-->
                 <TextBlock FontSize="{DynamicResource FontSize18}" Text="{DynamicResource Service.Translator.SubTitle}" />
             </StackPanel>
 
