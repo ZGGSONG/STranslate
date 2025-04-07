@@ -23,19 +23,17 @@
             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
     </Window.InputBindings>
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
-        <Viewbox Name="CanvasViewBox">
-            <Grid>
-                <Image
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="{Binding SsTranslateBs}"
-                    Stretch="Uniform" />
-                <Canvas
-                    Background="Transparent"
-                    Focusable="True"
-                    IsHitTestVisible="True" />
-            </Grid>
-        </Viewbox>
+        <Grid>
+            <Image
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Source="{Binding SsTranslateBs}"
+                Stretch="None" />
+            <Canvas
+                Background="Transparent"
+                Focusable="True"
+                IsHitTestVisible="True" />
+        </Grid>
     </Border>
 </Window>
