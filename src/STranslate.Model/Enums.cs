@@ -294,6 +294,7 @@ public enum IconType
     [Description("欧陆词典")] EuDict,
     [Description("Yandex")] Yandex,
     [Description("DeerAPI")] DeerAPI,
+    [Description("Grok")] Grok,
 }
 
 /// <summary>

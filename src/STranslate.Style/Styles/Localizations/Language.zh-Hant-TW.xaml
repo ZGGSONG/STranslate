@@ -152,6 +152,7 @@
     <system:String x:Key="IconType.EuDict">歐陸詞典</system:String>
     <system:String x:Key="IconType.Yandex">Yandex</system:String>
     <system:String x:Key="IconType.DeerAPI">DeerAPI</system:String>
+    <system:String x:Key="IconType.Grok">Grok</system:String>
 
     <system:String x:Key="BackupType.Local">本地</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
