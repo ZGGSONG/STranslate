@@ -13,7 +13,6 @@
     ShowInTaskbar="False"
     SizeToContent="WidthAndHeight"
     Topmost="True"
-    WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.InputBindings>
@@ -22,7 +21,11 @@
             Command="{Binding ExitCommand}"
             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
     </Window.InputBindings>
-    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border
+        BorderBrush="{DynamicResource BorderBackground}"
+        BorderThickness=".4"
+        CornerRadius="0"
+        MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Image
                 Grid.Row="1"
