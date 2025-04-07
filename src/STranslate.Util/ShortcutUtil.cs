@@ -179,8 +179,11 @@ public class ShortcutUtil
     {
         // ReSharper disable once SuspiciousTypeConversion.Global
         var link = (IShellLink)new ShellLink();
-        //link.SetDescription(description);
+        link.SetDescription(description);
         link.SetPath(appPath);
+        var workingDir = Directory.GetParent(appPath)?.FullName;
+        if (workingDir != null)
+            link.SetWorkingDirectory(workingDir);
 
         if (File.Exists(shortcutPath))
             File.Delete(shortcutPath);
