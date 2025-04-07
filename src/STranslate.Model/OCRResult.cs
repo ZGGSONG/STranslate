@@ -7,7 +7,7 @@ public class OcrResult
     /// <summary>
     ///     精简版文本通过换行组合
     /// </summary>
-    public string Text => string.Join(Environment.NewLine, OcrContents.Select(x => x.Text).ToArray()).Trim();
+    public string Text => string.Join(Environment.NewLine, [.. OcrContents.Select(x => x.Text)]).Trim();
 
     public static OcrResult Empty => new();
 

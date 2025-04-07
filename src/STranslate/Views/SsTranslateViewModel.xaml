@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="STranslate.Views.SsTranslateView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:STranslate.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:STranslate.ViewModels"
+    Title="ScreenshotTransalteV2"
+    d:DataContext="{d:DesignInstance Type=vm:SsTranslateViewModel}"
+    AllowsTransparency="True"
+    Background="Transparent"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    Topmost="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding
+            Key="Esc"
+            Command="{Binding ExitCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+    </Window.InputBindings>
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Viewbox Name="CanvasViewBox">
+            <Grid>
+                <Image
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="{Binding SsTranslateBs}"
+                    Stretch="Uniform" />
+                <Canvas
+                    Background="Transparent"
+                    Focusable="True"
+                    IsHitTestVisible="True" />
+            </Grid>
+        </Viewbox>
+    </Border>
+</Window>

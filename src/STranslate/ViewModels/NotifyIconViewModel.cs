@@ -483,6 +483,9 @@ public partial class NotifyIconViewModel : ObservableObject
             return;
         }
 
+        Singleton<SsTranslateViewModel>.Instance.Execute(bitmap);
+        return;
+
         //如果重复执行先取消上一步操作
         _outputViewModel.SingleTranslateCancelCommand.Execute(null);
         _outputViewModel.SingleTranslateBackCancelCommand.Execute(null);
