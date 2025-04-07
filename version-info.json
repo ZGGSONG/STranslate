@@ -1,17 +1,17 @@
 {
-  "version": "1.5.0.402",
-  "published_at": "2025-04-02T07:58:12Z",
+  "version": "1.5.1.407",
+  "published_at": "2025-04-07T01:44:21Z",
   "downloads": [
     {
-      "name": "STranslate_1.5.0.402_win-x64.zip",
-      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.0.402/STranslate_1.5.0.402_win-x64.zip",
-      "size": 66843094
+      "name": "STranslate_1.5.1.407_win-x64.zip",
+      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.1.407/STranslate_1.5.1.407_win-x64.zip",
+      "size": 66843150
     }    ,
     {
-      "name": "STranslate_1.5.0.402_win-x64_7z.7z",
-      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.0.402/STranslate_1.5.0.402_win-x64_7z.7z",
-      "size": 54038142
+      "name": "STranslate_1.5.1.407_win-x64_7z.7z",
+      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.1.407/STranslate_1.5.1.407_win-x64_7z.7z",
+      "size": 54039076
     }
   ],
-  "body": "## 更新\r\n\r\n- 重构: 微信OCR完全内置，无需依赖外部微信\r\n- 新增: 替换翻译的外部调用API [集成调用](https://stranslate.zggsong.com/docs/invoke.html#api%E8%B0%83%E7%94%A8)\r\n- 新增: `DeerAPI` 翻译服务\r\n- 优化: 更新默认配置启用微信OCR功能\r\n- 修复: 解决服务导入渲染不正确的问题\r\n- 修复: 解决TTS页面按钮内容显示不正确的问题\r\n\r\n**完整更新日志:** [1.4.5.321...1.5.0.402](https://github.com/ZGGSONG/STranslate/compare/1.4.5.321...1.5.0.402)\r\n\r\n## 合作推广\r\n\r\n🛠️ **官方API合作伙伴** \r\n\r\n[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！\r\n\r\n[点击注册](https://api.deerapi.com/register?aff=j5dj)享免费试用额度，也能支持软件长久发展\r\n\r\n\r\n## 离线数据\r\n\r\n[123 网盘](https://www.123pan.com/s/AxlRjv-OuVmA.html)\r\n\r\n> 离线数据包含: [简明英汉词典数据包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip) [PaddleOCR数据包(v4.3)](https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v4.3.zip) 等\r\n\r\n> 另: OCR部分软件内置`微信OCR`(1.5.0.402版本开始内置微信OCR数据包，无需依赖外部微信)、词典部分软件内置了`必应`、`金山`词典，上述离线数据包配置较为繁琐，可直接使用软件内置服务\n"
+  "body": "## 更新\r\n\r\n- 优化: 创建快捷方式指定工作路径\r\n> - 解决 ***指定的 WeChatOCR.exe 路径不存在!*** 问题 \r\n> - 升级后如果仍然存在问题请：\r\n> 1. 重新设定**开机启动项**\r\n> 2. 重新创建**桌面快捷方式**\r\n\r\n**完整更新日志:** [1.5.0.402...1.5.1.407](https://github.com/ZGGSONG/STranslate/compare/1.5.0.402...1.5.1.407)\r\n\r\n## 合作推广\r\n\r\n🛠️ **官方API合作伙伴** \r\n\r\n[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！\r\n\r\n[点击注册](https://api.deerapi.com/register?aff=j5dj)享免费试用额度，也能支持软件长久发展\r\n\r\n\r\n## 离线数据\r\n\r\n[123 网盘](https://www.123pan.com/s/AxlRjv-OuVmA.html)\r\n\r\n> 离线数据包含: [简明英汉词典数据包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip) [PaddleOCR数据包(v4.3)](https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v4.3.zip) 等\r\n\r\n> 另: OCR部分软件内置`微信OCR`(1.5.0.402版本开始内置微信OCR数据包，无需依赖外部微信)、词典部分软件内置了`必应`、`金山`词典，上述离线数据包配置较为繁琐，可直接使用软件内置服务\n"
 }
