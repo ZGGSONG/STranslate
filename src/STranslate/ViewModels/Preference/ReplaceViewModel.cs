@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -135,13 +136,13 @@ public partial class ReplaceViewModel : ObservableObject
 
     private async Task TranslateLlmAsync(RequestModel req, CancellationToken token)
     {
-        var result = "";
+        var sb = new StringBuilder();
         try
         {
             await ReplaceProp.ActiveService!.TranslateAsync(req,
                 msg =>
                 {
-                    result += msg;
+                    sb.Append(msg);
                     if (_configHelper.CurrentConfig?.UsePasteOutput ?? false)
                         return;
 
@@ -150,12 +151,12 @@ public partial class ReplaceViewModel : ObservableObject
 
             // 回调结束后判断是否需要使用剪贴板输出
             if (_configHelper.CurrentConfig?.UsePasteOutput ?? false)
-                InputSimulatorHelper.PrintTextWithClipboard(result);
+                InputSimulatorHelper.PrintTextWithClipboard(sb.ToString());
         }
         catch (Exception)
         {
             // 出错则移除已输出内容
-            InputSimulatorHelper.Backspace(result.Length);
+            InputSimulatorHelper.Backspace(sb.ToString().Length);
             throw;
         }
     }
