@@ -1,17 +1,17 @@
 {
-  "version": "1.5.1.407",
-  "published_at": "2025-04-07T01:44:21Z",
+  "version": "1.5.2.408",
+  "published_at": "2025-04-08T01:40:31Z",
   "downloads": [
     {
-      "name": "STranslate_1.5.1.407_win-x64.zip",
-      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.1.407/STranslate_1.5.1.407_win-x64.zip",
-      "size": 66843150
+      "name": "STranslate_1.5.2.408_win-x64.zip",
+      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.2.408/STranslate_1.5.2.408_win-x64.zip",
+      "size": 66846588
     }    ,
     {
-      "name": "STranslate_1.5.1.407_win-x64_7z.7z",
-      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.1.407/STranslate_1.5.1.407_win-x64_7z.7z",
-      "size": 54039076
+      "name": "STranslate_1.5.2.408_win-x64_7z.7z",
+      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.2.408/STranslate_1.5.2.408_win-x64_7z.7z",
+      "size": 54036845
     }
   ],
-  "body": "## 更新\r\n\r\n- 优化: 创建快捷方式指定工作路径\r\n> - 解决 ***指定的 WeChatOCR.exe 路径不存在!*** 问题 \r\n> - 升级后如果仍然存在问题请：\r\n> 1. 重新设定**开机启动项**\r\n> 2. 重新创建**桌面快捷方式**\r\n\r\n**完整更新日志:** [1.5.0.402...1.5.1.407](https://github.com/ZGGSONG/STranslate/compare/1.5.0.402...1.5.1.407)\r\n\r\n## 合作推广\r\n\r\n🛠️ **官方API合作伙伴** \r\n\r\n[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！\r\n\r\n[点击注册](https://api.deerapi.com/register?aff=j5dj)享免费试用额度，也能支持软件长久发展\r\n\r\n\r\n## 离线数据\r\n\r\n[123 网盘](https://www.123pan.com/s/AxlRjv-OuVmA.html)\r\n\r\n> 离线数据包含: [简明英汉词典数据包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip) [PaddleOCR数据包(v4.3)](https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v4.3.zip) 等\r\n\r\n> 另: OCR部分软件内置`微信OCR`(1.5.0.402版本开始内置微信OCR数据包，无需依赖外部微信)、词典部分软件内置了`必应`、`金山`词典，上述离线数据包配置较为繁琐，可直接使用软件内置服务\n"
+  "body": "## 更新\r\n\r\n- 修复: 软件根目录创建`任务计划程序`脚本未指定工作目录\r\n\r\n> 软件根目录脚本 `install_startup.bat` 和 `uninstall_startup.bat` 用来创建和删除任务计划程序，主要是为了以管理员权限启动软件而不经过`UAC弹窗`确认（也可以创建普通权限启动）\r\n> **该脚本与软件内设置`开机自启动`不兼容，脚本创建任务计划程序后建议关闭软件内`开机启动项`配置**\r\n\r\n**完整更新日志:** [1.5.1.407...1.5.2.408](https://github.com/ZGGSONG/STranslate/compare/1.5.1.407...1.5.2.408)\r\n\r\n## 合作推广\r\n\r\n🛠️ **官方API合作伙伴** \r\n\r\n[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！\r\n\r\n[点击注册](https://api.deerapi.com/register?aff=j5dj)享免费试用额度，也能支持软件长久发展\r\n\r\n\r\n## 离线数据\r\n\r\n[123 网盘](https://www.123pan.com/s/AxlRjv-OuVmA.html)\r\n\r\n> 离线数据包含: [简明英汉词典数据包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip) [PaddleOCR数据包(v4.3)](https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v4.3.zip) 等\r\n\r\n> 另: OCR部分软件内置`微信OCR`(1.5.0.402版本开始内置微信OCR数据包，无需依赖外部微信)、词典部分软件内置了`必应`、`金山`词典，上述离线数据包配置较为繁琐，可直接使用软件内置服务\n"
 }
