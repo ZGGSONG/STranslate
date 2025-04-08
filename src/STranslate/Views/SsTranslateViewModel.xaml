@@ -22,10 +22,10 @@
             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
     </Window.InputBindings>
     <Border
-        BorderBrush="{DynamicResource BorderBackground}"
-        BorderThickness=".4"
+        ClipToBounds="True"
         CornerRadius="0"
-        MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        MouseLeftButtonDown="Border_MouseLeftButtonDown"
+        Style="{DynamicResource BorderStyle}">
         <Grid>
             <Image
                 Grid.Row="1"

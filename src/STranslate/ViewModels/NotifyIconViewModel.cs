@@ -483,7 +483,7 @@ public partial class NotifyIconViewModel : ObservableObject
             return;
         }
 
-        Singleton<SsTranslateViewModel>.Instance.Execute(bitmap);
+        await Singleton<SsTranslateViewModel>.Instance.ExecuteAsync(bitmap, token ?? default);
         return;
 
         //如果重复执行先取消上一步操作
