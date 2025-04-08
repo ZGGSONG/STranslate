@@ -28,15 +28,26 @@
         Style="{DynamicResource BorderStyle}">
         <Grid>
             <Image
-                Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Source="{Binding SsTranslateBs}"
                 Stretch="None" />
-            <Canvas
-                Background="Transparent"
-                Focusable="True"
-                IsHitTestVisible="True" />
+            <ItemsControl ItemsSource="{Binding WordBlocks}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas
+                            Background="Transparent"
+                            Focusable="True"
+                            IsHitTestVisible="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Canvas.Left" Value="{Binding (Canvas.Left)}" />
+                        <Setter Property="Canvas.Top" Value="{Binding (Canvas.Top)}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
         </Grid>
     </Border>
 </Window>

@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = System.Windows.Media.Color;
 
 namespace STranslate.ViewModels;
 
@@ -40,7 +41,7 @@ public partial class SsTranslateViewModel : ObservableObject
     }
 
     public async Task ExecuteAsync(Bitmap bs, CancellationToken token)
-    {
+    {        
         SsTranslateBs = BitmapUtil.ConvertBitmap2BitmapSource(bs, GetImageFormat());
 
         var view = new SsTranslateView(this);
@@ -58,9 +59,31 @@ public partial class SsTranslateViewModel : ObservableObject
                 _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
         LogService.Logger.Debug(ocrResult.Text);
 
+        WordBlocks.Clear();
+
         foreach (var ocrContent in ocrResult.OcrContents)
         {
+            if (ocrContent.BoxPoints.Count < 4 || string.IsNullOrEmpty(ocrContent.Text))
+                continue;
 
+            // 创建TextBlock显示OCR识别的文本
+            var textBlock = new TextBlock
+            {
+                Text = ocrContent.Text,
+                FontWeight = FontWeights.Bold,
+                Background = new SolidColorBrush(Color.FromArgb(100, 255, 255, 255))  // 半透明背景
+            };
+
+            // 计算文本框的位置（使用左上角坐标）
+            var left = ocrContent.BoxPoints[0].X;
+            var top = ocrContent.BoxPoints[0].Y;
+
+            // 设置Canvas的位置属性
+            Canvas.SetLeft(textBlock, left);
+            Canvas.SetTop(textBlock, top);
+
+            // 添加到WordBlocks集合中
+            WordBlocks.Add(textBlock);
         }
 
         bs.Dispose();
