@@ -43,13 +43,16 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock
-                            Height="{Binding Height}"
+                        <TextBox
                             MinWidth="{Binding Width}"
+                            MinHeight="{Binding Height}"
+                            Padding="2,0"
                             VerticalAlignment="Center"
-                            Background="#B4FFFFFF"
+                            Background="#B5FFFFFF"
+                            BorderThickness="0"
                             FontSize="{Binding FontSize}"
                             FontWeight="Bold"
+                            IsReadOnly="True"
                             Text="{Binding Text}"
                             TextWrapping="Wrap" />
                     </DataTemplate>
