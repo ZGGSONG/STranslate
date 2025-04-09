@@ -58,18 +58,33 @@ public partial class SsTranslateViewModel : ObservableObject
         var bytes = BitmapUtil.ConvertBitmap2Bytes(bs, GetImageFormat());
         var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token,
                 _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
-        LogService.Logger.Debug(ocrResult.Text);
 
         foreach (var ocrContent in ocrResult.OcrContents)
         {
             if (ocrContent.BoxPoints.Count < 4 || string.IsNullOrEmpty(ocrContent.Text))
                 continue;
 
+            // 计算文本框的宽度和高度
+            float minX = ocrContent.BoxPoints.Min(p => p.X);
+            float minY = ocrContent.BoxPoints.Min(p => p.Y);
+            float maxX = ocrContent.BoxPoints.Max(p => p.X);
+            float maxY = ocrContent.BoxPoints.Max(p => p.Y);
+            int width = (int)(maxX - minX);
+            int height = (int)(maxY - minY);
+
             // 创建 WordBlockInfo 对象，将 BoxPoint 转换为 Position (System.Drawing.Point)
+            // 考虑DPI缩放因素，确保坐标正确映射
             var wordBlockInfo = new WordBlockInfo
             {
                 Text = ocrContent.Text,
-                Position = new Point((int)ocrContent.BoxPoints[0].X, (int)ocrContent.BoxPoints[0].Y) // 将 BoxPoint 转换为 Position
+                Position = new Point(
+                    (int)(minX / dpi.DpiScaleX), 
+                    (int)(minY / dpi.DpiScaleY)), // 使用左上角坐标作为Position，并考虑DPI缩放
+                Width = (int)(width / dpi.DpiScaleX),
+                Height = (int)(height / dpi.DpiScaleY),
+                // 根据文本行高计算合适的字体大小，使用0.8作为比例因子
+                // 这个比例可以根据实际效果进行调整
+                FontSize = (int)(height / dpi.DpiScaleY * 0.8)
             };
 
             // 添加到WordBlocks集合中

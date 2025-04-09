@@ -44,15 +44,22 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock
-                            Background="#64FFFFFF"
+                            Height="{Binding Height}"
+                            MinWidth="{Binding Width}"
+                            VerticalAlignment="Center"
+                            Background="#B4FFFFFF"
+                            FontSize="{Binding FontSize}"
                             FontWeight="Bold"
-                            Text="{Binding Text}" />
+                            Text="{Binding Text}"
+                            TextWrapping="Wrap" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
                         <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
                         <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
+                        <!--  添加负的Margin来微调TextBlock位置，抵消可能的偏移  -->
+                        <Setter Property="Margin" Value="-2,-2,0,0" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
