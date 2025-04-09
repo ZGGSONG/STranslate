@@ -65,6 +65,7 @@
 
     <!--  // TextBox //  -->
     <SolidColorBrush x:Key="TextBoxBorderBrushColor">#c1d0dc</SolidColorBrush>
+    <SolidColorBrush x:Key="TextBoxTranslucentBackground">#F5282c34</SolidColorBrush>
     <SolidColorBrush x:Key="TextForeground">#dddddd</SolidColorBrush>
     <SolidColorBrush x:Key="TextErrorForeground">#aa0000</SolidColorBrush>
     <SolidColorBrush x:Key="TextSelectionBrushColor">#404856</SolidColorBrush>

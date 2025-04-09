@@ -64,6 +64,9 @@ public partial class SsTranslateViewModel : ObservableObject
             if (ocrContent.BoxPoints.Count < 4 || string.IsNullOrEmpty(ocrContent.Text))
                 continue;
 
+            // 执行翻译
+
+
             // 计算文本框的宽度和高度
             float minX = ocrContent.BoxPoints.Min(p => p.X);
             float minY = ocrContent.BoxPoints.Min(p => p.Y);
@@ -77,13 +80,11 @@ public partial class SsTranslateViewModel : ObservableObject
             var wordBlockInfo = new WordBlockInfo
             {
                 Text = ocrContent.Text,
-                Position = new Point(
-                    (int)(minX / dpi.DpiScaleX), 
-                    (int)(minY / dpi.DpiScaleY)), // 使用左上角坐标作为Position，并考虑DPI缩放
+                // 使用左上角坐标作为Position，并考虑DPI缩放
+                Position = new Point((int)(minX / dpi.DpiScaleX), (int)(minY / dpi.DpiScaleY)),
                 Width = (int)(width / dpi.DpiScaleX),
                 Height = (int)(height / dpi.DpiScaleY),
-                // 根据文本行高计算合适的字体大小，使用0.8作为比例因子
-                // 这个比例可以根据实际效果进行调整
+                // 根据文本行高计算合适的字体大小，使用0.8作为比例因子(根据实际效果进行调整)
                 FontSize = (int)(height / dpi.DpiScaleY * 0.8)
             };
 
