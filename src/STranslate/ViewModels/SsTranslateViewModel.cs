@@ -31,7 +31,7 @@ public partial class SsTranslateViewModel : ObservableObject
     private BitmapSource? _ssTranslateBs;
 
     [ObservableProperty]
-    private string _status = string.Empty;
+    private bool _isExecuting;
 
     [RelayCommand]
     private void Exit(Window window)
@@ -43,7 +43,7 @@ public partial class SsTranslateViewModel : ObservableObject
     {
         WordBlocks.Clear();
 
-        Status = "识别中...";
+        IsExecuting = true;
 
         SsTranslateBs = BitmapUtil.ConvertBitmap2BitmapSource(bs, GetImageFormat());
 
@@ -61,13 +61,12 @@ public partial class SsTranslateViewModel : ObservableObject
         var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token,
                 _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
 
-        Status = "翻译中...";
         await Parallel.ForEachAsync(ocrResult.OcrContents, token, async (item, token) =>
         {
             item.Text = await TranslatorAsync(item.Text, token);
         });
 
-        Status = "";
+        IsExecuting = false;
 
         foreach (var ocrContent in ocrResult.OcrContents)
         {
