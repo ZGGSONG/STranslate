@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STranslate.Helper;
-using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference;
@@ -65,7 +64,7 @@ public partial class SsTranslateViewModel : ObservableObject
                 continue;
 
             // 执行翻译
-
+            ocrContent.Text = await TranslatorAsync(ocrContent.Text, token);
 
             // 计算文本框的宽度和高度
             float minX = ocrContent.BoxPoints.Min(p => p.X);
@@ -93,6 +92,30 @@ public partial class SsTranslateViewModel : ObservableObject
         }
 
         bs.Dispose();
+    }
+
+    private async Task<string> TranslatorAsync(string content, CancellationToken token = default)
+    {
+        var detectType = _configHelper.CurrentConfig?.DetectType ?? LangDetectType.Local;
+        var rate = _configHelper.CurrentConfig?.AutoScale ?? 0.8;
+
+        var identify = await LangDetectHelper.DetectAsync(content, detectType, rate, token);
+
+        //如果identify也是自动（只有服务识别服务出错的情况下才是auto）
+        identify = identify == LangEnum.auto
+            ? _configHelper.CurrentConfig?.SourceLangIfAuto ?? LangEnum.en
+            : identify;
+
+        var source = identify;
+
+        var target = identify is LangEnum.zh_cn or LangEnum.zh_tw or LangEnum.yue
+            ? _configHelper.CurrentConfig?.TargetLangIfSourceZh ?? LangEnum.en
+            : _configHelper.CurrentConfig?.TargetLangIfSourceNotZh ?? LangEnum.zh_cn;
+
+        var svc = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.First(x => x.Type == ServiceType.BaiduService);
+        var ret = await svc.TranslateAsync(new RequestModel(content, source, target), token);
+
+        return ret.Result;
     }
 
     private ImageFormat GetImageFormat()

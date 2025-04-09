@@ -1,15 +1,22 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Drawing;
+
 namespace STranslate.Model;
 
-public class WordBlockInfo
+public partial class WordBlockInfo : ObservableObject
 {
-    public string Text { get; set; } = string.Empty;
-    // 使用 System.Drawing.Point 作为位置信息
-    public System.Drawing.Point Position { get; set; }
+    [ObservableProperty]
+    public string _text = string.Empty;
 
-    // 可选：添加文本宽度和高度属性，用于更精确的定位
-    public int Width { get; set; }
-    public int Height { get; set; }
+    [ObservableProperty]
+    public Point _position;
+
+    [ObservableProperty]
+    public int _width;
+
+    [ObservableProperty]
+    public int _height;
     
-    // 根据OCR识别的文本行高计算出的字体大小
-    public double FontSize { get; set; }
+    [ObservableProperty]
+    public double _fontSize;
 }
