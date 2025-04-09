@@ -29,6 +29,7 @@
         Style="{DynamicResource BorderStyle}">
         <Grid>
             <Image
+                x:Name="Img"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Source="{Binding SsTranslateBs}"
@@ -67,6 +68,15 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
+            <TextBlock
+                Width="{Binding ElementName=Img, Path=ActualWidth}"
+                Height="{Binding ElementName=Img, Path=ActualHeight}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                props:ThemeProps.Background="{DynamicResource TextBoxTranslucentBackground}"
+                FontSize="20"
+                Text="{Binding Status}"
+                Visibility="{Binding Status, Converter={StaticResource StringToVisibilityHiddenConverter}}" />
         </Grid>
     </Border>
 </Window>

@@ -30,7 +30,8 @@ public partial class SsTranslateViewModel : ObservableObject
     [ObservableProperty]
     private BitmapSource? _ssTranslateBs;
 
-    private OcrResult OcrResult { get; set; } = OcrResult.Empty;
+    [ObservableProperty]
+    private string _status = string.Empty;
 
     [RelayCommand]
     private void Exit(Window window)
@@ -41,6 +42,8 @@ public partial class SsTranslateViewModel : ObservableObject
     public async Task ExecuteAsync(Bitmap bs, CancellationToken token)
     {
         WordBlocks.Clear();
+
+        Status = "识别中...";
 
         SsTranslateBs = BitmapUtil.ConvertBitmap2BitmapSource(bs, GetImageFormat());
 
@@ -58,13 +61,18 @@ public partial class SsTranslateViewModel : ObservableObject
         var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token,
                 _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
 
+        Status = "翻译中...";
+        await Parallel.ForEachAsync(ocrResult.OcrContents, token, async (item, token) =>
+        {
+            item.Text = await TranslatorAsync(item.Text, token);
+        });
+
+        Status = "";
+
         foreach (var ocrContent in ocrResult.OcrContents)
         {
             if (ocrContent.BoxPoints.Count < 4 || string.IsNullOrEmpty(ocrContent.Text))
                 continue;
-
-            // 执行翻译
-            ocrContent.Text = await TranslatorAsync(ocrContent.Text, token);
 
             // 计算文本框的宽度和高度
             float minX = ocrContent.BoxPoints.Min(p => p.X);
