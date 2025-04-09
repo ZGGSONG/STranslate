@@ -81,17 +81,47 @@ public partial class SsTranslateViewModel : ObservableObject
             int width = (int)(maxX - minX);
             int height = (int)(maxY - minY);
 
-            // 创建 WordBlockInfo 对象，将 BoxPoint 转换为 Position (System.Drawing.Point)
             // 考虑DPI缩放因素，确保坐标正确映射
+            int scaledWidth = (int)(width / dpi.DpiScaleX);
+            int scaledHeight = (int)(height / dpi.DpiScaleY);
+            double initialFontSize = scaledHeight * 0.8; // 初始字体大小
+            
+            // 使用FormattedText测量文本在当前字体大小下的宽度
+            var formattedText = new FormattedText(
+                ocrContent.Text,
+                System.Globalization.CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface("Arial"), // 使用默认字体
+                initialFontSize,
+                System.Windows.Media.Brushes.Black,
+                dpi.PixelsPerDip);
+            
+            // 如果文本宽度超过了计算的宽度，则逐步减小字体大小
+            double adjustedFontSize = initialFontSize;
+            while (formattedText.Width > scaledWidth && adjustedFontSize > 8) // 最小字体大小为8
+            {
+                adjustedFontSize -= 1;
+                formattedText = new FormattedText(
+                    ocrContent.Text,
+                    System.Globalization.CultureInfo.CurrentCulture,
+                    FlowDirection.LeftToRight,
+                    new Typeface("Arial"),
+                    adjustedFontSize,
+                    System.Windows.Media.Brushes.Black,
+                    dpi.PixelsPerDip);
+                // 对应的增高高度避免无法容纳文本
+                scaledHeight += 1;
+            }
+            
             var wordBlockInfo = new WordBlockInfo
             {
                 Text = ocrContent.Text,
                 // 使用左上角坐标作为Position，并考虑DPI缩放
                 Position = new Point((int)(minX / dpi.DpiScaleX), (int)(minY / dpi.DpiScaleY)),
-                Width = (int)(width / dpi.DpiScaleX),
-                Height = (int)(height / dpi.DpiScaleY),
-                // 根据文本行高计算合适的字体大小，使用0.8作为比例因子(根据实际效果进行调整)
-                FontSize = (int)(height / dpi.DpiScaleY * 0.8)
+                Width = scaledWidth,
+                Height = scaledHeight,
+                // 使用调整后的字体大小
+                FontSize = adjustedFontSize
             };
 
             // 添加到WordBlocks集合中

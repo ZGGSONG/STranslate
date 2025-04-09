@@ -47,8 +47,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBox
-                            MinWidth="{Binding Width}"
-                            MinHeight="{Binding Height}"
+                            Width="{Binding Width}"
+                            Height="{Binding Height}"
                             Padding="2,0"
                             VerticalAlignment="Center"
                             props:ThemeProps.Background="{DynamicResource TextBoxTranslucentBackground}"
@@ -65,7 +65,7 @@
                         <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
                         <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
                         <!--  添加负的Margin来微调TextBlock位置，抵消可能的偏移  -->
-                        <Setter Property="Margin" Value="-2,-2,0,0" />
+                        <!--<Setter Property="Margin" Value="-2,0,0,0" />-->
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
