@@ -41,10 +41,18 @@
                             IsHitTestVisible="True" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Background="#64FFFFFF"
+                            FontWeight="Bold"
+                            Text="{Binding Text}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Canvas.Left" Value="{Binding (Canvas.Left)}" />
-                        <Setter Property="Canvas.Top" Value="{Binding (Canvas.Top)}" />
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Position.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Position.Y}" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>

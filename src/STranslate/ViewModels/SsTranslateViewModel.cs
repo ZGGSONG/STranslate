@@ -10,10 +10,9 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Color = System.Windows.Media.Color;
+using Point = System.Drawing.Point;
 
 namespace STranslate.ViewModels;
 
@@ -27,7 +26,7 @@ public partial class SsTranslateViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private ObservableCollection<TextBlock> _wordBlocks = [];
+    private ObservableCollection<WordBlockInfo> _wordBlocks = [];
 
     [ObservableProperty]
     private BitmapSource? _ssTranslateBs;
@@ -41,7 +40,9 @@ public partial class SsTranslateViewModel : ObservableObject
     }
 
     public async Task ExecuteAsync(Bitmap bs, CancellationToken token)
-    {        
+    {
+        WordBlocks.Clear();
+
         SsTranslateBs = BitmapUtil.ConvertBitmap2BitmapSource(bs, GetImageFormat());
 
         var view = new SsTranslateView(this);
@@ -59,31 +60,20 @@ public partial class SsTranslateViewModel : ObservableObject
                 _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
         LogService.Logger.Debug(ocrResult.Text);
 
-        WordBlocks.Clear();
-
         foreach (var ocrContent in ocrResult.OcrContents)
         {
             if (ocrContent.BoxPoints.Count < 4 || string.IsNullOrEmpty(ocrContent.Text))
                 continue;
 
-            // 创建TextBlock显示OCR识别的文本
-            var textBlock = new TextBlock
+            // 创建 WordBlockInfo 对象，将 BoxPoint 转换为 Position (System.Drawing.Point)
+            var wordBlockInfo = new WordBlockInfo
             {
                 Text = ocrContent.Text,
-                FontWeight = FontWeights.Bold,
-                Background = new SolidColorBrush(Color.FromArgb(100, 255, 255, 255))  // 半透明背景
+                Position = new Point((int)ocrContent.BoxPoints[0].X, (int)ocrContent.BoxPoints[0].Y) // 将 BoxPoint 转换为 Position
             };
 
-            // 计算文本框的位置（使用左上角坐标）
-            var left = ocrContent.BoxPoints[0].X;
-            var top = ocrContent.BoxPoints[0].Y;
-
-            // 设置Canvas的位置属性
-            Canvas.SetLeft(textBlock, left);
-            Canvas.SetTop(textBlock, top);
-
             // 添加到WordBlocks集合中
-            WordBlocks.Add(textBlock);
+            WordBlocks.Add(wordBlockInfo);
         }
 
         bs.Dispose();
