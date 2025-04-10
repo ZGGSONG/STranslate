@@ -60,15 +60,16 @@ public partial class SsTranslateViewModel : ObservableObject
         var bytes = BitmapUtil.ConvertBitmap2Bytes(bs, GetImageFormat());
         var ocrResult = await Singleton<OCRScvViewModel>.Instance.ExecuteAsync(bytes, WindowType.Main, token,
                 _configHelper.CurrentConfig?.MainOcrLang ?? LangEnum.auto);
+        var optimizedResult = OcrResultOptimizer.OptimizeForTranslation(ocrResult);
 
-        await Parallel.ForEachAsync(ocrResult.OcrContents, token, async (item, token) =>
+        await Parallel.ForEachAsync(optimizedResult.OcrContents, token, async (item, token) =>
         {
             item.Text = await TranslatorAsync(item.Text, token);
         });
 
         IsExecuting = false;
 
-        foreach (var ocrContent in ocrResult.OcrContents)
+        foreach (var ocrContent in optimizedResult.OcrContents)
         {
             if (ocrContent.BoxPoints.Count < 4 || string.IsNullOrEmpty(ocrContent.Text))
                 continue;
