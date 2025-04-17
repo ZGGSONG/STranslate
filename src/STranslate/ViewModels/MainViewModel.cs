@@ -431,6 +431,7 @@ public partial class MainViewModel : ObservableObject
         {
             LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(content),
             LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(content),
+            LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace => StringUtil.RemoveLineBreaks(content, false),
             _ => content,
         };
 

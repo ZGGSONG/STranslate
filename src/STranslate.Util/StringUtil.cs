@@ -148,10 +148,12 @@ public class StringUtil
     ///     移除换行
     /// </summary>
     /// <param name="content"></param>
+    /// <param name="useSpace"></param>
     /// <returns></returns>
-    public static string RemoveLineBreaks(string content)
+    public static string RemoveLineBreaks(string content, bool useSpace = true)
     {
-        return content.Replace("\r\n", " ").Replace("\n", " ").Replace("\r", " ");
+        var holder = useSpace ? " " : "";
+        return content.Replace("\r\n", holder).Replace("\n", holder).Replace("\r", holder);
     }
 
     /// <summary>

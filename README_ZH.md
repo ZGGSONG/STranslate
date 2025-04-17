@@ -71,12 +71,12 @@
 - 感谢 [Bob](https://bobtranslate.com/guide/) 的启发
 - 感谢 [LxgwWenKai](https://github.com/lxgw/LxgwWenKai)
 - 感谢 [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) 对 `PaddleOCR` 的封装
-- 感谢 [Tai](https://github.com/Planshit/Tai) 升级模块
 - 感谢 [pot-desktop](https://pot-app.com/) `Prompt` 设计思路
 - 感谢 [GTranslate](https://github.com/d4n3436/GTranslate) Microsoft/Yandex 服务源码
 - 感谢 `ChatGPT`、`Github Copilot`
 - 感谢 JetBrains 提供开源项目免费License
 - 感谢 [发文分享](Sponsor.md#分享支持)
+- 感谢 [CopyTranslator](https://github.com/CopyTranslator/CopyTranslator) 净化文本功能
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./attachments/imgs/jb_beam.svg" /></a>
 

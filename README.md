@@ -70,12 +70,12 @@ Or group discussion
 - Thanks to [Bob](https://bobtranslate.com/guide/) for inspiration
 - Thanks to [LxgwWenKai](https://github.com/lxgw/LxgwWenKai)
 - Thanks to [PaddleOCRSharp](https://gitee.com/raoyutian/paddle-ocrsharp) for packing `PaddleOCR`
-- Thanks to [Tai](https://github.com/Planshit/Tai) for upgrade functionality
 - Thanks to [pot-desktop](https://pot-app.com/) for `Prompt` design ideas
 - Thanks to [GTranslate](https://github.com/d4n3436/GTranslate ) Microsoft/Yandex service source code
 - Thanks to `ChatGPT`、`Github Copilot`
 - Thanks to JetBrains for providing open-source project free License
 - Thanks for [Posting Sharing](Sponsor.md#分享支持)
+- Thanks to [CopyTranslator](https://github.com/CopyTranslator/CopyTranslator) for the realization of purification function
 
 <a href="https://jb.gg/OpenSourceSupport"><img src="./attachments/imgs/jb_beam.svg" /></a>
 

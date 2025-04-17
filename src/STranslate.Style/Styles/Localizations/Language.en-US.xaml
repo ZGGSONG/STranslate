@@ -76,6 +76,7 @@
     <system:String x:Key="LineBreakHandlingMode.None">Don't Process LineBreaks</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">Remove Extra LineBreaks</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">Remove All LineBreaks</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace">Remove All LineBreaks Without Space</system:String>
 
     <system:String x:Key="OcrImageQualityEnum.Low">Low</system:String>
     <system:String x:Key="OcrImageQualityEnum.Medium">Medium</system:String>
@@ -309,7 +310,7 @@
     <system:String x:Key="Function.LineBreakHandler">Line Break Handling</system:String>
     <system:String x:Key="Function.LineBreakOCRHandler">OCR Line Break Handling</system:String>
     <system:String x:Key="Function.OcrAutoCopyText">Auto Copy After OCR</system:String>
-    <system:String x:Key="Function.OcrChangedLang2Execute">Translate After OCR Service/Language Change</system:String>
+    <system:String x:Key="Function.OcrChangedLang2Execute">Recognize After OCR Service/Language Change</system:String>
     <system:String x:Key="Function.IncrementalTranslation">Incremental Translation</system:String>
     <system:String x:Key="Function.CopyResultAfterTranslate">Auto Copy After Translation</system:String>
     <system:String x:Key="Function.CopyResultAfterTranslate.NoAction">No Action</system:String>
