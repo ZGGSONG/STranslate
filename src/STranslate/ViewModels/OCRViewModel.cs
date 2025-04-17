@@ -371,6 +371,7 @@ public partial class OCRViewModel : WindowVMBase
             {
                 LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(getText),
                 LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(getText),
+                LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace => StringUtil.RemoveLineBreaks(getText, false),
                 _ => getText,
             };
 

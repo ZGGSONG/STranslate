@@ -251,11 +251,11 @@ public partial class NotifyIconViewModel : ObservableObject
     {
         if (!TryGetWord(out var content) || content == null) return;
 
-
         content = _configHelper.CurrentConfig?.LineBreakHandler switch
         {
             LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(content),
             LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(content),
+            LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace => StringUtil.RemoveLineBreaks(content, false),
             _ => content,
         };
 
@@ -431,6 +431,7 @@ public partial class NotifyIconViewModel : ObservableObject
             {
                 LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(getText),
                 LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(getText),
+                LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace => StringUtil.RemoveLineBreaks(getText, false),
                 _ => getText,
             };
 
@@ -523,6 +524,7 @@ public partial class NotifyIconViewModel : ObservableObject
             {
                 LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(getText),
                 LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(getText),
+                LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace => StringUtil.RemoveLineBreaks(getText, false),
                 _ => getText,
             };
             //截图翻译OCR后自动复制
@@ -722,6 +724,7 @@ public partial class NotifyIconViewModel : ObservableObject
         {
             LineBreakHandlingMode.RemoveExtraLineBreak => StringUtil.NormalizeText(content),
             LineBreakHandlingMode.RemoveAllLineBreak => StringUtil.RemoveLineBreaks(content),
+            LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace => StringUtil.RemoveLineBreaks(content, false),
             _ => content,
         };
 

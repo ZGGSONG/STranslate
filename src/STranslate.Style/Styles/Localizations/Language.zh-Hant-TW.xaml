@@ -76,6 +76,7 @@
     <system:String x:Key="LineBreakHandlingMode.None">不處理換行</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveExtraLineBreak">移除多餘換行</system:String>
     <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreak">移除所有換行</system:String>
+    <system:String x:Key="LineBreakHandlingMode.RemoveAllLineBreakWithoutSpace">移除所有換行-非空格填充</system:String>
 
     <system:String x:Key="OcrImageQualityEnum.Low">低品質</system:String>
     <system:String x:Key="OcrImageQualityEnum.Medium">中等品質</system:String>
@@ -309,7 +310,7 @@
     <system:String x:Key="Function.LineBreakHandler">取詞換行處理</system:String>
     <system:String x:Key="Function.LineBreakOCRHandler">OCR取詞換行處理</system:String>
     <system:String x:Key="Function.OcrAutoCopyText">OCR後自動複製</system:String>
-    <system:String x:Key="Function.OcrChangedLang2Execute">OCR修改服務或語種後立即翻譯</system:String>
+    <system:String x:Key="Function.OcrChangedLang2Execute">OCR修改服務或語種後立即識別</system:String>
     <system:String x:Key="Function.IncrementalTranslation">增量翻譯</system:String>
     <system:String x:Key="Function.CopyResultAfterTranslate">翻譯後自動複製</system:String>
     <system:String x:Key="Function.CopyResultAfterTranslate.NoAction">無操作</system:String>

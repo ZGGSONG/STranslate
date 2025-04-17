@@ -1428,6 +1428,7 @@ public enum LineBreakHandlingMode
     [Description("不处理换行")] None,
     [Description("移除多余换行")] RemoveExtraLineBreak,
     [Description("移除所有换行")] RemoveAllLineBreak,
+    [Description("移除所有换行-非空格填充")] RemoveAllLineBreakWithoutSpace,
 }
 
 public enum AppLanguageKind
