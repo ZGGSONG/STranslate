@@ -172,7 +172,8 @@ public enum ActionType
 {
     Initialize,
     Delete,
-    Add
+    Add,
+    Next,
 }
 
 /// <summary>

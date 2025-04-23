@@ -107,6 +107,13 @@ public partial class TranslatorViewModel : ObservableObject
                 TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
                 break;
             }
+            case ActionType.Next:
+            {
+                //选中当前下一项
+                SelectedIndex += 1;
+                TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
+                break;
+            }
             default:
             {
                 //初始化默认执行选中第一条
@@ -318,8 +325,10 @@ public partial class TranslatorViewModel : ObservableObject
         var duplicateSvc = svc.Clone();
         duplicateSvc.Identify = Guid.NewGuid();
         duplicateSvc.Name += "_副本";
-
-        CurTransServiceList.Add(duplicateSvc);
-        ResetView(ActionType.Add);
+        
+        var index = CurTransServiceList.IndexOf(svc);
+        CurTransServiceList.Insert(index + 1, duplicateSvc);
+        
+        ResetView(ActionType.Next);
     }
 }
