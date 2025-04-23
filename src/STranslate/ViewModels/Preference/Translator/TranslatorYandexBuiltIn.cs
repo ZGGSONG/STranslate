@@ -205,8 +205,8 @@ public partial class TranslatorYandexBuiltIn : TranslatorBase, ITranslator
         {
             LangEnum.auto => "auto",
             LangEnum.zh_cn => "zh",
-            LangEnum.zh_tw => null,
-            LangEnum.yue => null,
+            LangEnum.zh_tw => "zh",
+            LangEnum.yue => "zh",
             LangEnum.en => "en",
             LangEnum.ja => "ja",
             LangEnum.ko => "ko",
