@@ -346,9 +346,7 @@ public class CommonUtil
         //获取未进行缩放的position信息
         var ms = Control.MousePosition;
         //原始数据是否在原始分辨率的屏幕内
-        var screen = Screen.AllScreens.FirstOrDefault(s => s.Bounds.Contains(new System.Windows.Point(ms.X, ms.Y)));
-
-        if (screen == null) throw new ArgumentNullException();
+        var screen = Screen.AllScreens.FirstOrDefault(s => s.Bounds.Contains(new System.Windows.Point(ms.X, ms.Y))) ?? throw new ArgumentNullException();
         //获取缩放比例
         var dpiScale = screen.ScaleFactor;
         //获取处理后的屏幕数据
