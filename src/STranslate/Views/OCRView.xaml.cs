@@ -64,13 +64,21 @@ public partial class OCRView : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        var infos = CommonUtil.GetPositionInfos();
         // 计算窗口左上角在屏幕上的位置
-        var left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
-        var top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+        var screen = WpfScreenHelper.Screen.AllScreens
+            .FirstOrDefault(screen => screen.Bounds.Contains(new Point(infos.Item1.X, infos.Item1.Y)));
 
-        // 设置窗口位置
-        Left = left;
-        Top = top;
+        if (screen == null)
+        {
+            Left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+        }
+        else
+        {
+            Left = (screen.WpfBounds.Width - ActualWidth) / 2 + screen.WpfBounds.X;
+            Top = (screen.WpfBounds.Height - ActualHeight) / 2 + screen.WpfBounds.Y;
+        }
     }
 
     /// <summary>
