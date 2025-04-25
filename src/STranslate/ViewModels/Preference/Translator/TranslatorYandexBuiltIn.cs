@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Net.Http;
+﻿using System.Net.Http;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -167,11 +166,6 @@ public partial class TranslatorYandexBuiltIn : TranslatorBase, ITranslator
 
             throw new Exception(msg);
         }
-    }
-
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
     }
 
     public ITranslator Clone()

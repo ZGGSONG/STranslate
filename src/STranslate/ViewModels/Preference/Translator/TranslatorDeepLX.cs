@@ -141,11 +141,6 @@ public partial class TranslatorDeepLX : TranslatorBase, ITranslator
         }
     }
 
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
-    }
-
     public ITranslator Clone()
     {
         return new TranslatorDeepLX

@@ -109,11 +109,6 @@ public partial class TranslatorAli : TranslatorBase, ITranslator
         return TranslationResult.Success(data);
     }
 
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
-    }
-
     public ITranslator Clone()
     {
         return new TranslatorAli

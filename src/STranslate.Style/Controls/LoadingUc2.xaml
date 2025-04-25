@@ -29,6 +29,8 @@
             <Ellipse x:Name="Dot1" Style="{StaticResource LoadingDotStyle}" />
             <Ellipse x:Name="Dot2" Style="{StaticResource LoadingDotStyle}" />
             <Ellipse x:Name="Dot3" Style="{StaticResource LoadingDotStyle}" />
+            <Ellipse x:Name="Dot4" Style="{StaticResource LoadingDotStyle}" />
+            <Ellipse x:Name="Dot5" Style="{StaticResource LoadingDotStyle}" />
         </StackPanel>
     </Grid>
 </UserControl>

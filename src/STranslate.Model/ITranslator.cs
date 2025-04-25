@@ -34,8 +34,6 @@ public interface ITranslator : INotifyPropertyChanged
 
     Task<TranslationResult> TranslateAsync(object request, CancellationToken token);
 
-    Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token);
-
     BindingList<UserDefinePrompt> UserDefinePrompts { get; set; }
 
     ITranslator Clone();

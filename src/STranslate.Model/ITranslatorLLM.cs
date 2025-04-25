@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace STranslate.Model;
+﻿namespace STranslate.Model;
 
 public interface ITranslatorLLM : ITranslator
 {
@@ -13,4 +11,7 @@ public interface ITranslatorLLM : ITranslator
     /// </summary>
     /// <param name="name"></param>
     void ManualPropChanged(params string[] name);
+
+
+    Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token);
 }

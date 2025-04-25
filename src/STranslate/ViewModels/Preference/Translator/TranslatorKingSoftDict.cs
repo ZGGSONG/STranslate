@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Web;
 using CommunityToolkit.Mvvm.Input;
@@ -177,11 +176,6 @@ public partial class TranslatorKingSoftDict : TranslatorBase, ITranslator
 
         Empty:
         return TranslationResult.Success("");
-    }
-
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
     }
 
     public ITranslator Clone()

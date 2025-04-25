@@ -232,8 +232,8 @@ public partial class InputViewModel : ObservableObject
             //替换源和目标语言
             (source, target) = (target, source);
 
-            if (service is ITranslatorLLM)
-                await TranslateBackStreamHandlerAsync(service, source, target, cancellationToken);
+            if (service is ITranslatorLLM translatorLLM)
+                await TranslateBackStreamHandlerAsync(translatorLLM, source, target, cancellationToken);
             else
                 await TranslateBackNonStreamHandlerAsync(service, source, target, cancellationToken);
         }
@@ -259,7 +259,7 @@ public partial class InputViewModel : ObservableObject
         service.Data.TranslateBackResult = data.Result;
     }
 
-    public async Task TranslateBackStreamHandlerAsync(ITranslator service, LangEnum source, LangEnum target,
+    public async Task TranslateBackStreamHandlerAsync(ITranslatorLLM service, LangEnum source, LangEnum target,
         CancellationToken token)
     {
         //先清空
@@ -270,9 +270,6 @@ public partial class InputViewModel : ObservableObject
             new RequestModel(service.Data.Result, source, target),
             msg =>
             {
-                //开始有数据就停止加载动画
-                if (service.IsTranslateBackExecuting)
-                    service.IsTranslateBackExecuting = false;
                 service.Data.IsTranslateBackSuccess = true;
                 service.Data.TranslateBackResult += msg;
             },
@@ -313,8 +310,8 @@ public partial class InputViewModel : ObservableObject
             if (GetSourceLang == LangEnum.auto && GetTargetLang == LangEnum.auto)
                 (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(null, null, GetSourceLang, GetTargetLang, cancellationToken);
             
-            if (service is ITranslatorLLM)
-                await StreamHandlerAsync(service, InputContent, source, target, cancellationToken);
+            if (service is ITranslatorLLM translatorLLM)
+                await StreamHandlerAsync(translatorLLM, InputContent, source, target, cancellationToken);
             else
                 await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
 
@@ -525,7 +522,7 @@ public partial class InputViewModel : ObservableObject
     /// <param name="target"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public async Task StreamHandlerAsync(ITranslator service, string content, LangEnum source, LangEnum target,
+    public async Task StreamHandlerAsync(ITranslatorLLM service, string content, LangEnum source, LangEnum target,
         CancellationToken token)
     {
         //先清空
@@ -535,9 +532,6 @@ public partial class InputViewModel : ObservableObject
             new RequestModel(content, source, target),
             msg =>
             {
-                //开始有数据就停止加载动画
-                if (service.IsExecuting)
-                    service.IsExecuting = false;
                 service.Data.IsSuccess = true;
                 service.Data.Result += msg;
             },

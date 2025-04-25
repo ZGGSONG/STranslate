@@ -139,7 +139,7 @@ public partial class ReplaceViewModel : ObservableObject
         var sb = new StringBuilder();
         try
         {
-            await ReplaceProp.ActiveService!.TranslateAsync(req,
+            await ((ITranslatorLLM)ReplaceProp.ActiveService!).TranslateAsync(req,
                 msg =>
                 {
                     sb.Append(msg);

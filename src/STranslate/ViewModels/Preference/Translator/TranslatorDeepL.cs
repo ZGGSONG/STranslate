@@ -190,11 +190,6 @@ public partial class TranslatorDeepL : TranslatorBase, ITranslator
         }
     }
 
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
-    }
-
     public ITranslator Clone()
     {
         return new TranslatorDeepL

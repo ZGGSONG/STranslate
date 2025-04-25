@@ -220,11 +220,6 @@ public partial class TranslatorEcdict : TranslatorBase, ITranslator
         return TranslationResult.Success("");
     }
 
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
-    }
-
     public ITranslator Clone()
     {
         return new TranslatorEcdict
