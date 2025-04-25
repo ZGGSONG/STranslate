@@ -529,7 +529,10 @@
                                         </Border>
                                     </Popup>
                                     <!--  // 加载动画 //  -->
-                                    <control:LoadingUc2 Margin="10,0,0,0" DotColor="{DynamicResource ThemeAccentColor}">
+                                    <control:LoadingUc2
+                                        Margin="10,0,0,0"
+                                        DotColor="{DynamicResource ThemeAccentColor}"
+                                        Opacity=".8">
                                         <control:LoadingUc2.IsLoading>
                                             <MultiBinding Converter="{StaticResource MultiValue2BooleanConverter}">
                                                 <Binding Path="IsExecuting" />
