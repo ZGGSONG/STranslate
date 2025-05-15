@@ -116,7 +116,7 @@
                         MinWidth="200"
                         HorizontalAlignment="Left"
                         IsSnapToTickEnabled="True"
-                        Maximum="1"
+                        Maximum="2"
                         Minimum="0"
                         TickFrequency="0.01"
                         TickPlacement="None"
