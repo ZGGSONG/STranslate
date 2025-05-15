@@ -154,6 +154,7 @@
     <system:String x:Key="IconType.Yandex">Yandex</system:String>
     <system:String x:Key="IconType.DeerAPI">DeerAPI</system:String>
     <system:String x:Key="IconType.Grok">Grok</system:String>
+    <system:String x:Key="IconType.Bailian">Bailian</system:String>
 
     <system:String x:Key="BackupType.Local">Local</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>

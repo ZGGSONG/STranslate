@@ -296,6 +296,7 @@ public enum IconType
     [Description("Yandex")] Yandex,
     [Description("DeerAPI")] DeerAPI,
     [Description("Grok")] Grok,
+    [Description("阿里百炼")] Bailian,
 }
 
 /// <summary>
