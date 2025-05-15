@@ -42,7 +42,7 @@
     <Content Include="z_uninstall.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CleanOcr.bat">
+    <Content Include="cleanocr.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     

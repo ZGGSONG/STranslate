@@ -162,10 +162,4 @@
 	  </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Controls\LoadingUc.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>
