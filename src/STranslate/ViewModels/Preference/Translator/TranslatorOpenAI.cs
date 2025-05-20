@@ -157,15 +157,15 @@ public partial class TranslatorOpenAI : TranslatorLLMBase, ITranslatorLLM
 
                         /***********************************************************************
                          * 推理模型思考内容
-                         * 1. content字段内：Groq（推理后带有换行）
+                         * 1. content字段内：Groq（推理后带有换行）(兼容think标签还带有换行情况)
                          * 2. reasoning_content字段内：DeepSeek、硅基流动（推理后带有换行）、第三方服务商
                          ************************************************************************/
 
                         #region 针对content内容中含有推理内容的优化
 
-                        if (contentValue == "<think>")
+                        if (contentValue.Trim() == "<think>")
                             isThink = true;
-                        if (contentValue == "</think>")
+                        if (contentValue.Trim() == "</think>")
                         {
                             isThink = false;
                             // 跳过当前内容
