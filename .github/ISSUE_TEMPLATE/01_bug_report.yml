@@ -21,8 +21,14 @@ body:
     id: "reproduction-method"
     attributes:
       label: "复现方法"
-      description: "在BUG出现前执行了哪些操作"
-      placeholder: 标序号
+      description: |
+        在BUG出现前执行了哪些操作（可用序号标注）。
+        如有必要，请在提交 issue 后通过评论区上传视频或 GIF（可直接拖拽或粘贴到评论框）。
+      placeholder: |
+        1. 打开软件
+        2. 点击按钮
+        3. ...
+        （如有视频或 GIF，可在 issue 提交后上传到评论区）
     validations:
       required: true
   - type: textarea
@@ -37,17 +43,28 @@ body:
     id: "more"
     attributes:
       label: "额外信息"
-      description: "可选"
+      description: "可选（比如：Windows 10 企业版 LTSC 21H2）"
     validations:
       required: false
+
+  - type: input
+    id: "version"
+    attributes:
+      label: "使用的版本号"
+      description: "请填写你使用的软件版本号（可在关于界面或托盘图标提示信息中查看，比如：1.5.2.408）"
+    validations:
+      required: true
+
   - type: checkboxes
     id: "latest-version"
     attributes:
       label: "我确认已更新至最新版本"
-      description: "否则请更新后尝试"
+      description: |
+        否则请[点击这里前往 Release 页面](https://github.com/ZGGSONG/STranslate/releases)下载最新版后再尝试
       options:
         - label: 是
           required: true
+
   - type: checkboxes
     id: "issues"
     attributes:

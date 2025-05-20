@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{8B472084-6B63-44BA-9D4A-B97576810AD2}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.github\ISSUE_TEMPLATE\01_bug_report.yml = .github\ISSUE_TEMPLATE\01_bug_report.yml
+		.github\ISSUE_TEMPLATE\02_feature_request.yml = .github\ISSUE_TEMPLATE\02_feature_request.yml
 		7z.ps1 = 7z.ps1
 		CHANGELOG.md = CHANGELOG.md
 		cleanocr.ps1 = cleanocr.ps1
