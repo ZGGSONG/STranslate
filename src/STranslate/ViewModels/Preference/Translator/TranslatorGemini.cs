@@ -46,6 +46,19 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
     #region Properties
 
     [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "gemini-2.0-flash",
+        "gemini-2.5-flash-preview-04-17",
+        "gemini-2.5-pro-preview-05-06",
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
+    [JsonIgnore]
     private BindingList<UserDefinePrompt> _userDefinePrompts =
     [
         new UserDefinePrompt(
@@ -138,7 +151,7 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
 
         // 选择模型
         var a_model = Model.Trim();
-        a_model = string.IsNullOrEmpty(a_model) ? "gemini-pro" : a_model;
+        a_model = string.IsNullOrEmpty(a_model) ? "gemini-2.0-flash" : a_model;
 
         if (uriBuilder.Path == "/")
             uriBuilder.Path = $"/v1beta/models/{a_model}:streamGenerateContent";
@@ -265,6 +278,7 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
             AppID = AppID,
             AppKey = AppKey,
             Model = Model,
+            Models = Models,
             UserDefinePrompts = UserDefinePrompts.Clone(),
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,

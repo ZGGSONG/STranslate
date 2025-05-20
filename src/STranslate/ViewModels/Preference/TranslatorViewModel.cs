@@ -236,6 +236,13 @@ public partial class TranslatorViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
+        foreach (var item in CurTransServiceList)
+        {
+            if (item is not ITranslatorLLM llm) continue;
+            if (llm.Models.Contains(llm.Model)) continue;
+            llm.Models.Add(llm.Model);
+        }
+
         if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurTransServiceList))
         {
             LogService.Logger.Warn($"保存服务失败，{JsonConvert.SerializeObject(CurTransServiceList)}");

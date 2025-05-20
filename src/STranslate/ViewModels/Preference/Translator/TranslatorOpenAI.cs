@@ -251,6 +251,7 @@ public partial class TranslatorOpenAI : TranslatorLLMBase, ITranslatorLLM
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

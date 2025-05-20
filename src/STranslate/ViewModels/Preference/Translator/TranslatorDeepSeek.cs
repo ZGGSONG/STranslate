@@ -41,6 +41,22 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
     #endregion Constructor
 
+    #region Properties
+
+    [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "deepseek-chat",
+        "deepseek-reasoner",
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
+    #endregion
+
     #region Translator Test
 
     [property: JsonIgnore]
@@ -249,6 +265,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

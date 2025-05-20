@@ -64,6 +64,16 @@ public class ConfigHelper
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                         throw new Exception("反序列化失败...");
             Decryption(config);
+
+            // LLM 模型加载
+            foreach (var item in config.Services ?? [])
+            {
+                if (item is not ITranslatorLLM itemLlm) continue;
+                if (itemLlm.Models.Contains(itemLlm.Model)) continue;
+                // 判断itemLlm.Models里是否少于value的部分，有的话就添加
+                itemLlm.Models.Add(itemLlm.Model);
+            }
+
             return config;
         }
         catch (Exception ex)
@@ -1164,7 +1174,10 @@ public class TranslatorConverter : JsonConverter<ITranslator>
         };
         
         if (translator is ITranslatorLLM llm)
+        {
             llm.UserDefinePrompts.Clear();
+            llm.Models.Clear();
+        }
 
         serializer.Populate(jsonObject.CreateReader(), translator);
         return translator;

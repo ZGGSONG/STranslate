@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.ComponentModel;
+using System.Net.Http;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -40,6 +41,24 @@ public partial class TranslatorOllama : TranslatorLLMBase, ITranslatorLLM
     }
 
     #endregion Constructor
+
+    #region Properties
+
+    [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "deepseek-r1:latest",
+        "qwen3:latest",
+        "llama4:latest",
+        "gemma3:latest",
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
+    #endregion
 
     #region Translator Test
 
@@ -206,6 +225,7 @@ public partial class TranslatorOllama : TranslatorLLMBase, ITranslatorLLM
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

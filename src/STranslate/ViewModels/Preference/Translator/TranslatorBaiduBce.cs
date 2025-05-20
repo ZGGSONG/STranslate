@@ -42,6 +42,22 @@ public partial class TranslatorBaiduBce : TranslatorLLMBase, ITranslatorLLM
 
     #endregion Constructor
 
+    #region Properties
+
+    [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "ernie_speed",
+        "deepseek-r1",
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
+    #endregion
+
     #region Translator Test
 
     [property: JsonIgnore]
@@ -246,6 +262,7 @@ public partial class TranslatorBaiduBce : TranslatorLLMBase, ITranslatorLLM
             IdHide = IdHide,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

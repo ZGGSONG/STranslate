@@ -43,6 +43,21 @@ public partial class TranslatorChatglm : TranslatorLLMBase, ITranslatorLLM
     #endregion Constructor
 
     #region Properties
+    [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "glm-4",
+        "glm-4o",
+        "glm-4o-8k",
+        "glm-4o-16k",
+        "glm-4o-32k",
+        "glm-4o-64k"
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
 
     [JsonIgnore]
     private BindingList<UserDefinePrompt> _userDefinePrompts =
@@ -252,6 +267,7 @@ public partial class TranslatorChatglm : TranslatorLLMBase, ITranslatorLLM
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

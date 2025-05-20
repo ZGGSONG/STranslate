@@ -90,12 +90,14 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{DynamicResource Service.Model}" />
 
-                    <common:PlaceholderTextBox
+                    <ComboBox
                         Grid.Column="1"
-                        MinWidth="206"
+                        MinWidth="180"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Placeholder="ernie_speed"
+                        BorderThickness="1"
+                        IsEditable="True"
+                        ItemsSource="{Binding Models}"
+                        Style="{StaticResource EditableComboBox}"
                         Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
