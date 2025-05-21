@@ -114,32 +114,61 @@ public class LangDetectHelper
         var lang = LangEnum.auto;
         try
         {
-            const string url = "https://fanyi.qq.com/api/translate";
-            var resp = await HttpUtil.PostAsync(url, new Tuple<string, string>("sourceText", content),
-                token ?? CancellationToken.None);
+            const string url = "https://transmart.qq.com/api/imt";
+            var headers = new Dictionary<string, string>
+            {
+                { "User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" },
+                { "Referer", "https://yi.qq.com/zh-CN/index" }
+            };
+
+            var reqData = new
+            {
+                header = new
+                {
+                    fn = "lang_detect",
+                    client_key = "browser-chrome-110.0.0-Mac OS-df4bd4c5-a65d-44b2-a40f-42f34f3535f2-1677486696487"
+                },
+                text = content,
+            };
+            var reqStr = JsonConvert.SerializeObject(reqData);
+            var resp = await HttpUtil.PostAsync(url, reqStr, token ?? CancellationToken.None);
 
             var parseData = JsonConvert.DeserializeObject<JObject>(resp);
-            var lan = parseData?["translate"]?["source"]?.ToString() ?? "";
+            var lan = parseData?["language"]?.ToString() ?? "";
 
             lang = lan switch
             {
-                "zh" => LangEnum.zh_cn,
-                "en" => LangEnum.en,
-                "ja" => LangEnum.ja,
-                "ko" => LangEnum.ko,
-                "fr" => LangEnum.fr,
-                "es" => LangEnum.es,
-                "ru" => LangEnum.ru,
-                "de" => LangEnum.de,
-                "it" => LangEnum.it,
-                "tr" => LangEnum.tr,
-                "pt" => LangEnum.pt_pt,
-                "vi" => LangEnum.vi,
-                "id" => LangEnum.id,
-                "th" => LangEnum.th,
-                "ms" => LangEnum.ms,
-                "ar" => LangEnum.ar,
-                "hi" => LangEnum.hi,
+                // "auto" => LangEnum.auto,
+                "chinese" => LangEnum.zh_cn,
+                // "" => LangEnum.zh_tw,
+                "cantonese" => LangEnum.yue,
+                "english" => LangEnum.en,
+                "japanese" => LangEnum.ja,
+                "korean" => LangEnum.ko,
+                "french" => LangEnum.fr,
+                "spanish" => LangEnum.es,
+                "russian" => LangEnum.ru,
+                "german" => LangEnum.de,
+                "italian" => LangEnum.it,
+                "turkish" => LangEnum.tr,
+                "portuguese" => LangEnum.pt_pt,
+                // "" => LangEnum.pt_br,
+                "vietnamese" => LangEnum.vi,
+                // "" => LangEnum.id,
+                "thai" => LangEnum.th,
+                // "" => LangEnum.ms,
+                "arabic" => LangEnum.ar,
+                // "" => LangEnum.hi,
+                // "" => LangEnum.mn_cy,
+                // "" => LangEnum.mn_mo,
+                // "" => LangEnum.km,
+                // "" => LangEnum.nb_no,
+                // "" => LangEnum.nn_no,
+                // "" => LangEnum.fa,
+                // "" => LangEnum.sv,
+                // "" => LangEnum.pl,
+                // "" => LangEnum.nl,
+                // "" => LangEnum.uk,
 
                 _ => LangEnum.auto
             };
