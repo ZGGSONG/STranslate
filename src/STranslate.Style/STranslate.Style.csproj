@@ -127,6 +127,9 @@
     <Resource Include="Resources\tencent2.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\transmart.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
 	  <Resource Include="Resources\update.ico">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>

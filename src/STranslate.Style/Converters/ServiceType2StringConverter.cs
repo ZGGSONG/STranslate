@@ -24,6 +24,7 @@ public class ServiceType2StringConverter : IValueConverter
                 ServiceType.KingSoftDictService => AppLanguageManager.GetString("ServiceType.BuiltIn"),
                 ServiceType.BingDictService => AppLanguageManager.GetString("ServiceType.BuiltIn"),
                 ServiceType.MicrosoftBuiltinService => AppLanguageManager.GetString("ServiceType.BuiltIn"),
+                ServiceType.TransmartBuiltInService => AppLanguageManager.GetString("ServiceType.BuiltIn"),
                 _ => AppLanguageManager.GetString("ServiceType.Official")
                 //TODO: 新接口需要适配
             },

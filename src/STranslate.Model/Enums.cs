@@ -207,6 +207,7 @@ public enum ServiceType
     MicrosoftBuiltinService,
     YandexBuiltInService,
     DeerAPIService,
+    TransmartBuiltInService,
 }
 
 public enum TTSType
@@ -297,6 +298,7 @@ public enum IconType
     [Description("DeerAPI")] DeerAPI,
     [Description("Grok")] Grok,
     [Description("阿里百炼")] Bailian,
+    [Description("Transmart")] Transmart,
 }
 
 /// <summary>

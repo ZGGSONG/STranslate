@@ -980,6 +980,7 @@ public class ConfigHelper
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", isEnabled: false),
+                new TranslatorTransmartBuiltIn(),
                 new TranslatorMicrosoftBuiltin(),
                 new TranslatorYandexBuiltIn(),
                 new TranslatorGoogleBuiltin(),
@@ -1169,6 +1170,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
             (int)ServiceType.YandexBuiltInService => new TranslatorYandexBuiltIn(),
             (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
+            (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

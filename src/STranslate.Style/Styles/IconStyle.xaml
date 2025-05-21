@@ -33,4 +33,5 @@
     <BitmapImage x:Key="DeerAPI" UriSource="pack://application:,,,/STranslate.Style;component/Resources/deerapi.png" />
     <BitmapImage x:Key="Grok" UriSource="pack://application:,,,/STranslate.Style;component/Resources/grok.png" />
     <BitmapImage x:Key="Bailian" UriSource="pack://application:,,,/STranslate.Style;component/Resources/bailian.png" />
+    <BitmapImage x:Key="Transmart" UriSource="pack://application:,,,/STranslate.Style;component/Resources/transmart.png" />
 </ResourceDictionary>

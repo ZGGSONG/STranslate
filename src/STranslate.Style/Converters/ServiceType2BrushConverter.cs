@@ -20,6 +20,7 @@ public class ServiceType2BrushConverter : IValueConverter
                 ServiceType.GoogleBuiltinService => local,
                 ServiceType.MicrosoftBuiltinService => local,
                 ServiceType.YandexBuiltInService => local,
+                ServiceType.TransmartBuiltInService => local,
                 ServiceType.STranslateService => local,
                 ServiceType.EcdictService => local,
                 ServiceType.KingSoftDictService => local,
