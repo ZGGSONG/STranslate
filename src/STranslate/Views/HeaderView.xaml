@@ -278,17 +278,34 @@
                 FontSize="{DynamicResource FontSize19}"
                 Style="{DynamicResource ToggleButtonIconStyle}"
                 ToolTip="{DynamicResource ConfigureService}"
-                Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                Visibility="{Binding IsShowConfigureService, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:ChangePropertyAction
+                            PropertyName="IsOpen"
+                            TargetObject="{Binding ElementName=PART_Popup_Svc}"
+                            Value="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ToggleButton>
             <Popup
+                x:Name="PART_Popup_Svc"
                 MinWidth="80"
                 MinHeight="30"
                 MaxHeight="400"
                 AllowsTransparency="True"
-                IsOpen="{Binding ElementName=BTN_Service, Path=IsChecked}"
                 Placement="Bottom"
                 PlacementTarget="{Binding ElementName=BTN_Service}"
                 PopupAnimation="Slide"
                 StaysOpen="False">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Closed">
+                        <i:ChangePropertyAction
+                            PropertyName="IsChecked"
+                            TargetObject="{Binding ElementName=BTN_Service}"
+                            Value="{Binding ElementName=BTN_Service, Path=IsMouseOver}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <Border Style="{DynamicResource BorderStyle}">
                     <ScrollViewer
                         Margin="0,5"
@@ -333,17 +350,34 @@
                 Content="&#xe62f;"
                 Style="{DynamicResource ToggleButtonIconStyle}"
                 ToolTip="{DynamicResource SilentOCRLang}"
-                Visibility="{Binding ShowMainOcrLang, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                Visibility="{Binding ShowMainOcrLang, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <i:ChangePropertyAction
+                            PropertyName="IsOpen"
+                            TargetObject="{Binding ElementName=PART_Popup_OcrLang}"
+                            Value="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ToggleButton>
             <Popup
+                x:Name="PART_Popup_OcrLang"
                 MinWidth="80"
                 MinHeight="30"
                 MaxHeight="400"
                 AllowsTransparency="True"
-                IsOpen="{Binding ElementName=MainOcrLangTb, Path=IsChecked}"
                 Placement="Bottom"
                 PlacementTarget="{Binding ElementName=MainOcrLangTb}"
                 PopupAnimation="Slide"
                 StaysOpen="False">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Closed">
+                        <i:ChangePropertyAction
+                            PropertyName="IsChecked"
+                            TargetObject="{Binding ElementName=MainOcrLangTb}"
+                            Value="{Binding ElementName=MainOcrLangTb, Path=IsMouseOver}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <Border Style="{DynamicResource BorderStyle}">
                     <ScrollViewer
                         MaxHeight="400"

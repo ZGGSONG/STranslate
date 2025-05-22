@@ -143,17 +143,33 @@
                             Cursor="Hand"
                             FontFamily="{DynamicResource UserFont}"
                             FontSize="{DynamicResource FontSize14}"
-                            Style="{DynamicResource ToggleButtonIconStyle}" />
+                            Style="{DynamicResource ToggleButtonIconStyle}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:ChangePropertyAction
+                                        PropertyName="IsOpen"
+                                        TargetObject="{Binding ElementName=DetectPopup}"
+                                        Value="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
                         <Popup
                             Name="DetectPopup"
                             MinWidth="40"
                             MinHeight="30"
                             AllowsTransparency="True"
-                            IsOpen="{Binding ElementName=DetectTb, Path=IsChecked}"
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=DetectTb}"
                             PopupAnimation="Slide"
                             StaysOpen="False">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Closed">
+                                    <i:ChangePropertyAction
+                                        PropertyName="IsChecked"
+                                        TargetObject="{Binding ElementName=DetectTb}"
+                                        Value="{Binding ElementName=DetectTb, Path=IsMouseOver}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Border Style="{DynamicResource BorderStyle}">
                                 <ListBox
                                     Name="DetectLb"
@@ -220,17 +236,33 @@
                             Cursor="Hand"
                             FontFamily="{DynamicResource UserFont}"
                             FontSize="{DynamicResource FontSize14}"
-                            Style="{DynamicResource ToggleButtonIconStyle}" />
+                            Style="{DynamicResource ToggleButtonIconStyle}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:ChangePropertyAction
+                                        PropertyName="IsOpen"
+                                        TargetObject="{Binding ElementName=IdentifyPopup}"
+                                        Value="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
                         <Popup
                             Name="IdentifyPopup"
                             MinWidth="40"
                             MinHeight="30"
                             AllowsTransparency="True"
-                            IsOpen="{Binding ElementName=IdentifyTb, Path=IsChecked}"
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=IdentifyTb}"
                             PopupAnimation="Slide"
                             StaysOpen="False">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Closed">
+                                    <i:ChangePropertyAction
+                                        PropertyName="IsChecked"
+                                        TargetObject="{Binding ElementName=IdentifyTb}"
+                                        Value="{Binding ElementName=IdentifyTb, Path=IsMouseOver}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Border Style="{DynamicResource BorderStyle}">
                                 <ScrollViewer MaxHeight="400" HorizontalScrollBarVisibility="Disabled">
                                     <ListBox

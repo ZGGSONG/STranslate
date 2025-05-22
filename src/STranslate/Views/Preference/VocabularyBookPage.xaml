@@ -136,17 +136,33 @@
                             props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
                             BorderThickness="1"
                             Content="+"
-                            Style="{DynamicResource ToggleButtonIconStyle}" />
+                            Style="{DynamicResource ToggleButtonIconStyle}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:ChangePropertyAction
+                                        PropertyName="IsOpen"
+                                        TargetObject="{Binding ElementName=Popup_Add}"
+                                        Value="True" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
                         <Popup
                             x:Name="Popup_Add"
                             MinWidth="80"
                             MinHeight="30"
                             AllowsTransparency="True"
-                            IsOpen="{Binding ElementName=BTN_Add, Path=IsChecked}"
                             Placement="Bottom"
                             PlacementTarget="{Binding ElementName=BTN_Add}"
                             PopupAnimation="Slide"
                             StaysOpen="False">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Closed">
+                                    <i:ChangePropertyAction
+                                        PropertyName="IsChecked"
+                                        TargetObject="{Binding ElementName=BTN_Add}"
+                                        Value="{Binding ElementName=BTN_Add, Path=IsMouseOver}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Border Style="{DynamicResource BorderStyle}">
                                 <ListBox
                                     Name="VocabularyBookListBox"

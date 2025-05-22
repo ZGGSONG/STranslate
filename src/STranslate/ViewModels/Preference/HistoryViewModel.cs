@@ -156,12 +156,6 @@ public partial class HistoryViewModel : ObservableObject
             : new HistoryContentPage(new HistoryContentViewModel(HistoryList?[index]));
     }
 
-    [RelayCommand]
-    private void Popup(Popup control)
-    {
-        control.IsOpen = true;
-    }
-
     /// <summary>
     ///     删除某条记录
     /// </summary>

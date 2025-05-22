@@ -193,17 +193,33 @@
                                         Content="&#xe8b7;"
                                         Cursor="Hand"
                                         Style="{DynamicResource ToggleButtonIconStyle}"
-                                        Visibility="Collapsed" />
+                                        Visibility="Collapsed">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:ChangePropertyAction
+                                                    PropertyName="IsOpen"
+                                                    TargetObject="{Binding ElementName=ExtraSettingsPopup}"
+                                                    Value="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
                                     <Popup
                                         Name="ExtraSettingsPopup"
                                         MinWidth="40"
                                         MinHeight="30"
                                         AllowsTransparency="True"
-                                        IsOpen="{Binding ElementName=ExtraSettingsTb, Path=IsChecked}"
                                         Placement="Bottom"
                                         PlacementTarget="{Binding ElementName=ExtraSettingsTb}"
                                         PopupAnimation="Slide"
                                         StaysOpen="False">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Closed">
+                                                <i:ChangePropertyAction
+                                                    PropertyName="IsChecked"
+                                                    TargetObject="{Binding ElementName=ExtraSettingsTb}"
+                                                    Value="{Binding ElementName=ExtraSettingsTb, Path=IsMouseOver}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <Border Style="{DynamicResource BorderStyle}">
                                             <StackPanel FlowDirection="LeftToRight">
 
@@ -438,7 +454,7 @@
                                         TextTrimming="CharacterEllipsis"
                                         ToolTip="{Binding Name}" />
                                     <ToggleButton
-                                        Name="ExpanderPromptTb"
+                                        x:Name="PART_Switch"
                                         Height="22"
                                         MaxWidth="70"
                                         Margin="10,0,0,0"
@@ -458,16 +474,34 @@
                                                 <Binding Path="Data.IsPromptToggleVisible" Source="{StaticResource OutputVm}" />
                                             </MultiBinding>
                                         </ToggleButton.Visibility>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:ChangePropertyAction
+                                                    PropertyName="IsOpen"
+                                                    TargetObject="{Binding ElementName=PART_Popup}"
+                                                    Value="True" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </ToggleButton>
                                     <Popup
+                                        x:Name="PART_Popup"
                                         MinWidth="40"
                                         MinHeight="30"
                                         AllowsTransparency="True"
-                                        IsOpen="{Binding ElementName=ExpanderPromptTb, Path=IsChecked}"
                                         Placement="Bottom"
-                                        PlacementTarget="{Binding ElementName=ExpanderPromptTb}"
+                                        PlacementTarget="{Binding ElementName=PART_Switch}"
                                         PopupAnimation="Slide"
                                         StaysOpen="False">
+                                        <!--  https://github.com/JamesnetGroup/smartdate/blob/main/src/SmartDateControl/UI/Units/SmartDate.cs#L88  -->
+                                        <!--  在关闭的时候强行指定Switch的IsChecked属性为MouseOver，如果重复点那么开关就不会关闭，不会继续执行Checked事件的打开Popup控件  -->
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Closed">
+                                                <i:ChangePropertyAction
+                                                    PropertyName="IsChecked"
+                                                    TargetObject="{Binding ElementName=PART_Switch}"
+                                                    Value="{Binding ElementName=PART_Switch, Path=IsMouseOver}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <Border Style="{DynamicResource BorderStyle}">
                                             <ListBox
                                                 x:Name="PromptLb"
@@ -520,7 +554,7 @@
                                                                 <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                     <Binding Path="Data" Source="{StaticResource TranslatorService}" />
                                                                     <Binding ElementName="PromptLb" Path="SelectedItem" />
-                                                                    <Binding ElementName="ExpanderPromptTb" />
+                                                                    <Binding ElementName="PART_Switch" />
                                                                 </MultiBinding>
                                                             </i:InvokeCommandAction.CommandParameter>
                                                         </i:InvokeCommandAction>

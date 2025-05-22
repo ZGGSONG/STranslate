@@ -149,23 +149,39 @@
                         <Run Text="{DynamicResource History.Xiang}" />
                     </TextBlock>
 
-                    <Button
-                        x:Name="BTN_Del_All"
+                    <ToggleButton
+                        x:Name="PART_Switch"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         props:ThemeProps.Background="{DynamicResource BorderLangBackground}"
-                        Command="{Binding PopupCommand}"
-                        CommandParameter="{Binding ElementName=Popup}"
-                        Content="···" />
+                        Content="···"
+                        Style="{DynamicResource ToggleButtonTextStyle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:ChangePropertyAction
+                                    PropertyName="IsOpen"
+                                    TargetObject="{Binding ElementName=PART_Popup}"
+                                    Value="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
                     <Popup
-                        x:Name="Popup"
+                        x:Name="PART_Popup"
                         MinWidth="80"
                         MinHeight="30"
                         AllowsTransparency="True"
                         Placement="Bottom"
-                        PlacementTarget="{Binding ElementName=BTN_Del_All}"
+                        PlacementTarget="{Binding ElementName=PART_Switch}"
                         PopupAnimation="Slide"
                         StaysOpen="False">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Closed">
+                                <i:ChangePropertyAction
+                                    PropertyName="IsChecked"
+                                    TargetObject="{Binding ElementName=PART_Switch}"
+                                    Value="{Binding ElementName=PART_Switch, Path=IsMouseOver}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <Border Style="{DynamicResource BorderStyle}">
                             <ListBox
                                 Name="ServiceListBox"
@@ -176,7 +192,7 @@
                                 ScrollViewer.VerticalScrollBarVisibility="Hidden">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                        <i:InvokeCommandAction Command="{Binding DeleteAllHistoryCommand}" CommandParameter="{Binding ElementName=Popup}" />
+                                        <i:InvokeCommandAction Command="{Binding DeleteAllHistoryCommand}" CommandParameter="{Binding ElementName=PART_Popup}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <ListBox.ItemTemplate>
