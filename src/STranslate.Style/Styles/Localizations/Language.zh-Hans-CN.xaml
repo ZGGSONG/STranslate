@@ -548,6 +548,7 @@
     <system:String x:Key="Service.VocabularyBook.Title">生词本</system:String>
     <system:String x:Key="Service.VocabularyBook.SubTitle">将文本存储至在线生词本中</system:String>
     <system:String x:Key="Service.Name">名称:</system:String>
+    <system:String x:Key="Service.Type">类型:</system:String>
     <system:String x:Key="Service.Api">接口:</system:String>
     <system:String x:Key="Service.AutoExecute">自动执行:</system:String>
     <system:String x:Key="Service.AutoExecute.Tooltip">执行翻译时是否自动翻译，否则需要手动点击才能进行翻译</system:String>

@@ -35,6 +35,26 @@
                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource Service.Type}" />
+
+                <Border
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    Background="{Binding Type, Converter={StaticResource ServiceType2BrushConverter}}"
+                    CornerRadius="5">
+                    <TextBlock
+                        Margin="5,2"
+                        VerticalAlignment="Center"
+                        props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
+                        Text="{Binding Type}" />
+                </Border>
+            </Grid>
+
             <Grid Margin="0,10" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />

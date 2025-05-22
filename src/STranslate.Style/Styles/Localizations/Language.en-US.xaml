@@ -548,6 +548,7 @@
     <system:String x:Key="Service.VocabularyBook.Title">Vocabulary Book</system:String>
     <system:String x:Key="Service.VocabularyBook.SubTitle">Store text in an online vocabulary book</system:String>
     <system:String x:Key="Service.Name">Name:</system:String>
+    <system:String x:Key="Service.Type">Type:</system:String>
     <system:String x:Key="Service.Api">Api:</system:String>
     <system:String x:Key="Service.AutoExecute">AutoExec:</system:String>
     <system:String x:Key="Service.AutoExecute.Tooltip">Whether to translate automatically when executing translation, otherwise you need to click manually to translate</system:String>
