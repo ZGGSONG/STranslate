@@ -435,7 +435,8 @@
                                         props:ThemeProps.Foreground="{DynamicResource TextForeground}"
                                         FontSize="{DynamicResource FontSize14}"
                                         Text="{Binding Name}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        ToolTip="{Binding Name}" />
                                     <ToggleButton
                                         Name="ExpanderPromptTb"
                                         Height="22"
