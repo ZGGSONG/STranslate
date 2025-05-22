@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -156,7 +155,8 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
         if (uriBuilder.Path == "/")
             uriBuilder.Path = $"/v1beta/models/{a_model}:streamGenerateContent";
 
-        uriBuilder.Query = $"key={AppKey}";
+        // 加上 alt=sse 才是每个流传输结果为完整json，方便解析判断是否为最后一条
+        uriBuilder.Query = $"alt=sse&key={AppKey}";
 
         // 替换Prompt关键字
         var a_messages =
@@ -187,44 +187,35 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
 
         try
         {
-            var hasNewlineCache = false;
             await HttpUtil.PostAsync(
                 uriBuilder.Uri,
                 jsonData,
                 null,
                 msg =>
                 {
-                    // 使用正则表达式提取目标字符串
-                    var pattern = "(?<=\"text\": \")[^\"]+(?=\")";
+                    LogService.Logger.Debug(msg);
+                    if (string.IsNullOrEmpty(msg?.Trim()))
+                        return;
 
-                    var match = Regex.Match(msg, pattern);
+                    var preprocessString = msg.Replace("data:", "").Trim();
 
-                    if (match.Success)
-                    {
-                        // 将转义的换行符替换为实际换行符
-                        var value = match.Value.Replace("\\n", "\n");
+                    // 解析JSON数据
+                    var parsedData = JsonConvert.DeserializeObject<JObject>(preprocessString);
 
-                        // 如果上一个响应片段以换行符结尾，且被缓存了
-                        if (hasNewlineCache)
-                        {
-                            value = "\n" + value;  // 添加缓存的换行符
-                            hasNewlineCache = false;
-                        }
+                    if (parsedData is null)
+                        return;
 
-                        // 检查当前片段是否以换行符结尾
-                        if (value.EndsWith('\n'))
-                        {
-                            // 移除末尾换行并记录缓存状态
-                            value = value[..^1];
-                            hasNewlineCache = true;
-                        }
+                    // 提取content的值
+                    var contentValue = parsedData["candidates"]?.FirstOrDefault()?["content"]?["parts"]?.FirstOrDefault()?["text"]?.ToString();
 
-                        // 只有当值非空时才调用回调
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            onDataReceived?.Invoke(value);
-                        }
-                    }
+                    if (string.IsNullOrEmpty(contentValue))
+                        return;
+
+                    // 结束时处理最后多余的\n
+                    if ((parsedData["candidates"]?.FirstOrDefault()?["finishReason"]?.ToString() ?? "") == "STOP" && contentValue.EndsWith('\n'))
+                        contentValue = contentValue.TrimEnd('\n');
+
+                    onDataReceived?.Invoke(contentValue);
                 },
                 token
             ).ConfigureAwait(false);
