@@ -163,6 +163,34 @@
     <system:String x:Key="STranslateMode.Brower">Brower</system:String>
     <system:String x:Key="STranslateMode.IOS">IOS</system:String>
 
+    <system:String x:Key="ServiceType.DeepLXService">DeepLX</system:String>
+    <system:String x:Key="ServiceType.BaiduService">Baidu</system:String>
+    <system:String x:Key="ServiceType.MicrosoftService">Microsoft</system:String>
+    <system:String x:Key="ServiceType.OpenAIService">OpenAI</system:String>
+    <system:String x:Key="ServiceType.GeminiService">Gemini</system:String>
+    <system:String x:Key="ServiceType.TencentService">Tencent</system:String>
+    <system:String x:Key="ServiceType.AliService">Ali</system:String>
+    <system:String x:Key="ServiceType.YoudaoService">Youdao</system:String>
+    <system:String x:Key="ServiceType.NiutransService">Niutrans</system:String>
+    <system:String x:Key="ServiceType.CaiyunService">Caiyun</system:String>
+    <system:String x:Key="ServiceType.VolcengineService">Volcengine</system:String>
+    <system:String x:Key="ServiceType.STranslateService">STranslate</system:String>
+    <system:String x:Key="ServiceType.EcdictService">Ecdict</system:String>
+    <system:String x:Key="ServiceType.ChatglmService">Chatglm</system:String>
+    <system:String x:Key="ServiceType.OllamaService">Ollama</system:String>
+    <system:String x:Key="ServiceType.BaiduBceService">BaiduBce</system:String>
+    <system:String x:Key="ServiceType.DeepLService">DeepL</system:String>
+    <system:String x:Key="ServiceType.AzureOpenAIService">AzureOpenAI</system:String>
+    <system:String x:Key="ServiceType.ClaudeService">Claude</system:String>
+    <system:String x:Key="ServiceType.DeepSeekService">DeepSeek</system:String>
+    <system:String x:Key="ServiceType.KingSoftDictService">KingSoftDict</system:String>
+    <system:String x:Key="ServiceType.BingDictService">BingDict</system:String>
+    <system:String x:Key="ServiceType.GoogleBuiltinService">GoogleBuiltin</system:String>
+    <system:String x:Key="ServiceType.MicrosoftBuiltinService">MicrosoftBuiltin</system:String>
+    <system:String x:Key="ServiceType.YandexBuiltInService">YandexBuiltIn</system:String>
+    <system:String x:Key="ServiceType.DeerAPIService">DeerAPI</system:String>
+    <system:String x:Key="ServiceType.TransmartBuiltInService">TransmartBuiltIn</system:String>
+
     <!--#endregion-->
 
     <!--#region Toast-->

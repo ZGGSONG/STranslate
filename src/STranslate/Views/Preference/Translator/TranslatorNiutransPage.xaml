@@ -50,7 +50,7 @@
                         Margin="5,2"
                         VerticalAlignment="Center"
                         props:ThemeProps.Foreground="{DynamicResource ServiceTypeForeground}"
-                        Text="{Binding Type}" />
+                        Text="{Binding Type, Converter={StaticResource ServiceTypeConverter}}" />
                 </Border>
             </Grid>
 

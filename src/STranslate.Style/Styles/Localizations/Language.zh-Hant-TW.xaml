@@ -163,6 +163,34 @@
     <system:String x:Key="STranslateMode.Brower">模式一</system:String>
     <system:String x:Key="STranslateMode.IOS">模式二</system:String>
 
+    <system:String x:Key="ServiceType.DeepLXService">DeepLX</system:String>
+    <system:String x:Key="ServiceType.BaiduService">百度</system:String>
+    <system:String x:Key="ServiceType.MicrosoftService">微軟</system:String>
+    <system:String x:Key="ServiceType.OpenAIService">OpenAI</system:String>
+    <system:String x:Key="ServiceType.GeminiService">Gemini</system:String>
+    <system:String x:Key="ServiceType.TencentService">騰訊</system:String>
+    <system:String x:Key="ServiceType.AliService">阿里</system:String>
+    <system:String x:Key="ServiceType.YoudaoService">有道</system:String>
+    <system:String x:Key="ServiceType.NiutransService">小牛</system:String>
+    <system:String x:Key="ServiceType.CaiyunService">彩雲</system:String>
+    <system:String x:Key="ServiceType.VolcengineService">火山引擎</system:String>
+    <system:String x:Key="ServiceType.STranslateService">STranslate</system:String>
+    <system:String x:Key="ServiceType.EcdictService">英漢詞典</system:String>
+    <system:String x:Key="ServiceType.ChatglmService">智譜AI</system:String>
+    <system:String x:Key="ServiceType.OllamaService">Ollama</system:String>
+    <system:String x:Key="ServiceType.BaiduBceService">百度智能雲</system:String>
+    <system:String x:Key="ServiceType.DeepLService">DeepL</system:String>
+    <system:String x:Key="ServiceType.AzureOpenAIService">Azure OpenAI</system:String>
+    <system:String x:Key="ServiceType.ClaudeService">Claude</system:String>
+    <system:String x:Key="ServiceType.DeepSeekService">深度求索</system:String>
+    <system:String x:Key="ServiceType.KingSoftDictService">金山詞霸</system:String>
+    <system:String x:Key="ServiceType.BingDictService">必應詞典</system:String>
+    <system:String x:Key="ServiceType.GoogleBuiltinService">谷歌內置</system:String>
+    <system:String x:Key="ServiceType.MicrosoftBuiltinService">微軟內置</system:String>
+    <system:String x:Key="ServiceType.YandexBuiltInService">Yandex內置</system:String>
+    <system:String x:Key="ServiceType.DeerAPIService">DeerAPI</system:String>
+    <system:String x:Key="ServiceType.TransmartBuiltInService">騰訊互動式翻譯內置</system:String>
+
     <!--#endregion-->
 
     <!--#region Toast-->
