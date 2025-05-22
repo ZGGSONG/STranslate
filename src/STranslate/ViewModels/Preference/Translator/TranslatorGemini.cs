@@ -193,7 +193,6 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
                 null,
                 msg =>
                 {
-                    LogService.Logger.Debug(msg);
                     if (string.IsNullOrEmpty(msg?.Trim()))
                         return;
 
