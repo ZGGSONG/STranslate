@@ -234,7 +234,7 @@
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                         <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="ExtraSettingsTb" />
+                                                                        <Binding ElementName="ExtraSettingsPopup" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -266,7 +266,7 @@
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                         <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="ExtraSettingsTb" />
+                                                                        <Binding ElementName="ExtraSettingsPopup" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -299,7 +299,7 @@
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                         <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="ExtraSettingsTb" />
+                                                                        <Binding ElementName="ExtraSettingsPopup" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -339,7 +339,7 @@
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                         <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="ExtraSettingsTb" />
+                                                                        <Binding ElementName="ExtraSettingsPopup" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -378,7 +378,7 @@
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                         <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="ExtraSettingsTb" />
+                                                                        <Binding ElementName="ExtraSettingsPopup" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -411,7 +411,7 @@
                                                                 <i:InvokeCommandAction.CommandParameter>
                                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                         <Binding Path="Data" Source="{StaticResource TranslatorService}" />
-                                                                        <Binding ElementName="ExtraSettingsTb" />
+                                                                        <Binding ElementName="ExtraSettingsPopup" />
                                                                     </MultiBinding>
                                                                 </i:InvokeCommandAction.CommandParameter>
                                                             </i:InvokeCommandAction>
@@ -554,7 +554,7 @@
                                                                 <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                                     <Binding Path="Data" Source="{StaticResource TranslatorService}" />
                                                                     <Binding ElementName="PromptLb" Path="SelectedItem" />
-                                                                    <Binding ElementName="PART_Switch" />
+                                                                    <Binding ElementName="PART_Popup" />
                                                                 </MultiBinding>
                                                             </i:InvokeCommandAction.CommandParameter>
                                                         </i:InvokeCommandAction>

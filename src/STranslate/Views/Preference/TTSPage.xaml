@@ -178,7 +178,7 @@
                                                 <i:InvokeCommandAction.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                         <Binding ElementName="TTSServiceListBox" Path="SelectedItem" />
-                                                        <Binding ElementName="BTN_Add" />
+                                                        <Binding ElementName="Popup_Add" />
                                                     </MultiBinding>
                                                 </i:InvokeCommandAction.CommandParameter>
                                             </i:InvokeCommandAction>

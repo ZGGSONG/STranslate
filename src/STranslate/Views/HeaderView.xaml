@@ -334,7 +334,7 @@
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="ServiceListBox" Path="SelectedItem" />
-                                                <Binding ElementName="BTN_Service" />
+                                                <Binding ElementName="PART_Popup_Svc" />
                                             </MultiBinding>
                                         </i:InvokeCommandAction.CommandParameter>
                                     </i:InvokeCommandAction>
@@ -429,7 +429,7 @@
                                         <i:InvokeCommandAction.CommandParameter>
                                             <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                 <Binding ElementName="MainOcrLangLb" Path="SelectedItem" />
-                                                <Binding ElementName="MainOcrLangTb" />
+                                                <Binding ElementName="PART_Popup_OcrLang" />
                                             </MultiBinding>
                                         </i:InvokeCommandAction.CommandParameter>
                                     </i:InvokeCommandAction>

@@ -244,13 +244,13 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [RelayCommand]
     private void SelectedPrompt(List<object> list)
     {
-        if (list is not [ITranslatorLLM service, UserDefinePrompt ud, ToggleButton tb])
+        if (list is not [ITranslatorLLM service, UserDefinePrompt ud, Popup control])
             return;
 
         foreach (var item in service.UserDefinePrompts) item.Enabled = false;
         ud.Enabled = true;
         service.ManualPropChanged(nameof(service.UserDefinePrompts));
-        tb.IsChecked = false;
+        control.IsOpen = false;
 
         // 输入内容不为空时才进行翻译
         if (!string.IsNullOrEmpty(_inputVm.InputContent))
@@ -261,55 +261,55 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     private void CanAutoExecute(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
-            list.LastOrDefault() is not ToggleButton tb)
+            list.LastOrDefault() is not Popup control)
             return;
 
         service.AutoExecute = !service.AutoExecute;
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-        tb.IsChecked = false;
+        control.IsOpen = false;
     }
 
     [RelayCommand]
     private void CanAutoExecuteTranslateBack(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
-            list.LastOrDefault() is not ToggleButton tb)
+            list.LastOrDefault() is not Popup control)
             return;
 
         service.AutoExecuteTranslateBack = !service.AutoExecuteTranslateBack;
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-        tb.IsChecked = false;
+        control.IsOpen = false;
     }
 
     [RelayCommand]
     private void ExecuteTranslate(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
-            list.LastOrDefault() is not ToggleButton tb)
+            list.LastOrDefault() is not Popup control)
             return;
 
         SingleTranslateCommand.Execute(service);
-        tb.IsChecked = false;
+        control.IsOpen = false;
     }
 
     [RelayCommand]
     private void ExecuteTranslateBack(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
-            list.LastOrDefault() is not ToggleButton tb)
+            list.LastOrDefault() is not Popup control)
             return;
 
         SingleTranslateBackCommand.Execute(service);
-        tb.IsChecked = false;
+        control.IsOpen = false;
     }
 
     [RelayCommand]
     private void NavigateToService(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
-            list.LastOrDefault() is not ToggleButton tb)
+            list.LastOrDefault() is not Popup control)
             return;
-        tb.IsChecked = false;
+        control.IsOpen = false;
         
         var view = Application.Current.Windows.OfType<PreferenceView>().FirstOrDefault();
         view ??= new PreferenceView();
@@ -326,7 +326,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     private void CloseService(List<object> list)
     {
         if (list.Count != 2 || list.FirstOrDefault() is not ITranslator service ||
-            list.LastOrDefault() is not ToggleButton tb)
+            list.LastOrDefault() is not Popup control)
             return;
 
         if (Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled)?.Count() < 2)
@@ -337,7 +337,7 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
 
         service.IsEnabled = false;
         Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-        tb.IsChecked = false;
+        control.IsOpen = false;
     }
 
     [RelayCommand]

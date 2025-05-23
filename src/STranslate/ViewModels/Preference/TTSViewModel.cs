@@ -177,24 +177,24 @@ public partial class TTSViewModel : ObservableObject
     [RelayCommand]
     private void Add(List<object> list)
     {
-        if (list?.Count == 2)
+        if (list?.Count != 2)
+            return;
+
+        var tts = list[0];
+
+        CurTTSServiceList.Add(tts switch
         {
-            var tts = list.First();
+            TTSAzure azure => azure.Clone(),
+            TTSOffline offline => offline.Clone(),
+            TTSLingva lingva => lingva.Clone(),
+            TTSEdge edge => edge.Clone(),
+            //TODO: 新TTS服务需要适配
+            _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
+        });
 
-            CurTTSServiceList.Add(tts switch
-            {
-                TTSAzure azure => azure.Clone(),
-                TTSOffline offline => offline.Clone(),
-                TTSLingva lingva => lingva.Clone(),
-                TTSEdge edge => edge.Clone(),
-                //TODO: 新TTS服务需要适配
-                _ => throw new InvalidOperationException($"Unsupported tts type: {tts.GetType().Name}")
-            });
+        ((Popup)list[1]).IsOpen = false;
 
-            (list.Last() as ToggleButton)!.IsChecked = false;
-
-            ResetView(ActionType.Add);
-        }
+        ResetView(ActionType.Add);
     }
 
     [RelayCommand]

@@ -612,10 +612,10 @@ public partial class InputViewModel : ObservableObject
     private async Task SelectedLanguageAsync(List<object> list)
     {
         if (list.Count != 2 || list.First() is not EnumerationMember member ||
-            list.Last() is not ToggleButton tb)
+            list.Last() is not Popup control)
             return;
 
-        tb.IsChecked = false;
+        control.IsOpen = false;
 
         if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
             obj is not LangEnum lang) return;
@@ -635,10 +635,10 @@ public partial class InputViewModel : ObservableObject
     private async Task SelectedLangDetectTypeAsync(List<object> list)
     {
         if (list.Count != 2 || list.First() is not EnumerationMember member ||
-            list.Last() is not ToggleButton tb)
+            list.Last() is not Popup control)
             return;
 
-        tb.IsChecked = false;
+        control.IsOpen = false;
 
         if (!Enum.TryParse(typeof(LangDetectType), member.Value?.ToString() ?? "", out var obj) ||
             obj is not LangDetectType detectType) return;

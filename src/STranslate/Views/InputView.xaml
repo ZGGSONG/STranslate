@@ -216,7 +216,7 @@
                                                 <i:InvokeCommandAction.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                         <Binding ElementName="DetectLb" Path="SelectedItem" />
-                                                        <Binding ElementName="DetectTb" />
+                                                        <Binding ElementName="DetectPopup" />
                                                     </MultiBinding>
                                                 </i:InvokeCommandAction.CommandParameter>
                                             </i:InvokeCommandAction>
@@ -306,7 +306,7 @@
                                                     <i:InvokeCommandAction.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource MultiValue2ListConverter}">
                                                             <Binding ElementName="IdentifyLb" Path="SelectedItem" />
-                                                            <Binding ElementName="IdentifyTb" />
+                                                            <Binding ElementName="IdentifyPopup" />
                                                         </MultiBinding>
                                                     </i:InvokeCommandAction.CommandParameter>
                                                 </i:InvokeCommandAction>
