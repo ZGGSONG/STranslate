@@ -446,7 +446,7 @@
                                         Margin="10,0,0,0"
                                         Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
                                     <TextBlock
-                                        MaxWidth="100"
+                                        MaxWidth="120"
                                         Margin="10,0,0,0"
                                         props:ThemeProps.Foreground="{DynamicResource TextForeground}"
                                         FontSize="{DynamicResource FontSize14}"
@@ -456,7 +456,7 @@
                                     <ToggleButton
                                         x:Name="PART_Switch"
                                         Height="22"
-                                        MaxWidth="70"
+                                        MaxWidth="100"
                                         Margin="10,0,0,0"
                                         Padding="4,0"
                                         Background="Transparent"
