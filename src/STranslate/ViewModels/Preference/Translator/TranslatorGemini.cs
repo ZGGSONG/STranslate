@@ -237,8 +237,8 @@ public partial class TranslatorGemini : TranslatorLLMBase, ITranslatorLLM
             var msg = ex.Message;
             if (ex.InnerException is { } innEx)
             {
-                var innMsg = JsonConvert.DeserializeObject<JArray>(innEx.Message);
-                msg += $" {innMsg?.FirstOrDefault()?["error"]?["message"]}";
+                var innMsg = JsonConvert.DeserializeObject<JObject>(innEx.Message);
+                msg += $" {innMsg?["error"]?["message"]}";
                 LogService.Logger.Error($"({Name})({Identify}) raw content:\n{innEx.Message}");
             }
 
