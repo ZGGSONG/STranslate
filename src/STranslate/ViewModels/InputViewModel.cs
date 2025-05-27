@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.DirectoryServices.ActiveDirectory;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -114,7 +115,7 @@ public partial class InputViewModel : ObservableObject
         set
         {
             var v = value.Replace("/n", "\n");
-            SetProperty(ref  _placeholder, v);
+            SetProperty(ref _placeholder, v);
         }
     }
 
@@ -309,13 +310,13 @@ public partial class InputViewModel : ObservableObject
             // 避免从缓存获取结果失败后翻译触发时语种全为自动
             if (GetSourceLang == LangEnum.auto && GetTargetLang == LangEnum.auto)
                 (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(null, null, GetSourceLang, GetTargetLang, cancellationToken);
-            
+
             if (service is ITranslatorLLM translatorLLM)
                 await StreamHandlerAsync(translatorLLM, InputContent, source, target, cancellationToken);
             else
                 await NonStreamHandlerAsync(service, InputContent, source, target, cancellationToken);
 
-            copy:
+copy:
             var currentServiceIndex = services?.IndexOf(service) + 1;
             if (currentServiceIndex == copyIndex)
                 CommonUtil.InvokeOnUIThread(() =>
@@ -366,7 +367,7 @@ public partial class InputViewModel : ObservableObject
         // 获取识别语种
         (GetSourceLang, GetTargetLang) = await GetLangInfoAsync(services, servicesCache, GetSourceLang, GetTargetLang, token);
 
-        
+
         var allCache = true;
         await Parallel.ForEachAsync(
             services.Where(x => x.AutoExecute),
@@ -550,7 +551,7 @@ public partial class InputViewModel : ObservableObject
         {
             var enableServices = Singleton<TranslatorViewModel>.Instance.CurTransServiceList.Where(x => x.IsEnabled);
             var jsonSerializerSettings = new JsonSerializerSettings
-                { ContractResolver = new CustomizeContractResolver() };
+            { ContractResolver = new CustomizeContractResolver() };
 
             var data = new HistoryModel
             {
@@ -755,38 +756,29 @@ public partial class InputViewModel : ObservableObject
 /// </summary>
 public class CustomizeContractResolver : DefaultContractResolver
 {
+    private static readonly HashSet<string> AllowedProperties = ["Identify", "Type", "Data", "Exception", "IsSuccess", "Result", "IsTranslateBackSuccess", "TranslateBackResult"];
+
     protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
     {
         var properties = base.CreateProperties(type, memberSerialization);
 
-        return properties
+        return [.. properties
+             .Where(x => AllowedProperties.Contains(x.PropertyName ?? ""))
             .Select(property =>
             {
-                // 设置不忽略 Data 属性
-                if (property is { Ignored: true, PropertyName: "Data" }) property.Ignored = false;
+                if (property.PropertyName == "Data" && property.PropertyType == typeof(TranslationResult))
+                    property.ShouldSerialize = instance =>
+                    {
+                        var data = property.ValueProvider?.GetValue(instance) as TranslationResult;
 
-                switch (property.PropertyName)
-                {
-                    // 忽略 AppID 和 AppKey 属性
-                    case "AppID"
-                        or "AppKey":
-                        property.Ignored = true;
-                        break;
-                    // 特殊处理 TranslationResult 类型的 Data 属性
-                    case "Data" when property.PropertyType == typeof(TranslationResult):
-                        property.ShouldSerialize = instance =>
-                        {
-                            var data = property.ValueProvider?.GetValue(instance) as TranslationResult;
+                        // 过滤翻译失败数据
+                        return data?.IsSuccess ?? false;
+                    };
 
-                            // 过滤翻译失败数据
-                            return data?.IsSuccess ?? false;
-                        };
-                        break;
-                }
+                property.Ignored = false;
 
-                return property;
-            })
-            .ToList();
+                 return property;
+             })];
     }
 }
 
@@ -849,7 +841,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
             var dataToken = jsonObject["Data"];
             var data = dataToken?.ToObject<TranslationResult>();
             // 如果结果为空则设置为失败，移除提示信息，当前直接访问服务获取新结果
-            if (data is {IsSuccess: true})
+            if (data is { IsSuccess: true })
             {
                 TranslationResult.CopyFrom(data, translator.Data);
             }
