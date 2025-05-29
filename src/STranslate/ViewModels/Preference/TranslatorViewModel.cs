@@ -341,4 +341,18 @@ public partial class TranslatorViewModel : ObservableObject
         
         ResetView(ActionType.Next);
     }
+
+    [RelayCommand]
+    private void Sort()
+    {
+        // 根据启用状态排序
+        var sortedList = CurTransServiceList.Where(svc => svc.IsEnabled).Reverse();
+        foreach (var svc in sortedList)
+        {
+            CurTransServiceList.Remove(svc);
+            CurTransServiceList.Insert(0, svc);
+        }
+
+        ResetView();
+    }
 }
