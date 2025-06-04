@@ -52,10 +52,6 @@ Download the latest [Release](https://github.com/ZGGSONG/STranslate/releases) ve
 
 If you have questions, please go to [Discussions](https://github.com/ZGGSONG/STranslate/discussions) for discussion.
 
-Or group discussion
-
-<img src="./attachments/imgs/qq.jpeg" height=200 />
-
 ## Cooperative promotion
 
 🛠️ **Official API Partner**  
