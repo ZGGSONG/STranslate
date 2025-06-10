@@ -457,10 +457,8 @@ copy:
             return false;
 
         var cachedTranslator = servicesCache?.FirstOrDefault(x => x.Identify == service.Identify);
-        //缓存结果不存在，结果标记为False，结果为空都需要重新执行翻译
-        if (cachedTranslator?.Data is null
-            || cachedTranslator.Data.IsSuccess == false
-            || string.IsNullOrEmpty(cachedTranslator.Data.Result))
+        //缓存结果不存在，结果标记为False都需要重新执行翻译
+        if (cachedTranslator?.Data is null || !cachedTranslator.Data.IsSuccess)
             return false;
 
         TranslationResult.CopyFrom(cachedTranslator.Data, service.Data);
