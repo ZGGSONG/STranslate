@@ -137,6 +137,9 @@ public class ConfigHelper
         //初始化隐藏输入界面
         ShowLangViewOnShowRetOperate(CurrentConfig?.IsOnlyShowRet ?? false,
             CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? true);
+
+        //初始化Http超时时间
+        HttpTimeoutOperate(CurrentConfig?.HttpTimeout ?? 10);
     }
 
     /// <summary>
@@ -353,9 +356,6 @@ public class ConfigHelper
         CurrentConfig.HttpTimeout = model.HttpTimeout;
         CurrentConfig.AppLanguage = model.AppLanguage;
 
-        // 设置全局超时时间
-        HttpUtil.GlobalTimeout = model.HttpTimeout;
-
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         //重新执行必要操作
@@ -401,6 +401,9 @@ public class ConfigHelper
                 Application.Current.Windows.OfType<MainView>().First());
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
+
+        // 设置全局超时时间
+        HttpTimeoutOperate(CurrentConfig.HttpTimeout);
 
         await WriteConfigAsync(CurrentConfig);
         isSuccess = true;
@@ -785,6 +788,15 @@ public class ConfigHelper
     {
         Singleton<MainViewModel>.Instance.IsOnlyShowRet = isOnlyShowRet;
         Singleton<MainViewModel>.Instance.IsHideLangWhenOnlyShowOutput = isHideLangWhenOnlyShowOutput;
+    }
+
+    /// <summary>
+    ///     设定Http超时时间
+    /// </summary>
+    /// <param name="value"></param>
+    private void HttpTimeoutOperate(int value)
+    {
+        HttpUtil.GlobalTimeout = value;
     }
 
     /// <summary>
