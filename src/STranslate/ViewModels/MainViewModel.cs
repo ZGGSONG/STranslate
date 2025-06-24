@@ -401,7 +401,7 @@ public partial class MainViewModel : ObservableObject
             common.SaveCommand.Execute(null);
 
 
-            var msg = (common.IsHideLangWhenOnlyShowOutput ? AppLanguageManager.GetString("Toast.Hide") : AppLanguageManager.GetString("Toast.Show")) + AppLanguageManager.GetString("Toast.LangViewf");
+            var msg = (common.IsHideLangWhenOnlyShowOutput ? AppLanguageManager.GetString("Toast.Hide") : AppLanguageManager.GetString("Toast.Show")) + AppLanguageManager.GetString("Toast.LangView");
             ToastHelper.Show(msg);
             return;
         }
