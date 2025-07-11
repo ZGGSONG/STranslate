@@ -186,30 +186,51 @@ public partial class PreferenceViewModel : WindowVMBase
                 Singleton<HotkeyViewModel>.Instance.SaveCommand.Execute(null);
                 break;
 
-            case TranslatorViewModel:
-                Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-                break;
+            //case TranslatorViewModel:
+            //    Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
+            //    break;
+
+            //case OCRScvViewModel:
+            //    Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
+            //    break;
+
+            //case TTSViewModel:
+            //    Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
+            //    break;
+
+            //case VocabularyBookViewModel:
+            //    Singleton<VocabularyBookViewModel>.Instance.SaveCommand.Execute(null);
+            //    break;
 
             case ReplaceViewModel:
                 Singleton<ReplaceViewModel>.Instance.SaveCommand.Execute(null);
-                break;
-
-            case OCRScvViewModel:
-                Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
-                break;
-
-            case TTSViewModel:
-                Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
                 break;
 
             case BackupViewModel:
                 Singleton<BackupViewModel>.Instance.SaveCommand.Execute(null);
                 break;
 
-            case ServiceViewModel:
-                Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
-                Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
-                Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
+            case ServiceViewModel vm:
+                {
+                    //分页面保存
+                    switch (vm.SelectedIndex)
+                    {
+                        case 0:
+                            Singleton<TranslatorViewModel>.Instance.SaveCommand.Execute(null);
+                            break;
+                        case 1:
+                            Singleton<OCRScvViewModel>.Instance.SaveCommand.Execute(null);
+                            break;
+                        case 2:
+                            Singleton<TTSViewModel>.Instance.SaveCommand.Execute(null);
+                            break;
+                        case 3:
+                            Singleton<VocabularyBookViewModel>.Instance.SaveCommand.Execute(null);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 break;
         }
     }

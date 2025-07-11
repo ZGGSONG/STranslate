@@ -171,7 +171,7 @@ public partial class VocabularyBookViewModel : ObservableObject
             }
         }
 
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurServiceList))
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurServiceList]))
         {
             LogService.Logger.Warn($"保存生词本失败，{JsonConvert.SerializeObject(CurServiceList)}");
 

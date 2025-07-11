@@ -246,7 +246,7 @@ public partial class TranslatorViewModel : ObservableObject
             llm.Models.Add(llm.Model);
         }
 
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurTransServiceList))
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurTransServiceList]))
         {
             LogService.Logger.Warn($"保存服务失败，{JsonConvert.SerializeObject(CurTransServiceList)}");
 
