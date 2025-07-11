@@ -64,6 +64,16 @@ public class ConfigHelper
             var config = JsonConvert.DeserializeObject<ConfigModel>(content, settings) ??
                         throw new Exception("反序列化失败...");
             Decryption(config);
+
+            // LLM 模型加载
+            foreach (var item in config.Services ?? [])
+            {
+                if (item is not ITranslatorLLM itemLlm) continue;
+                if (itemLlm.Models.Contains(itemLlm.Model)) continue;
+                // 判断itemLlm.Models里是否少于value的部分，有的话就添加
+                itemLlm.Models.Add(itemLlm.Model);
+            }
+
             return config;
         }
         catch (Exception ex)
@@ -127,6 +137,9 @@ public class ConfigHelper
         //初始化隐藏输入界面
         ShowLangViewOnShowRetOperate(CurrentConfig?.IsOnlyShowRet ?? false,
             CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? true);
+
+        //初始化Http超时时间
+        HttpTimeoutOperate(CurrentConfig?.HttpTimeout ?? 10);
     }
 
     /// <summary>
@@ -343,9 +356,6 @@ public class ConfigHelper
         CurrentConfig.HttpTimeout = model.HttpTimeout;
         CurrentConfig.AppLanguage = model.AppLanguage;
 
-        // 设置全局超时时间
-        HttpUtil.GlobalTimeout = model.HttpTimeout;
-
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         //重新执行必要操作
@@ -391,6 +401,9 @@ public class ConfigHelper
                 Application.Current.Windows.OfType<MainView>().First());
 
         AutoTrasnalteOperate(CurrentConfig.AutoTranslate);
+
+        // 设置全局超时时间
+        HttpTimeoutOperate(CurrentConfig.HttpTimeout);
 
         await WriteConfigAsync(CurrentConfig);
         isSuccess = true;
@@ -778,6 +791,15 @@ public class ConfigHelper
     }
 
     /// <summary>
+    ///     设定Http超时时间
+    /// </summary>
+    /// <param name="value"></param>
+    private void HttpTimeoutOperate(int value)
+    {
+        HttpUtil.GlobalTimeout = value;
+    }
+
+    /// <summary>
     ///     输出界面显示按钮控制
     /// </summary>
     /// <param name="isPromptToggleVisible"></param>
@@ -970,6 +992,7 @@ public class ConfigHelper
             Services =
             [
                 new TranslatorSTranslate(Guid.NewGuid(), "", "STranslate", isEnabled: false),
+                new TranslatorTransmartBuiltIn(),
                 new TranslatorMicrosoftBuiltin(),
                 new TranslatorYandexBuiltIn(),
                 new TranslatorGoogleBuiltin(),
@@ -1159,12 +1182,16 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.DeepLXService => new TranslatorDeepLX(),
             (int)ServiceType.YandexBuiltInService => new TranslatorYandexBuiltIn(),
             (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
+            (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
         
         if (translator is ITranslatorLLM llm)
+        {
             llm.UserDefinePrompts.Clear();
+            llm.Models.Clear();
+        }
 
         serializer.Populate(jsonObject.CreateReader(), translator);
         return translator;

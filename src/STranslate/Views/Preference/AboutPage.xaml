@@ -46,8 +46,8 @@
                 <StackPanel Orientation="Vertical">
                     <DockPanel Margin="20,10">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.Version}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.Version}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock Text="{Binding Version}" />
 
@@ -69,8 +69,8 @@
 
                     <DockPanel Margin="20,10">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.Tools}"/>
-                            <Run Text="   "/>
+                            <Run Text="{DynamicResource About.Tools}" />
+                            <Run Text="   " />
                         </TextBlock>
                         <controls:BtnContentMore
                             MinWidth="140"
@@ -80,19 +80,36 @@
 
                         <Grid HorizontalAlignment="Right">
                             <ToggleButton
-                                Name="MoreTb"
+                                x:Name="PART_Opendir"
                                 Width="100"
                                 HorizontalAlignment="Right"
                                 Content="{DynamicResource About.OpenDirectory}"
-                                Style="{DynamicResource ToggleButtonTextStyle}" />
+                                Style="{DynamicResource ToggleButtonTextStyle}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:ChangePropertyAction
+                                            PropertyName="IsOpen"
+                                            TargetObject="{Binding ElementName=PART_Popup_OpenDir}"
+                                            Value="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ToggleButton>
                             <Popup
+                                x:Name="PART_Popup_OpenDir"
                                 MinWidth="80"
                                 AllowsTransparency="True"
-                                IsOpen="{Binding ElementName=MoreTb, Path=IsChecked}"
                                 Placement="Center"
-                                PlacementTarget="{Binding ElementName=MoreTb}"
+                                PlacementTarget="{Binding ElementName=PART_Opendir}"
                                 PopupAnimation="Fade"
                                 StaysOpen="False">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Closed">
+                                        <i:ChangePropertyAction
+                                            PropertyName="IsChecked"
+                                            TargetObject="{Binding ElementName=PART_Opendir}"
+                                            Value="{Binding ElementName=PART_Opendir, Path=IsMouseOver}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                                 <Border
                                     Width="100"
                                     props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
@@ -110,8 +127,8 @@
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.OpenSource}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.OpenSource}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock
                             Cursor="Hand"
@@ -127,16 +144,16 @@
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.Author}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.Author}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock Text="zggsong@foxmail.com" ToolTip="zggsong@foxmail.com" />
                     </WrapPanel>
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.Website}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.Website}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock
                             Cursor="Hand"
@@ -152,8 +169,8 @@
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.SourceCode}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.SourceCode}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock
                             Cursor="Hand"
@@ -169,8 +186,8 @@
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.Feedback}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.Feedback}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock
                             Cursor="Hand"
@@ -186,8 +203,8 @@
 
                     <WrapPanel Margin="20,10" Orientation="Horizontal">
                         <TextBlock FontWeight="Bold">
-                            <Run Text="{DynamicResource About.Thanks}"/>
-                            <Run Text="    "/>
+                            <Run Text="{DynamicResource About.Thanks}" />
+                            <Run Text="    " />
                         </TextBlock>
                         <TextBlock
                             Cursor="Hand"

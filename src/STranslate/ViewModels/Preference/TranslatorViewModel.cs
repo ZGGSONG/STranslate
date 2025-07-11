@@ -52,6 +52,7 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorGoogleBuiltin());
         TransServices.Add(new TranslatorMicrosoftBuiltin());
         TransServices.Add(new TranslatorYandexBuiltIn());
+        TransServices.Add(new TranslatorTransmartBuiltIn());
         TransServices.Add(new TranslatorKingSoftDict());
         TransServices.Add(new TranslatorBingDict());
         TransServices.Add(new TranslatorEcdict());
@@ -104,6 +105,13 @@ public partial class TranslatorViewModel : ObservableObject
             {
                 //选中最后一项
                 SelectedIndex = ServiceCounter - 1;
+                TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
+                break;
+            }
+            case ActionType.Next:
+            {
+                //选中当前下一项
+                SelectedIndex += 1;
                 TogglePageCommand.Execute(CurTransServiceList[SelectedIndex]);
                 break;
             }
@@ -165,6 +173,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.YandexBuiltInService => $"{head}{nameof(TranslatorYandexBuiltInPage)}",
             ServiceType.MicrosoftBuiltinService => $"{head}{nameof(TranslatorMicrosoftBuiltinPage)}",
             ServiceType.DeerAPIService => $"{head}{nameof(TranslatorDeerAPIPage)}",
+            ServiceType.TransmartBuiltInService => $"{head}{nameof(TranslatorTransmartBuiltInPage)}",
             //TODO: 新接口需要适配
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
@@ -208,6 +217,7 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorYandexBuiltIn yandex => yandex.Clone(),
                 TranslatorMicrosoftBuiltin microsoftBuiltin => microsoftBuiltin.Clone(),
                 TranslatorDeerAPI deerapi => deerapi.Clone(),
+                TranslatorTransmartBuiltIn transmartbuiltin => transmartbuiltin.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });
@@ -229,7 +239,14 @@ public partial class TranslatorViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurTransServiceList))
+        foreach (var item in CurTransServiceList)
+        {
+            if (item is not ITranslatorLLM llm) continue;
+            if (llm.Models.Contains(llm.Model)) continue;
+            llm.Models.Add(llm.Model);
+        }
+
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurTransServiceList]))
         {
             LogService.Logger.Warn($"保存服务失败，{JsonConvert.SerializeObject(CurTransServiceList)}");
 
@@ -318,8 +335,24 @@ public partial class TranslatorViewModel : ObservableObject
         var duplicateSvc = svc.Clone();
         duplicateSvc.Identify = Guid.NewGuid();
         duplicateSvc.Name += "_副本";
+        
+        var index = CurTransServiceList.IndexOf(svc);
+        CurTransServiceList.Insert(index + 1, duplicateSvc);
+        
+        ResetView(ActionType.Next);
+    }
 
-        CurTransServiceList.Add(duplicateSvc);
-        ResetView(ActionType.Add);
+    [RelayCommand]
+    private void Sort()
+    {
+        // 根据启用状态排序
+        var sortedList = CurTransServiceList.Where(svc => svc.IsEnabled).Reverse();
+        foreach (var svc in sortedList)
+        {
+            CurTransServiceList.Remove(svc);
+            CurTransServiceList.Insert(0, svc);
+        }
+
+        ResetView();
     }
 }

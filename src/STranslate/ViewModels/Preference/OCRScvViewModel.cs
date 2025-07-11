@@ -191,7 +191,7 @@ public partial class OCRScvViewModel : ObservableObject
     private void Add(List<object> list)
     {
         if (list?.Count != 2) return;
-        var ocr = list.First();
+        var ocr = list[0];
 
         //TODO: 新OCR服务需要适配
         CurOCRServiceList.Add(
@@ -210,7 +210,7 @@ public partial class OCRScvViewModel : ObservableObject
             }
         );
 
-        (list.Last() as ToggleButton)!.IsChecked = false;
+        ((Popup)list[1]).IsOpen = false;
 
         ResetView(ActionType.Add);
     }
@@ -231,7 +231,7 @@ public partial class OCRScvViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurOCRServiceList))
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurOCRServiceList]))
         {
             LogService.Logger.Warn($"保存OCR失败，{JsonConvert.SerializeObject(CurOCRServiceList)}");
 

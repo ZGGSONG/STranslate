@@ -154,6 +154,8 @@
     <system:String x:Key="IconType.Yandex">Yandex</system:String>
     <system:String x:Key="IconType.DeerAPI">DeerAPI</system:String>
     <system:String x:Key="IconType.Grok">Grok</system:String>
+    <system:String x:Key="IconType.Bailian">阿里百煉</system:String>
+    <system:String x:Key="IconType.Transmart">Transmart</system:String>
 
     <system:String x:Key="BackupType.Local">本地</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -546,6 +548,7 @@
     <system:String x:Key="Service.VocabularyBook.Title">生詞本</system:String>
     <system:String x:Key="Service.VocabularyBook.SubTitle">將文本儲存至在線生詞本中</system:String>
     <system:String x:Key="Service.Name">名稱:</system:String>
+    <system:String x:Key="Service.Type">類型:</system:String>
     <system:String x:Key="Service.Api">介面:</system:String>
     <system:String x:Key="Service.AutoExecute">自動執行:</system:String>
     <system:String x:Key="Service.AutoExecute.Tooltip">執行翻譯時是否自動翻譯，否則需要手動點擊才能進行翻譯</system:String>

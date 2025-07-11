@@ -25,6 +25,22 @@ public partial class TranslatorLLMBase : TranslatorBase
     [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     private string _model = "gpt-4o";
 
+    [JsonIgnore] private BindingList<string> _models =
+    [
+        "gpt-4o",
+        "gpt-4.1",
+        "o4-mini",
+        "o3",
+        "o3-mini",
+        "o1",
+        "o1-mini",
+    ];
+    public virtual BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
     [JsonIgnore]
     private BindingList<UserDefinePrompt> _userDefinePrompts = [
         new UserDefinePrompt(

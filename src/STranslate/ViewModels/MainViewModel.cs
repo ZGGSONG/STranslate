@@ -401,7 +401,7 @@ public partial class MainViewModel : ObservableObject
             common.SaveCommand.Execute(null);
 
 
-            var msg = (common.IsHideLangWhenOnlyShowOutput ? AppLanguageManager.GetString("Toast.Hide") : AppLanguageManager.GetString("Toast.Show")) + AppLanguageManager.GetString("Toast.LangViewf");
+            var msg = (common.IsHideLangWhenOnlyShowOutput ? AppLanguageManager.GetString("Toast.Hide") : AppLanguageManager.GetString("Toast.Show")) + AppLanguageManager.GetString("Toast.LangView");
             ToastHelper.Show(msg);
             return;
         }
@@ -554,8 +554,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void SelectedService(List<object> list)
     {
-        if (list.Last() is ToggleButton control)
-            control.IsChecked = !control.IsChecked;
+        if (list.Last() is Popup control)
+            control.IsOpen = false;
 
         var service = list.First();
         switch (service)
@@ -594,10 +594,10 @@ public partial class MainViewModel : ObservableObject
     private void SelectedMainOcrLanguage(List<object> list)
     {
         if (list.Count != 2 || list.First() is not EnumerationMember member ||
-            list.Last() is not ToggleButton tb)
+            list.Last() is not Popup control)
             return;
 
-        tb.IsChecked = false;
+        control.IsOpen = false;
 
         if (!Enum.TryParse(typeof(LangEnum), member.Value?.ToString() ?? "", out var obj) ||
             obj is not LangEnum lang) return;

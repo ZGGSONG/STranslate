@@ -28,7 +28,8 @@ body:
   id: "issues"
   attributes:
     label: "我确认已查询历史issues"
-    description: "否则请查询后提出"
+    description: |
+      请先[查找历史 issues](https://github.com/ZGGSONG/STranslate/issues)、[讨论区](https://github.com/ZGGSONG/STranslate/discussions)或[官网](https://stranslate.zggsong.com)等信息，确认没有相关内容后再提交。
     options:
       - label: 是
         required: true

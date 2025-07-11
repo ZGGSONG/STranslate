@@ -42,6 +42,24 @@ public partial class TranslatorClaude : TranslatorLLMBase, ITranslatorLLM
 
     #endregion Constructor
 
+    #region Properties
+
+    [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "claude-3-7-sonnet-20250219",
+        "claude-3-5-sonnet-20241022",
+        "claude-3-5-sonnet-20240620",
+        "claude-3-5-haiku-20241022",
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
+    #endregion
+
     #region Translator Test
 
     [property: JsonIgnore]
@@ -233,6 +251,7 @@ public partial class TranslatorClaude : TranslatorLLMBase, ITranslatorLLM
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

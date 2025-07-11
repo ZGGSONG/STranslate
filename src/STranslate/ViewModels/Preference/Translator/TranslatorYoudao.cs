@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Helper;
@@ -160,11 +159,6 @@ public partial class TranslatorYoudao : TranslatorBase, ITranslator
         var data = parsedData["translation"]?.FirstOrDefault()?.ToString() ?? throw new Exception("未获取到结果");
 
         return TranslationResult.Success(data);
-    }
-
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
     }
 
     public ITranslator Clone()

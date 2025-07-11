@@ -139,7 +139,7 @@ public partial class ReplaceViewModel : ObservableObject
         var sb = new StringBuilder();
         try
         {
-            await ReplaceProp.ActiveService!.TranslateAsync(req,
+            await ((ITranslatorLLM)ReplaceProp.ActiveService!).TranslateAsync(req,
                 msg =>
                 {
                     sb.Append(msg);
@@ -188,6 +188,7 @@ public partial class ReplaceViewModel : ObservableObject
     [RelayCommand]
     private void Reset()
     {
+        // 回过头来再看，写的什么鬼东西。。。看不下去了😢
         var tmp = _configHelper.ReadConfig();
 
         ReplaceProp.CopyFrom(tmp.ReplaceProp);

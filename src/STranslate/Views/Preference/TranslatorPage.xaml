@@ -65,6 +65,12 @@
             SeparatorTemplate="{StaticResource SeparatorTemplate}"
             TranslatorTemplate="{StaticResource TranslatorTemplate}" />
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding
+            Key="R"
+            Command="{Binding SortCommand}"
+            Modifiers="Ctrl+Shift" />
+    </UserControl.InputBindings>
     <Border CornerRadius="5">
         <Grid>
             <Grid.RowDefinitions>

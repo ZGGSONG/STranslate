@@ -14,7 +14,7 @@ public partial class LoadingUc2 : UserControl
         InitializeComponent();
 
         // 初始化三个故事板数组
-        _storyboards = new Storyboard[3];
+        _storyboards = new Storyboard[5];
 
         // 创建并配置动画
         CreateAnimations();
@@ -54,7 +54,7 @@ public partial class LoadingUc2 : UserControl
 
     public static readonly DependencyProperty DotSizeProperty =
         DependencyProperty.Register(nameof(DotSize), typeof(double), typeof(LoadingUc2),
-            new PropertyMetadata(7.0, OnDotSizeChanged));
+            new PropertyMetadata(6.6, OnDotSizeChanged));
 
     public double DotSize
     {
@@ -72,8 +72,8 @@ public partial class LoadingUc2 : UserControl
 
     private void UpdateDotSizes()
     {
-        Dot1.Width = Dot2.Width = Dot3.Width = DotSize;
-        Dot1.Height = Dot2.Height = Dot3.Height = DotSize;
+        Dot1.Width = Dot2.Width = Dot3.Width = Dot4.Width = Dot5.Width = DotSize;
+        Dot1.Height = Dot2.Height = Dot3.Height = Dot4.Height = Dot5.Height = DotSize;
     }
 
     #endregion
@@ -100,7 +100,7 @@ public partial class LoadingUc2 : UserControl
 
     private void UpdateDotColors()
     {
-        Dot1.Fill = Dot2.Fill = Dot3.Fill = DotColor;
+        Dot1.Fill = Dot2.Fill = Dot3.Fill = Dot4.Fill = Dot5.Fill = DotColor;
     }
 
     #endregion
@@ -108,7 +108,7 @@ public partial class LoadingUc2 : UserControl
     private void CreateAnimations()
     {
         // 为每个小球创建动画
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             var storyboard = new Storyboard();
             var dot = i switch
@@ -116,6 +116,8 @@ public partial class LoadingUc2 : UserControl
                 0 => Dot1,
                 1 => Dot2,
                 2 => Dot3,
+                3 => Dot4,
+                4 => Dot5,
                 _ => throw new ArgumentException("Invalid dot index")
             };
 
@@ -124,10 +126,10 @@ public partial class LoadingUc2 : UserControl
             {
                 From = DotSize,
                 To = DotSize + 5,
-                Duration = TimeSpan.FromSeconds(0.5),
+                Duration = TimeSpan.FromSeconds(0.4),
                 AutoReverse = true,
                 RepeatBehavior = RepeatBehavior.Forever,
-                BeginTime = TimeSpan.FromSeconds(0.15 * i)
+                BeginTime = TimeSpan.FromSeconds(0.12 * i)
             };
             Storyboard.SetTarget(widthAnimation, dot);
             Storyboard.SetTargetProperty(widthAnimation, new PropertyPath(FrameworkElement.WidthProperty));
@@ -138,10 +140,10 @@ public partial class LoadingUc2 : UserControl
             {
                 From = DotSize,
                 To = DotSize + 5,
-                Duration = TimeSpan.FromSeconds(0.5),
+                Duration = TimeSpan.FromSeconds(0.4),
                 AutoReverse = true,
                 RepeatBehavior = RepeatBehavior.Forever,
-                BeginTime = TimeSpan.FromSeconds(0.15 * i)
+                BeginTime = TimeSpan.FromSeconds(0.12 * i)
             };
             Storyboard.SetTarget(heightAnimation, dot);
             Storyboard.SetTargetProperty(heightAnimation, new PropertyPath(FrameworkElement.HeightProperty));

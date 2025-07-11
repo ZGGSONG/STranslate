@@ -46,6 +46,9 @@
     <Resource Include="Resources\baidubce.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+	  <Resource Include="Resources\bailian.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
     <Resource Include="Resources\bing.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -124,6 +127,9 @@
     <Resource Include="Resources\tencent2.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\transmart.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
 	  <Resource Include="Resources\update.ico">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
@@ -157,12 +163,6 @@
 	  <Resource Include="Resources\Working_32x.ani">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Controls\LoadingUc.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
 </Project>

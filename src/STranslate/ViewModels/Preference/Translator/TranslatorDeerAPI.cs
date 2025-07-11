@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.ComponentModel;
+using System.Net.Http;
 using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -41,6 +42,32 @@ public partial class TranslatorDeerAPI : TranslatorLLMBase, ITranslatorLLM
     }
 
     #endregion Constructor
+
+    #region Properties
+
+    [JsonIgnore]
+    private BindingList<string> _models =
+    [
+        "gpt-4.1",
+        "gpt-4.1-mini",
+        "gpt-4o",
+        "o4-mini",
+        "gpt-4.5",
+        "o3",
+        "o1-mini",
+        "o3-mini",
+        "claude-3-7-sonnet-latest",
+        "deepseek-r1",
+        "deepseek-chat",
+        "gemini-2.5-pro-preview-05-06",
+    ];
+    public override BindingList<string> Models
+    {
+        get => _models;
+        set => SetProperty(ref _models, value);
+    }
+
+    #endregion
 
     #region Translator Test
 
@@ -251,6 +278,7 @@ public partial class TranslatorDeerAPI : TranslatorLLMBase, ITranslatorLLM
             AutoExecute = AutoExecute,
             KeyHide = KeyHide,
             Model = Model,
+            Models = Models,
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,

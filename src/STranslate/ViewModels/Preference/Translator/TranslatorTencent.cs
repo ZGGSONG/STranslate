@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using STranslate.Helper;
@@ -129,11 +128,6 @@ public partial class TranslatorTencent : TranslatorBase, ITranslator
         var data = resp.TargetText.Length == 0 ? throw new Exception("请求结果为空") : resp.TargetText;
 
         return Task.FromResult(TranslationResult.Success(data));
-    }
-
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
     }
 
     public ITranslator Clone()

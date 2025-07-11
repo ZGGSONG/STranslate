@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
+using ScreenGrab.Utilities;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels;
@@ -64,13 +65,21 @@ public partial class OCRView : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        WindowUtilities.GetMousePosition(out var point);
         // 计算窗口左上角在屏幕上的位置
-        var left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
-        var top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+        var screen = WpfScreenHelper.Screen.AllScreens
+            .FirstOrDefault(screen => screen.Bounds.Contains(new Point(point.X, point.Y)));
 
-        // 设置窗口位置
-        Left = left;
-        Top = top;
+        if (screen == null)
+        {
+            Left = (SystemParameters.PrimaryScreenWidth - ActualWidth) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - ActualHeight) / 2;
+        }
+        else
+        {
+            Left = (screen.WpfBounds.Width - ActualWidth) / 2 + screen.WpfBounds.X;
+            Top = (screen.WpfBounds.Height - ActualHeight) / 2 + screen.WpfBounds.Y;
+        }
     }
 
     /// <summary>

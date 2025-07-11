@@ -53,10 +53,6 @@
 
 有疑问移步 [Discussions](https://github.com/ZGGSONG/STranslate/discussions) 进行讨论
 
-或者加群讨论
-
-<img src="./attachments/imgs/qq.jpeg" height=200 />
-
 ## 合作推广
 
 🛠️ **官方API合作伙伴**  

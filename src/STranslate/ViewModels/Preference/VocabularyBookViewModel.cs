@@ -133,7 +133,7 @@ public partial class VocabularyBookViewModel : ObservableObject
     private void Add(List<object> list)
     {
         if (list?.Count != 2) return;
-        var service = list.First();
+        var service = list[0];
 
         CurServiceList.Add(service switch
         {
@@ -142,7 +142,7 @@ public partial class VocabularyBookViewModel : ObservableObject
             _ => throw new InvalidOperationException($"Unsupported VocabularyBook type: {service.GetType().Name}")
         });
 
-        (list.Last() as ToggleButton)!.IsChecked = false;
+        ((Popup)list[1])!.IsOpen = false;
 
         ResetView(ActionType.Add);
     }
@@ -171,7 +171,7 @@ public partial class VocabularyBookViewModel : ObservableObject
             }
         }
 
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurServiceList))
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurServiceList]))
         {
             LogService.Logger.Warn($"保存生词本失败，{JsonConvert.SerializeObject(CurServiceList)}");
 

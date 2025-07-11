@@ -215,11 +215,6 @@ public partial class TranslatorBingDict : TranslatorBase, ITranslator
         return TranslationResult.Success(sb.ToString());
     }
 
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
-    }
-
     public ITranslator Clone()
     {
         return new TranslatorBingDict()

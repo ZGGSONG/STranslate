@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Text;
+﻿using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -119,11 +118,6 @@ public partial class TranslatorVolcengine : TranslatorBase, ITranslator
 
         data = parsedData["TranslationList"]?.FirstOrDefault()?["Translation"]?.ToString();
         return string.IsNullOrEmpty(data) ? TranslationResult.Fail("获取结果为空") : TranslationResult.Success(data);
-    }
-
-    public Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
-    {
-        throw new NotImplementedException();
     }
 
     public ITranslator Clone()
