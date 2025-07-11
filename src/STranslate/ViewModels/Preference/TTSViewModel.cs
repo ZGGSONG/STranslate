@@ -213,7 +213,7 @@ public partial class TTSViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurTTSServiceList))
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurTTSServiceList]))
         {
             LogService.Logger.Warn($"保存TTS失败，{JsonConvert.SerializeObject(CurTTSServiceList)}");
 

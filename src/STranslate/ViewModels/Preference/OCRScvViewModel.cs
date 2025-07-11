@@ -231,7 +231,7 @@ public partial class OCRScvViewModel : ObservableObject
     [RelayCommand]
     private void Save()
     {
-        if (!Singleton<ConfigHelper>.Instance.WriteConfig(CurOCRServiceList))
+        if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurOCRServiceList]))
         {
             LogService.Logger.Warn($"保存OCR失败，{JsonConvert.SerializeObject(CurOCRServiceList)}");
 
