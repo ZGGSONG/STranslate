@@ -115,6 +115,9 @@
     <Resource Include="Resources\openai.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+	<Resource Include="Resources\openrouter.png">
+	  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	</Resource>
     <Resource Include="Resources\paddleocr.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

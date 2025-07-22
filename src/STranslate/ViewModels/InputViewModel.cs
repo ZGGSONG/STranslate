@@ -831,6 +831,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.MicrosoftBuiltinService => new TranslatorMicrosoftBuiltin(),
                 (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
                 (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
+                (int)ServiceType.OpenRouterService => new TranslatorOpenRouter(),
                 //TODO: 新接口需要适配
                 _ => new TranslatorGoogleBuiltin()
             };

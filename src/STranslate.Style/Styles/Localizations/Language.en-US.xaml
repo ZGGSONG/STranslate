@@ -156,6 +156,7 @@
     <system:String x:Key="IconType.Grok">Grok</system:String>
     <system:String x:Key="IconType.Bailian">Bailian</system:String>
     <system:String x:Key="IconType.Transmart">Transmart</system:String>
+    <system:String x:Key="IconType.OpenRouter">OpenRouter</system:String>
 
     <system:String x:Key="BackupType.Local">Local</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -574,6 +575,8 @@
     <system:String x:Key="Service.OpenAI.Info1">If the API address does not have a path, it will be automatically filled in as /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info2">For example, the OpenAI interface address is https://api.openai.com/v1/chat/completions, where the Path is /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info3">If you still have doubts please click this link</system:String>
+    <system:String x:Key="Service.OpenRouter.Info1">If the API address does not have a path, it will be automatically filled in as /api/v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenRouter.Info2">For example, the OpenRouter interface address is https://openrouter.ai/api/v1/chat/completions, where the Path is /api/v1/chat/completions</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Data">Data Pack:</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Download">Download</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Check">Check</system:String>

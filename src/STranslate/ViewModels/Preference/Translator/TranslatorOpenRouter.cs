@@ -11,23 +11,25 @@ using System.Text;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
+public partial class TranslatorOpenRouter : TranslatorLLMBase, ITranslatorLLM
 {
     #region Constructor
-    public TranslatorDeepSeek()
-        : this(Guid.NewGuid(), "https://api.deepseek.com", "DeepSeek")
+
+    public TranslatorOpenRouter()
+        : this(Guid.NewGuid(), "https://openrouter.ai", "OpenRouter")
     {
     }
-    public TranslatorDeepSeek(
+
+    public TranslatorOpenRouter(
         Guid guid,
         string url,
         string name = "",
-        IconType icon = IconType.DeepSeek,
+        IconType icon = IconType.OpenRouter,
         string appID = "",
         string appKey = "",
         bool isEnabled = true,
-        ServiceType type = ServiceType.DeepSeekService
-)
+        ServiceType type = ServiceType.OpenRouterService
+    )
     {
         Identify = guid;
         Url = url;
@@ -43,7 +45,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
     #region Properties
 
-    [JsonIgnore] private string _model = "deepseek-chat";
+    [JsonIgnore] private string _model = "openai/gpt-4o";
     public override string Model
     {
         get => _model;
@@ -53,8 +55,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
     [JsonIgnore]
     private BindingList<string> _models =
     [
-        "deepseek-chat",
-        "deepseek-reasoner",
+        "openai/gpt-4o"
     ];
     public override BindingList<string> Models
     {
@@ -100,7 +101,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
     public async Task TranslateAsync(object request, Action<string> onDataReceived, CancellationToken token)
     {
-        if (string.IsNullOrEmpty(Url) /* || string.IsNullOrEmpty(AppKey)*/)
+        if (string.IsNullOrEmpty(Url))
             throw new Exception("请先完善配置");
 
         if (request is not RequestModel req)
@@ -113,12 +114,13 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
         UriBuilder uriBuilder = new(Url);
 
+        // 如果路径不是有效的API路径结尾，使用默认路径 https://openrouter.ai/docs/quickstart
         if (uriBuilder.Path == "/")
-            uriBuilder.Path = "/chat/completions";
+            uriBuilder.Path = "/api/v1/chat/completions";
 
         // 选择模型
         var a_model = Model.Trim();
-        a_model = string.IsNullOrEmpty(a_model) ? "deepseek-chat" : a_model;
+        a_model = string.IsNullOrEmpty(a_model) ? "openai/gpt-4o" : a_model;
 
         // 替换Prompt关键字
         var a_messages =
@@ -128,8 +130,8 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
                 .Replace("$content", content));
 
         // 温度限定
-        var a_temperature = Math.Clamp(Temperature, 0, 1);
-
+        var a_temperature = Math.Clamp(Temperature, 0, 2);
+        
         // 构建请求数据
         var reqData = new
         {
@@ -139,9 +141,15 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
             stream = true
         };
 
+        var header = new Dictionary<string, string>
+        {
+            { "Authorization", $"Bearer {AppKey}" },
+            { "HTTP-Referer", "https://stranslate.zggsong.com" },
+            { "X-Title", "STranslate" },
+        };
+
         var jsonData = JsonConvert.SerializeObject(reqData);
 
-        
         try
         {
             var sb = new StringBuilder();
@@ -149,11 +157,11 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
             await HttpUtil.PostAsync(
                 uriBuilder.Uri,
+                header,
                 jsonData,
-                AppKey,
                 msg =>
                 {
-                    if (string.IsNullOrEmpty(msg?.Trim()) || msg.StartsWith("event"))
+                    if (string.IsNullOrEmpty(msg?.Trim()))
                         return;
 
                     var preprocessString = msg.Replace("data:", "").Trim();
@@ -178,15 +186,15 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
                         /***********************************************************************
                          * 推理模型思考内容
-                         * 1. content字段内：Groq（推理后带有换行）
+                         * 1. content字段内：Groq（推理后带有换行）(兼容think标签还带有换行情况)
                          * 2. reasoning_content字段内：DeepSeek、硅基流动（推理后带有换行）、第三方服务商
                          ************************************************************************/
 
                         #region 针对content内容中含有推理内容的优化
 
-                        if (contentValue == "<think>")
+                        if (contentValue.Trim() == "<think>")
                             isThink = true;
-                        if (contentValue == "</think>")
+                        if (contentValue.Trim() == "</think>")
                         {
                             isThink = false;
                             // 跳过当前内容
@@ -226,7 +234,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
         }
         catch (HttpRequestException ex) when (ex.StatusCode == null)
         {
-            var msg = $"请检查服务是否可以正常访问: {Name} ({Url}).";
+            var msg = $"请检查服务是否可以正常访问: {Name} ({Url}).\n{ex.Message}";
             throw new HttpRequestException(msg);
         }
         catch (HttpRequestException)
@@ -256,7 +264,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
 
     public ITranslator Clone()
     {
-        return new TranslatorDeepSeek
+        return new TranslatorOpenRouter
         {
             Identify = Identify,
             Type = Type,
@@ -288,7 +296,7 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
     {
         return lang switch
         {
-            LangEnum.auto => "auto",
+            LangEnum.auto => "Requires you to identify automatically",
             LangEnum.zh_cn => "Simplified Chinese",
             LangEnum.zh_tw => "Traditional Chinese",
             LangEnum.yue => "Cantonese",
@@ -319,10 +327,9 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
             LangEnum.pl => "Polish",
             LangEnum.nl => "Dutch",
             LangEnum.uk => "Ukrainian",
-            _ => "auto"
+            _ => "Requires you to identify automatically"
         };
     }
 
     #endregion Interface Implementation
 }
-
