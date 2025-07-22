@@ -19,11 +19,12 @@ public partial class TranslatorLLMBase : TranslatorBase
 {
     [JsonIgnore][ObservableProperty] private double _temperature = 1.0;
 
-    [JsonIgnore]
-    [ObservableProperty]
-    [property: DefaultValue("")]
-    [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    private string _model = "gpt-4o";
+    [JsonIgnore] private string _model = "gpt-4o";
+    public virtual string Model
+    {
+        get => _model;
+        set => SetProperty(ref _model, value);
+    }
 
     [JsonIgnore] private BindingList<string> _models =
     [

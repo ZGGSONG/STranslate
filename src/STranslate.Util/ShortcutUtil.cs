@@ -82,13 +82,10 @@ public class ShortcutUtil
     /// <returns></returns>
     private static List<string> GetDirectoryFileList(string target)
     {
-        List<string> list = [];
-        list.Clear();
-        var files = Directory.GetFiles(target, "*.lnk");
-        if (files.Length == 0) return list;
+        if (!Directory.Exists(target))
+            return [];
 
-        list.AddRange(files);
-        return list;
+        return [.. Directory.GetFiles(target, "*.lnk")];
     }
 
     /// <summary>
@@ -99,10 +96,17 @@ public class ShortcutUtil
     /// <returns></returns>
     private static bool ShortCutExist(string path, string target)
     {
-        var result = false;
+        if (string.IsNullOrWhiteSpace(path))
+            throw new ArgumentException("Path cannot be null or empty", nameof(path));
+
+        if (string.IsNullOrWhiteSpace(target))
+            throw new ArgumentException("Target cannot be null or empty", nameof(target));
+
+        if (!Directory.Exists(target))
+            return false;
+
         var list = GetDirectoryFileList(target);
-        foreach (var item in list.Where(item => path == GetAppPathViaShortCut(item))) result = true;
-        return result;
+        return list.Any(item => path.Equals(GetAppPathViaShortCut(item), StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>
@@ -158,10 +162,21 @@ public class ShortcutUtil
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
             var file = (IShellLink)new ShellLink();
-            file.Load(shortCutPath, 2);
-            var sb = new StringBuilder(256);
-            file.GetPath(sb, sb.Capacity, IntPtr.Zero, 2);
-            return sb.ToString();
+            try
+            {
+                file.Load(shortCutPath, 2);
+                var sb = new StringBuilder(256);
+                file.GetPath(sb, sb.Capacity, IntPtr.Zero, 2);
+                return sb.ToString();
+            }
+            finally
+            {
+                // 释放COM对象
+                if (file != null && Marshal.IsComObject(file))
+                {
+                    Marshal.ReleaseComObject(file);
+                }
+            }
         }
         catch
         {

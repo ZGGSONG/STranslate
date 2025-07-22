@@ -208,6 +208,7 @@ public enum ServiceType
     YandexBuiltInService,
     DeerAPIService,
     TransmartBuiltInService,
+    OpenRouterService,
 }
 
 public enum TTSType
@@ -299,6 +300,7 @@ public enum IconType
     [Description("Grok")] Grok,
     [Description("阿里百炼")] Bailian,
     [Description("Transmart")] Transmart,
+    [Description("OpenRouter")] OpenRouter,
 }
 
 /// <summary>

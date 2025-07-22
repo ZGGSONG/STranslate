@@ -156,6 +156,7 @@
     <system:String x:Key="IconType.Grok">Grok</system:String>
     <system:String x:Key="IconType.Bailian">阿里百煉</system:String>
     <system:String x:Key="IconType.Transmart">Transmart</system:String>
+    <system:String x:Key="IconType.OpenRouter">OpenRouter</system:String>
 
     <system:String x:Key="BackupType.Local">本地</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -574,6 +575,8 @@
     <system:String x:Key="Service.OpenAI.Info1">介面API位址不填寫Path內容則自動填充 /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info2">如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info3">若仍然存疑請點擊此鏈結</system:String>
+    <system:String x:Key="Service.OpenRouter.Info1">介面API位址不填寫Path內容則自動填充 /api/v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenRouter.Info2">如OpenRouter介面位址為 https://openrouter.ai/api/v1/chat/completions 其中 Path 為 /api/v1/chat/completions</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Data">數據包:</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Download">下載數據包</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Check">檢查數據包</system:String>
