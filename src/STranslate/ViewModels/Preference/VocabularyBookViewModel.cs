@@ -43,6 +43,7 @@ public partial class VocabularyBookViewModel : ObservableObject
         ActiveVocabularyBook = CurServiceList.FirstOrDefault(x => x.IsEnabled);
         //添加默认支持生词本
         Services.Add(new VocabularyBookEuDict());
+        Services.Add(new VocabularyBookMaimemo());
         //TODO: 新生词本服务需要适配
 
         ResetView();
@@ -122,6 +123,7 @@ public partial class VocabularyBookViewModel : ObservableObject
         var name = service.Type switch
         {
             VocabularyBookType.EuDictVocabularyBook => $"{head}{nameof(VocabularyBookEuDictPage)}",
+            VocabularyBookType.MaimemoVocabularyBook => $"{head}{nameof(VocabularyBookMaimemoPage)}",
             //TODO: 新生词本服务需要适配
             _ => $"{head}{nameof(VocabularyBookEuDictPage)}"
         };
@@ -138,6 +140,7 @@ public partial class VocabularyBookViewModel : ObservableObject
         CurServiceList.Add(service switch
         {
             VocabularyBookEuDict euDict => euDict.Clone(),
+            VocabularyBookMaimemo maimemo => maimemo.Clone(),
             //TODO: 新生词本服务需要适配
             _ => throw new InvalidOperationException($"Unsupported VocabularyBook type: {service.GetType().Name}")
         });

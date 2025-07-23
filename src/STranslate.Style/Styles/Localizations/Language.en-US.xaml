@@ -157,6 +157,7 @@
     <system:String x:Key="IconType.Bailian">Bailian</system:String>
     <system:String x:Key="IconType.Transmart">Transmart</system:String>
     <system:String x:Key="IconType.OpenRouter">OpenRouter</system:String>
+    <system:String x:Key="IconType.Maimemo">Maimemo</system:String>
 
     <system:String x:Key="BackupType.Local">Local</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -609,6 +610,7 @@
     <system:String x:Key="Service.TTS.Speed">Speed:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">Set the speech rate for offline TTS.</system:String>
     <system:String x:Key="Service.TTS.Offline">Get system supported voices</system:String>
+    <system:String x:Key="Service.VocabularyBook.Maimemo">In actual testing, if you add a word like "stranslate," the API responds successfully, but it does not appear in the word list. Please take note.</system:String>
     <system:String x:Key="Service.DescriptionTitle">Desc:</system:String>
     <system:String x:Key="Service.DeerAPI.Description">AI aggregation platform, one-click access to 500+ models, 30% off special offer, full support for the latest GPT4o, Grok 3, Gemini 2.5pro!</system:String>
     <system:String x:Key="Service.DeerAPI.Promotion">Register and receive a trial credit.</system:String>

@@ -1098,6 +1098,7 @@ public class VocabularyBookConverter : JsonConverter<IVocabularyBook>
         IVocabularyBook tts = type switch
         {
             (int)VocabularyBookType.EuDictVocabularyBook => new VocabularyBookEuDict(),
+            (int)VocabularyBookType.MaimemoVocabularyBook => new VocabularyBookMaimemo(),
             //TODO: 新生词本服务需要适配
             _ => throw new NotSupportedException($"Unsupported VocabularyBook ServiceType: {type}")
         };

@@ -225,6 +225,11 @@ public enum VocabularyBookType
     ///     欧陆词典
     /// </summary>
     EuDictVocabularyBook,
+
+    /// <summary>
+    ///     墨墨背单词
+    /// </summary>
+    MaimemoVocabularyBook,
 }
 
 public enum OCRType
@@ -301,6 +306,7 @@ public enum IconType
     [Description("阿里百炼")] Bailian,
     [Description("Transmart")] Transmart,
     [Description("OpenRouter")] OpenRouter,
+    [Description("Maimemo")] Maimemo,
 }
 
 /// <summary>
