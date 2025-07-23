@@ -103,6 +103,9 @@
     <Resource Include="Resources\linyi.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\maimemo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\microsoft.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

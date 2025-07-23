@@ -35,4 +35,5 @@
     <BitmapImage x:Key="Bailian" UriSource="pack://application:,,,/STranslate.Style;component/Resources/bailian.png" />
     <BitmapImage x:Key="Transmart" UriSource="pack://application:,,,/STranslate.Style;component/Resources/transmart.png" />
     <BitmapImage x:Key="OpenRouter" UriSource="pack://application:,,,/STranslate.Style;component/Resources/openrouter.png" />
+    <BitmapImage x:Key="Maimemo" UriSource="pack://application:,,,/STranslate.Style;component/Resources/maimemo.png" />
 </ResourceDictionary>

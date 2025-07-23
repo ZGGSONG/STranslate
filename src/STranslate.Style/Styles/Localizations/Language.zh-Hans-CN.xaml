@@ -157,6 +157,7 @@
     <system:String x:Key="IconType.Bailian">阿里百炼</system:String>
     <system:String x:Key="IconType.Transmart">Transmart</system:String>
     <system:String x:Key="IconType.OpenRouter">OpenRouter</system:String>
+    <system:String x:Key="IconType.Maimemo">墨墨</system:String>
 
     <system:String x:Key="BackupType.Local">本地</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
@@ -609,6 +610,7 @@
     <system:String x:Key="Service.TTS.Speed">语速:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">设置离线TTS的语速。</system:String>
     <system:String x:Key="Service.TTS.Offline">获取系统支持的语音</system:String>
+    <system:String x:Key="Service.VocabularyBook.Maimemo">实测如果添加例如 "stranslate" 的单词，接口正常回复成功，但是并不会出现在其单词列表，请熟悉</system:String>
     <system:String x:Key="Service.DescriptionTitle">描述:</system:String>
     <system:String x:Key="Service.DeerAPI.Description">AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！</system:String>
     <system:String x:Key="Service.DeerAPI.Promotion">注册即送试用额度</system:String>
