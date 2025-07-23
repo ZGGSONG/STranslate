@@ -355,6 +355,8 @@ public class ConfigHelper
         CurrentConfig.UsePasteOutput = model.UsePasteOutput;
         CurrentConfig.HttpTimeout = model.HttpTimeout;
         CurrentConfig.AppLanguage = model.AppLanguage;
+        CurrentConfig.TitleMaxWidth = model.TitleMaxWidth;
+        CurrentConfig.PromptMaxWidth = model.PromptMaxWidth;
 
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
@@ -394,7 +396,9 @@ public class ConfigHelper
             CurrentConfig.IsShowSnakeCopyBtn,
             CurrentConfig.IsShowSmallHumpCopyBtn,
             CurrentConfig.IsShowLargeHumpCopyBtn,
-            CurrentConfig.IsShowTranslateBackBtn);
+            CurrentConfig.IsShowTranslateBackBtn,
+            CurrentConfig.TitleMaxWidth,
+            CurrentConfig.PromptMaxWidth);
 
         if (!isHotkeyConfSame)
             DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys,
@@ -799,21 +803,15 @@ public class ConfigHelper
         HttpUtil.GlobalTimeout = value;
     }
 
-    /// <summary>
-    ///     输出界面显示按钮控制
-    /// </summary>
-    /// <param name="isPromptToggleVisible"></param>
-    /// <param name="isShowSnakeCopyBtn"></param>
-    /// <param name="isShowSmallHumpCopyBtn"></param>
-    /// <param name="isShowLargeHumpCopyBtn"></param>
-    /// <param name="isShowTranslateBackBtn"></param>
-    private void OutputViewOperate(bool isPromptToggleVisible, bool isShowSnakeCopyBtn, bool isShowSmallHumpCopyBtn, bool isShowLargeHumpCopyBtn, bool isShowTranslateBackBtn)
+    private void OutputViewOperate(bool isPromptToggleVisible, bool isShowSnakeCopyBtn, bool isShowSmallHumpCopyBtn, bool isShowLargeHumpCopyBtn, bool isShowTranslateBackBtn, double titleMaxWidth, double promptMaxWidth)
     {
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = isPromptToggleVisible;
         Singleton<OutputViewModel>.Instance.IsShowSnakeCopyBtn = isShowSnakeCopyBtn;
         Singleton<OutputViewModel>.Instance.IsShowSmallHumpCopyBtn = isShowSmallHumpCopyBtn;
         Singleton<OutputViewModel>.Instance.IsShowLargeHumpCopyBtn = isShowLargeHumpCopyBtn;
         Singleton<OutputViewModel>.Instance.IsShowTranslateBackBtn = isShowTranslateBackBtn;
+        Singleton<OutputViewModel>.Instance.TitleMaxWidth = titleMaxWidth;
+        Singleton<OutputViewModel>.Instance.PromptMaxWidth = promptMaxWidth;
     }
 
     private void AutoCheckUpdateOperate()
@@ -988,6 +986,8 @@ public class ConfigHelper
             HttpTimeout = 10,
             AppLanguage = AppLanguageKind.zh_Hans_CN,
             DownloadProxy = DownloadProxyKind.GhProxy,
+            TitleMaxWidth = 120,
+            PromptMaxWidth = 100,
             ReplaceProp = new ReplaceProp(),
             Services =
             [

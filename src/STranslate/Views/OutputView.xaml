@@ -2,6 +2,7 @@
     x:Class="STranslate.Views.OutputView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cnvt="clr-namespace:STranslate.Style.Converters;assembly=STranslate.Style"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:control="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -78,7 +79,7 @@
                                 </i:Interaction.Triggers>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <!--  // 右侧其他按钮 //  -->
                                 <StackPanel
@@ -436,17 +437,13 @@
                                 </StackPanel>
 
                                 <!--  // 左侧服务图标、名称 //  -->
-                                <StackPanel
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                     <Image
                                         Width="18"
                                         Margin="10,0,0,0"
                                         Source="{Binding Icon, Converter={StaticResource String2IconConverter}}" />
                                     <TextBlock
-                                        MaxWidth="120"
+                                        MaxWidth="{Binding Source={StaticResource OutputVm}, Path=Data.TitleMaxWidth}"
                                         Margin="10,0,0,0"
                                         props:ThemeProps.Foreground="{DynamicResource TextForeground}"
                                         FontSize="{DynamicResource FontSize14}"
@@ -456,7 +453,7 @@
                                     <ToggleButton
                                         x:Name="PART_Switch"
                                         Height="22"
-                                        MaxWidth="100"
+                                        MaxWidth="{Binding Source={StaticResource OutputVm}, Path=Data.PromptMaxWidth}"
                                         Margin="10,0,0,0"
                                         Padding="4,0"
                                         Background="Transparent"

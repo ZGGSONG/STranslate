@@ -91,13 +91,14 @@
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" MaxWidth="300" />
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" MinWidth="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="3*" MinWidth="200" />
                     </Grid.ColumnDefinitions>
 
                     <!--  // Services //  -->
                     <Border
-                        Margin="10"
+                        Margin="10,10,0,10"
                         props:ThemeProps.Background="{DynamicResource BorderBackground}"
                         props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
                         BorderThickness="1"
@@ -191,9 +192,18 @@
                         </ListBox>
                     </Border>
 
+                    <GridSplitter
+                        Grid.Column="1"
+                        Margin="0,10"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        ResizeBehavior="PreviousAndNext"
+                        ResizeDirection="Columns" />
+
                     <!--  // Content //  -->
                     <ContentControl
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Margin="0,10,10,10"
                         Content="{Binding ServiceContent}" />
                 </Grid>
