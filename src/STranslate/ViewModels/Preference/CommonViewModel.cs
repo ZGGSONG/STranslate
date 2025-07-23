@@ -410,7 +410,11 @@ public partial class CommonViewModel : ObservableObject
     }
 
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
-    
+
+    [ObservableProperty] private double _titleMaxWidth = ConfigHelper.CurrentConfig?.TitleMaxWidth ?? 120;
+
+    [ObservableProperty] private double _promptMaxWidth = ConfigHelper.CurrentConfig?.PromptMaxWidth ?? 100;
+
     /// <summary>
     ///     常用语种回调
     /// </summary>
@@ -596,6 +600,8 @@ public partial class CommonViewModel : ObservableObject
         UsePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
         HttpTimeout = ConfigHelper.CurrentConfig?.HttpTimeout ?? 10;
         AppLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
+        TitleMaxWidth = ConfigHelper.CurrentConfig?.TitleMaxWidth ?? 120;
+        PromptMaxWidth = ConfigHelper.CurrentConfig?.PromptMaxWidth ?? 100;
 
         LoadHistorySizeType();
         ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);

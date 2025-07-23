@@ -342,6 +342,8 @@
     <system:String x:Key="Display.TriggerShowHide">显示界面重复触发显/隐</system:String>
     <system:String x:Key="Display.MainViewMaxHeight">主界面最大高度[立即生效]</system:String>
     <system:String x:Key="Display.MainViewWidth">主界面宽度[立即生效]</system:String>
+    <system:String x:Key="Display.TitleMaxWidth">输出界面服务名称最大宽度</system:String>
+    <system:String x:Key="Display.PromptMaxWidth">输出界面提示词名称最大宽度</system:String>
     <system:String x:Key="Display.InputViewMaxHeight">输入框最大高度[立即生效]</system:String>
     <system:String x:Key="Display.FollowMouse">窗口跟随鼠标</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">截图辅助线</system:String>
@@ -441,6 +443,8 @@
     <system:String x:Key="Tooltip.TriggerShowHideTip">重复触发显示界面功能为显示(隐藏状态下)/隐藏(显示状态下)</system:String>
     <system:String x:Key="Tooltip.MainViewMaxHeightTip">主界面最大高度调整</system:String>
     <system:String x:Key="Tooltip.MainViewWidthTip">主界面宽度调整</system:String>
+    <system:String x:Key="Tooltip.TitleMaxWidthTip">输出界面服务名称最大宽度调整</system:String>
+    <system:String x:Key="Tooltip.PromptMaxWidthTip">输出界面提示词名称最大宽度调整</system:String>
     <system:String x:Key="Tooltip.InputViewMaxHeightTip">输入框最大高度调整</system:String>
     <system:String x:Key="Tooltip.FollowMouseTip">输入、截图、划词和监听剪贴板进行翻译时&#13;主窗口弹出位置跟随鼠标位置</system:String>
     <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">截图时是否显示辅助线</system:String>

@@ -460,6 +460,16 @@ public class ConfigModel
     public int HttpTimeout { get; set; } = 10;
 
     /// <summary>
+    ///     服务标题最大宽度
+    /// </summary>
+    public double TitleMaxWidth { get; set; } = 120;
+
+    /// <summary>
+    ///     服务提示词最大宽度
+    /// </summary>
+    public double PromptMaxWidth { get; set; } = 100;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -589,6 +599,8 @@ public class ConfigModel
             UsePasteOutput = UsePasteOutput,
             HttpTimeout = HttpTimeout,
             AppLanguage = AppLanguage,
+            TitleMaxWidth = TitleMaxWidth,
+            PromptMaxWidth = PromptMaxWidth,
             ReplaceProp = ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

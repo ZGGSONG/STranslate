@@ -342,6 +342,8 @@
     <system:String x:Key="Display.TriggerShowHide">Toggle Show/Hide on Repeat Trigger</system:String>
     <system:String x:Key="Display.MainViewMaxHeight">Main Window Max Height [WIE]</system:String>
     <system:String x:Key="Display.MainViewWidth">Main Window Width [WIE]</system:String>
+    <system:String x:Key="Display.TitleMaxWidth">Maximum width of the service name in the output interface</system:String>
+    <system:String x:Key="Display.PromptMaxWidth">Maximum width of the prompt name in the output interface</system:String>
     <system:String x:Key="Display.InputViewMaxHeight">Input Box Max Height [WIE]</system:String>
     <system:String x:Key="Display.FollowMouse">Window Follows Mouse</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">Screenshot Guide Lines</system:String>
@@ -441,6 +443,8 @@
     <system:String x:Key="Tooltip.TriggerShowHideTip">Repeated trigger shows interface (when hidden)/hides interface (when shown)</system:String>
     <system:String x:Key="Tooltip.MainViewMaxHeightTip">Adjust maximum height of main interface</system:String>
     <system:String x:Key="Tooltip.MainViewWidthTip">Adjust width of main interface</system:String>
+    <system:String x:Key="Tooltip.TitleMaxWidthTip">Maximum width of service name in output interface</system:String>
+    <system:String x:Key="Tooltip.PromptMaxWidthTip">Maximum width of prompt name in output interface</system:String>
     <system:String x:Key="Tooltip.InputViewMaxHeightTip">Adjust maximum height of input box</system:String>
     <system:String x:Key="Tooltip.FollowMouseTip">Main window popup position follows mouse position&#13;for input, screenshot, word selection, and clipboard monitoring translation</system:String>
     <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">Whether to show guide lines when taking screenshots</system:String>
