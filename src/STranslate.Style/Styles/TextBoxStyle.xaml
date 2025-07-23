@@ -32,7 +32,7 @@
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="IsReadOnly" Value="True" />
-        <Setter Property="Margin" Value="10,10,10,0" />
+        <Setter Property="Margin" Value="10,5,10,0" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Style.Triggers>
