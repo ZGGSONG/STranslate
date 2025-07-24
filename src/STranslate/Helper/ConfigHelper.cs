@@ -655,7 +655,7 @@ public class ConfigHelper
         }
     }
 
-    private void StartModeOperate(StartModeKind startModeKind)
+    public void StartModeOperate(StartModeKind startModeKind)
     {
         if (startModeKind == StartModeKind.SkipUACAdmin)
         {

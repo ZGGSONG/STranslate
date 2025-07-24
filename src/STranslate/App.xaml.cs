@@ -19,14 +19,11 @@ public partial class App
         // 开启日志服务
         LogService.Register();
 
-        // 软件配置涉及初始化操作
-        Singleton<ConfigHelper>.Instance.InitialOperate();
-
         // 检查是否已经具有管理员权限
         if (NeedAdministrator())
         {
             RunAsAdministrator();
-            Current.Shutdown();
+            Environment.Exit(0);
             return;
         }
 
@@ -34,12 +31,15 @@ public partial class App
         if (IsAnotherInstanceRunning())
         {
             MessageBox_S.Show($"{Constant.AppName} {AppLanguageManager.GetString("MessageBox.AlreadyRunning")}", AppLanguageManager.GetString("MessageBox.MultiOpeningDetection"));
-            Current.Shutdown();
+            Environment.Exit(0);
             return;
         }
 
         // 开启监听系统代理
         ProxyUtil.LoadDynamicProxy();
+
+        // 软件配置涉及初始化操作
+        Singleton<ConfigHelper>.Instance.InitialOperate();
 
         // 启动应用程序
         StartProgram();
@@ -93,7 +93,20 @@ public partial class App
             StartModeKind.SkipUACAdmin => Constant.TaskName,
             _ => throw new InvalidOperationException("Unsupported start mode for admin")
         };
-        //TODO: 考虑在里面检查有没有，没有就创建任务计划
+        // 如果是跳过UAC管理员模式，则检查，如果缺失则先创建计划任务
+        if (mode == StartModeKind.SkipUACAdmin)
+        {
+            var fileName = $"{Constant.ExecutePath}{Constant.AppName}.exe";
+            var info = TaskSchedulerUtil.GetTaskInfo(Constant.TaskName);
+            if (!info.Success || !info.Output.Contains(fileName))
+            {
+                LogService.Logger.Debug($"<App> 启动方式已选择为'{mode.GetDescription()}', 未检测已经存在计划任务'{Constant.TaskName}', 尝试创建");
+                string[] args = ["task", "-a", "create", "-n", Constant.TaskName, "-p", fileName, "-f"];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin, true);
+                LogService.Logger.Debug($"<App> 启动方式已选择为'{mode.GetDescription()}', 已创建计划任务'{Constant.TaskName}'");
+            }
+        }
         CommonUtil.ExecuteProgram(Constant.HostExePath, ["start", "-m", modeStr, "-t", target]);
     }
 
