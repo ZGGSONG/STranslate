@@ -100,9 +100,6 @@ public class ConfigHelper
     {
         StartupOperate(CurrentConfig?.IsStartup ?? false);
 
-        //初始化UAC
-        StartModeOperate(CurrentConfig?.StartMode ?? StartModeKind.Normal);
-
         //初始化语言
         AppLanguageManager.InitializeLanguage(CurrentConfig);
 
@@ -136,13 +133,16 @@ public class ConfigHelper
 
         //初始化自动翻译
         AutoTrasnalteOperate(CurrentConfig?.AutoTranslate ?? false);
-        
+
         //初始化隐藏输入界面
         ShowLangViewOnShowRetOperate(CurrentConfig?.IsOnlyShowRet ?? false,
             CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? true);
 
         //初始化Http超时时间
         HttpTimeoutOperate(CurrentConfig?.HttpTimeout ?? 10);
+
+        //初始化启动方式
+        StartModeOperate(CurrentConfig?.StartMode ?? StartModeKind.Normal);
     }
 
     /// <summary>
@@ -522,7 +522,7 @@ public class ConfigHelper
         Encryption(copy);
         File.WriteAllText(Constant.CnfFullName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
-    
+
     private async Task WriteConfigAsync(ConfigModel conf)
     {
         var copy = conf.Clone();
@@ -657,7 +657,30 @@ public class ConfigHelper
 
     private void StartModeOperate(StartModeKind startModeKind)
     {
-
+        if (startModeKind == StartModeKind.SkipUACAdmin)
+        {
+            var fileName = $"{Constant.ExecutePath}{Constant.AppName}.exe";
+            var info = TaskSchedulerUtil.GetTaskInfo(Constant.TaskName);
+            if (!info.Success || !info.Output.Contains(fileName))
+            {
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 未检测已经存在计划任务'{Constant.TaskName}', 尝试创建");
+                string[] args = ["task", "-a", "create", "-n", Constant.TaskName, "-p", fileName, "-f"];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin, true);
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已创建计划任务'{Constant.TaskName}'");
+            }
+        }
+        else
+        {
+            if (TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
+            {
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 检测已经存在计划任务'{Constant.TaskName}', 尝试删除");
+                string[] args = ["task", "-a", "delete", "-n", Constant.TaskName];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin);
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已删除计划任务'{Constant.TaskName}'");
+            }
+        }
     }
 
     /// <summary>
@@ -823,42 +846,6 @@ public class ConfigHelper
         Singleton<OutputViewModel>.Instance.TitleMaxWidth = titleMaxWidth;
         Singleton<OutputViewModel>.Instance.PromptMaxWidth = promptMaxWidth;
     }
-
-    //private void UACOperate(bool isSkipUAC)
-    //{
-    //    if (isSkipUAC && !TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
-    //    {
-    //        var exePath = $"{Constant.ExecutePath}{Constant.AppName}.exe";
-    //        var createResult = TaskSchedulerUtil.CreateTask(exePath, Constant.TaskName);
-    //        if (!createResult.Success)
-    //        {
-    //            CurrentConfig!.IsSkipUAC = false;
-    //            Singleton<CommonViewModel>.Instance.IsSkipUAC = false;
-    //            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(createResult.Message);
-
-    //            LogService.Logger.Error($"创建UAC任务失败, Message: {createResult.Message}, Output: {createResult.Output}");
-    //        }
-    //        else
-    //        {
-    //            LogService.Logger.Info("创建UAC任务成功");
-    //        }
-    //    }
-    //    else if (!isSkipUAC && TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
-    //    {
-    //        var deleteResult = TaskSchedulerUtil.DeleteTask(Constant.TaskName);
-    //        if (!deleteResult.Success)
-    //        {
-    //            CurrentConfig!.IsSkipUAC = true;
-    //            Singleton<CommonViewModel>.Instance.IsSkipUAC = true;
-    //            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(deleteResult.Message);
-    //            LogService.Logger.Error($"删除UAC任务失败, Message: {deleteResult.Message}, Output: {deleteResult.Output}");
-    //        }
-    //        else
-    //        {
-    //            LogService.Logger.Info("删除UAC任务成功");
-    //        }
-    //    }
-    //}
 
     private void AutoCheckUpdateOperate()
     {
@@ -1235,7 +1222,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
-        
+
         if (translator is ITranslatorLLM llm)
         {
             llm.UserDefinePrompts.Clear();

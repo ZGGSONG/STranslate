@@ -19,28 +19,16 @@ public partial class App
         // 开启日志服务
         LogService.Register();
 
+        // 软件配置涉及初始化操作
+        Singleton<ConfigHelper>.Instance.InitialOperate();
+
         // 检查是否已经具有管理员权限
-        //if (NeedAdministrator())
-        //{
-        //    if (Singleton<ConfigHelper>.Instance.CurrentConfig!.IsSkipUAC && TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
-        //    {
-        //        if (TaskSchedulerUtil.RunTask(Constant.TaskName).Success)
-        //        {
-        //            Current.Shutdown();
-        //            return;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // 如果没有管理员权限，可以提示用户提升权限
-        //        if (TryRunAsAdministrator())
-        //        {
-        //            // 如果提升权限成功，关闭当前实例
-        //            Current.Shutdown();
-        //            return;
-        //        }
-        //    }
-        //}
+        if (NeedAdministrator())
+        {
+            RunAsAdministrator();
+            Current.Shutdown();
+            return;
+        }
 
         // 多开检测
         if (IsAnotherInstanceRunning())
@@ -52,9 +40,6 @@ public partial class App
 
         // 开启监听系统代理
         ProxyUtil.LoadDynamicProxy();
-
-        // 软件配置涉及初始化操作
-        Singleton<ConfigHelper>.Instance.InitialOperate();
 
         // 启动应用程序
         StartProgram();
@@ -82,17 +67,37 @@ public partial class App
         base.OnExit(e);
     }
 
-    //private bool NeedAdministrator()
-    //{
-    //    // 加载配置
-    //    var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
+    private bool NeedAdministrator()
+    {
+        // 加载配置
+        var mode = Singleton<ConfigHelper>.Instance.CurrentConfig?.StartMode ?? StartModeKind.Normal;
 
-    //    if (!isRole)
-    //        return false;
+        if (mode == StartModeKind.Normal)
+            return false;
 
-    //    return !CommonUtil.IsUserAdministrator();
-    //}
+        return !CommonUtil.IsUserAdministrator();
+    }
 
+    private void RunAsAdministrator()
+    {
+        var mode = Singleton<ConfigHelper>.Instance.CurrentConfig?.StartMode ?? StartModeKind.Normal;
+        var modeStr = mode switch
+        {
+            StartModeKind.Admin => "elevated",
+            StartModeKind.SkipUACAdmin => "task",
+            _ => throw new InvalidOperationException("Unsupported start mode for admin")
+        };
+        var target = mode switch
+        {
+            StartModeKind.Admin => $"{Constant.ExecutePath}{Constant.AppName}.exe",
+            StartModeKind.SkipUACAdmin => Constant.TaskName,
+            _ => throw new InvalidOperationException("Unsupported start mode for admin")
+        };
+        //TODO: 考虑在里面检查有没有，没有就创建任务计划
+        CommonUtil.ExecuteProgram(Constant.HostExePath, ["start", "-m", modeStr, "-t", target]);
+    }
+
+    [Obsolete]
     private bool TryRunAsAdministrator()
     {
         ProcessStartInfo startInfo =
