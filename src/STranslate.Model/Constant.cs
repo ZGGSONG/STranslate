@@ -19,7 +19,7 @@ public static class Constant
     public const string CnfName = "stranslate";
     public const string AppName = "STranslate";
     private const string PortableConfig = "portable_config";
-    private const string UpdateExe = "z_ud.exe";
+    private const string HostExe = "z_host.exe";
 
     /// <summary>
     ///     用户软件根目录
@@ -32,8 +32,8 @@ public static class Constant
 
     private static readonly string PortableCnfPath = $"{ExecutePath}{PortableConfig}";
 
-    public static readonly string UpdateExePath = $"{ExecutePath}{UpdateExe}";
-    public static readonly string UpdateExeTmpPath = $"{ExecutePath}tmp\\{UpdateExe}";
+    public static readonly string HostExePath = $"{ExecutePath}{HostExe}";
+    public static readonly string HostExeTmpPath = $"{ExecutePath}tmp\\{HostExe}";
 
     /// <summary>
     ///     是否为便携模式
@@ -144,6 +144,8 @@ public static class Constant
             .OfType<DictionaryEntry>()
             .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
                 entry => entry.Value!.ToString() ?? Icon);
+
+    public const string TaskName = "STranslateSkipUAC";
 
     #endregion
 

@@ -239,9 +239,9 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _mainViewShadow = ConfigHelper.CurrentConfig?.MainViewShadow ?? false;
 
     /// <summary>
-    ///     是否默认管理员启动
+    ///     启动方式
     /// </summary>
-    [ObservableProperty] private bool _needAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+    [ObservableProperty] private StartModeKind _startMode = ConfigHelper.CurrentConfig?.StartMode ?? StartModeKind.Normal;
 
     /// <summary>
     ///     是否自动检查更新
@@ -519,7 +519,7 @@ public partial class CommonViewModel : ObservableObject
     private void Reset()
     {
         IsStartup = ConfigHelper.CurrentConfig?.IsStartup ?? false;
-        NeedAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+        StartMode = ConfigHelper.CurrentConfig?.StartMode ?? StartModeKind.Normal;
         AutoCheckUpdate = ConfigHelper.CurrentConfig?.AutoCheckUpdate ?? true;
         DownloadProxy = ConfigHelper.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy;
         HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;

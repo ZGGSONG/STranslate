@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.IO;
-using System.Windows;
-using System.Windows.Media;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Log;
 using STranslate.Model;
@@ -14,6 +10,10 @@ using STranslate.ViewModels.Preference.Translator;
 using STranslate.ViewModels.Preference.TTS;
 using STranslate.ViewModels.Preference.VocabularyBook;
 using STranslate.Views;
+using System.ComponentModel;
+using System.IO;
+using System.Windows;
+using System.Windows.Media;
 
 namespace STranslate.Helper;
 
@@ -133,13 +133,16 @@ public class ConfigHelper
 
         //初始化自动翻译
         AutoTrasnalteOperate(CurrentConfig?.AutoTranslate ?? false);
-        
+
         //初始化隐藏输入界面
         ShowLangViewOnShowRetOperate(CurrentConfig?.IsOnlyShowRet ?? false,
             CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? true);
 
         //初始化Http超时时间
         HttpTimeoutOperate(CurrentConfig?.HttpTimeout ?? 10);
+
+        //初始化启动方式
+        StartModeOperate(CurrentConfig?.StartMode ?? StartModeKind.Normal);
     }
 
     /// <summary>
@@ -273,7 +276,7 @@ public class ConfigHelper
         //var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
         bool previousAutoCheckUpdate = CurrentConfig.AutoCheckUpdate;
         CurrentConfig.IsStartup = model.IsStartup;
-        CurrentConfig.NeedAdministrator = model.NeedAdmin;
+        CurrentConfig.StartMode = model.StartMode;
         CurrentConfig.AutoCheckUpdate = model.AutoCheckUpdate;
         CurrentConfig.DownloadProxy = model.DownloadProxy;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -362,6 +365,8 @@ public class ConfigHelper
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
+
+        StartModeOperate(CurrentConfig.StartMode);
         //if (!isAppLangSame)
         //{
         //    AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
@@ -517,7 +522,7 @@ public class ConfigHelper
         Encryption(copy);
         File.WriteAllText(Constant.CnfFullName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
-    
+
     private async Task WriteConfigAsync(ConfigModel conf)
     {
         var copy = conf.Clone();
@@ -647,6 +652,34 @@ public class ConfigHelper
         else
         {
             ShortcutUtil.UnSetStartup();
+        }
+    }
+
+    public void StartModeOperate(StartModeKind startModeKind)
+    {
+        if (startModeKind == StartModeKind.SkipUACAdmin)
+        {
+            var fileName = $"{Constant.ExecutePath}{Constant.AppName}.exe";
+            var info = TaskSchedulerUtil.GetTaskInfo(Constant.TaskName);
+            if (!info.Success || !info.Output.Contains(fileName))
+            {
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 未检测已经存在计划任务'{Constant.TaskName}', 尝试创建");
+                string[] args = ["task", "-a", "create", "-n", Constant.TaskName, "-p", fileName, "-f"];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin, true);
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已创建计划任务'{Constant.TaskName}'");
+            }
+        }
+        else
+        {
+            if (TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
+            {
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 检测已经存在计划任务'{Constant.TaskName}', 尝试删除");
+                string[] args = ["task", "-a", "delete", "-n", Constant.TaskName];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin);
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已删除计划任务'{Constant.TaskName}'");
+            }
         }
     }
 
@@ -902,12 +935,13 @@ public class ConfigHelper
             Constant.DefaultClipboardMonitorHotkey);
         return new ConfigModel
         {
+            IsStartup = false,
+            StartMode = StartModeKind.Normal,
             HistorySize = 100,
             AutoScale = 0.8,
             AutoCheckUpdate = true,
             Hotkeys = hk,
             ThemeType = ThemeType.Light,
-            IsStartup = false,
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
             IsScreenshotOcrAutoCopyText = false,
@@ -1188,7 +1222,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
-        
+
         if (translator is ITranslatorLLM llm)
         {
             llm.UserDefinePrompts.Clear();

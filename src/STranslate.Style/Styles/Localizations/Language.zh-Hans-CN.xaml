@@ -165,6 +165,10 @@
     <system:String x:Key="STranslateMode.Brower">模式一</system:String>
     <system:String x:Key="STranslateMode.IOS">模式二</system:String>
 
+    <system:String x:Key="StartModeKind.Normal">正常启动</system:String>
+    <system:String x:Key="StartModeKind.Admin">管理员启动</system:String>
+    <system:String x:Key="StartModeKind.SkipUACAdmin">跳过UAC管理员启动</system:String>
+
     <!--#endregion-->
 
     <!--#region Toast-->
@@ -260,7 +264,7 @@
     <system:String x:Key="Common.Title">常规配置</system:String>
     <system:String x:Key="Common.AutoStart">开机自启动</system:String>
     <system:String x:Key="Common.AppLanguage">软件语言</system:String>
-    <system:String x:Key="Common.NeedAdmin">管理员启动</system:String>
+    <system:String x:Key="Common.StartMode">启动方式</system:String>
     <system:String x:Key="Common.AutoCheckUpdate">自动检查更新</system:String>
     <system:String x:Key="Common.DownloadProxy">资源下载渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自动翻译</system:String>
@@ -391,7 +395,7 @@
 
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">开机时自动启动软件(该用户登录)</system:String>
-    <system:String x:Key="Tooltip.NeedAdminTip">以便全局快捷键在具有管理员权限的窗口也能响应</system:String>
+    <system:String x:Key="Tooltip.StartModeTip">选择是否以管理员身份运行，并可设置是否跳过 UAC 提示</system:String>
     <system:String x:Key="Tooltip.AutoCheckUpdateTip">开启后自动检查更新，每隔24h检查一次更新</system:String>
     <system:String x:Key="Tooltip.DownloadProxyTip">下载Github资源(软件安装包、离线资源包)所使用的代理方式</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">切换软件语言版本</system:String>

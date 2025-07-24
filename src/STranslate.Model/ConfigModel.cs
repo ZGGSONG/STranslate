@@ -15,10 +15,13 @@ public class ConfigModel
     public bool IsStartup { get; set; }
 
     /// <summary>
-    ///     是否管理员启动
+    ///     启动方式
     /// </summary>
-    public bool NeedAdministrator { get; set; }
+    public StartModeKind StartMode { get; set; }
 
+    /// <summary>
+    ///     是否自动检查更新
+    /// </summary>
     public bool AutoCheckUpdate { get; set; } = true;
 
     /// <summary>
@@ -508,7 +511,7 @@ public class ConfigModel
         return new ConfigModel
         {
             IsStartup = IsStartup,
-            NeedAdministrator = NeedAdministrator,
+            StartMode = StartMode,
             AutoCheckUpdate = AutoCheckUpdate,
             DownloadProxy = DownloadProxy,
             HistorySize = HistorySize,

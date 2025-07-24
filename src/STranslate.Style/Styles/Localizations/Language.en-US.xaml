@@ -165,6 +165,10 @@
     <system:String x:Key="STranslateMode.Brower">Brower</system:String>
     <system:String x:Key="STranslateMode.IOS">IOS</system:String>
 
+    <system:String x:Key="StartModeKind.Normal">Normal</system:String>
+    <system:String x:Key="StartModeKind.Admin">Admin</system:String>
+    <system:String x:Key="StartModeKind.SkipUACAdmin">Admin Skip UAC</system:String>
+
     <!--#endregion-->
 
     <!--#region Toast-->
@@ -260,7 +264,7 @@
     <system:String x:Key="Common.Title">General Configuration</system:String>
     <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
     <system:String x:Key="Common.AppLanguage">Application Language</system:String>
-    <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
+    <system:String x:Key="Common.StartMode">Start Mode</system:String>
     <system:String x:Key="Common.AutoCheckUpdate">Auto check update</system:String>
     <system:String x:Key="Common.DownloadProxy">Resource download channel</system:String>
     <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
@@ -391,7 +395,7 @@
 
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">Automatically start the software when the system boots (for current user)</system:String>
-    <system:String x:Key="Tooltip.NeedAdminTip">To ensure global hotkeys respond in windows with administrator privileges</system:String>
+    <system:String x:Key="Tooltip.StartModeTip">Enable administrator mode and optionally skip UAC prompt</system:String>
     <system:String x:Key="Tooltip.AutoCheckUpdateTip">Automatically check for updates once enabled, every 24 hours</system:String>
     <system:String x:Key="Tooltip.DownloadProxyTip">Proxy method used to download Github resources (software installation packages, offline resource packages)</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">Switch application language version</system:String>

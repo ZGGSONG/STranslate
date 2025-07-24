@@ -62,12 +62,17 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="{DynamicResource Common.NeedAdmin}" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.NeedAdminTip}" />
-                                    <ToggleButton
-                                        Height="26"
+                                    <TextBlock Text="{DynamicResource Common.StartMode}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.StartModeTip}" />
+                                    <ComboBox
+                                        Height="30"
                                         HorizontalAlignment="Right"
-                                        IsChecked="{Binding NeedAdmin}" />
+                                        common:LangAwareSelector.IsLangAware="True"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:StartModeKind}}}"
+                                        SelectedValue="{Binding StartMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
