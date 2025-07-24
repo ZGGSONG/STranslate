@@ -20,14 +20,27 @@ public partial class App
         LogService.Register();
 
         // 检查是否已经具有管理员权限
-        if (NeedAdministrator())
-            // 如果没有管理员权限，可以提示用户提升权限
-            if (TryRunAsAdministrator())
-            {
-                // 如果提升权限成功，关闭当前实例
-                Current.Shutdown();
-                return;
-            }
+        //if (NeedAdministrator())
+        //{
+        //    if (Singleton<ConfigHelper>.Instance.CurrentConfig!.IsSkipUAC && TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
+        //    {
+        //        if (TaskSchedulerUtil.RunTask(Constant.TaskName).Success)
+        //        {
+        //            Current.Shutdown();
+        //            return;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // 如果没有管理员权限，可以提示用户提升权限
+        //        if (TryRunAsAdministrator())
+        //        {
+        //            // 如果提升权限成功，关闭当前实例
+        //            Current.Shutdown();
+        //            return;
+        //        }
+        //    }
+        //}
 
         // 多开检测
         if (IsAnotherInstanceRunning())
@@ -69,16 +82,16 @@ public partial class App
         base.OnExit(e);
     }
 
-    private bool NeedAdministrator()
-    {
-        // 加载配置
-        var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
+    //private bool NeedAdministrator()
+    //{
+    //    // 加载配置
+    //    var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
 
-        if (!isRole)
-            return false;
+    //    if (!isRole)
+    //        return false;
 
-        return !CommonUtil.IsUserAdministrator();
-    }
+    //    return !CommonUtil.IsUserAdministrator();
+    //}
 
     private bool TryRunAsAdministrator()
     {

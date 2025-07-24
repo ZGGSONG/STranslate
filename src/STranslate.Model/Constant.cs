@@ -145,6 +145,8 @@ public static class Constant
             .ToDictionary(entry => (IconType)Enum.Parse(typeof(IconType), entry.Key.ToString() ?? "STranslate"),
                 entry => entry.Value!.ToString() ?? Icon);
 
+    public const string TaskName = "STranslate_SkipUAC";
+
     #endregion
 
     #region Hotkeys

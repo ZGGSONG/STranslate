@@ -1451,6 +1451,19 @@ public enum AppLanguageKind
 }
 
 /// <summary>
+///     启动方式
+///     0 - 正常启动
+///     1 - 管理员启动
+///     2 - 跳过UAC管理员启动
+/// </summary>
+public enum StartModeKind
+{
+    [Description("正常启动")] Normal = 0,
+    [Description("管理员启动")] Admin = 1,
+    [Description("跳过UAC管理员启动")] SkipUACAdmin = 2
+}
+
+/// <summary>
 ///     获取Description
 /// </summary>
 public static class EnumExtensions

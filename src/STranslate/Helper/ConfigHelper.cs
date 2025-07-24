@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.IO;
-using System.Windows;
-using System.Windows.Media;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Log;
 using STranslate.Model;
@@ -14,6 +10,10 @@ using STranslate.ViewModels.Preference.Translator;
 using STranslate.ViewModels.Preference.TTS;
 using STranslate.ViewModels.Preference.VocabularyBook;
 using STranslate.Views;
+using System.ComponentModel;
+using System.IO;
+using System.Windows;
+using System.Windows.Media;
 
 namespace STranslate.Helper;
 
@@ -99,6 +99,9 @@ public class ConfigHelper
     public void InitialOperate()
     {
         StartupOperate(CurrentConfig?.IsStartup ?? false);
+
+        //初始化UAC
+        StartModeOperate(CurrentConfig?.StartMode ?? StartModeKind.Normal);
 
         //初始化语言
         AppLanguageManager.InitializeLanguage(CurrentConfig);
@@ -273,7 +276,7 @@ public class ConfigHelper
         //var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
         bool previousAutoCheckUpdate = CurrentConfig.AutoCheckUpdate;
         CurrentConfig.IsStartup = model.IsStartup;
-        CurrentConfig.NeedAdministrator = model.NeedAdmin;
+        CurrentConfig.StartMode = model.StartMode;
         CurrentConfig.AutoCheckUpdate = model.AutoCheckUpdate;
         CurrentConfig.DownloadProxy = model.DownloadProxy;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -362,6 +365,8 @@ public class ConfigHelper
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
+
+        StartModeOperate(CurrentConfig.StartMode);
         //if (!isAppLangSame)
         //{
         //    AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
@@ -650,6 +655,11 @@ public class ConfigHelper
         }
     }
 
+    private void StartModeOperate(StartModeKind startModeKind)
+    {
+
+    }
+
     /// <summary>
     ///     初始化主题
     /// </summary>
@@ -814,6 +824,42 @@ public class ConfigHelper
         Singleton<OutputViewModel>.Instance.PromptMaxWidth = promptMaxWidth;
     }
 
+    //private void UACOperate(bool isSkipUAC)
+    //{
+    //    if (isSkipUAC && !TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
+    //    {
+    //        var exePath = $"{Constant.ExecutePath}{Constant.AppName}.exe";
+    //        var createResult = TaskSchedulerUtil.CreateTask(exePath, Constant.TaskName);
+    //        if (!createResult.Success)
+    //        {
+    //            CurrentConfig!.IsSkipUAC = false;
+    //            Singleton<CommonViewModel>.Instance.IsSkipUAC = false;
+    //            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(createResult.Message);
+
+    //            LogService.Logger.Error($"创建UAC任务失败, Message: {createResult.Message}, Output: {createResult.Output}");
+    //        }
+    //        else
+    //        {
+    //            LogService.Logger.Info("创建UAC任务成功");
+    //        }
+    //    }
+    //    else if (!isSkipUAC && TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
+    //    {
+    //        var deleteResult = TaskSchedulerUtil.DeleteTask(Constant.TaskName);
+    //        if (!deleteResult.Success)
+    //        {
+    //            CurrentConfig!.IsSkipUAC = true;
+    //            Singleton<CommonViewModel>.Instance.IsSkipUAC = true;
+    //            Singleton<NotifyIconViewModel>.Instance.ShowBalloonTip(deleteResult.Message);
+    //            LogService.Logger.Error($"删除UAC任务失败, Message: {deleteResult.Message}, Output: {deleteResult.Output}");
+    //        }
+    //        else
+    //        {
+    //            LogService.Logger.Info("删除UAC任务成功");
+    //        }
+    //    }
+    //}
+
     private void AutoCheckUpdateOperate()
     {
         // 如果已经有正在运行的更新检查任务，先停止它
@@ -902,12 +948,13 @@ public class ConfigHelper
             Constant.DefaultClipboardMonitorHotkey);
         return new ConfigModel
         {
+            IsStartup = false,
+            StartMode = StartModeKind.Normal,
             HistorySize = 100,
             AutoScale = 0.8,
             AutoCheckUpdate = true,
             Hotkeys = hk,
             ThemeType = ThemeType.Light,
-            IsStartup = false,
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
             IsScreenshotOcrAutoCopyText = false,
