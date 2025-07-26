@@ -19,6 +19,10 @@ public partial class AboutViewModel : ObservableObject
 
     [ObservableProperty] private string _fileSize = "";
 
+    [ObservableProperty] private bool _isDownloading = true;
+
+    [ObservableProperty] private double _downloadProgress = 76.34;
+
     private readonly DirectoryInfo _logInfo;
 
     public AboutViewModel()
@@ -125,8 +129,17 @@ public partial class AboutViewModel : ObservableObject
                 }
                 ToastHelper.Show(AppLanguageManager.GetString("About.Downloading"), WindowType.Preference);
 
-                var ret = await UpdateUtil.DownloadUpdate(downloadInfo, path, token);
+                // 开始下载并显示进度
+                IsDownloading = true;
+                DownloadProgress = 0;
 
+                var progress = new Progress<double>(value =>
+                {
+                    DownloadProgress = value;
+                });
+                var ret = await UpdateUtil.DownloadUpdateAsync(downloadInfo, path, progress, token);
+
+                IsDownloading = false;
                 LogService.Logger.Info($"软件压缩包下载完成: {ret}");
                 ExecuteUpdate(ret);
             }
@@ -142,6 +155,7 @@ public partial class AboutViewModel : ObservableObject
         finally
         {
             IsChecking = false;
+            IsDownloading = false;
         }
     }
 
