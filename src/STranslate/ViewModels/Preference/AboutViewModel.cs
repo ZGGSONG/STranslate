@@ -19,9 +19,9 @@ public partial class AboutViewModel : ObservableObject
 
     [ObservableProperty] private string _fileSize = "";
 
-    [ObservableProperty] private bool _isDownloading = true;
+    [ObservableProperty] private bool _isDownloading;
 
-    [ObservableProperty] private double _downloadProgress = 76.34;
+    [ObservableProperty] private double _downloadProgress;
 
     private readonly DirectoryInfo _logInfo;
 
