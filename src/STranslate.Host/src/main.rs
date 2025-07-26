@@ -29,7 +29,7 @@ enum TaskAction {
 }
 
 fn main() {
-    let matches = Command::new("z_host")
+    let matches = Command::new("z_stranslate_host")
         .version("1.0.0")
         .author("ZGGSONG <zggsong@foxmail.com>")
         .about("程序更新和后台启动工具")
@@ -227,11 +227,6 @@ fn main() {
 fn handle_task_command(matches: &ArgMatches) -> Result<(), Box<dyn std::error::Error>> {
     let action = matches.get_one::<TaskAction>("action").unwrap();
     let verbose = matches.get_flag("verbose");
-
-    #[cfg(not(target_os = "windows"))]
-    {
-        return Err("任务计划功能仅在 Windows 上支持".into());
-    }
 
     #[cfg(target_os = "windows")]
     {
@@ -511,8 +506,6 @@ fn get_current_user_sid() -> Result<String, Box<dyn std::error::Error>> {
     Err("无法获取当前用户SID".into())
 }
 
-// ... 保留之前的所有其他函数 ...
-
 fn handle_update_command(matches: &ArgMatches) -> Result<(), Box<dyn std::error::Error>> {
     let archive_path = matches.get_one::<String>("archive").unwrap();
     let wait_time = *matches.get_one::<u64>("wait-time").unwrap();
@@ -718,20 +711,6 @@ fn close_process(process_name: &str, verbose: bool) -> Result<(), Box<dyn std::e
         }
     }
 
-    // Linux/macOS: 使用 pkill
-    #[cfg(not(target_os = "windows"))]
-    {
-        let output = ProcessCommand::new("pkill")
-            .args(&["-f", process_name])
-            .output()?;
-        
-        if !output.status.success() && verbose {
-            println!("⚠️  进程可能已经关闭或不存在");
-        } else if verbose {
-            println!("✅ 进程已关闭: {}", process_name);
-        }
-    }
-
     Ok(())
 }
 
@@ -763,20 +742,6 @@ fn start_elevated_process(target: &str, args: &[&String], verbose: bool) -> Resu
         command.spawn()?;
     }
 
-    // Linux/macOS: 使用 sudo
-    #[cfg(not(target_os = "windows"))]
-    {
-        let mut command = ProcessCommand::new("sudo");
-        command.arg(target);
-        command.args(args.iter().map(|s| s.as_str()));
-        
-        if !verbose {
-            command.stdout(Stdio::null()).stderr(Stdio::null());
-        }
-        
-        command.spawn()?;
-    }
-
     Ok(())
 }
 
@@ -800,12 +765,6 @@ fn start_task_scheduler(task_name: &str, verbose: bool) -> Result<(), Box<dyn st
         if verbose {
             println!("✅ 任务计划已启动: {}", task_name);
         }
-    }
-
-    // Linux/macOS: 任务计划功能在这些系统上需要不同的实现
-    #[cfg(not(target_os = "windows"))]
-    {
-        return Err("任务计划功能仅在 Windows 上支持".into());
     }
 
     Ok(())

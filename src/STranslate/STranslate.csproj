@@ -30,7 +30,7 @@
   </Target>
 
   <ItemGroup>
-	  <Content Include="z_host.exe">
+	  <Content Include="z_stranslate_host.exe">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
     <Content Include="z_uninstall.bat">
