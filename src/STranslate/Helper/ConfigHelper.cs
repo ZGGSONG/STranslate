@@ -1232,6 +1232,13 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             llm.Models.Clear();
         }
 
+        if (translator is ITranslatorProfession llmPro)
+        {
+            // 清除专业翻译相关的模型和术语
+            llmPro.Models.Clear();
+            llmPro.Terms.Clear();
+        }
+
         serializer.Populate(jsonObject.CreateReader(), translator);
         return translator;
     }

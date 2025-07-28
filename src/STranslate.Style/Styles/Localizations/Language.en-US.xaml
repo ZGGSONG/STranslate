@@ -567,6 +567,7 @@
     <system:String x:Key="Service.LinkTest">LinkTest:</system:String>
     <system:String x:Key="Service.Verify">Verify</system:String>
     <system:String x:Key="Service.Icon">Icon</system:String>
+    <system:String x:Key="Service.Terms">Terms</system:String>
     <system:String x:Key="Service.OpenInBrower">Open in brower</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">Enter official website</system:String>
     <system:String x:Key="Service.Version">Version:</system:String>

@@ -1,16 +1,17 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorQwenMt : TranslatorBase, ITranslator
+public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslatorProfession
 {
     #region Constructor
 
@@ -44,24 +45,23 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
 
     #region Properties
 
-    [JsonIgnore] private string _model = "qwen-mt-turbo";
-    public string Model
-    {
-        get => _model;
-        set => SetProperty(ref _model, value);
-    }
+    [JsonIgnore]
+    [ObservableProperty]
+    private string _model = "qwen-mt-turbo";
 
     [JsonIgnore]
-    private BindingList<string> _models =
+    [ObservableProperty]
+    private ObservableCollection<string> _models =
     [
         "qwen-mt-turbo",
         "qwen-mt-plus"
     ];
-    public BindingList<string> Models
-    {
-        get => _models;
-        set => SetProperty(ref _models, value);
-    }
+
+    /// <summary>
+    ///     术语列表
+    /// </summary>
+    [ObservableProperty] private ObservableCollection<Term> _terms = [];
+    [ObservableProperty] private Term? _selectedTerm;
 
     #endregion
 
@@ -135,6 +135,14 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
             }
         };
 
+        var a_terms = Terms
+            .Select(t => new
+            {
+                source = t.SourceText,
+                target = t.TargetText
+            })
+            .ToList();
+
         // 构建请求数据
         var reqData = new
         {
@@ -144,6 +152,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
             {
                 source_lang = source,
                 target_lang = target,
+                terms = a_terms,
             },
         };
 
@@ -209,6 +218,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
+            Terms = Terms
         };
     }
 
@@ -257,4 +267,25 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
     }
 
     #endregion Interface Implementation
+
+    #region RelayCommands
+
+    [RelayCommand]
+    private void Add()
+    {
+        var term = new Term();
+        Terms.Add(term);
+        SelectedTerm = term;
+    }
+
+    [RelayCommand]
+    private void Delete(Term? term)
+    {
+        if (term is null || !Terms.Contains(term))
+            return;
+        Terms.Remove(term);
+        SelectedTerm = null;
+    }
+
+    #endregion
 }

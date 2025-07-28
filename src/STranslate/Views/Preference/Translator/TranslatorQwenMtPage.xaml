@@ -2,6 +2,7 @@
     x:Class="STranslate.Views.Preference.Translator.TranslatorQwenMtPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cnvt="clr-namespace:STranslate.Style.Converters;assembly=STranslate.Style"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -74,7 +75,7 @@
                         Style="{DynamicResource IconComboBoxStyle}" />
                 </Grid>
 
-                <Grid Margin="0,10,0,0">
+                <Grid Margin="0,10,0,0" Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -89,7 +90,7 @@
                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </Grid>
 
-                <Grid Margin="0,0,0,10">
+                <Grid Margin="0,0,0,10" Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
@@ -124,27 +125,6 @@
                         ItemsSource="{Binding Models}"
                         Style="{StaticResource EditableComboBox}"
                         Text="{Binding Model, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                </Grid>
-
-                <Grid Margin="0,10" Visibility="Collapsed">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="60" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{DynamicResource Service.Temperature}" ToolTip="{DynamicResource Service.Temperature.Tooltip}" />
-                    <Slider
-                        Grid.Column="1"
-                        Height="14"
-                        MinWidth="200"
-                        HorizontalAlignment="Left"
-                        IsSnapToTickEnabled="True"
-                        Maximum="2"
-                        Minimum="0"
-                        TickFrequency="0.01"
-                        TickPlacement="None"
-                        Value="{Binding Temperature, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" Text="{Binding Temperature, StringFormat={}{0:F2}}" />
                 </Grid>
 
                 <Grid Margin="0,10">
@@ -228,6 +208,51 @@
                         Command="{Binding TestCancelCommand}"
                         Content="{DynamicResource Cancel}"
                         Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
+
+                <!--  // 术语干预、翻译记忆、领域提示  //  -->
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Terms}" />
+
+                    <StackPanel Grid.Column="1">
+                        <DockPanel>
+                            <StackPanel
+                                Margin="5"
+                                DockPanel.Dock="Top"
+                                Orientation="Horizontal">
+                                <Button
+                                    Margin="0,0,10,0"
+                                    Command="{Binding AddCommand}"
+                                    Content="新增术语" />
+                                <Button
+                                    Command="{Binding DeleteCommand}"
+                                    Content="删除选中"
+                                    IsEnabled="{Binding SelectedTerm, Converter={cnvt:NullToBoolConverter}}" />
+                            </StackPanel>
+
+                            <DataGrid
+                                Margin="5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                ItemsSource="{Binding Terms}"
+                                SelectedItem="{Binding SelectedTerm}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="*"
+                                        Binding="{Binding SourceText, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="术语" />
+                                    <DataGridTextColumn
+                                        Width="*"
+                                        Binding="{Binding TargetText, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="翻译" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </StackPanel>
                 </Grid>
 
                 <Grid Margin="0,10">
