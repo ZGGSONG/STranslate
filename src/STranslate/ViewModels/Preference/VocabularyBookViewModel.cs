@@ -22,7 +22,7 @@ public partial class VocabularyBookViewModel : ObservableObject
     private readonly Dictionary<Type, UIElement?> _contentCache = [];
 
     [ObservableProperty]
-    private VocabularyBookCollection<IVocabularyBook> _curServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList ?? []];
+    private VocabularyBookCollection<IVocabularyBook> _curServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.VocabularyBookList?.Select(x => x.Clone()) ?? []];
 
     [ObservableProperty] private int _selectedIndex;
 

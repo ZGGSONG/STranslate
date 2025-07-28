@@ -1,5 +1,5 @@
 [package]
-name = "z_host"
+name = "z_stranslate_host"
 version = "0.1.0"
 edition = "2024"
 

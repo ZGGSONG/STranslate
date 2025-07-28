@@ -28,7 +28,7 @@ public partial class OCRScvViewModel : ObservableObject
         Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList?.FirstOrDefault(x => x.IsEnabled);
 
     [ObservableProperty]
-    private OCRCollection<IOCR> _curOCRServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList ?? []];
+    private OCRCollection<IOCR> _curOCRServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.OCRList?.Select(x => x.Clone()) ?? []];
 
 
     private bool _isPreferenceOperate;

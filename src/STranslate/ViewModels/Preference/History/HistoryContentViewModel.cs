@@ -136,6 +136,7 @@ public class HistoryTranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
             (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
             (int)ServiceType.OpenRouterService => new TranslatorOpenRouter(),
+            (int)ServiceType.QwenMtService => new TranslatorQwenMt(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

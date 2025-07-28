@@ -19,7 +19,7 @@ public static class Constant
     public const string CnfName = "stranslate";
     public const string AppName = "STranslate";
     private const string PortableConfig = "portable_config";
-    private const string HostExe = "z_host.exe";
+    private const string HostExe = "z_stranslate_host.exe";
 
     /// <summary>
     ///     用户软件根目录

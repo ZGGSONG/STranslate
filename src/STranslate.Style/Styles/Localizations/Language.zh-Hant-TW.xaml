@@ -209,6 +209,8 @@
     <system:String x:Key="Toast.LangView">語言框</system:String>
     <system:String x:Key="Toast.Export">匯出</system:String>
     <system:String x:Key="Toast.Import">匯入</system:String>
+    <system:String x:Key="Toast.Add">添加</system:String>
+    <system:String x:Key="Toast.Clear">清空</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">請檢查配置或查看日誌</system:String>
     <system:String x:Key="Toast.DeleteFailed">刪除失敗</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">全部刪除成功</system:String>
@@ -567,6 +569,9 @@
     <system:String x:Key="Service.LinkTest">連通測試:</system:String>
     <system:String x:Key="Service.Verify">驗證</system:String>
     <system:String x:Key="Service.Icon">圖示</system:String>
+    <system:String x:Key="Service.Terms">術語:</system:String>
+    <system:String x:Key="Service.Domains">領域提示:</system:String>
+    <system:String x:Key="Service.QwenMT.Domains">領域相關信息</system:String>
     <system:String x:Key="Service.OpenInBrower">在瀏覽器中打開</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">進入官網</system:String>
     <system:String x:Key="Service.Version">版本:</system:String>
@@ -872,6 +877,27 @@
     <system:String x:Key="MessageBox.Tip">提示訊息</system:String>
     <system:String x:Key="MessageBox.SupportedVoice">系統支援的語音：</system:String>
 
+    <!--#endregion-->
+
+    <!--#region Toast Terms-->
+    <system:String x:Key="Toast.Terms.EmptyList">術語列表為空，無法匯出</system:String>
+    <system:String x:Key="Toast.Terms.ExportTitle">匯出術語檔案</system:String>
+    <system:String x:Key="Toast.Terms.ExportSuccess">匯出 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ExportFailed">匯出失敗</system:String>
+    <system:String x:Key="Toast.Terms.ImportTitle">選擇要匯入的術語檔案</system:String>
+    <system:String x:Key="Toast.Terms.NoValidData">沒有找到有效的術語數據</system:String>
+    <system:String x:Key="Toast.Terms.ImportReplace">匯入替換 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ImportAppend">匯入追加 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ImportFailed">匯入失敗</system:String>
+    <!--#endregion-->
+
+    <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.Clear">是否清空術語?</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportTitle">匯入術語</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">找到 {0} 條術語記錄。
+點擊【是】替換現有術語列表
+點擊【否】追加到現有術語列表
+點擊【取消】取消匯入操作</system:String>
     <!--#endregion-->
 
 </ResourceDictionary>
