@@ -878,4 +878,24 @@
 
     <!--#endregion-->
 
+    <!--#region Toast Terms-->
+    <system:String x:Key="Toast.Terms.EmptyList">Terms list is empty, cannot export</system:String>
+    <system:String x:Key="Toast.Terms.ExportTitle">Export Terms File</system:String>
+    <system:String x:Key="Toast.Terms.ExportSuccess">Exported {0} records</system:String>
+    <system:String x:Key="Toast.Terms.ExportFailed">Export failed</system:String>
+    <system:String x:Key="Toast.Terms.ImportTitle">Select terms file to import</system:String>
+    <system:String x:Key="Toast.Terms.NoValidData">No valid terms data found</system:String>
+    <system:String x:Key="Toast.Terms.ImportReplace">Imported and replaced {0} records</system:String>
+    <system:String x:Key="Toast.Terms.ImportAppend">Imported and appended {0} records</system:String>
+    <system:String x:Key="Toast.Terms.ImportFailed">Import failed</system:String>
+    <!--#endregion-->
+
+    <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.ImportTitle">Import Terms</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">Found {0} term records.
+Click [Yes] to replace existing terms list
+Click [No] to append to existing terms list
+Click [Cancel] to cancel import operation</system:String>
+    <!--#endregion-->
+
 </ResourceDictionary>

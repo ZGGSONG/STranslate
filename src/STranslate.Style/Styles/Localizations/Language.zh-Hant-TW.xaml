@@ -878,4 +878,24 @@
 
     <!--#endregion-->
 
+    <!--#region Toast Terms-->
+    <system:String x:Key="Toast.Terms.EmptyList">術語列表為空，無法匯出</system:String>
+    <system:String x:Key="Toast.Terms.ExportTitle">匯出術語檔案</system:String>
+    <system:String x:Key="Toast.Terms.ExportSuccess">匯出 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ExportFailed">匯出失敗</system:String>
+    <system:String x:Key="Toast.Terms.ImportTitle">選擇要匯入的術語檔案</system:String>
+    <system:String x:Key="Toast.Terms.NoValidData">沒有找到有效的術語數據</system:String>
+    <system:String x:Key="Toast.Terms.ImportReplace">匯入替換 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ImportAppend">匯入追加 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ImportFailed">匯入失敗</system:String>
+    <!--#endregion-->
+
+    <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.ImportTitle">匯入術語</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">找到 {0} 條術語記錄。
+點擊【是】替換現有術語列表
+點擊【否】追加到現有術語列表
+點擊【取消】取消匯入操作</system:String>
+    <!--#endregion-->
+
 </ResourceDictionary>

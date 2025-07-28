@@ -878,4 +878,24 @@
 
     <!--#endregion-->
 
+    <!--#region Toast Terms-->
+    <system:String x:Key="Toast.Terms.EmptyList">术语列表为空，无法导出</system:String>
+    <system:String x:Key="Toast.Terms.ExportTitle">导出术语文件</system:String>
+    <system:String x:Key="Toast.Terms.ExportSuccess">导出 {0} 条记录</system:String>
+    <system:String x:Key="Toast.Terms.ExportFailed">导出失败</system:String>
+    <system:String x:Key="Toast.Terms.ImportTitle">选择要导入的术语文件</system:String>
+    <system:String x:Key="Toast.Terms.NoValidData">没有找到有效的术语数据</system:String>
+    <system:String x:Key="Toast.Terms.ImportReplace">导入替换 {0} 条记录</system:String>
+    <system:String x:Key="Toast.Terms.ImportAppend">导入追加 {0} 条记录</system:String>
+    <system:String x:Key="Toast.Terms.ImportFailed">导入失败</system:String>
+    <!--#endregion-->
+
+    <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.ImportTitle">导入术语</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">找到 {0} 条术语记录。
+点击【是】替换现有术语列表
+点击【否】追加到现有术语列表
+点击【取消】取消导入操作</system:String>
+    <!--#endregion-->
+
 </ResourceDictionary>
