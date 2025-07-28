@@ -26,7 +26,7 @@ public partial class TranslatorViewModel : ObservableObject
     /// <summary>
     ///     当前已添加的服务列表
     /// </summary>
-    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList = [..Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? []];
+    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList = [..Singleton<ConfigHelper>.Instance.CurrentConfig?.Services?.Select(x => x.Clone()) ?? []];
 
     [ObservableProperty] private int _selectedIndex;
 
@@ -247,9 +247,18 @@ public partial class TranslatorViewModel : ObservableObject
     {
         foreach (var item in CurTransServiceList)
         {
-            if (item is not ITranslatorLLM llm) continue;
-            if (llm.Models.Contains(llm.Model)) continue;
-            llm.Models.Add(llm.Model);
+            if (item is ITranslatorLLM t && !t.Models.Contains(t.Model))
+            {
+                t.Models.Add(t.Model);
+            }
+            else if (item is TranslatorQwenMt p && !p.Models.Contains(p.Model))
+            {
+                p.Models.Add(p.Model);
+            }
+            else
+            {
+                continue;
+            }
         }
 
         if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurTransServiceList]))

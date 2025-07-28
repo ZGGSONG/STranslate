@@ -22,7 +22,7 @@ public partial class TTSViewModel : ObservableObject
     private readonly Dictionary<Type, UIElement?> ContentCache = [];
 
     [ObservableProperty]
-    private TTSCollection<ITTS> _curTTSServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList ?? []];
+    private TTSCollection<ITTS> _curTTSServiceList = [.. Singleton<ConfigHelper>.Instance.CurrentConfig?.TTSList?.Select(x => x.Clone()) ?? []];
 
     private bool _isSpeaking;
 

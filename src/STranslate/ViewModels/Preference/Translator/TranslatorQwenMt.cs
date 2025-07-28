@@ -14,7 +14,7 @@ using System.Text;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
-public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslatorProfession
+public partial class TranslatorQwenMt : TranslatorBase, ITranslator
 {
     #region Constructor
 
@@ -243,7 +243,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
             IsEnableTerms = IsEnableTerms,
-            Terms = Terms,
+            Terms = Terms.DeepClone(),
             IsEnableDomains = IsEnableDomains,
             Domains = Domains
         };
