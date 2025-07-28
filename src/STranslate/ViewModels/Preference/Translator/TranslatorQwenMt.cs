@@ -64,6 +64,8 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
     /// </summary>
     [ObservableProperty] private ObservableCollection<Term> _terms = [];
 
+    [ObservableProperty] private bool _isEnableDomains;
+
     /// <summary>
     ///     领域提示
     /// </summary>
@@ -154,8 +156,12 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
                 .ToList();
 
             translationOptions["terms"] = a_terms;
+        }
+
+        if (IsEnableDomains)
+        {
             translationOptions["domains"] = "The sentence is from Ali Cloud IT domain. It mainly involves computer-related software development and usage methods, including many terms related to computer software and hardware. Pay attention to professional troubleshooting terminologies and sentence patterns when translating. Translate into this IT domain style.";
-    }
+        }
 
         var reqData = new
         {
@@ -234,7 +240,9 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
             IsEnableTerms = IsEnableTerms,
-            Terms = Terms
+            Terms = Terms,
+            IsEnableDomains = IsEnableDomains,
+            Domains = Domains
         };
     }
 

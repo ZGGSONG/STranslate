@@ -211,7 +211,7 @@
                         Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </Grid>
 
-                <!--  // 术语干预、翻译记忆、领域提示  //  -->
+                <!--  // 术语 //  -->
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
@@ -233,18 +233,35 @@
                     ItemsSource="{Binding Terms}"
                     Visibility="{Binding IsEnableTerms, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
+                <!--  // 领域提示 //  -->
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{DynamicResource Service.Terms}" />
+                    <TextBlock Text="{DynamicResource Service.Domains}" />
 
                     <ToggleButton
                         Grid.Column="1"
                         HorizontalAlignment="Left"
-                        IsChecked="{Binding IsEnableTerms}" />
+                        IsChecked="{Binding IsEnableDomains}" />
+
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left">
+                        <Hyperlink NavigateUri="https://help.aliyun.com/zh/model-studio/machine-translation#68bea60b03i3z" RequestNavigate="Hyperlink_RequestNavigate">
+                            <ContentControl Content="{DynamicResource Service.QwenMT.Domains}" />
+                        </Hyperlink>
+                    </TextBlock>
                 </Grid>
+
+                <common:PlaceholderTextBox
+                    Margin="0,10"
+                    Placeholder="only english."
+                    Text="{Binding Domains, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IsEnableDomains, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>

@@ -569,6 +569,8 @@
     <system:String x:Key="Service.Verify">验证</system:String>
     <system:String x:Key="Service.Icon">图标</system:String>
     <system:String x:Key="Service.Terms">术语:</system:String>
+    <system:String x:Key="Service.Domains">领域提示:</system:String>
+    <system:String x:Key="Service.QwenMT.Domains">领域相关信息</system:String>
     <system:String x:Key="Service.OpenInBrower">在浏览器中打开</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">进入官网</system:String>
     <system:String x:Key="Service.Version">版本:</system:String>
