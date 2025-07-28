@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cnvt="clr-namespace:STranslate.Style.Converters;assembly=STranslate.Style"
     xmlns:common="clr-namespace:STranslate.Style.Commons;assembly=STranslate.Style"
+    xmlns:controls="clr-namespace:STranslate.Style.Controls;assembly=STranslate.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -218,41 +219,31 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{DynamicResource Service.Terms}" />
 
-                    <StackPanel Grid.Column="1">
-                        <DockPanel>
-                            <StackPanel
-                                Margin="5"
-                                DockPanel.Dock="Top"
-                                Orientation="Horizontal">
-                                <Button
-                                    Margin="0,0,10,0"
-                                    Command="{Binding AddCommand}"
-                                    Content="新增术语" />
-                                <Button
-                                    Command="{Binding DeleteCommand}"
-                                    Content="删除选中"
-                                    IsEnabled="{Binding SelectedTerm, Converter={cnvt:NullToBoolConverter}}" />
-                            </StackPanel>
+                    <ToggleButton
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding IsEnableTerms}" />
+                </Grid>
 
-                            <DataGrid
-                                Margin="5"
-                                AutoGenerateColumns="False"
-                                CanUserAddRows="False"
-                                ItemsSource="{Binding Terms}"
-                                SelectedItem="{Binding SelectedTerm}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn
-                                        Width="*"
-                                        Binding="{Binding SourceText, UpdateSourceTrigger=PropertyChanged}"
-                                        Header="术语" />
-                                    <DataGridTextColumn
-                                        Width="*"
-                                        Binding="{Binding TargetText, UpdateSourceTrigger=PropertyChanged}"
-                                        Header="翻译" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </DockPanel>
-                    </StackPanel>
+                <controls:TermsControl
+                    Grid.Column="1"
+                    Margin="0,10"
+                    AddCommand="{Binding AddCommand}"
+                    DeleteCommand="{Binding DeleteCommand}"
+                    ItemsSource="{Binding Terms}"
+                    Visibility="{Binding IsEnableTerms, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Terms}" />
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding IsEnableTerms}" />
                 </Grid>
 
                 <Grid Margin="0,10">

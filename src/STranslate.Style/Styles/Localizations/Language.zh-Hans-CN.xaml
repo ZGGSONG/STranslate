@@ -209,6 +209,7 @@
     <system:String x:Key="Toast.LangView">语言框</system:String>
     <system:String x:Key="Toast.Export">导出</system:String>
     <system:String x:Key="Toast.Import">导入</system:String>
+    <system:String x:Key="Toast.Add">添加</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">请检查配置或查看日志</system:String>
     <system:String x:Key="Toast.DeleteFailed">删除失败</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">全部删除成功</system:String>
@@ -567,7 +568,7 @@
     <system:String x:Key="Service.LinkTest">连通测试:</system:String>
     <system:String x:Key="Service.Verify">验证</system:String>
     <system:String x:Key="Service.Icon">图标</system:String>
-    <system:String x:Key="Service.Terms">术语</system:String>
+    <system:String x:Key="Service.Terms">术语:</system:String>
     <system:String x:Key="Service.OpenInBrower">在浏览器中打开</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">进入官网</system:String>
     <system:String x:Key="Service.Version">版本:</system:String>

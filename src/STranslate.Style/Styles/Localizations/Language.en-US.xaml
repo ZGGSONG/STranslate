@@ -209,6 +209,7 @@
     <system:String x:Key="Toast.LangView">Language Panel</system:String>
     <system:String x:Key="Toast.Export">Export</system:String>
     <system:String x:Key="Toast.Import">Import</system:String>
+    <system:String x:Key="Toast.Add">Add</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">Check config or logs</system:String>
     <system:String x:Key="Toast.DeleteFailed">Delete failed</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">All deleted success</system:String>
@@ -567,7 +568,7 @@
     <system:String x:Key="Service.LinkTest">LinkTest:</system:String>
     <system:String x:Key="Service.Verify">Verify</system:String>
     <system:String x:Key="Service.Icon">Icon</system:String>
-    <system:String x:Key="Service.Terms">Terms</system:String>
+    <system:String x:Key="Service.Terms">Terms:</system:String>
     <system:String x:Key="Service.OpenInBrower">Open in brower</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">Enter official website</system:String>
     <system:String x:Key="Service.Version">Version:</system:String>

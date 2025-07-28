@@ -57,11 +57,17 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
         "qwen-mt-plus"
     ];
 
+    [ObservableProperty] private bool _isEnableTerms;
+
     /// <summary>
     ///     术语列表
     /// </summary>
     [ObservableProperty] private ObservableCollection<Term> _terms = [];
-    [ObservableProperty] private Term? _selectedTerm;
+
+    /// <summary>
+    ///     领域提示
+    /// </summary>
+    [ObservableProperty] private string _domains = "";
 
     #endregion
 
@@ -77,7 +83,9 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
         {
             IsTesting = true;
             var reqModel = new RequestModel("你好", LangEnum.zh_cn, LangEnum.en);
-            await TranslateAsync(reqModel, _ => result = AppLanguageManager.GetString("Toast.VerifySuccess"), token);
+            var ret = await TranslateAsync(reqModel, token);
+
+            result = ret.IsSuccess ? AppLanguageManager.GetString("Toast.VerifySuccess") : AppLanguageManager.GetString("Toast.VerifyFailed");
         }
         catch (OperationCanceledException)
         {
@@ -126,34 +134,41 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
         var a_model = Model.Trim();
         a_model = string.IsNullOrEmpty(a_model) ? "qwen-mt-turbo" : a_model;
 
-        var a_messages = new[]
+        // 构建请求数据
+        var translationOptions = new Dictionary<string, object>
         {
-            new
-            {
-                role = "user",
-                content = req.Text,
-            }
+            ["source_lang"] = source,
+            ["target_lang"] = target
         };
 
-        var a_terms = Terms
-            .Select(t => new
-            {
-                source = t.SourceText,
-                target = t.TargetText
-            })
-            .ToList();
+        // 如果启用了术语表，则添加 terms
+        if (IsEnableTerms)
+        {
+            var a_terms = Terms
+                //.Where(t => t.IsEnabled)
+                .Select(t => new
+                {
+                    source = t.SourceText,
+                    target = t.TargetText
+                })
+                .ToList();
 
-        // 构建请求数据
+            translationOptions["terms"] = a_terms;
+            translationOptions["domains"] = "The sentence is from Ali Cloud IT domain. It mainly involves computer-related software development and usage methods, including many terms related to computer software and hardware. Pay attention to professional troubleshooting terminologies and sentence patterns when translating. Translate into this IT domain style.";
+    }
+
         var reqData = new
         {
             model = a_model,
-            messages = a_messages,
-            translation_options = new
+            messages = new[]
             {
-                source_lang = source,
-                target_lang = target,
-                terms = a_terms,
+                new
+                {
+                    role = "user",
+                    content = req.Text,
+                }
             },
+            translation_options = translationOptions
         };
 
         var header = new Dictionary<string, string>
@@ -218,6 +233,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
+            IsEnableTerms = IsEnableTerms,
             Terms = Terms
         };
     }
@@ -275,7 +291,6 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
     {
         var term = new Term();
         Terms.Add(term);
-        SelectedTerm = term;
     }
 
     [RelayCommand]
@@ -284,7 +299,6 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
         if (term is null || !Terms.Contains(term))
             return;
         Terms.Remove(term);
-        SelectedTerm = null;
     }
 
     #endregion

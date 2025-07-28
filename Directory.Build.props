@@ -4,5 +4,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
 	<RepositoryUrl>https://github.com/ZGGSONG/STranslate/</RepositoryUrl>
+	<ArtifactsPath>$(MSBuildThisFileDirectory).artifacts</ArtifactsPath>
   </PropertyGroup>
 </Project>
