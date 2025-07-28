@@ -26,4 +26,20 @@ public class TermsControl : ListBox
     }
     public static readonly DependencyProperty DeleteCommandProperty =
         DependencyProperty.Register("DeleteCommand", typeof(ICommand), typeof(TermsControl), new PropertyMetadata(null));
+
+    public ICommand ExportCommand
+    {
+        get { return (ICommand)GetValue(ExportCommandProperty); }
+        set { SetValue(ExportCommandProperty, value); }
+    }
+    public static readonly DependencyProperty ExportCommandProperty =
+        DependencyProperty.Register("ExportCommand", typeof(ICommand), typeof(TermsControl), new PropertyMetadata(null));
+
+    public ICommand ImportCommand
+    {
+        get { return (ICommand)GetValue(ImportCommandProperty); }
+        set { SetValue(ImportCommandProperty, value); }
+    }
+    public static readonly DependencyProperty ImportCommandProperty =
+        DependencyProperty.Register("ImportCommand", typeof(ICommand), typeof(TermsControl), new PropertyMetadata(null));
 }

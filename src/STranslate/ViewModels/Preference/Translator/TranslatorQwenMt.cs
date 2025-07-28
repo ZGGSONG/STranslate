@@ -5,9 +5,12 @@ using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
+using STranslate.Style.Controls;
 using STranslate.Util;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Net.Http;
+using System.Text;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
@@ -307,6 +310,250 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator, ITranslator
         if (term is null || !Terms.Contains(term))
             return;
         Terms.Remove(term);
+    }
+
+    [RelayCommand]
+    private void Export()
+    {
+        if (Terms.Count == 0)
+        {
+            ToastHelper.Show("术语列表为空，无法导出", WindowType.Preference);
+            return;
+        }
+
+        var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+        {
+            Filter = "CSV文件(*.csv)|*.csv",
+            FileName = $"QwenMt_Terms_{DateTime.Now:yyyyMMddHHmmss}.csv"
+        };
+
+        if (saveFileDialog.ShowDialog() != true) 
+            return;
+
+        try
+        {
+            var csvContent = new StringBuilder();
+            
+            // 添加 CSV 头部（可选，根据 DeepL 格式）
+            csvContent.AppendLine("Source,Target");
+            
+            // 导出术语数据
+            foreach (var term in Terms)
+            {
+                // 转义包含逗号、引号或换行符的字段
+                var sourceText = EscapeCsvField(term.SourceText);
+                var targetText = EscapeCsvField(term.TargetText);
+                
+                csvContent.AppendLine($"{sourceText},{targetText}");
+            }
+
+            File.WriteAllText(saveFileDialog.FileName, csvContent.ToString(), Encoding.UTF8);
+            ToastHelper.Show($"术语导出成功：{Terms.Count} 条记录", WindowType.Preference);
+        }
+        catch (Exception ex)
+        {
+            ToastHelper.Show($"导出失败：{ex.Message}", WindowType.Preference);
+        }
+    }
+
+    /// <summary>
+    /// 转义 CSV 字段，处理包含逗号、引号或换行符的情况
+    /// </summary>
+    /// <param name="field">要转义的字段</param>
+    /// <returns>转义后的字段</returns>
+    private static string EscapeCsvField(string field)
+    {
+        if (string.IsNullOrEmpty(field))
+            return string.Empty;
+
+        // 如果字段包含逗号、引号或换行符，需要用引号包围并转义内部引号
+        if (field.Contains(',') || field.Contains('"') || field.Contains('\n') || field.Contains('\r'))
+        {
+            // 转义引号（双引号变成两个双引号）
+            field = field.Replace("\"", "\"\"");
+            // 用引号包围整个字段
+            return $"\"{field}\"";
+        }
+
+        return field;
+    }
+
+    [RelayCommand]
+    private void Import()
+    {
+        var openFileDialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Filter = "CSV文件(*.csv)|*.csv|所有文件(*.*)|*.*",
+            Title = "选择要导入的术语文件"
+        };
+
+        if (openFileDialog.ShowDialog() != true)
+            return;
+
+        try
+        {
+            var csvContent = File.ReadAllText(openFileDialog.FileName, System.Text.Encoding.UTF8);
+            var importedTerms = ParseCsvContent(csvContent);
+
+            if (importedTerms.Count == 0)
+            {
+                ToastHelper.Show("CSV 文件中没有找到有效的术语数据", WindowType.Preference);
+                return;
+            }
+
+            // 询问是否替换现有术语或追加
+            var result = MessageBox_S.Show(
+                $"找到 {importedTerms.Count} 条术语记录。\n\n" +
+                "点击【是】替换现有术语列表\n" +
+                "点击【否】追加到现有术语列表\n" +
+                "点击【取消】取消导入操作",
+                "导入术语",
+                System.Windows.MessageBoxButton.YesNoCancel);
+
+            switch (result)
+            {
+                case System.Windows.MessageBoxResult.Yes:
+                    // 替换现有术语
+                    Terms.Clear();
+                    foreach (var term in importedTerms)
+                    {
+                        Terms.Add(term);
+                    }
+                    ToastHelper.Show($"术语导入成功：已替换为 {importedTerms.Count} 条记录", WindowType.Preference);
+                    break;
+
+                case System.Windows.MessageBoxResult.No:
+                    // 追加到现有术语
+                    foreach (var term in importedTerms)
+                    {
+                        Terms.Add(term);
+                    }
+                    ToastHelper.Show($"术语导入成功：已追加 {importedTerms.Count} 条记录，总计 {Terms.Count} 条", WindowType.Preference);
+                    break;
+
+                case System.Windows.MessageBoxResult.Cancel:
+                    // 取消操作
+                    return;
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastHelper.Show($"导入失败：{ex.Message}", WindowType.Preference);
+        }
+    }
+
+    /// <summary>
+    /// 解析 CSV 内容并转换为 Term 对象列表
+    /// </summary>
+    /// <param name="csvContent">CSV 文件内容</param>
+    /// <returns>Term 对象列表</returns>
+    private List<Term> ParseCsvContent(string csvContent)
+    {
+        var terms = new List<Term>();
+        if (string.IsNullOrWhiteSpace(csvContent))
+            return terms;
+
+        var lines = csvContent.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+        var isFirstLine = true;
+
+        foreach (var line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            // 跳过可能的头部行（如 "Source,Target"）
+            if (isFirstLine)
+            {
+                isFirstLine = false;
+                // 检查是否为头部行
+                var trimmedLine = line.Trim().ToLowerInvariant();
+                if (trimmedLine == "source,target" || 
+                    trimmedLine == "源语言,目标语言" || 
+                    trimmedLine == "原文,译文")
+                {
+                    continue;
+                }
+            }
+
+            var parsedFields = ParseCsvLine(line);
+            if (parsedFields.Count >= 2)
+            {
+                var sourceText = parsedFields[0].Trim();
+                var targetText = parsedFields[1].Trim();
+
+                // 跳过空的术语条目
+                if (!string.IsNullOrWhiteSpace(sourceText) || !string.IsNullOrWhiteSpace(targetText))
+                {
+                    terms.Add(new Term
+                    {
+                        SourceText = sourceText,
+                        TargetText = targetText
+                    });
+                }
+            }
+        }
+
+        return terms;
+    }
+
+    /// <summary>
+    /// 解析单行 CSV 数据，正确处理引号和逗号
+    /// </summary>
+    /// <param name="csvLine">CSV 行数据</param>
+    /// <returns>字段列表</returns>
+    private List<string> ParseCsvLine(string csvLine)
+    {
+        var fields = new List<string>();
+        var currentField = new StringBuilder();
+        var inQuotes = false;
+        var i = 0;
+
+        while (i < csvLine.Length)
+        {
+            var currentChar = csvLine[i];
+
+            if (currentChar == '"')
+            {
+                if (inQuotes)
+                {
+                    // 检查是否为转义的引号（两个连续的引号）
+                    if (i + 1 < csvLine.Length && csvLine[i + 1] == '"')
+                    {
+                        currentField.Append('"');
+                        i += 2; // 跳过两个引号
+                        continue;
+                    }
+                    else
+                    {
+                        // 结束引号
+                        inQuotes = false;
+                    }
+                }
+                else
+                {
+                    // 开始引号
+                    inQuotes = true;
+                }
+            }
+            else if (currentChar == ',' && !inQuotes)
+            {
+                // 字段分隔符
+                fields.Add(currentField.ToString());
+                currentField.Clear();
+            }
+            else
+            {
+                // 普通字符
+                currentField.Append(currentChar);
+            }
+
+            i++;
+        }
+
+        // 添加最后一个字段
+        fields.Add(currentField.ToString());
+
+        return fields;
     }
 
     #endregion

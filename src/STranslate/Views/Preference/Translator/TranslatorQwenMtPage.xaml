@@ -230,6 +230,8 @@
                     Margin="0,10"
                     AddCommand="{Binding AddCommand}"
                     DeleteCommand="{Binding DeleteCommand}"
+                    ExportCommand="{Binding ExportCommand}"
+                    ImportCommand="{Binding ImportCommand}"
                     ItemsSource="{Binding Terms}"
                     Visibility="{Binding IsEnableTerms, Converter={StaticResource BooleanToVisibilityConverter}}" />
 

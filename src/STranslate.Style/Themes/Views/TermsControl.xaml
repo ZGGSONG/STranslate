@@ -17,8 +17,8 @@
                                 HorizontalAlignment="Right"
                                 DockPanel.Dock="Bottom"
                                 Orientation="Horizontal">
-                                <Button Content="{DynamicResource Toast.Export}" IsEnabled="False" />
-                                <Button Content="{DynamicResource Toast.Import}" IsEnabled="False" />
+                                <Button Command="{TemplateBinding ExportCommand}" Content="{DynamicResource Toast.Export}" />
+                                <Button Command="{TemplateBinding ImportCommand}" Content="{DynamicResource Toast.Import}" />
                                 <Button Command="{TemplateBinding AddCommand}" Content="{DynamicResource Toast.Add}" />
                             </StackPanel>
 
