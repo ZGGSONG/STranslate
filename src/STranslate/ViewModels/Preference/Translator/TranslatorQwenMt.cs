@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Windows;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
@@ -313,6 +314,14 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
     }
 
     [RelayCommand]
+    private void Clear()
+    {
+        var ret = MessageBox_S.Show(AppLanguageManager.GetString("MessageBox.Terms.Clear"), AppLanguageManager.GetString("MessageBox.Tip"), MessageBoxButton.OKCancel);
+        if (ret == MessageBoxResult.OK)
+            Terms.Clear();
+    }
+
+    [RelayCommand]
     private void Export()
     {
         if (Terms.Count == 0)
@@ -370,7 +379,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
 
             switch (result)
             {
-                case System.Windows.MessageBoxResult.Yes:
+                case MessageBoxResult.Yes:
                     // 替换现有术语
                     Terms.Clear();
                     foreach (var term in importedTerms)
@@ -378,14 +387,14 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
                     ToastHelper.Show(string.Format(AppLanguageManager.GetString("Toast.Terms.ImportReplace"), importedTerms.Count), WindowType.Preference);
                     break;
 
-                case System.Windows.MessageBoxResult.No:
+                case MessageBoxResult.No:
                     // 追加到现有术语
                     foreach (var term in importedTerms)
                         Terms.Add(term);
                     ToastHelper.Show(string.Format(AppLanguageManager.GetString("Toast.Terms.ImportAppend"), importedTerms.Count), WindowType.Preference);
                     break;
 
-                case System.Windows.MessageBoxResult.Cancel:
+                case MessageBoxResult.Cancel:
                     return;
             }
         }
@@ -401,7 +410,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
     /// </summary>
     /// <param name="count">导入的术语数量</param>
     /// <returns>用户选择结果</returns>
-    private System.Windows.MessageBoxResult ShowImportDialog(int count)
+    private MessageBoxResult ShowImportDialog(int count)
     {
         var message = string.Format(AppLanguageManager.GetString("MessageBox.Terms.ImportConfirm"), count);
         var title = AppLanguageManager.GetString("MessageBox.Terms.ImportTitle");
@@ -409,7 +418,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
         return MessageBox_S.Show(
             message,
             title,
-            System.Windows.MessageBoxButton.YesNoCancel);
+            MessageBoxButton.YesNoCancel);
     }
 
     #endregion

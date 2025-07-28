@@ -210,6 +210,7 @@
     <system:String x:Key="Toast.Export">匯出</system:String>
     <system:String x:Key="Toast.Import">匯入</system:String>
     <system:String x:Key="Toast.Add">添加</system:String>
+    <system:String x:Key="Toast.Clear">清空</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">請檢查配置或查看日誌</system:String>
     <system:String x:Key="Toast.DeleteFailed">刪除失敗</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">全部刪除成功</system:String>
@@ -891,6 +892,7 @@
     <!--#endregion-->
 
     <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.Clear">是否清空術語?</system:String>
     <system:String x:Key="MessageBox.Terms.ImportTitle">匯入術語</system:String>
     <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">找到 {0} 條術語記錄。
 點擊【是】替換現有術語列表

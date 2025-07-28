@@ -210,6 +210,7 @@
     <system:String x:Key="Toast.Export">Export</system:String>
     <system:String x:Key="Toast.Import">Import</system:String>
     <system:String x:Key="Toast.Add">Add</system:String>
+    <system:String x:Key="Toast.Clear">Clear</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">Check config or logs</system:String>
     <system:String x:Key="Toast.DeleteFailed">Delete failed</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">All deleted success</system:String>
@@ -891,6 +892,7 @@
     <!--#endregion-->
 
     <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.Clear">Is Clear Terms?</system:String>
     <system:String x:Key="MessageBox.Terms.ImportTitle">Import Terms</system:String>
     <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">Found {0} term records.
 Click [Yes] to replace existing terms list

@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using STranslate.Model;
 
 namespace STranslate.Style.Controls;
@@ -28,61 +27,31 @@ public partial class MessageBox_S : Window
     /// </summary>
     private MessageBoxResult _result = MessageBoxResult.None;
 
-    /// <summary>
-    /// 消息框类型
-    /// </summary>
-    public enum MessageBoxType
-    {
-        Information,
-        Warning,
-        Error,
-        Success,
-        Question
-    }
-
     #region 构造函数
 
     public MessageBox_S(string msg)
     {
         InitializeComponent();
-        InitializeMessageBox(msg, ProductName, MessageBoxButton.OK, MessageBoxType.Information);
+        InitializeMessageBox(msg, ProductName, MessageBoxButton.OK);
     }
 
     public MessageBox_S(string msg, string caption)
     {
         InitializeComponent();
-        InitializeMessageBox(msg, caption, MessageBoxButton.OK, MessageBoxType.Information);
+        InitializeMessageBox(msg, caption, MessageBoxButton.OK);
     }
 
     public MessageBox_S(string msg, string caption, MessageBoxButton messageBoxButton)
     {
         InitializeComponent();
-        InitializeMessageBox(msg, caption, messageBoxButton, MessageBoxType.Information);
-    }
-
-    public MessageBox_S(string msg, MessageBoxType type = MessageBoxType.Information)
-    {
-        InitializeComponent();
-        InitializeMessageBox(msg, ProductName, MessageBoxButton.OK, type);
-    }
-
-    public MessageBox_S(string msg, string caption, MessageBoxType type = MessageBoxType.Information)
-    {
-        InitializeComponent();
-        InitializeMessageBox(msg, caption, MessageBoxButton.OK, type);
-    }
-
-    public MessageBox_S(string msg, string caption, MessageBoxButton messageBoxButton, MessageBoxType type = MessageBoxType.Information)
-    {
-        InitializeComponent();
-        InitializeMessageBox(msg, caption, messageBoxButton, type);
+        InitializeMessageBox(msg, caption, messageBoxButton);
     }
 
     #endregion
 
     #region 私有方法
 
-    private void InitializeMessageBox(string msg, string caption, MessageBoxButton messageBoxButton, MessageBoxType type)
+    private void InitializeMessageBox(string msg, string caption, MessageBoxButton messageBoxButton)
     {
         Messages.Text = msg;
         TitleTxt.Text = caption;
@@ -199,36 +168,6 @@ public partial class MessageBox_S : Window
     public static MessageBoxResult Show(string msg, string caption, MessageBoxButton messageBoxButton)
     {
         var messageBox = new MessageBox_S(msg, caption, messageBoxButton);
-        messageBox.ShowDialog();
-        return messageBox._result;
-    }
-
-    /// <summary>
-    /// 显示带消息类型的消息框 (新增功能)
-    /// </summary>
-    public static MessageBoxResult Show(string msg, MessageBoxType type)
-    {
-        var messageBox = new MessageBox_S(msg, type);
-        messageBox.ShowDialog();
-        return messageBox._result;
-    }
-
-    /// <summary>
-    /// 显示带标题和消息类型的消息框 (新增功能)
-    /// </summary>
-    public static MessageBoxResult Show(string msg, string caption, MessageBoxType type)
-    {
-        var messageBox = new MessageBox_S(msg, caption, type);
-        messageBox.ShowDialog();
-        return messageBox._result;
-    }
-
-    /// <summary>
-    /// 显示完整参数的消息框 (新增功能)
-    /// </summary>
-    public static MessageBoxResult Show(string msg, string caption, MessageBoxButton messageBoxButton, MessageBoxType type)
-    {
-        var messageBox = new MessageBox_S(msg, caption, messageBoxButton, type);
         messageBox.ShowDialog();
         return messageBox._result;
     }

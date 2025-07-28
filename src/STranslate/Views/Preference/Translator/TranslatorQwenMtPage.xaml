@@ -211,30 +211,6 @@
                         Visibility="{Binding IsTesting, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </Grid>
 
-                <!--  // 术语 //  -->
-                <Grid Margin="0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{DynamicResource Service.Terms}" />
-
-                    <ToggleButton
-                        Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        IsChecked="{Binding IsEnableTerms}" />
-                </Grid>
-
-                <controls:TermsControl
-                    Grid.Column="1"
-                    Margin="0,10"
-                    AddCommand="{Binding AddCommand}"
-                    DeleteCommand="{Binding DeleteCommand}"
-                    ExportCommand="{Binding ExportCommand}"
-                    ImportCommand="{Binding ImportCommand}"
-                    ItemsSource="{Binding Terms}"
-                    Visibility="{Binding IsEnableTerms, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
                 <!--  // 领域提示 //  -->
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
@@ -264,6 +240,37 @@
                     Placeholder="only english."
                     Text="{Binding Domains, UpdateSourceTrigger=PropertyChanged}"
                     Visibility="{Binding IsEnableDomains, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <!--  // 术语 //  -->
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Terms}" />
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding IsEnableTerms}" />
+                </Grid>
+
+                <Grid Margin="0,-5,0,10" Visibility="{Binding IsEnableTerms, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <UniformGrid Columns="4">
+                        <Button Command="{Binding AddCommand}" Content="{DynamicResource Toast.Add}" />
+                        <Button Command="{Binding ClearCommand}" Content="{DynamicResource Toast.Clear}" />
+                        <Button Command="{Binding ExportCommand}" Content="{DynamicResource Toast.Export}" />
+                        <Button Command="{Binding ImportCommand}" Content="{DynamicResource Toast.Import}" />
+                    </UniformGrid>
+                    <controls:TermsControl
+                        Grid.Row="1"
+                        DeleteCommand="{Binding DeleteCommand}"
+                        ItemsSource="{Binding Terms}" />
+                </Grid>
 
                 <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>

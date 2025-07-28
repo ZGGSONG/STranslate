@@ -7,29 +7,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:TermsControl}">
-                    <Border
-                        BorderBrush="#DDD"
-                        BorderThickness="1"
-                        CornerRadius="5">
-                        <DockPanel>
-                            <StackPanel
-                                Margin="5,5,5,0"
-                                HorizontalAlignment="Right"
-                                DockPanel.Dock="Bottom"
-                                Orientation="Horizontal">
-                                <Button Command="{TemplateBinding ExportCommand}" Content="{DynamicResource Toast.Export}" />
-                                <Button Command="{TemplateBinding ImportCommand}" Content="{DynamicResource Toast.Import}" />
-                                <Button Command="{TemplateBinding AddCommand}" Content="{DynamicResource Toast.Add}" />
-                            </StackPanel>
-
-                            <ScrollViewer
-                                Padding="2"
-                                Focusable="False"
-                                Template="{DynamicResource ScrollViewerControlTemplate}">
-                                <ItemsPresenter />
-                            </ScrollViewer>
-                        </DockPanel>
-                    </Border>
+                    <ScrollViewer
+                        Padding="2"
+                        Focusable="False"
+                        Template="{DynamicResource ScrollViewerControlTemplate}">
+                        <ItemsPresenter />
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -53,13 +36,6 @@
                                 Grid.Column="1"
                                 Margin="5,0,0,0"
                                 Text="{Binding TargetText, UpdateSourceTrigger=PropertyChanged}" />
-
-                            <!--<CheckBox
-                                Grid.Column="2"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Foreground="{DynamicResource BtnForeground}"
-                                IsChecked="{Binding IsEnabled}" />-->
 
                             <Button
                                 Grid.Column="2"
