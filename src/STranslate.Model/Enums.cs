@@ -209,6 +209,7 @@ public enum ServiceType
     DeerAPIService,
     TransmartBuiltInService,
     OpenRouterService,
+    QwenMtService,
 }
 
 public enum TTSType

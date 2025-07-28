@@ -75,6 +75,7 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorVolcengine());
         TransServices.Add(new TranslatorNiutrans());
         TransServices.Add(new TranslatorCaiyun());
+        TransServices.Add(new TranslatorQwenMt());
         //TODO: 新接口需要适配
 
         ResetView();
@@ -176,6 +177,7 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.DeerAPIService => $"{head}{nameof(TranslatorDeerAPIPage)}",
             ServiceType.TransmartBuiltInService => $"{head}{nameof(TranslatorTransmartBuiltInPage)}",
             ServiceType.OpenRouterService => $"{head}{nameof(TranslatorOpenRouterPage)}",
+            ServiceType.QwenMtService => $"{head}{nameof(TranslatorQwenMtPage)}",
             //TODO: 新接口需要适配
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
@@ -221,6 +223,7 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorDeerAPI deerapi => deerapi.Clone(),
                 TranslatorTransmartBuiltIn transmartbuiltin => transmartbuiltin.Clone(),
                 TranslatorOpenRouter openrouter => openrouter.Clone(),
+                TranslatorQwenMt qwenmt => qwenmt.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });

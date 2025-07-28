@@ -672,6 +672,7 @@ public class ConfigHelper
         }
         else
         {
+#if !DEBUG
             if (TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
             {
                 LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 检测已经存在计划任务'{Constant.TaskName}', 尝试删除");
@@ -679,7 +680,8 @@ public class ConfigHelper
                 var isNeedAdmin = !CommonUtil.IsUserAdministrator();
                 CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin);
                 LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已删除计划任务'{Constant.TaskName}'");
-            }
+            } 
+#endif
         }
     }
 
@@ -1219,6 +1221,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
             (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
             (int)ServiceType.OpenRouterService => new TranslatorOpenRouter(),
+            (int)ServiceType.QwenMtService => new TranslatorQwenMt(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
