@@ -146,7 +146,8 @@ public partial class TranslatorMTranServer : TranslatorBase, ITranslator
     }
 
     /// <summary>
-    ///     https://blog.julym.com/original/74.html
+    ///     https://quickref.cn/docs/iso-639-1.html
+    ///     TODO: 版本之间似乎有差异
     /// </summary>
     /// <param name="lang"></param>
     /// <returns></returns>
@@ -154,10 +155,10 @@ public partial class TranslatorMTranServer : TranslatorBase, ITranslator
     {
         return lang switch
         {
-            LangEnum.auto => "auto",
+            LangEnum.auto => null,
             LangEnum.zh_cn => "zh",
-            LangEnum.zh_tw => "zh-Hans",
-            LangEnum.yue => "yue",
+            LangEnum.zh_tw => null,
+            LangEnum.yue => null,
             LangEnum.en => "en",
             LangEnum.ja => "ja",
             LangEnum.ko => "ko",
@@ -171,15 +172,15 @@ public partial class TranslatorMTranServer : TranslatorBase, ITranslator
             LangEnum.pt_br => "pt",
             LangEnum.vi => "vi",
             LangEnum.id => "id",
-            LangEnum.th => "th",
+            LangEnum.th => null,
             LangEnum.ms => "ms",
             LangEnum.ar => "ar",
             LangEnum.hi => "hi",
-            LangEnum.mn_cy => "mn",
-            LangEnum.mn_mo => "mn",
-            LangEnum.km => "km",
-            LangEnum.nb_no => "no",
-            LangEnum.nn_no => "no",
+            LangEnum.mn_cy => null,
+            LangEnum.mn_mo => null,
+            LangEnum.km => null,
+            LangEnum.nb_no => null,
+            LangEnum.nn_no => null,
             LangEnum.fa => "fa",
             LangEnum.sv => "sv",
             LangEnum.pl => "pl",
@@ -188,6 +189,68 @@ public partial class TranslatorMTranServer : TranslatorBase, ITranslator
             _ => "auto"
         };
     }
+
+    /**
+     * 3.x API GET /languages
+     *{
+	    "languages": [
+		    "en",
+		    "cs",
+		    "fi",
+		    "id",
+		    "bg",
+		    "ml",
+		    "ro",
+		    "he",
+		    "hi",
+		    "de",
+		    "kn",
+		    "sk",
+		    "hr",
+		    "uk",
+		    "es",
+		    "el",
+		    "pt",
+		    "ta",
+		    "it",
+		    "ca",
+		    "tr",
+		    "sl",
+		    "nl",
+		    "bn",
+		    "gu",
+		    "sv",
+		    "lt",
+		    "hu",
+		    "et",
+		    "fr",
+		    "ru",
+		    "pl",
+		    "sq",
+		    "fa",
+		    "ms",
+		    "da",
+		    "te",
+		    "lv",
+		    "ko",
+		    "zh-Hans",
+		    "ja",
+		    "ar",
+		    "is",
+		    "bs",
+		    "sr",
+		    "be",
+		    "nn",
+		    "mt",
+		    "az",
+		    "vi",
+		    "zh-Hant",
+		    "zh-TW",
+		    "zh-HK",
+		    "zh-CN"
+	    ]
+    }
+    */
 
     #endregion Interface Implementation
 }
