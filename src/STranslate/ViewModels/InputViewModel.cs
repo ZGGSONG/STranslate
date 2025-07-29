@@ -833,6 +833,7 @@ public class CurrentTranslatorConverter : JsonConverter<ITranslator>
                 (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
                 (int)ServiceType.OpenRouterService => new TranslatorOpenRouter(),
                 (int)ServiceType.QwenMtService => new TranslatorQwenMt(),
+                (int)ServiceType.MTranServerService => new TranslatorMTranServer(),
                 //TODO: 新接口需要适配
                 _ => new TranslatorGoogleBuiltin()
             };
