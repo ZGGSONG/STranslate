@@ -210,6 +210,7 @@ public enum ServiceType
     TransmartBuiltInService,
     OpenRouterService,
     QwenMtService,
+    MTranServerService,
 }
 
 public enum TTSType
@@ -308,6 +309,7 @@ public enum IconType
     [Description("Transmart")] Transmart,
     [Description("OpenRouter")] OpenRouter,
     [Description("Maimemo")] Maimemo,
+    [Description("MTranServer")] MTranServer,
 }
 
 /// <summary>

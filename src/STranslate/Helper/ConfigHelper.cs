@@ -1222,6 +1222,7 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
             (int)ServiceType.OpenRouterService => new TranslatorOpenRouter(),
             (int)ServiceType.QwenMtService => new TranslatorQwenMt(),
+            (int)ServiceType.MTranServerService => new TranslatorMTranServer(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };

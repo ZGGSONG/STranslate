@@ -109,6 +109,9 @@
     <Resource Include="Resources\microsoft.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\mtranserver.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\niutrans.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
