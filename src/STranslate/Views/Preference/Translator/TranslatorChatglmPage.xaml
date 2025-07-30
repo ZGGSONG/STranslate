@@ -123,6 +123,19 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource Service.Thinking}" ToolTip="{DynamicResource Service.Thinking.Tooltip}" />
+
+                    <ToggleButton
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding Thinking}" />
+                </Grid>
+
+                <Grid Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{DynamicResource Service.Temperature}" ToolTip="{DynamicResource Service.Temperature.Tooltip}" />
