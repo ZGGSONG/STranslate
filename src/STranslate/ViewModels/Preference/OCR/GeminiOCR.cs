@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
 using STranslate.ViewModels.Preference.Translator;
@@ -76,6 +77,13 @@ public partial class GeminiOCR : OCRLLMBase, IOCRLLM
         var aTemperature = Math.Clamp(Temperature, 0, 2);
         var base64Str = Convert.ToBase64String(bytes);
 
+        // https://ai.google.dev/gemini-api/docs/image-understanding?hl=zh-cn#supported-formats
+        var formatStr = (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
+        {
+            OcrImageQualityEnum.Low => "image/jpeg",
+            OcrImageQualityEnum.Medium => "image/png",
+            _ => "image/png"//即便是bmp 使用 png 标签 gemini 也能正常识别（gemini-2.0-flash-exp）
+        };
 
         // 替换Prompt关键字
         var a_messages =
@@ -105,7 +113,7 @@ public partial class GeminiOCR : OCRLLMBase, IOCRLLM
                 {
                     inline_data = new
                     {
-                        mime_type = "image/png",
+                        mime_type = formatStr,
                         data = base64Str
                     }
                 },

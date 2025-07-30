@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STranslate.Helper;
 using STranslate.Model;
 using STranslate.Util;
 using System.ComponentModel;
@@ -72,6 +73,14 @@ public partial class OpenAIOCR : OCRLLMBase, IOCRLLM
 
         var openAiModel = Model.Trim();
         var base64Str = Convert.ToBase64String(bytes);
+        // https://www.volcengine.com/docs/82379/1362931#%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E
+        var formatStr = (Singleton<ConfigHelper>.Instance.CurrentConfig?.OcrImageQuality ?? OcrImageQualityEnum.Medium) switch
+        {
+            OcrImageQualityEnum.Low => "image/jpeg",
+            OcrImageQualityEnum.Medium => "image/png",
+            OcrImageQualityEnum.High => "image/bmp",
+            _ => "image/png"
+        };
 
         // 选择模型
         var a_model = Model.Trim();
@@ -108,7 +117,7 @@ public partial class OpenAIOCR : OCRLLMBase, IOCRLLM
                     type = "image_url",
                     image_url = new
                     {
-                        url = $"data:image/png;base64,{base64Str}"
+                        url = $"data:{formatStr};base64,{base64Str}"
                     }
                 }
             }
