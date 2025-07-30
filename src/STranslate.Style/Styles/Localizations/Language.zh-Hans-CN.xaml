@@ -581,6 +581,8 @@
     <system:String x:Key="Service.Model">模型:</system:String>
     <system:String x:Key="Service.Prompt.Info">通过自定义Prompt自定义LLM行为, $target 将会被替换为 目标语言</system:String>
     <system:String x:Key="Service.Translator.Prompt.Info">通过自定义Prompt自定义LLM行为, $source $target $content 将会被替换为 原始语言 目标语言 待翻译文本。</system:String>
+    <system:String x:Key="Service.Thinking">思考:</system:String>
+    <system:String x:Key="Service.Thinking.Tooltip">仅 GLM-4.5 及以上模型支持此参数配置. 控制大模型是否开启思维链</system:String>
     <system:String x:Key="Service.Temperature">温度:</system:String>
     <system:String x:Key="Service.Temperature.Tooltip">语言模型的上下文中，是控制模型生成文本多样性的一个参数。模型在做出下一个词预测时的确定性和随机性程度</system:String>
     <system:String x:Key="Service.OCR.GeminiApi">接口API地址不建议填写Path部分，除非你很清楚你在干什么&#13;如OpenAI接口地址为 https://api.openai.com/v1/chat/completions 其中 Path 为 /v1/chat/completions</system:String>
