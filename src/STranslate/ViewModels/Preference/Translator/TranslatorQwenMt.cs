@@ -164,7 +164,7 @@ public partial class TranslatorQwenMt : TranslatorBase, ITranslator
 
         if (IsEnableDomains)
         {
-            translationOptions["domains"] = "The sentence is from Ali Cloud IT domain. It mainly involves computer-related software development and usage methods, including many terms related to computer software and hardware. Pay attention to professional troubleshooting terminologies and sentence patterns when translating. Translate into this IT domain style.";
+            translationOptions["domains"] = Domains;
         }
 
         var reqData = new
