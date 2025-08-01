@@ -1,17 +1,17 @@
 {
-  "version": "1.5.3.711",
-  "published_at": "2025-07-11T08:20:45Z",
+  "version": "1.5.4.801",
+  "published_at": "2025-08-01T01:22:10Z",
   "downloads": [
     {
-      "name": "STranslate_1.5.3.711_win-x64.zip",
-      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.3.711/STranslate_1.5.3.711_win-x64.zip",
-      "size": 66738092
+      "name": "STranslate_1.5.4.801_win-x64.zip",
+      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.4.801/STranslate_1.5.4.801_win-x64.zip",
+      "size": 67002346
     }    ,
     {
-      "name": "STranslate_1.5.3.711_win-x64_7z.7z",
-      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.3.711/STranslate_1.5.3.711_win-x64_7z.7z",
-      "size": 53954766
+      "name": "STranslate_1.5.4.801_win-x64_7z.7z",
+      "url": "https://github.com/ZGGSONG/STranslate/releases/download/1.5.4.801/STranslate_1.5.4.801_win-x64_7z.7z",
+      "size": 54140399
     }
   ],
-  "body": "## 更新\r\n\r\n- 新增: 增加了换行处理（用非空格替换换行符），并修复了配置项描述不正确的问题\r\n- 新增: 增加阿里百炼图标\r\n- 新增: 内置 Transmart 翻译服务\r\n- 新增: 键盘快捷键(Ctrl+Shift+R)调整翻译服务顺序\r\n- 优化: 内置 Yandex 翻译服务，支持繁体中文和粤语（默认处理为中文）\r\n- 优化: 优化翻译服务中创建副本的逻辑，使之更加符合日常习惯\r\n- 优化: 优化 OCR 窗口的显示位置（在哪边截图就出现在哪边显示器上）\r\n- 优化: 主界面显示效果\r\n- 优化: 将 Deepseek 服务 UI 的温度限制调整为 0-2\r\n- 优化: 优化OpenAI服务 - Groq Q Wen推理内容隐藏\r\n- 优化: 添加LLM模型列表和保存功能\r\n- 优化: Gemini API 解析 避免部分消息无法解析\r\n- 优化: 翻译服务配置页面添加服务类型显示\r\n- 优化: 重新点击关闭弹出列表窗口的行为，感谢 @vickyqu115\r\n- 优化: 调整主界面服务名称最大宽度和 Prompt 按钮宽度\r\n- 优化: 优化历史记录的存储内容以及空结果的取缓存逻辑\r\n- 优化: 服务页面快捷键保存配置时，仅保存当前页面配置\r\n- 修复: 保存服务配置并再次点击撤销后，服务配置无法正确显示的问题\r\n- 修复: 无法保存词库的问题\r\n- 修复: 在linux上编译错误的问题，感谢 @hnalpha323\r\n- 修复: 部分用户多显示器截图时会出现截图区域不正确的问题\r\n- 修复: 腾讯识别服务错误的问题\r\n- 修复: 程序启动未使用设置的超时时间\r\n- 修复: 在主界面中显示/隐藏语言控制时的提示内容\r\n\r\n> 软件根目录脚本 `install_startup.bat` 和 `uninstall_startup.bat` 用来创建和删除任务计划程序，主要是为了以管理员权限启动软件而不经过`UAC弹窗`确认（也可以创建普通权限启动）\r\n> **该脚本与软件内设置`开机自启动`不兼容，脚本创建任务计划程序后建议关闭软件内`开机启动项`配置**\r\n\r\n**完整更新日志:** [1.5.2.408...1.5.3.711](https://github.com/ZGGSONG/STranslate/compare/1.5.2.408...1.5.3.711)\r\n\r\n## 合作推广\r\n\r\n🛠️ **官方API合作伙伴** \r\n\r\n[DeerAPI](https://api.deerapi.com/register?aff=j5dj) - AI聚合平台，一键调用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！\r\n\r\n[点击注册](https://api.deerapi.com/register?aff=j5dj)享免费试用额度，也能支持软件长久发展\r\n\r\n\r\n## 离线数据\r\n\r\n[123 网盘](https://www.123pan.com/s/AxlRjv-OuVmA.html)\r\n\r\n> 离线数据包含: [简明英汉词典数据包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip) [PaddleOCR数据包(v4.3)](https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v4.3.zip) 等\r\n\r\n> 另: OCR部分软件内置`微信OCR`(1.5.0.402版本开始内置微信OCR数据包，无需依赖外部微信)、词典部分软件内置了`必应`、`金山`词典，上述离线数据包配置较为繁琐，可直接使用软件内置服务\n"
+  "body": "## 更新\r\n\r\n- 新增: OpenRouter服务\r\n- 新增: QwenMT服务\r\n- 新增: MTranServer服务\r\n- 新增: 墨墨背单词生词本\r\n- 新增: 主界面服务标题及Prompt长度调整选项\r\n- 新增: 管理员(跳过UAC)启动软件选项\r\n- 新增: 软件内更新添加进度条显示\r\n- 优化: 智普AI服务支持可选启动思考模式(仅 GLM-4.5 及以上模型支持此参数配置,控制大模型是否开启思维链)\r\n- 优化: UI显示效果\r\n- 修复: OpenAI/Gemini OCR 图片格式匹配错误的问题\r\n\r\n> 该版本内部集成任务计划启动以跳过UAC弹窗确认, 用户可以在软件内设置是否启用管理员权限启动软件, 开机自启由软件内 `开机自启动` 控制\r\n> **如果先前通过 `install_startup.bat` 创建了任务计划, 更新前请运行软件内 `uninstall_startup.bat` 删除旧的任务计划程序以避免异常情况**\r\n\r\n**完整更新日志:** [1.5.3.711...1.5.4.801](https://github.com/ZGGSONG/STranslate/compare/1.5.3.711...1.5.4.801)\r\n\r\n## 离线数据\r\n\r\n[123 网盘](https://www.123pan.com/s/AxlRjv-OuVmA.html)\r\n\r\n> 离线数据包含: [简明英汉词典数据包](https://github.com/skywind3000/ECDICT/releases/download/1.0.28/ecdict-sqlite-28.zip) [PaddleOCR数据包(v4.3)](https://github.com/ZGGSONG/STranslate/releases/download/0.01/stranslate_paddleocr_data_v4.3.zip) 等\r\n\r\n> 另: OCR部分软件内置`微信OCR`(1.5.0.402版本开始内置微信OCR数据包，无需依赖外部微信)、词典部分软件内置了`必应`、`金山`词典，上述离线数据包配置较为繁琐，可直接使用软件内置服务\n"
 }
