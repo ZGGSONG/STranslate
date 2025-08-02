@@ -278,6 +278,7 @@ public partial class TranslatorChatglm : TranslatorLLMBase, ITranslatorLLM
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
+            Thinking = Thinking,
         };
     }
 
