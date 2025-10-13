@@ -156,12 +156,18 @@
     <system:String x:Key="IconType.Grok">Grok</system:String>
     <system:String x:Key="IconType.Bailian">Bailian</system:String>
     <system:String x:Key="IconType.Transmart">Transmart</system:String>
+    <system:String x:Key="IconType.OpenRouter">OpenRouter</system:String>
+    <system:String x:Key="IconType.Maimemo">Maimemo</system:String>
 
     <system:String x:Key="BackupType.Local">Local</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
 
     <system:String x:Key="STranslateMode.Brower">Brower</system:String>
     <system:String x:Key="STranslateMode.IOS">IOS</system:String>
+
+    <system:String x:Key="StartModeKind.Normal">Normal</system:String>
+    <system:String x:Key="StartModeKind.Admin">Admin</system:String>
+    <system:String x:Key="StartModeKind.SkipUACAdmin">Admin Skip UAC</system:String>
 
     <!--#endregion-->
 
@@ -203,6 +209,8 @@
     <system:String x:Key="Toast.LangView">Language Panel</system:String>
     <system:String x:Key="Toast.Export">Export</system:String>
     <system:String x:Key="Toast.Import">Import</system:String>
+    <system:String x:Key="Toast.Add">Add</system:String>
+    <system:String x:Key="Toast.Clear">Clear</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">Check config or logs</system:String>
     <system:String x:Key="Toast.DeleteFailed">Delete failed</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">All deleted success</system:String>
@@ -258,7 +266,7 @@
     <system:String x:Key="Common.Title">General Configuration</system:String>
     <system:String x:Key="Common.AutoStart">Start with Windows</system:String>
     <system:String x:Key="Common.AppLanguage">Application Language</system:String>
-    <system:String x:Key="Common.NeedAdmin">Run as Administrator</system:String>
+    <system:String x:Key="Common.StartMode">Start Mode</system:String>
     <system:String x:Key="Common.AutoCheckUpdate">Auto check update</system:String>
     <system:String x:Key="Common.DownloadProxy">Resource download channel</system:String>
     <system:String x:Key="Common.AutoTranslate">Auto Translate</system:String>
@@ -340,6 +348,8 @@
     <system:String x:Key="Display.TriggerShowHide">Toggle Show/Hide on Repeat Trigger</system:String>
     <system:String x:Key="Display.MainViewMaxHeight">Main Window Max Height [WIE]</system:String>
     <system:String x:Key="Display.MainViewWidth">Main Window Width [WIE]</system:String>
+    <system:String x:Key="Display.TitleMaxWidth">Maximum width of the service name in the output interface</system:String>
+    <system:String x:Key="Display.PromptMaxWidth">Maximum width of the prompt name in the output interface</system:String>
     <system:String x:Key="Display.InputViewMaxHeight">Input Box Max Height [WIE]</system:String>
     <system:String x:Key="Display.FollowMouse">Window Follows Mouse</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">Screenshot Guide Lines</system:String>
@@ -387,7 +397,7 @@
 
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">Automatically start the software when the system boots (for current user)</system:String>
-    <system:String x:Key="Tooltip.NeedAdminTip">To ensure global hotkeys respond in windows with administrator privileges</system:String>
+    <system:String x:Key="Tooltip.StartModeTip">Enable administrator mode and optionally skip UAC prompt</system:String>
     <system:String x:Key="Tooltip.AutoCheckUpdateTip">Automatically check for updates once enabled, every 24 hours</system:String>
     <system:String x:Key="Tooltip.DownloadProxyTip">Proxy method used to download Github resources (software installation packages, offline resource packages)</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">Switch application language version</system:String>
@@ -439,6 +449,8 @@
     <system:String x:Key="Tooltip.TriggerShowHideTip">Repeated trigger shows interface (when hidden)/hides interface (when shown)</system:String>
     <system:String x:Key="Tooltip.MainViewMaxHeightTip">Adjust maximum height of main interface</system:String>
     <system:String x:Key="Tooltip.MainViewWidthTip">Adjust width of main interface</system:String>
+    <system:String x:Key="Tooltip.TitleMaxWidthTip">Maximum width of service name in output interface</system:String>
+    <system:String x:Key="Tooltip.PromptMaxWidthTip">Maximum width of prompt name in output interface</system:String>
     <system:String x:Key="Tooltip.InputViewMaxHeightTip">Adjust maximum height of input box</system:String>
     <system:String x:Key="Tooltip.FollowMouseTip">Main window popup position follows mouse position&#13;for input, screenshot, word selection, and clipboard monitoring translation</system:String>
     <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">Whether to show guide lines when taking screenshots</system:String>
@@ -557,6 +569,9 @@
     <system:String x:Key="Service.LinkTest">LinkTest:</system:String>
     <system:String x:Key="Service.Verify">Verify</system:String>
     <system:String x:Key="Service.Icon">Icon</system:String>
+    <system:String x:Key="Service.Terms">Terms:</system:String>
+    <system:String x:Key="Service.Domains">Domains:</system:String>
+    <system:String x:Key="Service.QwenMT.Domains">Domains infomation</system:String>
     <system:String x:Key="Service.OpenInBrower">Open in brower</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">Enter official website</system:String>
     <system:String x:Key="Service.Version">Version:</system:String>
@@ -566,6 +581,8 @@
     <system:String x:Key="Service.Model">Model:</system:String>
     <system:String x:Key="Service.Prompt.Info">By customizing the LLM behavior through custom prompt, $target will be replaced by the target language</system:String>
     <system:String x:Key="Service.Translator.Prompt.Info">By customizing the LLM behavior through custom prompt, $source $target $content will be replaced with the original language target language to be translated text.</system:String>
+    <system:String x:Key="Service.Thinking">Thinking:</system:String>
+    <system:String x:Key="Service.Thinking.Tooltip">This parameter is supported only by GLM-4.5 and above. Controls whether chain-of-thought is enabled for the large model.</system:String>
     <system:String x:Key="Service.Temperature">Temp:</system:String>
     <system:String x:Key="Service.Temperature.Tooltip">In the context of language models, it is a parameter that controls the diversity of text generated by the model. The degree of certainty and randomness with which the model makes its next word predictions</system:String>
     <system:String x:Key="Service.OCR.GeminiApi">It is not recommended to fill in the Path part of the API address unless you know exactly what you are doing. For example, the OpenAI API address is https://api.openai.com/v1/chat/completions, where the Path is /v1/chat/completions</system:String>
@@ -574,6 +591,8 @@
     <system:String x:Key="Service.OpenAI.Info1">If the API address does not have a path, it will be automatically filled in as /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info2">For example, the OpenAI interface address is https://api.openai.com/v1/chat/completions, where the Path is /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info3">If you still have doubts please click this link</system:String>
+    <system:String x:Key="Service.OpenRouter.Info1">If the API address does not have a path, it will be automatically filled in as /api/v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenRouter.Info2">For example, the OpenRouter interface address is https://openrouter.ai/api/v1/chat/completions, where the Path is /api/v1/chat/completions</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Data">Data Pack:</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Download">Download</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Check">Check</system:String>
@@ -606,6 +625,7 @@
     <system:String x:Key="Service.TTS.Speed">Speed:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">Set the speech rate for offline TTS.</system:String>
     <system:String x:Key="Service.TTS.Offline">Get system supported voices</system:String>
+    <system:String x:Key="Service.VocabularyBook.Maimemo">In actual testing, if you add a word like "stranslate," the API responds successfully, but it does not appear in the word list. Please take note.</system:String>
     <system:String x:Key="Service.DescriptionTitle">Desc:</system:String>
     <system:String x:Key="Service.DeerAPI.Description">AI aggregation platform, one-click access to 500+ models, 30% off special offer, full support for the latest GPT4o, Grok 3, Gemini 2.5pro!</system:String>
     <system:String x:Key="Service.DeerAPI.Promotion">Register and receive a trial credit.</system:String>
@@ -859,6 +879,27 @@
     <system:String x:Key="MessageBox.Tip">Tip</system:String>
     <system:String x:Key="MessageBox.SupportedVoice">System supported voices:</system:String>
 
+    <!--#endregion-->
+
+    <!--#region Toast Terms-->
+    <system:String x:Key="Toast.Terms.EmptyList">Terms list is empty, cannot export</system:String>
+    <system:String x:Key="Toast.Terms.ExportTitle">Export Terms File</system:String>
+    <system:String x:Key="Toast.Terms.ExportSuccess">Exported {0} records</system:String>
+    <system:String x:Key="Toast.Terms.ExportFailed">Export failed</system:String>
+    <system:String x:Key="Toast.Terms.ImportTitle">Select terms file to import</system:String>
+    <system:String x:Key="Toast.Terms.NoValidData">No valid terms data found</system:String>
+    <system:String x:Key="Toast.Terms.ImportReplace">Imported and replaced {0} records</system:String>
+    <system:String x:Key="Toast.Terms.ImportAppend">Imported and appended {0} records</system:String>
+    <system:String x:Key="Toast.Terms.ImportFailed">Import failed</system:String>
+    <!--#endregion-->
+
+    <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.Clear">Is Clear Terms?</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportTitle">Import Terms</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">Found {0} term records.
+Click [Yes] to replace existing terms list
+Click [No] to append to existing terms list
+Click [Cancel] to cancel import operation</system:String>
     <!--#endregion-->
 
 </ResourceDictionary>

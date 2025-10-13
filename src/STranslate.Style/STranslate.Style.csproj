@@ -103,7 +103,13 @@
     <Resource Include="Resources\linyi.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\maimemo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\microsoft.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\mtranserver.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\niutrans.png">
@@ -115,6 +121,9 @@
     <Resource Include="Resources\openai.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+	<Resource Include="Resources\openrouter.png">
+	  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	</Resource>
     <Resource Include="Resources\paddleocr.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

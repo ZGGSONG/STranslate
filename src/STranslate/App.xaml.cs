@@ -21,19 +21,17 @@ public partial class App
 
         // 检查是否已经具有管理员权限
         if (NeedAdministrator())
-            // 如果没有管理员权限，可以提示用户提升权限
-            if (TryRunAsAdministrator())
-            {
-                // 如果提升权限成功，关闭当前实例
-                Current.Shutdown();
-                return;
-            }
+        {
+            RunAsAdministrator();
+            Environment.Exit(0);
+            return;
+        }
 
         // 多开检测
         if (IsAnotherInstanceRunning())
         {
             MessageBox_S.Show($"{Constant.AppName} {AppLanguageManager.GetString("MessageBox.AlreadyRunning")}", AppLanguageManager.GetString("MessageBox.MultiOpeningDetection"));
-            Current.Shutdown();
+            Environment.Exit(0);
             return;
         }
 
@@ -72,14 +70,47 @@ public partial class App
     private bool NeedAdministrator()
     {
         // 加载配置
-        var isRole = Singleton<ConfigHelper>.Instance.CurrentConfig?.NeedAdministrator ?? false;
+        var mode = Singleton<ConfigHelper>.Instance.CurrentConfig?.StartMode ?? StartModeKind.Normal;
 
-        if (!isRole)
+        if (mode == StartModeKind.Normal)
             return false;
 
         return !CommonUtil.IsUserAdministrator();
     }
 
+    private void RunAsAdministrator()
+    {
+        var mode = Singleton<ConfigHelper>.Instance.CurrentConfig?.StartMode ?? StartModeKind.Normal;
+        var modeStr = mode switch
+        {
+            StartModeKind.Admin => "elevated",
+            StartModeKind.SkipUACAdmin => "task",
+            _ => throw new InvalidOperationException("Unsupported start mode for admin")
+        };
+        var target = mode switch
+        {
+            StartModeKind.Admin => $"{Constant.ExecutePath}{Constant.AppName}.exe",
+            StartModeKind.SkipUACAdmin => Constant.TaskName,
+            _ => throw new InvalidOperationException("Unsupported start mode for admin")
+        };
+        // 如果是跳过UAC管理员模式，则检查，如果缺失则先创建计划任务
+        if (mode == StartModeKind.SkipUACAdmin)
+        {
+            var fileName = $"{Constant.ExecutePath}{Constant.AppName}.exe";
+            var info = TaskSchedulerUtil.GetTaskInfo(Constant.TaskName);
+            if (!info.Success || !info.Output.Contains(fileName))
+            {
+                LogService.Logger.Debug($"<App> 启动方式已选择为'{mode.GetDescription()}', 未检测已经存在计划任务'{Constant.TaskName}', 尝试创建");
+                string[] args = ["task", "-a", "create", "-n", Constant.TaskName, "-p", fileName, "-f"];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin, true);
+                LogService.Logger.Debug($"<App> 启动方式已选择为'{mode.GetDescription()}', 已创建计划任务'{Constant.TaskName}'");
+            }
+        }
+        CommonUtil.ExecuteProgram(Constant.HostExePath, ["start", "-m", modeStr, "-t", target]);
+    }
+
+    [Obsolete]
     private bool TryRunAsAdministrator()
     {
         ProcessStartInfo startInfo =

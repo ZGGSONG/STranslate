@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
-using System.Net.Http;
-using System.Text;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Helper;
 using STranslate.Log;
 using STranslate.Model;
 using STranslate.Util;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Text;
 
 namespace STranslate.ViewModels.Preference.Translator;
 
@@ -42,6 +42,13 @@ public partial class TranslatorDeepSeek : TranslatorLLMBase, ITranslatorLLM
     #endregion Constructor
 
     #region Properties
+
+    [JsonIgnore] private string _model = "deepseek-chat";
+    public override string Model
+    {
+        get => _model;
+        set => SetProperty(ref _model, value);
+    }
 
     [JsonIgnore]
     private BindingList<string> _models =

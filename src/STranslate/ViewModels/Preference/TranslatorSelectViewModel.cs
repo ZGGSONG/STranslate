@@ -68,6 +68,9 @@ public partial class TranslatorSelectViewModel : WindowVMBase
             TranslatorMicrosoftBuiltin microsoftBuiltin => microsoftBuiltin.Clone(),
             TranslatorDeerAPI deerapi => deerapi.Clone(),
             TranslatorTransmartBuiltIn transmartbuiltin => transmartbuiltin.Clone(),
+            TranslatorOpenRouter openrouter => openrouter.Clone(),
+            TranslatorQwenMt qwenmt => qwenmt.Clone(),
+            TranslatorMTranServer mtranserver => mtranserver.Clone(),
             //TODO: 新接口需要适配
             _ => throw new InvalidOperationException($"Unsupported service type: {translator.GetType().Name}")
         };

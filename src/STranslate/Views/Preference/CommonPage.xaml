@@ -62,12 +62,17 @@
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
-                                    <TextBlock Text="{DynamicResource Common.NeedAdmin}" />
-                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.NeedAdminTip}" />
-                                    <ToggleButton
-                                        Height="26"
+                                    <TextBlock Text="{DynamicResource Common.StartMode}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.StartModeTip}" />
+                                    <ComboBox
+                                        Height="30"
                                         HorizontalAlignment="Right"
-                                        IsChecked="{Binding NeedAdmin}" />
+                                        common:LangAwareSelector.IsLangAware="True"
+                                        BorderThickness="1"
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding Source={common:Enumeration {x:Type model:StartModeKind}}}"
+                                        SelectedValue="{Binding StartMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="Value" />
                                 </DockPanel>
 
                                 <DockPanel Margin="20,10">
@@ -906,6 +911,58 @@
                                         Height="26"
                                         HorizontalAlignment="Right"
                                         IsChecked="{Binding IsCaretLast}" />
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.TitleMaxWidth}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.TitleMaxWidthTip}" />
+                                    <StackPanel
+                                        HorizontalAlignment="Right"
+                                        DockPanel.Dock="Right"
+                                        FlowDirection="RightToLeft"
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="75"
+                                            Margin="10,0,0,0"
+                                            FontWeight="Black"
+                                            Text="{Binding TitleMaxWidth, StringFormat={}{0:0}}" />
+                                        <Slider
+                                            Height="14"
+                                            MinWidth="260"
+                                            FlowDirection="LeftToRight"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="1920"
+                                            Minimum="10"
+                                            TickFrequency="5"
+                                            TickPlacement="None"
+                                            Value="{Binding TitleMaxWidth, Mode=TwoWay}" />
+                                    </StackPanel>
+                                </DockPanel>
+
+                                <DockPanel Margin="20,10">
+                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Display.PromptMaxWidth}" />
+                                    <TextBlock Style="{DynamicResource InfoTextBlock}" ToolTip="{DynamicResource Tooltip.PromptMaxWidthTip}" />
+                                    <StackPanel
+                                        HorizontalAlignment="Right"
+                                        DockPanel.Dock="Right"
+                                        FlowDirection="RightToLeft"
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="75"
+                                            Margin="10,0,0,0"
+                                            FontWeight="Black"
+                                            Text="{Binding PromptMaxWidth, StringFormat={}{0:0}}" />
+                                        <Slider
+                                            Height="14"
+                                            MinWidth="260"
+                                            FlowDirection="LeftToRight"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="1920"
+                                            Minimum="10"
+                                            TickFrequency="5"
+                                            TickPlacement="None"
+                                            Value="{Binding PromptMaxWidth, Mode=TwoWay}" />
+                                    </StackPanel>
                                 </DockPanel>
                             </StackPanel>
                         </Border>

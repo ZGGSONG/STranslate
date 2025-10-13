@@ -301,7 +301,7 @@ public class CommonUtil
     /// <param name="filename"></param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public static bool ExecuteProgram(string filename, string[] args)
+    public static bool ExecuteProgram(string filename, string[] args, bool useAdmin = false, bool wait = false)
     {
         try
         {
@@ -313,8 +313,19 @@ public class CommonUtil
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
+
+            if (useAdmin)
+            {
+                startInfo.UseShellExecute = true;
+                startInfo.Verb = "runas"; // 提升权限
+            }
             process.StartInfo = startInfo;
             process.Start();
+
+            // 等待进程结束
+            if (wait)
+                process.WaitForExit();
+
             return true;
         }
         catch (Exception)

@@ -239,9 +239,9 @@ public partial class CommonViewModel : ObservableObject
     [ObservableProperty] private bool _mainViewShadow = ConfigHelper.CurrentConfig?.MainViewShadow ?? false;
 
     /// <summary>
-    ///     是否默认管理员启动
+    ///     启动方式
     /// </summary>
-    [ObservableProperty] private bool _needAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+    [ObservableProperty] private StartModeKind _startMode = ConfigHelper.CurrentConfig?.StartMode ?? StartModeKind.Normal;
 
     /// <summary>
     ///     是否自动检查更新
@@ -410,7 +410,11 @@ public partial class CommonViewModel : ObservableObject
     }
 
     public long HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
-    
+
+    [ObservableProperty] private double _titleMaxWidth = ConfigHelper.CurrentConfig?.TitleMaxWidth ?? 120;
+
+    [ObservableProperty] private double _promptMaxWidth = ConfigHelper.CurrentConfig?.PromptMaxWidth ?? 100;
+
     /// <summary>
     ///     常用语种回调
     /// </summary>
@@ -515,7 +519,7 @@ public partial class CommonViewModel : ObservableObject
     private void Reset()
     {
         IsStartup = ConfigHelper.CurrentConfig?.IsStartup ?? false;
-        NeedAdmin = ConfigHelper.CurrentConfig?.NeedAdministrator ?? false;
+        StartMode = ConfigHelper.CurrentConfig?.StartMode ?? StartModeKind.Normal;
         AutoCheckUpdate = ConfigHelper.CurrentConfig?.AutoCheckUpdate ?? true;
         DownloadProxy = ConfigHelper.CurrentConfig?.DownloadProxy ?? DownloadProxyKind.GhProxy;
         HistorySize = ConfigHelper.CurrentConfig?.HistorySize ?? 100;
@@ -596,6 +600,8 @@ public partial class CommonViewModel : ObservableObject
         UsePasteOutput = ConfigHelper.CurrentConfig?.UsePasteOutput ?? false;
         HttpTimeout = ConfigHelper.CurrentConfig?.HttpTimeout ?? 10;
         AppLanguage = ConfigHelper.CurrentConfig?.AppLanguage ?? AppLanguageKind.zh_Hans_CN;
+        TitleMaxWidth = ConfigHelper.CurrentConfig?.TitleMaxWidth ?? 120;
+        PromptMaxWidth = ConfigHelper.CurrentConfig?.PromptMaxWidth ?? 100;
 
         LoadHistorySizeType();
         ToastHelper.Show(AppLanguageManager.GetString("Toast.ResetConf"), WindowType.Preference);

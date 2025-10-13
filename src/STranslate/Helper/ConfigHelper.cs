@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.IO;
-using System.Windows;
-using System.Windows.Media;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STranslate.Log;
 using STranslate.Model;
@@ -14,6 +10,10 @@ using STranslate.ViewModels.Preference.Translator;
 using STranslate.ViewModels.Preference.TTS;
 using STranslate.ViewModels.Preference.VocabularyBook;
 using STranslate.Views;
+using System.ComponentModel;
+using System.IO;
+using System.Windows;
+using System.Windows.Media;
 
 namespace STranslate.Helper;
 
@@ -133,13 +133,16 @@ public class ConfigHelper
 
         //初始化自动翻译
         AutoTrasnalteOperate(CurrentConfig?.AutoTranslate ?? false);
-        
+
         //初始化隐藏输入界面
         ShowLangViewOnShowRetOperate(CurrentConfig?.IsOnlyShowRet ?? false,
             CurrentConfig?.IsHideLangWhenOnlyShowOutput ?? true);
 
         //初始化Http超时时间
         HttpTimeoutOperate(CurrentConfig?.HttpTimeout ?? 10);
+
+        //初始化启动方式
+        StartModeOperate(CurrentConfig?.StartMode ?? StartModeKind.Normal);
     }
 
     /// <summary>
@@ -273,7 +276,7 @@ public class ConfigHelper
         //var isAppLangSame = CurrentConfig.AppLanguage == model.AppLanguage;
         bool previousAutoCheckUpdate = CurrentConfig.AutoCheckUpdate;
         CurrentConfig.IsStartup = model.IsStartup;
-        CurrentConfig.NeedAdministrator = model.NeedAdmin;
+        CurrentConfig.StartMode = model.StartMode;
         CurrentConfig.AutoCheckUpdate = model.AutoCheckUpdate;
         CurrentConfig.DownloadProxy = model.DownloadProxy;
         CurrentConfig.HistorySize = model.HistorySize;
@@ -355,11 +358,15 @@ public class ConfigHelper
         CurrentConfig.UsePasteOutput = model.UsePasteOutput;
         CurrentConfig.HttpTimeout = model.HttpTimeout;
         CurrentConfig.AppLanguage = model.AppLanguage;
+        CurrentConfig.TitleMaxWidth = model.TitleMaxWidth;
+        CurrentConfig.PromptMaxWidth = model.PromptMaxWidth;
 
         ShowLangViewOnShowRetOperate(CurrentConfig.IsOnlyShowRet, CurrentConfig.IsHideLangWhenOnlyShowOutput);
 
         //重新执行必要操作
         StartupOperate(CurrentConfig.IsStartup);
+
+        StartModeOperate(CurrentConfig.StartMode);
         //if (!isAppLangSame)
         //{
         //    AppLanguageManager.SwitchLanguage(CurrentConfig.AppLanguage);
@@ -394,7 +401,9 @@ public class ConfigHelper
             CurrentConfig.IsShowSnakeCopyBtn,
             CurrentConfig.IsShowSmallHumpCopyBtn,
             CurrentConfig.IsShowLargeHumpCopyBtn,
-            CurrentConfig.IsShowTranslateBackBtn);
+            CurrentConfig.IsShowTranslateBackBtn,
+            CurrentConfig.TitleMaxWidth,
+            CurrentConfig.PromptMaxWidth);
 
         if (!isHotkeyConfSame)
             DisableGlobalHotkeysOperate(CurrentConfig.DisableGlobalHotkeys,
@@ -513,7 +522,7 @@ public class ConfigHelper
         Encryption(copy);
         File.WriteAllText(Constant.CnfFullName, JsonConvert.SerializeObject(copy, Formatting.Indented));
     }
-    
+
     private async Task WriteConfigAsync(ConfigModel conf)
     {
         var copy = conf.Clone();
@@ -643,6 +652,36 @@ public class ConfigHelper
         else
         {
             ShortcutUtil.UnSetStartup();
+        }
+    }
+
+    public void StartModeOperate(StartModeKind startModeKind)
+    {
+        if (startModeKind == StartModeKind.SkipUACAdmin)
+        {
+            var fileName = $"{Constant.ExecutePath}{Constant.AppName}.exe";
+            var info = TaskSchedulerUtil.GetTaskInfo(Constant.TaskName);
+            if (!info.Success || !info.Output.Contains(fileName))
+            {
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 未检测已经存在计划任务'{Constant.TaskName}', 尝试创建");
+                string[] args = ["task", "-a", "create", "-n", Constant.TaskName, "-p", fileName, "-f"];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin, true);
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已创建计划任务'{Constant.TaskName}'");
+            }
+        }
+        else
+        {
+#if !DEBUG
+            if (TaskSchedulerUtil.TaskExists(Constant.TaskName).Success)
+            {
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 检测已经存在计划任务'{Constant.TaskName}', 尝试删除");
+                string[] args = ["task", "-a", "delete", "-n", Constant.TaskName];
+                var isNeedAdmin = !CommonUtil.IsUserAdministrator();
+                CommonUtil.ExecuteProgram(Constant.HostExePath, args, isNeedAdmin);
+                LogService.Logger.Debug($"启动方式已选择为'{startModeKind.GetDescription()}', 已删除计划任务'{Constant.TaskName}'");
+            } 
+#endif
         }
     }
 
@@ -799,21 +838,15 @@ public class ConfigHelper
         HttpUtil.GlobalTimeout = value;
     }
 
-    /// <summary>
-    ///     输出界面显示按钮控制
-    /// </summary>
-    /// <param name="isPromptToggleVisible"></param>
-    /// <param name="isShowSnakeCopyBtn"></param>
-    /// <param name="isShowSmallHumpCopyBtn"></param>
-    /// <param name="isShowLargeHumpCopyBtn"></param>
-    /// <param name="isShowTranslateBackBtn"></param>
-    private void OutputViewOperate(bool isPromptToggleVisible, bool isShowSnakeCopyBtn, bool isShowSmallHumpCopyBtn, bool isShowLargeHumpCopyBtn, bool isShowTranslateBackBtn)
+    private void OutputViewOperate(bool isPromptToggleVisible, bool isShowSnakeCopyBtn, bool isShowSmallHumpCopyBtn, bool isShowLargeHumpCopyBtn, bool isShowTranslateBackBtn, double titleMaxWidth, double promptMaxWidth)
     {
         Singleton<OutputViewModel>.Instance.IsPromptToggleVisible = isPromptToggleVisible;
         Singleton<OutputViewModel>.Instance.IsShowSnakeCopyBtn = isShowSnakeCopyBtn;
         Singleton<OutputViewModel>.Instance.IsShowSmallHumpCopyBtn = isShowSmallHumpCopyBtn;
         Singleton<OutputViewModel>.Instance.IsShowLargeHumpCopyBtn = isShowLargeHumpCopyBtn;
         Singleton<OutputViewModel>.Instance.IsShowTranslateBackBtn = isShowTranslateBackBtn;
+        Singleton<OutputViewModel>.Instance.TitleMaxWidth = titleMaxWidth;
+        Singleton<OutputViewModel>.Instance.PromptMaxWidth = promptMaxWidth;
     }
 
     private void AutoCheckUpdateOperate()
@@ -904,12 +937,13 @@ public class ConfigHelper
             Constant.DefaultClipboardMonitorHotkey);
         return new ConfigModel
         {
+            IsStartup = false,
+            StartMode = StartModeKind.Normal,
             HistorySize = 100,
             AutoScale = 0.8,
             AutoCheckUpdate = true,
             Hotkeys = hk,
             ThemeType = ThemeType.Light,
-            IsStartup = false,
             IsFollowMouse = false,
             IsOcrAutoCopyText = false,
             IsScreenshotOcrAutoCopyText = false,
@@ -988,6 +1022,8 @@ public class ConfigHelper
             HttpTimeout = 10,
             AppLanguage = AppLanguageKind.zh_Hans_CN,
             DownloadProxy = DownloadProxyKind.GhProxy,
+            TitleMaxWidth = 120,
+            PromptMaxWidth = 100,
             ReplaceProp = new ReplaceProp(),
             Services =
             [
@@ -1098,6 +1134,7 @@ public class VocabularyBookConverter : JsonConverter<IVocabularyBook>
         IVocabularyBook tts = type switch
         {
             (int)VocabularyBookType.EuDictVocabularyBook => new VocabularyBookEuDict(),
+            (int)VocabularyBookType.MaimemoVocabularyBook => new VocabularyBookMaimemo(),
             //TODO: 新生词本服务需要适配
             _ => throw new NotSupportedException($"Unsupported VocabularyBook ServiceType: {type}")
         };
@@ -1183,14 +1220,24 @@ public class TranslatorConverter : JsonConverter<ITranslator>
             (int)ServiceType.YandexBuiltInService => new TranslatorYandexBuiltIn(),
             (int)ServiceType.DeerAPIService => new TranslatorDeerAPI(),
             (int)ServiceType.TransmartBuiltInService => new TranslatorTransmartBuiltIn(),
+            (int)ServiceType.OpenRouterService => new TranslatorOpenRouter(),
+            (int)ServiceType.QwenMtService => new TranslatorQwenMt(),
+            (int)ServiceType.MTranServerService => new TranslatorMTranServer(),
             //TODO: 新接口需要适配
             _ => throw new NotSupportedException($"Unsupported ServiceType: {type}")
         };
-        
+
         if (translator is ITranslatorLLM llm)
         {
             llm.UserDefinePrompts.Clear();
             llm.Models.Clear();
+        }
+
+        if (translator is TranslatorQwenMt qwenMt)
+        {
+            // 清除专业翻译相关的模型和术语
+            qwenMt.Models.Clear();
+            qwenMt.Terms.Clear();
         }
 
         serializer.Populate(jsonObject.CreateReader(), translator);

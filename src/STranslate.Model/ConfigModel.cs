@@ -15,10 +15,13 @@ public class ConfigModel
     public bool IsStartup { get; set; }
 
     /// <summary>
-    ///     是否管理员启动
+    ///     启动方式
     /// </summary>
-    public bool NeedAdministrator { get; set; }
+    public StartModeKind StartMode { get; set; }
 
+    /// <summary>
+    ///     是否自动检查更新
+    /// </summary>
     public bool AutoCheckUpdate { get; set; } = true;
 
     /// <summary>
@@ -460,6 +463,16 @@ public class ConfigModel
     public int HttpTimeout { get; set; } = 10;
 
     /// <summary>
+    ///     服务标题最大宽度
+    /// </summary>
+    public double TitleMaxWidth { get; set; } = 120;
+
+    /// <summary>
+    ///     服务提示词最大宽度
+    /// </summary>
+    public double PromptMaxWidth { get; set; } = 100;
+
+    /// <summary>
     ///     替换翻译
     /// </summary>
     public ReplaceProp ReplaceProp { get; set; } = new();
@@ -498,7 +511,7 @@ public class ConfigModel
         return new ConfigModel
         {
             IsStartup = IsStartup,
-            NeedAdministrator = NeedAdministrator,
+            StartMode = StartMode,
             AutoCheckUpdate = AutoCheckUpdate,
             DownloadProxy = DownloadProxy,
             HistorySize = HistorySize,
@@ -589,6 +602,8 @@ public class ConfigModel
             UsePasteOutput = UsePasteOutput,
             HttpTimeout = HttpTimeout,
             AppLanguage = AppLanguage,
+            TitleMaxWidth = TitleMaxWidth,
+            PromptMaxWidth = PromptMaxWidth,
             ReplaceProp = ReplaceProp.Clone(),
             Hotkeys = Hotkeys?.Clone(),
             Services = Services?.Clone(),

@@ -156,12 +156,18 @@
     <system:String x:Key="IconType.Grok">Grok</system:String>
     <system:String x:Key="IconType.Bailian">阿里百煉</system:String>
     <system:String x:Key="IconType.Transmart">Transmart</system:String>
+    <system:String x:Key="IconType.OpenRouter">OpenRouter</system:String>
+    <system:String x:Key="IconType.Maimemo">墨墨</system:String>
 
     <system:String x:Key="BackupType.Local">本地</system:String>
     <system:String x:Key="BackupType.WebDav">WebDav</system:String>
 
     <system:String x:Key="STranslateMode.Brower">模式一</system:String>
     <system:String x:Key="STranslateMode.IOS">模式二</system:String>
+
+    <system:String x:Key="StartModeKind.Normal">正常啓動</system:String>
+    <system:String x:Key="StartModeKind.Admin">管理員啓動</system:String>
+    <system:String x:Key="StartModeKind.SkipUACAdmin">跳過UAC管理員啓動</system:String>
 
     <!--#endregion-->
 
@@ -203,6 +209,8 @@
     <system:String x:Key="Toast.LangView">語言框</system:String>
     <system:String x:Key="Toast.Export">匯出</system:String>
     <system:String x:Key="Toast.Import">匯入</system:String>
+    <system:String x:Key="Toast.Add">添加</system:String>
+    <system:String x:Key="Toast.Clear">清空</system:String>
     <system:String x:Key="Toast.PleaseCheckCnfOrLog">請檢查配置或查看日誌</system:String>
     <system:String x:Key="Toast.DeleteFailed">刪除失敗</system:String>
     <system:String x:Key="Toast.DeleteAllSuccess">全部刪除成功</system:String>
@@ -258,7 +266,7 @@
     <system:String x:Key="Common.Title">常規配置</system:String>
     <system:String x:Key="Common.AutoStart">開機自啟動</system:String>
     <system:String x:Key="Common.AppLanguage">軟體語言</system:String>
-    <system:String x:Key="Common.NeedAdmin">管理員啟動</system:String>
+    <system:String x:Key="Common.StartMode">啟動條件</system:String>
     <system:String x:Key="Common.AutoCheckUpdate">自動檢查更新</system:String>
     <system:String x:Key="Common.DownloadProxy">資源下載渠道</system:String>
     <system:String x:Key="Common.AutoTranslate">自動翻譯</system:String>
@@ -340,6 +348,8 @@
     <system:String x:Key="Display.TriggerShowHide">顯示界面重複觸發顯/隱</system:String>
     <system:String x:Key="Display.MainViewMaxHeight">主界面最大高度[立即生效]</system:String>
     <system:String x:Key="Display.MainViewWidth">主界面寬度[立即生效]</system:String>
+    <system:String x:Key="Display.TitleMaxWidth">輸出介面服務名稱最大寬度</system:String>
+    <system:String x:Key="Display.PromptMaxWidth">輸出介面提示詞名稱最大寬度</system:String>
     <system:String x:Key="Display.InputViewMaxHeight">輸入框最大高度[立即生效]</system:String>
     <system:String x:Key="Display.FollowMouse">視窗追隨滑鼠</system:String>
     <system:String x:Key="Display.ShowAuxiliaryLine">截圖輔助線</system:String>
@@ -387,7 +397,7 @@
 
     <!--  工具提示  -->
     <system:String x:Key="Tooltip.AutoStartTip">開機時自動啟動軟體(該使用者登錄)</system:String>
-    <system:String x:Key="Tooltip.NeedAdminTip">以便全局快捷鍵在具有管理員權限的視窗也能響應</system:String>
+    <system:String x:Key="Tooltip.StartModeTip">選擇是否以管理員身分執行，並可設定是否跳過 UAC 提示</system:String>
     <system:String x:Key="Tooltip.AutoCheckUpdateTip">啟用後將自動執行更新檢查，並以24小時為週期持續進行版本驗證</system:String>
     <system:String x:Key="Tooltip.DownloadProxyTip">下載Github資源(軟體安裝包、離綫資源包)所使用代理方式</system:String>
     <system:String x:Key="Tooltip.AppLanguageTip">切換軟體語言版本</system:String>
@@ -439,6 +449,8 @@
     <system:String x:Key="Tooltip.TriggerShowHideTip">重複觸發顯示界面功能為顯示(隱藏狀態下)/隱藏(顯示狀態下)</system:String>
     <system:String x:Key="Tooltip.MainViewMaxHeightTip">主界面最大高度調整</system:String>
     <system:String x:Key="Tooltip.MainViewWidthTip">主界面寬度調整</system:String>
+    <system:String x:Key="Tooltip.TitleMaxWidthTip">輸出介面服務名稱最大寬度</system:String>
+    <system:String x:Key="Tooltip.PromptMaxWidthTip">輸出介面提示詞名稱最大寬度</system:String>
     <system:String x:Key="Tooltip.InputViewMaxHeightTip">輸入框最大高度調整</system:String>
     <system:String x:Key="Tooltip.FollowMouseTip">輸入、截圖、取詞和監聽剪貼簿進行翻譯時&#13;主視窗彈出位置追隨滑鼠位置</system:String>
     <system:String x:Key="Tooltip.ShowAuxiliaryLineTip">截圖時是否顯示輔助線</system:String>
@@ -557,6 +569,9 @@
     <system:String x:Key="Service.LinkTest">連通測試:</system:String>
     <system:String x:Key="Service.Verify">驗證</system:String>
     <system:String x:Key="Service.Icon">圖示</system:String>
+    <system:String x:Key="Service.Terms">術語:</system:String>
+    <system:String x:Key="Service.Domains">領域提示:</system:String>
+    <system:String x:Key="Service.QwenMT.Domains">領域相關信息</system:String>
     <system:String x:Key="Service.OpenInBrower">在瀏覽器中打開</system:String>
     <system:String x:Key="Service.EnterOfficialWebsite">進入官網</system:String>
     <system:String x:Key="Service.Version">版本:</system:String>
@@ -566,6 +581,8 @@
     <system:String x:Key="Service.Model">模型:</system:String>
     <system:String x:Key="Service.Prompt.Info">通過自定義Prompt自定義LLM行為, $target 將會被替換為 目標語言</system:String>
     <system:String x:Key="Service.Translator.Prompt.Info">通過自定義Prompt自定義LLM行為, $source $target $content 將會被替換為 原始語言 目標語言 待翻譯文本。</system:String>
+    <system:String x:Key="Service.Thinking">思考：</system:String>
+    <system:String x:Key="Service.Thinking.Tooltip">僅 GLM-4.5 及以上模型支援此參數配置。控制大模型是否開啟思維鏈</system:String>
     <system:String x:Key="Service.Temperature">溫度:</system:String>
     <system:String x:Key="Service.Temperature.Tooltip">語言模型的上下文中，是控制模型生成文本多樣性的一個參數。模型在做出下一個詞預測時的確定性和隨機性程度</system:String>
     <system:String x:Key="Service.OCR.GeminiApi">介面API位址不建議填寫Path部分，除非你很清楚你在幹什麼&#13;如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
@@ -574,6 +591,8 @@
     <system:String x:Key="Service.OpenAI.Info1">介面API位址不填寫Path內容則自動填充 /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info2">如OpenAI介面位址為 https://api.openai.com/v1/chat/completions 其中 Path 為 /v1/chat/completions</system:String>
     <system:String x:Key="Service.OpenAI.Info3">若仍然存疑請點擊此鏈結</system:String>
+    <system:String x:Key="Service.OpenRouter.Info1">介面API位址不填寫Path內容則自動填充 /api/v1/chat/completions</system:String>
+    <system:String x:Key="Service.OpenRouter.Info2">如OpenRouter介面位址為 https://openrouter.ai/api/v1/chat/completions 其中 Path 為 /api/v1/chat/completions</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Data">數據包:</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Download">下載數據包</system:String>
     <system:String x:Key="Service.OCR.PaddleOCR.Check">檢查數據包</system:String>
@@ -606,6 +625,7 @@
     <system:String x:Key="Service.TTS.Speed">語速:</system:String>
     <system:String x:Key="Service.TTS.Speed.Tooltip">設置離線TTS的語速。</system:String>
     <system:String x:Key="Service.TTS.Offline">獲取系統支援的語音</system:String>
+    <system:String x:Key="Service.VocabularyBook.Maimemo">實測如果添加例如 "stranslate" 的單詞，接口正常回覆成功，但是並不會出現在其單詞列表，請熟悉</system:String>
     <system:String x:Key="Service.DescriptionTitle">描述:</system:String>
     <system:String x:Key="Service.DeerAPI.Description">AI聚合平台，一鍵調用500+模型，7折特惠，最新GPT4o、Grok 3、Gemini 2.5pro全支持！</system:String>
     <system:String x:Key="Service.DeerAPI.Promotion">註冊即送試用額度</system:String>
@@ -859,6 +879,27 @@
     <system:String x:Key="MessageBox.Tip">提示訊息</system:String>
     <system:String x:Key="MessageBox.SupportedVoice">系統支援的語音：</system:String>
 
+    <!--#endregion-->
+
+    <!--#region Toast Terms-->
+    <system:String x:Key="Toast.Terms.EmptyList">術語列表為空，無法匯出</system:String>
+    <system:String x:Key="Toast.Terms.ExportTitle">匯出術語檔案</system:String>
+    <system:String x:Key="Toast.Terms.ExportSuccess">匯出 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ExportFailed">匯出失敗</system:String>
+    <system:String x:Key="Toast.Terms.ImportTitle">選擇要匯入的術語檔案</system:String>
+    <system:String x:Key="Toast.Terms.NoValidData">沒有找到有效的術語數據</system:String>
+    <system:String x:Key="Toast.Terms.ImportReplace">匯入替換 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ImportAppend">匯入追加 {0} 條記錄</system:String>
+    <system:String x:Key="Toast.Terms.ImportFailed">匯入失敗</system:String>
+    <!--#endregion-->
+
+    <!--#region MessageBox Terms-->
+    <system:String x:Key="MessageBox.Terms.Clear">是否清空術語?</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportTitle">匯入術語</system:String>
+    <system:String x:Key="MessageBox.Terms.ImportConfirm" xml:space="preserve">找到 {0} 條術語記錄。
+點擊【是】替換現有術語列表
+點擊【否】追加到現有術語列表
+點擊【取消】取消匯入操作</system:String>
     <!--#endregion-->
 
 </ResourceDictionary>

@@ -17,7 +17,7 @@
     <UserControl.Resources>
         <!--#region TabControl Style-->
         <Style TargetType="{x:Type TabControl}">
-            <Setter Property="Margin" Value="20,-20,20,20" />
+            <Setter Property="Margin" Value="20,-20,0,20" />
             <Setter Property="props:ThemeProps.Background" Value="{DynamicResource BorderBackground}" />
             <Setter Property="Template">
                 <Setter.Value>

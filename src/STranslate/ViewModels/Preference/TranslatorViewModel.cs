@@ -26,7 +26,7 @@ public partial class TranslatorViewModel : ObservableObject
     /// <summary>
     ///     当前已添加的服务列表
     /// </summary>
-    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList = [..Singleton<ConfigHelper>.Instance.CurrentConfig?.Services ?? []];
+    [ObservableProperty] private BindingList<ITranslator> _curTransServiceList = [..Singleton<ConfigHelper>.Instance.CurrentConfig?.Services?.Select(x => x.Clone()) ?? []];
 
     [ObservableProperty] private int _selectedIndex;
 
@@ -58,6 +58,7 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorEcdict());
         TransServices.Add(new TranslatorDeepL());
         TransServices.Add(new TranslatorOpenAI());
+        TransServices.Add(new TranslatorOpenRouter());
         TransServices.Add(new TranslatorDeerAPI());
         TransServices.Add(new TranslatorClaude());
         TransServices.Add(new TranslatorChatglm());
@@ -74,6 +75,8 @@ public partial class TranslatorViewModel : ObservableObject
         TransServices.Add(new TranslatorVolcengine());
         TransServices.Add(new TranslatorNiutrans());
         TransServices.Add(new TranslatorCaiyun());
+        TransServices.Add(new TranslatorQwenMt());
+        TransServices.Add(new TranslatorMTranServer());
         //TODO: 新接口需要适配
 
         ResetView();
@@ -174,6 +177,9 @@ public partial class TranslatorViewModel : ObservableObject
             ServiceType.MicrosoftBuiltinService => $"{head}{nameof(TranslatorMicrosoftBuiltinPage)}",
             ServiceType.DeerAPIService => $"{head}{nameof(TranslatorDeerAPIPage)}",
             ServiceType.TransmartBuiltInService => $"{head}{nameof(TranslatorTransmartBuiltInPage)}",
+            ServiceType.OpenRouterService => $"{head}{nameof(TranslatorOpenRouterPage)}",
+            ServiceType.QwenMtService => $"{head}{nameof(TranslatorQwenMtPage)}",
+            ServiceType.MTranServerService => $"{head}{nameof(TranslatorMTranServerPage)}",
             //TODO: 新接口需要适配
             _ => $"{head}{nameof(TranslatorSTranslatePage)}"
         };
@@ -218,6 +224,9 @@ public partial class TranslatorViewModel : ObservableObject
                 TranslatorMicrosoftBuiltin microsoftBuiltin => microsoftBuiltin.Clone(),
                 TranslatorDeerAPI deerapi => deerapi.Clone(),
                 TranslatorTransmartBuiltIn transmartbuiltin => transmartbuiltin.Clone(),
+                TranslatorOpenRouter openrouter => openrouter.Clone(),
+                TranslatorQwenMt qwenmt => qwenmt.Clone(),
+                TranslatorMTranServer mtranserver => mtranserver.Clone(),
                 //TODO: 新接口需要适配
                 _ => throw new InvalidOperationException($"Unsupported service type: {service.GetType().Name}")
             });
@@ -241,9 +250,18 @@ public partial class TranslatorViewModel : ObservableObject
     {
         foreach (var item in CurTransServiceList)
         {
-            if (item is not ITranslatorLLM llm) continue;
-            if (llm.Models.Contains(llm.Model)) continue;
-            llm.Models.Add(llm.Model);
+            if (item is ITranslatorLLM t && !t.Models.Contains(t.Model))
+            {
+                t.Models.Add(t.Model);
+            }
+            else if (item is TranslatorQwenMt p && !p.Models.Contains(p.Model))
+            {
+                p.Models.Add(p.Model);
+            }
+            else
+            {
+                continue;
+            }
         }
 
         if (!Singleton<ConfigHelper>.Instance.WriteConfig([.. CurTransServiceList]))

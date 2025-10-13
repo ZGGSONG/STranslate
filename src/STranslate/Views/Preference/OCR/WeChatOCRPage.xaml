@@ -14,13 +14,13 @@
     FontSize="{DynamicResource FontSize18}"
     mc:Ignorable="d">
     <Border
-        Padding="10,20"
+        Padding="10,0,0,0"
         props:ThemeProps.BorderBrush="{DynamicResource BorderBrushColor}"
         BorderThickness="1"
         CornerRadius="4">
         <ScrollViewer>
             <StackPanel>
-                <Grid Margin="0,0,0,10">
+                <Grid Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />

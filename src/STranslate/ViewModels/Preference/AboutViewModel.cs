@@ -19,6 +19,10 @@ public partial class AboutViewModel : ObservableObject
 
     [ObservableProperty] private string _fileSize = "";
 
+    [ObservableProperty] private bool _isDownloading;
+
+    [ObservableProperty] private double _downloadProgress;
+
     private readonly DirectoryInfo _logInfo;
 
     public AboutViewModel()
@@ -125,8 +129,17 @@ public partial class AboutViewModel : ObservableObject
                 }
                 ToastHelper.Show(AppLanguageManager.GetString("About.Downloading"), WindowType.Preference);
 
-                var ret = await UpdateUtil.DownloadUpdate(downloadInfo, path, token);
+                // 开始下载并显示进度
+                IsDownloading = true;
+                DownloadProgress = 0;
 
+                var progress = new Progress<double>(value =>
+                {
+                    DownloadProgress = value;
+                });
+                var ret = await UpdateUtil.DownloadUpdateAsync(downloadInfo, path, progress, token);
+
+                IsDownloading = false;
                 LogService.Logger.Info($"软件压缩包下载完成: {ret}");
                 ExecuteUpdate(ret);
             }
@@ -142,6 +155,7 @@ public partial class AboutViewModel : ObservableObject
         finally
         {
             IsChecking = false;
+            IsDownloading = false;
         }
     }
 
@@ -151,14 +165,15 @@ public partial class AboutViewModel : ObservableObject
         if (MessageBox_S.Show(AppLanguageManager.GetString("About.DownloadSuccess"), title, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             return;
 
-        if (!File.Exists(Constant.UpdateExePath))
+        if (!File.Exists(Constant.HostExePath))
         {
             MessageBox_S.Show(AppLanguageManager.GetString("About.NoUpdateExe"));
             return;
         }
-        File.Copy(Constant.UpdateExePath, Constant.UpdateExeTmpPath, true);
-        var clearFiles = MessageBox_S.Show(AppLanguageManager.GetString("About.ClearFiles"), title, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
-        CommonUtil.ExecuteProgram(Constant.UpdateExeTmpPath, [file, "3", clearFiles.ToString().ToLower()]);
+        File.Copy(Constant.HostExePath, Constant.HostExeTmpPath, true);
+        var isClearFiles = MessageBox_S.Show(AppLanguageManager.GetString("About.ClearFiles"), title, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        string[] args = isClearFiles ? ["update", "-a", file, "-w", "3", "-c", "-s"] : ["update", "-a", file, "-w", "3", "-s"];
+        CommonUtil.ExecuteProgram(Constant.HostExeTmpPath, args);
         Environment.Exit(0);
     }
 }

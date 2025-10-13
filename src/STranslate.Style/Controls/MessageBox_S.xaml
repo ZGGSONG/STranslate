@@ -19,15 +19,19 @@
     WindowChrome.IsHitTestVisibleInChrome="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+
     <WindowChrome.WindowChrome>
         <WindowChrome />
     </WindowChrome.WindowChrome>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+
+        <!--  标题栏  -->
         <Grid
             Grid.Row="0"
             props:ThemeProps.Background="{DynamicResource NavigationBackground}"
@@ -37,55 +41,86 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="36" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="28" />
-                <ColumnDefinition Width="28" />
-                <ColumnDefinition Width="36" />
-                <ColumnDefinition Width="36" />
             </Grid.ColumnDefinitions>
+
+            <!--  应用图标  -->
             <Image
                 Grid.Column="0"
                 Width="24"
-                Margin="10,3"
+                Margin="10,0"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
+                VerticalAlignment="Center"
                 Source="{DynamicResource STranslate}" />
+
+            <!--  标题文本  -->
             <TextBlock
                 x:Name="TitleTxt"
                 Grid.Column="1"
+                VerticalAlignment="Center"
                 props:ThemeProps.Foreground="{DynamicResource NavigationForeground}"
                 FontSize="{DynamicResource FontSize20}"
                 Text="" />
+
+            <!--  关闭按钮  -->
+            <Button
+                x:Name="CloseButton"
+                Grid.Column="3"
+                Width="30"
+                Height="30"
+                Margin="3"
+                Click="CloseButton_Click"
+                Content="&#xE8BB;"
+                Style="{DynamicResource ButtonCloseStyle}" />
         </Grid>
 
-        <TextBlock
-            x:Name="Messages"
+        <!--  消息文本  -->
+        <ScrollViewer
             Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="{DynamicResource FontSize18}"
-            Text="Message"
-            TextWrapping="Wrap" />
+            MaxHeight="200"
+            Margin="15"
+            VerticalScrollBarVisibility="Auto">
+            <TextBlock
+                x:Name="Messages"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="{DynamicResource FontSize18}"
+                Text="Message"
+                TextWrapping="Wrap" />
+        </ScrollViewer>
+
+        <!--  按钮区域  -->
         <StackPanel
             Grid.Row="2"
-            Margin="0,0,0,10"
+            Margin="0,0,10,10"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
+
+            <!--  第一个按钮 (Yes/OK)  -->
             <Button
-                x:Name="OkBTN"
+                x:Name="FirstButton"
                 Height="30"
                 MinWidth="60"
                 Margin="20,0,0,0"
                 Content="{DynamicResource Confirm}"
                 IsDefault="True" />
+
+            <!--  第二个按钮 (No/Cancel)  -->
             <Button
-                x:Name="CancelBTN"
+                x:Name="SecondButton"
+                Height="30"
+                MinWidth="60"
+                Margin="10,0,0,0"
+                Content="{DynamicResource Cancel}"
+                IsCancel="True" />
+
+            <!--  第三个按钮 (Cancel for YesNoCancel)  -->
+            <Button
+                x:Name="ThirdButton"
                 Height="30"
                 MinWidth="60"
                 Margin="10,0,20,0"
                 Content="{DynamicResource Cancel}"
-                IsCancel="True" />
-            <!--  Content="{DynamicResource CancelStr}"  -->
+                Visibility="Collapsed" />
         </StackPanel>
     </Grid>
 </Window>

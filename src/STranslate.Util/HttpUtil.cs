@@ -241,6 +241,53 @@ public class HttpUtil
     }
 
     /// <summary>
+    ///     下载文件并保存到指定路径（支持进度报告）
+    /// </summary>
+    /// <param name="url">文件下载地址</param>
+    /// <param name="savePath">保存路径的目录</param>
+    /// <param name="fileName">要保存的文件名</param>
+    /// <param name="progress">进度报告接口，报告下载百分比（0-100）</param>
+    /// <param name="token">取消令牌</param>
+    /// <param name="timeout">超时时间(秒)</param>
+    /// <returns>返回保存的文件完整路径</returns>
+    public static async Task<string> DownloadFileAsync(string url, string savePath, string fileName, IProgress<double>? progress, CancellationToken token = default, int timeout = 30)
+    {
+        string fullPath = Path.Combine(savePath, fileName);
+
+        using var client = CreateHttpClient(timeout);
+        using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+        await ResponseCheckAsync(response, token).ConfigureAwait(false);
+
+        var totalBytes = response.Content.Headers.ContentLength ?? -1;
+        await using var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
+        await using var stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+        if (totalBytes <= 0 || progress == null)
+        {
+            // 无法获取总大小或无需进度报告，直接复制
+            await stream.CopyToAsync(fileStream, token).ConfigureAwait(false);
+        }
+        else
+        {
+            // 带进度报告的复制
+            var buffer = new byte[8192];
+            long totalDownloadedBytes = 0;
+            int bytesRead;
+
+            while ((bytesRead = await stream.ReadAsync(buffer, token).ConfigureAwait(false)) > 0)
+            {
+                await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), token).ConfigureAwait(false);
+                totalDownloadedBytes += bytesRead;
+
+                var progressPercentage = Math.Round((double)totalDownloadedBytes / totalBytes * 100, 2);
+                progress.Report(progressPercentage);
+            }
+        }
+
+        return fullPath;
+    }
+
+    /// <summary>
     ///     下载文件并保存到指定路径
     /// </summary>
     /// <param name="url">文件下载地址</param>

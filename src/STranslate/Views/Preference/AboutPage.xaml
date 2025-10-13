@@ -9,7 +9,7 @@
     xmlns:props="clr-namespace:STranslate.Style.Themes;assembly=STranslate.Style"
     xmlns:vm="clr-namespace:STranslate.ViewModels.Preference"
     d:DataContext="{d:DesignInstance Type=vm:AboutViewModel}"
-    d:DesignHeight="450"
+    d:DesignHeight="800"
     d:DesignWidth="800"
     d:FontFamily="{DynamicResource UserFont}"
     d:FontSize="{DynamicResource FontSize18}"
@@ -52,13 +52,24 @@
                         <TextBlock Text="{Binding Version}" />
 
                         <Grid HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ProgressBar
+                                FontSize="{DynamicResource FontSize16}"
+                                Maximum="100"
+                                Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Value="{Binding DownloadProgress}" />
                             <Button
+                                Grid.Column="1"
                                 Width="100"
                                 Padding="5,2"
                                 Command="{Binding CheckUpdateCommand}"
                                 Content="{DynamicResource About.CheckUpdate}"
                                 Visibility="{Binding IsChecking, Converter={StaticResource BooleanToVisibilityReverseConverter}}" />
                             <Button
+                                Grid.Column="1"
                                 Width="100"
                                 Padding="5,2"
                                 Command="{Binding CheckUpdateCancelCommand}"

@@ -208,6 +208,9 @@ public enum ServiceType
     YandexBuiltInService,
     DeerAPIService,
     TransmartBuiltInService,
+    OpenRouterService,
+    QwenMtService,
+    MTranServerService,
 }
 
 public enum TTSType
@@ -224,6 +227,11 @@ public enum VocabularyBookType
     ///     欧陆词典
     /// </summary>
     EuDictVocabularyBook,
+
+    /// <summary>
+    ///     墨墨背单词
+    /// </summary>
+    MaimemoVocabularyBook,
 }
 
 public enum OCRType
@@ -299,6 +307,9 @@ public enum IconType
     [Description("Grok")] Grok,
     [Description("阿里百炼")] Bailian,
     [Description("Transmart")] Transmart,
+    [Description("OpenRouter")] OpenRouter,
+    [Description("Maimemo")] Maimemo,
+    [Description("MTranServer")] MTranServer,
 }
 
 /// <summary>
@@ -1440,6 +1451,19 @@ public enum AppLanguageKind
     [Description("简体中文")] zh_Hans_CN,
     [Description("繁體中文")] zh_Hant_TW,
     [Description("English")] en_US,
+}
+
+/// <summary>
+///     启动方式
+///     0 - 正常启动
+///     1 - 管理员启动
+///     2 - 跳过UAC管理员启动
+/// </summary>
+public enum StartModeKind
+{
+    [Description("正常启动")] Normal = 0,
+    [Description("管理员启动")] Admin = 1,
+    [Description("跳过UAC管理员启动")] SkipUACAdmin = 2
 }
 
 /// <summary>

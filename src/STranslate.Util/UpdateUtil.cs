@@ -31,10 +31,16 @@ public class UpdateUtil
     }
 
 
-    public static async Task<string> DownloadUpdate(DownloadInfo downloadInfo, string savePath, CancellationToken token = default)
+    public static async Task<string> DownloadUpdateAsync(DownloadInfo downloadInfo, string savePath, CancellationToken token = default)
     {
         if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
         return await HttpUtil.DownloadFileAsync(downloadInfo.Url, savePath, downloadInfo.Name, token);
+    }
+
+    public static async Task<string> DownloadUpdateAsync(DownloadInfo downloadInfo, string savePath, IProgress<double>? progress, CancellationToken token = default)
+    {
+        if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+        return await HttpUtil.DownloadFileAsync(downloadInfo.Url, savePath, downloadInfo.Name, progress, token);
     }
 }
 

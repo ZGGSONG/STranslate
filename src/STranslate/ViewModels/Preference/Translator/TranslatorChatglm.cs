@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Net.Http;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -99,6 +100,8 @@ public partial class TranslatorChatglm : TranslatorLLMBase, ITranslatorLLM
         set => SetProperty(ref _userDefinePrompts, value);
     }
 
+    [ObservableProperty] private bool _thinking = true;
+
     #endregion Properties
 
     #region Translator Test
@@ -174,7 +177,11 @@ public partial class TranslatorChatglm : TranslatorLLMBase, ITranslatorLLM
             model = a_model,
             messages = a_messages,
             temperature = a_temperature,
-            stream = true
+            stream = true,
+            thinking = new
+            {
+                type = Thinking ? "enabled" : "disabled"
+            }
         };
 
         var jsonData = JsonConvert.SerializeObject(reqData);
@@ -271,6 +278,7 @@ public partial class TranslatorChatglm : TranslatorLLMBase, ITranslatorLLM
             IsExecuting = IsExecuting,
             IsTranslateBackExecuting = IsTranslateBackExecuting,
             AutoExecuteTranslateBack = AutoExecuteTranslateBack,
+            Thinking = Thinking,
         };
     }
 

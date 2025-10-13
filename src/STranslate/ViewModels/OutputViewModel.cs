@@ -34,6 +34,10 @@ public partial class OutputViewModel : ObservableObject, IDropTarget
     [ObservableProperty]
     private BindingList<ITranslator> _translators = Singleton<TranslatorViewModel>.Instance.CurTransServiceList ?? [];
 
+    [ObservableProperty] private double _titleMaxWidth = CurConfig?.TitleMaxWidth ?? 120;
+
+    [ObservableProperty] private double _promptMaxWidth = CurConfig?.PromptMaxWidth ?? 100;
+
     [RelayCommand]
     private void ExpanderHeader(List<object> e)
     {
