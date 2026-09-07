@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\STranslate\STranslate.csproj" />
     <ProjectReference Include="..\..\Plugins\STranslate.Plugin.Ocr.OcrSpace\STranslate.Plugin.Ocr.OcrSpace.csproj" />
+    <ProjectReference Include="..\..\Plugins\STranslate.Plugin.Tts.MicrosoftEdge\STranslate.Plugin.Tts.MicrosoftEdge.csproj" />
     <ProjectReference Include="..\..\Plugins\STranslate.Plugin.Translate.OpenAI\STranslate.Plugin.Translate.OpenAI.csproj" />
   </ItemGroup>
 

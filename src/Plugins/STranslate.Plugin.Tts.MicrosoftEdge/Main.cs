@@ -36,7 +36,22 @@ public class Main : ITtsPlugin
             pitch = Settings.Pitch.ToString(),
             style = Settings.Style
         };
-        var response = await Context.HttpService.PostAsBytesAsync(Settings.Url, content, cancellationToken: cancellationToken);
+        Options? options = null;
+        if (Uri.TryCreate(Settings.Url, UriKind.Absolute, out var uri)
+            && string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(uri.Host, "tts.wangwangit.com", StringComparison.OrdinalIgnoreCase)
+            && uri.Port == 443)
+        {
+            options = new Options
+            {
+                Headers = new Dictionary<string, string>
+                {
+                    ["Origin"] = "https://tts.wangwangit.com"
+                }
+            };
+        }
+
+        var response = await Context.HttpService.PostAsBytesAsync(Settings.Url, content, options, cancellationToken);
         await Context.AudioPlayer.PlayAsync(response, cancellationToken);
     }
 }
