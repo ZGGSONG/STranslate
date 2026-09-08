@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Compile Include="..\..\Plugins\STranslate.Plugin.Translate.Youdao\TranslationResponse.cs" Link="Youdao\TranslationResponse.cs" />
   </ItemGroup>
 
 </Project>
