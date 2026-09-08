@@ -1819,7 +1819,7 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private async Task CrosswordTranslateAsync()
     {
-        var (success, text) = await GetTextAsync();
+        var (success, text) = await GetTextAsync(showFailureFeedback: false);
         if (!success || string.IsNullOrWhiteSpace(text))
         {
             HandleCrosswordFetchFailed();
@@ -2832,7 +2832,7 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
         SaveToVocabularyCancelCommand.Execute(null);
     }
 
-    private async Task<(bool success, string text)> GetTextAsync()
+    private async Task<(bool success, string text)> GetTextAsync(bool showFailureFeedback = true)
     {
         try
         {
@@ -2840,8 +2840,11 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
             if (string.IsNullOrEmpty(text))
             {
                 _logger.LogWarning("取词失败，可能：未选中文本、文本禁止复制、取词间隔过短、文本所属软件权限高于本软件");
-                Show();
-                _snackbar.ShowWarning(_i18n.GetTranslation("NoTextRecognizedMessage"));
+                if (showFailureFeedback)
+                {
+                    Show();
+                    _snackbar.ShowWarning(_i18n.GetTranslation("NoTextRecognizedMessage"));
+                }
                 return (false, string.Empty);
             }
             return (true, text);

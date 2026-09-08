@@ -82,6 +82,7 @@
    - `ScreenshotTranslate`：截图翻译 OCR 结果。
    - `SilentOcr`：静默 OCR 写入剪贴板结果。
 5. 划词翻译取词失败时按 `CrosswordFetchFailedFallbackTarget` 分支：
+   - 划词翻译调用 `GetTextAsync(showFailureFeedback: false)`，避免共用取词方法提前显示主窗口；失败反馈统一由 `HandleCrosswordFetchFailed()` 处理。
    - `InputTranslate`：清空输入并显示主窗口，回退到输入翻译；输入框会临时显示，不改写隐藏输入框设置。
    - `ShowWindow`：仅显示主窗口，保留当前输入和结果。
    - `NotifyOnly`：仅发送托盘通知，不显示或激活主窗口，保留当前输入和结果。
