@@ -95,7 +95,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">Timeout for polling new clipboard text after simulated copy, in milliseconds. Returns as soon as text is updated; increase this for PDF apps that update slowly.</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">Word Selection Failure Fallback</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">When selected text capture fails, choose whether to switch to input translation or only show the main window.</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">Choose whether to open input translation, show the main window, or only send a tray notification when selected text capture fails.</sys:String>
     <sys:String x:Key="General_ImageQuality">Image Quality</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">Adjust the quality when processing images. Online OCR services may limit image size.</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">Double-Click Tray Function</sys:String>
@@ -193,6 +193,9 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">Quickly press Ctrl+C+C after selecting text with the mouse for text translation.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">Failed to capture selected text, switched to input translation.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">Failed to capture selected text, switched to main window display.</sys:String>
+    <sys:String x:Key="Hotkey_MouseSelectionTranslation">Mouse Selection Translation</sys:String>
+    <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">Enable or disable immediate mouse selection translation.</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">Could not capture the selected text. Please select text and try again.</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">Mouse Selection Translation</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">Enable or disable immediate mouse selection translation.</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">Replace Translation</sys:String>
@@ -630,6 +633,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">Silent OCR</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">Input Translate</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">Show Main Window</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">Notify Only</sys:String>
 
     <sys:String x:Key="PluginTypeAll">All Plugins</sys:String>
     <sys:String x:Key="PluginTypeTranslate">Translate</sys:String>

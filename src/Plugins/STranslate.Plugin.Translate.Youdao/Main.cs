@@ -2,7 +2,6 @@ using STranslate.Plugin.Translate.Youdao.View;
 using STranslate.Plugin.Translate.Youdao.ViewModel;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json.Nodes;
 using System.Windows.Controls;
 
 namespace STranslate.Plugin.Translate.Youdao;
@@ -139,12 +138,7 @@ public class Main : TranslatePluginBase
         AddAuthParams(Settings.AppKey, Settings.AppSecret, formData);
 
         var response = await Context.HttpService.PostFormAsync(Url, formData, cancellationToken: cancellationToken);
-        var parsedData = JsonNode.Parse(response);
-
-        var data = parsedData?["translation"]?[0]?.ToString();
-        if (string.IsNullOrEmpty(data)) throw new Exception($"No result.\nRaw: {response}");
-
-        result.Success(data);
+        result.Success(TranslationResponse.Parse(response, Context.GetTranslation));
     }
 
     /*

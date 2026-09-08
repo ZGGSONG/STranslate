@@ -137,6 +137,8 @@
                 xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndSlideFromRight},
                                                    Event=Visibility,
                                                    Duration=250}"
+                HorizontalContentAlignment="Stretch"
+                HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto"
                 Visibility="{Binding SelectedStepIndex, Converter={cnvt:EqualToVisibilityConverter}, ConverterParameter=1}">
                 <ikw:SimpleStackPanel Spacing="8">
@@ -176,15 +178,13 @@
                                 OffContent="{DynamicResource Disable}"
                                 OnContent="{DynamicResource Enable}" />
                         </ui:SettingsCard>
-                        <ui:SettingsCard
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Header="{DynamicResource ConfigureService}">
-                            <ui:ScrollViewerEx MaxHeight="230" VerticalScrollBarVisibility="Auto">
-                                <ContentControl Content="{Binding TranslateSettingUI}" />
-                            </ui:ScrollViewerEx>
-                        </ui:SettingsCard>
                     </control:CardGroup>
+
+                    <TextBlock Margin="0,8,0,0" Text="{DynamicResource ConfigureService}" />
+                    <ContentControl
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Content="{Binding TranslateSettingUI}" />
                 </ikw:SimpleStackPanel>
             </ui:ScrollViewerEx>
 
@@ -192,6 +192,8 @@
                 xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeInAndSlideFromRight},
                                                    Event=Visibility,
                                                    Duration=250}"
+                HorizontalContentAlignment="Stretch"
+                HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto"
                 Visibility="{Binding SelectedStepIndex, Converter={cnvt:EqualToVisibilityConverter}, ConverterParameter=2}">
                 <ikw:SimpleStackPanel Spacing="8">
@@ -231,16 +233,13 @@
                                 OffContent="{DynamicResource Disable}"
                                 OnContent="{DynamicResource Enable}" />
                         </ui:SettingsCard>
-                        <ui:SettingsCard
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Header="{DynamicResource ConfigureService}">
-                            <ui:ScrollViewerEx MaxHeight="180" VerticalScrollBarVisibility="Auto">
-                                <ContentControl Content="{Binding OcrSettingUI}" />
-                            </ui:ScrollViewerEx>
-                        </ui:SettingsCard>
                     </control:CardGroup>
 
+                    <TextBlock Margin="0,8,0,0" Text="{DynamicResource ConfigureService}" />
+                    <ContentControl
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Content="{Binding OcrSettingUI}" />
                 </ikw:SimpleStackPanel>
             </ui:ScrollViewerEx>
 

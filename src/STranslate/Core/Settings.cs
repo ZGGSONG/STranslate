@@ -839,7 +839,7 @@ public enum TextSeparatorHandleScope
 }
 
 /// <summary>
-/// 划词取词失败时，主窗口的回退行为。
+/// 划词取词失败时的回退行为。
 /// </summary>
 public enum CrosswordFetchFailedFallbackTarget
 {
@@ -852,6 +852,11 @@ public enum CrosswordFetchFailedFallbackTarget
     /// 仅显示主窗口，保留当前输入与输出内容。
     /// </summary>
     ShowWindow,
+
+    /// <summary>
+    /// 仅发送托盘通知，不显示主窗口。
+    /// </summary>
+    NotifyOnly,
 }
 
 public enum LayoutAnalysisMode

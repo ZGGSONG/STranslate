@@ -95,7 +95,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">模拟复制后轮询剪贴板新文本的超时时间，单位：毫秒。写入成功会立即返回；部分 PDF 软件写入较慢时可适当调高。</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">划词取词失败回退目标</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">划词取词失败后，选择回退到输入翻译或仅显示主界面。</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">划词取词失败后，选择输入翻译、显示主界面或仅发送托盘通知。</sys:String>
     <sys:String x:Key="General_ImageQuality">图片质量</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">处理图片时质量调整，在线OCR服务可能会限制图片大小</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">双击托盘程序功能</sys:String>
@@ -193,6 +193,9 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">鼠标选中文本快速按下 Ctrl+C+C 进行取词翻译。</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">划词取词失败，已打开输入翻译</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">划词取词失败，已打开主界面显示</sys:String>
+    <sys:String x:Key="Hotkey_MouseSelectionTranslation">鼠标划词直接翻译</sys:String>
+    <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">开启或关闭鼠标划词直接翻译。</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">划词取词失败，请选中文本后重试。</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">鼠标划词直接翻译</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">开启或关闭鼠标划词直接翻译。</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">替换翻译</sys:String>
@@ -631,6 +634,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">静默OCR</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">输入翻译</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">显示主界面</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">仅通知</sys:String>
 
     <sys:String x:Key="PluginTypeAll">所有插件</sys:String>
     <sys:String x:Key="PluginTypeTranslate">文本翻译</sys:String>

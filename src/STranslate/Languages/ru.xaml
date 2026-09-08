@@ -84,7 +84,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">Сколько ждать появления нового текста в буфере обмена после эмуляции копирования, в миллисекундах. Как только текст обновится, ожидание прекращается; для медленных PDF-программ значение стоит увеличить.</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">Если не удалось получить выделенный текст</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">Выберите, что делать, если получить выделенный текст не удалось: перейти к переводу из поля ввода или только показать главное окно.</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">Выберите действие при ошибке получения выделенного текста: открыть поле ввода для перевода, показать главное окно или только отправить уведомление в трее.</sys:String>
     <sys:String x:Key="General_ImageQuality">Качество изображения</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">Качество обработки изображений. Онлайн-сервисы распознавания текста могут ограничивать размер изображения.</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">Двойной щелчок по значку в трее</sys:String>
@@ -182,6 +182,7 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">Выделите текст мышью и быстро нажмите Ctrl+C+C, чтобы перевести его.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">Не удалось получить выделенный текст — открыто поле ввода для перевода.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">Не удалось получить выделенный текст — показано главное окно.</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">Не удалось получить выделенный текст. Выделите текст и повторите попытку.</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">Перевод по выделению мышью</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">Включить или выключить немедленный перевод текста, выделенного мышью.</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">Перевод с заменой</sys:String>
@@ -619,6 +620,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">Фоновое распознавание</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">Перевод из поля ввода</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">Показать главное окно</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">Только уведомление</sys:String>
 
     <sys:String x:Key="PluginTypeAll">Все плагины</sys:String>
     <sys:String x:Key="PluginTypeTranslate">Перевод</sys:String>

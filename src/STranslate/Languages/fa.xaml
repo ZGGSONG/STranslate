@@ -85,7 +85,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">زمان مهلت برای استعلام متن جدید از حافظه موقت پس از کپی شبیه‌سازی‌شده، بر حسب میلی‌ثانیه. به محض به‌روزرسانی متن بازمی‌گردد؛ برای برنامه‌های PDF کند این مقدار را افزایش دهید.</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">جایگزین عدم موفقیت در دریافت متن انتخابی</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">در صورت شکست در دریافت متن انتخاب‌شده، انتخاب کنید که به ترجمه ورودی سوئیچ شود یا فقط پنجره اصلی نمایش داده شود.</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">انتخاب کنید در صورت ناموفق بودن دریافت متن انتخاب‌شده، ترجمه ورودی باز شود، پنجره اصلی نمایش داده شود یا فقط اعلان سینی سیستم ارسال شود.</sys:String>
     <sys:String x:Key="General_ImageQuality">کیفیت تصویر</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">تنظیم کیفیت هنگام پردازش تصاویر. سرویس‌های آنلاین OCR ممکن است اندازه تصویر را محدود کنند.</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">عملکرد دوبار کلیک روی آیکون سینی</sys:String>
@@ -183,6 +183,7 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">فشردن سریع Ctrl+C+C پس از انتخاب متن با موش‌واره برای ترجمه متن.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">خطا در دریافت متن انتخاب‌شده، به ترجمه ورودی تغییر یافت.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">خطا در دریافت متن انتخاب‌شده، به نمایش پنجره اصلی تغییر یافت.</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">دریافت متن انتخاب‌شده ناموفق بود. متن را انتخاب کنید و دوباره تلاش کنید.</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">ترجمه مستقیم با انتخاب متن</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">فعال یا غیرفعال‌سازی ترجمه فوری با انتخاب متن.</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">ترجمه جایگزین</sys:String>
@@ -629,6 +630,7 @@ localhost;127.*;10.*;192.168.*;*.example.com</sys:String>
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">تشخیص متن خاموش (Silent OCR)</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">ترجمه ورودی</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">نمایش پنجره اصلی</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">فقط اعلان</sys:String>
 
     <sys:String x:Key="PluginTypeAll">همه افزونه‌ها</sys:String>
     <sys:String x:Key="PluginTypeTranslate">ترجمه</sys:String>
