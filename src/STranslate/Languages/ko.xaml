@@ -81,7 +81,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">복사 시뮬레이션 후 새 클립보드 텍스트를 폴링하는 시간 초과 값입니다. 단위: 밀리초. 텍스트가 업데이트되면 즉시 반환되며, 일부 PDF 앱의 업데이트가 느리면 값을 높이세요.</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">드래그 번역 실패 시 복귀 대상</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">선택 텍스트 가져오기에 실패했을 때 입력 번역으로 전환할지, 메인 창만 표시할지 선택합니다.</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">선택한 텍스트를 가져오지 못했을 때 입력 번역 열기, 메인 창 표시 또는 트레이 알림만 보내기 중에서 선택합니다.</sys:String>
     <sys:String x:Key="General_ImageQuality">이미지 품질</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">이미지 처리 시 품질을 조정합니다. 온라인 OCR 서비스는 이미지 크기를 제한할 수 있습니다.</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">트레이 아이콘 더블 클릭 기능</sys:String>
@@ -178,6 +178,7 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">마우스로 텍스트를 선택하고 빠르게 Ctrl+C+C를 눌러 번역합니다.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">선택 텍스트를 가져오지 못했습니다. 입력 번역을 열었습니다.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">선택 텍스트를 가져오지 못했습니다. 메인 창을 표시했습니다.</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">선택한 텍스트를 가져오지 못했습니다. 텍스트를 선택한 후 다시 시도하세요.</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">마우스 선택 즉시 번역</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">마우스 선택 즉시 번역을 켜거나 끕니다.</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">치환 번역</sys:String>
@@ -605,6 +606,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">자동 OCR</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">입력 번역</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">메인 창 표시</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">알림만 표시</sys:String>
 
     <sys:String x:Key="PluginTypeAll">모든 플러그인</sys:String>
     <sys:String x:Key="PluginTypeTranslate">텍스트 번역</sys:String>

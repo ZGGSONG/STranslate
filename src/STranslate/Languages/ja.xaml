@@ -81,7 +81,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">コピー操作後、新しいクリップボードテキストをポーリングするタイムアウトです。単位：ミリ秒。更新されるとすぐに戻ります。PDFアプリの更新が遅い場合は値を上げてください。</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">選択テキスト取得失敗時の戻り先</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">選択テキストの取得に失敗したとき、入力翻訳へ戻るか、メイン画面の表示のみにするかを選択します。</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">選択テキストの取得に失敗したとき、入力翻訳を開くか、メイン画面を表示するか、トレイ通知のみを送るかを選択します。</sys:String>
     <sys:String x:Key="General_ImageQuality">画質</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">画像処理時の画質調整。オンラインOCRサービスによっては画像サイズが制限される場合があります。</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">トレイアイコンのダブルクリック機能</sys:String>
@@ -178,6 +178,7 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">テキストを選択し、Ctrl+C+C を素早く押して翻訳します。</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">選択テキストの取得に失敗しました。入力翻訳を開きました。</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">選択テキストの取得に失敗しました。メイン画面を表示しました。</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">選択テキストを取得できませんでした。テキストを選択して再試行してください。</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">マウス選択の直接翻訳</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">マウス選択の直接翻訳を有効または無効にします。</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">置換翻訳</sys:String>
@@ -605,6 +606,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">サイレント OCR</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">入力翻訳</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">メイン画面を表示</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">通知のみ</sys:String>
 
     <sys:String x:Key="PluginTypeAll">全プラグイン</sys:String>
     <sys:String x:Key="PluginTypeTranslate">テキスト翻訳</sys:String>

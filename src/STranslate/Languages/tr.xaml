@@ -84,7 +84,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">Simüle edilmiş kopyalamadan sonra yeni pano metnini yoklama zaman aşımı, milisaniye cinsinden. Metin güncellenir güncellenmez geri döner; yavaş güncellenen PDF uygulamaları için bu değeri artırın.</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">Kelime Seçimi Başarısızlık Yedeklemesi</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">Seçili metin yakalama başarısız olduğunda, giriş çevirisine geçmeyi veya yalnızca ana pencereyi göstermeyi seçin.</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">Seçili metin alınamadığında giriş çevirisini açmayı, ana pencereyi göstermeyi veya yalnızca sistem tepsisi bildirimi göndermeyi seçin.</sys:String>
     <sys:String x:Key="General_ImageQuality">Görüntü Kalitesi</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">Görüntüleri işlerken kaliteyi ayarlayın. Çevrimiçi OCR hizmetleri görüntü boyutunu sınırlayabilir.</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">Tepsi Çift Tıklama İşlevi</sys:String>
@@ -182,6 +182,7 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">Metin çevirisi için fare ile metin seçtikten sonra hızlıca Ctrl+C+C tuşlarına basın.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">Seçili metin yakalanamadı, giriş çevirisine geçildi.</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">Seçili metin yakalanamadı, ana pencere görünümüne geçildi.</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">Seçili metin alınamadı. Metni seçip tekrar deneyin.</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">Fare Seçimi Anında Çeviri</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">Fare seçimi anında çeviriyi etkinleştirir veya devre dışı bırakır.</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">Değiştirerek Çeviri</sys:String>
@@ -621,6 +622,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">Sessiz OCR</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">Giriş Çevirisi</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">Ana Pencereyi Göster</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">Yalnızca Bildirim</sys:String>
 
     <sys:String x:Key="PluginTypeAll">Tüm Eklentiler</sys:String>
     <sys:String x:Key="PluginTypeTranslate">Çeviri</sys:String>

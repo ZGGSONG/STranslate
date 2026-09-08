@@ -2857,6 +2857,11 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
     {
         switch (Settings.CrosswordFetchFailedFallbackTarget)
         {
+            case CrosswordFetchFailedFallbackTarget.NotifyOnly:
+                _notification.Show(
+                    _i18n.GetTranslation("Hotkey_CrosswordTranslate"),
+                    _i18n.GetTranslation("CrosswordTranslateFetchFailedNotifyOnly"));
+                break;
             case CrosswordFetchFailedFallbackTarget.ShowWindow:
                 Show();
                 _snackbar.ShowWarning(_i18n.GetTranslation("CrosswordTranslateFetchFailedShowWindow"), 3000);

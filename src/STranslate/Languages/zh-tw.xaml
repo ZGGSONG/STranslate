@@ -84,7 +84,7 @@
     <sys:String x:Key="General_SelectedTextFetchTimeoutDescription">模擬複製後輪詢剪貼簿新文字的逾時時間，單位：毫秒。寫入成功會立即返回；部分 PDF 軟體寫入較慢時可適當調高。</sys:String>
     <sys:String x:Key="General_SelectedTextFetchTimeoutPlaceholder">500</sys:String>
     <sys:String x:Key="General_CrosswordFetchFailedFallbackTarget">劃詞取詞失敗回退目標</sys:String>
-    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">劃詞取詞失敗後，選擇回退到輸入翻譯或僅顯示主介面。</sys:String>
+    <sys:String x:Key="General_CrosswordFetchFailedFallbackTargetDescription">劃詞取詞失敗後，選擇輸入翻譯、顯示主介面或僅傳送系統匣通知。</sys:String>
     <sys:String x:Key="General_ImageQuality">圖片品質</sys:String>
     <sys:String x:Key="General_ImageQualityDescription">處理圖片時調整品質，線上OCR服務可能會限制圖片大小。</sys:String>
     <sys:String x:Key="General_DoubleClickTrayFunction">雙擊托盤功能</sys:String>
@@ -182,6 +182,7 @@
     <sys:String x:Key="Hotkey_CrosswordTranslateByCtrlSameCDescription">滑鼠選中文字快速按下 Ctrl+C+C 進行取詞翻譯。</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailed">劃詞取詞失敗，已開啟輸入翻譯</sys:String>
     <sys:String x:Key="CrosswordTranslateFetchFailedShowWindow">劃詞取詞失敗，已開啟主介面顯示</sys:String>
+    <sys:String x:Key="CrosswordTranslateFetchFailedNotifyOnly">劃詞取詞失敗，請選取文字後重試。</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslation">滑鼠劃詞直接翻譯</sys:String>
     <sys:String x:Key="Hotkey_MouseSelectionTranslationDescription">開啟或關閉滑鼠劃詞直接翻譯。</sys:String>
     <sys:String x:Key="Hotkey_ReplaceTranslate">替換翻譯</sys:String>
@@ -622,6 +623,7 @@
     <sys:String x:Key="TextSeparatorHandleScopeSilentOcr">靜默 OCR</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetInputTranslate">輸入翻譯</sys:String>
     <sys:String x:Key="CrosswordFetchFailedFallbackTargetShowWindow">顯示主介面</sys:String>
+    <sys:String x:Key="CrosswordFetchFailedFallbackTargetNotifyOnly">僅通知</sys:String>
 
     <sys:String x:Key="PluginTypeAll">所有外掛</sys:String>
     <sys:String x:Key="PluginTypeTranslate">文字翻譯</sys:String>
