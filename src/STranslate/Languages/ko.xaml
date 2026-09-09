@@ -852,5 +852,4 @@
     <sys:String x:Key="ImageTranslatePinnedCopyAll">전체 텍스트 복사</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">원본 이미지 표시</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">번역 표시</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">창 그림자</sys:String>
 </ResourceDictionary>

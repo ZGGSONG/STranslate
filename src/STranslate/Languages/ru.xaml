@@ -876,5 +876,4 @@
     <sys:String x:Key="ImageTranslatePinnedCopyAll">Копировать весь текст</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">Показать оригинал</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">Показать перевод</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">Тень окна</sys:String>
 </ResourceDictionary>

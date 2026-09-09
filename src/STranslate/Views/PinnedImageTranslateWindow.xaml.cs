@@ -14,11 +14,13 @@ using DrawingRectangle = System.Drawing.Rectangle;
 
 namespace STranslate.Views;
 
-/// <summary>静态贴图。只持有显示快照，图片物理矩形是窗口和辉光的共同布局依据。</summary>
-public partial class PinnedImageTranslateWindow
+/// <summary>静态贴图。只持有显示快照，窗口始终保持截图的物理尺寸。</summary>
+public partial class PinnedImageTranslateWindow : IPinnedCaptureTarget
 {
+    private const double ShadowMarginDip = 12;
+    private static readonly Color ActiveGlowColor = Color.FromRgb(0x4D, 0x90, 0xFE);
+
     private readonly PinnedWindowController _controller;
-    private readonly PinnedImageTranslateChromeWindow _chromeWindow;
     private PinnedImageTranslateSnapshot? _snapshot;
     private ObservableCollection<OcrWord> _originalWords = [];
     private ObservableCollection<OcrWord> _translatedWords = [];
@@ -29,7 +31,6 @@ public partial class PinnedImageTranslateWindow
     private bool _potentialDrag;
     private bool _isDragging;
     private bool _showOriginal;
-    private bool _showShadow;
     private bool _sourceInitialized;
     private bool _isClosing;
     private ContextMenu? _activeContextMenu;
@@ -38,16 +39,13 @@ public partial class PinnedImageTranslateWindow
     {
         _controller = controller;
         InitializeComponent();
-        _chromeWindow = new PinnedImageTranslateChromeWindow();
     }
 
-    internal void Initialize(PinnedImageTranslateSnapshot snapshot, bool showShadow)
+    internal void Initialize(PinnedImageTranslateSnapshot snapshot)
     {
         _snapshot = snapshot;
         _showOriginal = snapshot.ShowOriginal;
         _imageBounds = snapshot.PhysicalBounds;
-        _showShadow = showShadow;
-        _chromeWindow.UpdateVisual(false, showShadow);
         _originalWords = new(snapshot.OriginalWords);
         _translatedWords = new(snapshot.TranslatedWords);
         ShowCurrentLayer();
@@ -58,8 +56,9 @@ public partial class PinnedImageTranslateWindow
     {
         if (_snapshot is not { } snapshot)
             return;
-        PART_ImageZoom.Source = _showOriginal ? snapshot.AnnotatedImage : snapshot.SourceImage;
-        PART_ImageZoom.OverlayDocument = _showOriginal ? null : snapshot.TranslationOverlay;
+        var content = snapshot.GetDisplayContent(_showOriginal);
+        PART_ImageZoom.Source = content.Image;
+        PART_ImageZoom.OverlayDocument = content.Overlay;
         PART_ImageZoom.OcrWords = _showOriginal ? _originalWords : _translatedWords;
     }
 
@@ -69,7 +68,6 @@ public partial class PinnedImageTranslateWindow
         _sourceInitialized = true;
         Win32Helper.HideFromAltTab(this);
         _hwndSource = Win32Helper.AddWndProcHook(this, WndProc);
-        // 在任何 Chrome HWND 创建或显示之前设置截图状态。
         _controller.OnWindowSourceInitialized(this);
         ApplyBounds();
     }
@@ -77,23 +75,29 @@ public partial class PinnedImageTranslateWindow
     protected override void OnActivated(EventArgs e)
     {
         base.OnActivated(e);
-        UpdateChromeVisual();
+        UpdateFocusVisual(isActive: true);
     }
 
     protected override void OnDeactivated(EventArgs e)
     {
         base.OnDeactivated(e);
-        UpdateChromeVisual();
+        UpdateFocusVisual(isActive: false);
     }
 
-    internal bool SetCaptureCloaked(bool cloaked)
+    private void UpdateFocusVisual(bool isActive)
     {
-        var contentResult = !_sourceInitialized || Win32Helper.SetWindowCloaked(this, cloaked);
-        var chromeResult = _chromeWindow.SetCloaked(cloaked);
-        return contentResult && chromeResult;
+        PART_WindowEffect.Color = isActive ? ActiveGlowColor : Colors.Black;
+        PART_WindowEffect.BlurRadius = isActive ? 12 : 10;
+        PART_WindowEffect.Opacity = isActive ? 0.68 : 0.35;
+        PART_WindowEffect.ShadowDepth = isActive ? 0 : 2;
     }
 
-    internal void CloseTransientUiForCapture()
+    bool IPinnedCaptureTarget.SetCaptureCloaked(bool cloaked) =>
+        !_sourceInitialized || Win32Helper.SetWindowCloaked(this, cloaked);
+
+    void IPinnedCaptureTarget.CloseTransientUiForCapture() => CloseTransientUiForCapture();
+
+    private void CloseTransientUiForCapture()
     {
         if (_activeContextMenu is { IsOpen: true })
             _activeContextMenu.IsOpen = false;
@@ -237,19 +241,10 @@ public partial class PinnedImageTranslateWindow
             _showOriginal = !_showOriginal;
             ShowCurrentLayer();
         });
-        var shadow = AddItem("ImageTranslatePinnedWindowShadow", () =>
-        {
-            _showShadow = !_showShadow;
-            _controller.ShowShadow = _showShadow;
-            UpdateChromeVisual();
-        });
-        shadow.IsCheckable = true;
-        shadow.IsChecked = _showShadow;
         AddItem("Close", Close);
         menu.Closed += (_, _) =>
         {
             _activeContextMenu = null;
-            UpdateChromeVisual();
         };
         _activeContextMenu = menu;
         menu.IsOpen = true;
@@ -273,17 +268,23 @@ public partial class PinnedImageTranslateWindow
         if (_isClosing || _imageBounds.IsEmpty)
             return;
         var dpi = GetDpi();
-        Left = _imageBounds.Left / dpi.DpiScaleX;
-        Top = _imageBounds.Top / dpi.DpiScaleY;
-        Width = PART_ImageSurface.Width = _imageBounds.Width / dpi.DpiScaleX;
-        Height = PART_ImageSurface.Height = _imageBounds.Height / dpi.DpiScaleY;
+        var windowBounds = CalculateWindowBounds(_imageBounds, dpi);
+        Left = windowBounds.Left / dpi.DpiScaleX;
+        Top = windowBounds.Top / dpi.DpiScaleY;
+        Width = windowBounds.Width / dpi.DpiScaleX;
+        Height = windowBounds.Height / dpi.DpiScaleY;
+        PART_ImageSurface.Width = _imageBounds.Width / dpi.DpiScaleX;
+        PART_ImageSurface.Height = _imageBounds.Height / dpi.DpiScaleY;
+        PART_ImageSurface.Margin = new Thickness(
+            (_imageBounds.Left - windowBounds.Left) / dpi.DpiScaleX,
+            (_imageBounds.Top - windowBounds.Top) / dpi.DpiScaleY,
+            0,
+            0);
         PART_ImageSurface.HorizontalAlignment = HorizontalAlignment.Left;
         PART_ImageSurface.VerticalAlignment = VerticalAlignment.Top;
         if (!_sourceInitialized)
             return;
-        Win32Helper.SetWindowPhysicalBounds(this, _imageBounds.Left, _imageBounds.Top, _imageBounds.Width, _imageBounds.Height);
-        _chromeWindow.UpdateBounds(_imageBounds, dpi);
-        UpdateChromeVisual();
+        SetPhysicalWindowBounds(dpi);
     }
 
     private void MoveBy(int dx, int dy, bool syncLogicalBounds)
@@ -296,21 +297,24 @@ public partial class PinnedImageTranslateWindow
             ApplyBounds();
             return;
         }
-        var dpi = GetDpi();
-        if (!_chromeWindow.IsVisible || !Win32Helper.SetTwoWindowPhysicalBounds(this, _imageBounds,
-                _chromeWindow, PinnedImageTranslateChromeWindow.CalculateOuterBounds(_imageBounds, dpi)))
-        {
-            Win32Helper.SetWindowPhysicalBounds(this, _imageBounds.Left, _imageBounds.Top, _imageBounds.Width, _imageBounds.Height);
-            _chromeWindow.UpdateBounds(_imageBounds, dpi);
-        }
+        SetPhysicalWindowBounds(GetDpi());
     }
 
-    private void UpdateChromeVisual()
+    private void SetPhysicalWindowBounds(DpiScale dpi)
     {
-        if (_isClosing || !_sourceInitialized)
-            return;
-        _chromeWindow.UpdateVisual(IsActive, _showShadow);
-        _chromeWindow.EnsureShownBehind(this);
+        var bounds = CalculateWindowBounds(_imageBounds, dpi);
+        Win32Helper.SetWindowPhysicalBounds(this, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+    }
+
+    internal static DrawingRectangle CalculateWindowBounds(DrawingRectangle imageBounds, DpiScale dpi)
+    {
+        var marginX = Math.Max(1, (int)Math.Ceiling(ShadowMarginDip * dpi.DpiScaleX));
+        var marginY = Math.Max(1, (int)Math.Ceiling(ShadowMarginDip * dpi.DpiScaleY));
+        return DrawingRectangle.FromLTRB(
+            imageBounds.Left - marginX,
+            imageBounds.Top - marginY,
+            imageBounds.Right + marginX,
+            imageBounds.Bottom + marginY);
     }
 
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
@@ -354,7 +358,6 @@ public partial class PinnedImageTranslateWindow
     {
         _isClosing = true;
         CloseTransientUiForCapture();
-        _chromeWindow.HideForOwnerClosing();
         base.OnClosing(e);
     }
 
@@ -363,7 +366,6 @@ public partial class PinnedImageTranslateWindow
         _controller.Unregister(this);
         if (_hwndSource != null)
             _hwndSource.RemoveHook(WndProc);
-        _chromeWindow.CloseSafely();
         _snapshot = null;
         _originalWords.Clear();
         _translatedWords.Clear();

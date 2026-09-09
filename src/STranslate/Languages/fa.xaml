@@ -893,5 +893,4 @@ Alt+کلیک چپ -> تنظیمات ترجمه متن</sys:String>
     <sys:String x:Key="ImageTranslatePinnedCopyAll">کپی تمام متن</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">نمایش تصویر اصلی</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">نمایش ترجمه</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">سایه پنجره</sys:String>
 </ResourceDictionary>

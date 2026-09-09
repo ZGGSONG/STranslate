@@ -8,17 +8,12 @@ using DrawingRectangle = System.Drawing.Rectangle;
 namespace STranslate.Core;
 
 /// <summary>只在 UI 线程管理静态贴图及截图避让，不参与 OCR 或翻译。</summary>
-public sealed class PinnedWindowController(Settings settings, Internationalization i18n, ISnackbar snackbar)
+public sealed class PinnedWindowController(Internationalization i18n, ISnackbar snackbar)
 {
     private readonly HashSet<PinnedImageTranslateWindow> _windows = [];
-    private readonly SemaphoreSlim _captureGate = new(1, 1);
-    private bool _captureActive;
-
-    internal bool ShowShadow
-    {
-        get => settings.PinnedImageTranslateShowShadow;
-        set => settings.PinnedImageTranslateShowShadow = value;
-    }
+    private readonly PinnedCaptureCoordinator _captureCoordinator = new(
+        action => Application.Current.Dispatcher.InvokeAsync(action).Task,
+        FlushDesktop);
 
     internal void CopyText(string text)
     {
@@ -41,8 +36,8 @@ public sealed class PinnedWindowController(Settings settings, Internationalizati
         _windows.Add(window);
         try
         {
-            window.Initialize(snapshot, ShowShadow);
-            window.ShowActivated = !_captureActive;
+            window.Initialize(snapshot);
+            window.ShowActivated = !_captureCoordinator.IsActive;
             window.Show();
             return window;
         }
@@ -57,37 +52,11 @@ public sealed class PinnedWindowController(Settings settings, Internationalizati
 
     internal void OnWindowSourceInitialized(PinnedImageTranslateWindow window)
     {
-        if (_captureActive && !window.SetCaptureCloaked(true))
-            throw new InvalidOperationException("Failed to cloak a pinned window during capture.");
+        _captureCoordinator.OnTargetInitialized(window);
     }
 
-    internal async ValueTask<IAsyncDisposable?> BeginCaptureAsync(CancellationToken cancellationToken = default)
-    {
-        // 同一截图尚未结束时忽略重复触发，不把旧输入排队成下一次截图。
-        if (!await _captureGate.WaitAsync(0, cancellationToken))
-            return null;
-        try
-        {
-            await Application.Current.Dispatcher.InvokeAsync(() =>
-            {
-                _captureActive = true;
-                foreach (var window in _windows)
-                {
-                    window.CloseTransientUiForCapture();
-                    if (!window.SetCaptureCloaked(true))
-                        throw new InvalidOperationException("Failed to cloak a pinned window before capture.");
-                }
-                if (_windows.Count > 0)
-                    Win32Helper.FlushDesktopComposition();
-            });
-            return new CaptureLease(this);
-        }
-        catch
-        {
-            await EndCaptureAsync();
-            throw;
-        }
-    }
+    internal ValueTask<IAsyncDisposable?> BeginCaptureAsync(CancellationToken cancellationToken = default) =>
+        _captureCoordinator.BeginAsync(_windows, cancellationToken);
 
     internal void CloseAll()
     {
@@ -100,36 +69,91 @@ public sealed class PinnedWindowController(Settings settings, Internationalizati
             window.Close();
     }
 
-    private async ValueTask EndCaptureAsync()
+    private static void FlushDesktop() => Win32Helper.FlushDesktopComposition();
+}
+
+internal interface IPinnedCaptureTarget
+{
+    void CloseTransientUiForCapture();
+    bool SetCaptureCloaked(bool cloaked);
+}
+
+/// <summary>负责截图期间贴图窗口的并发门控与隐藏恢复，可脱离真实窗口进行测试。</summary>
+internal sealed class PinnedCaptureCoordinator(Func<Action, Task> dispatchAsync, Action flushDesktop)
+{
+    private readonly SemaphoreSlim _gate = new(1, 1);
+
+    internal bool IsActive { get; private set; }
+
+    internal void OnTargetInitialized(IPinnedCaptureTarget target)
+    {
+        if (IsActive && !target.SetCaptureCloaked(true))
+            throw new InvalidOperationException("Failed to cloak a pinned window during capture.");
+    }
+
+    internal async ValueTask<IAsyncDisposable?> BeginAsync(
+        IReadOnlyCollection<IPinnedCaptureTarget> targets,
+        CancellationToken cancellationToken = default)
+    {
+        // 同一截图尚未结束时忽略重复触发，不把旧输入排队成下一次截图。
+        if (!await _gate.WaitAsync(0, cancellationToken))
+            return null;
+
+        try
+        {
+            await dispatchAsync(() =>
+            {
+                IsActive = true;
+                foreach (var target in targets)
+                {
+                    target.CloseTransientUiForCapture();
+                    if (!target.SetCaptureCloaked(true))
+                        throw new InvalidOperationException("Failed to cloak a pinned window before capture.");
+                }
+                if (targets.Count > 0)
+                    flushDesktop();
+            });
+            return new CaptureLease(this, targets);
+        }
+        catch
+        {
+            await EndAsync(targets);
+            throw;
+        }
+    }
+
+    private async ValueTask EndAsync(IReadOnlyCollection<IPinnedCaptureTarget> targets)
     {
         try
         {
-            await Application.Current.Dispatcher.InvokeAsync(() =>
+            await dispatchAsync(() =>
             {
-                _captureActive = false;
+                IsActive = false;
                 var restored = true;
-                foreach (var window in _windows)
-                    restored &= window.SetCaptureCloaked(false);
-                if (_windows.Count > 0)
-                    Win32Helper.FlushDesktopComposition();
+                foreach (var target in targets)
+                    restored &= target.SetCaptureCloaked(false);
+                if (targets.Count > 0)
+                    flushDesktop();
                 if (!restored)
                     throw new InvalidOperationException("Failed to restore pinned windows after capture.");
             });
         }
         finally
         {
-            _captureGate.Release();
+            _gate.Release();
         }
     }
 
-    private sealed class CaptureLease(PinnedWindowController owner) : IAsyncDisposable
+    private sealed class CaptureLease(
+        PinnedCaptureCoordinator owner,
+        IReadOnlyCollection<IPinnedCaptureTarget> targets) : IAsyncDisposable
     {
-        private PinnedWindowController? _owner = owner;
+        private PinnedCaptureCoordinator? _owner = owner;
 
         public async ValueTask DisposeAsync()
         {
             if (Interlocked.Exchange(ref _owner, null) is { } current)
-                await current.EndCaptureAsync();
+                await current.EndAsync(targets);
         }
     }
 }
@@ -137,7 +161,6 @@ public sealed class PinnedWindowController(Settings settings, Internationalizati
 /// <summary>已生成结果的独立显示快照；图片冻结，选择数据逐项复制。</summary>
 internal sealed record PinnedImageTranslateSnapshot(
     BitmapSource SourceImage,
-    BitmapSource AnnotatedImage,
     ImageTranslateOverlayDocument TranslationOverlay,
     IReadOnlyList<OcrWord> OriginalWords,
     IReadOnlyList<OcrWord> TranslatedWords,
@@ -145,19 +168,22 @@ internal sealed record PinnedImageTranslateSnapshot(
     bool ShowOriginal)
 {
     internal static PinnedImageTranslateSnapshot Create(
-        BitmapSource source, BitmapSource annotated, ImageTranslateOverlayDocument overlay,
+        BitmapSource source, ImageTranslateOverlayDocument overlay,
         IReadOnlyList<OcrWord> originalWords, IReadOnlyList<OcrWord> translatedWords,
         DrawingRectangle bounds, bool showOriginal = false)
     {
         if (bounds.Width <= 0 || bounds.Height <= 0 ||
             source.PixelWidth != bounds.Width || source.PixelHeight != bounds.Height ||
-            annotated.PixelWidth != bounds.Width || annotated.PixelHeight != bounds.Height ||
-            !source.IsFrozen || !annotated.IsFrozen || overlay.IsEmpty)
+            !source.IsFrozen || overlay.IsEmpty)
             throw new ArgumentException("Pin requires a frozen, completed result matching the physical image bounds.");
 
-        return new(source, annotated, new ImageTranslateOverlayDocument(overlay.Items.ToArray(), []),
+        return new(source, new ImageTranslateOverlayDocument(overlay.Items.ToArray(), []),
             CloneWords(originalWords), CloneWords(translatedWords), bounds, showOriginal);
     }
+
+    internal PinnedImageTranslateDisplayContent GetDisplayContent(bool showOriginal) => showOriginal
+        ? new(SourceImage, null)
+        : new(SourceImage, TranslationOverlay);
 
     private static IReadOnlyList<OcrWord> CloneWords(IReadOnlyList<OcrWord> words) =>
         Array.AsReadOnly(words.Select(word => new OcrWord
@@ -169,3 +195,7 @@ internal sealed record PinnedImageTranslateSnapshot(
             ParagraphIndex = word.ParagraphIndex,
         }).ToArray());
 }
+
+internal sealed record PinnedImageTranslateDisplayContent(
+    BitmapSource Image,
+    ImageTranslateOverlayDocument? Overlay);

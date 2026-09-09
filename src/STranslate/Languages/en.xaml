@@ -876,5 +876,4 @@
     <sys:String x:Key="ImageTranslatePinnedCopyAll">Copy all text</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">Show original image</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">Show translation</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">Window shadow</sys:String>
 </ResourceDictionary>

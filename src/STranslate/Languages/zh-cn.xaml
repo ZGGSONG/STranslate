@@ -877,5 +877,4 @@
     <sys:String x:Key="ImageTranslatePinnedCopyAll">复制全文</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">显示原图</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">显示译文</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">窗口阴影</sys:String>
 </ResourceDictionary>

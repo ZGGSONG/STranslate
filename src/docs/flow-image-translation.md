@@ -1,7 +1,7 @@
 # 图片翻译链路
 
 ## 模块职责
-- 管理图片翻译独立窗口/精简窗口的导入、截图、重试、标注图和矢量译文覆盖显示。
+- 管理图片翻译独立窗口/精简窗口的导入、截图、重试、标注图、矢量译文覆盖和静态贴图显示。
 - 维护图片翻译专用 OCR 服务与翻译服务绑定，避免普通 OCR 服务误入需要坐标的流程。
 - 对 OCR 结果执行结构化投影、分段逻辑、翻译分发、文字覆盖回写和图片级文本选中。
 - 约束 OCR 插件坐标框支持声明、结构化分段返回方式和本地 `Smart` 分段回退策略。
@@ -15,6 +15,9 @@
 - `STranslate/Views/ImageTranslateWindow.xaml` / `ImageTranslateCompactWindow.xaml`
   - `Standalone`：原独立窗口，保留服务、语言、文本框和完整工具栏。
   - `Compact`：无标题精简窗口，图片区贴回截图选区，底部预留悬浮核心按钮区。
+- `STranslate/Core/PinnedWindowController.cs` / `STranslate/Views/PinnedImageTranslateWindow.xaml`
+  - 把已完成的 Compact 结果保存为静态快照；贴图窗口不再持有 ViewModel，也不重新执行 OCR 或翻译。
+  - 截图开始前临时 cloak 全部贴图，截图结束后恢复，避免旧贴图进入新截图。
 - `STranslate/Core/Screenshot.cs`
   - `GetScreenshotCaptureAsync()`：调用 `ScreenGrabber.CaptureWithRegionAsync`，截图时直接回传选区物理坐标，无需事后反推。
   - 精简窗口模式下传 `padImage: false`，关闭 ScreenGrab 对 <64px 小截图的背景画布 padding 扩展，保证 `bitmap.Size == 选区物理尺寸`，避免贴回时 Viewbox 把 padding 图缩放导致原始内容缩小；其他窗口模式保留默认 padding 行为。
@@ -48,6 +51,7 @@
 13. 使用翻译后的分段块生成 `ImageTranslateOverlayDocument`：每个绘制项保存覆盖背景、裁剪范围、阴影和 `FormattedText`；选择框保持原图像素坐标，不再创建超采样结果位图。
 14. `ImageZoom` 在同一个 Viewbox 内按“原图 → 矢量译文 Overlay → 文字选择高亮”绘制，图片缩放、拖动和 DPI 变换会同步作用于三层。
 15. `Settings.IsImTranShowingAnnotated` 控制显示标注图还是原图加译文 Overlay；图片文本选中同步切换为原文块或译文块。
+16. Compact 结果完成后可通过贴图按钮或可选窗口快捷键创建静态贴图；创建成功后关闭 Compact，后续截图翻译使用新的窗口和执行链路。
 
 ## 窗口模式
 - `Standalone` 是默认模式，保留当前可缩放、可调整大小的独立窗口。
@@ -59,6 +63,15 @@
 - 精简窗口不支持图片拖拽、滚轮缩放或双击复位，底部只保留关闭、复制/全选、标注切换、重新截图、重新执行和设置等核心按钮。
 - 精简窗口按 `Esc`、点击窗口外部或再次触发图片翻译关闭；右键菜单、由菜单打开的保存对话框和窗口内部文字选择不会触发外部关闭。
 - 精简窗口不显示右侧文本框，`Settings.IsImTranShowingTextControl` 只影响独立窗口。
+
+## Compact 静态贴图
+- 只有已完成且具有有效译文 Overlay 的 Compact 结果可以贴图；执行中、失败或无覆盖结果时贴图按钮保持禁用。
+- 贴图入口包括 Compact 工具栏按钮和 `HotkeySettings.PinImageTranslateHotkey` 窗口快捷键；快捷键默认 `None`，由用户按需配置。
+- 贴图快照仅保留冻结的原图、译文 Overlay、原文/译文选择数据和截图物理矩形，不保留 OCR 标注图、翻译服务或 `ImageTranslateWindowViewModel`。
+- 显示原图时使用未经标注的 `SourceImage` 且关闭 Overlay；显示译文时使用同一原图并叠加静态 `TranslationOverlay`。
+- 贴图窗口无标题栏和工具栏，右键菜单支持复制全文、复制选区、原图/译文切换和关闭；文字区域可选择复制，空白区域可拖动，方向键可微调位置，`Esc` 或空白处双击关闭。
+- 每个贴图只有一个无边框置顶 HWND；失焦时在同一透明窗口内绘制轻量阴影，获得键盘焦点后切换为蓝色辉光，明确当前接收 `Esc`、方向键和复制操作的贴图，不创建伴随窗口。
+- `PinnedCaptureCoordinator` 使用非排队门控：截图进行中再次触发会直接忽略；截图前关闭贴图右键菜单并 cloak 所有贴图，截图结束后统一恢复。
 
 ## 分段模式
 - `Auto`：默认模式。OCR 返回结构化 `Regions` 时使用 Provider 段落；没有结构化分段时回退 `Smart`。
@@ -124,6 +137,7 @@
 - `Settings.IsImTranShowingTextControl` 控制图片翻译窗口文本区域显示。
 - `Settings.ImageTranslateOcrLanguage` 控制图片翻译 OCR 识别语言，独立于截图翻译、静默 OCR 和 OCR 窗口。
 - `Settings.IsImageTranslateCompactOcrLanguageVisible` 控制精简窗口底部工具条是否显示图片翻译 OCR 识别语言选框，默认隐藏。
+- `HotkeySettings.PinImageTranslateHotkey` 控制 Compact 窗口内的贴图快捷键，默认不分配。
 - `Settings.ImageTranslateSourceLang` / `ImageTranslateTargetLang` 控制图片翻译语言。
 - `Settings.ShowImageTranslateItemInNotifyIconMenu` 控制托盘菜单是否显示图片翻译入口。
 
@@ -174,6 +188,8 @@
 - `STranslate/Helpers/ImageTranslateRenderer.cs`
 - `STranslate/Helpers/ModernWindowLifecycle.cs`
 - `STranslate/Core/Screenshot.cs`
+- `STranslate/Core/PinnedWindowController.cs`
+- `STranslate/Views/PinnedImageTranslateWindow.xaml`
 - `STranslate/Core/OcrLayoutAnalyzer.cs`
 - `STranslate/Core/OcrLayoutBlock.cs`
 - `STranslate/Core/ImageTranslateTextOverlayLayout.cs`
@@ -184,6 +200,7 @@
 - `Tests/STranslate.Tests/OcrLayoutAnalyzerTests.cs`
 - `Tests/STranslate.Tests/ImageTranslateTextOverlayLayoutTests.cs`
 - `Tests/STranslate.Tests/ImageTranslateOverlayTests.cs`
+- `Tests/STranslate.Tests/PinnedImageTranslateTests.cs`
 - `Tests/STranslate.Tests/ModernWindowLifecycleTests.cs`
 - `Tests/STranslate.Tests/SnackbarLifecycleTests.cs`
 

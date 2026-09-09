@@ -108,9 +108,8 @@ public partial class ImageTranslateWindowViewModel : ObservableObject, IDisposab
     public partial bool IsExecuting { get; set; } = false;
 
     public bool CanPin => !IsExecuting && !_disposed &&
-        _sourceImage != null && _annotatedImage != null && _resultOverlayDocument is { IsEmpty: false };
+        _sourceImage != null && _resultOverlayDocument is { IsEmpty: false };
     internal BitmapSource? SourceImage => _sourceImage;
-    internal BitmapSource? AnnotatedImage => _annotatedImage;
     internal ImageTranslateOverlayDocument? ResultOverlay => _resultOverlayDocument;
     internal IReadOnlyList<OcrWord> OriginalSelectionWords => _originalSelectionWords;
     internal IReadOnlyList<OcrWord> TranslatedSelectionWords => _translatedSelectionWords;

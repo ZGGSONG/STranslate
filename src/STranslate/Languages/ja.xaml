@@ -852,5 +852,4 @@
     <sys:String x:Key="ImageTranslatePinnedCopyAll">全文をコピー</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">元画像を表示</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">翻訳を表示</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">ウィンドウの影</sys:String>
 </ResourceDictionary>

@@ -16,6 +16,15 @@
     WindowStyle="None">
     <Grid>
         <Grid x:Name="PART_ImageSurface" Panel.ZIndex="5">
+            <Grid.Effect>
+                <DropShadowEffect
+                    x:Name="PART_WindowEffect"
+                    BlurRadius="10"
+                    Direction="270"
+                    Opacity="0.35"
+                    RenderingBias="Performance"
+                    ShadowDepth="2" />
+            </Grid.Effect>
             <control:ImageZoom
                 x:Name="PART_ImageZoom"
                 Panel.ZIndex="5"

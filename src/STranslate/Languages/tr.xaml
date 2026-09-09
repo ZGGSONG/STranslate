@@ -878,5 +878,4 @@
     <sys:String x:Key="ImageTranslatePinnedCopyAll">Tüm metni kopyala</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowOriginal">Orijinal resmi göster</sys:String>
     <sys:String x:Key="ImageTranslatePinnedShowTranslation">Çeviriyi göster</sys:String>
-    <sys:String x:Key="ImageTranslatePinnedWindowShadow">Pencere gölgesi</sys:String>
 </ResourceDictionary>
